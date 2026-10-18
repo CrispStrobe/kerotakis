@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-18T20:43:37.306211+00:00",
+  "readers": [
+    {
+      "reader": "review_saved.py",
+      "exit_status": 0
+    },
+    {
+      "reader": "review_chemistry.py",
+      "exit_status": 0
+    }
+  ],
+  "no_new_simulator_or_api_executions": true,
+  "human_root_raw_result_inspection_still_required": true,
+  "scientific_selections": 0
+}

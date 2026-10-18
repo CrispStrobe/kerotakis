@@ -1,0 +1,32 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 117781516224,
+      "run_id": 39163487178,
+      "workflow_name": "Chemistry audit fleets",
+      "head_branch": "fix/named-alkaline-capacity-20261018",
+      "run_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/runs/39163487178",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOT8z0Oc8AAAAbbFNPwA",
+      "head_sha": "bf03c11ac1d427e371071897543e2e1b2d81d67b",
+      "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/jobs/117781516224",
+      "html_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39163487178/job/117781516224",
+      "status": "queued",
+      "conclusion": null,
+      "created_at": "2026-10-18T20:28:53Z",
+      "started_at": "2026-10-18T20:28:53Z",
+      "completed_at": null,
+      "name": "Build audited CLI once",
+      "steps": [],
+      "check_run_url": "https://api.github.com/repos/CrispStrobe/kerotakis/check-runs/117781516224",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 0,
+      "runner_name": "",
+      "runner_group_id": 0,
+      "runner_group_name": ""
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "source": "bf03c11ac1d427e371071897543e2e1b2d81d67b",
+  "registry_source_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "decimal_precision": 45,
+  "actual_native_arms": 9,
+  "reviews": [
+    {
+      "group": "NAMED_ALKALINE_STATE",
+      "arm": {
+        "base": "0.005",
+        "counterion": "NaOH"
+      },
+      "expected_extent": "0.005",
+      "alcohol_gain": "0.0049999999999999975",
+      "ester_spent": "0.004999999999999997",
+      "acetate_gain": "0.00499999999999999832524",
+      "whole_material_charge_residual_mol_or_eq": {
+        "C": "3.650480E-18",
+        "charge": "7.598500E-18",
+        "H": "-2.33297540E-16",
+        "Na": "0.0000",
+        "O": "-1.21448020E-16"
+      }
+    },
+    {
+      "group": "NAMED_ALKALINE_STATE",
+      "arm": {
+        "base": "0.02",
+        "counterion": "NaOH"
+      },
+      "expected_extent": "0.01",
+      "alcohol_gain": "0.01",
+      "ester_spent": "0.01",
+      "acetate_gain": "0.010000000000000000580012461",
+      "whole_material_charge_residual_mol_or_eq": {
+        "C": "1.1600249220E-18",
+        "charge": "1.10000000000E-17",
+        "H": "-2.306799501560E-16",
+        "Na": "0.000",
+        "O": "-1.208399750780E-16"
+      }
+    },
+    {
+      "group": "NAMED_ALKALINE_STATE",
+      "arm": {
+        "base": "0.005",
+        "counterion": "KOH"
+      },
+      "expected_extent": "0.005",
+      "alcohol_gain": "0.0049999999999999975",
+      "ester_spent": "0.004999999999999997",
+      "acetate_gain": "0.0049999999999999983606",
+      "whole_material_charge_residual_mol_or_eq": {
+        "C": "3.72120E-18",
+        "charge": "-1.6308660E-17",
+        "K": "0.0000",
+        "H": "-9.5248940E-17",
+        "O": "-4.0470140E-17"
+      }
+    },
+    {
+      "group": "NAMED_ALKALINE_STATE",
+      "arm": {
+        "base": "0.02",
+        "counterion": "KOH"
+      },
+      "expected_extent": "0.01",
+      "alcohol_gain": "0.01",
+      "ester_spent": "0.01",
+      "acetate_gain": "0.010000000000000000012209985",
+      "whole_material_charge_residual_mol_or_eq": {
+        "C": "2.44199700E-20",
+        "charge": "6.0000000000E-18",
+        "K": "0.000",
+        "H": "1.260488399400E-16",
+        "O": "6.00244199700E-17"
+      }
+    },
+    {
+      "group": "NAMED_ALKALINE_ACID",
+      "arm": {
+        "acid_first": false
+      },
+      "expected_extent": "0.002",
+      "alcohol_gain": "0.001999999999999995",
+      "ester_spent": "0.001999999999999995",
+      "acetate_gain": "0.00199999999999999491224",
+      "whole_material_charge_residual_mol_or_eq": {
+        "C": "-1.75520E-19",
+        "charge": "-5.087700E-18",
+        "H": "4.77136660E-16",
+        "Cl": "0.0000",
+        "Na": "0.0000",
+        "O": "2.41112180E-16"
+      }
+    },
+    {
+      "group": "NAMED_ALKALINE_ACID",
+      "arm": {
+        "acid_first": true
+      },
+      "expected_extent": "0.002",
+      "alcohol_gain": "0.001999999999999995",
+      "ester_spent": "0.001999999999999995",
+      "acetate_gain": "0.00199999999999999491224",
+      "whole_material_charge_residual_mol_or_eq": {
+        "C": "-1.75520E-19",
+        "charge": "-5.087700E-18",
+        "H": "4.77136660E-16",
+        "Cl": "0.0000",
+        "Na": "0.0000",
+        "O": "2.41112180E-16"
+      }
+    },
+    {
+      "group": "NAMED_ALKALINE_NEGATIVE",
+      "arm": {
+        "recipe": 0
+      },
+      "expected_extent": "0",
+      "alcohol_gain": "0",
+      "ester_spent": "0.00",
+      "acetate_gain": "-1E-18",
+      "whole_material_charge_residual_mol_or_eq": {
+        "C": "-2.0E-18",
+        "charge": "-1.5390E-17",
+        "H": "-4.6610E-17",
+        "Na": "0.0000",
+        "O": "-1.5610E-17"
+      }
+    },
+    {
+      "group": "NAMED_ALKALINE_NEGATIVE",
+      "arm": {
+        "recipe": 1
+      },
+      "expected_extent": "0",
+      "alcohol_gain": "0",
+      "ester_spent": "0.00",
+      "acetate_gain": "0",
+      "whole_material_charge_residual_mol_or_eq": {
+        "C": "-1.10126990846670E-12",
+        "charge": "-6.60842142000000E-12",
+        "H": "-3.56280E-16",
+        "Na": "-2.20333750E-12",
+        "O": "-1.7599693340E-16"
+      }
+    },
+    {
+      "group": "NAMED_ALKALINE_NEGATIVE",
+      "arm": {
+        "recipe": 2
+      },
+      "expected_extent": "0",
+      "alcohol_gain": "0",
+      "ester_spent": "0.00",
+      "acetate_gain": "0",
+      "whole_material_charge_residual_mol_or_eq": {
+        "C": "0.000",
+        "charge": "7.0240E-18",
+        "H": "-3.98190E-17",
+        "O": "-2.34230E-17",
+        "N": "1.0E-21"
+      }
+    }
+  ],
+  "maximum_material_charge_residual_mol_or_eq": "6.60842142000000E-12",
+  "scientific_catalog_additions": 0,
+  "qualification": "Bounded named to-completion controls, not rate/heat calibration or general weak-buffer chemistry. Carbonate/ammonia negative arms demonstrate refusal of unproved capacity, not chemical inactivity. Remaining full-fleet/platform/protected and delivery acceptance are separate."
+}

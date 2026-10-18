@@ -1,0 +1,4305 @@
+{
+  "reviewed_utc": "2026-10-18T20:43:36.420238+00:00",
+  "source": "bf03c11ac1d427e371071897543e2e1b2d81d67b",
+  "tree": "9e47bc312d60b55b7cfb162982db696b7871fe84",
+  "baseline": "2157e5fa5891abc5fea03334d3779a8a883bfbb3",
+  "authenticated_files": 51,
+  "authenticated_commands": [
+    {
+      "label": "fix-0",
+      "utc": "2026-10-18T20:28:33.684158+00:00",
+      "argv": [
+        "cargo",
+        "clippy",
+        "-p",
+        "kerotakis-core",
+        "-p",
+        "kerotakis-phreeqc",
+        "-p",
+        "kerotakis-cea",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 290.29503213799995,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6df1f42a1f30ba5f5039bd142dcfa2d28e25e6a11fc94642ff7738655f92b6b6"
+    },
+    {
+      "label": "fix-1",
+      "utc": "2026-10-18T20:35:57.506483+00:00",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "-p",
+        "kerotakis-cea",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 443.8210817130001,
+      "stdout_sha256": "6c44841b85075a61da8fd89444b5f60daa41d154045ec8183e0f72b90a7cee35",
+      "stderr_sha256": "9bbb980901a3f76e6aba8b738e34e7769a6acf6c0d2b0549af6735979f323f75"
+    },
+    {
+      "label": "fix-2",
+      "utc": "2026-10-18T20:42:24.147905+00:00",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-core",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 386.622914324,
+      "stdout_sha256": "0cc046c70f0c89011ee7da83e1c5bab256d875cfa535fddff2267dbcca6f2bc1",
+      "stderr_sha256": "dcbbf9cbe47b7b0a0a921cf900cb0a84d3798dc04166c729e7901afde4087db3"
+    }
+  ],
+  "new_engine_or_api_requests": 0,
+  "scientific_selections": 0,
+  "accepted": true,
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "test_counts": {
+    "2": {
+      "passed": 2137,
+      "ignored": 0,
+      "required_new_tests": [
+        "solved_base_and_ester_limits_use_the_analytical_reserve",
+        "literal_sodium_hydroxide_keeps_its_original_balanced_conversion",
+        "potassium_hydroxide_uses_the_same_net_ionic_sink_without_sodium",
+        "literal_hydroxide_and_basis_are_owned_once_each",
+        "acetate_buffer_basis_and_measured_hydroxide_are_not_a_caustic_reserve",
+        "excess_strong_base_after_the_entire_acetate_reservoir_is_spent_only_once",
+        "neutralized_salt_and_bare_cation_cannot_supply_hydroxide",
+        "unknown_acid_base_reservoirs_refuse_atomically_even_beside_literal_base",
+        "serialization_does_not_recreate_spent_capacity_or_require_a_live_solution_cache"
+      ]
+    },
+    "1": {
+      "passed": 608,
+      "ignored": 0,
+      "required_new_tests": [
+        "native_named_hydrolysis_closes_both_limits_and_both_alkali_counterions",
+        "neutralization_order_reserves_the_same_hydroxide_for_named_cleavage",
+        "real_weak_base_and_acetate_states_never_earn_caustic_conversion"
+      ]
+    }
+  },
+  "native_control_groups": {
+    "NAMED_ALKALINE_STATE": [
+      {
+        "after": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.005000000000000003,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.0049999999999999975,
+              "phase": "liquid",
+              "species": "ethanol"
+            },
+            {
+              "moles": 2.5637213098432524e-07,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 0.004999743627869014,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.1068551419070807,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 2.563721309759015e-07,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 2.3656076682665878e-07,
+          "free_proton": 3.259398426611762e-11,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 2.5637213098630984e-07,
+          "solution": {
+            "ionic_strength": 0.2313433451568,
+            "pe": null,
+            "ph": 8.916832352016,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.019939995,
+            "species": [
+              {
+                "activity": 0.9918,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.1714,
+                "molality": 0.2313,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.1714,
+                "molality": 0.2313,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.01941,
+                "molality": 0.01941,
+                "name": "Na(Acetate)"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002461,
+                "name": "O2"
+              },
+              {
+                "activity": 8.246e-06,
+                "molality": 1.186e-05,
+                "name": "OH-"
+              },
+              {
+                "activity": 1.186e-05,
+                "molality": 1.186e-05,
+                "name": "H(Acetate)"
+              },
+              {
+                "activity": 1.211e-09,
+                "molality": 1.635e-09,
+                "name": "H+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "base": 0.005,
+        "before": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.1068553982792118,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0049999999999999975,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.005000000000001776,
+          "free_proton": 1.4530320212656972e-15,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.005,
+          "solution": {
+            "ionic_strength": 0.2507522567704,
+            "pe": null,
+            "ph": 13.24041427724,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+              "routing_phrase": {
+                "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                "key": "routing.second-speciation-for-solvent",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "dataset",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                          "key": "provenance.dataset.with-gas-uptake-slice",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "pitzer.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "model",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                          "key": "provenance.model.ion-interaction",
+                          "slots": [
+                            [
+                              "name",
+                              {
+                                "text": {
+                                  "text": "Pitzer"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_activity": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "ionic_strength": 0.2507522567704,
+              "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "particle_molality": 0.5016,
+              "water_activity": 0.9917
+            },
+            "solvent_kg": 0.01994,
+            "species": [
+              {
+                "activity": 0.9915,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.1726,
+                "molality": 0.2508,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.1837,
+                "molality": 0.2508,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002527,
+                "name": "O2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "counterion": "NaOH"
+      },
+      {
+        "after": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethanol"
+            },
+            {
+              "moles": 1.4548989580012461e-11,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 0.009999999985451011,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.02,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.1068553982646627,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.010000000014548975,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.010000000010821002,
+          "free_proton": 8.528168762647775e-16,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.02,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.010000000014548989,
+          "solution": {
+            "ionic_strength": 0.8746523241176,
+            "pe": null,
+            "ph": 13.48151826728,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~1.5 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction",
+              "routing_phrase": {
+                "en": "{routing}; the input has a potentially concentrated solute load (~{molality} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction",
+                "key": "routing.activity-model-fallback",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                          "key": "routing.extended-chemistry"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "molality",
+                    {
+                      "number": {
+                        "text": "1.5"
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.01994,
+            "species": [
+              {
+                "activity": 0.9681,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.6748,
+                "molality": 0.8747,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.2954,
+                "molality": 0.5015,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.2879,
+                "molality": 0.3731,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.1284,
+                "molality": 0.1284,
+                "name": "Na(Acetate)"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002123,
+                "name": "O2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "base": 0.02,
+        "before": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.02,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.1068553982792118,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.019999999999999997,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.019999999999995136,
+          "free_proton": 5.63012918048502e-16,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.02,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.02,
+          "solution": {
+            "ionic_strength": 1.003009027081,
+            "pe": null,
+            "ph": 13.84298964438,
+            "provenance": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+                "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+                "Hnedkovsky et al., 1996, JCT 28, 125",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the solution is concentrated (~1.0 mol/kgw), where the ion-interaction model is the valid one",
+              "routing_phrase": {
+                "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+                "key": "routing.concentrated-ion-interaction",
+                "slots": [
+                  [
+                    "molality",
+                    {
+                      "number": {
+                        "text": "1.0"
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.01994,
+            "species": [
+              {
+                "activity": 0.9663,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.6814,
+                "molality": 1.003,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.6587,
+                "molality": 1.003,
+                "name": "Na+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "counterion": "NaOH"
+      },
+      {
+        "after": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.005000000000000003,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.0049999999999999975,
+              "phase": "liquid",
+              "species": "ethanol"
+            },
+            {
+              "moles": 2.560676823413606e-07,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 0.004999743932317657,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "K+"
+            },
+            {
+              "moles": 1.1068551422115294,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 2.5606768235680866e-07,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 2.3688179832578398e-07,
+          "free_proton": 3.256309532908566e-11,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "KOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 2.5606768234293087e-07,
+          "solution": {
+            "ionic_strength": 0.2319327960039,
+            "pe": null,
+            "ph": 8.917296272032,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.019939995,
+            "species": [
+              {
+                "activity": 0.9918,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.1718,
+                "molality": 0.2319,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.1718,
+                "molality": 0.2319,
+                "name": "K+"
+              },
+              {
+                "activity": 0.01882,
+                "molality": 0.01882,
+                "name": "K(Acetate)"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002461,
+                "name": "O2"
+              },
+              {
+                "activity": 8.255e-06,
+                "molality": 1.188e-05,
+                "name": "OH-"
+              },
+              {
+                "activity": 1.188e-05,
+                "molality": 1.188e-05,
+                "name": "H(Acetate)"
+              },
+              {
+                "activity": 1.21e-09,
+                "molality": 1.633e-09,
+                "name": "H+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "base": 0.005,
+        "before": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "K+"
+            },
+            {
+              "moles": 1.1068553982792118,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.0049999999999999975,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.005000000000001776,
+          "free_proton": 1.4530320212656972e-15,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "KOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.005,
+          "solution": {
+            "ionic_strength": 0.2507522567704,
+            "pe": null,
+            "ph": 13.24041427724,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+              "routing_phrase": {
+                "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                "key": "routing.second-speciation-for-solvent",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "dataset",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                          "key": "provenance.dataset.with-gas-uptake-slice",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "pitzer.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "model",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                          "key": "provenance.model.ion-interaction",
+                          "slots": [
+                            [
+                              "name",
+                              {
+                                "text": {
+                                  "text": "Pitzer"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_activity": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "ionic_strength": 0.2507522567704,
+              "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "particle_molality": 0.5016,
+              "water_activity": 0.9915
+            },
+            "solvent_kg": 0.01994,
+            "species": [
+              {
+                "activity": 0.9915,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.1726,
+                "molality": 0.2508,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.1742,
+                "molality": 0.2508,
+                "name": "K+"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002527,
+                "name": "O2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "counterion": "KOH"
+      },
+      {
+        "after": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethanol"
+            },
+            {
+              "moles": 1.4562466012209985e-11,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 0.009999999985437534,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.02,
+              "phase": "aqueous",
+              "species": "K+"
+            },
+            {
+              "moles": 1.1068553982646494,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.010000000014562457,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.010000000010916714,
+          "free_proton": 8.526731434146161e-16,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.02,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "KOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.010000000014562466,
+          "solution": {
+            "ionic_strength": 0.8776110640969,
+            "pe": null,
+            "ph": 13.48135382217,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~1.5 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction",
+              "routing_phrase": {
+                "en": "{routing}; the input has a potentially concentrated solute load (~{molality} mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction",
+                "key": "routing.activity-model-fallback",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                          "key": "routing.extended-chemistry"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "molality",
+                    {
+                      "number": {
+                        "text": "1.5"
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.01994,
+            "species": [
+              {
+                "activity": 0.968,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.6775,
+                "molality": 0.8776,
+                "name": "K+"
+              },
+              {
+                "activity": 0.2953,
+                "molality": 0.5015,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.2903,
+                "molality": 0.3761,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.1254,
+                "molality": 0.1254,
+                "name": "K(Acetate)"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002121,
+                "name": "O2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "base": 0.02,
+        "before": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.02,
+              "phase": "aqueous",
+              "species": "K+"
+            },
+            {
+              "moles": 1.1068553982792118,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.019999999999999997,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.019999999999995136,
+          "free_proton": 5.386180785888786e-16,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.02,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "KOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.02,
+          "solution": {
+            "ionic_strength": 1.003009027081,
+            "pe": null,
+            "ph": 13.93906211937,
+            "provenance": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+                "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+                "Hnedkovsky et al., 1996, JCT 28, 125",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the solution is concentrated (~1.0 mol/kgw), where the ion-interaction model is the valid one",
+              "routing_phrase": {
+                "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+                "key": "routing.concentrated-ion-interaction",
+                "slots": [
+                  [
+                    "molality",
+                    {
+                      "number": {
+                        "text": "1.0"
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.01994,
+            "species": [
+              {
+                "activity": 0.9645,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.8484,
+                "molality": 1.003,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.6666,
+                "molality": 1.003,
+                "name": "K+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "counterion": "KOH"
+      }
+    ],
+    "NAMED_ALKALINE_ACID": [
+      {
+        "acid_first": false,
+        "after": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.008000000000000005,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.001999999999999995,
+              "phase": "liquid",
+              "species": "ethanol"
+            },
+            {
+              "moles": 1.6285592683611224e-07,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 0.0019998371440731588,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.003,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.109855235423285,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 1.628559268412877e-07,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.4981738514034888e-07,
+          "free_proton": 5.211945277934539e-11,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 1.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.003,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "HCl",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 1.628559268412877e-07,
+          "solution": {
+            "ionic_strength": 0.2420339162342,
+            "pe": null,
+            "ph": 8.7150459619,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.019994042,
+            "species": [
+              {
+                "activity": 0.9916,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.1789,
+                "molality": 0.242,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.1109,
+                "molality": 0.15,
+                "name": "Cl-"
+              },
+              {
+                "activity": 0.06801,
+                "molality": 0.09198,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.008041,
+                "molality": 0.008041,
+                "name": "Na(Acetate)"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002455,
+                "name": "O2"
+              },
+              {
+                "activity": 5.181e-06,
+                "molality": 7.493e-06,
+                "name": "OH-"
+              },
+              {
+                "activity": 7.49e-06,
+                "molality": 7.49e-06,
+                "name": "H(Acetate)"
+              },
+              {
+                "activity": 1.927e-09,
+                "molality": 2.607e-09,
+                "name": "H+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "before": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.003,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.1098553982792116,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.001999999999999995,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.002000000000003502,
+          "free_proton": 3.632580053159258e-15,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 1.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.003,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "HCl",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.002,
+          "solution": {
+            "ionic_strength": 0.2500744596706,
+            "pe": null,
+            "ph": 12.84142784664,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+              "routing_phrase": {
+                "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                "key": "routing.second-speciation-for-solvent",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "dataset",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                          "key": "provenance.dataset.with-gas-uptake-slice",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "pitzer.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "model",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                          "key": "provenance.model.ion-interaction",
+                          "slots": [
+                            [
+                              "name",
+                              {
+                                "text": {
+                                  "text": "Pitzer"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_activity": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "ionic_strength": 0.2507522567705,
+              "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "particle_molality": 0.5016,
+              "water_activity": 0.9917
+            },
+            "solvent_kg": 0.019994045,
+            "species": [
+              {
+                "activity": 0.9915,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.1832,
+                "molality": 0.2501,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.1042,
+                "molality": 0.15,
+                "name": "Cl-"
+              },
+              {
+                "activity": 0.06889,
+                "molality": 0.1,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002527,
+                "name": "O2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        }
+      },
+      {
+        "acid_first": true,
+        "after": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.008000000000000005,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.001999999999999995,
+              "phase": "liquid",
+              "species": "ethanol"
+            },
+            {
+              "moles": 1.6285592683611224e-07,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 0.0019998371440731588,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.003,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.109855235423285,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 1.628559268412877e-07,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.4981738514034888e-07,
+          "free_proton": 5.211945277934539e-11,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.003,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "HCl",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 1.628559268412877e-07,
+          "solution": {
+            "ionic_strength": 0.2420339162342,
+            "pe": null,
+            "ph": 8.7150459619,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.019994042,
+            "species": [
+              {
+                "activity": 0.9916,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.1789,
+                "molality": 0.242,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.1109,
+                "molality": 0.15,
+                "name": "Cl-"
+              },
+              {
+                "activity": 0.06801,
+                "molality": 0.09198,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.008041,
+                "molality": 0.008041,
+                "name": "Na(Acetate)"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002455,
+                "name": "O2"
+              },
+              {
+                "activity": 5.181e-06,
+                "molality": 7.493e-06,
+                "name": "OH-"
+              },
+              {
+                "activity": 7.49e-06,
+                "molality": 7.49e-06,
+                "name": "H(Acetate)"
+              },
+              {
+                "activity": 1.927e-09,
+                "molality": 2.607e-09,
+                "name": "H+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "before": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.003,
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.1098553982792116,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.001999999999999995,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 0.002000000000003502,
+          "free_proton": 3.632580053159258e-15,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.003,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "HCl",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOH",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.002,
+          "solution": {
+            "ionic_strength": 0.2500744596706,
+            "pe": null,
+            "ph": 12.84142784664,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+              "routing_phrase": {
+                "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                "key": "routing.second-speciation-for-solvent",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "dataset",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                          "key": "provenance.dataset.with-gas-uptake-slice",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "pitzer.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "model",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                          "key": "provenance.model.ion-interaction",
+                          "slots": [
+                            [
+                              "name",
+                              {
+                                "text": {
+                                  "text": "Pitzer"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_activity": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "ionic_strength": 0.2507522567705,
+              "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "particle_molality": 0.5016,
+              "water_activity": 0.9917
+            },
+            "solvent_kg": 0.019994045,
+            "species": [
+              {
+                "activity": 0.9915,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.1832,
+                "molality": 0.2501,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.1042,
+                "molality": 0.15,
+                "name": "Cl-"
+              },
+              {
+                "activity": 0.06889,
+                "molality": 0.1,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002527,
+                "name": "O2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        }
+      }
+    ],
+    "NAMED_ALKALINE_NEGATIVE": [
+      {
+        "after": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.005200644780994415,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 0.004799355219005583,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.1066547534982174,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.00020064478099442173,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.1144235600957376e-11,
+          "free_proton": 6.886879375762986e-07,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOAc",
+              "suspended_fraction": 1.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "CH3COOH",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.0002006447809944174,
+          "solution": {
+            "ionic_strength": 0.231413913169,
+            "pe": null,
+            "ph": 4.591874829252,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.019936385,
+            "species": [
+              {
+                "activity": 0.9875,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.2508,
+                "molality": 0.2508,
+                "name": "H(Acetate)"
+              },
+              {
+                "activity": 0.1715,
+                "molality": 0.2314,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.1714,
+                "molality": 0.2314,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.01942,
+                "molality": 0.01942,
+                "name": "Na(Acetate)"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002461,
+                "name": "O2"
+              },
+              {
+                "activity": 2.559e-05,
+                "molality": 3.454e-05,
+                "name": "H+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "before": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.005200615077354245,
+              "phase": "aqueous",
+              "species": "CH3COOH"
+            },
+            {
+              "moles": 0.004799384922645754,
+              "phase": "aqueous",
+              "species": "CH3COO-"
+            },
+            {
+              "moles": 0.005,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 1.1066547832018576,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 0.00020061507735423534,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.114627886406755e-11,
+          "free_proton": 6.887934003475206e-07,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "NaOAc",
+              "suspended_fraction": 1.0
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.005,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "CH3COOH",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0.00020061507735424575,
+          "solution": {
+            "ionic_strength": 0.2314139073652,
+            "pe": null,
+            "ph": 4.591874830533,
+            "provenance": {
+              "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "minteq.v4.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+              "routing_phrase": {
+                "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "key": "routing.extended-chemistry"
+              }
+            },
+            "redox": [],
+            "solvent_kg": 0.019936386,
+            "species": [
+              {
+                "activity": 0.9875,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.2508,
+                "molality": 0.2508,
+                "name": "H(Acetate)"
+              },
+              {
+                "activity": 0.1715,
+                "molality": 0.2314,
+                "name": "Acetate-"
+              },
+              {
+                "activity": 0.1714,
+                "molality": 0.2314,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.01942,
+                "molality": 0.01942,
+                "name": "Na(Acetate)"
+              },
+              {
+                "activity": 0.0002596,
+                "molality": 0.0002461,
+                "name": "O2"
+              },
+              {
+                "activity": 2.559e-05,
+                "molality": 3.454e-05,
+                "name": "H+"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "recipe": 0
+      },
+      {
+        "after": {
+          "co2_partial_pressure_atm": 6.51764705882353e-07,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.0019999999977961765,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 6.783597830729933e-10,
+              "phase": "aqueous",
+              "species": "CO2(aq)"
+            },
+            {
+              "moles": 6.138989545485721e-05,
+              "phase": "aqueous",
+              "species": "HCO3-"
+            },
+            {
+              "moles": 0.0009386094250840463,
+              "phase": "aqueous",
+              "species": "CO3-2"
+            },
+            {
+              "moles": 1.106794007702093,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 6.139125878230206e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 4.107923085686972e-05,
+          "free_proton": 1.567370339809641e-13,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "Na2CO3",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 6.13912521732268e-05,
+          "solution": {
+            "ionic_strength": 0.1134733970296,
+            "pe": null,
+            "ph": 11.19060921735,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+              "routing_phrase": {
+                "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                "key": "routing.second-speciation-for-solvent",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "dataset",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                          "key": "provenance.dataset.with-gas-uptake-slice",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "pitzer.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "model",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                          "key": "provenance.model.ion-interaction",
+                          "slots": [
+                            [
+                              "name",
+                              {
+                                "text": {
+                                  "text": "Pitzer"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_activity": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "ionic_strength": 0.148108188493,
+              "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "particle_molality": 0.15280302308,
+              "water_activity": 0.9977
+            },
+            "solvent_kg": 0.019938894,
+            "species": [
+              {
+                "activity": 0.9977,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.0642,
+                "molality": 0.08282,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.01139,
+                "molality": 0.03066,
+                "name": "CO3-2"
+              },
+              {
+                "activity": 0.01361,
+                "molality": 0.01744,
+                "name": "NaCO3-"
+              },
+              {
+                "activity": 0.001549,
+                "molality": 0.00206,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.001565,
+                "molality": 0.002005,
+                "name": "HCO3-"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002608,
+                "name": "O2"
+              },
+              {
+                "activity": 5.651e-05,
+                "molality": 5.505e-05,
+                "name": "NaHCO3"
+              },
+              {
+                "activity": 2.274e-08,
+                "molality": 2.216e-08,
+                "name": "CO2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "before": {
+          "co2_partial_pressure_atm": 6.51764705882353e-07,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.001999999999999514,
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": 6.7838946134146e-10,
+              "phase": "aqueous",
+              "species": "CO2(aq)"
+            },
+            {
+              "moles": 6.139138600036895e-05,
+              "phase": "aqueous",
+              "species": "HCO3-"
+            },
+            {
+              "moles": 0.0009386079356101262,
+              "phase": "aqueous",
+              "species": "CO3-2"
+            },
+            {
+              "moles": 1.1067940062148218,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 6.13927427795466e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 4.1080711389651776e-05,
+          "free_proton": 1.5674762814544963e-13,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "solid",
+              "source": "reagent bottle",
+              "species": "Na2CO3",
+              "suspended_fraction": 1.0
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 6.13927427788926e-05,
+          "solution": {
+            "ionic_strength": 0.1134733972733,
+            "pe": null,
+            "ph": 11.19060921763,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+              "routing_phrase": {
+                "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                "key": "routing.second-speciation-for-solvent",
+                "slots": [
+                  [
+                    "routing",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "the default inorganic aqueous dataset",
+                          "key": "routing.default-inorganic"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "dataset",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                          "key": "provenance.dataset.with-gas-uptake-slice",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "pitzer.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "model",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                          "key": "provenance.model.ion-interaction",
+                          "slots": [
+                            [
+                              "name",
+                              {
+                                "text": {
+                                  "text": "Pitzer"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "redox": [],
+            "solvent_activity": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "ionic_strength": 0.1480998987724,
+              "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "particle_molality": 0.15280202308,
+              "water_activity": 0.9977
+            },
+            "solvent_kg": 0.019938894,
+            "species": [
+              {
+                "activity": 0.9977,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.0642,
+                "molality": 0.08282,
+                "name": "Na+"
+              },
+              {
+                "activity": 0.01139,
+                "molality": 0.03066,
+                "name": "CO3-2"
+              },
+              {
+                "activity": 0.01361,
+                "molality": 0.01744,
+                "name": "NaCO3-"
+              },
+              {
+                "activity": 0.001549,
+                "molality": 0.00206,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.001565,
+                "molality": 0.002005,
+                "name": "HCO3-"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002608,
+                "name": "O2"
+              },
+              {
+                "activity": 5.651e-05,
+                "molality": 5.505e-05,
+                "name": "NaHCO3"
+              },
+              {
+                "activity": 2.274e-08,
+                "molality": 2.216e-08,
+                "name": "CO2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "recipe": 1
+      },
+      {
+        "after": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.0009808113773142944,
+              "phase": "aqueous",
+              "species": "NH3"
+            },
+            {
+              "moles": 1.9188622685705553e-05,
+              "phase": "aqueous",
+              "species": "NH4+"
+            },
+            {
+              "moles": 1.106836209656526,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 1.9188622685697987e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.9188622605436323e-05,
+          "free_proton": 2.2194771110796415e-13,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "NH3",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 1.9188622685705553e-05,
+          "solution": {
+            "ionic_strength": 0.0009623347829404,
+            "pe": 9.659140494144,
+            "ph": 10.96795954013,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "redox": [
+              {
+                "element": "N",
+                "molality": 0.05015132079274,
+                "oxidation": -3
+              }
+            ],
+            "solvent_kg": 0.019939654,
+            "species": [
+              {
+                "activity": 0.9991,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.04919,
+                "molality": 0.04919,
+                "name": "NH3"
+              },
+              {
+                "activity": 0.0009291,
+                "molality": 0.0009623,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.0009292,
+                "molality": 0.0009623,
+                "name": "NH4+"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002676,
+                "name": "O2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "before": {
+          "co2_partial_pressure_atm": 0.0,
+          "contents": [
+            {
+              "moles": 0.01,
+              "phase": "liquid",
+              "species": "ethyl_acetate"
+            },
+            {
+              "moles": 0.000980811215305978,
+              "phase": "aqueous",
+              "species": "NH3"
+            },
+            {
+              "moles": 1.9188784694021952e-05,
+              "phase": "aqueous",
+              "species": "NH4+"
+            },
+            {
+              "moles": 1.1068362094945177,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 1.918878469402141e-05,
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ],
+          "elapsed_seconds": 0.0,
+          "excess_enthalpy_j": 0.0,
+          "foam": {
+            "peak_volume_liters": 0.0,
+            "trapped_gas_liters": 0.0,
+            "volume_liters": 0.0
+          },
+          "free_hydroxide": 1.9188784915975667e-05,
+          "free_proton": 2.2195347599575258e-13,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0.0,
+              "moles": 1.1068553982792118,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "water",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.01,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "ethyl_acetate",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 0.0,
+              "moles": 0.001,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "NH3",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0.0,
+          "pressure": 101325.0,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 1.9188784694021952e-05,
+          "solution": {
+            "ionic_strength": 0.0009623347830126,
+            "pe": 9.659144294217,
+            "ph": 10.96795954017,
+            "provenance": {
+              "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                          "key": "provenance.dataset.plus-reference-complexes",
+                          "slots": [
+                            [
+                              "file",
+                              {
+                                "text": {
+                                  "text": "wateq4f.dat"
+                                }
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "WATEQ4F, Alpers and others, 1989",
+                "log K from llnl.dat  Aug 23, 2005",
+                "Dzombak and Morel, 1990",
+                "usbm-ic9429-complexes-25c",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+              "model_phrase": {
+                "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                "key": "provenance.model.wateq-debye-huckel",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "WATEQ Debye-H\u00fcckel"
+                      }
+                    }
+                  ],
+                  [
+                    "ionic_strength",
+                    {
+                      "number": {
+                        "text": "1"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "the default inorganic aqueous dataset",
+              "routing_phrase": {
+                "en": "the default inorganic aqueous dataset",
+                "key": "routing.default-inorganic"
+              }
+            },
+            "redox": [
+              {
+                "element": "N",
+                "molality": 0.05015045135406,
+                "oxidation": -3
+              }
+            ],
+            "solvent_kg": 0.019939654,
+            "species": [
+              {
+                "activity": 0.9991,
+                "molality": 55.51,
+                "name": "H2O"
+              },
+              {
+                "activity": 0.04919,
+                "molality": 0.04919,
+                "name": "NH3"
+              },
+              {
+                "activity": 0.0009291,
+                "molality": 0.0009623,
+                "name": "OH-"
+              },
+              {
+                "activity": 0.0009292,
+                "molality": 0.0009623,
+                "name": "NH4+"
+              },
+              {
+                "activity": 0.0002677,
+                "molality": 0.0002676,
+                "name": "O2"
+              }
+            ]
+          },
+          "surfaces": [],
+          "temperature": 298.15,
+          "thermal_mode": {
+            "thermostatted": 298.15
+          }
+        },
+        "recipe": 2
+      }
+    ]
+  },
+  "remaining_acceptance": "Independent chemical/proton/counterion review; current prerequisites; full33 and platform/protected integration; delivery and original OR006 replay. No scientific selection."
+}

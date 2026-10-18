@@ -1,0 +1,18 @@
+{
+  "label": "install-rust",
+  "utc": "2026-10-18T20:23:34.687809+00:00",
+  "argv": [
+    "sh",
+    "/kaggle/temp/kerotakis-native-controls/rustup-init.sh",
+    "-y",
+    "--profile",
+    "minimal",
+    "--default-toolchain",
+    "1.99.1",
+    "--no-modify-path"
+  ],
+  "exit_status": 0,
+  "elapsed_seconds": 14.87005844099997,
+  "stdout_sha256": "be3ff5b3e074bd988f3e24d1944334a08f317cf33e22ee952c342cfbec164eb8",
+  "stderr_sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2"
+}

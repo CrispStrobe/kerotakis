@@ -1,0 +1,95 @@
+{
+  "frozen_utc": "2026-10-18T20:22:21.350764+00:00",
+  "accepted_runtime_base": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+  "baseline": "2157e5fa5891abc5fea03334d3779a8a883bfbb3",
+  "baseline_tree": "eee022a5efb9c69dc4d277ca336008d2dcdc4fff",
+  "fix": "bf03c11ac1d427e371071897543e2e1b2d81d67b",
+  "fix_tree": "9e47bc312d60b55b7cfb162982db696b7871fe84",
+  "frozen_control_sha256": {
+    "crates/kerotakis-core/tests/named_alkaline.rs": "2e7e7d79523870abc46d7b75c5b2378a3d15444d90aa7d5e4c568a2e30f298c1",
+    "crates/kerotakis-phreeqc/tests/named_hydrolysis.rs": "c3c44e13733d90a9ce975f88217cab771361f85085dc96a5ca9fdfbc83dc6325"
+  },
+  "fix_source_sha256": {
+    "crates/kerotakis-core/tests/named_alkaline.rs": "2e7e7d79523870abc46d7b75c5b2378a3d15444d90aa7d5e4c568a2e30f298c1",
+    "crates/kerotakis-phreeqc/tests/named_hydrolysis.rs": "c3c44e13733d90a9ce975f88217cab771361f85085dc96a5ca9fdfbc83dc6325",
+    "crates/kerotakis-core/src/bench.rs": "8f765b0c7b70c510531d0a4d56e9d3e6f13b6490ab4c93afb788263630767cb9",
+    "crates/kerotakis-core/src/lib.rs": "cc0022bb26e09b9edb86f0ff8809f7238831059f1fca6c177c6b34c692ab1334",
+    "crates/kerotakis-core/src/named_alkaline.rs": "5d0260e78827f5dc6d47693db31624e3a78666a51e06f8ef62de1c11c6005099",
+    "docs/named-alkaline-capacity.md": "c20c373f1185313e32bbff0a1737653787bbe0f9bd97d2c3112e28ed31c7632c",
+    "crates/kerotakis-core/i18n/de.toml": "fe9c4b6bb10c79e8a40f23a508b1bdcf8209ccbcab909b0bee8d3bcb26643710",
+    "crates/kerotakis-core/i18n/fr.toml": "a7162e6634a8b06ce4230b563a9f502b78c15f17a5178f45987646bcc5129932"
+  },
+  "baseline_commands": [
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-core",
+      "--test",
+      "named_alkaline",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "--test",
+      "named_hydrolysis",
+      "--",
+      "--nocapture"
+    ]
+  ],
+  "fix_commands": [
+    [
+      "cargo",
+      "clippy",
+      "-p",
+      "kerotakis-core",
+      "-p",
+      "kerotakis-phreeqc",
+      "-p",
+      "kerotakis-cea",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "-p",
+      "kerotakis-cea",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-core",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ]
+  ],
+  "cpu_jobs": 2,
+  "worker_seconds": 6800,
+  "provider_timeout_seconds": 7200,
+  "original_corpus_replays": 0,
+  "first_outcomes_immutable": true,
+  "remaining_acceptance": "Root independent chemical/charge/proton/counterion review, applicable full33/protected/platform integration and original OR006 delivery replay. No scientific selection.",
+  "previous_fix": "03aab10c020a7020ee366d58d928ca8219181b5a",
+  "baseline_reexecuted": false,
+  "previous_authenticated_failure_sha256": "514e5fec4bbf4ad8cd4d4552ef5f4ff7fc193864231a815eba1ef5352a1344fd",
+  "baseline_manifest_sha256": "79ab6165bde4c3f5dd7709f0f548e1ec2b51cdda57722763b826264990068a5a",
+  "expected_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+}

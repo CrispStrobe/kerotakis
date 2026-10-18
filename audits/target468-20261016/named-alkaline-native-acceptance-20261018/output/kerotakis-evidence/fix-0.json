@@ -1,0 +1,22 @@
+{
+  "label": "fix-0",
+  "utc": "2026-10-18T20:28:33.684158+00:00",
+  "argv": [
+    "cargo",
+    "clippy",
+    "-p",
+    "kerotakis-core",
+    "-p",
+    "kerotakis-phreeqc",
+    "-p",
+    "kerotakis-cea",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit_status": 0,
+  "elapsed_seconds": 290.29503213799995,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "6df1f42a1f30ba5f5039bd142dcfa2d28e25e6a11fc94642ff7738655f92b6b6"
+}

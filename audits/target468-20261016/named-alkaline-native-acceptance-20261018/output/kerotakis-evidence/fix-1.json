@@ -1,0 +1,21 @@
+{
+  "label": "fix-1",
+  "utc": "2026-10-18T20:35:57.506483+00:00",
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "-p",
+    "kerotakis-cea",
+    "--lib",
+    "--tests",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "elapsed_seconds": 443.8210817130001,
+  "stdout_sha256": "6c44841b85075a61da8fd89444b5f60daa41d154045ec8183e0f72b90a7cee35",
+  "stderr_sha256": "9bbb980901a3f76e6aba8b738e34e7769a6acf6c0d2b0549af6735979f323f75"
+}

@@ -1,0 +1,23 @@
+{
+  "reviewed_utc": "2026-10-18T20:44:51.565793+00:00",
+  "source": "bf03c11ac1d427e371071897543e2e1b2d81d67b",
+  "tree": "9e47bc312d60b55b7cfb162982db696b7871fe84",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "authenticated_files": 51,
+  "clippy_all_targets_pass": true,
+  "core_tests_passed": 2137,
+  "native_tests_passed": 608,
+  "ignored": 0,
+  "independently_reviewed_native_arms": 9,
+  "maximum_material_charge_residual_mol_or_eq": "6.60842142000000E-12",
+  "root_actual_review": [
+    "All three actual command records/streams return0, no failed or ignored names; all nine new core and three new native test functions occur in actual stdout.",
+    "Two sodium and two potassium base/ester-limit arms use actual products and retain cations exactly once. Repeated requests do not recreate reserve.",
+    "Both actual acid-addition orders yield approximately0.002mol ethanol from0.005mol base minus0.003mol HCl.",
+    "Acetate, carbonate and ammonia controls earn zero named conversion. Their explicit refusal/zero-reserve domain is not chemical inactivity or a general weak-buffer model.",
+    "Whole C/H/O/Na/K/Cl/N/formal charge were independently recomputed from actual serialized states with45-digit Decimal arithmetic and pinned registry compositions.",
+    "Actual source/test SHA bindings and producer lock match frozen baseline controls and corrected source; historical first failure remains immutable."
+  ],
+  "scientific_catalog_additions": 0,
+  "remaining": "Applicable original33-job fleet, current prerequisites/platform/protected integration, delivery/API/browser, separately bound original OR006 replay."
+}

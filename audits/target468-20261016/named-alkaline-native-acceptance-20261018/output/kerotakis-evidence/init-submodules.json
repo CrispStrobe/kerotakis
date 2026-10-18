@@ -1,0 +1,17 @@
+{
+  "label": "init-submodules",
+  "utc": "2026-10-18T20:23:41.010853+00:00",
+  "argv": [
+    "git",
+    "submodule",
+    "update",
+    "--init",
+    "--recursive",
+    "--depth",
+    "1"
+  ],
+  "exit_status": 0,
+  "elapsed_seconds": 2.5240041639999617,
+  "stdout_sha256": "506b14f556ca726d5c1f6bef730fff3e5e526ca71c2d74b689b3c6e131de8f75",
+  "stderr_sha256": "3a3ed1d37502643f7869d45e10d000c11374ad7728e3573c34729a858efdd892"
+}

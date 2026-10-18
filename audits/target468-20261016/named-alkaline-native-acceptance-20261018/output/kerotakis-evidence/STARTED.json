@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-18T20:23:19.435791+00:00",
+  "script_sha256": "564c27fa62808532d690c10cbe2faf32d30cfd24f3715b08938dc86f671d0924",
+  "cpu_only": true,
+  "gpu_requested": false,
+  "platform": "Linux-6.18.48+-x86_64-with-glibc2.39",
+  "cpu_count": 4,
+  "memory_info": "MemTotal:       32869452 kB\nMemFree:        27608996 kB\nMemAvailable:   31873288 kB\nBuffers:         1186820 kB\nCached:          3292104 kB\nSwapCached:            0 kB\nActive:          1576168 kB\nInactive:        3150476 kB\nActive(anon):        744 kB\nInactive(anon):   248400 kB\nActive(file):    1575424 kB\nInactive(file):  2902076 kB\nUnevictable:           0 kB\nMlocked:               0 kB\nSwapTotal:             0 kB\nSwapFree:              0 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:              4168 kB\nWriteback:             0 kB\nAnonPages:        247976 kB\nMapped:           241472 kB\nShmem:              1188 kB\nKReclaimable:     252888 kB\nSlab:             306460 kB\nSReclaimable:     252888 kB\nSUnreclaim:        53572 kB\nKernelStack:        4776 kB\nPageTables:         6016 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:    16434724 kB\nCommitted_AS:    2237236 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       12856 kB\nVmallocChunk:          0 kB\nPercpu:             2032 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nCmaTotal:              0 kB\nCmaFree:               0 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:      158492 kB\nDirectMap2M:    13469696 kB\nDirectMap1G:    22020096 kB\n",
+  "disk_free_bytes": 1148830015488,
+  "source_builds_not_empirical_calibration": true
+}

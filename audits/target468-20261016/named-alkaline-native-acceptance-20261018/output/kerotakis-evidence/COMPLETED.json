@@ -1,0 +1,249 @@
+{
+  "utc": "2026-10-18T20:42:25.574661+00:00",
+  "elapsed_seconds": 1146.138904569,
+  "steps": [
+    {
+      "label": "fetch-rustup",
+      "utc": "2026-10-18T20:23:19.816645+00:00",
+      "argv": [
+        "curl",
+        "--proto",
+        "=https",
+        "--tlsv1.2",
+        "-fsSL",
+        "--retry",
+        "0",
+        "https://sh.rustup.rs",
+        "-o",
+        "/kaggle/temp/kerotakis-native-controls/rustup-init.sh"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.3695896969999808,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "install-rust",
+      "utc": "2026-10-18T20:23:34.687809+00:00",
+      "argv": [
+        "sh",
+        "/kaggle/temp/kerotakis-native-controls/rustup-init.sh",
+        "-y",
+        "--profile",
+        "minimal",
+        "--default-toolchain",
+        "1.99.1",
+        "--no-modify-path"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 14.87005844099997,
+      "stdout_sha256": "be3ff5b3e074bd988f3e24d1944334a08f317cf33e22ee952c342cfbec164eb8",
+      "stderr_sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2"
+    },
+    {
+      "label": "rustc-version",
+      "utc": "2026-10-18T20:23:34.721394+00:00",
+      "argv": [
+        "rustc",
+        "--version",
+        "--verbose"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.032737025000017184,
+      "stdout_sha256": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "cargo-version",
+      "utc": "2026-10-18T20:23:34.738401+00:00",
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.01653647899996713,
+      "stdout_sha256": "c35608815f43d0b8788a9b826fad2bb17384f49fb328dc4fe64da9db5f5ef4d6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "rustup-clippy",
+      "utc": "2026-10-18T20:23:36.057921+00:00",
+      "argv": [
+        "rustup",
+        "component",
+        "add",
+        "clippy"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 1.3191195630000152,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "08cc3e5ddf8fdac43e355fa0e3215ff51d62897f38c2b9748679f1984a32d562"
+    },
+    {
+      "label": "git-init",
+      "utc": "2026-10-18T20:23:36.124551+00:00",
+      "argv": [
+        "git",
+        "init",
+        "/kaggle/temp/kerotakis-native-controls/source"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.066059230999997,
+      "stdout_sha256": "360f199091c640c287ff2a8e488d22add0024379ccfb9e25dfbca58f9ab6af31",
+      "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+    },
+    {
+      "label": "git-remote",
+      "utc": "2026-10-18T20:23:36.141636+00:00",
+      "argv": [
+        "git",
+        "remote",
+        "add",
+        "origin",
+        "https://github.com/CrispStrobe/kerotakis.git"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.016518498000039017,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "fix-fetch",
+      "utc": "2026-10-18T20:23:38.014188+00:00",
+      "argv": [
+        "git",
+        "fetch",
+        "--depth",
+        "1",
+        "origin",
+        "bf03c11ac1d427e371071897543e2e1b2d81d67b"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 1.8720271540000226,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "f6acb86d3244a0efb984b665cafffcd85699fcd86d4fe25f368dd9b968fbb6ba"
+    },
+    {
+      "label": "fix-checkout",
+      "utc": "2026-10-18T20:23:38.481254+00:00",
+      "argv": [
+        "git",
+        "checkout",
+        "--detach",
+        "FETCH_HEAD"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.46648750900004643,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "ad9fea8e4c1c0b3edba7e25aeb5175c621b8800227cd42164649cfa9bc1b09b6"
+    },
+    {
+      "label": "init-submodules",
+      "utc": "2026-10-18T20:23:41.010853+00:00",
+      "argv": [
+        "git",
+        "submodule",
+        "update",
+        "--init",
+        "--recursive",
+        "--depth",
+        "1"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 2.5240041639999617,
+      "stdout_sha256": "506b14f556ca726d5c1f6bef730fff3e5e526ca71c2d74b689b3c6e131de8f75",
+      "stderr_sha256": "3a3ed1d37502643f7869d45e10d000c11374ad7728e3573c34729a858efdd892"
+    },
+    {
+      "label": "fetch-sundials",
+      "utc": "2026-10-18T20:23:43.385229+00:00",
+      "argv": [
+        "bash",
+        "tools/fetch-sundials.sh"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 2.3738918980000108,
+      "stdout_sha256": "6de4db2b1c79c090357f8a6aab7a5b1f74d50c910a2026e7972b9a212f18a494",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "fix-0",
+      "utc": "2026-10-18T20:28:33.684158+00:00",
+      "argv": [
+        "cargo",
+        "clippy",
+        "-p",
+        "kerotakis-core",
+        "-p",
+        "kerotakis-phreeqc",
+        "-p",
+        "kerotakis-cea",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 290.29503213799995,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6df1f42a1f30ba5f5039bd142dcfa2d28e25e6a11fc94642ff7738655f92b6b6"
+    },
+    {
+      "label": "fix-1",
+      "utc": "2026-10-18T20:35:57.506483+00:00",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "-p",
+        "kerotakis-cea",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 443.8210817130001,
+      "stdout_sha256": "6c44841b85075a61da8fd89444b5f60daa41d154045ec8183e0f72b90a7cee35",
+      "stderr_sha256": "9bbb980901a3f76e6aba8b738e34e7769a6acf6c0d2b0549af6735979f323f75"
+    },
+    {
+      "label": "fix-2",
+      "utc": "2026-10-18T20:42:24.147905+00:00",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-core",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 386.622914324,
+      "stdout_sha256": "0cc046c70f0c89011ee7da83e1c5bab256d875cfa535fddff2267dbcca6f2bc1",
+      "stderr_sha256": "dcbbf9cbe47b7b0a0a921cf900cb0a84d3798dc04166c729e7901afde4087db3"
+    },
+    {
+      "label": "fix-source-unchanged",
+      "utc": "2026-10-18T20:42:25.573009+00:00",
+      "argv": [
+        "git",
+        "diff",
+        "--exit-code",
+        "HEAD"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 1.4217966409999008,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "root_log_and_physical_review_required": true,
+  "github_protected_contexts_unchanged": true,
+  "scientific_catalog_selections": 0
+}

@@ -1,0 +1,20 @@
+{
+  "label": "fetch-rustup",
+  "utc": "2026-10-18T20:23:19.816645+00:00",
+  "argv": [
+    "curl",
+    "--proto",
+    "=https",
+    "--tlsv1.2",
+    "-fsSL",
+    "--retry",
+    "0",
+    "https://sh.rustup.rs",
+    "-o",
+    "/kaggle/temp/kerotakis-native-controls/rustup-init.sh"
+  ],
+  "exit_status": 0,
+  "elapsed_seconds": 0.3695896969999808,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

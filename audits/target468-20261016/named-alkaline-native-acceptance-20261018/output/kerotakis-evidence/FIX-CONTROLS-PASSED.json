@@ -1,0 +1,10 @@
+{
+  "source": "bf03c11ac1d427e371071897543e2e1b2d81d67b",
+  "tree": "9e47bc312d60b55b7cfb162982db696b7871fe84",
+  "baseline": "2157e5fa5891abc5fea03334d3779a8a883bfbb3",
+  "baseline_not_reexecuted": true,
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "same_frozen_control_files": true,
+  "root_independent_actual_log_and_chemical_review_required": true,
+  "scientific_selections": 0
+}
