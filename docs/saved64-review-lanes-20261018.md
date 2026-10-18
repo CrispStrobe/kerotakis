@@ -2,10 +2,10 @@
 
 Finish accepted-source integration and the full frontend/native deployment in
 [the handover](next-agent-handoff.md) before starting new model work. These lanes
-turn the [saved64 first screen](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/saved64-first-screen/README.md)
+turn the [saved64 first screen](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/saved64-first-screen/README.md)
 into concrete follow-ups. They preserve original forecasts and first outcomes;
 none authorizes treating unsupported chemistry, exit0 or a diagnostic warning
-as a scientific pass. The latest catalog is204 / fixed468 selected200 after the separate deployed-source KN-007 replay and final review of three original saved gas cases; the original screen and first failures remain unchanged.
+as a scientific pass. The latest catalog is215 / fixed468 selected229 after the separately bound repaired KN007/TH016 replays and final review of three saved gas and nine saved kinetics cases; the original screen and first failures remain unchanged.
 
 ## A. Finalize bounded selections from existing evidence
 
@@ -24,13 +24,13 @@ material reader. Keep rounding, missing phase domains and property provenance
 explicit. Check the source's additive liquid volume, including peroxide, for
 KN009; the saved concentration ratio18.9029 exceeds consumption ratio8.47084.
 
-The [detailed kinetics preparation](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/saved64-kinetics-preparation/README.md)
+The [detailed kinetics preparation](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/saved64-kinetics-preparation/README.md)
 reproduces all14 kinetics timelines, source mixing bounds and original model
 limits without assigning new passes. Use it to complete that group's review.
 
 **Done:** append a case-level final assessment and independent calculation review;
 add only supported IDs once with exact source/script association. Preserve all
-200 existing catalog entries and original first failures. Record before/after
+223 existing catalog entries and original first failures. Record before/after
 hashes, counts, exclusions and an immutable selection receipt. No unchanged668
 replay. The20 holds below remain excluded unless separate evidence closes them.
 
@@ -85,8 +85,23 @@ Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses th
 **Cases:** OR006–009. Explicit `react ... saponification` leaves ester unchanged
 although positive base equivalents are owned; downstream protonation and carbon
 cycle prerequisites therefore also fail.
-**Source:** `crates/kerotakis-org/src/lib.rs`, core family routing and aqueous
-transfer/readback; `crates/kerotakis-phreeqc/tests/family_aqueous_tail.rs`.
+**Source:** the executed named-verb path is `Operator::React` in
+`crates/kerotakis-core/src/bench.rs`, with literal reactant/product rows in
+`crates/kerotakis-core/src/curated.rs`. The independent structural template is
+`crates/kerotakis-org/src/templates.rs`; changing that template alone does not
+change the named CLI inventory applier. Also inspect core family routing,
+aqueous transfer/readback and
+`crates/kerotakis-phreeqc/tests/family_aqueous_tail.rs`.
+
+**Confirmed source boundary:** the named row requires literal `NaOH` and
+produces neutral `NaOAc`. Its current extent and availability checks read
+`moles_of` that literal reactant, whereas the saved solved OR006 vessel owns
+0.005mol `Na+` and approximately0.005mol `base_equivalents`, with no `NaOH`
+portion. This explains the unchanged ester without implying that every positive
+basis coordinate is usable hydroxide. The existing family free-hydroxide gate
+has a different kinetic/measurement contract. Repair the named capacity and its
+atomic product applier together; merely changing the alias, SMIRKS template or
+reactant lookup would leave the capacity and sodium-ownership hazards open.
 
 **Work:** distinguish the explicit requested stoichiometric template from the
 warm kinetic family and inspect their hydroxide-capacity owners. Use actual
@@ -250,7 +265,7 @@ empirical-calibration claims require their own evidence.
 
 ## Actual deployed-source follow-up
 
-The [four unchanged diagnostic protocols](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/deployed-shared-diagnostics-20261018/README.md)
+The [four unchanged diagnostic protocols](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/deployed-shared-diagnostics-20261018/README.md)
 now have source/binary/lock-bound API results on `ed7c452d`, after actual release
 acceptance. KN-007 passes both original criteria and whole H/O/Mn/charge/filter
 oxygen checks; its separate selection does not rewrite the old oxygen-loss
@@ -283,7 +298,7 @@ Do not rescale readback or replace the reviewed thermodynamic constants.
 ## Final saved-gas review completed for three candidates
 
 GS001, GS003 and GS009 now satisfy all six original criteria within their original
-finite ideal-carrier/carbonate domains. The [independent reader and assessment](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/saved-gas-final-review-20261018/README.md)
+finite ideal-carrier/carbonate domains. The [independent reader and assessment](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/saved-gas-final-review-20261018/README.md)
 retain actual temperature, trapped-air baselines, pressure increments, carbon
 fractions, per-arm additions and numerical residuals. No engine was rerun.
 The previous201 catalog records remain unchanged; the new complete catalog has
@@ -299,7 +314,7 @@ and its correction to the existing molar inventory resolution.
 **Observed hold:** original GS005 changes free aqueous NH3 from about0.000947mol
 to6.35e-11mol on acidification, yet gas NH3 stays near3.57198e-6mol in both
 arms. Nitrogen closes; the tiny gas difference does not establish acid trapping.
-A [separate smaller accepted-equivalent control](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/ammonia-coupled-first-control-20261018/README.md) now reproduces this failure on runtime identical to accepted `0a5a92f1`, binary `6c617d2b`. All three arms retain nitrogen/chloride; both acidic arms suppress free NH3 but retain over90% of neutral gas. Raw observations and the first saved-reader defect are preserved.
+A [separate smaller accepted-equivalent control](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/ammonia-coupled-first-control-20261018/README.md) now reproduces this failure on runtime identical to accepted `0a5a92f1`, binary `6c617d2b`. All three arms retain nitrogen/chloride; both acidic arms suppress free NH3 but retain over90% of neutral gas. Raw observations and the first saved-reader defect are preserved.
 
 **Source lead:** `crates/kerotakis-core/src/volatility.rs` partitions neutral
 NH3 with a standalone Henry law, while
@@ -329,12 +344,26 @@ not a scientific pass.
 
 PR834 initial `2750df2d` implements the bounded finite-only ammonia coupling proposal. First native validation fails all four new tests (523 others pass); diagnostic follow-up `4d8e1705` retains the chemical assertions. Missing minteq NH3(g) is an explicit unchanged-state refusal; core-only/dry fallback and existing open/swept behavior remain. Final combined-source acceptance must include the separately accepted finite-gas initialization repair. Original GS005 stays excluded until its own separately bound repaired-source replay passes.
 
-Current delivery: PR831 merged normally as `ac1f9993` with verified parents/tree. The phase-source `0a5a92f1` artifact and11 API controls are accepted, binary `e01b96e0`; unchanged37-check actual browser validation is running with corrected engine-only asset binding; its first preflight failure is preserved, after which only the changed-source TH016 replay is authorized by its frozen plan. Last fully accepted API/browser release remains `ed7c452d` until that review completes. [First ammonia native failure](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/ammonia-native-first-failure-20261018/README.md) remains preserved; no new scientific selection.
+Current delivery: PR831 merged normally as `ac1f9993` with verified parents/tree. The phase-source `0a5a92f1` artifact and11 API controls are accepted, binary `e01b96e0`; unchanged37-check actual browser validation is running with corrected engine-only asset binding; its first preflight failure is preserved, after which only the changed-source TH016 replay is authorized by its frozen plan. Last fully accepted API/browser release remains `ed7c452d` until that review completes. [First ammonia native failure](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/ammonia-native-first-failure-20261018/README.md) remains preserved; no new scientific selection.
 
-[Current phase-source artifact/API evidence](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/phase-release-api-20261018/README.md) records actual delivered bytes and11 passing controls. Browser and TH016 acceptance remain separate.
+[Current phase-source artifact/API evidence](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/phase-release-api-20261018/README.md) records actual delivered bytes and11 passing controls. Browser and TH016 acceptance remain separate.
 
 ## Current phase and ammonia follow-up
 
-[Changed-source TH016](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/phase-release-browser-thermal-20261018/README.md) now independently passes both original criteria after full artifact/API/browser acceptance. The old failure and every previous catalog entry remain preserved. Complete catalog205 / fixed468201 needs200 further selections for401. This does not implement general reacting multiphase HP energy.
+[Changed-source TH016](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/phase-release-browser-thermal-20261018/README.md) now independently passes both original criteria after full artifact/API/browser acceptance. The old failure and every previous catalog entry remain preserved. Complete catalog205 / fixed468201 needs200 further selections for401. This does not implement general reacting multiphase HP energy.
 
-PR834 current `6dee9254` replaces constructed display-formula gas names with explicit native capability identities. [The actual failed admission trace](https://github.com/CrispStrobe/kerotakis/blob/a1162023a4c44045ba6edfcfd2e0ddb9fabb4bd1/audits/target468-20261016/ammonia-native-admission-trace-20261018/README.md) records `NH3(aq)(g)` being dropped, explaining failed gas absorption/trapping and missing-route refusal. All original assertions remain; full native acceptance is running. Finish combined-source acceptance with the initializer prerequisite and normal protected integration before separately bound GS005 replay. No ammonia scientific selection has been made.
+PR834 prior accepted `6dee9254` replaces constructed display-formula gas names with explicit native capability identities. [The actual failed admission trace](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/ammonia-native-admission-trace-20261018/README.md) records `NH3(aq)(g)` being dropped, explaining failed gas absorption/trapping and missing-route refusal. All original assertions remain; all528 native tests and Clippy pass; combined prerequisite/full-fleet acceptance remains. Finish combined-source acceptance with the initializer prerequisite and normal protected integration before separately bound GS005 replay. No ammonia scientific selection has been made.
+
+Current accepted release: [artifact/11 API](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/gas-release-api-20261018/README.md) and [37 browser/original GS010](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/gas-release-browser-replay-20261018/README.md), source `d3883757`, binary `14f0cafe`, actual producer lock `66886813`. The unchanged GS010 replay now passes both original criteria and independent whole-material/charge closure to3.172e-14mol/eq. Its actual Pitzer capability and0.931K arm temperature difference are recorded; no empirical salinity calibration is claimed. Catalog233 / fixed468229 preserves all prior223 entries and needs172 further selections for401. Gas delivery/replay is complete; do not restart completed controllers or repeat KN007/TH016/OR006.
+
+Ammonia `4c5d591a` has [independently authenticated Clippy/610 native/31 core/full33 acceptance](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/cpu-combined-ammonia-834-20261018/README.md), including12 pre-authored chemical groups/24 acid arms. Its existing exact-head integration observer awaits current platform/protected checks and both actual native logs; preserve the accepted CPU work. Live Pages publication and actual served interpreter/parity remain separate pending work.
+
+Named hydrolysis [draft PR836](https://github.com/CrispStrobe/kerotakis/pull/836), head `bf03c11a`, follows an [authenticated first baseline/source execution](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/named-alkaline-first-failure-20261018/README.md). Unchanged runtime fails six core and two native controls. Repair `03aab10c` passes Clippy and all nine new core controls; the full core run passes2136 and fails one composed-locale test because French lacks the new refusal key. It stops before changed-source native execution. The correction completes French/English messages without changing either chemical control file. Corrected source `bf03c11a` now passes [Clippy/2137 core/608 native and independent nine-arm atom/charge/proton/counterion review](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/named-alkaline-native-acceptance-20261018/README.md), with zero ignored. Maximum native material/charge residual6.60842142e-12mol/eq. Its [single original33-job CPU fleet execution](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/named-alkaline-fleet-preparation-20261018/README.md) follows normal cancellation of a completely unassigned/zero-step GitHub producer; no protected context is replaced. Do not repeat completed focused controls. Applicable full33, current prerequisites, platform/protected integration and original OR006 delivery replay remain required. No hydrolysis scientific selection or general weak-buffer capacity is claimed.
+
+Eight saved named-organic protocols OR001–005 and OR010–012 now satisfy all16 original bounded criteria with [independent45-digit atom/charge and actual observation review](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/saved-organic-final-review-20261018/README.md). Maximum reaction ledger residual3.91872206643e-12mol/eq; source/producer-lock qualifications and mixed-solvent warnings remain explicit. The complete catalog is233 / fixed468 selected229, preserving all prior223 entries;172 more are needed for401. Fourteen first-screen candidates remain for final review. OR006–009 are still excluded pending separate hydrolysis source/native/fleet/delivery evidence. No unchanged experiment was rerun.
+
+
+Ten saved thermal protocols TH001–006 and TH011–014 satisfy all20 original bounded criteria after [source-bound actual phase/export/energy review](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/saved-thermal-final-review-20261018/README.md). The catalog is233 / fixed468 selected229, preserving previous223 entries;172 more are needed for401. Fourteen first-screen candidates remain. TH012 four freezing messages and a compensating melting message close the signed net owned solid gain within6e-17mol; the initial unreviewed concern is preserved and no current-source defect is inferred from repetition alone. No current deployment certification or empirical calibration is claimed.
+
+
+Documentation PR835 `173be8a2` merged normally as `2eab41c4` after all25 applicable checks; [actual parents/tree receipt](https://github.com/CrispStrobe/kerotakis/blob/e83413d3645ea97492d55db3df42dbe0fbc003c6/audits/target468-20261016/accepted-pr-integration/pr835-integration.json) verifies the four-file-only scope. Runtime/accepted production remains `d3883757`. These summaries are refreshed in a narrow MD-only branch from that main, with evidence pinned to an immutable public audit commit. Never merge broad audit history.
