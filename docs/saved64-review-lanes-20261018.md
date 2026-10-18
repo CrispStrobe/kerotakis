@@ -374,3 +374,15 @@ Documentation PR835 `173be8a2` merged normally as `2eab41c4` after all25 applica
 
 
 The fresh four-file documentation update is [PR837](https://github.com/CrispStrobe/kerotakis/pull/837), exact reviewed head `841593be`, ready with normal auto-merge enabled. It starts from actual main `2eab41c4`, pins61 authenticated public audit links to `e83413d3` and changes no runtime/workflow/scientific contract. Observe protected CI and verify actual merged parents/tree afterward; do not churn its accepted head for optional snapshot edits.
+
+## K. Extend proved reserve to a bounded carbonate pool before sealed staged synthesis
+
+**Trigger and source:** the original MO003 protocol seals water before adding ester/base. Seal traps finite room-air CO2. Current PR836 capacity intentionally rejects CO2/carbonate reservoirs; its passing negative carbonate controls do not certify their chemical inactivity. This is a static call-path inference, not a newly executed original failure. Preserve the [original protocol and separate task contract](../audits/target468-20261016/next-shared-repair-followups-20261018/README.md).
+
+**Prerequisites:** complete current PR836 combined-source acceptance/integration, actual artifact/API/browser and original OR006 review. Keep this extension on a separate narrow branch from then-current main. Do not churn the valid current producer or discard its negative controls.
+
+**Source work:** inventory every admitted carbonate form and finite/open gas boundary. Derive a conserved strong-base reserve that accounts for all accessible carbonic proton demand, including gas CO2. For a rigorously closed Na/K/strong-anion/acetate/carbonate pool, `M-X-A-2*C_total` is a candidate strong-base-excess certificate, not an accepted implementation. Prove its relationship to actual owned hydroxide and proton reservoirs before use. Mixed weak buffers, bound metals, pending gas transfers and unbounded external reservoirs must retain explicit unsupported domains. Never equate dissolved carbonate or instantaneous free OH with spendable caustic.
+
+**Acceptance:** freeze unchanged-source refusals; independently design trace trapped-air carbon, carbonate/bicarbonate controls, both alkali counterions, base/ester limits, acid order, repeated requests and open/swept negative boundaries. Prove actual atom/charge/proton/counterion and gas ownership before accepting conversion. Distinguish zero certified strong-base reserve from slow real carbonate-assisted hydrolysis. Run source-bound focused/native/full-fleet/platform acceptance and exact-head normal integration before original MO003 replay; then close ethanol formation/oxidation, all molecular/ionic carbon plus initial air and available oxygen. No empirical rate/heat claim.
+
+**Other original beneficiaries already scoped:** MO006 actual back-titration dose and MO011 staged hydrolysis/chromatography follow accepted OR006; AB031 nitrogen-export/chloride/pH follows accepted GS005. Their original forecasts and complete commands remain frozen in the linked contract. None is pre-awarded catalog membership.

@@ -321,3 +321,5 @@ Documentation PR835 `173be8a2` merged normally as `2eab41c4` after all25 applica
 
 
 The fresh four-file documentation update is [PR837](https://github.com/CrispStrobe/kerotakis/pull/837), exact reviewed head `841593be`, ready with normal auto-merge enabled. It starts from actual main `2eab41c4`, pins61 authenticated public audit links to `e83413d3` and changes no runtime/workflow/scientific contract. Observe protected CI and verify actual merged parents/tree afterward; do not churn its accepted head for optional snapshot edits.
+
+After current hydrolysis delivery/OR006, use [lane K](saved64-review-lanes-20261018.md#k-extend-proved-reserve-to-a-bounded-carbonate-pool-before-sealed-staged-synthesis) for the original sealed MO003 carbonate-reserve blocker. [Four frozen original follow-ups](../audits/target468-20261016/next-shared-repair-followups-20261018/README.md) separately scope MO006/MO011 dose and staged-product checks plus AB031 nitrogen export. These are unissued contracts, not automatic beneficiaries or extra passes.

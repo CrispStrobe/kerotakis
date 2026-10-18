@@ -1,0 +1,124 @@
+{
+  "status": "PREPARED_UNISSUED",
+  "current_hydrolysis_head": "0c37523e26af37d15e635c2905c2a4356c0ecadf",
+  "ammonia_integrated_source": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+  "cases": [
+    {
+      "id": "batch2:mo-006",
+      "title": "Back-titration assay of an ester with excess hydroxide",
+      "script": "# MO-006: Back-titration assay of an ester with excess hydroxide\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NaOH 0.001mol\nadd v1 ethyl_acetate 0.0005mol\nreact v1 saponification\ninspect v1\ntitrate v1 HCl 0.1M 0.1mL until ph 8.5 max 150\ninspect v1\nnew\nadd v2 water 100mL\nadd v2 NaOH 0.001mol\ntitrate v2 HCl 0.1M 0.1mL until ph 8.5 max 150\ninspect\n",
+      "script_sha256": "a87cc37fca0406e43894b2f68094fdd92aa6e5c5b4d56da7d80c99efa53da8c3",
+      "original_forecast": "For complete hydrolysis, the activated sample should consume about 0.0005 mol less strong acid than the base blank at an endpoint that mostly leaves acetate deprotonated.",
+      "original_criteria": [
+        {
+          "id": "MO-006-C1",
+          "criterion": "Compare the blank-minus-sample delivered acid equivalents with the observed ester loss.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-006-C2",
+          "criterion": "Correct for endpoint resolution and check that appreciable acetate protonation or incomplete hydrolysis does not bias the difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "At pH 8.5 acetate is mostly, not perfectly, deprotonated.",
+        "Strong-base pool ownership and titrator direction handling must be confirmed at runtime."
+      ],
+      "original_baseline": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+      "run_status": "UNISSUED on repaired source",
+      "prerequisites": "Integrated hydrolysis source, current artifact/API/browser acceptance and independently accepted original OR006 replay.",
+      "additional_review": "Reconstruct blank-minus-sample actual acid equivalents, including titrant solvent, endpoint step size and acetate protonation at8.5. Compare with actual ester loss; no rounded endpoint pass."
+    },
+    {
+      "id": "batch2:mo-011",
+      "title": "Chromatographic tracking of an ester-hydrolysis intermediate",
+      "script": "# MO-011: Chromatographic tracking of an ester-hydrolysis intermediate\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 ethyl_acetate 0.001mol\nadd v1 NaOH 0.0005mol\nmeasure v1 chromatograph\ninspect v1\nreact v1 saponification\nmeasure v1 chromatograph\ninspect v1\nadd v1 NaOH 0.0005mol\nreact v1 saponification\nmeasure v1 chromatograph\ninspect\n",
+      "script_sha256": "a59e4c385cefbeec54a06cb3c813d8c3846a2bd03722cbfcd8d3ea9f84899541",
+      "original_forecast": "If the chromatograph recognises the relevant molecular pools, ester features should decrease and ethanol features increase as additional hydroxide permits further hydrolysis.",
+      "original_criteria": [
+        {
+          "id": "MO-011-C1",
+          "criterion": "Relate peak identities to independently reported species inventories after each stage.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-011-C2",
+          "criterion": "Do not compare raw areas as stoichiometric mole ratios unless response factors are provided; ionic acetate need not produce a comparable volatile peak.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Chromatographic retention and detector coverage are simplified and may omit ionic products.",
+        "The two named calls must consume the correct remaining substrate pools."
+      ],
+      "original_baseline": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+      "run_status": "UNISSUED on repaired source",
+      "prerequisites": "Integrated hydrolysis source, current artifact/API/browser acceptance and independently accepted original OR006 replay.",
+      "additional_review": "Verify successive0.5mmol named conversions spend remaining ester once. Independently identify ester/ethanol peaks and preserved unsupported ionic acetate; peak area is not mole fraction."
+    },
+    {
+      "id": "batch2:mo-003",
+      "title": "Hydrolyse an ester, then oxidise the liberated alcohol",
+      "script": "# MO-003: Hydrolyse an ester, then oxidise the liberated alcohol\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nseal v1 250mL\nadd v1 ethyl_acetate 0.001mol\nadd v1 NaOH 0.001mol\nreact v1 saponification\ninspect v1\nadd v1 O2 0.002mol\nreact v1 alcohol-oxidation\nmeasure v1 ph\ninspect\n",
+      "script_sha256": "6875ff952a63527b64167b44dd008fcbfdba5a59aebba05edaef99e5719efc45",
+      "original_forecast": "Successful sequential transformations first yield acetate and ethanol, then convert the ethanol fraction into another acetate/acetic-acid family pool. Carbon accounting should retain four carbons per initial ester molecule.",
+      "original_criteria": [
+        {
+          "id": "MO-003-C1",
+          "criterion": "Verify ethanol appears after hydrolysis and decreases only after the requested oxidation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-003-C2",
+          "criterion": "Sum carbon across molecular and ionic pools without double-counting mirrored aqueous representations.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Each stage may expose a molecular-versus-aqueous ownership boundary; available oxygen includes the headspace.",
+        "Formal product acid/acetate proportions depend on the actual proton balance."
+      ],
+      "original_baseline": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+      "run_status": "UNISSUED on repaired source",
+      "prerequisites": "Integrated hydrolysis source, current artifact/API/browser acceptance and independently accepted original OR006 replay.",
+      "additional_review": "SOURCE-DOMAIN BLOCKER: sealing traps CO2, while the current hydrolysis admission excludes every carbonate/CO2 reservoir. Do not ignore air carbon or change the original boundary. First prove an expanded analytical-reserve contract and atomic controls; oxidation also needs available oxygen including trapped air. This is a static-source inference, not a new original-protocol execution."
+    },
+    {
+      "id": "batch2:ab-031",
+      "title": "Sweeping ammonia changes the composition of a basic buffer",
+      "script": "# AB-031: Sweeping ammonia changes the composition of a basic buffer\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NH4Cl 0.001mol\nadd v1 NH3 0.001mol\nseal v1 100mL\nnew\nadd v2 water 100mL\nadd v2 NH4Cl 0.001mol\nadd v2 NH3 0.001mol\nseal v2 100mL\nmeasure v1 ph\nmeasure v2 ph\nsweep v2 1bar\nwait 120s\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "af3626570548145f5564e4f2a8ff2a7c3a9fd10a7024bcb59c05746ecbd54251",
+      "original_forecast": "Selective NH3 removal should deplete the base component and lower pH relative to the sealed control; the ammonium/chloride reservoir is not itself a gas.",
+      "original_criteria": [
+        {
+          "id": "AB-031-C1",
+          "criterion": "A pH decrease is accompanied by a documented loss of nitrogen through the gas boundary.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "AB-031-C2",
+          "criterion": "Chloride remains retained and is not confused with volatile NH3.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "The sweep is an ideal boundary, not a specified physical gas-flow apparatus; NH3 transfer coverage must be checked."
+      ],
+      "original_baseline": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+      "run_status": "UNISSUED on repaired source",
+      "prerequisites": "Ammonia artifact/API/browser acceptance and independent original GS005 replay; sweep remains its own boundary model.",
+      "additional_review": "Own all per-vessel elapsed histories because globalwait advances both controls. Close nitrogen using actual swept exports, retain chloride and NH4 pools, compare pH with sealed control; finite-headspace improvement alone does not validate sweep."
+    }
+  ],
+  "new_engine_or_API_requests": 0,
+  "catalog_additions": 0
+}
