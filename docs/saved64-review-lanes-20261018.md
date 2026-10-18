@@ -38,8 +38,9 @@ readback, phase pinning and charge reconstruction, and `finite_gas_temperature.r
 at CO2 addition. First inspect pinned old/current changes. Freeze a minimal
 changed-source diagnostic with solvent-only and matched salt controls. Distinguish
 actual PHREEQC element totals, gas portions, oxidation-state pinning, reconstructed
-acid/base equivalents and rounded public species. Do not tune the solver or
-subtract the observed residual merely to pass this point.
+acid/base equivalents and rounded public species. The saved brine actually routes through Pitzer; this is not evidence that a
+salinity-capable model was never used. Do not tune the solver or subtract the
+observed residual merely to pass this point.
 
 **Done:** identify the responsible writer, retain its first failing current-source
 result if reproduced, and fix ownership across direct/comparison/repeated solve,
@@ -83,7 +84,11 @@ transfer/readback; `crates/kerotakis-phreeqc/tests/family_aqueous_tail.rs`.
 warm kinetic family and inspect their hydroxide-capacity owners. Use actual
 full-precision analytical base, not rounded displayed OH activity or residual
 NaOH molecules. Deduct residual acetic-acid neutralization before ester cleavage.
-Do not add naming aliases for an inventory-ownership failure.
+Do not add naming aliases for an inventory-ownership failure. Keep the
+counterion ledger explicit: consuming hydroxide equivalents while depositing
+neutral sodium acetate can double count sodium if the spectator cation is also
+retained. Test that path and either support other alkali counterions with a
+balanced net ionic reaction or state their precise admission boundary.
 
 **Done:** base-limited and ester-limited requests form matched acetate/ethanol,
 retain the correct excess, and close C/H/O/Na/charge. Include prior aqueous solve,
@@ -160,3 +165,28 @@ thermal pass is earned by conservation of atoms alone.
 Keep host operation details, tokens, private inventories and local resource
 thresholds in the ignored operating handoff. Use the normal protected PR workflow;
 never merge the broad audit branch to import this evidence.
+
+## H. Match the actual Pages payload to its reviewed interpreter profile
+
+**Input:** `.github/workflows/ci.yml` jobs `demo`, `iphreeqc-wasm` and
+`wasm-bridge`, plus `tools/build-{web,iphreeqc-wasm}.sh`. The two engine/bridge
+jobs explicitly select `IPHREEQC_BASIC_MODE=my-basic`; the `demo` job that builds
+and publishes Pages does not. The build helper defaults to `disabled`. Pages
+serving engine files200 therefore does not establish interpreter capability.
+This is a source/configuration finding; measure the actual published interpreter
+before claiming its observed failure. Keep PR827's current acceptance unchanged.
+
+**Work:** after the current Vercel release, use a fresh narrow branch from actual
+main. Bind the actual Pages JS/Wasm bytes and source metadata, then run a real
+`USER_PUNCH` arithmetic probe and an uncached Rust/aqueous solve. Preserve that
+first observation. Select the already reviewed MY-BASIC profile in the Pages
+payload job and test the generated site files themselves, rather than infer
+capability from a separate engine build or `canSolve()` flag. Keep the existing
+native/browser numerical comparison and interpreted/unsupported-mode tests.
+
+**Done:** source-bound CI verifies the actual published-payload engine executes
+BASIC and solves an uncached solution consistent with native. Complete applicable
+CI/fleet acceptance through normal protection, publish Pages, and independently
+verify the live bytes and capability. Keep REST-client/CORS acceptance separate
+from full Pages chemistry acceptance. No new interpreter, parameter data, science
+selection or calibration claim is needed for this build-profile repair.
