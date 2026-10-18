@@ -1,21 +1,22 @@
 {
   "status": "bound_before_browser_dispatch",
-  "expected_engine_source": "ed7c452d1a763396a18ef77663b9062007a1b03c",
-  "expected_binary_sha256": "f9358b91b24f73c060e08f15dbf7eca7aebb11706c8af85b09942f5b69fd743a",
+  "expected_engine_source": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+  "expected_binary_sha256": "e01b96e0b9abf050f733de45344556a43185648114d45059cf2ab774deaff068",
   "client_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
   "frontend_assets": {
     "iphreeqc.mjs": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
     "iphreeqc.wasm": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
     "kerotakis.mjs": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
     "kerotakis_wasm.js": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
-    "kerotakis_wasm_bg.wasm": "c82a0f04afebbd8d45d2b7b2eee6d73ea4b3db73a416dbedacb042b81d1d0c1d"
+    "kerotakis_wasm_bg.wasm": "388e0ff2f3fc0da77080a1745925f5b23d407fb0b4f9066d9771ae8e7b8c3343",
+    "rest.html": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21"
   },
   "native_bridge_reference": {
     "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
-    "response_sha256": "e8f48227e80d9ab20e61022b647c542c1e331334678f72403efc704c71b46ca9",
+    "response_sha256": "2c544976574ce270b1c4e099265ad6b48c9994fb0aa9acb8ddd8428872a96e6b",
     "engine": {
-      "source_head": "ed7c452d1a763396a18ef77663b9062007a1b03c",
-      "binary_sha256": "f9358b91b24f73c060e08f15dbf7eca7aebb11706c8af85b09942f5b69fd743a",
+      "source_head": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+      "binary_sha256": "e01b96e0b9abf050f733de45344556a43185648114d45059cf2ab774deaff068",
       "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
     },
     "solution": {
@@ -23,6 +24,6 @@
       "ionic_strength": 0.2708857843468
     }
   },
-  "producer_artifact_receipt_sha256": "03221ec01fdf57d5f5ee2d171f0d4472c61aae67dbd4954356d46ae5e1e327ae",
-  "protocol_design_sha256": "e2004a713092bd18a69251a7f754b7e669d038269b1b7a984e402d0a2e0d539c"
+  "producer_artifact_receipt_sha256": "5f40601fd68b47e1b1af7712bf2cd4e4697b12a71a37b09969f17e474c7331de",
+  "protocol_design_sha256": "18b3375f57c9dc72abfd01d2fd511d10e5dd183cf05fe0e0dfaff650168e060f"
 }
