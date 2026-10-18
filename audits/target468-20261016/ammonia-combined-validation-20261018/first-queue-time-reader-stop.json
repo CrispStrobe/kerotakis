@@ -1,0 +1,102 @@
+{
+  "first_stop": "Overstrict reader assumed no startedAt on cancelled queued placeholders. Scheduling timestamps alone do not establish execution.",
+  "second_stop": "Follow-up required runner_id=0, but dependent unassigned placeholders use null instead. Both states mean no assigned runner; every step list is empty.",
+  "raw_gh_run_view": {
+    "conclusion": "cancelled",
+    "headSha": "4c5d591aabffe1dc66385429f56b3730e2fd7bfe",
+    "jobs": [
+      {
+        "completedAt": "2026-10-18T18:28:56Z",
+        "conclusion": "cancelled",
+        "databaseId": 117754108604,
+        "name": "Build audited CLI once",
+        "startedAt": "2026-10-18T18:27:55Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754108604"
+      },
+      {
+        "completedAt": "2026-10-18T18:28:57Z",
+        "conclusion": "cancelled",
+        "databaseId": 117754336257,
+        "name": "Frozen fleet 195-218",
+        "startedAt": "2026-10-18T18:28:57Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754336257"
+      },
+      {
+        "completedAt": "2026-10-18T18:28:57Z",
+        "conclusion": "cancelled",
+        "databaseId": 117754336493,
+        "name": "Source fleet ${{ matrix.family }}",
+        "startedAt": "2026-10-18T18:28:57Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754336493"
+      },
+      {
+        "completedAt": "2026-10-18T18:28:57Z",
+        "conclusion": "cancelled",
+        "databaseId": 117754336543,
+        "name": "Frozen fleet 459-488",
+        "startedAt": "2026-10-18T18:28:57Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754336543"
+      },
+      {
+        "completedAt": "2026-10-18T18:28:57Z",
+        "conclusion": "cancelled",
+        "databaseId": 117754336607,
+        "name": "Source fleet v2 ${{ matrix.family }}",
+        "startedAt": "2026-10-18T18:28:57Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754336607"
+      },
+      {
+        "completedAt": "2026-10-18T18:28:57Z",
+        "conclusion": "cancelled",
+        "databaseId": 117754336861,
+        "name": "All 240 source-informed cases",
+        "startedAt": "2026-10-18T18:28:57Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754336861"
+      },
+      {
+        "completedAt": "2026-10-18T18:28:57Z",
+        "conclusion": "cancelled",
+        "databaseId": 117754336914,
+        "name": "Source fleet v3 ${{ matrix.family }}",
+        "startedAt": "2026-10-18T18:28:57Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754336914"
+      },
+      {
+        "completedAt": "2026-10-18T18:28:57Z",
+        "conclusion": "cancelled",
+        "databaseId": 117754337064,
+        "name": "All 120 source-informed v3 cases",
+        "startedAt": "2026-10-18T18:28:57Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754337064"
+      },
+      {
+        "completedAt": "2026-10-18T18:28:57Z",
+        "conclusion": "cancelled",
+        "databaseId": 117754337150,
+        "name": "All 288 source-informed v2 cases",
+        "startedAt": "2026-10-18T18:28:57Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754337150"
+      }
+    ],
+    "status": "completed"
+  },
+  "qualification": "No compiler or experimental steps were issued by either failed reader; all raw unassigned job receipts retained before transfer acceptance."
+}

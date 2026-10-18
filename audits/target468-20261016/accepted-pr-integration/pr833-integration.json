@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-18T18:08:13.329438+00:00",
+  "pr": 833,
+  "head": "e9cc87822ac4db19dd99c8870d3a3dc4802b447f",
+  "merge": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+  "parents": [
+    "dca5782b2551f88cd8937a5212d355d17fb5e2d4",
+    "e9cc87822ac4db19dd99c8870d3a3dc4802b447f"
+  ],
+  "actual_tree": "95c7b6588bfe2d0e25e5982b38a7f4311b2e8a8e",
+  "reconstructed_tree": "95c7b6588bfe2d0e25e5982b38a7f4311b2e8a8e",
+  "ci25_pass": true,
+  "native_both_platforms_reviewed": true,
+  "all33_original_logical_jobs_accepted": true,
+  "not_a_deployment_claim": true
+}

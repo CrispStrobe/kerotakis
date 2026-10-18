@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-18T18:30:52.434681+00:00",
+  "source": "4c5d591aabffe1dc66385429f56b3730e2fd7bfe",
+  "workflow_run": 39154263789,
+  "all_jobs_cancelled_with_no_assigned_runner_and_no_executed_steps": true,
+  "no_compile_or_original_experiment_repeated": true,
+  "github_success_claimed": false
+}

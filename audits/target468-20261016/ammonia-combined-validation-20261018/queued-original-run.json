@@ -1,0 +1,17 @@
+{
+  "conclusion": "",
+  "headSha": "4c5d591aabffe1dc66385429f56b3730e2fd7bfe",
+  "jobs": [
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 117754108604,
+      "name": "Build audited CLI once",
+      "startedAt": "2026-10-18T18:27:55Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39154263789/job/117754108604"
+    }
+  ],
+  "status": "queued"
+}
