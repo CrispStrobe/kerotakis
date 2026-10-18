@@ -1,0 +1,10 @@
+{
+  "schema": "kerotakis-source-aggregate-v3",
+  "families": 5,
+  "cases": 120,
+  "relations": 30,
+  "checks": 150,
+  "commit": "4c5d591aabffe1dc66385429f56b3730e2fd7bfe",
+  "binary_sha256": "b00e87bc034cbf273ddfdb7bc68e641bde04970b16d2d0ef9e8c3e9adc5e247e",
+  "unmet_families": []
+}

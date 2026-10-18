@@ -1,0 +1,309 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "291-daniell-copper-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "292-daniell-copper-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "293-daniell-copper-0.005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "294-daniell-copper-0.01: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "295-daniell-zinc-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "296-daniell-zinc-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "297-daniell-zinc-0.005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "298-daniell-zinc-0.01: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "299-electrolysis-charge-fast: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "300-electrolysis-charge-slow: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "301-electrolysis-charge-split: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "302-electrolysis-charge-unequal: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "303-electrolysis-time-15: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "304-electrolysis-time-30: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "305-electrolysis-time-60: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "306-electrolysis-time-120: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "307-electrolysis-current-0.05: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "308-electrolysis-current-0.1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "309-electrolysis-current-0.2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "310-electrolysis-current-0.4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "311-electrolysis-extensive-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "312-electrolysis-extensive-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "313-electrolysis-extensive-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "314-electrolysis-extensive-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "electrochemistry:ec-copper-activity-voltage",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        1.0784708895186665,
+        1.0850155645674533,
+        1.0987749977654262,
+        1.104261907386323
+      ]
+    },
+    {
+      "check": "electrochemistry:ec-zinc-activity-voltage",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        1.1279521172715827,
+        1.1215105171298039,
+        1.1079710486821386,
+        1.1025151912762707
+      ]
+    },
+    {
+      "check": "electrochemistry:ec-equal-charge-inventory",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "check": "electrochemistry:ec-time-hydrogen-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        1.5546404484926594e-05,
+        3.109280896985319e-05,
+        6.218561793970638e-05,
+        0.00012437123587941276
+      ]
+    },
+    {
+      "check": "electrochemistry:ec-time-element-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "303-electrolysis-time-15": [
+          {
+            "Na": 0.0020000000000000855,
+            "S": 0.0010000000000000427
+          },
+          {
+            "Na": 0.0020000000000000855,
+            "S": 0.0010000000000000427
+          }
+        ],
+        "304-electrolysis-time-30": [
+          {
+            "Na": 0.0020000000000000855,
+            "S": 0.0010000000000000427
+          },
+          {
+            "Na": 0.0020000000000000855,
+            "S": 0.0010000000000000427
+          }
+        ],
+        "305-electrolysis-time-60": [
+          {
+            "Na": 0.0020000000000000855,
+            "S": 0.0010000000000000427
+          },
+          {
+            "Na": 0.0020000000000000855,
+            "S": 0.0010000000000000427
+          }
+        ],
+        "306-electrolysis-time-120": [
+          {
+            "Na": 0.0020000000000000855,
+            "S": 0.0010000000000000427
+          },
+          {
+            "Na": 0.0020000000000000855,
+            "S": 0.0010000000000000427
+          }
+        ]
+      }
+    },
+    {
+      "check": "electrochemistry:ec-current-hydrogen-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        1.9433005606158243e-05,
+        3.8866011212316486e-05,
+        7.773202242463297e-05,
+        0.00015546404484926594
+      ]
+    },
+    {
+      "check": "electrochemistry:ec-extensive-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "311-electrolysis-extensive-1": [
+          {
+            "K": 0.00045,
+            "N": 0.00045
+          },
+          {
+            "K": 0.00045,
+            "N": 0.00045
+          }
+        ],
+        "312-electrolysis-extensive-2": [
+          {
+            "K": 0.0009,
+            "N": 0.0009
+          },
+          {
+            "K": 0.0009,
+            "N": 0.0009
+          }
+        ],
+        "313-electrolysis-extensive-3": [
+          {
+            "K": 0.00135,
+            "N": 0.00135
+          },
+          {
+            "K": 0.00135,
+            "N": 0.00135
+          }
+        ],
+        "314-electrolysis-extensive-4": [
+          {
+            "K": 0.0018,
+            "N": 0.0018
+          },
+          {
+            "K": 0.0018,
+            "N": 0.0018
+          }
+        ]
+      }
+    }
+  ],
+  "passed": 31,
+  "unmet": 0
+}

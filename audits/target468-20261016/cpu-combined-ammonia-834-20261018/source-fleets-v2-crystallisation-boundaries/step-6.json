@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/crystallisation-boundaries' --family 'crystallisation-boundaries' --out 'audit-evidence-v2/crystallisation-boundaries/crystallisation-boundaries-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "dff833f746f5c5a52e12a745aa40ce8210e50d08f0e19874eae5d410dded9513",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "phase_cooling_energy",
+    "--test",
+    "phase_routes",
+    "--test",
+    "phase_heat_capacity",
+    "--test",
+    "energy_transfer",
+    "--test",
+    "phase_without_aqueous",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "a9bace1c83ae5d15f5ffc210523e869a8ef8d5fdaf54a6d1eef8b21945d2aa65",
+  "stderr_sha256": "1c7f511889537b80ef0899b4e752b7c4aabd0d2f5a78c791f9f46c8ca2e7172e"
+}

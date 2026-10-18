@@ -1,0 +1,9 @@
+{
+  "source": "4c5d591aabffe1dc66385429f56b3730e2fd7bfe",
+  "raw_native_stderr_sha256": "9520dd920bfe73ad28b8e4ad3c8836fa45039436447e3440537cd8727b3275cd",
+  "preauthored_groups": 12,
+  "acid_arms": 24,
+  "max_gas_ratio": "0.000001516051634658863767899740668059792673342",
+  "max_atom_charge_residual": "1.6554406422248E-12",
+  "new_engine_calls": 0
+}

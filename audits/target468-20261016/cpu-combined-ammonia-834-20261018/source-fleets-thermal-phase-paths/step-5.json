@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/thermal-phase-paths' --family 'thermal-phase-paths' --out 'audit-evidence/thermal-phase-paths/thermal-phase-paths-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "b8327a4599e0e4d3f7c6d809732dbc6de0b73196cebff36100c8d83af2661ba2",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

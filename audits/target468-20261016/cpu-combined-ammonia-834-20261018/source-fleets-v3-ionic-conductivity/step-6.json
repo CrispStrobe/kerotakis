@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/ionic-conductivity' --family 'ionic-conductivity' --out 'audit-evidence-v3/ionic-conductivity/ionic-conductivity-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "ab8f376f80dd9b15c21ec0314118ba0bceda12d1c92085a07f278c07e3fd51d8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

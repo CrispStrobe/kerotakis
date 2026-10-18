@@ -1,0 +1,11 @@
+# Combined ammonia source: authenticated CPU acceptance
+
+Exact source `4c5d591aabffe1dc66385429f56b3730e2fd7bfe`, tree `9645be711e82397b081ec6a99c6c68e0131257a3`, incorporates accepted initializer main `d3883757` through a normal signed merge. Its actual compiler, native binary, generated producer Cargo.lock and runtime identity are retained in the engine binding.
+
+Root authenticated805 evidence hashes and2,193 artifact-member hashes, all142 original run commands across33 logical fleet jobs and all29 named-law reports. Original aggregates pass. Clippy,610 PHREEQC/CEA tests and31 core phase controls pass with zero ignored tests. The required original ammonia, finite-inventory and paid-phase controls are present and pass. Raw per-step and native output is preserved; the full native artifact archive is retained separately with its digest and every member hash published here.
+
+A separate40-digit formula/charge reader reviews all12 pre-authored neutral/acid-first/acid-after groups across three volumes, two doses and rigid/regulated boundaries. Across24 acid arms, the maximum NH3 gas fraction relative to neutral is1.51605e-6; the maximum atom/charge delta residual is1.65544e-12mol/eq. Reproduce this saved calculation with `python3 audits/target468-20261016/cpu-combined-ammonia-834-20261018/review_saved_inventories.py`. No engine or network call occurs.
+
+The earlier528-test acceptance belongs to `6dee9254` and remains separate. First native failures and the invalid display-formula gas admission remain preserved. The original GitHub fleet was normally cancelled before any assigned runner or executed step; its full original command set was transferred once. Two queue-metadata reader mistakes remain preserved. CPU completion is not a fabricated GitHub success.
+
+This closes current combined-source regression and independent chemical acceptance. Remaining platform/protected checks, both actual native platform log reviews, normal integration and deployed original GS005 replay are separate. No scientific catalog selection, general complex-bound ligand support or empirical calibration is claimed. The catalog remains214 overall /210 fixed468 from independently qualified protocols.

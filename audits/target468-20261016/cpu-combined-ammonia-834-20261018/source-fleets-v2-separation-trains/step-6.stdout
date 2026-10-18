@@ -1,0 +1,455 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "633-sand-brine-scale-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "634-sand-brine-scale-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "635-sand-brine-scale-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "636-sand-brine-scale-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "637-brine-path-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "638-brine-path-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "639-brine-path-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "640-brine-path-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "641-still-route-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "642-still-route-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "643-still-route-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "644-still-route-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "645-filter-decant-0.2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "646-filter-decant-0.4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "647-filter-decant-0.6: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "648-filter-decant-0.8: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "649-filter-salt-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "650-filter-salt-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "651-filter-salt-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "652-filter-salt-0.008: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "653-dry-filtrate-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "654-dry-filtrate-300: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "655-dry-filtrate-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "656-dry-filtrate-500: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "separation-trains:v2b-separation-trains-filter-scale",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "633-sand-brine-scale-1": [
+          {
+            "Si": 0.001,
+            "Na": 0.004,
+            "Cl": 0.004
+          },
+          {
+            "Si": 0.001,
+            "Na": 0.004,
+            "Cl": 0.004
+          }
+        ],
+        "634-sand-brine-scale-2": [
+          {
+            "Si": 0.002,
+            "Na": 0.008,
+            "Cl": 0.008
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.008,
+            "Cl": 0.008
+          }
+        ],
+        "635-sand-brine-scale-3": [
+          {
+            "Si": 0.003,
+            "Na": 0.012,
+            "Cl": 0.012
+          },
+          {
+            "Si": 0.003,
+            "Na": 0.012,
+            "Cl": 0.012
+          }
+        ],
+        "636-sand-brine-scale-4": [
+          {
+            "Si": 0.004,
+            "Na": 0.016,
+            "Cl": 0.016
+          },
+          {
+            "Si": 0.004,
+            "Na": 0.016,
+            "Cl": 0.016
+          }
+        ]
+      }
+    },
+    {
+      "check": "separation-trains:v2b-separation-trains-evaporation-path",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 11.068553982792118
+        },
+        {
+          "water|liquid": 11.068553982792118
+        },
+        {
+          "water|liquid": 11.068553982792118
+        },
+        {
+          "water|liquid": 11.068553982792118
+        }
+      ]
+    },
+    {
+      "check": "separation-trains:v2b-separation-trains-still-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "641-still-route-1": [
+          {
+            "C": 0.6,
+            "H": 7.8,
+            "O": 3.3
+          },
+          {
+            "C": 0.6,
+            "H": 7.799999999999999,
+            "O": 3.3000000000000003
+          }
+        ],
+        "642-still-route-2": [
+          {
+            "C": 0.6,
+            "H": 7.8,
+            "O": 3.3
+          },
+          {
+            "C": 0.6,
+            "H": 7.799999999999999,
+            "O": 3.3000000000000003
+          }
+        ],
+        "643-still-route-3": [
+          {
+            "C": 1.2,
+            "H": 15.6,
+            "O": 6.6
+          },
+          {
+            "C": 1.2,
+            "H": 15.6,
+            "O": 6.6000000000000005
+          }
+        ],
+        "644-still-route-4": [
+          {
+            "C": 1.2,
+            "H": 15.6,
+            "O": 6.6
+          },
+          {
+            "C": 1.2,
+            "H": 15.6,
+            "O": 6.6000000000000005
+          }
+        ]
+      }
+    },
+    {
+      "check": "separation-trains:v2b-separation-trains-decant-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "645-filter-decant-0.2": [
+          {
+            "Si": 0.002,
+            "Na": 0.006,
+            "Cl": 0.006
+          },
+          {
+            "Si": 0.0019999999999999996,
+            "Na": 0.006,
+            "Cl": 0.006
+          }
+        ],
+        "646-filter-decant-0.4": [
+          {
+            "Si": 0.002,
+            "Na": 0.006,
+            "Cl": 0.006
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.006,
+            "Cl": 0.006
+          }
+        ],
+        "647-filter-decant-0.6": [
+          {
+            "Si": 0.002,
+            "Na": 0.006,
+            "Cl": 0.006
+          },
+          {
+            "Si": 0.0019999999999999996,
+            "Na": 0.006,
+            "Cl": 0.006
+          }
+        ],
+        "648-filter-decant-0.8": [
+          {
+            "Si": 0.002,
+            "Na": 0.006,
+            "Cl": 0.006
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.006,
+            "Cl": 0.006
+          }
+        ]
+      }
+    },
+    {
+      "check": "separation-trains:v2b-separation-trains-nitrate-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "649-filter-salt-0.001": [
+          {
+            "Si": 0.002,
+            "Na": 0.001,
+            "N": 0.001
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.001,
+            "N": 0.001
+          }
+        ],
+        "650-filter-salt-0.002": [
+          {
+            "Si": 0.002,
+            "Na": 0.002,
+            "N": 0.002
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.002,
+            "N": 0.002
+          }
+        ],
+        "651-filter-salt-0.004": [
+          {
+            "Si": 0.002,
+            "Na": 0.004,
+            "N": 0.004
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.004,
+            "N": 0.004
+          }
+        ],
+        "652-filter-salt-0.008": [
+          {
+            "Si": 0.002,
+            "Na": 0.008,
+            "N": 0.008
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.008,
+            "N": 0.008
+          }
+        ]
+      }
+    },
+    {
+      "check": "separation-trains:v2b-separation-trains-dry-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "653-dry-filtrate-200": [
+          {
+            "Si": 0.002,
+            "Na": 0.01,
+            "Cl": 0.01
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.01,
+            "Cl": 0.01
+          }
+        ],
+        "654-dry-filtrate-300": [
+          {
+            "Si": 0.002,
+            "Na": 0.01,
+            "Cl": 0.01
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.01,
+            "Cl": 0.01
+          }
+        ],
+        "655-dry-filtrate-400": [
+          {
+            "Si": 0.002,
+            "Na": 0.01,
+            "Cl": 0.01
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.01,
+            "Cl": 0.01
+          }
+        ],
+        "656-dry-filtrate-500": [
+          {
+            "Si": 0.002,
+            "Na": 0.010000000000000002,
+            "Cl": 0.010000000000000002
+          },
+          {
+            "Si": 0.002,
+            "Na": 0.010000000000000002,
+            "Cl": 0.010000000000000002
+          }
+        ]
+      }
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "4c5d591aabffe1dc66385429f56b3730e2fd7bfe",
+  "binary_sha256": "b00e87bc034cbf273ddfdb7bc68e641bde04970b16d2d0ef9e8c3e9adc5e247e"
+}
