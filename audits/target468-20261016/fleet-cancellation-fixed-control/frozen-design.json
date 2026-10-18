@@ -1,0 +1,16 @@
+{
+  "source": "f3517e089018d661d52e6c6afd456eb254e54c3c",
+  "branch": "fix/cancellable-fleet-aggregates-20261018",
+  "scope": "Single intentional normal-cancellation scheduler control. Not a chemistry execution or source acceptance run. Normal PR fleet remains separate.",
+  "forecast": {
+    "one_normal_cancel_request": true,
+    "terminal_conclusion": "cancelled",
+    "no_aggregate_left_queued": true,
+    "no_force_cancel_needed": true,
+    "no_physics_recording_started": true
+  },
+  "deadline_after_cancel_seconds": 90,
+  "catalog_additions": 0,
+  "chemical_reexecutions_authorized": 0,
+  "frozen_utc": "2026-10-18T10:37:58.555937+00:00"
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "original_record": "before-normal-cancel.json",
+    "original_sha256": "3a3a800e07d4e1b3c862c477557caa4a6d42bf3b037e7768e5ce9f6bcfd96f55",
+    "source": "f3517e089018d661d52e6c6afd456eb254e54c3c",
+    "status": "queued",
+    "conclusion": "",
+    "jobs": [
+      {
+        "id": 117653647151,
+        "name": "Build audited CLI once",
+        "status": "queued",
+        "conclusion": "",
+        "record_steps": []
+      }
+    ]
+  },
+  {
+    "original_record": "observation-00.json",
+    "original_sha256": "0f353a8d296f7bcc8d8e9df8d1c0755cefd8c2f3529b8fc5f67fde70f85226a3",
+    "source": "f3517e089018d661d52e6c6afd456eb254e54c3c",
+    "status": "queued",
+    "conclusion": "",
+    "jobs": [
+      {
+        "id": 117653647151,
+        "name": "Build audited CLI once",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662197,
+        "name": "Source fleet v2 ${{ matrix.family }}",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662258,
+        "name": "All 120 source-informed v3 cases",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662298,
+        "name": "Frozen fleet 195-218",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662304,
+        "name": "Source fleet v3 ${{ matrix.family }}",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662401,
+        "name": "Frozen fleet 459-488",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662415,
+        "name": "All 240 source-informed cases",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662562,
+        "name": "Source fleet ${{ matrix.family }}",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662587,
+        "name": "All 288 source-informed v2 cases",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      }
+    ]
+  },
+  {
+    "original_record": "observation-01.json",
+    "original_sha256": "da953b21f051c676906edb7e9e85305e7aa28aa6bd8732ed3205bfaa7d26aa2e",
+    "source": "f3517e089018d661d52e6c6afd456eb254e54c3c",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "jobs": [
+      {
+        "id": 117653647151,
+        "name": "Build audited CLI once",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662197,
+        "name": "Source fleet v2 ${{ matrix.family }}",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662258,
+        "name": "All 120 source-informed v3 cases",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662298,
+        "name": "Frozen fleet 195-218",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662304,
+        "name": "Source fleet v3 ${{ matrix.family }}",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662401,
+        "name": "Frozen fleet 459-488",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662415,
+        "name": "All 240 source-informed cases",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662562,
+        "name": "Source fleet ${{ matrix.family }}",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      },
+      {
+        "id": 117653662587,
+        "name": "All 288 source-informed v2 cases",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "record_steps": []
+      }
+    ]
+  }
+]

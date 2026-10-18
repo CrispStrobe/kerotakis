@@ -1,0 +1,29 @@
+{
+  "source": "f3517e089018d661d52e6c6afd456eb254e54c3c",
+  "run": 39120053704,
+  "conclusion": "cancelled",
+  "normal_cancellation_terminal": true,
+  "no_force_cancel": true,
+  "aggregate_states": [
+    {
+      "name": "All 120 source-informed v3 cases",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "All 240 source-informed cases",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "All 288 source-informed v2 cases",
+      "status": "completed",
+      "conclusion": "cancelled"
+    }
+  ],
+  "no_queued_or_running_jobs_remain": true,
+  "no_physics_record_step_executed": true,
+  "ordinary_CI_and_full_fleet_acceptance_still_required": true,
+  "catalog_additions": 0,
+  "qualification": "Actual GitHub scheduler cancellation observation only, not a successful chemistry workflow or a simulator pass."
+}

@@ -100,3 +100,32 @@ PR824 and827 each satisfied all33 original fleet logical jobs against authentica
 [Parser raw acceptance](https://github.com/CrispStrobe/kerotakis/tree/53c3eee5396018927d608a28db35945056ebebfb/audits/target468-20261016/hybrid-own-fleet-20261018/pr824) and [deployment repair raw acceptance](https://github.com/CrispStrobe/kerotakis/tree/009add4b19c491e25e49a5ea6715bd519c68c92f/audits/target468-20261016/hybrid-own-fleet-20261018/pr827) retain original commands, source/test hashes, generated producer lock bytes and raw local recordings. The original240/288/120-case aggregates for827 have zero unmet families. This adds no catalog selections or empirical calibration.
 
 All64 saved cases now also have [reproducible supplemental preparation](https://github.com/CrispStrobe/kerotakis/blob/f865e4c23566043f3224598d466a4459757cfe62/audits/target468-20261016/saved64-review-preparation/README.md), including owned gas, kinetics, named-organic, separation and thermal arithmetic. These calculations add no scientific selections or current-source claims. PR826 reviewed head `1f6a1bf7` is ready with normal auto-merge enabled; its protected documentation checks are queued. Production has not yet been advanced or claimed verified.
+
+## Prepared follow-ups from two new native failures
+
+The prior delivery checkpoint remains first. While its protected checks waited,
+three narrow follow-ups were prepared from actual main; none is yet accepted,
+integrated or deployed:
+
+| PR | Reviewed head | Evidence and behavior | Pending acceptance |
+| --- | --- | --- | --- |
+| [828](https://github.com/CrispStrobe/kerotakis/pull/828) | `f309ec3c` | New0.1mol/100J native Zn control reports0.005468mol melting but owns all0.1mol liquid. Preserve supported paid coexistence fractions when CEA changes neither chemical amounts nor atmosphere. | Actual native controls on both platforms, full original fleet and prior production checkpoint. General reacting multiphase HP energy remains separately scoped. |
+| [829](https://github.com/CrispStrobe/kerotakis/pull/829) | `7b5f62d1` | A smaller native sample confirms missing ethyl-acetate parameters are silently omitted beside an ethanol peak. Report model gaps independently of supported peaks; preserve ionic method exclusions. | Actual core/native controls, full fleet and prior production checkpoint. Missing retention parameters remain unsupported. |
+| [830](https://github.com/CrispStrobe/kerotakis/pull/830) | `f3517e08` | Three aggregate cancellation conditions follow the documented cancellation-sensitive form; failed-family evidence uploads and all33 job assertions remain intact. | The actual normal-cancellation control passes; ordinary CI/full fleet and protected integration remain pending. |
+
+Both smaller native controls use authenticated accepted source `5194f961`, binary
+`d21fa912`, with the relevant domain source compared to actual main. They are not
+combined-main deployment claims or repeats of the original four REST protocols.
+The first failures and original forecasts are preserved on their narrow branches.
+A clock wait includes ambient heat exchange, so the new phase tests distinguish
+unchanged settlement from explicit cooling rather than forcing a false time invariant.
+
+The [actual corrected-source cancellation control](../audits/target468-20261016/fleet-cancellation-fixed-control/README.md)
+became terminal after one normal cancellation, with all three aggregates cancelled
+and no queued/running jobs left, without force cancellation or a physics recording.
+It is scheduler acceptance only; its workflow conclusion is cancelled, not green
+chemistry acceptance. The source heads above retain normal independent CI/fleet work.
+
+PR826 protected checks have started running. Its exact head and normal auto-merge
+remain stable; the guarded production and postflight sequence waits on actual
+integration. All668 first results and the200 /196 scientific counts are unchanged.

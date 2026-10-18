@@ -9,7 +9,7 @@ GitHub references. Local operation details belong only in an ignored handoff.
 
 ## Start here
 
-1. Fetch actual main and inspect PR826 and the production delivery, their exact heads, current checks and
+1. Fetch actual main and inspect PR826, the production delivery and prepared PR828–830, their exact heads, current checks and
    active workflows. A queued check is neither a failure nor an acceptance.
 2. Consult the ignored local operating handoff if present before touching
    worktrees, build targets, evidence or running controllers. Check load, available
@@ -285,3 +285,37 @@ and this handover after a material change. Keep pending, implemented, accepted,
 integrated and deployed states distinct. Preserve dated evidence rather than
 rewriting it. Public prose must contain no host paths, private snapshots,
 credentials, hostnames, session inventories or resource inventories.
+
+## Prepared repairs while the prior delivery queue waits
+
+Keep the earlier accepted-source production checkpoint first; preparation does
+not authorize merging an unaccepted product change. Refresh actual heads/checks.
+
+1. **PR828** `f309ec3c`: read its `docs/paid-metal-phase-fractions.md`, original
+   smaller native failure and new native tests. Require actual successful focused
+   records from both platforms plus all33 original fleet jobs. Preserve Zn/Pb
+   below/at/above budget, repeated zero-time settlement, explicit cooling/pouring,
+   molecular and real-oxidation controls. The handoff is limited to supported
+   solid/liquid coexistence at the core plateau, unchanged chemical amounts and
+   unchanged actual atmosphere; display-event absence alone is insufficient.
+   Phase-aware input enthalpy and general HP discontinuity closure remain separate.
+2. **PR829** `7b5f62d1`: read `docs/chromatogram-partial-coverage.md`. The reporting
+   omission is missing-model warnings beside supported peaks, not the empty
+   ionic `outside_method` field. Require real native/core mixed-sample controls,
+   unchanged neutral inventory and the full fleet. Never label unsupported
+   neutrals ions or invent retention coefficients. SP012 stays held for its
+   missing model coverage even when this reporting repair is accepted.
+3. **PR830** `f3517e08`: read `docs/chemistry-fleet-cancellation.md` and the public
+   scheduler receipt in STATUS. Its separate normal-cancellation control already
+   passed with zero physics recordings and no force request. Ordinary full CI
+   and33 fleet successes are still required. Preserve failed-family aggregation
+   and step-level raw uploads; a cancelled run is not a scientific pass.
+
+Normal exact-reviewed-head auto-merge applies once each named acceptance and the
+prior production checkpoint are complete. Verify actual merge parents/tree and
+update maintained summaries. Keep PRs draft only while those named gates remain.
+After accepted runtime follow-ups merge, freeze a separate release from that
+combined main and repeat only the changed-source controls needed to establish
+actual delivery. Do not overwrite the first production checkpoint or rerun the
+unchanged668 corpus. The catalog remains200/fixed196 until independent final
+selection review earns additional supported cases.

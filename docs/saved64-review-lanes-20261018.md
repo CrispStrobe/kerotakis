@@ -78,6 +78,8 @@ reverse cooling, transfer and a second metal plus a molecular-solid control.
 No new oxide may appear without an oxygen source. Preserve original TH016 and
 freeze repaired-source evidence separately.
 
+Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses the destructive unchanged-chemistry readback boundary, with a separate smaller native first failure. Its actual repaired native/fleet acceptance is pending. The guard is restricted to supported paid coexistence plateaus; it does not implement general phase-aware CEA input enthalpy or energy closure across reacting HP phase transitions. Keep those algorithmic tasks separate.
+
 ## D. Share authoritative aqueous base with named ester hydrolysis
 
 **Cases:** OR006–009. Explicit `react ... saponification` leaves ester unchanged
@@ -113,6 +115,8 @@ report missing-method species rather than silently implying absence. Require
 actual differentiated peaks only where parameters exist, unchanged sample
 inventory, response-factor qualification and CLI/browser parity. Unsupported
 parameters are a coverage limit, not a license to invent retention constants.
+
+Prepared [PR829](https://github.com/CrispStrobe/kerotakis/pull/829) corrects the lost missing-model warning beside supported peaks. `outside_method` should remain the ionic-method exclusion list; an unsupported neutral belongs in a separate parameter-gap warning. The new smaller native failure confirms this distinction. Actual repaired native/fleet acceptance remains pending and SP012 stays held for missing retention coverage.
 
 For **SP003**, inspect distillation's accumulated-condensate positivity refusal.
 One stage delivers product; four stages refuse atomically. Freeze matched feed,
