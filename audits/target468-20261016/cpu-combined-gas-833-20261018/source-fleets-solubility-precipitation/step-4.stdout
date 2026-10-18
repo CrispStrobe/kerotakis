@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+243-silver-chloride-salt-first exit= 0 steps= 5
+244-silver-chloride-silver-first exit= 0 steps= 5
+245-silver-chloride-split-salt exit= 0 steps= 6
+246-silver-chloride-split-silver exit= 0 steps= 6
+247-silver-chloride-scale-1 exit= 0 steps= 5
+248-silver-chloride-scale-2 exit= 0 steps= 5
+249-silver-chloride-scale-3 exit= 0 steps= 5
+250-silver-chloride-scale-4 exit= 0 steps= 5
+251-silver-limited-chloride-0.001 exit= 0 steps= 5
+252-silver-limited-chloride-0.002 exit= 0 steps= 5
+253-silver-limited-chloride-0.004 exit= 0 steps= 5
+254-silver-limited-chloride-0.008 exit= 0 steps= 5
+255-chloride-limited-silver-0.001 exit= 0 steps= 5
+256-chloride-limited-silver-0.002 exit= 0 steps= 5
+257-chloride-limited-silver-0.004 exit= 0 steps= 5
+258-chloride-limited-silver-0.008 exit= 0 steps= 5
+259-carbonate-calcium-first exit= 0 steps= 5
+260-carbonate-carbonate-first exit= 0 steps= 5
+261-carbonate-split-calcium exit= 0 steps= 6
+262-carbonate-split-carbonate exit= 0 steps= 6
+263-filter-agcl-reference exit= 0 steps= 7
+264-filter-agcl-split-feed exit= 0 steps= 8
+265-filter-agcl-reverse-feed exit= 0 steps= 7
+266-filter-agcl-split-silver exit= 0 steps= 8

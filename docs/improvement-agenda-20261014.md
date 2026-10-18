@@ -107,3 +107,5 @@ of all original criteria, without a new simulation. The working catalog is204
 source-qualified entries, including200 of fixed468. The41 remaining first-screen
 candidates need their own criterion/domain review; historical holds and original
 first outcomes are preserved. See STATUS for the complete catalog and receipt.
+
+Current accepted-source receipts: [PR829 fleet](../audits/target468-20261016/hybrid-own-fleet-20261018/pr829/README.md), [verified integration](../audits/target468-20261016/accepted-pr-integration/pr829-integration.json), and [PR833 combined-source native/fleet acceptance](../audits/target468-20261016/cpu-combined-gas-833-20261018/README.md). Scientific catalog remains204 overall /200 fixed468. A separate current-accepted-equivalent ammonia control reproduces inconsistent neutral-gas/protonation coupling; lane I remains open, with no new scientific selection.

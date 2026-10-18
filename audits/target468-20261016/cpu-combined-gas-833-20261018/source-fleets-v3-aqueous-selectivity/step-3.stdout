@@ -1,0 +1,2 @@
+{"families": 5, "cases": 120, "distinct_scripts": 120}
+{"safe_assertions": ["case-elements-conserved", "event-boundary-present", "event-components-total-order", "event-present", "event-scalar-equal", "event-scalar-order", "final-elements-equal", "final-inventory-equal", "final-scalar-equal", "final-scalar-order"], "mutation_tests": {"valid": "passed", "missing-evidence": "rejected", "nonfinite": "rejected", "unregistered-species": "rejected", "missing-boundary": "rejected", "altered-inventory": "rejected", "malformed-components": "rejected"}}

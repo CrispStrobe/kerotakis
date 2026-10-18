@@ -1,0 +1,1051 @@
+{
+  "fleet": "seventh-459-488",
+  "cases": 30,
+  "checks": [
+    {
+      "check": "459: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "460: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "461: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 5,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "462: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 5,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "463: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 5,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "464: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 5,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "465: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "466: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 5,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "467: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 6,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "468: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "469: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "470: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 5,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "471: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 5,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "472: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "473: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "474: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "475: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "476: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "477: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "478: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "479: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "480: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "481: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "482: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "483: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "484: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 6,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "485: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "486: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 6,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "487: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 6,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "488: complete finite execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "459: conserved finite ammonia partition and threshold-consistent litmus",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "total_mol": 0.005,
+        "gas_mol": 0.004999999999999999,
+        "gas_fraction": 0.9999999999999998,
+        "test": {
+          "event": "gas_tested",
+          "notes": "damp red litmus turns blue \u2014 NH\u2083 detected (mole fraction 19.7%)",
+          "positive": true,
+          "test": "damp_litmus",
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "460: conserved finite ammonia partition and threshold-consistent litmus",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "total_mol": 0.01,
+        "gas_mol": 0.009999999999999998,
+        "gas_fraction": 0.9999999999999998,
+        "test": {
+          "event": "gas_tested",
+          "notes": "damp red litmus turns blue \u2014 NH\u2083 detected (mole fraction 32.9%)",
+          "positive": true,
+          "test": "damp_litmus",
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "461: conserved finite ammonia partition and threshold-consistent litmus",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "total_mol": 0.010000000000000307,
+        "gas_mol": 3.562582926138611e-05,
+        "gas_fraction": 0.0035625829261385013,
+        "test": {
+          "event": "gas_tested",
+          "notes": "damp red litmus turns blue \u2014 NH\u2083 detected (mole fraction 0.2%)",
+          "positive": true,
+          "test": "damp_litmus",
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "462: conserved finite ammonia partition and threshold-consistent litmus",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "total_mol": 0.01000000000000116,
+        "gas_mol": 6.980962016977473e-06,
+        "gas_fraction": 0.0006980962016976662,
+        "test": {
+          "event": "gas_tested",
+          "notes": "litmus stays red \u2014 NH\u2083 mole fraction 0.04% is below the 0.1% detection floor",
+          "positive": false,
+          "test": "damp_litmus",
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "463: conserved finite ammonia partition and threshold-consistent litmus",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "total_mol": 0.00999999999999504,
+        "gas_mol": 1.7869126749576375e-05,
+        "gas_fraction": 0.0017869126749585236,
+        "test": {
+          "event": "gas_tested",
+          "notes": "litmus stays red \u2014 NH\u2083 mole fraction 0.08% is below the 0.1% detection floor",
+          "positive": false,
+          "test": "damp_litmus",
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "464: conserved finite ammonia partition and threshold-consistent litmus",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "total_mol": 0.009999999999999919,
+        "gas_mol": 6.623576785881082e-05,
+        "gas_fraction": 0.006623576785881135,
+        "test": {
+          "event": "gas_tested",
+          "notes": "damp red litmus turns blue \u2014 NH\u2083 detected (mole fraction 0.3%)",
+          "positive": true,
+          "test": "damp_litmus",
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "459/460: dose ordering",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "459": 0.004999999999999999,
+        "460": 0.009999999999999998
+      }
+    },
+    {
+      "check": "460/461/462: water-retention ordering",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "460": 0.9999999999999998,
+        "461": 0.0036149352243733867,
+        "462": 0.0007202003015043028
+      }
+    },
+    {
+      "check": "463/464: temperature partition ordering",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "463": {
+          "temperature_k": 283.4357150008873,
+          "gas_mol": 1.7869126749576375e-05
+        },
+        "464": {
+          "temperature_k": 313.39219969858266,
+          "gas_mol": 6.623576785881082e-05
+        }
+      }
+    },
+    {
+      "check": "465: declared ester equilibrium",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial": {
+          "CH3COOH": 0.01,
+          "ethanol": 0.01,
+          "ethyl_acetate": 0,
+          "water": 0
+        },
+        "settled": {
+          "CH3COOH": 0.0033333333333333357,
+          "ethanol": 0.0033333333333333357,
+          "ethyl_acetate": 0.0066666666666666645,
+          "water": 0.0066666666666666645
+        },
+        "Q": 3.9999999999999916,
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0066666666666666645,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "466: declared ester equilibrium",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial": {
+          "CH3COOH": 0.009987196197631321,
+          "ethanol": 0.01,
+          "ethyl_acetate": 0,
+          "water": 0.04000000000000001
+        },
+        "settled": {
+          "CH3COOH": 0.006320437948765094,
+          "ethanol": 0.006333241751133773,
+          "ethyl_acetate": 0.003666758248866227,
+          "water": 0.04366675824886623
+        },
+        "Q": 4.000000000000001,
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.003666758248866227,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "467: declared ester equilibrium",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial": {
+          "CH3COOH": 0.003,
+          "ethanol": 0.004,
+          "ethyl_acetate": 0.016,
+          "water": 0.013
+        },
+        "settled": {
+          "CH3COOH": 0.005482626312012458,
+          "ethanol": 0.006482626312012458,
+          "ethyl_acetate": 0.013517373687987541,
+          "water": 0.010517373687987542
+        },
+        "Q": 4.0000000000000036,
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": -0.0024826263120124583,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "468: declared ester equilibrium",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial": {
+          "CH3COOH": 0.02,
+          "ethanol": 0.02,
+          "ethyl_acetate": 0,
+          "water": 0
+        },
+        "settled": {
+          "CH3COOH": 0.006666666666666668,
+          "ethanol": 0.006666666666666668,
+          "ethyl_acetate": 0.013333333333333332,
+          "water": 0.013333333333333332
+        },
+        "Q": 3.9999999999999982,
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.013333333333333332,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "469: declared ester equilibrium",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial": {
+          "CH3COOH": 0.01,
+          "ethanol": 0.01,
+          "ethyl_acetate": 0,
+          "water": 0
+        },
+        "settled": {
+          "CH3COOH": 0.0033333333333333357,
+          "ethanol": 0.0033333333333333357,
+          "ethyl_acetate": 0.0066666666666666645,
+          "water": 0.0066666666666666645
+        },
+        "Q": 3.9999999999999916,
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0066666666666666645,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "470: declared ester equilibrium",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial": {
+          "CH3COOH": 0.01,
+          "ethanol": 0.01,
+          "ethyl_acetate": 0,
+          "water": 0
+        },
+        "settled": {
+          "CH3COOH": 0.0033333333333333357,
+          "ethanol": 0.0033333333333333357,
+          "ethyl_acetate": 0.0066666666666666645,
+          "water": 0.0066666666666666645
+        },
+        "Q": 3.9999999999999916,
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0066666666666666645,
+            "name": "esterification",
+            "vessel": 0
+          },
+          {
+            "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "471: declared ester equilibrium",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial": {
+          "CH3COOH": 0.01,
+          "ethanol": 0.01,
+          "ethyl_acetate": 0,
+          "water": 0.002
+        },
+        "settled": {
+          "CH3COOH": 0.003643904066487104,
+          "ethanol": 0.003643904066487104,
+          "ethyl_acetate": 0.006356095933512896,
+          "water": 0.008356095933512896
+        },
+        "Q": 3.999999999999997,
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.006356095933512896,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "472: declared ester equilibrium",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "initial": {
+          "CH3COOH": 0,
+          "ethanol": 0,
+          "ethyl_acetate": 0.01,
+          "water": 0.01
+        },
+        "settled": {
+          "CH3COOH": 0.003333333333333335,
+          "ethanol": 0.003333333333333335,
+          "ethyl_acetate": 0.006666666666666665,
+          "water": 0.006666666666666665
+        },
+        "Q": 3.9999999999999947,
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": -0.003333333333333335,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ]
+      }
+    },
+    {
+      "check": "465/468: extensive ester scaling",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "CH3COOH": [
+          0.0033333333333333357,
+          0.006666666666666668
+        ],
+        "ethanol": [
+          0.0033333333333333357,
+          0.006666666666666668
+        ],
+        "ethyl_acetate": [
+          0.0066666666666666645,
+          0.013333333333333332
+        ],
+        "water": [
+          0.0066666666666666645,
+          0.013333333333333332
+        ]
+      }
+    },
+    {
+      "check": "465/469: ester feed-order invariance",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "CH3COOH": [
+          0.0033333333333333357,
+          0.0033333333333333357
+        ],
+        "ethanol": [
+          0.0033333333333333357,
+          0.0033333333333333357
+        ],
+        "ethyl_acetate": [
+          0.0066666666666666645,
+          0.0066666666666666645
+        ],
+        "water": [
+          0.0066666666666666645,
+          0.0066666666666666645
+        ]
+      }
+    },
+    {
+      "check": "470: repeated equilibrium is a no-op",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": 0.0066666666666666645,
+          "name": "esterification",
+          "vessel": 0
+        },
+        {
+          "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": 0.0,
+          "name": "esterification",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "473: threshold verdict is True",
+      "kind": "curated-threshold",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "gas_tested",
+          "notes": "squeaky pop \u2014 0.0086 mol H\u2082 ignited with 0.0043 mol O\u2082, producing 0.0086 mol H\u2082O; 2 H\u2082 + O\u2082 \u2192 2 H\u2082O",
+          "positive": true,
+          "test": "pop",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "474: threshold verdict is False",
+      "kind": "curated-threshold",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "gas_tested",
+          "notes": "no pop \u2014 H\u2082 mole fraction 0.0% is below the 4% ignition limit",
+          "positive": false,
+          "test": "pop",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "475: threshold verdict is True",
+      "kind": "curated-threshold",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "gas_tested",
+          "notes": "the glowing splint relights \u2014 O\u2082 mole fraction 60.0% (above the 25% enrichment threshold)",
+          "positive": true,
+          "test": "glowing_splint",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "476: threshold verdict is False",
+      "kind": "curated-threshold",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "gas_tested",
+          "notes": "the splint does not relight \u2014 O\u2082 mole fraction 21.0% is below the 25% enrichment threshold",
+          "positive": false,
+          "test": "glowing_splint",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "477: threshold verdict is True",
+      "kind": "curated-threshold",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "gas_tested",
+          "notes": "limewater turns milky \u2014 CO\u2082 detected (mole fraction 32.9%); 0.0010 mol CO\u2082 consumed; CO\u2082 + Ca(OH)\u2082 \u2192 CaCO\u2083\u2193 + H\u2082O (curated stoichiometry, limewater not modelled as a vessel)",
+          "positive": true,
+          "test": "limewater",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "478: threshold verdict is False",
+      "kind": "curated-threshold",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "gas_tested",
+          "notes": "limewater stays clear \u2014 CO\u2082 mole fraction 0.04% is below the 0.1% detection floor",
+          "positive": false,
+          "test": "limewater",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "479: threshold verdict is True",
+      "kind": "curated-threshold",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "gas_tested",
+          "notes": "damp red litmus turns blue \u2014 NH\u2083 detected (mole fraction 28.1%)",
+          "positive": true,
+          "test": "damp_litmus",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "480: threshold verdict is False",
+      "kind": "curated-threshold",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "gas_tested",
+          "notes": "litmus stays red \u2014 NH\u2083 mole fraction 0.00% is below the 0.1% detection floor",
+          "positive": false,
+          "test": "damp_litmus",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "481: pressure/vent relation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "measured_kpa": 225.27285147783502,
+        "ideal_kpa": 225.27285148198692
+      }
+    },
+    {
+      "check": "482: pressure/vent relation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "measured_kpa": 349.22070295566994,
+        "ideal_kpa": 349.2207029621064
+      }
+    },
+    {
+      "check": "483: pressure/vent relation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "measured_kpa": 163.29892573891752,
+        "ideal_kpa": 163.29892574192723
+      }
+    },
+    {
+      "check": "484: pressure/vent relation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "measured_kpa": 233.2521952211,
+        "ideal_kpa": 233.252195225399
+      }
+    },
+    {
+      "check": "485: pressure/vent relation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "measured_kpa": 225.27285147783502,
+        "ideal_kpa": 225.27285148198692
+      }
+    },
+    {
+      "check": "486: pressure/vent relation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783502,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 101.325,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "487: pressure/vent relation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783505,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 101.325,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "488: pressure/vent relation",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "measured_kpa": 126.114570295567,
+        "ideal_kpa": 126.11457029789138
+      }
+    },
+    {
+      "check": "481/485: extensive pressure invariance",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783502,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783502,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "check": "481/482/488: pressure dose ordering",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "481": 225.27285147783502,
+        "482": 349.22070295566994,
+        "488": 126.114570295567
+      }
+    },
+    {
+      "check": "484: heating raises pressure",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 225.27285147783502,
+          "vessel": 0
+        },
+        {
+          "event": "measured",
+          "instrument": "pressure_gauge",
+          "unit": "kPa",
+          "value": 233.2521952211,
+          "vessel": 0
+        }
+      ]
+    }
+  ],
+  "passed": 69,
+  "unmet": 0
+}

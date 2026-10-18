@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_3.py --family 'ionic-conductivity' --binary target/release/kero --out 'audit-evidence-v3/ionic-conductivity'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "b4c1184a883033a2f3ffa798941935f576491140d6097a8b343a39b4d39e78ad",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,386 @@
+   Compiling cfg-if v1.0.5
+   Compiling libm v0.2.16
+   Compiling libc v0.2.191
+   Compiling num-traits v0.2.19
+   Compiling bytemuck v1.25.2
+   Compiling crossbeam-utils v0.8.23
+   Compiling rand_core v0.6.4
+   Compiling memchr v2.8.3
+   Compiling rand v0.8.8
+   Compiling num-complex v0.4.6
+   Compiling serde_core v1.0.229
+   Compiling crossbeam-epoch v0.9.21
+   Compiling zerocopy v0.8.63
+   Compiling crossbeam-deque v0.8.8
+   Compiling either v1.19.0
+   Compiling bitflags v2.13.2
+   Compiling once_cell v1.21.4
+   Compiling raw-cpuid v11.6.0
+   Compiling rayon-core v1.13.0
+   Compiling serde v1.0.229
+   Compiling rayon v1.12.0
+   Compiling reborrow v0.5.5
+   Compiling pulp-wasm-simd-flag v0.1.1
+   Compiling typenum v1.20.1
+   Compiling pulp v0.22.3
+   Compiling itoa v1.0.18
+   Compiling dyn-stack v0.13.2
+   Compiling psm v0.1.24
+   Compiling zmij v1.0.23
+   Compiling stacker v0.1.25
+   Compiling ucd-trie v0.1.7
+   Compiling pest v2.9.4
+   Compiling gemm-common v0.19.0
+   Compiling num-integer v0.1.47
+   Compiling nano-gemm-core v0.2.1
+   Compiling thiserror v2.0.21
+   Compiling generic-array v0.14.7
+   Compiling num-bigint v0.4.8
+   Compiling getrandom v0.3.4
+   Compiling pest_meta v2.9.4
+   Compiling byteorder v1.5.0
+   Compiling pest_generator v2.9.4
+   Compiling rand_core v0.9.5
+   Compiling ppv-lite86 v0.2.21
+   Compiling crossbeam-channel v0.5.17
+   Compiling crossbeam-queue v0.3.14
+   Compiling smallvec v1.16.3
+   Compiling crossbeam v0.8.5
+   Compiling equator v0.4.2
+   Compiling rand_chacha v0.9.0
+   Compiling pest_derive v2.9.4
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling serde_json v1.0.154
+   Compiling safe_arch v1.2.0
+   Compiling atomic-wait v1.1.0
+   Compiling scopeguard v1.2.0
+   Compiling equivalent v1.0.3
+   Compiling hashbrown v0.17.1
+   Compiling indexmap v2.14.2
+   Compiling lock_api v0.4.14
+   Compiling equator v0.2.2
+   Compiling spindle v0.2.6
+   Compiling wide v1.7.1
+   Compiling digest v0.10.7
+   Compiling py_literal v0.4.0
+   Compiling rand v0.9.5
+   Compiling nano-gemm-f32 v0.2.1
+   Compiling nano-gemm-c64 v0.2.1
+   Compiling nano-gemm-c32 v0.2.1
+   Compiling nano-gemm-f64 v0.2.1
+   Compiling gemm-c64 v0.19.0
+   Compiling gemm-f32 v0.19.0
+   Compiling gemm-c32 v0.19.0
+   Compiling gemm-f64 v0.19.0
+   Compiling qd v0.8.0
+   Compiling approx v0.5.1
+   Compiling num_cpus v1.17.0
+   Compiling generativity v1.2.1
+   Compiling rawpointer v0.2.1
+   Compiling cpufeatures v0.2.17
+   Compiling equator v0.6.0
+   Compiling private-gemm-x86 v0.1.22
+   Compiling sha2 v0.10.9
+   Compiling matrixmultiply v0.3.11
+   Compiling faer-traits v0.24.0
+   Compiling simba v0.10.2
+   Compiling gemm v0.19.0
+   Compiling nano-gemm v0.2.2
+   Compiling rand_distr v0.5.1
+   Compiling npyz v0.8.4
+   Compiling num-rational v0.4.2
+   Compiling faer v0.24.4
+   Compiling nalgebra v0.35.0
+   Compiling ahash v0.8.12
+   Compiling foldhash v0.1.5
+   Compiling allocator-api2 v0.2.21
+   Compiling hashbrown v0.14.5
+   Compiling hashbrown v0.15.5
+   Compiling kerotakis-data v0.0.1 (/kaggle/temp/kerotakis-full-fleet/source/crates/kerotakis-data)
+   Compiling parking_lot_core v0.9.12
+   Compiling geo-types v0.7.20
+   Compiling toml_datetime v0.6.11
+   Compiling serde_spanned v0.6.9
+   Compiling log v0.4.34
+   Compiling slab v0.4.12
+   Compiling fixedbitset v0.5.7
+   Compiling rustc-hash v1.1.0
+   Compiling winnow v0.7.15
+   Compiling toml_write v0.1.2
+   Compiling lazy_static v1.5.1
+   Compiling contour v0.13.1
+   Compiling toml_edit v0.22.27
+   Compiling diffsol-la v0.1.1
+   Compiling diffsol-nl v0.1.1
+   Compiling petgraph v0.8.3
+   Compiling dashmap v6.2.1
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/kerotakis-full-fleet/source/crates/kerotakis-core)
+   Compiling ryu v1.0.23
+   Compiling libyaml-rs v0.3.0
+   Compiling yaml_serde v0.10.7
+   Compiling diffsol v0.16.2
+   Compiling lasso v0.7.3
+   Compiling toml v0.8.23
+   Compiling kerotakis-thermo v0.0.1 (/kaggle/temp/kerotakis-full-fleet/source/crates/kerotakis-thermo)
+   Compiling bumpalo v3.20.3
+   Compiling half v2.7.1
+   Compiling clap_lex v1.1.1
+   Compiling ciborium-io v0.2.2
+   Compiling anstyle v1.0.14
+   Compiling regex-syntax v0.8.11
+   Compiling plotters-backend v0.3.7
+   Compiling plotters-svg v0.3.7
+   Compiling regex-automata v0.4.18
+   Compiling clap_builder v4.6.7
+   Compiling ciborium-ll v0.2.2
+   Compiling itertools v0.10.5
+   Compiling cast v0.3.0
+   Compiling same-file v1.0.6
+   Compiling walkdir v2.5.0
+   Compiling criterion-plot v0.5.0
+   Compiling ciborium v0.2.2
+   Compiling clap v4.6.7
+   Compiling regex v1.13.1
+   Compiling plotters v0.3.7
+   Compiling tinytemplate v1.2.1
+   Compiling is-terminal v0.4.17
+   Compiling oorandom v11.1.5
+   Compiling anes v0.1.6
+   Compiling criterion v0.5.1
+   Compiling chematic-core v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-core-0.18.0)
+   Compiling rustc-hash v2.1.3
+   Compiling chematic-perception v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-perception-0.18.0)
+   Compiling kerotakis-cea v0.0.1 (/kaggle/temp/kerotakis-full-fleet/source/crates/kerotakis-cea)
+   Compiling chematic-smarts v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-smarts-0.18.0)
+   Compiling chematic-smiles v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-smiles-0.18.0)
+   Compiling chematic-rxn v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-rxn-0.18.0)
+   Compiling chematic-fp v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-fp-0.18.0)
+   Compiling chematic-cip v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-cip-0.18.0)
+   Compiling chematic-iupac v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-iupac-0.18.0)
+   Compiling chematic-chem v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-chem-0.18.0)
+   Compiling spin v0.9.9
+   Compiling hash32 v0.2.1
+   Compiling stable_deref_trait v1.2.1
+   Compiling heapless v0.7.17
+   Compiling kerotakis-phreeqc v0.0.1 (/kaggle/temp/kerotakis-full-fleet/source/crates/kerotakis-phreeqc)
+   Compiling chematic-mol v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-mol-0.18.0)
+   Compiling chematic-inchi v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-inchi-0.18.0)
+   Compiling cobs v0.3.0
+   Compiling postcard v1.1.3
+   Compiling chematic v0.18.0 (/kaggle/temp/kerotakis-full-fleet/source/vendor/chematic-0.18/chematic-0.18.0)
+   Compiling kerotakis-org v0.0.1 (/kaggle/temp/kerotakis-full-fleet/source/crates/kerotakis-org)
+   Compiling kerotakis-stack v0.0.1 (/kaggle/temp/kerotakis-full-fleet/source/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/kaggle/temp/kerotakis-full-fleet/source/crates/kerotakis-safety)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6m 45s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_cea-2ce541f1c8ea430d)
+     Running unittests src/bin/generate-cea-subset.rs (target/debug/deps/generate_cea_subset-32ee93bbbc0d26f0)
+     Running tests/ambient_after_flame.rs (target/debug/deps/ambient_after_flame-69baaa25c4a3c061)
+     Running tests/autoignition.rs (target/debug/deps/autoignition-4a7bc2f9d3135691)
+     Running tests/bench_thermal.rs (target/debug/deps/bench_thermal-8783e65a4566e3ea)
+     Running tests/did_not_ignite.rs (target/debug/deps/did_not_ignite-49e82fe5e1f69dfe)
+     Running tests/equilibrium.rs (target/debug/deps/equilibrium-4d2e8e033c5e2248)
+     Running tests/gas_mechanism_endpoint.rs (target/debug/deps/gas_mechanism_endpoint-5b177569aafff09d)
+     Running tests/heat_capacity_curves_are_the_vendored_file.rs (target/debug/deps/heat_capacity_curves_are_the_vendored_file-d09841e9cf032a29)
+     Running tests/heat_source_ceiling.rs (target/debug/deps/heat_source_ceiling-0bc4d7a2aafd22c2)
+     Running tests/latent_heats_are_the_vendored_file.rs (target/debug/deps/latent_heats_are_the_vendored_file-ed0044512b6ac65c)
+     Running tests/paid_phase_fractions.rs (target/debug/deps/paid_phase_fractions-8676bfbf10a210f2)
+     Running tests/thermal_boundary_refusal.rs (target/debug/deps/thermal_boundary_refusal-d95179d7d63bd230)
+     Running tests/vented_products.rs (target/debug/deps/vented_products-0243811193a92f4d)
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_phreeqc-b12d7ea4a9980305)
+boiled-dry chalk: kgw=6.755985e-7 before=71048.1120 after=0.000260
+brine: kgw=1.000013e0 before=15.9998 after=12.2649
+1 mL probe: kgw=1.000000e-3 before=200.0000 after=12.2649
+droplet: kgw=1.000013e-4 before=3.9999 after=0.4000
+     Running unittests src/bin/generate-dbindex.rs (target/debug/deps/generate_dbindex-1835ca610bb3bdaf)
+     Running tests/acid_base.rs (target/debug/deps/acid_base-907e3503aa989332)
+     Running tests/acid_permanganate_cache_only.rs (target/debug/deps/acid_permanganate_cache_only-bc63992629d62d24)
+     Running tests/acid_permanganate_endpoint.rs (target/debug/deps/acid_permanganate_endpoint-21807879af3a70fd)
+     Running tests/agcl.rs (target/debug/deps/agcl-e197292bd958cdfc)
+     Running tests/analytical_inventory.rs (target/debug/deps/analytical_inventory-f802c50ceb7d1eea)
+ligand routing: 36 computed, 0 explicitly refused with unchanged inventory
+     Running tests/aqueous_continuation.rs (target/debug/deps/aqueous_continuation-1bf84bf0b696c3ff)
+     Running tests/aqueous_continuation_cache_only.rs (target/debug/deps/aqueous_continuation_cache_only-b2853c0de9ecd03c)
+     Running tests/aqueous_transfer_snapshot.rs (target/debug/deps/aqueous_transfer_snapshot-c8f489615d93c247)
+     Running tests/basic_dialect_oracle.rs (target/debug/deps/basic_dialect_oracle-e44f96d64845ebea)
+     Running tests/borate_speciation.rs (target/debug/deps/borate_speciation-3200c5a4d66a3b74)
+     Running tests/bridge_contract.rs (target/debug/deps/bridge_contract-ed79d2b3571e4ab1)
+     Running tests/brine_and_phosphate.rs (target/debug/deps/brine_and_phosphate-9ff034ae187f0a50)
+     Running tests/bundled_rates_oracle.rs (target/debug/deps/bundled_rates_oracle-00da048e7ef84afc)
+checking phreeqc.dat RATES/Quartz
+Quartz remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/K-feldspar
+K-feldspar remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Albite
+Albite remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Calcite
+Calcite remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Pyrite
+Pyrite remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Organic_C
+Organic_C remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Pyrolusite
+Pyrolusite remaining=3.957000000000000e-2
+checking wateq4f.dat RATES/Quartz
+Quartz remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/K-feldspar
+K-feldspar remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Albite
+Albite remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Calcite
+Calcite remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Pyrite
+Pyrite remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Organic_C
+Organic_C remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Pyrolusite
+Pyrolusite remaining=3.811600000000000e-2
+     Running tests/calcium_phosphate.rs (target/debug/deps/calcium_phosphate-08a4023c0a9df4a2)
+     Running tests/carbonate.rs (target/debug/deps/carbonate-264949a8ab480e75)
+     Running tests/census_locale.rs (target/debug/deps/census_locale-726a9cc4dc5cf1b7)
+     Running tests/charged_component_inputs.rs (target/debug/deps/charged_component_inputs-9b3b884d63c9104c)
+     Running tests/chromatograph.rs (target/debug/deps/chromatograph-6a1cd89d3eda9c3b)
+     Running tests/colligative_numbers.rs (target/debug/deps/colligative_numbers-9ab8890f8c1de7b7)
+0.01 molal NaCl: freezing point -0.0377 C (ideal route)
+0.01 molal NaCl: an ion-interaction route would say -0.0350 C
+0.1 molal NaCl: phi = 0.9453
+0.1 molal NaCl: freezing point -0.3516 C
+0.1 molal NaCl: Raoult's law would say -0.3712 C
+     Running tests/curated_reachability_at_runtime.rs (target/debug/deps/curated_reachability_at_runtime-6b0f2520fcc7a7af)
+     Running tests/curated_reactants_survive_a_solve.rs (target/debug/deps/curated_reactants_survive_a_solve-2c7ef02fe4628e5a)
+     Running tests/dialect_corpus.rs (target/debug/deps/dialect_corpus-b894022a2d1d432c)
+     Running tests/differential_oracle.rs (target/debug/deps/differential_oracle-e4f2276dd2c77e59)
+     Running tests/displacement.rs (target/debug/deps/displacement-5475e89abdb482fa)
+     Running tests/displacement_exhausted.rs (target/debug/deps/displacement_exhausted-663442502c3f1784)
+     Running tests/drain.rs (target/debug/deps/drain-d5acb9f3714d30a9)
+     Running tests/electrolyse_solution.rs (target/debug/deps/electrolyse_solution-176b1b012ead8c24)
+     Running tests/engine_call_budget.rs (target/debug/deps/engine_call_budget-b89d20bc825d16e7)
+first titration: 54 engine calls, 1 trial-cache hits
+second titration: 0 engine calls, 0 trial-cache hits
+     Running tests/enthalpy_basis.rs (target/debug/deps/enthalpy_basis-1efdfdbbba5e6aaa)
+     Running tests/equilibrator.rs (target/debug/deps/equilibrator-33dc86b089b45bce)
+     Running tests/error_location_parity.rs (target/debug/deps/error_location_parity-bedaaab421bae8b1)
+     Running tests/ex21_observable_parity.rs (target/debug/deps/ex21_observable_parity-76d77029519641c6)
+     Running tests/exchange.rs (target/debug/deps/exchange-c0889f96b8f966be)
+     Running tests/exchange_transport.rs (target/debug/deps/exchange_transport-485373349e215354)
+     Running tests/family_aqueous_tail.rs (target/debug/deps/family_aqueous_tail-d36a81db6d337935)
+     Running tests/faraday.rs (target/debug/deps/faraday-af615093abf0bc82)
+     Running tests/finite_gas_moles.rs (target/debug/deps/finite_gas_moles-0d007f417f144a80)
+     Running tests/finite_gas_temperature.rs (target/debug/deps/finite_gas_temperature-ff84ce613bbb733a)
+     Running tests/food_chemistry.rs (target/debug/deps/food_chemistry-51ce0c162594eb9a)
+     Running tests/formula_parser_diff.rs (target/debug/deps/formula_parser_diff-d916de68328c7a52)
+compared 658 database formulas
+     Running tests/hard_water.rs (target/debug/deps/hard_water-b92a8ac9c7be3d6e)
+     Running tests/headspace.rs (target/debug/deps/headspace-82ffd69cd2db2051)
+     Running tests/hypochlorite_speciation.rs (target/debug/deps/hypochlorite_speciation-6cc2452434524460)
+     Running tests/ignite_over_fizz.rs (target/debug/deps/ignite_over_fizz-ca5879d7be6a3222)
+     Running tests/instrument_oracle.rs (target/debug/deps/instrument_oracle-bbbb757805069d1b)
+     Running tests/kinetic_reactants_survive_a_solve.rs (target/debug/deps/kinetic_reactants_survive_a_solve-5e84f4ba94863b92)
+     Running tests/kinetics_trajectory.rs (target/debug/deps/kinetics_trajectory-ae13cc45f8e159f7)
+     Running tests/kinetics_trajectory_oracle.rs (target/debug/deps/kinetics_trajectory_oracle-7cbc2a373f94d9aa)
+     Running tests/lactate_speciation.rs (target/debug/deps/lactate_speciation-ed2a5892e27c1611)
+     Running tests/ligand_reference.rs (target/debug/deps/ligand_reference-cfb7642a07b2b555)
+     Running tests/measured_acidity.rs (target/debug/deps/measured_acidity-b12ab311f2eca5b3)
+     Running tests/metastable.rs (target/debug/deps/metastable-73db9e934ee75604)
+     Running tests/milk_buffer.rs (target/debug/deps/milk_buffer-8fe93ff4c468600a)
+     Running tests/mineral_crosswalk.rs (target/debug/deps/mineral_crosswalk-d5bb171e9d436b74)
+     Running tests/mix.rs (target/debug/deps/mix-2ac7f8c351378028)
+MIX spent 1 engine call(s)
+     Running tests/mix_finite_inventory.rs (target/debug/deps/mix_finite_inventory-782c72bc9229d37a)
+     Running tests/mix_redox_boundary.rs (target/debug/deps/mix_redox_boundary-c0756b2ad0c8b0d1)
+     Running tests/my_basic_preview.rs (target/debug/deps/my_basic_preview-25f09ef39d2e6891)
+     Running tests/native_delta_h.rs (target/debug/deps/native_delta_h-b17d5323c4c0c59c)
+     Running tests/no_basic.rs (target/debug/deps/no_basic-226082ed62b4ae43)
+     Running tests/official_examples_completion.rs (target/debug/deps/official_examples_completion-696e01683a264413)
+EXAMPLE_COMPLETION name=ex1 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex2 ok selected_rows=53
+EXAMPLE_COMPLETION name=ex2b ok selected_rows=0
+EXAMPLE_COMPLETION name=ex3 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex4 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex5 ok selected_rows=8
+EXAMPLE_COMPLETION name=ex6 ok selected_rows=39
+EXAMPLE_COMPLETION name=ex7 ok selected_rows=28
+EXAMPLE_COMPLETION name=ex8 ok selected_rows=161
+EXAMPLE_COMPLETION name=ex9 ok selected_rows=13
+EXAMPLE_COMPLETION name=ex10 ok selected_rows=621
+EXAMPLE_COMPLETION name=ex11 ok selected_rows=203
+EXAMPLE_COMPLETION name=ex12 ok selected_rows=126
+EXAMPLE_COMPLETION name=ex12a ok selected_rows=164
+EXAMPLE_COMPLETION name=ex13a ok selected_rows=41
+EXAMPLE_COMPLETION name=ex13b ok selected_rows=41
+EXAMPLE_COMPLETION name=ex13c ok selected_rows=41
+EXAMPLE_COMPLETION name=ex13ac ok selected_rows=108
+EXAMPLE_COMPLETION name=ex14 ok selected_rows=202
+EXAMPLE_COMPLETION name=ex15 ok selected_rows=155
+EXAMPLE_COMPLETION name=ex15a ok selected_rows=155
+EXAMPLE_COMPLETION name=ex15b ok selected_rows=155
+EXAMPLE_COMPLETION name=ex16 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex17 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex17b ok selected_rows=0
+EXAMPLE_COMPLETION name=ex18 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex19 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex19b ok selected_rows=0
+EXAMPLE_COMPLETION name=ex20a ok selected_rows=0
+EXAMPLE_COMPLETION name=ex20b ok selected_rows=1
+EXAMPLE_COMPLETION name=ex21 ok selected_rows=209
+EXAMPLE_COMPLETION name=ex22 ok selected_rows=0
+     Running tests/order_invariance.rs (target/debug/deps/order_invariance-27c154800bf300ef)
+     Running tests/partial_freezing.rs (target/debug/deps/partial_freezing-6d959539546f9a37)
+     Running tests/physical_solid_settling.rs (target/debug/deps/physical_solid_settling-9ec15de1ab3d5255)
+     Running tests/positive_phase_inventory.rs (target/debug/deps/positive_phase_inventory-c68e70e6e40154ce)
+     Running tests/pourbaix.rs (target/debug/deps/pourbaix-c65c27e533bbd5ee)
+     Running tests/prewarm.rs (target/debug/deps/prewarm-a3926c1c8057c5b9)
+     Running tests/provenance.rs (target/debug/deps/provenance-c85314b20217f135)
+     Running tests/qualitative.rs (target/debug/deps/qualitative-e716f770eae5285a)
+     Running tests/r1_acceptance.rs (target/debug/deps/r1_acceptance-c8f21c2ef8fd767b)
+     Running tests/reaction_heat.rs (target/debug/deps/reaction_heat-24a95b7ca1747dcf)
+     Running tests/reactive_gas.rs (target/debug/deps/reactive_gas-1fdfa15abe60dabb)
+     Running tests/redox.rs (target/debug/deps/redox-b8e64f6a7cbf82cf)
+     Running tests/redox_isolation_probe.rs (target/debug/deps/redox_isolation_probe-fd3d73ab553ddc48)
+     Running tests/redox_titrimetry.rs (target/debug/deps/redox_titrimetry-503717f9508d9e76)
+open-flask pe curve: [(0.0, 19.01578598439), (0.05, 19.01523110484)]
+     Running tests/resource_limits.rs (target/debug/deps/resource_limits-266038f1e3c237aa)
+     Running tests/saturation_versus_equilibrium_phase.rs (target/debug/deps/saturation_versus_equilibrium_phase-4bf2ea0ad296cc98)
+     Running tests/school_salts.rs (target/debug/deps/school_salts-b915a40f3d0adba1)
+     Running tests/sealed_mass.rs (target/debug/deps/sealed_mass-311a649b29edf965)
+     Running tests/separations.rs (target/debug/deps/separations-fb14cbbd05fa999e)
+     Running tests/silver_ammine_route.rs (target/debug/deps/silver_ammine_route-9f19244ccd9e9a90)
+     Running tests/solid_registry_matching.rs (target/debug/deps/solid_registry_matching-e77840cbe8c439e7)
+     Running tests/solid_solution.rs (target/debug/deps/solid_solution-b7dd5f5e9b9dbbc0)
+     Running tests/speciation.rs (target/debug/deps/speciation-f8b6a112f194f697)
+     Running tests/standalone_basic_corpus.rs (target/debug/deps/standalone_basic_corpus-8c3cb73a8913dda5)
+BASIC_CORPUS name=iso.bas status=ok bytes=1116 lines=32 fnv=1095bf192c78020b normalized_bytes=875 normalized_lines=21 normalized_fnv=e7e4ec4fee4e6f95
+BASIC_CORPUS name=iso1.bas status=ok bytes=468 lines=17 fnv=8658fbc4f019bc9b normalized_bytes=227 normalized_lines=6 normalized_fnv=7abcd8d539780975
+BASIC_CORPUS name=iso1revised.bas status=ok bytes=3756 lines=83 fnv=40c305abf8e5fd81 normalized_bytes=3515 normalized_lines=72 normalized_fnv=90fb594757a27dab
+BASIC_CORPUS name=iso2.bas status=ok bytes=1158 lines=32 fnv=72729784c38fe63b normalized_bytes=917 normalized_lines=21 normalized_fnv=a88de414828188d5
+BASIC_CORPUS name=iso2revised.bas status=ok bytes=464 lines=16 fnv=4bb322f2723ab778 normalized_bytes=223 normalized_lines=5 normalized_fnv=52d88b33e35182ba
+BASIC_CORPUS name=iso3.bas status=ok bytes=2784 lines=67 fnv=e343c3c3b4da7cfb normalized_bytes=2543 normalized_lines=56 normalized_fnv=e190c011847dbe15
+BASIC_CORPUS name=iso3revised.bas status=ok bytes=7468 lines=145 fnv=0be9b736701ee746 normalized_bytes=7227 normalized_lines=134 normalized_fnv=14a4d93b194b0ec4
+BASIC_CORPUS name=iso4.bas status=ok bytes=7548 lines=137 fnv=2a658a8ff9de2eb3 normalized_bytes=7307 normalized_lines=126 normalized_fnv=3490192127692d7d
+BASIC_CORPUS name=iso4revised.bas status=ok bytes=28407 lines=441 fnv=aae94d83f8a756b5 normalized_bytes=28166 normalized_lines=430 normalized_fnv=954fd6e1ffe321cb
+     Running tests/sulfite_speciation.rs (target/debug/deps/sulfite_speciation-d4334d98a83efaa2)
+HARVEST Na2SO3 0.005 mol in 100 mL: pH 9.703889  I Some(0.1503342049309)  SO3-2 0.00499148  HSO3- 0.00000694  Na+ 0.00999683  Na2SO3 -0.00000000  NaHSO3 -0.00000000
+HARVEST NaHSO3 0.005 mol in 100 mL: pH 4.167321  I Some(0.05028679683029)  SO3-2 0.00000826  HSO3- 0.00498881  Na+ 0.00499707  Na2SO3 -0.00000000  NaHSO3 -0.00000000
+HARVEST Na2SO3 with a little acid: pH 7.035005  I Some(0.1303435206819)  SO3-2 0.00299841  HSO3- 0.00200000  Na+ 0.00999683  Na2SO3 -0.00000000  NaHSO3 -0.00000000
+     Running tests/surface.rs (target/debug/deps/surface-da50d26fc28c421a)
+     Running tests/surface_transport.rs (target/debug/deps/surface_transport-4f69a47627ddce2c)
+     Running tests/thiosulfate_speciation.rs (target/debug/deps/thiosulfate_speciation-3be0a301a12cbdb5)
+HARVEST hypo-in-water pH = 7.0249045339
+HARVEST t=0    pH = 1.8837734312
+HARVEST t=0    S2O3-2 = 0.0049965214
+HARVEST t=600  pH = 6.6319643911
+HARVEST t=600  S2O3-2 = 0.0039965359
+HARVEST t=600  S      = 0.0009999855
+HARVEST acid+thiosulfate pH = 1.8837734312
+HARVEST acid alone        pH = 1.7485817507
+HARVEST thiosulfate alone pH = 7.0249045339
+HARVEST ionic strength with = Some(0.16490617732)
+HARVEST ionic strength without = Some(0.02006018054227)
+HARVEST t=40   S      = 0.0005725639
+HARVEST t=40   S2O3-2 = 0.0044239575
+     Running tests/titration_refinement.rs (target/debug/deps/titration_refinement-bf86435ea8fe757d)
+     Running tests/transport_effluent_ownership.rs (target/debug/deps/transport_effluent_ownership-de373b11b8fc89fc)
+     Running tests/unknown_water.rs (target/debug/deps/unknown_water-c59565d9c17d92c6)
+     Running tests/unsupported_ionic.rs (target/debug/deps/unsupported_ionic-46e2dc78d8e82994)
+     Running tests/validity_ceiling.rs (target/debug/deps/validity_ceiling-d341cc5e2ed0686d)
+     Running tests/weak_acid.rs (target/debug/deps/weak_acid-b41f20cfbe499e6e)

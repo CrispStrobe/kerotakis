@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets.py --family 'gas-boundaries' --binary target/release/kero --out 'audit-evidence/gas-boundaries'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "7372ceeb779bcb509fccb5b8edc866dcc0404a3c8d5a2ef643861f6630dbe3d8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

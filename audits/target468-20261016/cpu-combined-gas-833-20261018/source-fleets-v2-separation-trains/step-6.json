@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/separation-trains' --family 'separation-trains' --out 'audit-evidence-v2/separation-trains/separation-trains-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "6e654ee3163c45aa3e1d5212de30224aee6e6ef3b6913342fe779ba7eaa69231",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_2.py --family 'polyprotic-carbonate' --binary target/release/kero --out 'audit-evidence-v2/polyprotic-carbonate'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "760ae2d92558ad939f0e10977de7d079abe8252f8bd350de78a1e175d19df698",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

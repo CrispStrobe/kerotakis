@@ -1,0 +1,22 @@
+{
+  "pr": 829,
+  "merge": "b3c18f5c6dc57fa9b28e7fb49498958af2440146",
+  "reviewed_head": "8e2fe429cfdc6c7f0397e2edfd66995baf47e5ff",
+  "parents": [
+    "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+    "8e2fe429cfdc6c7f0397e2edfd66995baf47e5ff"
+  ],
+  "actual_tree": "1aefe38c8daeba2dd73056c74ded38c12d41da99",
+  "reviewed_candidate_tree": "1aefe38c8daeba2dd73056c74ded38c12d41da99",
+  "ci_successes": 25,
+  "native_both_platforms_reviewed": true,
+  "all33_original_logical_jobs_accepted": true,
+  "github_jobs": 25,
+  "exact_source_local_jobs": 8,
+  "producer_tested_merge": "dcd8ca1f33315f357422bdeac4e8a77a37f2b468",
+  "producer_tested_tree": "a48a29d0a092a40ce6590110c0ce503f425fdc12",
+  "reviewed_head_and_producer_runtime_harness_equal": true,
+  "reviewed_head_and_producer_whole_tree_equal": false,
+  "normal_protected_merge": true,
+  "deployed": false
+}
