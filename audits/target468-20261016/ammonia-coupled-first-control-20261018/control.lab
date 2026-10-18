@@ -1,0 +1,20 @@
+register lv3
+add v1 water 70mL
+seal v1 350mL
+inspect v1
+add v1 NH3 0.0008mol
+inspect v1
+new
+add v2 water 70mL
+add v2 HCl 0.0016mol
+seal v2 350mL
+inspect v2
+add v2 NH3 0.0008mol
+inspect v2
+new
+add v3 water 70mL
+seal v3 350mL
+inspect v3
+add v3 NH3 0.0008mol
+add v3 HCl 0.0016mol
+inspect v3

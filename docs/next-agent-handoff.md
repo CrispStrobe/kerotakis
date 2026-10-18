@@ -9,7 +9,7 @@ GitHub references. Local operation details belong only in an ignored handoff.
 
 ## Start here
 
-1. Fetch actual main and inspect integrated PR830, the production delivery and prepared PR828/829/832/833, their exact heads, current checks and
+1. Fetch actual main and inspect integrated PR828/829/830, the production delivery and prepared PR832/833/834, their exact heads, current checks and
    active workflows. A queued check is neither a failure nor an acceptance.
 2. Consult the ignored local operating handoff if present before touching
    worktrees, build targets, evidence or running controllers. Check load, available
@@ -305,21 +305,8 @@ original outcomes remain in the linked immutable evidence.
    binary, producer lock and frontend assets, then the unchanged API/browser
    controls. Freeze a separate TH016 replay after delivery acceptance. Do not
    repeat already issued controls or certify delivery from deployment exit0.
-3. **Chromatography:** PR829 `8e2fe429` passes8 core/3 native controls and all25 CI,
-   including both native platforms. Finish its existing full-fleet run
-   [39125735173](https://github.com/CrispStrobe/kerotakis/actions/runs/39125735173).
-   Preserve real mixing/dissolution and the aqueous-glucose precondition. Missing
-   retention parameters remain unsupported; SP012 is not selected. Review exact
-   head/base/tree and integrate normally once applicable acceptance completes.
-4. **Finite gas initialization:** PR833 first source `8eece0b1` passes Clippy and
-   [all524 PHREEQC native tests](../audits/target468-20261016/cpu-native-controls-20261018/finite-gas-moles-first-acceptance/README.md).
-   Current head `e9cc8782` incorporates the accepted phase repair for combined
-   acceptance. Authenticate current-source focused native output and all33
-   original logical fleet jobs; protected/platform CI remains separate. The
-   first combined worker omitted recursive submodule initialization and stopped
-   before compilation or experiments; preserve that setup failure. The corrected
-   worker changes prerequisites only. Integrate normally, then bind a separate
-   actual-source GS010 replay. Original brine C/charge failure remains excluded.
+3. **Chromatography — integrated:** PR829 `8e2fe429` merged as `b3c18f5c` after8 core/3 native controls, all25 CI checks, both native platforms and all33 logical fleet jobs (25 GitHub +8 bounded native). The original transferred workflow is cancelled, not green. Producer runtime/harness match reviewed source; whole trees differ by reviewed prior metadata. Preserve the source and merge receipts. Missing retention parameters remain unsupported; SP012 is held.
+4. **Finite gas initialization:** PR833 current combined source `e9cc8782` passes Clippy,604 PHREEQC/CEA tests,31 core controls and all33 original logical fleet jobs on authenticated CPU output. First source524-test acceptance and first combined prerequisite failure remain separately preserved. Finish current protected/platform checks and inspect actual native logs; refresh main, review the candidate, integrate normally and verify parents/tree. Then bind a separate actual-source GS010 replay. Original brine C/charge failure remains excluded.
 5. **Pages:** PR832 `09aa2b01` selects the reviewed MY-BASIC profile and probes the
    final site before existing browser gates. Complete actual build/applicable
    acceptance, normal integration and published Pages interpreter plus uncached
@@ -345,4 +332,10 @@ requires current-source reproduction before implementation; a source lead is not
 an observed current-source failure. Keep single-owner/native-fallback semantics
 and finite N/H/O/charge controls explicit.
 
-Current accepted-source receipts: [PR829 fleet](../audits/target468-20261016/hybrid-own-fleet-20261018/pr829/README.md), [verified integration](../audits/target468-20261016/accepted-pr-integration/pr829-integration.json), and [PR833 combined-source native/fleet acceptance](../audits/target468-20261016/cpu-combined-gas-833-20261018/README.md). Scientific catalog remains204 overall /200 fixed468. A separate current-accepted-equivalent ammonia control reproduces inconsistent neutral-gas/protonation coupling; lane I remains open, with no new scientific selection.
+Current accepted-source receipts: [PR829 fleet](../audits/target468-20261016/hybrid-own-fleet-20261018/pr829/README.md), [verified integration](../audits/target468-20261016/accepted-pr-integration/pr829-integration.json), and [PR833 combined-source native/fleet acceptance](../audits/target468-20261016/cpu-combined-gas-833-20261018/README.md). Scientific catalog remains204 overall /200 fixed468. A separate current-accepted-equivalent ammonia control reproduces inconsistent neutral-gas/protonation coupling; lane J remains open, with no new scientific selection.
+
+## Active bounded ammonia repair
+
+[First current-equivalent control](../audits/target468-20261016/ammonia-coupled-first-control-20261018/README.md) confirms the uncoupled gas/protonation failure on accepted-equivalent runtime, with raw streams and all three arms independently assessed. A first saved reader overlooked sparse snapshots; its incorrect one-arm output is preserved and rejected. The corrected reader requires all three arms and records failure, not a scientific pass.
+
+PR834 source `2750df2d` proposes finite-only native NH3 gas coupling with N(-3) ownership and explicit unchanged-state refusal when the routed database lacks NH3(g). Four new native controls and the full PHREEQC suite are running on CPU. Review actual results before any acceptance; preserve dry/core-only fallback, inert carriers and open/swept behavior. Buffered/mixed-ligand capability remains a named boundary. Integrate the accepted finite-gas initialization prerequisite normally before final combined-source/full-fleet acceptance; do not claim either source deployed. See lane J and `docs/finite-ammonia-coupling.md` in the PR.

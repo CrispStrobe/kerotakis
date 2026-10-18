@@ -1,0 +1,8 @@
+{
+  "exit_status": 0,
+  "elapsed_seconds": 0.27386362105607986,
+  "source": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+  "binary_sha256": "6c617d2bdbd5a2501cbddb723be56e75fb86bb40c5e39cd183f57c36179c1b55",
+  "stdout_sha256": "bbbfe756adf7e6c174f8a69415dba07913425f0b2cd5e62d536e6dd22b57b98f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

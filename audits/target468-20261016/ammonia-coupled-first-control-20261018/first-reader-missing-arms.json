@@ -1,0 +1,25 @@
+{
+  "failure": "Root review caught sparse output snapshots: final row contains only the current vessel. Initial saved reader assessed one arm and its comparative generator was empty. Not accepted or catalogued. All raw rows and the initial reader/assessment are preserved; fixed reader must require all three ids and nonempty comparative arms.",
+  "initial_reader": "import pathlib,json,hashlib,math\nB=pathlib.Path(__file__).resolve().parent\nd=json.loads((B/'frozen-design-v2.json').read_text());e=json.loads((B/'execution.json').read_text())\nfor name,key in [('control.lab','script_sha256'),('stdout.jsonl','stdout_sha256'),('stderr.txt','stderr_sha256')]:\n assert hashlib.sha256((B/name).read_bytes()).hexdigest()==(d if key=='script_sha256' else e)[key]\nassert e['exit_status']==0\nrows=[json.loads(l) for l in (B/'stdout.jsonl').read_text().splitlines()]\nassert not any(x.get('event')=='solver_failed' for row in rows for x in row.get('events',[]))\nfinal=rows[-1]['bench']['vessels'];arms=[]\nfor v in final:\n amount=lambda key,phase:sum(p['moles'] for p in v['contents'] if p['species']==key and p['phase']==phase)\n baseline=next(x for row in rows for x in row['bench']['vessels'] if x['id']==v['id'] and x['headspace']['boundary']=='sealed')\n nitrogen=lambda x:sum(p['moles']*(2 if p['species']=='N2' else 1) for p in x['contents'] if p['species'] in ['N2','NH3','NH4+'])\n residual=nitrogen(v)-nitrogen(baseline)-0.0008;assert abs(residual)<1e-8\n chloride=amount('Cl-','aqueous');assert abs(chloride-(0.0016 if v['id'] else 0))<1e-8\n # Core Henry coefficient already declared by source, not fitted here.\n water=amount('water','liquid');vl=water*18.015/1000/0.997\n h=57*math.exp(4200*(1/v['temperature']-1/298.15))\n gas=amount('NH3','gas');aq=amount('NH3','aqueous')\n implied_gas=aq/(h*vl)*v['headspace']['volume']/(0.082057366*v['temperature'])\n arms.append({'id':v['id'],'temperature_K':v['temperature'],'pH':v['solution']['ph'],'NH3_gas_mol':gas,'NH3_aqueous_mol':aq,'NH4_aqueous_mol':amount('NH4+','aqueous'),'chloride_mol':chloride,'nitrogen_residual_mol':residual,'approx_core_Henry_gas_from_final_free_NH3_mol':implied_gas,'approx_partition_residual_ratio':gas/implied_gas})\nassert all(a['NH3_aqueous_mol']<arms[0]['NH3_aqueous_mol']*1e-5 and a['NH3_gas_mol']>arms[0]['NH3_gas_mol']*0.9 for a in arms[1:])\nresult={'source':d['source'],'accepted_equivalent_main':d['accepted_equivalent_main'],'whole_tree_equality_claimed':False,'verdict':'FAIL: uncoupled finite ammonia partition/protonation','arms':arms,'qualification':'Saved-output assessment only. Henry diagnostic uses solvent-only approximate volume to show an orders-of-magnitude mismatch, not a fitted acceptance tolerance. Original pre-issue qualitative consistency forecast fails independently: acid suppresses free aqueous NH3 while over 90% of neutral headspace NH3 persists. No catalog selection or empirical calibration.'}\n(B/'assessment.json').write_text(json.dumps(result,indent=2)+'\\n');print(json.dumps(result,indent=2))\n",
+  "initial_assessment": {
+    "source": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+    "accepted_equivalent_main": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+    "whole_tree_equality_claimed": false,
+    "verdict": "FAIL: uncoupled finite ammonia partition/protonation",
+    "arms": [
+      {
+        "id": 2,
+        "temperature_K": 300.4274932845325,
+        "pH": 1.992759619768,
+        "NH3_gas_mol": 2.737678993094408e-06,
+        "NH3_aqueous_mol": 4.525170490686666e-11,
+        "NH4_aqueous_mol": 0.0007972622757549242,
+        "chloride_mol": 0.001599999999999937,
+        "nitrogen_residual_mol": -2.754957720285667e-16,
+        "approx_core_Henry_gas_from_final_free_NH3_mol": 1.7916422590515827e-13,
+        "approx_partition_residual_ratio": 15280276.959662786
+      }
+    ],
+    "qualification": "Saved-output assessment only. Henry diagnostic uses solvent-only approximate volume to show an orders-of-magnitude mismatch, not a fitted acceptance tolerance. Original pre-issue qualitative consistency forecast fails independently: acid suppresses free aqueous NH3 while over 90% of neutral headspace NH3 persists. No catalog selection or empirical calibration."
+  }
+}

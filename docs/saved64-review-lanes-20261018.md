@@ -132,7 +132,7 @@ actual differentiated peaks only where parameters exist, unchanged sample
 inventory, response-factor qualification and CLI/browser parity. Unsupported
 parameters are a coverage limit, not a license to invent retention constants.
 
-Prepared [PR829](https://github.com/CrispStrobe/kerotakis/pull/829) corrects the lost missing-model warning beside supported peaks. `outside_method` should remain the ionic-method exclusion list; an unsupported neutral belongs in a separate parameter-gap warning. The new smaller native failure confirms this distinction. Actual8 core and3 native controls pass at corrected head8e2fe429; protected/full-fleet integration remains pending and SP012 stays held for missing retention coverage.
+Prepared [PR829](https://github.com/CrispStrobe/kerotakis/pull/829) corrects the lost missing-model warning beside supported peaks. `outside_method` should remain the ionic-method exclusion list; an unsupported neutral belongs in a separate parameter-gap warning. The new smaller native failure confirms this distinction. Actual8 core and3 native controls pass at corrected head8e2fe429; all25 CI and33 logical fleet jobs now pass and normal integration is `b3c18f5c`; SP012 stays held for missing retention coverage.
 
 For **SP003**, inspect distillation's accumulated-condensate positivity refusal.
 One stage delivers product; four stages refuse atomically. Freeze matched feed,
@@ -274,8 +274,7 @@ control, not empirical salting-out calibration.
 prepares the generic finite-gas boundary repair and native controls across
 loading, temperature, dilute/brine routes, repeated settlement and initially
 empty gas phases. Read its `docs/finite-gas-molar-initialization.md` and
-`audits/target468-20261016/finite-gas-eos-first-control/`. Repaired Rust
-execution, all applicable native/platform and full-fleet checks remain pending.
+`audits/target468-20261016/finite-gas-eos-first-control/`. Combined source `e9cc8782` now passes Clippy,604 PHREEQC/CEA tests,31 core controls and all33 original logical fleet jobs. Current protected/platform checks and normal integration remain pending.
 Preserve the original failure, use normal exact-head integration, then bind a
 separate actual-production GS-010 replay before any working-catalog selection.
 Do not rescale readback or replace the reviewed thermodynamic constants.
@@ -295,13 +294,12 @@ Do not interpret internal ideal-gas closure as quantitative solubility or
 real-gas calibration. The receipt preserves the first assessment-tool failure
 and its correction to the existing molar inventory resolution.
 
-## I. Give coupled ammonia protonation and headspace exchange one owner
+## J. Give coupled ammonia protonation and headspace exchange one owner
 
 **Observed hold:** original GS005 changes free aqueous NH3 from about0.000947mol
 to6.35e-11mol on acidification, yet gas NH3 stays near3.57198e-6mol in both
 arms. Nitrogen closes; the tiny gas difference does not establish acid trapping.
-This is older-source evidence, so reproduce it against an authenticated accepted
-current source before claiming a continuing current-source defect.
+A [separate smaller accepted-equivalent control](../audits/target468-20261016/ammonia-coupled-first-control-20261018/README.md) now reproduces this failure on runtime identical to accepted `0a5a92f1`, binary `6c617d2b`. All three arms retain nitrogen/chloride; both acidic arms suppress free NH3 but retain over90% of neutral gas. Raw observations and the first saved-reader defect are preserved.
 
 **Source lead:** `crates/kerotakis-core/src/volatility.rs` partitions neutral
 NH3 with a standalone Henry law, while
@@ -328,3 +326,5 @@ pure-liquid and unavailable-backend controls remain honest. Keep the original
 GS005 failure/hold and add a separately bound replay only after normal protected
 integration and actual delivery. A model gap or unavailable gas capability is
 not a scientific pass.
+
+PR834 `2750df2d` implements the bounded finite-only ammonia coupling proposal. Actual native validation is running, not accepted. Missing minteq NH3(g) is an explicit unchanged-state refusal; core-only/dry fallback and existing open/swept behavior remain. Final combined-source acceptance must include the separately accepted finite-gas initialization repair. Original GS005 stays excluded until its own separately bound repaired-source replay passes.

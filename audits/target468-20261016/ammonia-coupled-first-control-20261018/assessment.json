@@ -1,0 +1,45 @@
+{
+  "source": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+  "accepted_equivalent_main": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+  "whole_tree_equality_claimed": false,
+  "verdict": "FAIL: uncoupled finite ammonia partition/protonation",
+  "arms": [
+    {
+      "id": 0,
+      "temperature_K": 298.2487320690037,
+      "pH": 10.57218347406,
+      "NH3_gas_mol": 2.857507375448032e-06,
+      "NH3_aqueous_mol": 0.0007606608179977813,
+      "NH4_aqueous_mol": 3.648167462671606e-05,
+      "chloride_mol": 0,
+      "nitrogen_residual_mol": -5.345116710353537e-17,
+      "approx_core_Henry_gas_from_final_free_NH3_mol": 2.7391696737712967e-06,
+      "approx_partition_residual_ratio": 1.0432020341090473
+    },
+    {
+      "id": 1,
+      "temperature_K": 300.42713686718287,
+      "pH": 1.992694761654,
+      "NH3_gas_mol": 2.8575066974394943e-06,
+      "NH3_aqueous_mol": 4.523728237188227e-11,
+      "NH4_aqueous_mol": 0.0007971424480656636,
+      "chloride_mol": 0.001600000000001288,
+      "nitrogen_residual_mol": 3.8369914884262e-16,
+      "approx_core_Henry_gas_from_final_free_NH3_mol": 1.7910436495513636e-13,
+      "approx_partition_residual_ratio": 15954422.42937668
+    },
+    {
+      "id": 2,
+      "temperature_K": 300.4274932845325,
+      "pH": 1.992759619768,
+      "NH3_gas_mol": 2.737678993094408e-06,
+      "NH3_aqueous_mol": 4.525170490686666e-11,
+      "NH4_aqueous_mol": 0.0007972622757549242,
+      "chloride_mol": 0.001599999999999937,
+      "nitrogen_residual_mol": -2.754957720285667e-16,
+      "approx_core_Henry_gas_from_final_free_NH3_mol": 1.7916422590515827e-13,
+      "approx_partition_residual_ratio": 15280276.959662786
+    }
+  ],
+  "qualification": "Saved-output assessment only. Henry diagnostic uses solvent-only approximate volume to show an orders-of-magnitude mismatch, not a fitted acceptance tolerance. Original pre-issue qualitative consistency forecast fails independently: acid suppresses free aqueous NH3 while over 90% of neutral headspace NH3 persists. No catalog selection or empirical calibration."
+}

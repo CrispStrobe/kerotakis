@@ -47,9 +47,9 @@ produce one selection and three continuing failures:
 
 ## Integrated source and actual production
 
-Latest verified main is **`0a5a92f1`**, the normally protected PR828 merge after
+Latest verified main is **`b3c18f5c`**, the normally protected PR829 merge after
 25 CI successes, both reviewed native-platform logs and all33 original logical
-fleet jobs. Its [parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr828-integration.json)
+fleet jobs (25 GitHub +8 bounded native). Its [parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr829-integration.json)
 verifies the actual tree against the reviewed candidate. PR830 integrated as
 `0fe97e76` after25 CI and33 logical fleet jobs, with its separate retained
 [receipt](../audits/target468-20261016/accepted-pr-integration/pr830-integration.json).
@@ -112,7 +112,7 @@ actual merge parents/tree afterward.
 
 ## Next executable work
 
-1. Finish PR829/833 current-head acceptance and normal integration; PR828/830 are integrated. Retain
+1. Finish PR833 current-head protected/platform acceptance and normal integration; PR828/829/830 are integrated. Retain
    exact provider qualification and first failures; do not reset valid runs for
    optional changes. Document any held resource gate or active-run conflict.
 2. Deploy changed runtime source only after acceptance. Freeze a separate
@@ -137,4 +137,4 @@ setup failure is preserved: missing recursive submodules stopped Cargo before
 compilation or experiments. Its correction initializes the original source
 submodules before unchanged native commands. No failing assertion is waived.
 
-Current accepted-source receipts: [PR829 fleet](../audits/target468-20261016/hybrid-own-fleet-20261018/pr829/README.md), [verified integration](../audits/target468-20261016/accepted-pr-integration/pr829-integration.json), and [PR833 combined-source native/fleet acceptance](../audits/target468-20261016/cpu-combined-gas-833-20261018/README.md). Scientific catalog remains204 overall /200 fixed468. A separate current-accepted-equivalent ammonia control reproduces inconsistent neutral-gas/protonation coupling; lane I remains open, with no new scientific selection.
+Current accepted-source receipts: [PR829 fleet](../audits/target468-20261016/hybrid-own-fleet-20261018/pr829/README.md), [verified integration](../audits/target468-20261016/accepted-pr-integration/pr829-integration.json), and [PR833 combined-source native/fleet acceptance](../audits/target468-20261016/cpu-combined-gas-833-20261018/README.md). Scientific catalog remains204 overall /200 fixed468. A separate current-accepted-equivalent ammonia control reproduces inconsistent neutral-gas/protonation coupling; lane J remains open, with no new scientific selection.
