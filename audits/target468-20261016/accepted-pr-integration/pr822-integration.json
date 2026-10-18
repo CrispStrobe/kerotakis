@@ -1,0 +1,24 @@
+{
+  "pr": 822,
+  "reviewed_head": "e2a4ff7054041c21adaaf90435d1a4363362fac6",
+  "merge_commit": "bc472fb434108741f92a10e6af7534ba00e8ef30",
+  "merged_at": "2026-10-18T06:30:45Z",
+  "actual_parents": [
+    "d6020643dc1cb8566051a244e9de45a43b1d0582",
+    "e2a4ff7054041c21adaaf90435d1a4363362fac6"
+  ],
+  "actual_tree": "acbd6a43d4314e4160aadf156d18ea6e80759af7",
+  "reconstructed_merge_tree": "acbd6a43d4314e4160aadf156d18ea6e80759af7",
+  "tree_matches": true,
+  "normal_protected_integration": true,
+  "ci_run": 39001207755,
+  "ci_success": 25,
+  "expected_skips": 1,
+  "fleet_run": 39001207751,
+  "fleet_success": 33,
+  "focused_native_jobs": [
+    117304618240,
+    117304618350
+  ],
+  "qualification": "Bounded source acceptance and integration, not production deployment or empirical calibration."
+}

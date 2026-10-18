@@ -1,4 +1,4 @@
-# Fresh-agent handover — 2026-10-17
+# Fresh-agent handover — 2026-10-18
 
 This is the executable continuation plan. Read `AGENTS.md`, `CONTRIBUTING.md`,
 `docs/STATUS.md`, `docs/improvement-agenda-20261014.md` and
@@ -9,7 +9,7 @@ GitHub references. Local operation details belong only in an ignored handoff.
 
 ## Start here
 
-1. Fetch actual main and inspect PR822–826, their exact heads, current checks and
+1. Fetch actual main and inspect PR824/826/827, their exact heads, current checks and
    active workflows. A queued check is neither a failure nor an acceptance.
 2. Consult the ignored local operating handoff if present before touching
    worktrees, build targets, evidence or running controllers. Check load, available
@@ -24,11 +24,17 @@ GitHub references. Local operation details belong only in an ignored handoff.
    values, relaxed thresholds, HTTP200 or exit0 alone.
 
 Evidence not present in main is available under public commit
-[`9b7e7099`](https://github.com/CrispStrobe/kerotakis/tree/9b7e70998db9a89ca595e2d7f3719c78230f44f5).
+[`7c14f396`](https://github.com/CrispStrobe/kerotakis/tree/7c14f3966d40f7c771bc90a31f497a1a72971320).
 Read paths below at that commit where necessary. It is an evidence source, not
 an integration branch. Do not copy credentials or host details into public docs.
 
 ## Lane 1 — finish pending delivery, first priority
+
+PR822/823 are now integrated as `bc472fb4`/`d6020643`; their source/run rows
+below preserve accepted bindings, not pending merge tasks. PR825 is also
+integrated as `050aea7f` after its infrastructure-only retry passed. PR824 has a
+comment-history correction awaiting complete acceptance; PR827 repairs full
+Vercel engine delivery and has separate current-head validation.
 
 Current source heads and existing runs are listed below. Refresh them; never
 launch duplicate validation or accept an older head's checks for a new head.
@@ -37,8 +43,9 @@ launch duplicate validation or accept an older head's checks for a new head.
 | --- | --- | --- |
 | 822 | `e2a4ff7054041c21adaaf90435d1a4363362fac6` | `39001207755` / `39001207751` / not separately required by unchanged HTTP layer |
 | 823 | `4730f7e689fee8ec3ed0eaa3794c50f18755c8d1` | `38999106064` / `38999106102` / unchanged HTTP layer |
-| 824 | `7ea71e56a9461a49186884e97c591ccc07ed1242` | `39008139762` / `39008139769` / `39008139763` |
+| 824 | `654cf041dcf794d529bd9049c1316b9602e0c7e1` | `39104378850` / `39104378835` / `39104378816` |
 | 825 | `bc8607061d8cec84de4035fa2d8b66d71b7b7892` | `39002639113` / `39002639110` / `39002639181` |
+| 827 | `5194f961a59b804f18bc4e593e067ab2cf8af0f5` | `39107414016` / `39107555881` / `39107414019` |
 
 - **822:** review `crates/kerotakis-phreeqc/src/aqueous.rs` phase admission,
   `phase_inclusive_totals`, pinning and comparison refusal plus CLI translations.
@@ -58,12 +65,21 @@ launch duplicate validation or accept an older head's checks for a new head.
   forms, comments, embedded hashes and `wait 60 seconds`. Check spaced-unit
   conversion and per-command/aggregate API budgets. First broader-head native,
   lesson, Wasm and browser failures are real; do not regenerate goldens to hide
-  them. All19 local HTTP policy tests passed; hosted native acceptance is pending.
+  them. The latest correction preserves full comments in saved command history
+  without weakening the existing English-alias assertion. All19 local HTTP
+  policy tests passed; new-head hosted native acceptance is pending.
 - **825:** inspect the shared finite-quantity guard, scaled public quantity
   readers and `finite_script_quantities.rs`. Require NaN/infinity/exponent and
   unit-scaling overflow refusals across numeric families, plus ordinary and
   large-finite JSON round trips. Finite input spelling alone does not prove a
   scaled result is finite. Preserve physical-range semantics.
+
+- **827:** read `docs/vercel-live-engine-delivery.md`, the Vercel workflow and
+  `tools/build-rest-native.sh`. Require the existing native/browser MY-BASIC
+  profile, both live engine assets, complete frontend archive and actual producer
+  Cargo.lock bytes. Preserve the first404 observations. After normal acceptance
+  and integration, deploy actual main and verify the delivered assets plus a real
+  uncached browser/native solution; cache-only output is not full delivery.
 
 **Acceptance and completion:** inspect focused logs, all applicable CI and all33
 own-fleet jobs; REST checks apply where triggered. Preserve and repair genuine
@@ -102,7 +118,9 @@ and update STATUS without incrementing scientific counts.
 **Inputs:** `audits/target468-20261016/{README.md,scoreboard.json}`, working
 catalog `audits/working-experiments-20261016.json`, original manifests and saved
 assessments. Current catalog200 / fixed468 selected196; goal401 means205 more.
-First120 has64 unassessed,14 reviewed holds and42 selected. All668 baseline
+First120 has64 cases awaiting final selection review,14 earlier reviewed holds
+and42 selected. The [saved64 first screen](saved64-review-lanes-20261018.md)
+records44 candidates and20 named holds; none is yet a new scientific pass. All668 baseline
 executions are already complete. The separate curriculum200 is not part of468.
 
 **Work:** pick a small named group of unassessed IDs, read original prospective
