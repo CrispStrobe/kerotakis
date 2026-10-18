@@ -52,7 +52,13 @@ is not accepted until conservation and actual activity ownership are established
 **Case:** TH016. A1kJ pulse emits a Zn melt event for0.07395386mol, but the old
 result labels all0.76475987mol as liquid at692.68K. No retained solid remains.
 **Source:** `crates/kerotakis-core/src/{phase_route,displacement,bench,vessel}.rs`,
-`crates/kerotakis-phreeqc/src/aqueous.rs` and the standard solver stack.
+`crates/kerotakis-phreeqc/src/aqueous.rs`,
+`crates/kerotakis-cea/src/thermal.rs` and the standard solver stack.
+The CEA route is a specific source-review lead: `Charge.mapped` stores species
+and amount without the owned phase, incoming enthalpy resolves a registry-mapped
+CEA record, and final condensed contents are assigned even when no reaction
+event marks a change. Establish whether that path overwrites the paid partial
+melt; a source-reading lead is not yet a current-source reproduction.
 
 **Work:** locate every post-transition metal phase writer. Reproduce against
 current source before changing it. Trace the event, deposited phases and energy
