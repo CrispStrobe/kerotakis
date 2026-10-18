@@ -165,3 +165,28 @@ thermal pass is earned by conservation of atoms alone.
 Keep host operation details, tokens, private inventories and local resource
 thresholds in the ignored operating handoff. Use the normal protected PR workflow;
 never merge the broad audit branch to import this evidence.
+
+## H. Match the actual Pages payload to its reviewed interpreter profile
+
+**Input:** `.github/workflows/ci.yml` jobs `demo`, `iphreeqc-wasm` and
+`wasm-bridge`, plus `tools/build-{web,iphreeqc-wasm}.sh`. The two engine/bridge
+jobs explicitly select `IPHREEQC_BASIC_MODE=my-basic`; the `demo` job that builds
+and publishes Pages does not. The build helper defaults to `disabled`. Pages
+serving engine files200 therefore does not establish interpreter capability.
+This is a source/configuration finding; measure the actual published interpreter
+before claiming its observed failure. Keep PR827's current acceptance unchanged.
+
+**Work:** after the current Vercel release, use a fresh narrow branch from actual
+main. Bind the actual Pages JS/Wasm bytes and source metadata, then run a real
+`USER_PUNCH` arithmetic probe and an uncached Rust/aqueous solve. Preserve that
+first observation. Select the already reviewed MY-BASIC profile in the Pages
+payload job and test the generated site files themselves, rather than infer
+capability from a separate engine build or `canSolve()` flag. Keep the existing
+native/browser numerical comparison and interpreted/unsupported-mode tests.
+
+**Done:** source-bound CI verifies the actual published-payload engine executes
+BASIC and solves an uncached solution consistent with native. Complete applicable
+CI/fleet acceptance through normal protection, publish Pages, and independently
+verify the live bytes and capability. Keep REST-client/CORS acceptance separate
+from full Pages chemistry acceptance. No new interpreter, parameter data, science
+selection or calibration claim is needed for this build-profile repair.

@@ -74,7 +74,10 @@ The30-day command and90-day script limits remain intact.
 
 Vercel currently returns404 for both `iphreeqc.mjs` and `iphreeqc.wasm`; Pages
 serves both. PR827 closes the missing Emscripten deployment step and refuses an
-absent engine payload. A merged workflow is not proof of a working deployment.
+absent engine payload. A merged workflow is not proof of a working deployment. The
+[separate Pages payload-profile lane](saved64-review-lanes-20261018.md#h-match-the-actual-pages-payload-to-its-reviewed-interpreter-profile)
+records a second build-configuration gap; Pages client/CORS acceptance does not
+certify the full Pages chemistry engine.
 
 ## Next executable work
 
