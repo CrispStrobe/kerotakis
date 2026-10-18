@@ -1,0 +1,1631 @@
+{
+  "checks": [
+    {
+      "name": "live engine identity",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "health": {
+          "service": "kerotakis",
+          "api_version": 1,
+          "mode": "vercel",
+          "configured": true,
+          "revision": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+          "execution_backend": "microvm",
+          "engine": {
+            "source_head": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+            "binary_sha256": "14f0cafe4ab5d52238f48c7c847584ec93ba018cfb5137cb045293e9fab5c9f9",
+            "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+          }
+        }
+      }
+    },
+    {
+      "name": "production actual client bytes",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21"
+      }
+    },
+    {
+      "name": "pages actual client bytes",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21"
+      }
+    },
+    {
+      "name": "deployed asset iphreeqc.mjs",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "sha256": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
+        "length": 33213
+      }
+    },
+    {
+      "name": "deployed asset iphreeqc.wasm",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "sha256": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
+        "length": 1952556
+      }
+    },
+    {
+      "name": "deployed asset kerotakis.mjs",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+        "length": 8205
+      }
+    },
+    {
+      "name": "deployed asset kerotakis_wasm.js",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+        "length": 41630
+      }
+    },
+    {
+      "name": "deployed asset kerotakis_wasm_bg.wasm",
+      "passed": true,
+      "observed": {
+        "status": 200,
+        "sha256": "950daeacb35ca7d62a859f7055ae798703a7c4d27654935a4f56d13f008228ae",
+        "length": 11303449
+      }
+    },
+    {
+      "name": "actual Wasm source revision",
+      "passed": true,
+      "observed": {
+        "engine_version": "0.0.1",
+        "git_rev": "d388375",
+        "narration": [
+          "routing"
+        ],
+        "packs": [
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0 + USGS public domain data",
+            "min_app_version": "0.0.1",
+            "pack_id": "core-aqueous",
+            "required": true,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0",
+            "min_app_version": "0.0.1",
+            "pack_id": "phase",
+            "required": false,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0 + NASA public domain data",
+            "min_app_version": "0.0.1",
+            "pack_id": "combustion",
+            "required": false,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0 + MIT (chematic)",
+            "min_app_version": "0.0.1",
+            "pack_id": "structures",
+            "required": false,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0",
+            "min_app_version": "0.0.1",
+            "pack_id": "spectra",
+            "required": false,
+            "version": "1.0.0"
+          }
+        ],
+        "registers": [
+          "lv1",
+          "lv2",
+          "lv3"
+        ]
+      }
+    },
+    {
+      "name": "uncached browser solve uses live engine",
+      "passed": true,
+      "observed": {
+        "bareCanSolve": false,
+        "canSolve": true,
+        "solver_hook_calls": 4,
+        "solution": {
+          "ionic_strength": 0.2708857843468,
+          "pe": null,
+          "ph": 6.975165409667,
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-H\u00fcckel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+            "routing_phrase": {
+              "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+              "key": "routing.second-speciation-for-solvent",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "dataset",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                        "key": "provenance.dataset.with-gas-uptake-slice",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "pitzer.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "model",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                        "key": "provenance.model.ion-interaction",
+                        "slots": [
+                          [
+                            "name",
+                            {
+                              "text": {
+                                "text": "Pitzer"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "redox": [],
+          "solvent_activity": {
+            "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "pitzer.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "ionic_strength": 0.2708857848968,
+            "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+            "model_phrase": {
+              "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+              "key": "provenance.model.ion-interaction",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "Pitzer"
+                    }
+                  }
+                ]
+              ]
+            },
+            "particle_molality": 0.5418002703999999,
+            "water_activity": 0.991
+          },
+          "solvent_kg": 0.136589,
+          "species": [
+            {
+              "activity": 0.9908,
+              "molality": 55.51,
+              "name": "H2O"
+            },
+            {
+              "activity": 0.1866,
+              "molality": 0.2709,
+              "name": "Cl-"
+            },
+            {
+              "activity": 0.1975,
+              "molality": 0.2709,
+              "name": "Na+"
+            },
+            {
+              "activity": 0.0002688,
+              "molality": 0.0002526,
+              "name": "O2"
+            },
+            {
+              "activity": 1.059e-07,
+              "molality": 1.347e-07,
+              "name": "H+"
+            },
+            {
+              "activity": 9.191e-08,
+              "molality": 1.347e-07,
+              "name": "OH-"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "native and actual browser solution agree",
+      "passed": true,
+      "observed": {
+        "delta_ph": 0,
+        "delta_ionic_strength": 0,
+        "native_response_sha256": "4cd82384727d2f2ae637fc9a9d9f661866b8017fc7a6298ae40f46fad9a84b41"
+      }
+    },
+    {
+      "name": "browser finite salt retained",
+      "passed": true,
+      "observed": {
+        "sodium_mol": 0.037,
+        "chloride_mol": 0.037
+      }
+    },
+    {
+      "name": "actual browser interpreter executes arithmetic",
+      "passed": true,
+      "observed": {
+        "response": {
+          "selected": [
+            [
+              "5.000000000000e+00",
+              ""
+            ]
+          ],
+          "report": "------------------------------------\nReading input data for simulation 1.\n------------------------------------\n\n\tSOLUTION 777\n\t pH 7\n\tSELECTED_OUTPUT\n\t reset false\n\tUSER_PUNCH\n\t10 PUNCH 2+3\n\tEND\n-------------------------------------------\nBeginning of initial solution calculations.\n-------------------------------------------\n\nInitial solution 777.\t\n\nWARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.\n\n-----------------------------Solution composition------------------------------\n\n\tElements           Molality       Moles\n\n\tPure water     \n\n----------------------------Description of solution----------------------------\n\n                                       pH  =   7.000    \n                                       pe  =   4.000    \n                        Activity of water  =   1.000\n                 Ionic strength (mol/kgw)  =   1.001e-07\n                       Mass of water (kg)  =   1.000e+00\n                 Total alkalinity (eq/kg)  =   1.082e-10\n                         Temperature (\u00b0C)  =  25.00\n                  Electrical balance (eq)  =  -1.082e-10\n Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05\n                               Iterations  =   3\n                                  Total H  = 1.110124e+02\n                                  Total O  = 5.550622e+01\n\n----------------------------Distribution of species----------------------------\n\n                                               Log       Log       Log    mole V\n   Species          Molality    Activity  Molality  Activity     Gamma   cm\u00b3/mol\n\n   OH-             1.001e-07   1.001e-07    -6.999    -7.000    -0.000     (0)  \n   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00\n   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07\nH(0)          1.416e-25\n   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     (0)  \nO(0)          0.000e+00\n   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  \n\n------------------------------Saturation indices-------------------------------\n\n  Phase               SI** log IAP   log K(298 K,   1 atm)\n\n  H2(g)           -22.00    -25.15   -3.15  H2\n  H2O(g)           -1.51     -0.00    1.51  H2O\n  O2(g)           -39.19    -42.08   -2.89  O2\n\n**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.\n  For ideal gases, phi = 1.\n\n------------------\nEnd of simulation.\n------------------\n\n------------------------------------\nReading input data for simulation 2.\n------------------------------------\n\n--------------------------------\nEnd of Run after 2.3419 Seconds.\n--------------------------------\n\n"
+        }
+      }
+    },
+    {
+      "name": "production live 401 visible",
+      "passed": true,
+      "observed": {
+        "result": "HTTP 401\n{\n  \"detail\": \"Invalid bearer credential\"\n}"
+      }
+    },
+    {
+      "name": "production UI request wiring",
+      "passed": true,
+      "observed": {
+        "method": "POST",
+        "payload": {
+          "script": "# browser UI fixture, not a chemical protocol\ninspect v1\n"
+        },
+        "fixture_auth_matches": true
+      }
+    },
+    {
+      "name": "production fixture rendered as text",
+      "passed": true,
+      "observed": {
+        "result": "HTTP 200\n{\n  \"ui_fixture\": true,\n  \"message\": \"<img src=x onerror=\\\"window.fixtureExecuted=true\\\">\"\n}"
+      }
+    },
+    {
+      "name": "production invalid endpoints refused before fetch",
+      "passed": true,
+      "observed": {
+        "variants": 5,
+        "new_post_requests": 0
+      }
+    },
+    {
+      "name": "production clear semantics",
+      "passed": true,
+      "observed": {
+        "key_empty": true,
+        "results_empty": true,
+        "script_retained": true
+      }
+    },
+    {
+      "name": "production redirects refused",
+      "passed": true,
+      "observed": {
+        "result": "Failed to fetch",
+        "redirected_requests": 0
+      }
+    },
+    {
+      "name": "production offline failure clears stale result",
+      "passed": true,
+      "observed": {
+        "result": "Failed to fetch"
+      }
+    },
+    {
+      "name": "production reload clears inputs",
+      "passed": true,
+      "observed": {
+        "key_empty": true,
+        "initial_script_restored": true,
+        "results_empty": true
+      }
+    },
+    {
+      "name": "production no persisted client data",
+      "passed": true,
+      "observed": {
+        "stores": {
+          "local": [],
+          "session": [],
+          "indexedDB": [],
+          "caches": [],
+          "serviceWorkers": 0
+        },
+        "cookie_count": 0
+      }
+    },
+    {
+      "name": "production no key in request URLs",
+      "passed": true,
+      "observed": {
+        "request_count": 6
+      }
+    },
+    {
+      "name": "production no unhandled page errors",
+      "passed": true,
+      "observed": {
+        "errors": []
+      }
+    },
+    {
+      "name": "pages live 401 visible",
+      "passed": true,
+      "observed": {
+        "result": "HTTP 401\n{\n  \"detail\": \"Invalid bearer credential\"\n}"
+      }
+    },
+    {
+      "name": "pages UI request wiring",
+      "passed": true,
+      "observed": {
+        "method": "POST",
+        "payload": {
+          "script": "# browser UI fixture, not a chemical protocol\ninspect v1\n"
+        },
+        "fixture_auth_matches": true
+      }
+    },
+    {
+      "name": "pages fixture rendered as text",
+      "passed": true,
+      "observed": {
+        "result": "HTTP 200\n{\n  \"ui_fixture\": true,\n  \"message\": \"<img src=x onerror=\\\"window.fixtureExecuted=true\\\">\"\n}"
+      }
+    },
+    {
+      "name": "pages invalid endpoints refused before fetch",
+      "passed": true,
+      "observed": {
+        "variants": 5,
+        "new_post_requests": 0
+      }
+    },
+    {
+      "name": "pages clear semantics",
+      "passed": true,
+      "observed": {
+        "key_empty": true,
+        "results_empty": true,
+        "script_retained": true
+      }
+    },
+    {
+      "name": "pages redirects refused",
+      "passed": true,
+      "observed": {
+        "result": "Failed to fetch",
+        "redirected_requests": 0
+      }
+    },
+    {
+      "name": "pages offline failure clears stale result",
+      "passed": true,
+      "observed": {
+        "result": "Failed to fetch"
+      }
+    },
+    {
+      "name": "pages reload clears inputs",
+      "passed": true,
+      "observed": {
+        "key_empty": true,
+        "initial_script_restored": true,
+        "results_empty": true
+      }
+    },
+    {
+      "name": "pages no persisted client data",
+      "passed": true,
+      "observed": {
+        "stores": {
+          "local": [],
+          "session": [],
+          "indexedDB": [],
+          "caches": [],
+          "serviceWorkers": 0
+        },
+        "cookie_count": 0
+      }
+    },
+    {
+      "name": "pages no key in request URLs",
+      "passed": true,
+      "observed": {
+        "request_count": 6
+      }
+    },
+    {
+      "name": "pages no unhandled page errors",
+      "passed": true,
+      "observed": {
+        "errors": []
+      }
+    },
+    {
+      "name": "unapproved preflight denied",
+      "passed": true,
+      "observed": {
+        "status": 400
+      }
+    },
+    {
+      "name": "actual browser blocks unapproved origin",
+      "passed": true,
+      "observed": {
+        "result": "Failed to fetch",
+        "controlled_document_origin": "https://unapproved.invalid"
+      }
+    }
+  ],
+  "browser": {
+    "version": "151.0.7922.34",
+    "web_security_disabled": false
+  },
+  "source_binding": {
+    "status": "bound_before_browser_dispatch",
+    "expected_engine_source": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+    "expected_binary_sha256": "14f0cafe4ab5d52238f48c7c847584ec93ba018cfb5137cb045293e9fab5c9f9",
+    "client_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+    "frontend_assets": {
+      "iphreeqc.mjs": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
+      "iphreeqc.wasm": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
+      "kerotakis.mjs": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "kerotakis_wasm.js": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "kerotakis_wasm_bg.wasm": "950daeacb35ca7d62a859f7055ae798703a7c4d27654935a4f56d13f008228ae"
+    },
+    "native_bridge_reference": {
+      "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
+      "response_sha256": "4cd82384727d2f2ae637fc9a9d9f661866b8017fc7a6298ae40f46fad9a84b41",
+      "engine": {
+        "source_head": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+        "binary_sha256": "14f0cafe4ab5d52238f48c7c847584ec93ba018cfb5137cb045293e9fab5c9f9",
+        "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+      },
+      "solution": {
+        "ph": 6.975165409667,
+        "ionic_strength": 0.2708857843468
+      }
+    },
+    "producer_artifact_receipt_sha256": "b98929376e48b18b72cc070b6e5d7d959ea6da3904f276dc179b33db19fce15e",
+    "protocol_design_sha256": "53e86d6b9c8026e11504b1160a348aa861e997016afb2510bd23d42dcb34005c"
+  },
+  "physical_verdict": "not_assigned",
+  "fixtures_are_ui_only": true,
+  "owner_credentials_supplied": false,
+  "new_corpus_executions": 0,
+  "live_browser_control": {
+    "meta": {
+      "engine_version": "0.0.1",
+      "git_rev": "d388375",
+      "narration": [
+        "routing"
+      ],
+      "packs": [
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0 + USGS public domain data",
+          "min_app_version": "0.0.1",
+          "pack_id": "core-aqueous",
+          "required": true,
+          "version": "1.0.0"
+        },
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0",
+          "min_app_version": "0.0.1",
+          "pack_id": "phase",
+          "required": false,
+          "version": "1.0.0"
+        },
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0 + NASA public domain data",
+          "min_app_version": "0.0.1",
+          "pack_id": "combustion",
+          "required": false,
+          "version": "1.0.0"
+        },
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0 + MIT (chematic)",
+          "min_app_version": "0.0.1",
+          "pack_id": "structures",
+          "required": false,
+          "version": "1.0.0"
+        },
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0",
+          "min_app_version": "0.0.1",
+          "pack_id": "spectra",
+          "required": false,
+          "version": "1.0.0"
+        }
+      ],
+      "registers": [
+        "lv1",
+        "lv2",
+        "lv3"
+      ]
+    },
+    "bareCanSolve": false,
+    "canSolve": true,
+    "solver_hook_calls": 4,
+    "result": {
+      "bench": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0,
+            "contents": [
+              {
+                "moles": 0.037,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.037,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 7.5819594782126005,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0,
+            "excess_enthalpy_j": 0,
+            "foam": {
+              "peak_volume_liters": 0,
+              "trapped_gas_liters": 0,
+              "volume_liters": 0
+            },
+            "free_hydroxide": 1.8398148914086657e-08,
+            "free_proton": 1.8398148916108174e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0,
+                "moles": 7.5819594782126005,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0,
+                "moles": 0.037,
+                "particle_size_um": null,
+                "phase": "aqueous",
+                "source": "reagent bottle",
+                "species": "NaCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0,
+            "pressure": 101325,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0,
+            "solution": {
+              "ionic_strength": 0.2708857843468,
+              "pe": null,
+              "ph": 6.975165409667,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+                "routing_phrase": {
+                  "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                  "key": "routing.second-speciation-for-solvent",
+                  "slots": [
+                    [
+                      "routing",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "the default inorganic aqueous dataset",
+                            "key": "routing.default-inorganic"
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "dataset",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                            "key": "provenance.dataset.with-gas-uptake-slice",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "pitzer.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "model",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                            "key": "provenance.model.ion-interaction",
+                            "slots": [
+                              [
+                                "name",
+                                {
+                                  "text": {
+                                    "text": "Pitzer"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              },
+              "redox": [],
+              "solvent_activity": {
+                "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "pitzer.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "ionic_strength": 0.2708857848968,
+                "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+                "model_phrase": {
+                  "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                  "key": "provenance.model.ion-interaction",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "Pitzer"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "particle_molality": 0.5418002703999999,
+                "water_activity": 0.991
+              },
+              "solvent_kg": 0.136589,
+              "species": [
+                {
+                  "activity": 0.9908,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.1866,
+                  "molality": 0.2709,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.1975,
+                  "molality": 0.2709,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0002688,
+                  "molality": 0.0002526,
+                  "name": "O2"
+                },
+                {
+                  "activity": 1.059e-07,
+                  "molality": 1.347e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 9.191e-08,
+                  "molality": 1.347e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 297.89871403417646,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "scene": {
+        "scene": 1,
+        "vessels": [
+          {
+            "badges": [
+              {
+                "confidence": "computed",
+                "key": "ph",
+                "value": 6.975165409667
+              },
+              {
+                "confidence": "computed",
+                "key": "ionic_strength",
+                "value": 0.2708857843468
+              }
+            ],
+            "boiling_point_k": 373.407778727404,
+            "boundary": "open",
+            "bubbling": false,
+            "bulk_objects": [],
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "elapsed_s": 0,
+            "id": 0,
+            "label": "beaker",
+            "layers": [
+              {
+                "colour_word": "colourless",
+                "name": "solution",
+                "species": "solution",
+                "srgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "volume_l": 0.137
+              }
+            ],
+            "liquid": {
+              "cloudiness": 0,
+              "colour_word": "colourless",
+              "path_length_cm": 4,
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.137
+            },
+            "mass_g": 138.751391,
+            "melting_point_k": 272.21956318897395,
+            "pressure_pa": 101325,
+            "solids": [],
+            "temperature_k": 297.89871403417646,
+            "words": "The liquid is colourless and clear."
+          }
+        ]
+      },
+      "steps": [
+        {
+          "canonical": "add v1 water 137mL",
+          "charts": [],
+          "events": [
+            {
+              "event": "added",
+              "moles": 7.5819594782126005,
+              "species": "water",
+              "total_after": 7.5819594782126005,
+              "vessel": 0
+            },
+            {
+              "event": "solution_routed",
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "vessel": 0
+            }
+          ],
+          "ionic": [],
+          "operator": {
+            "moles": 7.5819594782126005,
+            "op": "add",
+            "species": "water",
+            "vessel": 0
+          },
+          "quest": [],
+          "rendered": [
+            "v1: +7.5820 mol water",
+            "v1: answered by vendored USGS phreeqc.dat \u2014 no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory"
+          ],
+          "routes": [
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": {
+                "succeeded": {
+                  "event_count": 0
+                }
+              },
+              "solver": "mixing-v0",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "curated",
+              "outcome": "not_applicable",
+              "reason": "curated-reactions does not apply to this vessel state",
+              "solver": "curated-reactions",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "curated",
+              "outcome": "not_applicable",
+              "reason": "no reaction family's pattern matches this vessel",
+              "solver": "reaction-families",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "curated",
+              "outcome": {
+                "succeeded": {
+                  "event_count": 0
+                }
+              },
+              "solver": "phase-routes",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "headspace-partition does not apply to this vessel state",
+              "solver": "headspace-partition",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "nonaqueous-curated does not apply to this vessel state",
+              "solver": "nonaqueous-curated",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "heat-of-mixing does not apply to this vessel state",
+              "solver": "heat-of-mixing",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "cea-thermal does not apply to this vessel state",
+              "solver": "cea-thermal",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "curated",
+              "outcome": "not_applicable",
+              "reason": "curated-combustion does not apply to this vessel state",
+              "solver": "curated-combustion",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "corrosion does not apply to this vessel state",
+              "solver": "corrosion",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "adsorption does not apply to this vessel state",
+              "solver": "adsorption",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": {
+                "succeeded": {
+                  "event_count": 0
+                }
+              },
+              "solver": "phreeqc-aqueous (shipped results)",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "qualitative",
+              "outcome": {
+                "succeeded": {
+                  "event_count": 0
+                }
+              },
+              "solver": "honesty",
+              "vessel": 0
+            }
+          ]
+        },
+        {
+          "canonical": "add v1 NaCl 0.037mol",
+          "charts": [],
+          "events": [
+            {
+              "event": "added",
+              "moles": 0.037,
+              "species": "NaCl",
+              "total_after": 0.037,
+              "vessel": 0
+            },
+            {
+              "event": "dissolved",
+              "moles": 0.037,
+              "species": "NaCl",
+              "vessel": 0
+            },
+            {
+              "event": "solution_routed",
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+                "routing_phrase": {
+                  "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                  "key": "routing.second-speciation-for-solvent",
+                  "slots": [
+                    [
+                      "routing",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "the default inorganic aqueous dataset",
+                            "key": "routing.default-inorganic"
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "dataset",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                            "key": "provenance.dataset.with-gas-uptake-slice",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "pitzer.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "model",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                            "key": "provenance.model.ion-interaction",
+                            "slots": [
+                              [
+                                "name",
+                                {
+                                  "text": {
+                                    "text": "Pitzer"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              },
+              "vessel": 0
+            },
+            {
+              "event": "solution_characterized",
+              "ionic_strength": 0.2708857843468,
+              "ph": 6.975165409667,
+              "vessel": 0
+            },
+            {
+              "event": "temperature_changed",
+              "from": 298.15,
+              "to": 297.89871403417646,
+              "vessel": 0
+            }
+          ],
+          "ionic": [],
+          "operator": {
+            "moles": 0.037,
+            "op": "add",
+            "species": "NaCl",
+            "vessel": 0
+          },
+          "quest": [],
+          "rendered": [
+            "v1: +0.0370 mol sodium chloride",
+            "v1: 0.0370 mol sodium chloride dissolved",
+            "v1: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice \u2014 the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+            "v1: pH 6.98",
+            "v1: 25.0 \u00b0C \u2192 24.7 \u00b0C"
+          ],
+          "routes": [
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": {
+                "succeeded": {
+                  "event_count": 1
+                }
+              },
+              "solver": "mixing-v0",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "curated",
+              "outcome": "not_applicable",
+              "reason": "curated-reactions does not apply to this vessel state",
+              "solver": "curated-reactions",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "curated",
+              "outcome": "not_applicable",
+              "reason": "no reaction family's pattern matches this vessel",
+              "solver": "reaction-families",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "curated",
+              "outcome": {
+                "succeeded": {
+                  "event_count": 0
+                }
+              },
+              "solver": "phase-routes",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "headspace-partition does not apply to this vessel state",
+              "solver": "headspace-partition",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "nonaqueous-curated does not apply to this vessel state",
+              "solver": "nonaqueous-curated",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "heat-of-mixing does not apply to this vessel state",
+              "solver": "heat-of-mixing",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "cea-thermal does not apply to this vessel state",
+              "solver": "cea-thermal",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "curated",
+              "outcome": "not_applicable",
+              "reason": "curated-combustion does not apply to this vessel state",
+              "solver": "curated-combustion",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "corrosion does not apply to this vessel state",
+              "solver": "corrosion",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "computed",
+              "outcome": "not_applicable",
+              "reason": "adsorption does not apply to this vessel state",
+              "solver": "adsorption",
+              "vessel": 0
+            },
+            {
+              "chemistry": true,
+              "kind": "computed",
+              "outcome": {
+                "succeeded": {
+                  "event_count": 2
+                }
+              },
+              "solver": "phreeqc-aqueous (shipped results)",
+              "vessel": 0
+            },
+            {
+              "chemistry": false,
+              "kind": "qualitative",
+              "outcome": {
+                "succeeded": {
+                  "event_count": 0
+                }
+              },
+              "solver": "honesty",
+              "vessel": 0
+            }
+          ]
+        }
+      ]
+    },
+    "basic": {
+      "response": {
+        "selected": [
+          [
+            "5.000000000000e+00",
+            ""
+          ]
+        ],
+        "report": "------------------------------------\nReading input data for simulation 1.\n------------------------------------\n\n\tSOLUTION 777\n\t pH 7\n\tSELECTED_OUTPUT\n\t reset false\n\tUSER_PUNCH\n\t10 PUNCH 2+3\n\tEND\n-------------------------------------------\nBeginning of initial solution calculations.\n-------------------------------------------\n\nInitial solution 777.\t\n\nWARNING: USER_PUNCH: Headings count does not match number of calls to PUNCH.\n\n-----------------------------Solution composition------------------------------\n\n\tElements           Molality       Moles\n\n\tPure water     \n\n----------------------------Description of solution----------------------------\n\n                                       pH  =   7.000    \n                                       pe  =   4.000    \n                        Activity of water  =   1.000\n                 Ionic strength (mol/kgw)  =   1.001e-07\n                       Mass of water (kg)  =   1.000e+00\n                 Total alkalinity (eq/kg)  =   1.082e-10\n                         Temperature (\u00b0C)  =  25.00\n                  Electrical balance (eq)  =  -1.082e-10\n Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  -0.05\n                               Iterations  =   3\n                                  Total H  = 1.110124e+02\n                                  Total O  = 5.550622e+01\n\n----------------------------Distribution of species----------------------------\n\n                                               Log       Log       Log    mole V\n   Species          Molality    Activity  Molality  Activity     Gamma   cm\u00b3/mol\n\n   OH-             1.001e-07   1.001e-07    -6.999    -7.000    -0.000     (0)  \n   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00\n   H2O             5.551e+01   1.000e+00     1.744    -0.000     0.000     18.07\nH(0)          1.416e-25\n   H2              7.079e-26   7.079e-26   -25.150   -25.150     0.000     (0)  \nO(0)          0.000e+00\n   O2              0.000e+00   0.000e+00   -42.080   -42.080     0.000     (0)  \n\n------------------------------Saturation indices-------------------------------\n\n  Phase               SI** log IAP   log K(298 K,   1 atm)\n\n  H2(g)           -22.00    -25.15   -3.15  H2\n  H2O(g)           -1.51     -0.00    1.51  H2O\n  O2(g)           -39.19    -42.08   -2.89  O2\n\n**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.\n  For ideal gases, phi = 1.\n\n------------------\nEnd of simulation.\n------------------\n\n------------------------------------\nReading input data for simulation 2.\n------------------------------------\n\n--------------------------------\nEnd of Run after 2.3419 Seconds.\n--------------------------------\n\n"
+      }
+    }
+  },
+  "pages_asset_observations": {
+    "iphreeqc.mjs": {
+      "url": "https://crispstrobe.github.io/kerotakis/iphreeqc.mjs",
+      "status": 200,
+      "sha256": "d4e3ebf1ff2b3796d5d1b42322e593b7c8c3330cb4861f62ceed6e15037c38b3",
+      "length": 32380,
+      "scope": "measurement only, not production asset identity"
+    },
+    "iphreeqc.wasm": {
+      "url": "https://crispstrobe.github.io/kerotakis/iphreeqc.wasm",
+      "status": 200,
+      "sha256": "3a7a5bbe65a2e98bd5e76ce4edc2345ba84bc50a58928fc14f7f393321b7f0c0",
+      "length": 1637768,
+      "scope": "measurement only, not production asset identity"
+    },
+    "kerotakis.mjs": {
+      "url": "https://crispstrobe.github.io/kerotakis/kerotakis.mjs",
+      "status": 200,
+      "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "length": 8205,
+      "scope": "measurement only, not production asset identity"
+    },
+    "kerotakis_wasm.js": {
+      "url": "https://crispstrobe.github.io/kerotakis/kerotakis_wasm.js",
+      "status": 200,
+      "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "length": 41630,
+      "scope": "measurement only, not production asset identity"
+    },
+    "kerotakis_wasm_bg.wasm": {
+      "url": "https://crispstrobe.github.io/kerotakis/kerotakis_wasm_bg.wasm",
+      "status": 200,
+      "sha256": "1dd33f6d1c0d49c05a506c0351fe4c0e30c7156a278661dcb9cea9bac8ff9abc",
+      "length": 11299165,
+      "scope": "measurement only, not production asset identity"
+    }
+  },
+  "pages_interpreter_diagnostic": {
+    "scope": "Actual published interpreter arithmetic only; not chemical validation",
+    "mode": "measurement_only_no_pass_assigned",
+    "meta": {
+      "engine_version": "0.0.1",
+      "git_rev": "0fe97e7",
+      "narration": [
+        "routing"
+      ],
+      "packs": [
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0 + USGS public domain data",
+          "min_app_version": "0.0.1",
+          "pack_id": "core-aqueous",
+          "required": true,
+          "version": "1.0.0"
+        },
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0",
+          "min_app_version": "0.0.1",
+          "pack_id": "phase",
+          "required": false,
+          "version": "1.0.0"
+        },
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0 + NASA public domain data",
+          "min_app_version": "0.0.1",
+          "pack_id": "combustion",
+          "required": false,
+          "version": "1.0.0"
+        },
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0 + MIT (chematic)",
+          "min_app_version": "0.0.1",
+          "pack_id": "structures",
+          "required": false,
+          "version": "1.0.0"
+        },
+        {
+          "compressed_size": 0,
+          "content_hash": "",
+          "licence": "AGPL-3.0",
+          "min_app_version": "0.0.1",
+          "pack_id": "spectra",
+          "required": false,
+          "version": "1.0.0"
+        }
+      ],
+      "registers": [
+        "lv1",
+        "lv2",
+        "lv3"
+      ]
+    },
+    "error": "Error: ERROR: PHREEQC BASIC capability is disabled; USER_PUNCH cannot execute.\nERROR: Calculations terminating due to input errors.\n"
+  },
+  "all_checks_passed": true
+}

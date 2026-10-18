@@ -1,0 +1,12 @@
+{
+  "id": "pages-client",
+  "http_status": 200,
+  "elapsed_seconds": 0.262408958747983,
+  "response_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+  "response_headers": {
+    "content-type": "text/html; charset=utf-8",
+    "access-control-allow-origin": "*",
+    "cache-control": "max-age=600"
+  },
+  "attempts": 1
+}

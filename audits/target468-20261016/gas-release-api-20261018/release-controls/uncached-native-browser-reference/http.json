@@ -1,0 +1,12 @@
+{
+  "id": "uncached-native-browser-reference",
+  "http_status": 200,
+  "elapsed_seconds": 3.3517098110169172,
+  "response_sha256": "4cd82384727d2f2ae637fc9a9d9f661866b8017fc7a6298ae40f46fad9a84b41",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

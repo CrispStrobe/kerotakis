@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-18T19:46:11.450585+00:00",
+  "selected_original_id": "new120:gs-010",
+  "selected_catalog_id": "new120-repaired-source:gs-010",
+  "previous_catalog_sha256": "ab7c31d9b0170719a5f494122b2b830e205db6c7b58dde14dbd33d538ab6ac48",
+  "new_catalog_sha256": "55624af38f9f9d8b85428c39acbfa0715cec12e0333d7c19e44e3b87fc05b9f9",
+  "previous_entries_preserved_exactly": 214,
+  "new_count": 215,
+  "fixed468_selected_before": 210,
+  "fixed468_selected_after": 211,
+  "additional_qualified_cases_to401": 190,
+  "remaining_first_screen_candidates": 32,
+  "historical_holds_unchanged": 20,
+  "original_protocol_replays_this_release": 1,
+  "completed_TH016_KN007_OR006_replayed": false,
+  "all215_script_hashes_verified": true,
+  "all211_target_memberships_unique": true
+}

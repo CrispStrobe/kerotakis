@@ -1,0 +1,66 @@
+{
+  "frozen_utc": "2026-10-18T07:58:57.648705+00:00",
+  "status": "Bound to accepted changed-source artifact/API/browser before its single issue",
+  "cases": [
+    {
+      "id": "new120:gs-010",
+      "script": "# GS-010: Salt can alter gas solubility without consuming the gas\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 CO2 0.001mol\ninspect v1\nnew\nadd v2 water 100mL\nadd v2 NaCl 0.1mol\nseal v2 500mL\nadd v2 CO2 0.001mol\ninspect v2\n",
+      "script_sha256": "e4652aa7ba19e0fd0fbfe144cde5ffb532c96cc885d29a9f65ca37a7dfedd78f",
+      "original_forecast": "Chemical expectation: a concentrated salt medium can reduce molecular CO2 solubility through salting-out; it does not stoichiometrically consume CO2.",
+      "original_criteria": [
+        {
+          "id": "GS-010-C1",
+          "criterion": "Compare neutral dissolved CO2 separately from bicarbonate/carbonate and gas-phase carbon.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-010-C2",
+          "criterion": "If the partition model lacks a salinity correction, record the missing effect as unsupported rather than forcing an expected difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "changed_source_expectations": {
+        "represented_material_charge_resolution_mol_or_eq": 1e-08,
+        "neutral_CO2_salt_less_than_water": true,
+        "temperatures_and_Pitzer_route_recorded": true,
+        "all_added_and_trapped_air_carbon_accounted": true,
+        "solver_failed_events": 0,
+        "scope": "Original qualitative salinity forecast plus a conserved represented C/H/O/Na/Cl/charge prerequisite; no empirical salinity calibration."
+      },
+      "baseline_stdout_sha256": "d7fd61e74cbe48649baf0312f689e1c16ce61412d6d87ee3ac946270ea5ced8b",
+      "baseline_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      }
+    }
+  ],
+  "requests_planned": 1,
+  "policy": {
+    "one_attempt_per_case": true,
+    "minimum_serial_seconds": 3.1,
+    "stop_on_ambiguous_5xx_or_network": true,
+    "no_original_forecast_or_script_changes": true,
+    "no_whole_corpus_reexecution": true
+  },
+  "catalog_additions": 0,
+  "single_changed_source_replay": "Only original GS010 on the authenticated finite-gas initializer release; do not repeat completed KN007/TH016 or unchanged OR006",
+  "accepted_engine": {
+    "source_head": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+    "binary_sha256": "14f0cafe4ab5d52238f48c7c847584ec93ba018cfb5137cb045293e9fab5c9f9",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "bound_to_authenticated_accepted_artifact": true,
+  "verified_release_receipt_sha256": "b98929376e48b18b72cc070b6e5d7d959ea6da3904f276dc179b33db19fce15e",
+  "actual_release_property_source_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/phase_route.rs": "1224af69e0ab3cac56ee9069c4941db75d7e55a288663b9d0afab4bce4c3a6ee",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "2c5dae21596ba9ac1a4c98e7c86b6c93e55dba28057d2c00c5eb7a8ae65b66fa"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "engine": {
+    "source_head": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+    "binary_sha256": "14f0cafe4ab5d52238f48c7c847584ec93ba018cfb5137cb045293e9fab5c9f9",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "actual_source_property_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/phase_route.rs": "1224af69e0ab3cac56ee9069c4941db75d7e55a288663b9d0afab4bce4c3a6ee",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "2c5dae21596ba9ac1a4c98e7c86b6c93e55dba28057d2c00c5eb7a8ae65b66fa"
+  },
+  "saved_reader_sha256": "54d2e261073b94d3162a5ef00491f3af13cb061e97d5cfb83fad7966ee84fb2b",
+  "cases": [
+    {
+      "id": "new120:gs-010",
+      "script_sha256": "e4652aa7ba19e0fd0fbfe144cde5ffb532c96cc885d29a9f65ca37a7dfedd78f",
+      "response_sha256": "d1760c1300b07f0e858ac4ffd48d1bed7e379e64a34d14a27ea41663a192105d",
+      "original_forecast": "Chemical expectation: a concentrated salt medium can reduce molecular CO2 solubility through salting-out; it does not stoichiometrically consume CO2.",
+      "original_criteria": [
+        {
+          "id": "GS-010-C1",
+          "criterion": "Compare neutral dissolved CO2 separately from bicarbonate/carbonate and gas-phase carbon.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-010-C2",
+          "criterion": "If the partition model lacks a salinity correction, record the missing effect as unsupported rather than forcing an expected difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "criteria": {
+        "no_solver_failure": true,
+        "closed_represented_material_and_charge": true,
+        "neutral_CO2_salt_less_than_water": true
+      },
+      "metrics": {
+        "arms": [
+          {
+            "vessel": 0,
+            "temperature_K": 298.15692375922697,
+            "neutral_CO2_aq_mol": 0.000143217561798923,
+            "bicarbonate_mol": 2.5349254341962984e-06,
+            "carbonate_mol": 4.787116798370363e-12,
+            "gas_CO2_mol": 0.0008624223168849,
+            "carbon_before_including_trapped_air_mol": 8.174808904865711e-06,
+            "closed_addition_residual": {
+              "charge": 1.0850059538128896e-15,
+              "C": 2.704000218178848e-16,
+              "N": 0.0,
+              "H": 0.0,
+              "O": -2.203098814490545e-16
+            }
+          },
+          {
+            "vessel": 1,
+            "temperature_K": 297.2258931298453,
+            "neutral_CO2_aq_mol": 0.00012761169987250093,
+            "bicarbonate_mol": 3.485117773916808e-06,
+            "carbonate_mol": 3.3272489975059614e-11,
+            "gas_CO2_mol": 0.0008771035492702,
+            "carbon_before_including_trapped_air_mol": 8.200400189538259e-06,
+            "closed_addition_residual": {
+              "charge": -1.7208456881689926e-15,
+              "C": -4.3064510291124236e-16,
+              "N": 0.0,
+              "Na": 2.2565282975506307e-14,
+              "H": 0.0,
+              "Cl": 2.2565282975506307e-14,
+              "O": -2.203098814490545e-16
+            }
+          }
+        ],
+        "temperature_difference_K": -0.9310306293816666,
+        "qualification": "Qualitative salinity trend is not a scientific pass when closed-component conservation fails; temperatures differ and this is no empirical salinity calibration."
+      },
+      "status": "PASS"
+    }
+  ],
+  "new_requests": 0,
+  "catalog_additions_by_reader": 0,
+  "qualification": "Root must independently select only fully satisfied original criteria in their bounded domain; other failures remain excluded."
+}

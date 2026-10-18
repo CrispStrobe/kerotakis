@@ -1,0 +1,91 @@
+{
+  "frozen_utc": "2026-10-18T20:02:59.188806+00:00",
+  "accepted_runtime_base": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+  "baseline": "2157e5fa5891abc5fea03334d3779a8a883bfbb3",
+  "baseline_tree": "eee022a5efb9c69dc4d277ca336008d2dcdc4fff",
+  "fix": "03aab10c020a7020ee366d58d928ca8219181b5a",
+  "fix_tree": "3a034c4c666cee11c274bdce0295bd7100a62349",
+  "frozen_control_sha256": {
+    "crates/kerotakis-core/tests/named_alkaline.rs": "2e7e7d79523870abc46d7b75c5b2378a3d15444d90aa7d5e4c568a2e30f298c1",
+    "crates/kerotakis-phreeqc/tests/named_hydrolysis.rs": "c3c44e13733d90a9ce975f88217cab771361f85085dc96a5ca9fdfbc83dc6325"
+  },
+  "fix_source_sha256": {
+    "crates/kerotakis-core/tests/named_alkaline.rs": "2e7e7d79523870abc46d7b75c5b2378a3d15444d90aa7d5e4c568a2e30f298c1",
+    "crates/kerotakis-phreeqc/tests/named_hydrolysis.rs": "c3c44e13733d90a9ce975f88217cab771361f85085dc96a5ca9fdfbc83dc6325",
+    "crates/kerotakis-core/src/bench.rs": "f7029eccbab9fb1d84ab94e140ee6561a3071a3e603479a5613e058c2791cb49",
+    "crates/kerotakis-core/src/lib.rs": "cc0022bb26e09b9edb86f0ff8809f7238831059f1fca6c177c6b34c692ab1334",
+    "crates/kerotakis-core/src/named_alkaline.rs": "5d0260e78827f5dc6d47693db31624e3a78666a51e06f8ef62de1c11c6005099",
+    "docs/named-alkaline-capacity.md": "7abdf31a0a217c86b3ff29b3b4644c5015aebd933a7a390636f31c69624e680c",
+    "crates/kerotakis-core/i18n/de.toml": "fe9c4b6bb10c79e8a40f23a508b1bdcf8209ccbcab909b0bee8d3bcb26643710"
+  },
+  "baseline_commands": [
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-core",
+      "--test",
+      "named_alkaline",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "--test",
+      "named_hydrolysis",
+      "--",
+      "--nocapture"
+    ]
+  ],
+  "fix_commands": [
+    [
+      "cargo",
+      "clippy",
+      "-p",
+      "kerotakis-core",
+      "-p",
+      "kerotakis-phreeqc",
+      "-p",
+      "kerotakis-cea",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-core",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "-p",
+      "kerotakis-cea",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ]
+  ],
+  "cpu_jobs": 2,
+  "worker_seconds": 6800,
+  "provider_timeout_seconds": 7200,
+  "original_corpus_replays": 0,
+  "first_outcomes_immutable": true,
+  "remaining_acceptance": "Root independent chemical/charge/proton/counterion review, applicable full33/protected/platform integration and original OR006 delivery replay. No scientific selection.",
+  "uploaded_worker_sha256": "72e14cca46d997fe1ca9b47ed65c4bdc411fc620580cd33a988fc27eaad7d035",
+  "metadata_sha256": "c8cd0387e5bc26434c9e340f5dfed7b2a26c23229e6e6cff0428245e634b6914"
+}

@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-18T19:23:35.776374+00:00",
+  "url": "https://kerotakis-web-payload.vercel.app/api/health",
+  "method": "GET",
+  "body_sha256": null,
+  "authenticated": false,
+  "attempt": 1
+}

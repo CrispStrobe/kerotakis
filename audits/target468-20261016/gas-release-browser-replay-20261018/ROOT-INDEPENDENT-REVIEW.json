@@ -1,0 +1,199 @@
+{
+  "source": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+  "engine": {
+    "source_head": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+    "binary_sha256": "14f0cafe4ab5d52238f48c7c847584ec93ba018cfb5137cb045293e9fab5c9f9",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "response_sha256": "d1760c1300b07f0e858ac4ffd48d1bed7e379e64a34d14a27ea41663a192105d",
+  "original_id": "new120:gs-010",
+  "original_script_sha256": "e4652aa7ba19e0fd0fbfe144cde5ffb532c96cc885d29a9f65ca37a7dfedd78f",
+  "original_forecast": "Chemical expectation: a concentrated salt medium can reduce molecular CO2 solubility through salting-out; it does not stoichiometrically consume CO2.",
+  "original_criteria_review": [
+    {
+      "id": "GS-010-C1",
+      "criterion": "Compare neutral dissolved CO2 separately from bicarbonate/carbonate and gas-phase carbon.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": "PASS",
+      "reason": "Actual owned neutral dissolved CO2, bicarbonate, carbonate and gas carbon are separately counted. Each addition and every whole-bench timepoint closes the represented atom/charge ledger including trapped air."
+    },
+    {
+      "id": "GS-010-C2",
+      "criterion": "If the partition model lacks a salinity correction, record the missing effect as unsupported rather than forcing an expected difference.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": "PASS",
+      "reason": "The actual brine arm uses Pitzer, whose pinned native database includes neutral CO2/Na+ and CO2/Cl- LAMBDA interactions. The supported model shows less neutral CO2 in brine; no missing salinity correction is invented. Actual temperatures and distinct activity routes are retained, so this is a qualitative model demonstration rather than an isothermal or empirical salinity calibration."
+    }
+  ],
+  "decimal_precision": 45,
+  "all_timepoint_material_residuals": [
+    {
+      "row": 0,
+      "operator": "add",
+      "residual_mol_or_eq": {
+        "charge": "0E-16",
+        "H": "0E-16",
+        "O": "0E-16"
+      }
+    },
+    {
+      "row": 1,
+      "operator": "seal",
+      "residual_mol_or_eq": {
+        "charge": "-2.1611650900E-18",
+        "H": "-1.105531240E-15",
+        "O": "-5.529779123650E-16",
+        "N": "7.1540E-19",
+        "C": "-1.779374550E-19"
+      }
+    },
+    {
+      "row": 2,
+      "operator": "add",
+      "residual_mol_or_eq": {
+        "charge": "1.0828448592740E-15",
+        "H": "-2.9096160E-16",
+        "O": "-1.474250889110E-16",
+        "N": "7.1540E-19",
+        "C": "2.702075703630E-16"
+      }
+    },
+    {
+      "row": 3,
+      "operator": "inspect",
+      "residual_mol_or_eq": {
+        "charge": "1.0828448592740E-15",
+        "H": "-2.9096160E-16",
+        "O": "-1.474250889110E-16",
+        "N": "7.1540E-19",
+        "C": "2.702075703630E-16"
+      }
+    },
+    {
+      "row": 4,
+      "operator": "new_vessel",
+      "residual_mol_or_eq": {
+        "charge": "1.0828448592740E-15",
+        "H": "-2.9096160E-16",
+        "O": "-1.474250889110E-16",
+        "N": "7.1540E-19",
+        "C": "2.702075703630E-16"
+      }
+    },
+    {
+      "row": 5,
+      "operator": "add",
+      "residual_mol_or_eq": {
+        "charge": "1.0828448592740E-15",
+        "H": "-2.9096160E-16",
+        "O": "-1.474250889110E-16",
+        "N": "7.1540E-19",
+        "C": "2.702075703630E-16"
+      }
+    },
+    {
+      "row": 6,
+      "operator": "add",
+      "residual_mol_or_eq": {
+        "charge": "1.0828448592740E-15",
+        "H": "-2.9096160E-16",
+        "O": "-1.474250889110E-16",
+        "N": "7.1540E-19",
+        "Cl": "0.00",
+        "Na": "0.00",
+        "C": "2.702075703630E-16"
+      }
+    },
+    {
+      "row": 7,
+      "operator": "seal",
+      "residual_mol_or_eq": {
+        "charge": "1.0795493138740E-15",
+        "H": "-1.85001450E-15",
+        "O": "-9.271581208110E-16",
+        "N": "3.08580E-18",
+        "Cl": "-3.1720E-14",
+        "Na": "-3.1720E-14",
+        "C": "2.688863930630E-16"
+      }
+    },
+    {
+      "row": 8,
+      "operator": "add",
+      "residual_mol_or_eq": {
+        "charge": "-6.437597599540E-16",
+        "H": "-1.20400010E-15",
+        "O": "-6.035863100690E-16",
+        "N": "3.08580E-18",
+        "Cl": "-9.150E-15",
+        "Na": "-9.150E-15",
+        "C": "-1.616585700230E-16"
+      }
+    },
+    {
+      "row": 9,
+      "operator": "inspect",
+      "residual_mol_or_eq": {
+        "charge": "-6.437597599540E-16",
+        "H": "-1.20400010E-15",
+        "O": "-6.035863100690E-16",
+        "N": "3.08580E-18",
+        "Cl": "-9.150E-15",
+        "Na": "-9.150E-15",
+        "C": "-1.616585700230E-16"
+      }
+    }
+  ],
+  "max_whole_material_charge_residual_mol_or_eq": "3.1720E-14",
+  "max_CO2_addition_material_charge_residual_mol_or_eq": "2.2570E-14",
+  "arms": [
+    {
+      "vessel": 0,
+      "temperature_K": 298.15692375922697,
+      "ionic_strength_mol_kgw": 2.542608518871e-05,
+      "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+      "activity_model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+      "neutral_CO2_aq_mol": "0.000143217561798923",
+      "bicarbonate_mol": "0.0000025349254341962984",
+      "carbonate_mol": "4.787116798370363E-12",
+      "gas_CO2_mol": "0.0008624223168849",
+      "carbon_baseline_mol": "0.0000081748089048657112625450",
+      "addition_residual_mol_or_eq": {
+        "N": "0E-19",
+        "charge": "1.0850060243640E-15",
+        "H": "8.14569640E-16",
+        "O": "4.055528234540E-16",
+        "C": "2.703855078180E-16"
+      }
+    },
+    {
+      "vessel": 1,
+      "temperature_K": 297.2258931298453,
+      "ionic_strength_mol_kgw": 1.003044616305,
+      "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+      "activity_model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+      "neutral_CO2_aq_mol": "0.00012761169987250093",
+      "bicarbonate_mol": "0.000003485117773916808",
+      "carbonate_mol": "3.3272489975059614E-11",
+      "gas_CO2_mol": "0.0008771035492702",
+      "carbon_baseline_mol": "0.00000820040018953825802270",
+      "addition_residual_mol_or_eq": {
+        "charge": "-1.7233090738280E-15",
+        "H": "6.4601440E-16",
+        "O": "3.235718107420E-16",
+        "N": "0E-19",
+        "Cl": "2.2570E-14",
+        "Na": "2.2570E-14",
+        "C": "-4.305449630860E-16"
+      }
+    }
+  ],
+  "native_database_submodule_commit": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+  "native_pitzer_database_sha256": "3640e62aee63a118f800b115b46a2760576e63e05e1792022315a28f75dbe9bb",
+  "native_salinity_interactions": {
+    "CO2_Na_LAMBDA": "0.085",
+    "CO2_Cl_LAMBDA": "-0.005"
+  },
+  "new_engine_or_API_requests": 0,
+  "selection": "Original bounded qualitative neutral-CO2 salinity comparison and finite inventory closure. The0.931K arm temperature difference and different dilute/concentrated routes preclude an isolated quantitative salinity coefficient or empirical calibration claim."
+}
