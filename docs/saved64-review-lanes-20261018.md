@@ -258,3 +258,24 @@ outcome. GS-010, OR-006 and TH-016 remain excluded. PR828 `5b054e6c` passes111
 focused tests but is not deployed; do not overwrite TH-016's production failure.
 Actual Pages source `76fe144` fails interpreter arithmetic with BASIC disabled,
 confirming lane H's configuration gap. No empirical calibration is inferred.
+
+
+## Current-source brine cause and finite molar-input repair
+
+The original GS-010 deployed result remains a failure. A separately frozen
+smaller CLI control and real solver comparison identify an input-boundary
+mismatch: Kerotakis supplies ideal pressure, while Pitzer CO2 initializes moles
+through its real-gas EOS. Supplied0.001mol returns0.0010003390707956424mol.
+The native raw component-moles format instead returns0.000999999999999987mol
+without changing the database or EOS. This is an initialization conservation
+control, not empirical salting-out calibration.
+
+[PR833](https://github.com/CrispStrobe/kerotakis/pull/833), exact `8eece0b1`,
+prepares the generic finite-gas boundary repair and native controls across
+loading, temperature, dilute/brine routes, repeated settlement and initially
+empty gas phases. Read its `docs/finite-gas-molar-initialization.md` and
+`audits/target468-20261016/finite-gas-eos-first-control/`. Repaired Rust
+execution, all applicable native/platform and full-fleet checks remain pending.
+Preserve the original failure, use normal exact-head integration, then bind a
+separate actual-production GS-010 replay before any working-catalog selection.
+Do not rescale readback or replace the reviewed thermodynamic constants.

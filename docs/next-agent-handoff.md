@@ -9,7 +9,7 @@ GitHub references. Local operation details belong only in an ignored handoff.
 
 ## Start here
 
-1. Fetch actual main and inspect integrated PR830, the production delivery and prepared PR828/829/832, their exact heads, current checks and
+1. Fetch actual main and inspect integrated PR830, the production delivery and prepared PR828/829/832/833, their exact heads, current checks and
    active workflows. A queued check is neither a failure nor an acceptance.
 2. Consult the ignored local operating handoff if present before touching
    worktrees, build targets, evidence or running controllers. Check load, available
@@ -30,7 +30,7 @@ an integration branch. Do not copy credentials or host details into public docs.
 
 ## Lane 1 — finish pending delivery, first priority
 
-Actual main is `0fe97e76` after PR830:25 CI plus33 original logical fleet jobs accepted, with reviewed parents/tree. PR828 exact `5b054e6c` has111 focused tests and all33 original fleet jobs accepted on CPU; outstanding platform/protected acceptance still gates integration. PR829 exact `8e2fe429` has11 focused tests and both native platforms passing; its active fleet must finish. PR832 exact `09aa2b01` prepares the Pages profile/probe repair; actual build, applicable acceptance and published Pages parity remain pending. See STATUS for evidence links. Do not duplicate completed CPU runs or cancel active validation for optional changes.
+Actual main is `0fe97e76` after PR830:25 CI plus33 original logical fleet jobs accepted, with reviewed parents/tree. PR828 exact `5b054e6c` has111 focused tests and all33 original fleet jobs accepted on CPU; outstanding platform/protected acceptance still gates integration. PR829 exact `8e2fe429` has11 focused tests and both native platforms passing; its active fleet must finish. PR832 exact `09aa2b01` prepares the Pages profile/probe repair; actual build, applicable acceptance and published Pages parity remain pending. PR833 exact `8eece0b1` fixes the traced ideal-pressure/real-gas initialization mismatch by supplying native component moles; repaired Rust validation is running on CPU. See STATUS for evidence links. Do not duplicate completed CPU runs or cancel active validation for optional changes.
 
 PR822/823 are now integrated as `bc472fb4`/`d6020643`; their source/run rows
 below preserve accepted bindings, not pending merge tasks. PR825 is also

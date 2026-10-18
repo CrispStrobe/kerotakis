@@ -34,7 +34,11 @@ produce one selection and three continuing failures:
   matched oxygen formation. This is a bounded teaching-kinetics result, without
   measured rate calibration or an assertion that the two rates are equal.
 - **GS-010 fails:** brine creates approximately2.767e-7mol carbon and1.107e-6eq
-  charge. A plausible neutral-CO2 salinity trend does not excuse the imbalance.
+  charge. The traced cause is ideal-pressure initialization into a native
+  real-gas model. A distinct direct-solver control supplies0.001mol but receives
+ 0.0010003390707956424mol; exact native component moles close carbon to1.3e-17mol.
+  PR833 prepares that source repair; repaired Rust acceptance remains pending.
+  A plausible salinity trend does not excuse the original imbalance.
 - **OR-006 fails:** the named hydrolysis request leaves ester unchanged and
   produces no acetate/ethanol. Analytical basis is not usable base capacity.
 - **TH-016 fails on deployed source:** all0.7647598654mol zinc is liquid though
@@ -84,6 +88,7 @@ that does not certify Pages chemistry. Follow
 | [829](https://github.com/CrispStrobe/kerotakis/pull/829) | `8e2fe429` | Report missing neutral chromatography parameters beside supported peaks; retain ionic exclusions. Actual8 core and3 native controls pass with real mixing/dissolution before PHREEQC and an explicit aqueous-glucose precondition. | Current-head protected/full-fleet acceptance and normal integration. Missing retention parameters remain unsupported; SP012 is not selected. |
 | [830](https://github.com/CrispStrobe/kerotakis/pull/830) | `f3517e08` | Cancellation-sensitive aggregates preserve original assertions/artifacts. Normal-cancellation control,25 CI and33 logical fleet jobs pass. | Integrated as `0fe97e76`; preserve the actual merge receipt. |
 | [832](https://github.com/CrispStrobe/kerotakis/pull/832) | `09aa2b01` | Select the existing reviewed MY-BASIC profile for the Pages build and probe the actual final payload before all existing browser gates. | Actual build, applicable acceptance and normal integration, then independent published Pages interpreter/uncached solution parity. |
+| [833](https://github.com/CrispStrobe/kerotakis/pull/833) | `8eece0b1` | Initialize finite gas with native raw component moles, preserving the database/EOS; direct real-solver comparison conserves carbon and permits initially empty gas formation. | Repaired Rust focused/native and full-fleet acceptance are pending; bounded CPU validation is running. Normal integration and a separate deployed GS-010 replay follow. |
 
 [Full original PR828 fleet evidence](../audits/target468-20261016/cpu-full-fleet-828-20261018/README.md) authenticates source, binary, producer lock and every original command. A redundant GitHub producer build occurred during transfer; no GitHub experimental Record step started. The cancelled workflow is not a GitHub success.
 
