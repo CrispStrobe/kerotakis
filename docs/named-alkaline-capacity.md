@@ -45,3 +45,12 @@ its first actual failures must remain separate from changed-source acceptance.
 Source preparation is not a pass. Native/core acceptance, applicable original
 fleet/platform checks, protected integration and a separately bound original
 OR006 replay remain required before any scientific selection.
+
+The first source-bound CPU execution reproduced both unchanged-runtime native
+failures and six core failures. On the repair, Clippy and all nine new core
+controls passed; the full core run passed2136 tests and failed one composed
+locale control because the new refusal key lacked French. The worker stopped
+before changed-source native execution. The French catalogue and English
+sentence are corrected separately, preserving both frozen chemical control
+files and every original assertion. This first failure is not native acceptance;
+review the corrected source's actual full core/native results before promotion.

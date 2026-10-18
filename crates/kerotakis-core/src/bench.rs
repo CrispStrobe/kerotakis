@@ -5354,7 +5354,7 @@ impl Bench {
                             let extent = result.map(|outcome| outcome.extent).map_err(|detail| {
                                 Phrase::new(
                                     "not-modeled.unproven-strong-base-capacity",
-                                    "{detail}",
+                                    "Named hydrolysis cannot certify its strong-base reserve: {detail}",
                                     vec![("detail".into(), Slot::text(detail))],
                                 )
                             });
