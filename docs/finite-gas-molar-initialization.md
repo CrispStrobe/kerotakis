@@ -42,3 +42,16 @@ head; inspect both native platforms. Preserve any first failures. Integrate
 normally only after applicable acceptance, then freeze a separate production
 GS-010 replay. The original deployed failure remains unchanged and no new
 catalog selection or empirical salinity calibration is claimed.
+
+
+## First actual native acceptance and combined-source follow-up
+
+Source `8eece0b1` passed Clippy and all524 PHREEQC native tests across97
+test targets, with zero failures or ignored tests. Both new finite-molar
+controls pass. Saved review authenticates the actual worker/source/tree, raw
+streams and producer lock `66886813`; this is not a full-fleet acceptance.
+
+The normally integrated phase/energy repair `0a5a92f1` is now merged into this
+narrow branch for combined-source validation. Re-run acceptance on that new
+head before integration; do not relabel the earlier native run as execution
+of the combined source. Original evidence and forecasts remain unchanged.
