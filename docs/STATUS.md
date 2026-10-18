@@ -53,6 +53,12 @@ the separately reproduced ferrous-hydroxide wait cycle and comparison omission.
 Its native regression and full-fleet acceptance remain pending; unsupported
 solid and nitrate-solubility domains remain open. No catalog count changes.
 
+A separate numeric parser repair rejects non-finite operator fields and unit
+conversion overflow before an operator can enter a saved log. Public quantity
+readers receive the same checks; finite values retain round-trip controls.
+Native parser, REST and full-fleet acceptance remain pending. Physical-domain
+validation remains separate from numeric representability.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
