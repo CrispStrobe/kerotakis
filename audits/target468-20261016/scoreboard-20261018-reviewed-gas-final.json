@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-18T21:39:41.056948+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 237,
+  "source_qualified_selected_in_target": 233,
+  "additional_selections_needed_for_401": 168,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261018-reviewed-gas-final.json",
+  "catalog_sha256": "f4a8baa9342029bca0b08949f08aa573015d0a7bafb7f26ee459e818b325c5cf",
+  "selection_receipt": "audits/target468-20261016/saved-gas-remaining-final-review-20261018/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "Every selected ID maps uniquely to the fixed original target, with four separately qualified out-of-target protocols. Historical source bindings remain per entry; no claim all468 run scientifically correctly on this latest source."
+}

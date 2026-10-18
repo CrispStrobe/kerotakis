@@ -1,0 +1,10 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "database_gitlink": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+  "native_gases_cpp_sha256": "02c5c29b07edaad9bfa1b41846923ae93b713135af7765044b8b2e0dd5e1d91f",
+  "wrapper_aqueous_rs_sha256": "eb75a5ddea5818a929d7e37468fddf320f9336ece01d1119ee7962db88b2785d",
+  "actual_PR_switch": "bool PR = false; only an active gas phase with positive critical temperature and pressure enables Peng-Robinson. Original active CO2 WATEQ phase has neither entry.",
+  "nonideal_claim": false,
+  "actual_original_N2_role": "finite ideal spectator outside unrestricted native redox equilibrium",
+  "current_production_or_empirical_calibration": false
+}

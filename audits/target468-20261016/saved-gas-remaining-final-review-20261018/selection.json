@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-18T21:39:41.056948+00:00",
+  "selected_original_ids": [
+    "new120:gs-002",
+    "new120:gs-004",
+    "new120:gs-006",
+    "new120:gs-008"
+  ],
+  "selected_catalog_ids": [
+    "new120-saved-gas-final:gs-002",
+    "new120-saved-gas-final:gs-004",
+    "new120-saved-gas-final:gs-006",
+    "new120-saved-gas-final:gs-008"
+  ],
+  "previous_catalog_sha256": "fdf15aa1d9d79aaa3f33ce68a992e5a2efeac960936648d19771ddb2961b87c3",
+  "new_catalog_sha256": "f4a8baa9342029bca0b08949f08aa573015d0a7bafb7f26ee459e818b325c5cf",
+  "previous_entries_preserved_exactly": 233,
+  "new_count": 237,
+  "fixed468_selected_before": 229,
+  "fixed468_selected_after": 233,
+  "additional_qualified_cases_to401": 168,
+  "remaining_first_screen_candidates": 10,
+  "historical_holds_unchanged": 20,
+  "new_simulator_or_API_executions": 0,
+  "new_current_source_certifications": 0
+}

@@ -1,0 +1,7 @@
+{
+  "first_incomplete_fragment": "first-incomplete-capability-fragment.txt",
+  "cause": "Unanchored phase-name lookup found an earlier prose occurrence. No criterion assessment or selection was assigned.",
+  "correction": "Anchor phase names to full lines and assert actual temperature coefficients exist.",
+  "database_gitlink": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+  "full_database_sha256": "93547b0343d9f151e73fb48e7927aa9e9c777399fedcb8c7497d00371af4d0ae"
+}

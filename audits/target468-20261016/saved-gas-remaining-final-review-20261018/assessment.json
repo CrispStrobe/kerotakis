@@ -1,0 +1,283 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "database_gitlink": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+  "database_sha256": "93547b0343d9f151e73fb48e7927aa9e9c777399fedcb8c7497d00371af4d0ae",
+  "CO2_phase_sha256": "2d8157e5232c422013b57039fa9537185b7283a7cb590dd2c2d2d5e63aefec8a",
+  "vessel_source_sha256": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "decimal_precision": 45,
+  "cases": [
+    {
+      "id": "new120:gs-002",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "2acef9e3b98755c0b08ffe992e75e6e12521f4398158493ff4d09de13cb0099c",
+      "stdout_sha256": "2b8c0154636f6973f0ebf35a86ac35e3e625fac2a549c23966080c6c9d5fb35d",
+      "original_forecast": "More added CO2 is accommodated by dissolved inorganic-carbon species than an equal N2 dose, changing the pressure increment.",
+      "original_criteria_review": [
+        {
+          "id": "GS-002-C1",
+          "criterion": "Compare gas-phase fractions of the added material, not pressure alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Subtract each arm\u2019s own trapped-air baseline: the added N2 remains an ideal inert carrier while part of the equal CO2 dose enters owned aqueous carbon."
+        },
+        {
+          "id": "GS-002-C2",
+          "criterion": "The CO2 vessel should store more of the dose in the liquid under these conditions.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual CO2 arm stores more of its dose in liquid. This supports the original qualitative comparison within the ideal-carrier domain; quantitative real N2 dissolution is not implemented or certified."
+        }
+      ],
+      "before_after_or_paired_metrics": [
+        {
+          "temperature_K": "298.15006132702615",
+          "total_pressure_Pa": "111234.12461632442",
+          "aqueous_carbon_mol": "0.000001356695935179074140029",
+          "gas_carbon_mol": "0.000006818112969689",
+          "aqueous_carbon_fraction": "0.165960568738330480984017632785829455240568493",
+          "CO2_partial_pressure_Pa": "33.8036251021733833367422172312002454446"
+        },
+        {
+          "temperature_K": "298.1637572006226",
+          "total_pressure_Pa": "109812.93472998671",
+          "aqueous_carbon_mol": "0.000289024802021544548812868",
+          "gas_carbon_mol": "0.001719150006883",
+          "aqueous_carbon_fraction": "0.143924124901859024909264307628444482500326174",
+          "CO2_partial_pressure_Pa": "8523.7912744316061399703915702414589688"
+        }
+      ],
+      "additional_metrics": {
+        "added_N2_gas_fraction": "1.000000000000001",
+        "added_CO2_gas_fraction": "0.856165946957643"
+      },
+      "independent_material_charge_residuals_mol_or_eq": [
+        {
+          "N": "4.0E-18",
+          "H": "1.296343890E-15",
+          "O": "6.4947528281220E-16",
+          "charge": "2.84396812520E-18",
+          "C": "1.36266093740E-18"
+        },
+        {
+          "N": "0E-19",
+          "H": "8.10433420E-16",
+          "O": "4.0707330132920E-16",
+          "charge": "-1.29236384755280E-15",
+          "C": "-3.2216266622360E-16"
+        }
+      ],
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Historical ideal-carrier/aqueous-carbonate model. No current-production, empirical solubility, general nonideal-gas, quantitative N2 uptake or reaction-energy certification."
+    },
+    {
+      "id": "new120:gs-004",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "4829ecf444e45b5228f4bb027c58ea3b22a5e4ebabc516d99217cfd785e465a9",
+      "stdout_sha256": "753ebb1ff532e8a39016307b872b62330b4b15a892e92c197d6b73c95697883f",
+      "original_forecast": "Warming normally favours CO2 release into the gas phase. Pressure also changes directly with temperature, so phase inventories are needed to separate the effects.",
+      "original_criteria_review": [
+        {
+          "id": "GS-004-C1",
+          "criterion": "Compare dissolved-carbon fractions, not just the raw pressure difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Compare the actual dissolved-carbon fractions at both recorded temperatures and each finite trapped-air baseline; the warm arm retains a smaller fraction."
+        },
+        {
+          "id": "GS-004-C2",
+          "criterion": "Check whether the runtime uses temperature-dependent partition data; fixed-Henry behaviour is a model limitation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual pinned WATEQ CO2 phase has a five-coefficient temperature relation and nonzero dissolution enthalpy. This is temperature-dependent native partitioning, not fixed-Henry or pressure-only inference; no empirical calibration is earned."
+        }
+      ],
+      "before_after_or_paired_metrics": [
+        {
+          "temperature_K": "293.1660489345006",
+          "total_pressure_Pa": "109517.08679644883",
+          "aqueous_carbon_mol": "0.000320722331416986711913686",
+          "gas_carbon_mol": "0.001687591907966",
+          "aqueous_carbon_fraction": "0.159697284980423212463958854073409389961384064",
+          "CO2_partial_pressure_Pa": "8227.0718268941200008835175045846699856"
+        },
+        {
+          "temperature_K": "323.1548727163487",
+          "total_pressure_Pa": "111052.16849067877",
+          "aqueous_carbon_mol": "0.000190146889739794540775331",
+          "gas_carbon_mol": "0.001817395487717",
+          "aqueous_carbon_fraction": "0.0947162520079289334650038025571419526753554826",
+          "CO2_partial_pressure_Pa": "9766.1712417453607895563106980218421244"
+        }
+      ],
+      "additional_metrics": {
+        "actual_temperature_dependent_CO2_phase_source": "CO2(g)\n        CO2 = CO2\n        log_k -1.468\n        delta_h -4.776 kcal\n        -analytical 108.3865 0.01985076 -6919.53 -40.45154 669365\n\n"
+      },
+      "independent_material_charge_residuals_mol_or_eq": [
+        {
+          "N": "0E-18",
+          "H": "-1.7107830E-16",
+          "O": "-8.20130355920E-17",
+          "charge": "1.8613037237280E-15",
+          "C": "4.670889881360E-16"
+        },
+        {
+          "N": "0E-19",
+          "H": "-1.908912320E-15",
+          "O": "-9.545570946160E-16",
+          "charge": "2.1980432097440E-15",
+          "C": "5.494603351280E-16"
+        }
+      ],
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Historical ideal-carrier/aqueous-carbonate model. No current-production, empirical solubility, general nonideal-gas, quantitative N2 uptake or reaction-energy certification."
+    },
+    {
+      "id": "new120:gs-006",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "8f8df394ac3d2bd733592c621c99c4d0e8b7a9144de797eaf5b4fac238d26d94",
+      "stdout_sha256": "672aadf7e098df0d0115509c83ec19da123b66efde3b4900de2c66e15af8b3cc",
+      "original_forecast": "Base captures the CO2 dose as inorganic-carbon ions; acidification reverses that storage and moves carbon back toward molecular and gas-phase CO2.",
+      "original_criteria_review": [
+        {
+          "id": "GS-006-C1",
+          "criterion": "Carbonate/bicarbonate decline after acidification while headspace CO2 increases.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Owned bicarbonate/carbonate decrease after acidification while gas CO2 increases, at the actual recorded temperatures."
+        },
+        {
+          "id": "GS-006-C2",
+          "criterion": "Total carbon is conserved across the capture\u2013release cycle, apart from explicitly recorded initial air contributions.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The original finite carbon dose closes against its trapped-air baseline, and acid addition closes independently for all represented atoms/charge. Carbon is redistributed rather than deleted or supplied externally."
+        }
+      ],
+      "before_after_or_paired_metrics": [
+        {
+          "temperature_K": "298.61261235188783",
+          "total_pressure_Pa": "101369.14234014008",
+          "aqueous_carbon_mol": "0.00100815259500500925362",
+          "gas_carbon_mol": "1.63658541584E-8",
+          "aqueous_carbon_fraction": "0.999983766754587987989008584423831846767568318",
+          "CO2_partial_pressure_Pa": "0.081266396783927012498526857862388736192"
+        },
+        {
+          "temperature_K": "298.63783545834156",
+          "total_pressure_Pa": "105682.16886953294",
+          "aqueous_carbon_mol": "0.000141370200154947535943",
+          "gas_carbon_mol": "0.0008667987607042",
+          "aqueous_carbon_fraction": "0.140224709987573731568619456776160695810863234",
+          "CO2_partial_pressure_Pa": "4304.545389136951030371337819841932066272"
+        }
+      ],
+      "additional_metrics": {
+        "inorganic_carbon_ions_before_after_mol": [
+          "0.0010081494682551232",
+          "8.483859455935943E-9"
+        ]
+      },
+      "independent_material_charge_residuals_mol_or_eq": [
+        {
+          "N": "0E-18",
+          "H": "1.593354350E-15",
+          "O": "7.99497290E-16",
+          "Na": "4.3540E-16",
+          "charge": "-1.364932350E-15",
+          "C": "-4.48673030E-16"
+        },
+        {
+          "N": "0E-18",
+          "H": "1.917659430E-16",
+          "Cl": "7.1950E-16",
+          "O": "9.35305890E-17",
+          "Na": "1.2960E-16",
+          "charge": "-6.656659430E-16",
+          "C": "-2.01176770E-17"
+        }
+      ],
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Historical ideal-carrier/aqueous-carbonate model. No current-production, empirical solubility, general nonideal-gas, quantitative N2 uptake or reaction-energy certification."
+    },
+    {
+      "id": "new120:gs-008",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "d060a6c2ea351c6d0f1c009603b70a63c20fbc322e05edfc6edaa16cf1e3ffe7",
+      "stdout_sha256": "e822303623187c8053b6baf38d61c1e3b0dff8684a47938c922843e2039a8466",
+      "original_forecast": "Adding inert gas to a fixed headspace increases total pressure without adding carbon. In an ideal mixture at fixed temperature, it does not directly multiply CO2 partial pressure.",
+      "original_criteria_review": [
+        {
+          "id": "GS-008-C1",
+          "criterion": "Total pressure rises, but total carbon remains unchanged.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Total pressure rises at fixed headspace while all owned carbon is conserved; the nitrogen addition closes independently."
+        },
+        {
+          "id": "GS-008-C2",
+          "criterion": "Compare CO2 partial pressure and dissolved-carbon fraction before and after; account for thermal and nonideal corrections.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual-temperature CO2 partial pressures and dissolved fractions are compared explicitly. Removing the recorded temperature ratio leaves a unit partial-pressure ratio at inventory resolution. The pinned phase\u2019s ideal EOS domain is explicit; no nonideal gas correction is silently claimed."
+        }
+      ],
+      "before_after_or_paired_metrics": [
+        {
+          "temperature_K": "298.15692375922686",
+          "total_pressure_Pa": "105562.73709319076",
+          "aqueous_carbon_mol": "0.000145752492020236131373672",
+          "gas_carbon_mol": "0.0008624223168846",
+          "aqueous_carbon_fraction": "0.144570654546074890222849160369980740041339743",
+          "CO2_partial_pressure_Pa": "4275.915024488076788930735179604579624016"
+        },
+        {
+          "temperature_K": "298.1569213448919",
+          "total_pressure_Pa": "130352.88200662566",
+          "aqueous_carbon_mol": "0.000145752492013704282622792",
+          "gas_carbon_mol": "0.000862422316891",
+          "aqueous_carbon_fraction": "0.144570654539614912019525688627250435723507372",
+          "CO2_partial_pressure_Pa": "4275.9149898954533242162150483945060644"
+        }
+      ],
+      "additional_metrics": {
+        "temperature_corrected_CO2_partial_pressure_ratio": "1.00000000000742095824133964123872573046941334",
+        "nonideal_correction_scope": "The actual WATEQ CO2 phase lacks critical-parameter EOS entries and uses ideal gas behavior; inert N2 is an excluded-redox carrier. No real-gas correction or empirical fugacity claim. The original forecast is conditional on ideal mixing."
+      },
+      "independent_material_charge_residuals_mol_or_eq": [
+        {
+          "N": "4.0E-18",
+          "H": "-7.7513460E-16",
+          "O": "-3.865762526400E-16",
+          "charge": "-5.293770982400E-16",
+          "C": "-1.318487508800E-16"
+        }
+      ],
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Historical ideal-carrier/aqueous-carbonate model. No current-production, empirical solubility, general nonideal-gas, quantitative N2 uptake or reaction-energy certification."
+    }
+  ],
+  "selected": 4,
+  "original_criteria_pass": 8,
+  "new_engine_or_API_executions": 0
+}
