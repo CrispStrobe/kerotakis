@@ -1,0 +1,6 @@
+# How does water dilution change lemon-juice acidity?
+register lv3
+add v1 water 200mL
+add v1 lemon_juice 5mL
+measure v1 ph
+inspect

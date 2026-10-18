@@ -1,0 +1,7 @@
+# Does feed order change the elemental ledger of a starch-iodine test?
+register lv3
+add v1 water 200mL
+add v1 starch 0.0004mol
+add v1 lugol_solution_1_percent 1mL
+inspect v1
+inspect

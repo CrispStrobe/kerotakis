@@ -1,0 +1,214 @@
+{
+  "pr": 824,
+  "reviewed_head": "654cf041dcf794d529bd9049c1316b9602e0c7e1",
+  "tested_source": "b9a5441d136354d354cdeb9d0481b45828ca969e",
+  "tested_tree": "d4365ac21120bef0b70a98871476008e7a515def",
+  "binary_sha256": "e094e4909922ef4febd21f9e6acae5a16dbadcfef6157bc0e7b2a94cbf14dc65",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "all_original_logical_jobs_satisfied": 33,
+  "original_github_jobs_succeeded": 28,
+  "remaining_original_jobs_completed_locally": 5,
+  "local_jobs": [
+    {
+      "job": "Source fleet v2 household-biochemistry",
+      "key": "source-fleets-v2",
+      "family": "household-biochemistry",
+      "steps_completed": 5,
+      "elapsed_seconds": 8.11412237584591,
+      "status": "all_original_run_steps_passed",
+      "provider": "local",
+      "source": "b9a5441d136354d354cdeb9d0481b45828ca969e",
+      "binary_sha256": "e094e4909922ef4febd21f9e6acae5a16dbadcfef6157bc0e7b2a94cbf14dc65"
+    },
+    {
+      "job": "Source fleet v2 materials-transport",
+      "key": "source-fleets-v2",
+      "family": "materials-transport",
+      "steps_completed": 5,
+      "elapsed_seconds": 7.406254014000297,
+      "status": "all_original_run_steps_passed",
+      "provider": "local",
+      "source": "b9a5441d136354d354cdeb9d0481b45828ca969e",
+      "binary_sha256": "e094e4909922ef4febd21f9e6acae5a16dbadcfef6157bc0e7b2a94cbf14dc65"
+    },
+    {
+      "job": "Source fleet v2 analytical-observables",
+      "key": "source-fleets-v2",
+      "family": "analytical-observables",
+      "steps_completed": 5,
+      "elapsed_seconds": 7.077909834682941,
+      "status": "all_original_run_steps_passed",
+      "provider": "local",
+      "source": "b9a5441d136354d354cdeb9d0481b45828ca969e",
+      "binary_sha256": "e094e4909922ef4febd21f9e6acae5a16dbadcfef6157bc0e7b2a94cbf14dc65"
+    },
+    {
+      "job": "Source fleet v2 thermochemical-paths",
+      "key": "source-fleets-v2",
+      "family": "thermochemical-paths",
+      "steps_completed": 5,
+      "elapsed_seconds": 7.499863091856241,
+      "status": "all_original_run_steps_passed",
+      "provider": "local",
+      "source": "b9a5441d136354d354cdeb9d0481b45828ca969e",
+      "binary_sha256": "e094e4909922ef4febd21f9e6acae5a16dbadcfef6157bc0e7b2a94cbf14dc65"
+    },
+    {
+      "job": "All 288 source-informed v2 cases",
+      "key": "source-fleet-v2-aggregate",
+      "family": null,
+      "steps_completed": 1,
+      "elapsed_seconds": 0.4781917333602905,
+      "status": "all_original_run_steps_passed",
+      "provider": "local",
+      "source": "b9a5441d136354d354cdeb9d0481b45828ca969e",
+      "binary_sha256": "e094e4909922ef4febd21f9e6acae5a16dbadcfef6157bc0e7b2a94cbf14dc65"
+    }
+  ],
+  "github_run": 39104378835,
+  "github_run_was_transferred_not_claimed_successful": true,
+  "required_CI_and_branch_protection_unchanged": true,
+  "source_tests_goldens_manifests_forecasts_unchanged": true,
+  "original_success_artifacts_authenticated": [
+    {
+      "job": "Source fleet v2 kinetics-boundaries",
+      "artifact": 12131876260,
+      "digest": "sha256:21f0af544706c71037445c3c93b752654509651da1b039abce331b568b5a1478"
+    },
+    {
+      "job": "Source fleet v2 crystallisation-boundaries",
+      "artifact": 12131136049,
+      "digest": "sha256:adaed41ffc18d66bffee0ca70972e1dcf10cc25bc781ec2de31fce021dfce107"
+    },
+    {
+      "job": "Source fleet v2 separation-trains",
+      "artifact": 12130897057,
+      "digest": "sha256:0d8ed33676d244a4d15c042d996bfc9001dd2a2a829e3d13fc88bd276022b148"
+    },
+    {
+      "job": "Source fleet organic-equilibria",
+      "artifact": 12130696271,
+      "digest": "sha256:d6dbc708408cf9379d52c4f19da8afc4d39acda3c5bd40475d2e6d04eb82271a"
+    },
+    {
+      "job": "Source fleet v2 phase-colligative",
+      "artifact": 12130448305,
+      "digest": "sha256:e5917380653b8a82d15b62d5f19ec73c5ba6de8c316850e3d2da3aed92089477"
+    },
+    {
+      "job": "Source fleet mixing-transfer",
+      "artifact": 12130063942,
+      "digest": "sha256:9a843724301385d8be2aacc21da0f128b6dc8380102d8b954127057cfff38c19"
+    },
+    {
+      "job": "Source fleet solubility-precipitation",
+      "artifact": 12129977095,
+      "digest": "sha256:c5ab348e5870baa28c04f06999089a4fef38d96fb6b1819bd8d7724af26ebf7d"
+    },
+    {
+      "job": "Source fleet v2 redox-cells",
+      "artifact": 12129955745,
+      "digest": "sha256:eefcb3430b9f5ecf032322e9cf4b7249b92fc7e215be9bf6925ddf1ec582da42"
+    },
+    {
+      "job": "Source fleet v3 organic-equilibrium",
+      "artifact": 12129948535,
+      "digest": "sha256:c3a6758cdc3f6ab3ced81ce9d5bf02216e8c6ff77f37881c565671640364178f"
+    },
+    {
+      "job": "Source fleet v3 metal-ligand",
+      "artifact": 12129843180,
+      "digest": "sha256:f5bed9fa81ed158b81de9ebc9003859269bf3f8a0e015c5994fd405b5080e3d2"
+    },
+    {
+      "job": "Source fleet electrochemistry",
+      "artifact": 12129782908,
+      "digest": "sha256:adf2cd86fc27fd040d6099a0e6491b7a9b343cb1acc21bdc9a933aadb3b58600"
+    },
+    {
+      "job": "Source fleet v2 gas-production-transfer",
+      "artifact": 12129732915,
+      "digest": "sha256:8ee9829ed6e0208404dac126fbab9382c7be7bc50a790585316d09328bfe74b7"
+    },
+    {
+      "job": "Source fleet thermal-phase-paths",
+      "artifact": 12129563687,
+      "digest": "sha256:a96494414e32a9a46911b48046b1c4f2760f51e219d3d45d8e96a7b21b8891c6"
+    },
+    {
+      "job": "Frozen fleet 195-218",
+      "artifact": 12129515603,
+      "digest": "sha256:cb2cef292a9c87c24d6e2c9b810e8fe86fd2ed21978828e68a0118c9afc42a72"
+    },
+    {
+      "job": "Frozen fleet 459-488",
+      "artifact": 12129458411,
+      "digest": "sha256:7f438e87e1431f7ebb7a1a4530b69a05aff8a1e49cd4f7c23a6c78455c6278a0"
+    },
+    {
+      "job": "Source fleet distillation",
+      "artifact": 12129424967,
+      "digest": "sha256:9e6055ced57594740a2a8b67fce6fd7627afb43902d7741111a7c1290474a826"
+    },
+    {
+      "job": "Source fleet v3 ionic-conductivity",
+      "artifact": 12129401214,
+      "digest": "sha256:64c6fe7bff05c06530bb7c1a1d746479ec3c86ffb002aa3625466f032d5fc240"
+    },
+    {
+      "job": "Source fleet v2 quantitative-solutions",
+      "artifact": 12129347570,
+      "digest": "sha256:1849e0509153f89d9d58f837e17c3ad05f875fd3f54eba26b88aa77a2edd35c3"
+    },
+    {
+      "job": "Source fleet observables-negative-controls",
+      "artifact": 12129328208,
+      "digest": "sha256:c7a8786220b5fc6f23da68ae4ae364e35a977196acaeafd0e316e6e5da064aa7"
+    },
+    {
+      "job": "Source fleet v3 aqueous-selectivity",
+      "artifact": 12129315194,
+      "digest": "sha256:48b9f1592426eff54020e2c9fee17cb96076e924ff4ebb71db2e9efac6ad6eca"
+    },
+    {
+      "job": "Source fleet v2 polyprotic-carbonate",
+      "artifact": 12129107789,
+      "digest": "sha256:9a86ee86dc680a9209a790fa75e46950e3b78b969f96602f4ac867b305a10fd9"
+    },
+    {
+      "job": "Source fleet v3 water-energy",
+      "artifact": 12129074036,
+      "digest": "sha256:d18f00bfda689412a3e67016c69ffa07cf7be30ad57b3451a3a3bf75e7470202"
+    },
+    {
+      "job": "Source fleet filtration-evaporation",
+      "artifact": 12128953721,
+      "digest": "sha256:99d5985271cc1d02e9e81e71bd16047cd1c158da61d2084ba5cbcb14f2ed56c3"
+    },
+    {
+      "job": "Source fleet acid-base-buffers",
+      "artifact": 12128438771,
+      "digest": "sha256:c6e617ac244dd26759cf6dafbd14ed328bd909eaa8117691b25e93932b0ef2b7"
+    },
+    {
+      "job": "Source fleet gas-boundaries",
+      "artifact": 12128162345,
+      "digest": "sha256:bec7b63ebbf0999b8bad5156b071f8f6ed93b4a9cfe2d8c67d64429a8c4c3844"
+    },
+    {
+      "job": "Build audited CLI once",
+      "artifact": 12128106346,
+      "digest": "sha256:c5e96bbc7cb0fd4872cccdae622ad3c7c24cea642a3922170a0f87946a7a6a10"
+    }
+  ],
+  "runtime_libraries": {
+    "libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+    "libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+    "libm.so.6": "e9c4b28d340e415b8137480ec442662f981e1399386c5931dae0e886e3639e91",
+    "libc.so.6": "8db37cf3f2169f59a0f07ef1fea308c35656668c64c8ff294e1860f4121eb161",
+    "ld-linux-x86-64.so.2": "cd4df4f3c7b83673d61189bf2eaebd33ca4f2853ab9772b8a25e025ef99b1e81"
+  },
+  "provider_driver_sha256": "76870394a6806c65b58df676ff665dae612f9344037e710034d569d691987c44",
+  "qualification": "Full original own-fleet regression acceptance across explicitly bound providers. No fake GitHub status, waived assertion, original case rerun, empirical calibration or scientific catalog selection. All first raw observations and transferred-queue status retained.",
+  "catalog_additions": 0
+}

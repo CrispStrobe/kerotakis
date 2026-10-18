@@ -1,0 +1,6 @@
+# Does feed order change the full ledger of acidified milk?
+register lv3
+add v1 milk 100mL
+add v1 white_vinegar_5_percent 5mL
+inspect v1
+inspect

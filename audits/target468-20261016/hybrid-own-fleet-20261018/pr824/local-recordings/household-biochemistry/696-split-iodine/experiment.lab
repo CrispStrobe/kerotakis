@@ -1,0 +1,8 @@
+# Does splitting iodine delivery change the same test ledger?
+register lv3
+add v1 water 200mL
+add v1 lugol_solution_1_percent 0.4mL
+add v1 starch 0.0004mol
+add v1 lugol_solution_1_percent 0.6mL
+inspect v1
+inspect

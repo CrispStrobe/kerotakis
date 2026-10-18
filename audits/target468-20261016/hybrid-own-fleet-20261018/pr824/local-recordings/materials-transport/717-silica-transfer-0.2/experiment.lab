@@ -1,0 +1,8 @@
+# Does decanting leave settled silica while moving the liquid fraction?
+register lv3
+add v1 water 300mL
+add v1 SiO2 0.003mol
+new
+decant v1 v2 0.2
+inspect
+inspect

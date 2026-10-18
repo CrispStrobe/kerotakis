@@ -1,0 +1,5 @@
+# How does water volume change the balance reading?
+register lv3
+add v1 water 50mL
+measure v1 balance
+inspect

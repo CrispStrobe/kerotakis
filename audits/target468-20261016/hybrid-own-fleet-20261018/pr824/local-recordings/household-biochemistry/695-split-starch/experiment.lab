@@ -1,0 +1,8 @@
+# Does splitting starch delivery change the same test ledger?
+register lv3
+add v1 water 200mL
+add v1 starch 0.0001mol
+add v1 lugol_solution_1_percent 1mL
+add v1 starch 0.0003mol
+inspect v1
+inspect

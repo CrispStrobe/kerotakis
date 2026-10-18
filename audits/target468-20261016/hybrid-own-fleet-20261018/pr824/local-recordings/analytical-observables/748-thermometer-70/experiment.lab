@@ -1,0 +1,5 @@
+# Does the thermometer retain the ordering of prepared water temperatures?
+register lv3
+add v1 water 200mL @ 70C
+measure v1 thermometer
+inspect

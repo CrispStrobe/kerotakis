@@ -1,0 +1,6 @@
+# How does supplied energy order final water temperature?
+register lv3
+add v1 water 250mL
+heat v1 400J
+measure v1 thermometer
+inspect

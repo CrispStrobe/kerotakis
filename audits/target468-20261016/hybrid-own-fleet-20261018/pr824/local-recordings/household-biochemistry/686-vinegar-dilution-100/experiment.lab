@@ -1,0 +1,6 @@
+# How does dilution move the measured pH of a fixed vinegar amount?
+register lv3
+add v1 water 100mL
+add v1 white_vinegar_5_percent 10mL
+measure v1 ph
+inspect

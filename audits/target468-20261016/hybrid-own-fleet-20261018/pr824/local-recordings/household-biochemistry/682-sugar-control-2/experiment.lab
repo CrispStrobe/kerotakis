@@ -1,0 +1,6 @@
+# Does a neutral household sugar remain a conductivity control?
+register lv3
+add v1 water 250mL
+add v1 glucose 0.002mol
+measure v1 conductivity
+inspect

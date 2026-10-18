@@ -1,0 +1,6 @@
+# How does sealed nitrogen amount change the pressure-gauge reading?
+register lv3
+seal v1 650mL
+add v1 N2 0.004mol
+measure v1 pressure
+inspect

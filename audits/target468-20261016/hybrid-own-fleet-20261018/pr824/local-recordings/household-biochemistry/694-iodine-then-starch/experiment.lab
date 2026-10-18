@@ -1,0 +1,7 @@
+# Does reversing both feeds change the same test ledger?
+register lv3
+add v1 water 200mL
+add v1 lugol_solution_1_percent 1mL
+add v1 starch 0.0004mol
+inspect v1
+inspect

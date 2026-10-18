@@ -1,0 +1,6 @@
+# How does a controlled amount change the ph reading?
+register lv3
+add v1 water 275mL
+add v1 HCl 0.001mol
+measure v1 ph
+inspect
