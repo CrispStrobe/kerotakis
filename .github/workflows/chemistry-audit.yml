@@ -184,7 +184,8 @@ jobs:
 
   source-fleet-aggregate:
     name: All 240 source-informed cases
-    if: always()
+    # Collect failed-family evidence too, but release superseded run groups.
+    if: ${{ !cancelled() }}
     needs: source-fleets
     runs-on: ubuntu-latest
     steps:
@@ -262,7 +263,7 @@ jobs:
 
   source-fleet-v2-aggregate:
     name: All 288 source-informed v2 cases
-    if: always()
+    if: ${{ !cancelled() }}
     needs: source-fleets-v2
     runs-on: ubuntu-latest
     steps:
@@ -331,7 +332,7 @@ jobs:
 
   source-fleet-v3-aggregate:
     name: All 120 source-informed v3 cases
-    if: always()
+    if: ${{ !cancelled() }}
     needs: source-fleets-v3
     runs-on: ubuntu-latest
     steps:
