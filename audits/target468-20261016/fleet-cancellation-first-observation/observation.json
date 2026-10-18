@@ -1,0 +1,158 @@
+{
+  "run": 39118933896,
+  "run_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39118933896",
+  "superseded_head": "c8739dd5cf544468e19b96f9cc141e967adcd504",
+  "corrected_head": "f309ec3ca8437804203cb51e4c051491bf3ba422",
+  "before_normal_cancel": [
+    {
+      "name": "Build audited CLI once",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "All 240 source-informed cases",
+      "status": "queued",
+      "conclusion": ""
+    },
+    {
+      "name": "All 120 source-informed v3 cases",
+      "status": "queued",
+      "conclusion": ""
+    },
+    {
+      "name": "All 288 source-informed v2 cases",
+      "status": "queued",
+      "conclusion": ""
+    },
+    {
+      "name": "Source fleet v3 ${{ matrix.family }}",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Frozen fleet 195-218",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Source fleet v2 ${{ matrix.family }}",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Source fleet ${{ matrix.family }}",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Frozen fleet 459-488",
+      "status": "completed",
+      "conclusion": "cancelled"
+    }
+  ],
+  "after_normal_cancel": [
+    {
+      "name": "Build audited CLI once",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "All 240 source-informed cases",
+      "status": "queued",
+      "conclusion": ""
+    },
+    {
+      "name": "All 120 source-informed v3 cases",
+      "status": "queued",
+      "conclusion": ""
+    },
+    {
+      "name": "All 288 source-informed v2 cases",
+      "status": "queued",
+      "conclusion": ""
+    },
+    {
+      "name": "Source fleet v3 ${{ matrix.family }}",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Frozen fleet 195-218",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Source fleet v2 ${{ matrix.family }}",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Source fleet ${{ matrix.family }}",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Frozen fleet 459-488",
+      "status": "completed",
+      "conclusion": "cancelled"
+    }
+  ],
+  "after_terminal_cancel": [
+    {
+      "name": "Build audited CLI once",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "All 240 source-informed cases",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "All 120 source-informed v3 cases",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "All 288 source-informed v2 cases",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Source fleet v3 ${{ matrix.family }}",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Frozen fleet 195-218",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Source fleet v2 ${{ matrix.family }}",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Source fleet ${{ matrix.family }}",
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "name": "Frozen fleet 459-488",
+      "status": "completed",
+      "conclusion": "cancelled"
+    }
+  ],
+  "no_active_job_at_either_cancellation": true,
+  "only_unstarted_aggregates_remained": true,
+  "original_workflow_conclusion": "cancelled, not claimed green",
+  "raw_observation_sha256": {
+    "before.json": "f943f17baa96c82d6d01a13243886edb68ae57d888b38257a3a3fa0d9cdf3be7",
+    "normal-cancel-request.json": "355e10aa623442563fe286a6330dc299736c1be6bc1ad5e214cf96094bb70566",
+    "after-normal-cancel.json": "f943f17baa96c82d6d01a13243886edb68ae57d888b38257a3a3fa0d9cdf3be7",
+    "terminal-cancel-request.json": "5f4c4ff3b870186a7860446b2c7758be64da7a4e60141872c8d0f5945e43e0d2",
+    "terminal.json": "356c1c9eddb7d88550812b187323a16011d73dcdab863f83067fdf0179c87d7b"
+  },
+  "qualification": "Observed existing always-aggregate cancellation failure and safe cleanup of an obsolete unstarted source. New guard behavior still requires actual hosted acceptance; no cancelled workflow is a successful33-job fleet."
+}
