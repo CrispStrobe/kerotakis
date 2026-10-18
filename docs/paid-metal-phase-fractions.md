@@ -73,3 +73,10 @@ transition temperature for both freezing and condensation. It keeps every
 original phase assertion and adds a core-only energy-closure control across
 zinc, lead, naphthalene and water. Actual corrected-source validation is required;
 this does not resolve general reacting CEA HP enthalpy or rigid-gas latent energy.
+
+The first corrected-energy source `92d439d4` passes all CEA native tests,
+including the original reverse-cooling and pouring assertions. The new core
+control passed the three phase-route substances, then stopped because it asked
+the separate phase table for water's fusion constant. The control correction
+uses water's existing solvent-state constant and solver; water and all original
+energy/phase assertions remain included. This follow-up still needs execution.

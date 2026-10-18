@@ -18,9 +18,18 @@ fn partial_freezing_closes_the_transition_referenced_energy_for_different_phases
             .expect("transitions")
             .melting_k
             .expect("melting");
-        let latent = phase_route::fusion_enthalpy(key).expect("fusion");
+        // Water belongs to the solvent state model, not the separate
+        // molecular/metal phase-route table. Exercise its actual owner too.
+        let latent = if key == "water" {
+            states::WATER_H_FUS
+        } else {
+            phase_route::fusion_enthalpy(key).expect("fusion")
+        };
         let mut bench = Bench::new();
-        let mut stack = SolverStack::new(vec![Box::new(phase_route::PhaseRouteEquilibrator)]);
+        let mut stack = SolverStack::new(vec![
+            Box::new(phase_route::PhaseRouteEquilibrator),
+            Box::new(StateEquilibrator),
+        ]);
         // Prepared coexistence is the input, not the result. The actual
         // cool operator and phase route must perform and retain the debit.
         let v = &mut bench.vessels[0];
