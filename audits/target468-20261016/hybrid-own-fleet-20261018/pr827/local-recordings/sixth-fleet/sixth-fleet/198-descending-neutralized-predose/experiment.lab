@@ -1,0 +1,7 @@
+# Does a defined acid predose reduce remaining base capacity?
+register lv3
+add v1 water 0.42L
+add v1 NaOH 0.0011mol
+add v1 HCl 0.0003mol
+titrate v1 HCl 0.04M 7mL until ph 7
+inspect

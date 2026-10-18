@@ -1,0 +1,8 @@
+# Does partitioning equal cooling leave water at the same temperature?
+register lv3
+add v1 water 250mL @ 50C
+cool v1 25J
+cool v1 75J
+cool v1 200J
+measure v1 thermometer
+inspect

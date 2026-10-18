@@ -1,0 +1,7 @@
+# Does equal heating and cooling restore a water sample's temperature?
+register lv3
+add v1 water 250mL
+heat v1 100J
+cool v1 100J
+measure v1 thermometer
+inspect

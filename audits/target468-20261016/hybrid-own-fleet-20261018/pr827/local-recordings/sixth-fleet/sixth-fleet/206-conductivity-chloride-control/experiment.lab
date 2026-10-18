@@ -1,0 +1,6 @@
+# Does a second dilute registered electrolyte also exceed the blank?
+register lv3
+add v1 water 0.4L
+add v1 KCl 8e-05mol
+measure v1 conductivity
+inspect

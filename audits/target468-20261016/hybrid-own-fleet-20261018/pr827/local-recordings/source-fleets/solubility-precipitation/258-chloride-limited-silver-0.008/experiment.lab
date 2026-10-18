@@ -1,0 +1,7 @@
+# What changes when silver is raised around a fixed chloride amount?
+register lv3
+add v1 water 250mL
+add v1 NaCl 0.0027mol
+add v1 AgNO3 0.008mol
+inspect v1
+inspect

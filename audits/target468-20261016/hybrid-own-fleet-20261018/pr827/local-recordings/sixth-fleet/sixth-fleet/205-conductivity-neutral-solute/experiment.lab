@@ -1,0 +1,6 @@
+# Does dilute neutral glucose fail to mimic a strong electrolyte?
+register lv3
+add v1 water 0.4L
+add v1 glucose 8e-05mol
+measure v1 conductivity
+inspect

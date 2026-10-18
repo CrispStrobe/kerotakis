@@ -1,0 +1,7 @@
+# Do two successive water-removal steps matching the same retained fraction reach the same state?
+register lv3
+add v1 water 0.40L
+add v1 NaCl 0.030mol
+evaporate v1 0.2
+evaporate v1 0.25
+inspect

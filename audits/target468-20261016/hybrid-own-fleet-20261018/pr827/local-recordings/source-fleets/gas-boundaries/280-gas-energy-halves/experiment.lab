@@ -1,0 +1,8 @@
+# Do two equal energy pulses reach the same final state?
+register lv3
+seal v1 500mL
+add v1 N2 0.004mol
+heat v1 150J
+heat v1 150J
+measure v1 pressure
+inspect

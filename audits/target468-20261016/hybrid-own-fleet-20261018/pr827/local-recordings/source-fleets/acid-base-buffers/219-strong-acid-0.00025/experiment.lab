@@ -1,0 +1,6 @@
+# How does increasing strong-acid amount move the pH of a fixed water portion?
+register lv3
+add v1 water 400mL
+add v1 HCl 0.00025mol
+measure v1 ph
+inspect

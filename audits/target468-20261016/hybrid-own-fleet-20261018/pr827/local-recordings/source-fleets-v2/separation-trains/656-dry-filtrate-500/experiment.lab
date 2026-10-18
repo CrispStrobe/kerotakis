@@ -1,0 +1,10 @@
+# What remains when a filtered salt solution is dried?
+register lv3
+add v1 water 500mL
+add v1 SiO2 0.002mol
+add v1 NaCl 0.01mol
+new
+filter v1 v2
+evaporate v2 1
+inspect
+inspect

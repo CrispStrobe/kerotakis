@@ -1,0 +1,7 @@
+# Does one energy pulse reach the same state as partitioned pulses?
+register lv3
+seal v1 500mL
+add v1 N2 0.004mol
+heat v1 300J
+measure v1 pressure
+inspect

@@ -1,0 +1,7 @@
+# Does splitting the same heat delivery preserve temperature in trial 4?
+register lv3
+add v1 water 0.35000000000000003L
+heat v1 600.0J
+heat v1 900.0J
+measure v1 temp
+inspect

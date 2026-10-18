@@ -1,0 +1,7 @@
+# Does splitting milk delivery change the same ledger?
+register lv3
+add v1 milk 50mL
+add v1 white_vinegar_5_percent 5mL
+add v1 milk 50mL
+inspect v1
+inspect

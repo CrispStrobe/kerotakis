@@ -1,0 +1,6 @@
+# Does half concentration double endpoint volume?
+register lv3
+add v1 water 0.42L
+add v1 NaOH 0.0011mol
+titrate v1 HCl 0.02M 7mL until ph 7
+inspect

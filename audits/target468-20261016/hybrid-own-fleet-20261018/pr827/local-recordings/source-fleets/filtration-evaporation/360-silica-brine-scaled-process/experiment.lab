@@ -1,0 +1,9 @@
+# Does doubling the full filter-and-evaporate process double every recovered element?
+register lv3
+add v1 water 0.60L
+add v1 SiO2 0.006mol
+add v1 NaCl 0.040mol
+new
+filter v1 v2
+evaporate v2 0.5
+inspect

@@ -1,0 +1,8 @@
+# Does the current modeled clock conserve zinc and chlorine for this starting dose?
+register lv3
+add v1 water 250mL
+add v1 HCl 0.006mol
+add v1 Zn 0.004mol
+wait 60s
+inspect v1
+inspect

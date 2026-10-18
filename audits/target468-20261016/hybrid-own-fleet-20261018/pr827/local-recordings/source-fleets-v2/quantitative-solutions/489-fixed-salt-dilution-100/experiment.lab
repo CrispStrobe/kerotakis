@@ -1,0 +1,6 @@
+# How does dilution change conductivity when the salt amount is fixed?
+register lv3
+add v1 water 100mL
+add v1 NaCl 0.002mol
+measure v1 conductivity
+inspect

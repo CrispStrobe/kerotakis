@@ -1,0 +1,6 @@
+# Does deeper evaporation retain the same nonvolatile elemental inventory?
+register lv3
+add v1 water 0.36L
+add v1 NaCl 0.055mol
+evaporate v1 0.75
+inspect

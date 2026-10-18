@@ -1,0 +1,11 @@
+# What equilibrium temperature follows hot-first mixing trial 3?
+register lv3
+add v1 water 0.22L
+heat v1 1500J
+new
+add v2 water 0.33L
+cool v2 700J
+new
+mix v1 1 v2 1 into v3
+measure v3 temp
+inspect

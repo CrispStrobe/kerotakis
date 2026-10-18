@@ -1,0 +1,6 @@
+# Within one dilute series, does computed conductivity rise with represented ion amount?
+register lv3
+add v1 water 250mL
+add v1 CaCl2 0.001mol
+measure v1 conductivity
+inspect

@@ -1,0 +1,8 @@
+# Does the signed ideal ester equilibrium preserve C, H and O for a new initial quotient?
+register lv3
+add v1 CH3COOH 0.004mol
+add v1 ethanol 0.0035mol
+add v1 ethyl_acetate 0.0013mol
+add v1 water 0.0027mol
+react v1 esterification
+inspect

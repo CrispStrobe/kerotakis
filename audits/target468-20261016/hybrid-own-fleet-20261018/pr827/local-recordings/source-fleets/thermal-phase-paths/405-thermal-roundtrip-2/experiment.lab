@@ -1,0 +1,7 @@
+# Does equal heating and cooling recover the initial thermal state in trial 2?
+register lv3
+add v1 water 0.27L
+heat v1 500J
+cool v1 500J
+measure v1 temp
+inspect

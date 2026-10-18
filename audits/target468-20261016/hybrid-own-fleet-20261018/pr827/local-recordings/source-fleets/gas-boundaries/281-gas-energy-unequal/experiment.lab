@@ -1,0 +1,8 @@
+# Do unequal energy pulses with the same sum reach the same state?
+register lv3
+seal v1 500mL
+add v1 N2 0.004mol
+heat v1 80J
+heat v1 220J
+measure v1 pressure
+inspect

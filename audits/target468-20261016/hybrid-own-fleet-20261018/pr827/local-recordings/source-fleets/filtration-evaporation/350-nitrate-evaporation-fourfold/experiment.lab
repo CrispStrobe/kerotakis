@@ -1,0 +1,6 @@
+# Does fourfold extensive scaling preserve phase fractions while scaling inventory?
+register lv3
+add v1 water 0.80L
+add v1 NaNO3 0.040mol
+evaporate v1 0.6
+inspect

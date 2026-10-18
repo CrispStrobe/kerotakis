@@ -1,0 +1,4262 @@
+{
+  "schema": "kerotakis-source-evidence-v2",
+  "commit": "5194f961a59b804f18bc4e593e067ab2cf8af0f5",
+  "binary_sha256": "d21fa9124d0e08c5c5fdfd5c62e634debab8476378f1e94b533dbefd0cc6e9a1",
+  "manifest_sha256": {
+    "kinetics-boundaries.json": "269720e059de27411314b854ba7b8b7244787bf6bd1b5f3eb7c9bc497e6054c5"
+  },
+  "cases": [
+    {
+      "id": "657-peroxide-wait-30",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve an unstirred peroxide sample across this interval?",
+      "exit": 0,
+      "seconds": 0.144,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "gas_produced": 1,
+        "reaction_heat_released": 1,
+        "reacted": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 11.068556419788159,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.009997563003958074,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 1.218498020962853e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 30.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0060966447374135e-08,
+            "free_proton": 2.0060966447374135e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0060663004259378e-07,
+              "pe": null,
+              "ph": 6.997373398047146,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.1994000439024837,
+              "species": [
+                {
+                  "activity": 1.0060663004259378e-07,
+                  "molality": 1.0060663004259378e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060663004259378e-07,
+                  "molality": 1.0060663004259378e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1501433161852,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "658-peroxide-wait-60",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve an unstirred peroxide sample across this interval?",
+      "exit": 0,
+      "seconds": 0.139,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "gas_produced": 1,
+        "reaction_heat_released": 1,
+        "reacted": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 11.068558856190334,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.009995126601783316,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 2.4366991083421035e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0061080453068513e-08,
+            "free_proton": 2.0061080453068513e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0060717964059545e-07,
+              "pe": null,
+              "ph": 6.9973710255720185,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.19940008779426888,
+              "species": [
+                {
+                  "activity": 1.0060717964059545e-07,
+                  "molality": 1.0060717964059545e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060717964059545e-07,
+                  "molality": 1.0060717964059545e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1502865974446,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "659-peroxide-wait-120",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve an unstirred peroxide sample across this interval?",
+      "exit": 0,
+      "seconds": 0.144,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "gas_produced": 1,
+        "reaction_heat_released": 1,
+        "reacted": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 11.068563727213578,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.009990255578539876,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 4.87221073006222e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 120.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0061308382579175e-08,
+            "free_proton": 2.0061308382579175e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0060827844144042e-07,
+              "pe": null,
+              "ph": 6.9973662823664196,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.1994001755457526,
+              "species": [
+                {
+                  "activity": 1.0060827844144042e-07,
+                  "molality": 1.0060827844144042e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060827844144042e-07,
+                  "molality": 1.0060827844144042e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1505730552145,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "660-peroxide-wait-240",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve an unstirred peroxide sample across this interval?",
+      "exit": 0,
+      "seconds": 0.145,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "gas_produced": 1,
+        "reaction_heat_released": 1,
+        "reacted": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 11.06857346213969,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.009980520652426923,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 9.739673786538688e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 240.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0061763914257312e-08,
+            "free_proton": 2.0061763914257312e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0061047446331337e-07,
+              "pe": null,
+              "ph": 6.997356802930057,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.19940035092044653,
+              "species": [
+                {
+                  "activity": 1.0061047446331337e-07,
+                  "molality": 1.0061047446331337e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0061047446331337e-07,
+                  "molality": 1.0061047446331337e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15114555199773,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "661-acid-metal-wait-10",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine across this interval?",
+      "exit": 0,
+      "seconds": 0.147,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "hazard_warning": 1,
+        "inert": 2
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+          "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.",
+          "rule": "acid-metal-hydrogen",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 11.068553982792118,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 10.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.2900275929384965e-13,
+            "free_proton": 0.004000000000128638,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 2.9388700641219982e-09,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.004,
+            "solution": {
+              "ionic_strength": 0.02006018054227,
+              "pe": null,
+              "ph": 1.74858175066,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.1994,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01784,
+                  "molality": 0.02006,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500013446396,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "662-acid-metal-wait-30",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine across this interval?",
+      "exit": 0,
+      "seconds": 0.146,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "hazard_warning": 1,
+        "inert": 2
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+          "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.",
+          "rule": "acid-metal-hydrogen",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 11.068553982792118,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 30.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.2900275929384965e-13,
+            "free_proton": 0.004000000000128638,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 8.806864221676292e-09,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.004,
+            "solution": {
+              "ionic_strength": 0.02006018054227,
+              "pe": null,
+              "ph": 1.74858175066,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.1994,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01784,
+                  "molality": 0.02006,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500013446396,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "663-acid-metal-wait-60",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine across this interval?",
+      "exit": 0,
+      "seconds": 0.154,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "hazard_warning": 1,
+        "inert": 2
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+          "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.",
+          "rule": "acid-metal-hydrogen",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 11.068553982792118,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.2900275929384965e-13,
+            "free_proton": 0.004000000000128638,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 1.758454437789379e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.004,
+            "solution": {
+              "ionic_strength": 0.02006018054227,
+              "pe": null,
+              "ph": 1.74858175066,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.1994,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01784,
+                  "molality": 0.02006,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500013446396,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "664-acid-metal-wait-120",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine across this interval?",
+      "exit": 0,
+      "seconds": 0.149,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "hazard_warning": 1,
+        "inert": 2
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+          "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.",
+          "rule": "acid-metal-hydrogen",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 11.068553982792118,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 120.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.2900275929384965e-13,
+            "free_proton": 0.004000000000128638,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 3.505273901248666e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.004,
+            "solution": {
+              "ionic_strength": 0.02006018054227,
+              "pe": null,
+              "ph": 1.74858175066,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.1994,
+              "species": [
+                {
+                  "activity": 0.9993,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.01784,
+                  "molality": 0.02006,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0174,
+                  "molality": 0.02006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002665,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500013446396,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "665-peroxide-heat-0",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve peroxide elements after this heat input and interval?",
+      "exit": 0,
+      "seconds": 0.15,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "energy_transferred": 1,
+        "gas_produced": 1,
+        "reaction_heat_released": 1,
+        "reacted": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 11.068558856190334,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.009995126601783316,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 2.4366991083421035e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0061080453068513e-08,
+            "free_proton": 2.0061080453068513e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0060717964059545e-07,
+              "pe": null,
+              "ph": 6.9973710255720185,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.19940008779426888,
+              "species": [
+                {
+                  "activity": 1.0060717964059545e-07,
+                  "molality": 1.0060717964059545e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060717964059545e-07,
+                  "molality": 1.0060717964059545e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1502865974446,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "666-peroxide-heat-100",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve peroxide elements after this heat input and interval?",
+      "exit": 0,
+      "seconds": 0.145,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "gas_produced": 1,
+        "reaction_heat_released": 1,
+        "reacted": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 11.06855891574374,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.009995067048376874,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 2.466475811563096e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0151707057001678e-08,
+            "free_proton": 2.0151707057001678e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0106167540592423e-07,
+              "pe": null,
+              "ph": 6.995413506280684,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.1994000888671235,
+              "species": [
+                {
+                  "activity": 1.0106167540592423e-07,
+                  "molality": 1.0106167540592423e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0106167540592423e-07,
+                  "molality": 1.0106167540592423e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.26857789031703,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "667-peroxide-heat-200",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve peroxide elements after this heat input and interval?",
+      "exit": 0,
+      "seconds": 0.147,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "gas_produced": 1,
+        "reaction_heat_released": 1,
+        "reacted": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 11.068558975975783,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.009995006816334515,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 2.496591832743006e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0242636844318552e-08,
+            "free_proton": 2.0242636844318552e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0151769163780578e-07,
+              "pe": null,
+              "ph": 6.993458266015409,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.19940008995220374,
+              "species": [
+                {
+                  "activity": 1.0151769163780578e-07,
+                  "molality": 1.0151769163780578e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0151769163780578e-07,
+                  "molality": 1.0151769163780578e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.386872303703,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "668-peroxide-heat-300",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve peroxide elements after this heat input and interval?",
+      "exit": 0,
+      "seconds": 0.142,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "gas_produced": 1,
+        "reaction_heat_released": 1,
+        "reacted": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 11.06855903689362,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.009994945898498815,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 2.5270507505921842e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0333867641049767e-08,
+            "free_proton": 2.0333867641049767e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0197521743351594e-07,
+              "pe": null,
+              "ph": 6.99150535999885,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.19940009104963854,
+              "species": [
+                {
+                  "activity": 1.0197521743351594e-07,
+                  "molality": 1.0197521743351594e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0197521743351594e-07,
+                  "molality": 1.0197521743351594e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.5051663028959,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "669-zinc-dose-0.0005",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this starting dose?",
+      "exit": 0,
+      "seconds": 0.147,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "hazard_warning": 1,
+        "inert": 2
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+          "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.",
+          "rule": "acid-metal-hydrogen",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.3697195680193704e-13,
+            "free_proton": 0.006000000000137126,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.006,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.0005,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 1.7596210129665082e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.006,
+            "solution": {
+              "ionic_strength": 0.0240722166505,
+              "pe": null,
+              "ph": 1.672732072378,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 0.9992,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.02125,
+                  "molality": 0.02407,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.02064,
+                  "molality": 0.02407,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002662,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15000134470654,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "670-zinc-dose-0.001",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this starting dose?",
+      "exit": 0,
+      "seconds": 0.147,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "hazard_warning": 1,
+        "inert": 2
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+          "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.",
+          "rule": "acid-metal-hydrogen",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.3697195680193704e-13,
+            "free_proton": 0.006000000000137126,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.006,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 1.7596210129672864e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.006,
+            "solution": {
+              "ionic_strength": 0.0240722166505,
+              "pe": null,
+              "ph": 1.672732072378,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 0.9992,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.02125,
+                  "molality": 0.02407,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.02064,
+                  "molality": 0.02407,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002662,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15000134469017,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "671-zinc-dose-0.002",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this starting dose?",
+      "exit": 0,
+      "seconds": 0.154,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "hazard_warning": 1,
+        "inert": 2
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+          "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.",
+          "rule": "acid-metal-hydrogen",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.3697195680193704e-13,
+            "free_proton": 0.006000000000137126,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.006,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 1.759621012968847e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.006,
+            "solution": {
+              "ionic_strength": 0.0240722166505,
+              "pe": null,
+              "ph": 1.672732072378,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 0.9992,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.02125,
+                  "molality": 0.02407,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.02064,
+                  "molality": 0.02407,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002662,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500013446573,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "672-zinc-dose-0.004",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this starting dose?",
+      "exit": 0,
+      "seconds": 0.149,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "hazard_warning": 1,
+        "inert": 2
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+          "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.",
+          "rule": "acid-metal-hydrogen",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.004,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.3697195680193704e-13,
+            "free_proton": 0.006000000000137126,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.006,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 1.7596210129719567e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.006,
+            "solution": {
+              "ionic_strength": 0.0240722166505,
+              "pe": null,
+              "ph": 1.672732072378,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 0.9992,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.02125,
+                  "molality": 0.02407,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.02064,
+                  "molality": 0.02407,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002662,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15000134459183,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "673-wait-partition-1",
+      "family": "kinetics-boundaries",
+      "question": "Within the current modeled clock, does partitioning equal elapsed time preserve the peroxide state?",
+      "exit": 0,
+      "seconds": 0.156,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "gas_produced": 1,
+        "reaction_heat_released": 1,
+        "reacted": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 12.175420099934936,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.010989281136393863,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 5.359431803068442e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 120.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.2067439220837096e-08,
+            "free_proton": 2.2067439220837096e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 12.17540938107133,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.011,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0060827844144042e-07,
+              "pe": null,
+              "ph": 6.9973662823664196,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.21934019310032787,
+              "species": [
+                {
+                  "activity": 1.0060827844144042e-07,
+                  "molality": 1.0060827844144042e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060827844144042e-07,
+                  "molality": 1.0060827844144042e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1505730552145,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "674-wait-partition-2",
+      "family": "kinetics-boundaries",
+      "question": "Within the current modeled clock, does partitioning equal elapsed time preserve the peroxide state?",
+      "exit": 0,
+      "seconds": 0.173,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "gas_produced": 2,
+        "reaction_heat_released": 2,
+        "reacted": 2
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 12.175420100090696,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.010989280980633299,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 5.359509683350654e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 120.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.2067439228125063e-08,
+            "free_proton": 2.2067439228125063e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 12.17540938107133,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.011,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0060827847338012e-07,
+              "pe": null,
+              "ph": 6.997366282228546,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.21934019310313388,
+              "species": [
+                {
+                  "activity": 1.0060827847338012e-07,
+                  "molality": 1.0060827847338012e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060827847338012e-07,
+                  "molality": 1.0060827847338012e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15057306354345,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "675-wait-partition-3",
+      "family": "kinetics-boundaries",
+      "question": "Within the current modeled clock, does partitioning equal elapsed time preserve the peroxide state?",
+      "exit": 0,
+      "seconds": 0.14,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "gas_produced": 2,
+        "reaction_heat_released": 2,
+        "reacted": 2
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 12.175420100051761,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.010989281019567637,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 5.359490216180966e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 120.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.2067439226304257e-08,
+            "free_proton": 2.2067439226304257e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 12.17540938107133,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.011,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0060827846540054e-07,
+              "pe": null,
+              "ph": 6.997366282262991,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.2193401931024325,
+              "species": [
+                {
+                  "activity": 1.0060827846540054e-07,
+                  "molality": 1.0060827846540054e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060827846540054e-07,
+                  "molality": 1.0060827846540054e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1505730614615,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "676-wait-partition-4",
+      "family": "kinetics-boundaries",
+      "question": "Within the current modeled clock, does partitioning equal elapsed time preserve the peroxide state?",
+      "exit": 0,
+      "seconds": 0.145,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 2,
+        "solution_routed": 1,
+        "gas_produced": 2,
+        "reaction_heat_released": 2,
+        "reacted": 2
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 12.17542010012529,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0109892809460373,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 5.3595269813498174e-06,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ],
+            "elapsed_seconds": 120.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.2067439229746566e-08,
+            "free_proton": 2.2067439229746566e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 12.17540938107133,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.011,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "H2O2",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0,
+            "solution": {
+              "ionic_strength": 1.0060827848048689e-07,
+              "pe": null,
+              "ph": 6.997366282197868,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.2193401931037571,
+              "species": [
+                {
+                  "activity": 1.0060827848048689e-07,
+                  "molality": 1.0060827848048689e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060827848048689e-07,
+                  "molality": 1.0060827848048689e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15057306539325,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "677-acid-dose-0.0005",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this acid dose?",
+      "exit": 0,
+      "seconds": 0.148,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "inert": 2
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.3697295486533724e-12,
+            "free_proton": 0.0005000000013695072,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.0005,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 1.7596216659093386e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.0005,
+            "solution": {
+              "ionic_strength": 0.002006018059657,
+              "pe": null,
+              "ph": 2.717837376526,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 0.9999,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.001915,
+                  "molality": 0.002006,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.001908,
+                  "molality": 0.002006,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002676,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15000134459115,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "678-acid-dose-0.001",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this acid dose?",
+      "exit": 0,
+      "seconds": 0.146,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "inert": 2
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 7.09578934682261e-13,
+            "free_proton": 0.001000000000709621,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 1.7596213162606387e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.001,
+            "solution": {
+              "ionic_strength": 0.004012036111172,
+              "pe": null,
+              "ph": 2.423845095673,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 0.9999,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.003768,
+                  "molality": 0.004012,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.003744,
+                  "molality": 0.004012,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002674,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500013446266,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "679-acid-dose-0.002",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this acid dose?",
+      "exit": 0,
+      "seconds": 0.134,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "inert": 2
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.002,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.002,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 3.716470399266965e-13,
+            "free_proton": 0.002000000000371644,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 1.759621137270003e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.002,
+            "solution": {
+              "ionic_strength": 0.008024072218141,
+              "pe": null,
+              "ph": 2.131725977424,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 0.9997,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.007384,
+                  "molality": 0.008024,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.007296,
+                  "molality": 0.008024,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002672,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500013446447,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "680-acid-dose-0.004",
+      "family": "kinetics-boundaries",
+      "question": "Does the current modeled clock conserve zinc and chlorine for this acid dose?",
+      "exit": 0,
+      "seconds": 0.136,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 3,
+        "solution_routed": 2,
+        "solution_characterized": 3,
+        "hazard_warning": 1,
+        "inert": 2
+      },
+      "diagnostics": [
+        {
+          "event": "hazard_warning",
+          "hazard": "strong acid dissolves this metal, releasing hydrogen gas which is flammable",
+          "real_world": "Any metal above hydrogen in the activity series gives off hydrogen gas in acid; magnesium ribbon in hydrochloric acid is the school version, where the gas pops with a lit splint. The gas is genuinely flammable whichever metal and acid made it.",
+          "rule": "acid-metal-hydrogen",
+          "severity": "caution"
+        }
+      ],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.002,
+                "phase": "solid",
+                "species": "Zn"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.004,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 60.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.9717099286171836e-13,
+            "free_proton": 0.004000000000196933,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.004,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "HCl",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.002,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "Zn",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 1.7596210448548416e-08,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -0.004,
+            "solution": {
+              "ionic_strength": 0.01604814443409,
+              "pe": null,
+              "ph": 1.84158101849,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset",
+                "routing_phrase": {
+                  "en": "the default inorganic aqueous dataset",
+                  "key": "routing.default-inorganic"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 0.9994,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.0144,
+                  "molality": 0.01605,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0141,
+                  "molality": 0.01605,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.0002677,
+                  "molality": 0.0002667,
+                  "name": "O2"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.150001344654,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}

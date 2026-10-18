@@ -1,0 +1,8 @@
+# Does extensive scaling preserve the intensive equilibrium in trial 1?
+register lv3
+add v1 CH3COOH 0.026mol
+add v1 ethanol 0.018mol
+add v1 ethyl_acetate 0.004mol
+add v1 water 0.01mol
+react v1 esterification
+inspect

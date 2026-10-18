@@ -1,0 +1,8 @@
+# Does more headspace retain atoms and pressure-law consistency?
+register lv3
+seal v1 0.72L
+add v1 N2 0.004mol
+inspect v1
+heat v1 0.2J
+measure v1 pressure
+inspect

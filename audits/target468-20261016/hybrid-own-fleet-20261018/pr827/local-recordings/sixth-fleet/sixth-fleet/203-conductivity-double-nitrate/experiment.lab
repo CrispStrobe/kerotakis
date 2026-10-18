@@ -1,0 +1,6 @@
+# Does doubling dilute charge carriers increase conductivity?
+register lv3
+add v1 water 0.4L
+add v1 KNO3 0.00016mol
+measure v1 conductivity
+inspect

@@ -1,0 +1,8 @@
+# What equilibrium follows organic feed arrangement 2?
+register lv3
+add v1 CH3COOH 0.011mol
+add v1 ethanol 0.016mol
+add v1 ethyl_acetate 0.003mol
+add v1 water 0.004mol
+react v1 esterification
+inspect

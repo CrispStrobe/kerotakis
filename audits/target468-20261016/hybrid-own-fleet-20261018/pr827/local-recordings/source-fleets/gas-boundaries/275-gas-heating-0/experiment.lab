@@ -1,0 +1,6 @@
+# How does added energy change the pressure of a fixed sealed gas?
+register lv3
+seal v1 500mL
+add v1 N2 0.0042mol
+measure v1 pressure
+inspect

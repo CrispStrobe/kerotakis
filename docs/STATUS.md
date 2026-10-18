@@ -28,7 +28,7 @@ evidence remain unchanged. Refresh live GitHub state before acting.
   command/budget parity and organic-solubility provenance. PR818 is a
   documentation checkpoint, not an implemented hydroxide-selectivity repair.
   Earlier inventory, water, settling and rendering repairs are also integrated.
-- Latest verified integrated main is `050aea7f` (PR825 finite-quantity guard). Production
+- Latest verified integrated main is `76fe144f` (PR824 complete-command parser). Production
   last verified at API/engine `c4469205`, binary `670bd3d8`. Accepted later source
   has not yet been delivered as a complete frontend/native production snapshot.
 - Pages REST client publication at `fa5a75fa`, byte identity and production CORS
@@ -47,12 +47,12 @@ copied into main; never merge the broad audit branch to import them.
 | --- | --- | --- | --- |
 | [822](https://github.com/CrispStrobe/kerotakis/pull/822) | `e2a4ff70` | Retain reviewed supplied solid in direct/comparison inputs; include phase oxidation states in pinning without double counting. | Integrated as `bc472fb4` after25 CI and33 fleet successes; [tree receipt](../audits/target468-20261016/accepted-pr-integration/pr822-integration.json). |
 | [823](https://github.com/CrispStrobe/kerotakis/pull/823) | `4730f7e6` | Decline dissolved-only native MIX for positive solid/gas or typed interface inventory; preserve ordinary fallback. | Integrated as `d6020643`; [actual tree receipt](../audits/target468-20261016/accepted-pr-integration/pr823-integration.json). |
-| [824](https://github.com/CrispStrobe/kerotakis/pull/824) | `654cf041` | Consume complete commands, preserve inline comments/embedded hashes and spaced wait units; charge REST durations correctly. | Hosted native, REST and full-fleet acceptance. All19 local HTTP policy tests pass. |
+| [824](https://github.com/CrispStrobe/kerotakis/pull/824) | `654cf041` | Consume complete commands, preserve inline comments/embedded hashes and spaced wait units; charge REST durations correctly. | Integrated as `76fe144f` after25 CI, REST and all33 original fleet logical jobs (28 GitHub +5 exact-source local); [tree receipt](../audits/target468-20261016/accepted-pr-integration/pr824-integration.json). |
 | [825](https://github.com/CrispStrobe/kerotakis/pull/825) | `bc860706` | Refuse non-finite operator quantities and scaled unit overflow before save/replay. | Integrated as `050aea7f` after25 CI,33 fleet and REST acceptance; [tree receipt](../audits/target468-20261016/accepted-pr-integration/pr825-integration.json). |
 | [827](https://github.com/CrispStrobe/kerotakis/pull/827) | `5194f961` | Ship the live aqueous Wasm engine on Vercel with the reviewed MY-BASIC profile, capture full frontend and actual producer lock bytes. | Exact-head CI, REST and full fleet; then actual deployment and browser/native parity. |
 | [826](https://github.com/CrispStrobe/kerotakis/pull/826) | Refresh live head | Publish replay evidence, current status and scoped handover. | Protected documentation checks; normal auto-merge. |
 
-PR822/823/825 are integrated; PR824 still requires complete acceptance. Its
+PR822/823/824/825 are integrated. PR824 has complete provider-qualified acceptance:28 GitHub jobs plus the five original remaining jobs on the authenticated same-source CLI; the transferred GitHub workflow is cancelled, not claimed green. Its
 correction preserves full-comment command history after a real English-alias
 regression. PR825 preflight lost its hosted runner connection; the failed-job
 retry on the unchanged head then passed with all other acceptance intact.

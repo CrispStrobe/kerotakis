@@ -1,0 +1,11 @@
+# Does operand reversal preserve the mixed temperature in trial 2?
+register lv3
+add v1 water 0.19999999999999998L
+heat v1 1350J
+new
+add v2 water 0.30000000000000004L
+cool v2 600J
+new
+mix v2 1 v1 1 into v3
+measure v3 temp
+inspect

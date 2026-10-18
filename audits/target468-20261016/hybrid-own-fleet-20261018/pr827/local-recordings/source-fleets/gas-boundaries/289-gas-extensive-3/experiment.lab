@@ -1,0 +1,7 @@
+# Does scaling gas amount, volume, and energy preserve intensive state?
+register lv3
+seal v1 750mL
+add v1 N2 0.006mol
+heat v1 225J
+measure v1 pressure
+inspect

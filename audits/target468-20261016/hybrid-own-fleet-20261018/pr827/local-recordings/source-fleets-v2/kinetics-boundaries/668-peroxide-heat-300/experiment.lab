@@ -1,0 +1,8 @@
+# Does the current modeled clock conserve peroxide elements after this heat input and interval?
+register lv3
+add v1 water 200mL
+add v1 H2O2 0.01mol
+heat v1 300J
+wait 60s
+inspect v1
+inspect

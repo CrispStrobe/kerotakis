@@ -1,0 +1,8 @@
+# Does reversing all feeds preserve organic equilibrium 4?
+register lv3
+add v1 water 0.009mol
+add v1 ethyl_acetate 0.001mol
+add v1 ethanol 0.006mol
+add v1 CH3COOH 0.018mol
+react v1 esterification
+inspect

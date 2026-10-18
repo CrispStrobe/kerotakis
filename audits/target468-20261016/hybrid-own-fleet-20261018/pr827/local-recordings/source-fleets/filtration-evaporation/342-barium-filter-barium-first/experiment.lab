@@ -1,0 +1,8 @@
+# Does feed order leave the unequal barium sulfate separation unchanged?
+register lv3
+add v1 water 0.45L
+add v1 BaCl2 0.0011mol
+add v1 Na2SO4 0.0007mol
+new
+filter v1 v2
+inspect

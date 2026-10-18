@@ -1,0 +1,6 @@
+# Does evaporation remove solvent without consuming sodium nitrate?
+register lv3
+add v1 water 0.20L
+add v1 NaNO3 0.010mol
+evaporate v1 0.6
+inspect

@@ -1,0 +1,8 @@
+# Does reversing soluble-salt feeds preserve the filtered inventories?
+register lv3
+add v1 water 0.50L
+add v1 KNO3 0.0015mol
+add v1 CaCl2 0.001mol
+new
+filter v1 v2
+inspect

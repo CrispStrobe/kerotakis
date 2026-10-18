@@ -1,0 +1,6 @@
+# Does diluting a fixed strong-acid amount raise pH while retaining its atoms?
+register lv3
+add v1 water 800mL
+add v1 HCl 0.0012mol
+measure v1 ph
+inspect

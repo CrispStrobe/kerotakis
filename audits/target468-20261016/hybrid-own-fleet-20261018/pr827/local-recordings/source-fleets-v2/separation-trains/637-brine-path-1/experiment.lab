@@ -1,0 +1,6 @@
+# Do evaporation paths with the same retained water reach the same brine state?
+register lv3
+add v1 water 400mL
+add v1 KCl 0.025mol
+evaporate v1 0.5
+inspect

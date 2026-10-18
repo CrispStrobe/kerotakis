@@ -1,0 +1,8 @@
+# Can different evaporation sequences remove the same net water fraction?
+register lv3
+add v1 water 400mL
+add v1 NaCl 0.03mol
+evaporate v1 0.1
+evaporate v1 0.333333
+inspect v1
+inspect

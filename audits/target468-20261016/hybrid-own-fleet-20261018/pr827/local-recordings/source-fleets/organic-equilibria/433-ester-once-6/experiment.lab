@@ -1,0 +1,9 @@
+# What state follows one equilibrium request in organic trial 6?
+register lv3
+add v1 CH3COOH 0.021mol
+add v1 ethanol 0.015mol
+add v1 ethyl_acetate 0.004mol
+add v1 water 0.003mol
+inspect v1
+react v1 esterification
+inspect

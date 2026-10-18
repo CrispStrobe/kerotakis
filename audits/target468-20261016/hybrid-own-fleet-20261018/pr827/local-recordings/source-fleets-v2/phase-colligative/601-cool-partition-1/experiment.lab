@@ -1,0 +1,6 @@
+# Does partitioning equal cooling preserve final temperature?
+register lv3
+add v1 water 250mL
+cool v1 600J
+measure v1 temp
+inspect

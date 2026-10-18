@@ -1,0 +1,7 @@
+# How does evaporation fraction change a concentrated potassium chloride solution?
+register lv3
+add v1 water 250mL
+add v1 KCl 0.025mol
+evaporate v1 0.7
+inspect v1
+inspect

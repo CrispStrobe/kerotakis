@@ -1,0 +1,7 @@
+# Does a filter pass dissolved glucose while conserving carbon?
+register lv3
+add v1 water 0.28L
+add v1 glucose 0.003mol
+new
+filter v1 v2
+inspect

@@ -1,0 +1,8 @@
+# How are silica and dissolved potassium chloride divided by one filtration?
+register lv3
+add v1 water 0.25L
+add v1 SiO2 0.004mol
+add v1 KCl 0.002mol
+new
+filter v1 v2
+inspect

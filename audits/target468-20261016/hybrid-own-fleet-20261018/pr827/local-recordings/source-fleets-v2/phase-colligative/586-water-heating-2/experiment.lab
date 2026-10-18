@@ -1,0 +1,6 @@
+# How does heat input move liquid-water temperature?
+register lv3
+add v1 water 250mL
+heat v1 250J
+measure v1 temp
+inspect

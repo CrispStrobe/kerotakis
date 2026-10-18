@@ -1,0 +1,6 @@
+# Does adding solvent preserve the solute atoms before measurement?
+register lv3
+add v1 water 400mL
+add v1 KCl 0.002mol
+measure v1 balance
+inspect

@@ -1,0 +1,6 @@
+# How does reducing sealed headspace change pressure for fixed gas amount?
+register lv3
+seal v1 1000mL
+add v1 N2 0.0037mol
+measure v1 pressure
+inspect

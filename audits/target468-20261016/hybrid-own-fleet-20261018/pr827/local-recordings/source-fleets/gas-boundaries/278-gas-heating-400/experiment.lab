@@ -1,0 +1,7 @@
+# Does this heat input exceed the sealed vessel's pressure rating?
+register lv3
+seal v1 500mL
+add v1 N2 0.0042mol
+heat v1 400J
+measure v1 pressure
+inspect

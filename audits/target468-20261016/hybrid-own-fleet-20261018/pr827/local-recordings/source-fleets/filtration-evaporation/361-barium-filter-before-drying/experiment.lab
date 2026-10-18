@@ -1,0 +1,8 @@
+# Does filtering a barium sulfate preparation conserve its full elemental ledger?
+register lv3
+add v1 water 0.35L
+add v1 BaCl2 0.0006mol
+add v1 Na2SO4 0.0006mol
+new
+filter v1 v2
+inspect

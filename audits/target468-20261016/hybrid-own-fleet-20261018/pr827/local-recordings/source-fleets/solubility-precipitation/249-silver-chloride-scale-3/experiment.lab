@@ -1,0 +1,7 @@
+# Does silver chloride production scale with an extensive recipe?
+register lv3
+add v1 water 300mL
+add v1 NaCl 0.003mol
+add v1 AgNO3 0.003mol
+inspect v1
+inspect

@@ -1,0 +1,7 @@
+# How does water removal move a nitrate solution toward crystals?
+register lv3
+add v1 water 400mL
+add v1 NaNO3 0.04mol
+evaporate v1 0.75
+inspect v1
+inspect

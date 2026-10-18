@@ -1,0 +1,7 @@
+# Does feed order leave the same ideal binary separation?
+register lv3
+add v1 water 3mol
+add v1 ethanol 0.3mol
+new
+distil v1 v2 0.2
+inspect

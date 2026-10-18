@@ -1,0 +1,7 @@
+# Does creating the receiver before dissolving sugar change the filtered result?
+register lv3
+new
+add v1 water 0.28L
+add v1 glucose 0.003mol
+filter v1 v2
+inspect

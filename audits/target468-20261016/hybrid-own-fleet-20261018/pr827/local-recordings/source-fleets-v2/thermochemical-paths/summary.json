@@ -1,0 +1,3761 @@
+{
+  "schema": "kerotakis-source-evidence-v2",
+  "commit": "5194f961a59b804f18bc4e593e067ab2cf8af0f5",
+  "binary_sha256": "d21fa9124d0e08c5c5fdfd5c62e634debab8476378f1e94b533dbefd0cc6e9a1",
+  "manifest_sha256": {
+    "thermochemical-paths.json": "d75425998b76e1a685f388819879b181dd9b16f4b61bcd9723c6ecf0cd610369"
+  },
+  "cases": [
+    {
+      "id": "753-water-heat-path-1",
+      "family": "thermochemical-paths",
+      "question": "Does partitioning equal heat leave water at the same temperature?",
+      "exit": 0,
+      "seconds": 0.144,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 14.389120177629755,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.6447834320058443e-08,
+            "free_proton": 2.6447834320058443e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 14.389120177629755,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.0202852526833749e-07,
+              "pe": null,
+              "ph": 6.991278390643038,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.25922,
+              "species": [
+                {
+                  "activity": 1.0202852526833749e-07,
+                  "molality": 1.0202852526833749e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0202852526833749e-07,
+                  "molality": 1.0202852526833749e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.51892373218743,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "754-water-heat-path-2",
+      "family": "thermochemical-paths",
+      "question": "Does partitioning equal heat leave water at the same temperature?",
+      "exit": 0,
+      "seconds": 0.151,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 2,
+        "energy_transferred": 2,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 14.389120177629755,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.6447834320057308e-08,
+            "free_proton": 2.6447834320057308e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 14.389120177629755,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.0202852526833311e-07,
+              "pe": null,
+              "ph": 6.991278390643057,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.25922,
+              "species": [
+                {
+                  "activity": 1.0202852526833311e-07,
+                  "molality": 1.0202852526833311e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0202852526833311e-07,
+                  "molality": 1.0202852526833311e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.51892373218834,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "755-water-heat-path-3",
+      "family": "thermochemical-paths",
+      "question": "Does partitioning equal heat leave water at the same temperature?",
+      "exit": 0,
+      "seconds": 0.15,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 2,
+        "energy_transferred": 2,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 14.389120177629755,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.6447834320056554e-08,
+            "free_proton": 2.6447834320056554e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 14.389120177629755,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.020285252683302e-07,
+              "pe": null,
+              "ph": 6.991278390643069,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.25922,
+              "species": [
+                {
+                  "activity": 1.020285252683302e-07,
+                  "molality": 1.020285252683302e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.020285252683302e-07,
+                  "molality": 1.020285252683302e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.51892373218755,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "756-water-heat-path-4",
+      "family": "thermochemical-paths",
+      "question": "Does partitioning equal heat leave water at the same temperature?",
+      "exit": 0,
+      "seconds": 0.13,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 3,
+        "energy_transferred": 3,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 14.389120177629755,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.644783432005785e-08,
+            "free_proton": 2.644783432005785e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 14.389120177629755,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.020285252683352e-07,
+              "pe": null,
+              "ph": 6.991278390643048,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.25922,
+              "species": [
+                {
+                  "activity": 1.020285252683352e-07,
+                  "molality": 1.020285252683352e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.020285252683352e-07,
+                  "molality": 1.020285252683352e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.5189237321879,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "757-water-cool-path-1",
+      "family": "thermochemical-paths",
+      "question": "Does partitioning equal cooling leave water at the same temperature?",
+      "exit": 0,
+      "seconds": 0.131,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 2,
+        "added": 1,
+        "solution_routed": 1,
+        "energy_transferred": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 5.781540289789452e-08,
+            "free_proton": 5.781540289789452e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.319574840437092e-07,
+              "pe": null,
+              "ph": 6.634591610528494,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 2.319574840437092e-07,
+                  "molality": 2.319574840437092e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.319574840437092e-07,
+                  "molality": 2.319574840437092e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 322.8620974893346,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "758-water-cool-path-2",
+      "family": "thermochemical-paths",
+      "question": "Does partitioning equal cooling leave water at the same temperature?",
+      "exit": 0,
+      "seconds": 0.139,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 1,
+        "solution_routed": 1,
+        "energy_transferred": 2,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 5.781540289789109e-08,
+            "free_proton": 5.781540289789109e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.3195748404369544e-07,
+              "pe": null,
+              "ph": 6.63459161052852,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 2.3195748404369544e-07,
+                  "molality": 2.3195748404369544e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.3195748404369544e-07,
+                  "molality": 2.3195748404369544e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 322.8620974893332,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "759-water-cool-path-3",
+      "family": "thermochemical-paths",
+      "question": "Does partitioning equal cooling leave water at the same temperature?",
+      "exit": 0,
+      "seconds": 0.152,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 1,
+        "solution_routed": 1,
+        "energy_transferred": 2,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 5.781540289789322e-08,
+            "free_proton": 5.781540289789322e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.31957484043704e-07,
+              "pe": null,
+              "ph": 6.634591610528504,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 2.31957484043704e-07,
+                  "molality": 2.31957484043704e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.31957484043704e-07,
+                  "molality": 2.31957484043704e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 322.8620974893338,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "760-water-cool-path-4",
+      "family": "thermochemical-paths",
+      "question": "Does partitioning equal cooling leave water at the same temperature?",
+      "exit": 0,
+      "seconds": 0.154,
+      "steps": 6,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 4,
+        "added": 1,
+        "solution_routed": 1,
+        "energy_transferred": 3,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 5.781540289789215e-08,
+            "free_proton": 5.781540289789215e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.319574840436997e-07,
+              "pe": null,
+              "ph": 6.634591610528512,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 2.319574840436997e-07,
+                  "molality": 2.319574840436997e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.319574840436997e-07,
+                  "molality": 2.319574840436997e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 322.86209748933413,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "761-water-heat-dose-0",
+      "family": "thermochemical-paths",
+      "question": "How does supplied energy order final water temperature?",
+      "exit": 0,
+      "seconds": 0.144,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "energy_transferred": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5076065517972105e-08,
+            "free_proton": 2.5076065517972105e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.006060803128269e-07,
+              "pe": null,
+              "ph": 6.997375771104036,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 1.006060803128269e-07,
+                  "molality": 1.006060803128269e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.006060803128269e-07,
+                  "molality": 1.006060803128269e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "762-water-heat-dose-100",
+      "family": "thermochemical-paths",
+      "question": "How does supplied energy order final water temperature?",
+      "exit": 0,
+      "seconds": 0.163,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5167895487797973e-08,
+            "free_proton": 2.5167895487797973e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.0097450546759467e-07,
+              "pe": null,
+              "ph": 6.995788265151989,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 1.0097450546759467e-07,
+                  "molality": 1.0097450546759467e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0097450546759467e-07,
+                  "molality": 1.0097450546759467e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.2459206073255,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "763-water-heat-dose-200",
+      "family": "thermochemical-paths",
+      "question": "How does supplied energy order final water temperature?",
+      "exit": 0,
+      "seconds": 0.152,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5259972290590247e-08,
+            "free_proton": 2.5259972290590247e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.013439209251364e-07,
+              "pe": null,
+              "ph": 6.994202297171759,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 1.013439209251364e-07,
+                  "molality": 1.013439209251364e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.013439209251364e-07,
+                  "molality": 1.013439209251364e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.3418409044167,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "764-water-heat-dose-400",
+      "family": "thermochemical-paths",
+      "question": "How does supplied energy order final water temperature?",
+      "exit": 0,
+      "seconds": 0.147,
+      "steps": 4,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 1,
+        "energy_transferred": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5444867825678133e-08,
+            "free_proton": 2.5444867825678133e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.0208572848817706e-07,
+              "pe": null,
+              "ph": 6.991034967727523,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 1.0208572848817706e-07,
+                  "molality": 1.0208572848817706e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0208572848817706e-07,
+                  "molality": 1.0208572848817706e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.53368058860417,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "765-mix-scale-1",
+      "family": "thermochemical-paths",
+      "question": "Does extensive scaling preserve an equal-part hot-cold mixture temperature?",
+      "exit": 0,
+      "seconds": 0.128,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 3,
+        "vessel_created": 2,
+        "mixed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.003736143551859e-08,
+            "free_proton": 2.003736143551859e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 2.7671384956980294,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 343.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 4.124498873177765e-09,
+            "free_proton": 4.124498873177765e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 2.7671384956980294,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 293.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 5.534276991396059,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0025638777008403e-08,
+            "free_proton": 2.0025638777008403e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.0085896466407625e-07,
+              "pe": null,
+              "ph": 6.697108780226774,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.0997,
+              "species": [
+                {
+                  "activity": 2.0085896466407625e-07,
+                  "molality": 2.0085896466407625e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.0085896466407625e-07,
+                  "molality": 2.0085896466407625e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 318.15130805377385,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "766-mix-scale-2",
+      "family": "thermochemical-paths",
+      "question": "Does extensive scaling preserve an equal-part hot-cold mixture temperature?",
+      "exit": 0,
+      "seconds": 0.144,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 3,
+        "vessel_created": 2,
+        "mixed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 4.007472287103718e-08,
+            "free_proton": 4.007472287103718e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 343.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 8.24899774635553e-09,
+            "free_proton": 8.24899774635553e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 293.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 11.068553982792118,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 4.0051277554016806e-08,
+            "free_proton": 4.0051277554016806e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.0085896466407625e-07,
+              "pe": null,
+              "ph": 6.697108780226774,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.1994,
+              "species": [
+                {
+                  "activity": 2.0085896466407625e-07,
+                  "molality": 2.0085896466407625e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.0085896466407625e-07,
+                  "molality": 2.0085896466407625e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 318.15130805377385,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "767-mix-scale-3",
+      "family": "thermochemical-paths",
+      "question": "Does extensive scaling preserve an equal-part hot-cold mixture temperature?",
+      "exit": 0,
+      "seconds": 0.176,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 3,
+        "vessel_created": 2,
+        "mixed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.011208430655578e-08,
+            "free_proton": 6.011208430655578e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 8.301415487094088,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 343.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.2373496619533297e-08,
+            "free_proton": 1.2373496619533297e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 8.301415487094088,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 293.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 16.602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.007691633102522e-08,
+            "free_proton": 6.007691633102522e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.0085896466407625e-07,
+              "pe": null,
+              "ph": 6.697108780226774,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.29910000000000003,
+              "species": [
+                {
+                  "activity": 2.0085896466407625e-07,
+                  "molality": 2.0085896466407625e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.0085896466407625e-07,
+                  "molality": 2.0085896466407625e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 318.15130805377385,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "768-mix-scale-4",
+      "family": "thermochemical-paths",
+      "question": "Does extensive scaling preserve an equal-part hot-cold mixture temperature?",
+      "exit": 0,
+      "seconds": 0.16,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 3,
+        "vessel_created": 2,
+        "mixed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 8.014944574207437e-08,
+            "free_proton": 8.014944574207437e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 343.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.649799549271106e-08,
+            "free_proton": 1.649799549271106e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 11.068553982792118,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 293.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 22.137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 8.010255510803361e-08,
+            "free_proton": 8.010255510803361e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.0085896466407625e-07,
+              "pe": null,
+              "ph": 6.697108780226774,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.3988,
+              "species": [
+                {
+                  "activity": 2.0085896466407625e-07,
+                  "molality": 2.0085896466407625e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.0085896466407625e-07,
+                  "molality": 2.0085896466407625e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 318.15130805377385,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "769-hot-share-1",
+      "family": "thermochemical-paths",
+      "question": "How does hot-water share order the resting mixture temperature?",
+      "exit": 0,
+      "seconds": 0.142,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 3,
+        "vessel_created": 2,
+        "mixed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 4.007472287103718e-08,
+            "free_proton": 4.007472287103718e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 343.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.4746993239066593e-08,
+            "free_proton": 2.4746993239066593e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 16.602830974188176,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 293.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 22.137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 5.284509359887924e-08,
+            "free_proton": 5.284509359887924e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.3251026479157282e-07,
+              "pe": null,
+              "ph": 6.877750478182508,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.3988,
+              "species": [
+                {
+                  "activity": 1.3251026479157282e-07,
+                  "molality": 1.3251026479157282e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.3251026479157282e-07,
+                  "molality": 1.3251026479157282e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 305.6496256899977,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "770-hot-share-2",
+      "family": "thermochemical-paths",
+      "question": "How does hot-water share order the resting mixture temperature?",
+      "exit": 0,
+      "seconds": 0.135,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 3,
+        "vessel_created": 2,
+        "mixed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.011208430655578e-08,
+            "free_proton": 6.011208430655578e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 8.301415487094088,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 343.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.0622494365888825e-08,
+            "free_proton": 2.0622494365888825e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 293.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 22.137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 6.547823390608704e-08,
+            "free_proton": 6.547823390608704e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.6418814921285615e-07,
+              "pe": null,
+              "ph": 6.784658192631919,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.3988,
+              "species": [
+                {
+                  "activity": 1.6418814921285615e-07,
+                  "molality": 1.6418814921285615e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.6418814921285615e-07,
+                  "molality": 1.6418814921285615e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 311.89966890382755,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "771-hot-share-3",
+      "family": "thermochemical-paths",
+      "question": "How does hot-water share order the resting mixture temperature?",
+      "exit": 0,
+      "seconds": 0.151,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 3,
+        "vessel_created": 2,
+        "mixed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.0018680717759296e-07,
+            "free_proton": 1.0018680717759296e-07,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 343.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.2373496619533297e-08,
+            "free_proton": 1.2373496619533297e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 8.301415487094088,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 293.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 22.137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 9.683001447502928e-08,
+            "free_proton": 9.683001447502928e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.428034465271547e-07,
+              "pe": null,
+              "ph": 6.614745152864072,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.3988,
+              "species": [
+                {
+                  "activity": 2.428034465271547e-07,
+                  "molality": 2.428034465271547e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.428034465271547e-07,
+                  "molality": 2.428034465271547e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 324.4040312404253,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "772-hot-share-4",
+      "family": "thermochemical-paths",
+      "question": "How does hot-water share order the resting mixture temperature?",
+      "exit": 0,
+      "seconds": 0.144,
+      "steps": 7,
+      "non_json_lines": [],
+      "event_counts": {
+        "temperature_changed": 3,
+        "added": 2,
+        "solution_routed": 3,
+        "vessel_created": 2,
+        "mixed": 1,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.2022416861311157e-07,
+            "free_proton": 1.2022416861311157e-07,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 16.602830974188176,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 343.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 8.24899774635553e-09,
+            "free_proton": 8.24899774635553e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 293.15,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 22.137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 1.157436824168097e-07,
+            "free_proton": 1.157436824168097e-07,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 2,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 2.902298957292119e-07,
+              "pe": null,
+              "ph": 6.537257854194949,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.3988,
+              "species": [
+                {
+                  "activity": 2.902298957292119e-07,
+                  "molality": 2.902298957292119e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 2.902298957292119e-07,
+                  "molality": 2.902298957292119e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 330.6561480256022,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "773-thermal-roundtrip-50",
+      "family": "thermochemical-paths",
+      "question": "Does equal heating and cooling restore a water sample's temperature?",
+      "exit": 0,
+      "seconds": 0.137,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 2,
+        "energy_transferred": 2,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5076065517972208e-08,
+            "free_proton": 2.5076065517972208e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.0060608031282731e-07,
+              "pe": null,
+              "ph": 6.997375771104034,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 1.0060608031282731e-07,
+                  "molality": 1.0060608031282731e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060608031282731e-07,
+                  "molality": 1.0060608031282731e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999999999986,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "774-thermal-roundtrip-100",
+      "family": "thermochemical-paths",
+      "question": "Does equal heating and cooling restore a water sample's temperature?",
+      "exit": 0,
+      "seconds": 0.14,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 2,
+        "energy_transferred": 2,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5076065517973336e-08,
+            "free_proton": 2.5076065517973336e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.0060608031283184e-07,
+              "pe": null,
+              "ph": 6.997375771104014,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 1.0060608031283184e-07,
+                  "molality": 1.0060608031283184e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060608031283184e-07,
+                  "molality": 1.0060608031283184e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500000000003,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "775-thermal-roundtrip-200",
+      "family": "thermochemical-paths",
+      "question": "Does equal heating and cooling restore a water sample's temperature?",
+      "exit": 0,
+      "seconds": 0.126,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 2,
+        "energy_transferred": 2,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5076065517972208e-08,
+            "free_proton": 2.5076065517972208e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.0060608031282731e-07,
+              "pe": null,
+              "ph": 6.997375771104034,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 1.0060608031282731e-07,
+                  "molality": 1.0060608031282731e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060608031282731e-07,
+                  "molality": 1.0060608031282731e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.14999999999986,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "id": "776-thermal-roundtrip-300",
+      "family": "thermochemical-paths",
+      "question": "Does equal heating and cooling restore a water sample's temperature?",
+      "exit": 0,
+      "seconds": 0.133,
+      "steps": 5,
+      "non_json_lines": [],
+      "event_counts": {
+        "added": 1,
+        "solution_routed": 1,
+        "temperature_changed": 2,
+        "energy_transferred": 2,
+        "measured": 1
+      },
+      "diagnostics": [],
+      "final": {
+        "vessels": [
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [
+              {
+                "moles": 13.835692478490147,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 2.5076065517972922e-08,
+            "free_proton": 2.5076065517972922e-08,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 13.835692478490147,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 1.0060608031283019e-07,
+              "pe": null,
+              "ph": 6.997375771104021,
+              "provenance": {
+                "dataset": "vendored USGS phreeqc.dat",
+                "dataset_phrase": {
+                  "en": "vendored USGS {file}",
+                  "key": "provenance.dataset.vendored-usgs",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "phreeqc.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "USGS PHREEQC thermodynamic database"
+                ],
+                "engine": "Kerotakis analytic equilibrium evaluator",
+                "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                "model_phrase": {
+                  "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                  "key": "provenance.model.water-autoionisation",
+                  "slots": [
+                    [
+                      "engine",
+                      {
+                        "text": {
+                          "text": "PHREEQC"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                "routing_phrase": {
+                  "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "key": "routing.solvent-relation-only"
+                }
+              },
+              "redox": [],
+              "scope": "solvent_only",
+              "solvent_kg": 0.24925,
+              "species": [
+                {
+                  "activity": 1.0060608031283019e-07,
+                  "molality": 1.0060608031283019e-07,
+                  "name": "H+"
+                },
+                {
+                  "activity": 1.0060608031283019e-07,
+                  "molality": 1.0060608031283019e-07,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.15000000000066,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "stderr": ""
+    }
+  ]
+}

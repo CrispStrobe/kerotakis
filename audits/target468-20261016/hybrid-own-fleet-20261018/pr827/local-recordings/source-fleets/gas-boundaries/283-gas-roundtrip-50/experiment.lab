@@ -1,0 +1,8 @@
+# Does equal heating and cooling restore the initial sealed-gas temperature?
+register lv3
+seal v1 600mL
+add v1 N2 0.005mol
+heat v1 50J
+cool v1 50J
+measure v1 pressure
+inspect

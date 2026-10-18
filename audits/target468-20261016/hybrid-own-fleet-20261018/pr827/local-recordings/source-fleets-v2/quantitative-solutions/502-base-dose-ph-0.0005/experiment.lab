@@ -1,0 +1,6 @@
+# How does strong-base amount change pH in the same water volume?
+register lv3
+add v1 water 500mL
+add v1 NaOH 0.0005mol
+measure v1 ph
+inspect

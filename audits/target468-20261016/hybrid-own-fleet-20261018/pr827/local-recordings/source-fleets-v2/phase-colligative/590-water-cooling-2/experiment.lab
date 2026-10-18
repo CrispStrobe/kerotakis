@@ -1,0 +1,6 @@
+# How does removed energy move liquid-water temperature?
+register lv3
+add v1 water 250mL
+cool v1 250J
+measure v1 temp
+inspect

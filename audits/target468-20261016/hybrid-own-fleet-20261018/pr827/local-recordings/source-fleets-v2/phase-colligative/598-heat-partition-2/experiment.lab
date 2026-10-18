@@ -1,0 +1,7 @@
+# Does partitioning equal heat preserve final temperature?
+register lv3
+add v1 water 250mL
+heat v1 375J
+heat v1 375J
+measure v1 temp
+inspect

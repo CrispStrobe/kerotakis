@@ -1,0 +1,6 @@
+# Does solvent dilution preserve strong-base equivalents?
+register lv3
+add v1 water 0.84L
+add v1 NaOH 0.0011mol
+titrate v1 HCl 0.04M 7mL until ph 7
+inspect

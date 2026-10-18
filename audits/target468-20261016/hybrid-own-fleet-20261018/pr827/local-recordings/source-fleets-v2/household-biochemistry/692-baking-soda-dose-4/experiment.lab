@@ -1,0 +1,7 @@
+# How does baking-soda dose shift a fixed vinegar mixture?
+register lv3
+add v1 white_vinegar_5_percent 50mL
+add v1 baking_soda 4g
+measure v1 ph
+inspect v1
+inspect

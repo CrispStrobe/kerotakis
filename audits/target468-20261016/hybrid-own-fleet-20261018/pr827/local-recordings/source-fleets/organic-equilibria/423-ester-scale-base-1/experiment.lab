@@ -1,0 +1,9 @@
+# What equilibrium extent follows base-scale organic trial 1?
+register lv3
+add v1 CH3COOH 0.013mol
+add v1 ethanol 0.009mol
+add v1 ethyl_acetate 0.002mol
+add v1 water 0.005mol
+inspect v1
+react v1 esterification
+inspect

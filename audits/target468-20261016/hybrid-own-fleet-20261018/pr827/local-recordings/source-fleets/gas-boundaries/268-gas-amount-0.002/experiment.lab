@@ -1,0 +1,6 @@
+# How does gas amount change pressure at fixed sealed volume?
+register lv3
+seal v1 500mL
+add v1 N2 0.002mol
+measure v1 pressure
+inspect

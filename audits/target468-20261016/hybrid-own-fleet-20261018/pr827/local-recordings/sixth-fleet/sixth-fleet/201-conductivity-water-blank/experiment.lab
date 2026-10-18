@@ -1,0 +1,5 @@
+# Is a water blank an explicit finite conductivity observation?
+register lv3
+add v1 water 0.4L
+measure v1 conductivity
+inspect

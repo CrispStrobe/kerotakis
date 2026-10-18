@@ -1,0 +1,9 @@
+# How does the hot-water share move the final mixing temperature?
+register lv3
+add v1 water 200mL @ 80C
+new
+add v2 water 200mL @ 20C
+new
+mix v1 0.2 v2 0.8 into v3
+measure v3 thermometer
+inspect

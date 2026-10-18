@@ -1,0 +1,10 @@
+# Does source order alter a mixed saline inventory?
+register lv3
+add v1 water 150mL
+add v1 NaCl 0.002mol
+new
+add v2 water 250mL
+new
+mix v1 1 v2 1 into v3
+inspect
+inspect

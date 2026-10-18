@@ -9,7 +9,7 @@ GitHub references. Local operation details belong only in an ignored handoff.
 
 ## Start here
 
-1. Fetch actual main and inspect PR824/826/827, their exact heads, current checks and
+1. Fetch actual main and inspect PR826/827, their exact heads, current checks and
    active workflows. A queued check is neither a failure nor an acceptance.
 2. Consult the ignored local operating handoff if present before touching
    worktrees, build targets, evidence or running controllers. Check load, available
@@ -33,7 +33,7 @@ an integration branch. Do not copy credentials or host details into public docs.
 PR822/823 are now integrated as `bc472fb4`/`d6020643`; their source/run rows
 below preserve accepted bindings, not pending merge tasks. PR825 is also
 integrated as `050aea7f` after its infrastructure-only retry passed. PR824 has a
-comment-history correction awaiting complete acceptance; PR827 repairs full
+comment-history correction integrated as `76fe144f`, with25 CI, REST and all33 original logical fleet jobs satisfied (28 GitHub +5 exact-source local). The transferred GitHub fleet run is cancelled, not a successful workflow. PR827 repairs full
 Vercel engine delivery and has separate current-head validation.
 
 Current source heads and existing runs are listed below. Refresh them; never
@@ -67,7 +67,7 @@ launch duplicate validation or accept an older head's checks for a new head.
   lesson, Wasm and browser failures are real; do not regenerate goldens to hide
   them. The latest correction preserves full comments in saved command history
   without weakening the existing English-alias assertion. All19 local HTTP
-  policy tests passed; new-head hosted native acceptance is pending.
+  policy tests passed; both hosted native focused groups and full original fleet acceptance passed. Preserve [integration receipt](../audits/target468-20261016/accepted-pr-integration/pr824-integration.json) and [provider-qualified raw evidence](https://github.com/CrispStrobe/kerotakis/tree/53c3eee5396018927d608a28db35945056ebebfb/audits/target468-20261016/hybrid-own-fleet-20261018/pr824); do not repeat completed cases.
 - **825:** inspect the shared finite-quantity guard, scaled public quantity
   readers and `finite_script_quantities.rs`. Require NaN/infinity/exponent and
   unit-scaling overflow refusals across numeric families, plus ordinary and

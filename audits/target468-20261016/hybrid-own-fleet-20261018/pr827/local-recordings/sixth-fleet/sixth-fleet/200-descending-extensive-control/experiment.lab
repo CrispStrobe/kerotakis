@@ -1,0 +1,6 @@
+# Does a threefold extensive scale preserve endpoint concentration?
+register lv3
+add v1 water 1.26L
+add v1 NaOH 0.0033mol
+titrate v1 HCl 0.04M 21mL until ph 7
+inspect

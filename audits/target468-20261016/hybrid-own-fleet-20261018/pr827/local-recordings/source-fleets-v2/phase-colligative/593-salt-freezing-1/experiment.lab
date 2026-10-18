@@ -1,0 +1,7 @@
+# Does salt-feed path preserve the final cooled solution state?
+register lv3
+add v1 water 200mL
+add v1 NaCl 0.004mol
+cool v1 25kJ
+measure v1 temp
+inspect

@@ -1,0 +1,6 @@
+# Does extensive scaling preserve an intensive electrical reading?
+register lv3
+add v1 water 1.2L
+add v1 KNO3 0.00024mol
+measure v1 conductivity
+inspect

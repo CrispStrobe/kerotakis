@@ -1,0 +1,6 @@
+# Does proportional water and heat scaling preserve temperature?
+register lv3
+add v1 water 1000mL
+heat v1 2400J
+measure v1 temp
+inspect

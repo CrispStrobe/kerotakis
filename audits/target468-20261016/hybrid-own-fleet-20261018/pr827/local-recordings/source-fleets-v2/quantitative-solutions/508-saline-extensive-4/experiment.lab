@@ -1,0 +1,6 @@
+# Does proportional scaling preserve saline conductivity?
+register lv3
+add v1 water 1000mL
+add v1 NaCl 0.004mol
+measure v1 conductivity
+inspect

@@ -1,0 +1,6 @@
+# Does a mild evaporation retain the complete sodium and chlorine inventory?
+register lv3
+add v1 water 0.36L
+add v1 NaCl 0.055mol
+evaporate v1 0.25
+inspect

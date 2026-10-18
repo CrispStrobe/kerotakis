@@ -1,0 +1,6 @@
+# Does half evaporation retain all potassium and chlorine in the vessel?
+register lv3
+add v1 water 0.32L
+add v1 KCl 0.045mol
+evaporate v1 0.5
+inspect

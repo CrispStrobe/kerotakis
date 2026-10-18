@@ -1,0 +1,6 @@
+# What temperature follows one heat delivery in calorimetry trial 4?
+register lv3
+add v1 water 0.35000000000000003L
+heat v1 1500J
+measure v1 temp
+inspect

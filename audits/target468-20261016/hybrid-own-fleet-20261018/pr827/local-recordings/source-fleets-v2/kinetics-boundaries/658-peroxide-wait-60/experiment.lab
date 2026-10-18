@@ -1,0 +1,7 @@
+# Does the current modeled clock conserve an unstirred peroxide sample across this interval?
+register lv3
+add v1 water 200mL
+add v1 H2O2 0.01mol
+wait 60s
+inspect v1
+inspect

@@ -1,0 +1,7 @@
+# How does added conjugate base change the pH of a fixed weak-acid portion?
+register lv3
+add v1 water 400mL
+add v1 CH3COOH 0.004mol
+add v1 NaOAc 0.002mol
+measure v1 ph
+inspect

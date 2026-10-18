@@ -1,0 +1,9 @@
+# Do three energy pulses with the same sum reach the same state?
+register lv3
+seal v1 500mL
+add v1 N2 0.004mol
+heat v1 50J
+heat v1 100J
+heat v1 150J
+measure v1 pressure
+inspect

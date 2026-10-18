@@ -1,0 +1,5 @@
+# What reference temperature does untouched water have in trial 2?
+register lv3
+add v1 water 0.27L
+measure v1 temp
+inspect

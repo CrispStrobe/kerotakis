@@ -1,0 +1,11 @@
+# Does pre-portioning both sources alter the same mixed inventory?
+register lv3
+add v1 water 300mL
+add v1 NaCl 0.001mol
+new
+add v2 water 500mL
+add v2 NaCl 0.003mol
+new
+mix v1 0.5 v2 0.5 into v3
+inspect
+inspect

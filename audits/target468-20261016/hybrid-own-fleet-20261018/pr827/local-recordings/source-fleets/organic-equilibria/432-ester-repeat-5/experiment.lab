@@ -1,0 +1,9 @@
+# Does a second equilibrium request leave organic trial 5 unchanged?
+register lv3
+add v1 CH3COOH 0.008mol
+add v1 ethanol 0.012mol
+add v1 ethyl_acetate 0.02mol
+add v1 water 0.007mol
+react v1 esterification
+react v1 esterification
+inspect

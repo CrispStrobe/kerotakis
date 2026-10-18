@@ -1,0 +1,8 @@
+# Does one whole transfer preserve the system's elemental inventory?
+register lv3
+add v1 water 300mL
+add v1 NaCl 0.003mol
+new
+decant v1 v2 1
+inspect
+inspect

@@ -1,0 +1,24 @@
+{
+  "pr": 824,
+  "reviewed_head": "654cf041dcf794d529bd9049c1316b9602e0c7e1",
+  "merge_commit": "76fe144f1e6b074172687d0390b132433c7c311a",
+  "merged_at": "2026-10-18T09:43:50Z",
+  "actual_parents": [
+    "050aea7f78e31bf058b36326d9c4347a4e7d40d4",
+    "654cf041dcf794d529bd9049c1316b9602e0c7e1"
+  ],
+  "actual_tree": "10b53ff331730b7cfff771f0a19ce6bf145fd54a",
+  "reconstructed_merge_tree": "10b53ff331730b7cfff771f0a19ce6bf145fd54a",
+  "tree_matches": true,
+  "normal_protected_integration": true,
+  "ci_run": 39104378850,
+  "ci_success": 25,
+  "rest_run": 39104378816,
+  "fleet_run": 39104378835,
+  "fleet_github_conclusion": "cancelled after transfer of unstarted work",
+  "fleet_github_success": 28,
+  "fleet_local_success": 5,
+  "fleet_original_logical_jobs_satisfied": 33,
+  "acceptance_public_path": "audits/target468-20261016/hybrid-own-fleet-20261018/pr824/acceptance.json",
+  "qualification": "Provider-qualified complete source regression acceptance; no deployment or scientific selection claim."
+}

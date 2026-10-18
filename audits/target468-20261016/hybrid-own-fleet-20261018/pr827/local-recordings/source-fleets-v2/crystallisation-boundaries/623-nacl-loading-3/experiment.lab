@@ -1,0 +1,7 @@
+# How does evaporation fraction change a concentrated sodium chloride solution?
+register lv3
+add v1 water 250mL
+add v1 NaCl 0.025mol
+evaporate v1 0.5
+inspect v1
+inspect

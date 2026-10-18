@@ -1,0 +1,8 @@
+# Within the current modeled clock, does partitioning equal elapsed time preserve the peroxide state?
+register lv3
+add v1 water 220mL
+add v1 H2O2 0.011mol
+wait 60s
+wait 60s
+inspect v1
+inspect

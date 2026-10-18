@@ -1,0 +1,9 @@
+# Is reverse equilibrium followed by an honest no-op?
+register lv3
+add v1 CH3COOH 0.003mol
+add v1 ethanol 0.004mol
+add v1 ethyl_acetate 0.016mol
+add v1 water 0.013mol
+react v1 esterification
+react v1 esterification
+inspect

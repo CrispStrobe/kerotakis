@@ -1,0 +1,11 @@
+# How does the decanted share move dissolved salt after filtration?
+register lv3
+add v1 water 300mL
+add v1 SiO2 0.002mol
+add v1 NaCl 0.006mol
+new
+filter v1 v2
+new
+decant v2 v3 0.2
+inspect
+inspect

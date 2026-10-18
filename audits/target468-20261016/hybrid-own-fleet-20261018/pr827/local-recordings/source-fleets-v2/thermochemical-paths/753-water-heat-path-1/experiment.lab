@@ -1,0 +1,6 @@
+# Does partitioning equal heat leave water at the same temperature?
+register lv3
+add v1 water 260mL
+heat v1 400J
+measure v1 thermometer
+inspect

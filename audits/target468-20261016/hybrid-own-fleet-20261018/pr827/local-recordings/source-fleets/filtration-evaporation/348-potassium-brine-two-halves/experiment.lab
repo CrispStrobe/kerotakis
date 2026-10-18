@@ -1,0 +1,7 @@
+# Does splitting the same retained-water fraction preserve the potassium chloride result?
+register lv3
+add v1 water 0.32L
+add v1 KCl 0.045mol
+evaporate v1 0.2928932188
+evaporate v1 0.2928932188
+inspect

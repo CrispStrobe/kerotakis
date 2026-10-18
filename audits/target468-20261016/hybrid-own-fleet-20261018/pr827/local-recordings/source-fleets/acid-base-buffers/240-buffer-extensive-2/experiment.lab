@@ -1,0 +1,7 @@
+# Does extensive scaling preserve the pH of an acetate buffer?
+register lv3
+add v1 water 360mL
+add v1 CH3COOH 0.0036mol
+add v1 NaOAc 0.0036mol
+measure v1 ph
+inspect

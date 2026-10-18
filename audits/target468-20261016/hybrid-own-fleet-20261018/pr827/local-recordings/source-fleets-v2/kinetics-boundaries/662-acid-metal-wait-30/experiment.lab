@@ -1,0 +1,8 @@
+# Does the current modeled clock conserve zinc and chlorine across this interval?
+register lv3
+add v1 water 200mL
+add v1 HCl 0.004mol
+add v1 Zn 0.002mol
+wait 30s
+inspect v1
+inspect
