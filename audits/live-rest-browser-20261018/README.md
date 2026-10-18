@@ -8,7 +8,14 @@ Before dispatch, bind the accepted deployed source, native hash and exact client
 bytes in `release-binding.json`. The harness refuses a missing binding. Record
 the resulting harness commit and workflow run separately from the engine source.
 
-Actual Chromium checks the served production and Pages clients, live invalid-key
+Actual Chromium checks the served Wasm revision and an uncached aqueous solve
+through real deployed Rust/Emscripten modules. Compare that solution with the
+separately saved authenticated native response using the repository bridge
+tolerances. This establishes bounded cross-platform consistency, not empirical
+calibration or a new catalog selection. Bind all five actual deployed bridge
+asset hashes to the preserved frontend archive before dispatch.
+
+It also checks the production and Pages clients, live invalid-key
 401/CORS behavior, request wiring, text rendering, endpoint validation, redirects,
 offline behavior and privacy. UI response fixtures are explicitly labelled and
 are not chemical execution or scientific evidence. No owner credentials enter

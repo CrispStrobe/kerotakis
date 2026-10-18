@@ -14,6 +14,17 @@ assert.match(spec.expected_binary_sha256, /^[a-f0-9]{64}$/);
 const source = await readFile(path.join(workspace, 'web/rest.html'));
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 assert.equal(sha(source), spec.client_sha256);
+const bridgeScript = 'add v1 water 137mL\nadd v1 NaCl 0.037mol\n';
+const nativeReference = spec.native_bridge_reference;
+assert(nativeReference, 'Bind the real authenticated native reference before dispatch');
+assert(Number.isFinite(nativeReference.solution.ph) && Number.isFinite(nativeReference.solution.ionic_strength));
+assert.equal(nativeReference.script_sha256, sha(bridgeScript));
+assert.equal(nativeReference.engine.source_head, spec.expected_engine_source);
+assert.equal(nativeReference.engine.binary_sha256, spec.expected_binary_sha256);
+const assetNames = ['iphreeqc.mjs', 'iphreeqc.wasm', 'kerotakis.mjs',
+  'kerotakis_wasm.js', 'kerotakis_wasm_bg.wasm'];
+assert.deepEqual(Object.keys(spec.frontend_assets).sort(), assetNames.toSorted());
+for (const digest of Object.values(spec.frontend_assets)) assert.match(digest, /^[a-f0-9]{64}$/);
 const api = 'https://kerotakis-web-payload.vercel.app/api';
 const origins = [
   ['production', 'https://kerotakis-web-payload.vercel.app/rest.html'],
@@ -56,8 +67,67 @@ try {
     check(name + ' actual client bytes', served.status === 200 && sha(bytes) === spec.client_sha256,
       { status: served.status, sha256: sha(bytes) });
   }
+  for (const name of assetNames) {
+    const served = await get('https://kerotakis-web-payload.vercel.app/' + name);
+    const bytes = Buffer.from(await served.arrayBuffer());
+    check('deployed asset ' + name, served.status === 200 && sha(bytes) === spec.frontend_assets[name],
+      { status: served.status, sha256: sha(bytes), length: bytes.length });
+  }
   browser = await chromium.launch({ headless: true });
   report.browser = { version: browser.version(), web_security_disabled: false };
+  // Exercise the actual deployed Rust/Emscripten bridge with no result cache.
+  // The numerical reference comes from a separate real authenticated API call.
+  const liveContext = await browser.newContext();
+  const livePage = await liveContext.newPage();
+  await livePage.goto(origins[0][1], { waitUntil: 'networkidle' });
+  const live = await livePage.evaluate(async script => {
+    const module = await import('/kerotakis_wasm.js');
+    await module.default();
+    const { PhreeqcPool } = await import('/kerotakis.mjs');
+    const factory = (await import('/iphreeqc.mjs')).default;
+    const lab = new module.Lab();
+    try {
+      const meta = JSON.parse(lab.meta());
+      const pool = await PhreeqcPool.create(factory, async file => {
+        const response = await fetch('/db/' + file, { redirect: 'error' });
+        if (!response.ok) throw new Error('Database load failed: ' + response.status);
+        return response.text();
+      }, tag => lab.aqueousDatabase(tag));
+      let calls = 0;
+      lab.setSolver((tag, input) => { calls++; return pool.solve(tag, input); });
+      const canSolve = lab.canSolve();
+      const result = JSON.parse(lab.runScript(script));
+      // Run only after capturing the salt result, so this capability probe
+      // cannot leave USER_PUNCH state in the numerical parity question.
+      let basic;
+      try {
+        basic = { response: JSON.parse(pool.solve('wateq4f',
+          'SOLUTION 777\n pH 7\nSELECTED_OUTPUT\n -reset false\nUSER_PUNCH\n10 PUNCH 2+3\nEND\n')) };
+      } catch (error) { basic = { error: String(error) }; }
+      return { meta, canSolve, solver_hook_calls: calls, result, basic };
+    } finally { lab.free(); }
+  }, bridgeScript);
+  report.live_browser_control = live;
+  check('actual Wasm source revision', typeof live.meta.git_rev === 'string' &&
+    live.meta.git_rev.length >= 7 && spec.expected_engine_source.startsWith(live.meta.git_rev), live.meta);
+  const vessel = live.result.bench.vessels[0];
+  check('uncached browser solve uses live engine', live.canSolve && live.solver_hook_calls > 0 &&
+    vessel.solution != null, { canSolve: live.canSolve, solver_hook_calls: live.solver_hook_calls,
+      solution: vessel.solution });
+  const deltaPh = Math.abs(vessel.solution.ph - nativeReference.solution.ph);
+  const deltaI = Math.abs(vessel.solution.ionic_strength - nativeReference.solution.ionic_strength);
+  check('native and actual browser solution agree', deltaPh < 1e-6 && deltaI < 1e-9,
+    { delta_ph: deltaPh, delta_ionic_strength: deltaI,
+      native_response_sha256: nativeReference.response_sha256 });
+  const amount = species => vessel.contents.filter(p => p.species === species)
+    .reduce((sum, p) => sum + p.moles, 0);
+  check('browser finite salt retained', Math.abs(amount('Na+') - 0.037) <= 1e-8 &&
+    Math.abs(amount('Cl-') - 0.037) <= 1e-8,
+    { sodium_mol: amount('Na+'), chloride_mol: amount('Cl-') });
+  const punched = (live.basic.response?.selected ?? []).flat()
+    .some(value => String(value).trim() !== '' && Number(value) === 5);
+  check('actual browser interpreter executes arithmetic', !live.basic.error && punched, live.basic);
+  await liveContext.close();
   for (const [name, url] of origins) {
     const context = await browser.newContext({ serviceWorkers: 'allow' });
     const page = await context.newPage();
