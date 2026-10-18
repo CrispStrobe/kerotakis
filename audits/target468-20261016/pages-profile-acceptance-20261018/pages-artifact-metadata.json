@@ -1,0 +1,20 @@
+{
+  "id": 12144178886,
+  "node_id": "MDg6QXJ0aWZhY3QxMjE0NDE3ODg4Ng==",
+  "name": "github-pages",
+  "size_in_bytes": 6354359,
+  "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12144178886",
+  "archive_download_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12144178886/zip",
+  "expired": false,
+  "digest": "sha256:667ee873aa2c68b9506982ba80405eb418b0ebf566b108d73929dad1c672e00f",
+  "created_at": "2026-10-18T17:23:06Z",
+  "updated_at": "2026-10-18T17:23:06Z",
+  "expires_at": "2026-10-19T17:23:04Z",
+  "workflow_run": {
+    "id": 39137976663,
+    "repository_id": 1338831929,
+    "head_repository_id": 1338831929,
+    "head_branch": "fix/pages-reviewed-basic-profile-20261018",
+    "head_sha": "09aa2b010171ae6e817a8dcb4f9454e02aefa021"
+  }
+}

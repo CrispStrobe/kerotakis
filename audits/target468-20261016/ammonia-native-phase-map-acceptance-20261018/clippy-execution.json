@@ -1,0 +1,18 @@
+{
+  "label": "ammonia-clippy",
+  "utc": "2026-10-18T17:32:29.733049+00:00",
+  "argv": [
+    "cargo",
+    "clippy",
+    "-p",
+    "kerotakis-phreeqc",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit_status": 0,
+  "elapsed_seconds": 276.504610123,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "12b84988ed93edc2f41d676689a6132c524c771d56f5a7ca93a5c4d279c5f471"
+}

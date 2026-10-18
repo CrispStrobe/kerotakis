@@ -1,0 +1,83 @@
+{
+  "utc": "2026-10-18T17:38:27.158752+00:00",
+  "pr": 832,
+  "reviewed_head": "09aa2b010171ae6e817a8dcb4f9454e02aefa021",
+  "reviewed_base": "ac1f9993bfd21c400bfb3328cae94e9fab4d6e95",
+  "reviewed_candidate_tree": "2ee1b3d6f929bbc7d8cf2de39e54be1fef74e66a",
+  "scope": [
+    ".github/workflows/ci.yml",
+    "docs/pages-reviewed-interpreter-profile.md"
+  ],
+  "ci_run": 39137976663,
+  "ci_successes": 25,
+  "actual_packaged_pages_engine_MY_BASIC_probe_pass": true,
+  "existing_demo_DOM_types_PWA_i18n_UX_fluid_gates_pass": true,
+  "bridge_and_native_comparison_pass": true,
+  "packaged_artifact": 12144178886,
+  "artifact_sha256": "sha256:667ee873aa2c68b9506982ba80405eb418b0ebf566b108d73929dad1c672e00f",
+  "native_and_chemical_fleet_inputs_unchanged_from_reviewed_base": true,
+  "chemical_fleet_acceptance_inherited_from_unchanged_accepted_base": "Runtime and every frozen chemistry-fleet input are unchanged by this workflow/docs-only diff. Existing path filters do not trigger chemistry workflow for these two files; no new fleet run or fabricated status is claimed. Base inherits accepted PR828/829/830 fleets. Changed frontend interpreter profile separately exercises actual final-site BASIC probe and all existing browser gates.",
+  "required_status_checks": [
+    {
+      "bucket": "pass",
+      "name": "The demo page, in a real browser",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "name": "The bench in WebAssembly",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "name": "Test (native) (macos-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "name": "Full preflight gate",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "name": "Test (native) (ubuntu-latest)",
+      "state": "SUCCESS"
+    }
+  ],
+  "branch_protection": {
+    "url": "https://api.github.com/repos/CrispStrobe/kerotakis/branches/main/protection/required_status_checks",
+    "strict": false,
+    "contexts": [
+      "Full preflight gate",
+      "Test (native) (ubuntu-latest)",
+      "Test (native) (macos-latest)",
+      "The bench in WebAssembly",
+      "The demo page, in a real browser"
+    ],
+    "contexts_url": "https://api.github.com/repos/CrispStrobe/kerotakis/branches/main/protection/required_status_checks/contexts",
+    "checks": [
+      {
+        "context": "Full preflight gate",
+        "app_id": 15368
+      },
+      {
+        "context": "Test (native) (ubuntu-latest)",
+        "app_id": 15368
+      },
+      {
+        "context": "Test (native) (macos-latest)",
+        "app_id": 15368
+      },
+      {
+        "context": "The bench in WebAssembly",
+        "app_id": 15368
+      },
+      {
+        "context": "The demo page, in a real browser",
+        "app_id": 15368
+      }
+    ]
+  },
+  "actual_published_pages_acceptance": "pending changed-source main publication and independent live interpreter/uncached parity",
+  "catalog_additions": 0
+}

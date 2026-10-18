@@ -1,0 +1,38 @@
+{
+  "frozen_utc": "2026-10-18T17:27:22.353967+00:00",
+  "source": "6dee9254d75c4e69fda55ef589a5d4734ae258ed",
+  "tree": "ff68676abd750e8da2dae1392fca505145e046b1",
+  "worker_sha256": "2d01f1392df82634a9c4cd3f871384570d014a3ad85cddec2bee5457ba4c5ee8",
+  "commands": [
+    [
+      "clippy",
+      [
+        "cargo",
+        "clippy",
+        "-p",
+        "kerotakis-phreeqc",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ]
+    ],
+    [
+      "native-tests",
+      [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ]
+    ]
+  ],
+  "correction": "Supplied native gas uses explicit reviewed phase identity, never NH3(aq) display formula; prior bad-phase/native failures preserved. All original chemical/refusal assertions unchanged.",
+  "catalog_additions": 0,
+  "root_review_required": true
+}

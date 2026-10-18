@@ -1,0 +1,418 @@
+{
+  "source": "6dee9254d75c4e69fda55ef589a5d4734ae258ed",
+  "raw_native_stderr_sha256": "19dd97d05a155738e2064620953eee25e09040c1f145a608f9571d2d1365f8d4",
+  "cases": [
+    {
+      "initial_headspace_L": 0.035,
+      "NH3_dose_mol": 8e-05,
+      "regulated": false,
+      "neutral_NH3_gas_mol": "2.442558463141E-8",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+20",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-4.544E-17",
+            "N": "-5.524354258206E-14",
+            "C": "-3.602893249E-17",
+            "O": "7.665331199E-17",
+            "H": "1.5348609079E-16",
+            "Q": "1.6563213148303E-13"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+20",
+          "independent_element_charge_delta_residual": {
+            "Cl": "2.435E-17",
+            "N": "-5.524354261695E-14",
+            "C": "-3.074880706E-17",
+            "O": "8.721488828E-17",
+            "H": "1.7473731155E-16",
+            "Q": "1.655835901576E-13"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 0.035,
+      "NH3_dose_mol": 8e-05,
+      "regulated": true,
+      "neutral_NH3_gas_mol": "2.441623494944E-8",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+20",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-4.544E-17",
+            "N": "-5.515367872156E-14",
+            "C": "-3.707692480E-17",
+            "O": "6.301819917E-17",
+            "H": "1.2599764409E-16",
+            "Q": "1.6535812971123E-13"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+20",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-4.544E-17",
+            "N": "-5.515367872156E-14",
+            "C": "-3.093852037E-17",
+            "O": "7.529661246E-17",
+            "H": "1.5049924852E-16",
+            "Q": "1.653826281068E-13"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 0.035,
+      "NH3_dose_mol": 0.0008,
+      "regulated": false,
+      "neutral_NH3_gas_mol": "2.672786638085E-7",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+19",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-5.765E-16",
+            "N": "-5.277599620593E-14",
+            "C": "5.28932650784E-16",
+            "O": "-6.6466811527E-17",
+            "H": "-1.32962860885E-16",
+            "Q": "1.61020189983095E-13"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+19",
+          "independent_element_charge_delta_residual": {
+            "Cl": "1.213E-16",
+            "N": "-5.2775996240824E-14",
+            "C": "6.09272110072E-16",
+            "O": "9.4214626337E-17",
+            "H": "1.89639553721E-16",
+            "Q": "1.60644987463807E-13"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 0.035,
+      "NH3_dose_mol": 0.0008,
+      "regulated": true,
+      "neutral_NH3_gas_mol": "2.672216983333E-7",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+19",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-5.765E-16",
+            "N": "-5.1997660289667E-14",
+            "C": "5.27147734455E-16",
+            "O": "4.5934940943E-17",
+            "H": "9.2172663032E-17",
+            "Q": "1.58678374587967E-13"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+19",
+          "independent_element_charge_delta_residual": {
+            "Cl": "1.213E-16",
+            "N": "-5.269556038737E-14",
+            "C": "6.09443402596E-16",
+            "O": "2.10528845366E-16",
+            "H": "4.21274938064E-16",
+            "Q": "1.60403372019826E-13"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 0.35,
+      "NH3_dose_mol": 8e-05,
+      "regulated": false,
+      "neutral_NH3_gas_mol": "2.303368435049E-7",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+19",
+          "independent_element_charge_delta_residual": {
+            "Cl": "4.21E-18",
+            "N": "-5.5180778924818E-13",
+            "C": "-6.735600346E-17",
+            "O": "-2.8912597718E-16",
+            "H": "-5.7659221480E-16",
+            "Q": "1.65515139347026E-12"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+19",
+          "independent_element_charge_delta_residual": {
+            "Cl": "4.21E-18",
+            "N": "-5.5180778924818E-13",
+            "C": "-6.735600346E-17",
+            "O": "-2.8912597718E-16",
+            "H": "-5.7659221480E-16",
+            "Q": "1.65515139347026E-12"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 0.35,
+      "NH3_dose_mol": 8e-05,
+      "regulated": true,
+      "neutral_NH3_gas_mol": "2.302487937741E-7",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+19",
+          "independent_element_charge_delta_residual": {
+            "Cl": "7.4E-17",
+            "N": "-5.51815833755566E-13",
+            "C": "-6.92386414E-17",
+            "O": "-1.842353866E-16",
+            "H": "-3.68445970498E-16",
+            "Q": "1.6550965715038E-12"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+19",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-6.558E-17",
+            "N": "-5.51885633755566E-13",
+            "C": "-7.02387325E-17",
+            "O": "-1.862350599E-16",
+            "H": "-3.71835461598E-16",
+            "Q": "1.6554421609949E-12"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 0.35,
+      "NH3_dose_mol": 0.0008,
+      "regulated": false,
+      "neutral_NH3_gas_mol": "0.000002648645756294",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+18",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-2.057E-16",
+            "N": "-5.4234269776065E-13",
+            "C": "-2.19058210E-18",
+            "O": "-2.6977498454E-16",
+            "H": "-5.3878810229E-16",
+            "Q": "1.62722579282034E-12"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+18",
+          "independent_element_charge_delta_residual": {
+            "Cl": "4.923E-16",
+            "N": "-5.41644697725745E-13",
+            "C": "-1.190568137E-18",
+            "O": "-2.67774942651E-16",
+            "H": "-5.34487983612E-16",
+            "Q": "1.624438092806377E-12"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 0.35,
+      "NH3_dose_mol": 0.0008,
+      "regulated": true,
+      "neutral_NH3_gas_mol": "0.000002648078634701",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+18",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-2.057E-16",
+            "N": "-5.4186939785138E-13",
+            "C": "6.720793E-20",
+            "O": "1.0361120104E-16",
+            "H": "2.0589823104E-16",
+            "Q": "1.62581283821482E-12"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "0",
+          "acid_to_neutral_gas_ratio": "0E+18",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-2.057E-16",
+            "N": "-5.41171397788565E-13",
+            "C": "-9.32871145E-19",
+            "O": "1.01611063815E-16",
+            "H": "2.01498440410E-16",
+            "Q": "1.623714438193895E-12"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 3.5,
+      "NH3_dose_mol": 8e-05,
+      "regulated": false,
+      "neutral_NH3_gas_mol": "9.102733264205E-7",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "1.379493374222E-12",
+          "acid_to_neutral_gas_ratio": "0.000001515471599773916908441924332516550988309",
+          "independent_element_charge_delta_residual": {
+            "Cl": "3.557E-17",
+            "N": "-1.04342708916E-16",
+            "C": "-6.135413597E-17",
+            "O": "-1.0797327791E-16",
+            "H": "-1.97930732718E-16",
+            "Q": "5.005740597E-17"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "1.379493374224E-12",
+          "acid_to_neutral_gas_ratio": "0.000001515471599776114050708923048984188138126",
+          "independent_element_charge_delta_residual": {
+            "Cl": "-3.422E-17",
+            "N": "-1.0434267202E-16",
+            "C": "-7.13541267E-17",
+            "O": "-1.279730501E-16",
+            "H": "-2.5344041276E-16",
+            "Q": "6.43371967E-17"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 3.5,
+      "NH3_dose_mol": 8e-05,
+      "regulated": true,
+      "neutral_NH3_gas_mol": "9.099191137478E-7",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "1.379484359803E-12",
+          "acid_to_neutral_gas_ratio": "0.000001516051634656998998111490542140340086018",
+          "independent_element_charge_delta_residual": {
+            "Cl": "3.557E-17",
+            "N": "-2.710240508E-17",
+            "C": "-1.1152378873E-16",
+            "O": "-4.0728516619E-16",
+            "H": "-8.2216510397E-16",
+            "Q": "-4.0795271127E-16"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "1.379484359805E-12",
+          "acid_to_neutral_gas_ratio": "0.000001516051634659196995680485817677436461916",
+          "independent_element_charge_delta_residual": {
+            "Cl": "3.557E-17",
+            "N": "4.268766672E-17",
+            "C": "-8.082583064E-17",
+            "O": "-9.4588869192E-16",
+            "H": "-1.89566433048E-15",
+            "Q": "-4.9082326936E-16"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 3.5,
+      "NH3_dose_mol": 0.0008,
+      "regulated": false,
+      "neutral_NH3_gas_mol": "0.00002384455390525",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "1.352280918234E-12",
+          "acid_to_neutral_gas_ratio": "5.671235971146686504018844145954060739788E-8",
+          "independent_element_charge_delta_residual": {
+            "Cl": "7.623E-16",
+            "N": "-6.85027926526E-16",
+            "C": "-1.286125975E-18",
+            "O": "-1.40909165925E-16",
+            "H": "-3.01070693553E-16",
+            "Q": "1.268386913975E-15"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "1.352280918237E-12",
+          "acid_to_neutral_gas_ratio": "5.671235971159267993326301778077589267254E-8",
+          "independent_element_charge_delta_residual": {
+            "Cl": "6.43E-17",
+            "N": "1.307217419E-17",
+            "C": "-1.28617761E-18",
+            "O": "-1.4090922083E-16",
+            "H": "-2.8427034304E-16",
+            "Q": "-1.1111313439E-16"
+          }
+        }
+      ]
+    },
+    {
+      "initial_headspace_L": 3.5,
+      "NH3_dose_mol": 0.0008,
+      "regulated": true,
+      "neutral_NH3_gas_mol": "0.0000238392184975",
+      "acid_arms": [
+        {
+          "arm": "acid_first",
+          "NH3_gas_mol": "1.35227212616E-12",
+          "acid_to_neutral_gas_ratio": "5.672468358397787699961492833748041366556E-8",
+          "independent_element_charge_delta_residual": {
+            "Cl": "7.623E-16",
+            "N": "-5.5768995166E-16",
+            "C": "7.166360862E-17",
+            "O": "-6.2526575114E-16",
+            "H": "-1.26065482336E-15",
+            "Q": "1.18730096838E-15"
+          }
+        },
+        {
+          "arm": "acid_after",
+          "NH3_gas_mol": "1.352272126164E-12",
+          "acid_to_neutral_gas_ratio": "5.672468358414566773488670231942447089021E-8",
+          "independent_element_charge_delta_residual": {
+            "Cl": "6.43E-17",
+            "N": "1.40010157006E-16",
+            "C": "7.1663592367E-17",
+            "O": "-6.25265699899E-16",
+            "H": "-1.259354413615E-15",
+            "Q": "-2.06499115367E-16"
+          }
+        }
+      ]
+    }
+  ],
+  "all12_neutral_acid_first_acid_after_groups_authored_before_native_run": true,
+  "independent_formula_ledger_not_imported_from_engine": true,
+  "scope": "Thermostatted298.15K WATEQ finite rigid/pressure-controlled ammonia protonation and gas partition; no empirical calibration, complex-bound ligand reconciliation or original GS005 replay.",
+  "catalog_additions": 0
+}

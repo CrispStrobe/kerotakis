@@ -1,0 +1,16 @@
+{
+  "pr": 832,
+  "merge": "dca5782b2551f88cd8937a5212d355d17fb5e2d4",
+  "reviewed_head": "09aa2b010171ae6e817a8dcb4f9454e02aefa021",
+  "parents": [
+    "ac1f9993bfd21c400bfb3328cae94e9fab4d6e95",
+    "09aa2b010171ae6e817a8dcb4f9454e02aefa021"
+  ],
+  "actual_tree": "2ee1b3d6f929bbc7d8cf2de39e54be1fef74e66a",
+  "reconstructed_tree": "2ee1b3d6f929bbc7d8cf2de39e54be1fef74e66a",
+  "ci25_and_packaged_site_profile_accepted": true,
+  "native_fleet_inputs_unchanged_from_accepted_base": true,
+  "new_chemistry_fleet_run_claimed": false,
+  "published_pages_still_requires_independent_acceptance": true,
+  "normal_protected_auto_merge": true
+}

@@ -1,0 +1,26 @@
+{
+  "iphreeqc.wasm": {
+    "bytes": 1952556,
+    "sha256": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357"
+  },
+  "rest.html": {
+    "bytes": 2970,
+    "sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21"
+  },
+  "kerotakis_wasm_bg.wasm": {
+    "bytes": 11299165,
+    "sha256": "f09e5efab5b5a35a9b4b8f884abcc7f05f951c9c4be8fdf9267512cbcd0ed987"
+  },
+  "kerotakis_wasm.js": {
+    "bytes": 41630,
+    "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead"
+  },
+  "iphreeqc.mjs": {
+    "bytes": 33213,
+    "sha256": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9"
+  },
+  "kerotakis.mjs": {
+    "bytes": 8205,
+    "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44"
+  }
+}
