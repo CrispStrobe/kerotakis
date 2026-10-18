@@ -291,7 +291,7 @@ credentials, hostnames, session inventories or resource inventories.
 Keep the earlier accepted-source production checkpoint first; preparation does
 not authorize merging an unaccepted product change. Refresh actual heads/checks.
 
-1. **PR828** `f309ec3c`: read its `docs/paid-metal-phase-fractions.md`, original
+1. **PR828** `106dd5f3`: read its `docs/paid-metal-phase-fractions.md`, original
    smaller native failure and new native tests. Require actual successful focused
    records from both platforms plus all33 original fleet jobs. Preserve Zn/Pb
    below/at/above budget, repeated zero-time settlement, explicit cooling/pouring,
@@ -319,3 +319,18 @@ combined main and repeat only the changed-source controls needed to establish
 actual delivery. Do not overwrite the first production checkpoint or rerun the
 unchanged668 corpus. The catalog remains200/fixed196 until independent final
 selection review earns additional supported cases.
+
+### Delivery advancement and base-admission prerequisite
+
+PR826 merged as `ed7c452d` with25 CI successes; verify its
+[parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr826-integration.json).
+The single guarded production run is
+[39124453384](https://github.com/CrispStrobe/kerotakis/actions/runs/39124453384);
+review actual artifact/API/browser receipts before declaring delivery complete.
+PR828 current corrected head is `106dd5f3`: first macOS Clippy stopped before
+physics tests, then the unchanged test module moved after production items.
+Corrected native/fleet acceptance remains required.
+For hydrolysis, follow the strengthened
+[usable-base admission contract](saved64-review-lanes-20261018.md#d-share-authoritative-aqueous-base-with-named-ester-hydrolysis):
+positive analytical basis alone must never authorize buffered ester cleavage.
+No catalog entries were added by these corrections.

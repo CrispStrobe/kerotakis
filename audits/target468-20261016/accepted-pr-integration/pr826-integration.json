@@ -1,0 +1,277 @@
+{
+  "pr": 826,
+  "reviewed_head": "1f6a1bf7464d064135ee35d52a6404e858805ccd",
+  "merge_commit": "ed7c452d1a763396a18ef77663b9062007a1b03c",
+  "merged_at": "2026-10-18T11:44:07Z",
+  "actual_parents": [
+    "e63a0824456626dfa6c6920c5a28b9a9ef10db0d",
+    "1f6a1bf7464d064135ee35d52a6404e858805ccd"
+  ],
+  "actual_tree": "79a17226360de4043e632745ab8c72d911734bb7",
+  "reconstructed_merge_tree": "79a17226360de4043e632745ab8c72d911734bb7",
+  "tree_matches": true,
+  "normal_protected_integration": true,
+  "documentation_only": true,
+  "check_rollup_at_merge": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:08:12Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266140",
+      "name": "GPU release tools (deterministic)",
+      "startedAt": "2026-10-18T11:08:04Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:34:50Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266070",
+      "name": "BRD-080 viewer decision spike",
+      "startedAt": "2026-10-18T10:33:16Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:50:20Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644265963",
+      "name": "Theme contrast tokens",
+      "startedAt": "2026-10-18T10:50:14Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:19:57Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266174",
+      "name": "Presentation authority adapters",
+      "startedAt": "2026-10-18T11:19:15Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:43:48Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266126",
+      "name": "Full preflight gate",
+      "startedAt": "2026-10-18T11:20:12Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:34:38Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266178",
+      "name": "Test (native) (ubuntu-latest)",
+      "startedAt": "2026-10-18T11:22:42Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:58:23Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266244",
+      "name": "Test (native) (macos-latest)",
+      "startedAt": "2026-10-18T10:38:09Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:58:14Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266133",
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "startedAt": "2026-10-18T10:57:52Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:34:25Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266159",
+      "name": "MY-BASIC preview (macos-latest)",
+      "startedAt": "2026-10-18T10:33:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:38:53Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266279",
+      "name": "Legacy BASIC oracle (development only)",
+      "startedAt": "2026-10-18T11:38:28Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:31:26Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266263",
+      "name": "Core and data schemas compile to wasm32",
+      "startedAt": "2026-10-18T11:30:22Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:32:00Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266376",
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "startedAt": "2026-10-18T11:31:28Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:34:17Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266379",
+      "name": "feos adapter (aarch64-linux-android)",
+      "startedAt": "2026-10-18T11:33:54Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:41:25Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266381",
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "startedAt": "2026-10-18T10:40:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:38:05Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266317",
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "startedAt": "2026-10-18T10:37:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:33:47Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266115",
+      "name": "feos adapter (aarch64-apple-ios)",
+      "startedAt": "2026-10-18T10:33:04Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:22:53Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266235",
+      "name": "Current registry source export",
+      "startedAt": "2026-10-18T11:21:41Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:38:51Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266198",
+      "name": "The native host still compiles",
+      "startedAt": "2026-10-18T10:35:11Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:40:06Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266272",
+      "name": "IPhreeqc under MSVC",
+      "startedAt": "2026-10-18T10:34:55Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:37:23Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266238",
+      "name": "Shell payload (ubuntu-22.04)",
+      "startedAt": "2026-10-18T10:37:13Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:40:23Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266321",
+      "name": "Shell payload (windows-latest)",
+      "startedAt": "2026-10-18T10:40:07Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:34:56Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266253",
+      "name": "The bench in WebAssembly",
+      "startedAt": "2026-10-18T11:29:31Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:14:24Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266171",
+      "name": "IPhreeqc wasm gate",
+      "startedAt": "2026-10-18T11:12:21Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T11:35:45Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266213",
+      "name": "The two wasm halves, together",
+      "startedAt": "2026-10-18T11:29:17Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:55:30Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117644266098",
+      "name": "The demo page, in a real browser",
+      "startedAt": "2026-10-18T10:42:08Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-18T10:55:30Z",
+      "conclusion": "SKIPPED",
+      "detailsUrl": "https://github.com/CrispStrobe/kerotakis/actions/runs/39116848137/job/117656883198",
+      "name": "Publish the demo",
+      "startedAt": "2026-10-18T10:55:31Z",
+      "status": "COMPLETED",
+      "workflowName": "CI"
+    }
+  ]
+}

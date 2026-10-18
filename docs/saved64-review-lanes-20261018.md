@@ -90,8 +90,13 @@ transfer/readback; `crates/kerotakis-phreeqc/tests/family_aqueous_tail.rs`.
 
 **Work:** distinguish the explicit requested stoichiometric template from the
 warm kinetic family and inspect their hydroxide-capacity owners. Use actual
-full-precision analytical base, not rounded displayed OH activity or residual
-NaOH molecules. Deduct residual acetic-acid neutralization before ester cleavage.
+full-precision usable strong-base capacity, not rounded displayed OH activity or
+residual NaOH molecules. The `base_equivalents` inventory coordinate is not that
+capacity: an acetate buffer can own positive basis equivalents while having
+negligible free hydroxide. Establish the authoritative capacity/admission
+contract before consumption; if retained state is insufficient, repair its
+ownership rather than infer caustic capacity from the coordinate. Account for
+weak-acid/bound-proton reservoirs and prior neutralization before ester cleavage.
 Do not add naming aliases for an inventory-ownership failure. Keep the
 counterion ledger explicit: consuming hydroxide equivalents while depositing
 neutral sodium acetate can double count sodium if the spectator cation is also
@@ -101,7 +106,12 @@ balanced net ionic reaction or state their precise admission boundary.
 **Done:** base-limited and ester-limited requests form matched acetate/ethanol,
 retain the correct excess, and close C/H/O/Na/charge. Include prior aqueous solve,
 changed pouring order, repeated request, transfer/save/cache and atomic refusals.
-Keep heat, rate and warm-family limitations separate. Reassess OR008/009 only
+Include acetate-buffer, carbonate and ammonia negative controls, unsolved
+molecular base, literal hydroxide and a non-sodium alkali spectator. Refresh the
+solute-charge cache after the complete atomic ionic inventory change, as the
+shared family path does. A successful base-only control must not cause false
+cleavage in buffered samples. Keep heat, rate and warm-family limitations
+separate. Reassess OR008/009 only
 after their hydrolysis prerequisites actually occur.
 
 ## E. Repair analytical coverage reporting and staged separation
