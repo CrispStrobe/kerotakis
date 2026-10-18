@@ -13,6 +13,8 @@ as a scientific pass. The catalog remains200 / fixed468 selected196.
 producer archive and pinned source, material projection and supplemental metrics.
 There are44 first-screen candidates and20 holds; candidate is not a final pass.
 
+The [complete reproducible preparation index](https://github.com/CrispStrobe/kerotakis/blob/f865e4c23566043f3224598d466a4459757cfe62/audits/target468-20261016/saved64-review-preparation/README.md) covers all64 cases:10 gas,14 kinetics,12 organic,12 separation and16 thermal. It includes actual owned phase/species timelines, original criteria and explicit scope limits. No simulation or API replay and no selection was added by these readers.
+
 **Work:** review each original criterion against the actual timepoint and owned
 inventory. Check source contracts for bounded stirring, enzyme activity, ideal
 organic templates, chromatography and thermal properties. For thermal selections,
@@ -55,7 +57,7 @@ is not accepted until conservation and actual activity ownership are established
 ## C. Preserve latent phase fractions through downstream metal writers
 
 **Case:** TH016. A1kJ pulse emits a Zn melt event for0.07395386mol, but the old
-result labels all0.76475987mol as liquid at692.68K. No retained solid remains.
+result labels all0.76475987mol as liquid at692.68K. No retained solid remains. The [independent saved thermal calculation](https://github.com/CrispStrobe/kerotakis/blob/f865e4c23566043f3224598d466a4459757cfe62/audits/target468-20261016/saved64-thermal-preparation/README.md) accounts for458.65774450J sensible plus5598.04221474J latent for that full liquid fraction:6056.69995924J against the1000J pulse. Keep the5056.69995924J mismatch and original phase/event disagreement; do not fit a property to erase it.
 **Source:** `crates/kerotakis-core/src/{phase_route,displacement,bench,vessel}.rs`,
 `crates/kerotakis-phreeqc/src/aqueous.rs`,
 `crates/kerotakis-cea/src/thermal.rs` and the standard solver stack.
