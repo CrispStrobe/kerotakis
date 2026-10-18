@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-18T17:25:00.518290+00:00",
+  "source": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+  "engine": {
+    "source_head": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+    "binary_sha256": "e01b96e0b9abf050f733de45344556a43185648114d45059cf2ab774deaff068",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "eleven_frozen_script_controls_pass": true,
+  "actual_script_assessment_sha256": "af0bf18521037a85c915394781c473bc0212dc836c982c45229f1b5cbd958a96",
+  "browser_provider": "Kaggle CPU",
+  "browser_harness_head": "0b6669b7e36689bdc7272d923df47bb3c0409766",
+  "browser_checks": 37,
+  "browser_report_sha256": "b1d89064b7b622bc865708a71c7770c2bace865839ef732fcdc0fffa18572150",
+  "browser_manifest_sha256": "4ae152337d8afb7ff6aebb9b8fe8caba1cb130ab22a5f4e45a38a33a8d6483cb",
+  "actual_package_lock_sha256": "16b12aab09e8b727da10f6a286714ec08acb2e86a21116b474732d9ac6c62dc7",
+  "concurrency_pattern": [
+    200,
+    429
+  ],
+  "github_browser_status_claim": false,
+  "qualification": "Actual served Vercel client/engine and native API; Pages profile separately measured, not a full Pages chemistry certification. No empirical calibration/catalog addition."
+}

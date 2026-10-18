@@ -1,0 +1,18 @@
+{
+  "label": "ammonia-admission",
+  "utc": "2026-10-18T17:24:15.851858+00:00",
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "--lib",
+    "ammonia_phase_and_reduced_nitrogen_admission_match_the_actual_database",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "elapsed_seconds": 299.2941521,
+  "stdout_sha256": "9d9869865ddc1bcdd4e2c671c38dfc7526ffc0dd11b7e27dd8e5bd7e10666919",
+  "stderr_sha256": "ddaf4ac4d9187198dc15726a0c2f65bbdcf99da510a87b059e57f2c6bb713697"
+}

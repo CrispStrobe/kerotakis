@@ -1,0 +1,11 @@
+
+running 1 test
+test aqueous::finite_ammonia_admission_diagnostics::ammonia_phase_and_reduced_nitrogen_admission_match_the_actual_database ... FAILED
+
+failures:
+
+failures:
+    aqueous::finite_ammonia_admission_diagnostics::ammonia_phase_and_reduced_nitrogen_admission_match_the_actual_database
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 107 filtered out; finished in 0.14s
+

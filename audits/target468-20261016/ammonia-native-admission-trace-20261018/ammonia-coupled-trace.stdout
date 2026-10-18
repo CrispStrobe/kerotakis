@@ -1,0 +1,16 @@
+
+running 4 tests
+test acid_trapping_couples_finite_ammonia_gas_and_protonation_in_both_addition_orders ... FAILED
+test dry_ammonia_and_core_henry_fallback_keep_their_own_inventory ... ok
+test supplied_gas_and_initially_absent_gas_close_the_same_reduced_nitrogen_pool ... FAILED
+test unavailable_extended_ammonia_gas_phase_refuses_before_mutating_the_vessel ... FAILED
+
+failures:
+
+failures:
+    acid_trapping_couples_finite_ammonia_gas_and_protonation_in_both_addition_orders
+    supplied_gas_and_initially_absent_gas_close_the_same_reduced_nitrogen_pool
+    unavailable_extended_ammonia_gas_phase_refuses_before_mutating_the_vessel
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.79s
+

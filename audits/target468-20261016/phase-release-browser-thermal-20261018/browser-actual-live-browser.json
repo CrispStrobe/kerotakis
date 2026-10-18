@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "node",
+    "/kaggle/temp/kerotakis-live-browser/browser/live-client.mjs"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "33f73a0c591a84280fbc6a6ee26c7911739ea3021ea8ba10e984d2549b924d52",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

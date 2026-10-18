@@ -1,0 +1,68 @@
+{
+  "frozen_utc": "2026-10-18T07:58:57.648705+00:00",
+  "status": "Protocols only; unbound and unexecuted. Bind actual accepted release source/binary/lock and property hashes before issue. Run after production acceptance, never duplicate already issued scripts.",
+  "cases": [
+    {
+      "id": "new120:th-016",
+      "script": "# TH-016: A metal absorbs latent heat while melting without being oxidised\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 Zn 50g @ 400C\nheat v1 1kJ\ninspect v1\nmeasure v1 thermometer\ninspect\n",
+      "script_sha256": "8fa2a9862e690ce02d073e355e5cd06c40ad3b992f1f6597eda620b63ddd0de1",
+      "original_forecast": "The pulse can bring zinc to its melting region and partly melt it; a solid/liquid transition is not by itself a change in oxidation state.",
+      "original_criteria": [
+        {
+          "id": "TH-016-C1",
+          "criterion": "Identify metallic zinc in both phases near its declared melting transition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TH-016-C2",
+          "criterion": "Any oxide formation must have its own oxygen source and reaction accounting; melting alone cannot create ZnO.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "changed_source_expectations": {
+        "represented_zinc_mol": 0.7647598654022637,
+        "zinc_inventory_resolution_mol": 1e-08,
+        "positive_retained_solid_and_liquid": true,
+        "melt_event_owned_phase_difference_resolution_mol": 1e-10,
+        "input_energy_J": 1000.0,
+        "no_new_oxide_without_oxygen_source": true,
+        "property_binding": "Actual deployed-source Zn solid heat-capacity curve and declared enthalpy of fusion; freeze those property-byte hashes at binding before issue. Compare latent+sensible energy and source boundary before numeric energy verdict.",
+        "scope": "Original finite partial-melt forecast and event/owned-phase consistency; no empirical calibration or full mixed-phase thermodynamics claim."
+      },
+      "baseline_stdout_sha256": "0ae6541d31036b6c0dbcd430284575323aa10b575a5bd83d508f5138ff7afc24",
+      "baseline_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      }
+    }
+  ],
+  "requests_planned": 4,
+  "policy": {
+    "one_attempt_per_case": true,
+    "minimum_serial_seconds": 3.1,
+    "stop_on_ambiguous_5xx_or_network": true,
+    "no_original_forecast_or_script_changes": true,
+    "no_whole_corpus_reexecution": true
+  },
+  "catalog_additions": 0,
+  "single_changed_source_replay": "Only TH016 on the authenticated phase-source release; do not repeat unchanged GS010/KN007/OR006",
+  "accepted_engine": {
+    "source_head": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+    "binary_sha256": "e01b96e0b9abf050f733de45344556a43185648114d45059cf2ab774deaff068",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "bound_to_authenticated_accepted_artifact": true,
+  "verified_release_receipt_sha256": "5f40601fd68b47e1b1af7712bf2cd4e4697b12a71a37b09969f17e474c7331de",
+  "actual_release_property_source_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/phase_route.rs": "1224af69e0ab3cac56ee9069c4941db75d7e55a288663b9d0afab4bce4c3a6ee",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "8f9fa9b3cf3d02471f028abadbf4bd293fc84326defd82e0bd351c2c25decbdd"
+  }
+}

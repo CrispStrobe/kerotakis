@@ -1,0 +1,20 @@
+{
+  "source": {
+    "source_head": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+    "binary_sha256": "e01b96e0b9abf050f733de45344556a43185648114d45059cf2ab774deaff068",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "browser_manifest_independently_authenticated": true,
+  "original_37_check_names_identical": true,
+  "browser_checks": 37,
+  "decimal_precision": 45,
+  "sensible_J": "458.657744500083834775902666817727119099183084",
+  "phase_energy_residual_J": "4.65757590266681772711909918308E-12",
+  "zinc_atom_residual_mol": "-1E-17",
+  "temperature_K": "692.68",
+  "solid_Zn_mol": "0.6908060053612909",
+  "liquid_Zn_mol": "0.07395386004097279",
+  "all_timepoint_species_only_Zn": true,
+  "original_criteria_C1_C2": "PASS: owned solid/liquid Zn at declared transition; no oxide or oxygen source invented",
+  "no_calibration_or_general_CEA_HP_claim": true
+}

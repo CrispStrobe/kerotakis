@@ -30,7 +30,9 @@ an integration branch. Do not copy credentials or host details into public docs.
 
 ## Lane 1 — finish pending delivery, first priority
 
-Actual main is `b3c18f5c` after PR829 and PR828:25 CI, both native platforms and33 original logical fleet jobs are accepted, with verified parents/tree. PR830 remains integrated as `0fe97e76`. A single new production dispatch is pending actual artifact/API/browser acceptance. PR829 exact `8e2fe429` is integrated as `b3c18f5c` after25 CI checks, both native platforms and all33 logical fleet jobs (25 GitHub +8 bounded native), with verified parents/tree. PR832 exact `09aa2b01` prepares the Pages profile/probe repair; actual build, applicable acceptance and published Pages parity remain pending. PR833 first source `8eece0b1` passes524 native tests; current combined source `e9cc8782` includes the accepted phase repair and passes Clippy,604 PHREEQC/CEA tests,31 core controls and all33 original CPU fleet jobs; protected/platform acceptance and integration remain. Its first combined worker stopped before compilation on omitted recursive-submodule initialization; the corrected worker preserves all original commands/criteria. See STATUS for evidence links. Do not duplicate completed CPU runs or cancel active validation for optional changes.
+Actual main is `ac1f9993` after documentation PR831; runtime PR828/829/830 are integrated with verified parents/tree. Delivered `0a5a92f1` / `e01b96e0` now has authenticated artifact,11 API and37 real-browser acceptance. Original TH016 was replayed once and independently passes both criteria and material/phase-energy checks. Catalog205 / fixed468201;200 more earned selections are needed for401.
+
+PR833 exact `e9cc8782` passes combined-source Clippy,604 PHREEQC/CEA tests,31 core controls and all33 original logical fleet jobs; finish its existing protected/platform acceptance and normal integration. PR834 corrected `6dee9254` fixes the native phase-name cause exposed by preserved first failures; current full PHREEQC acceptance is running. PR832 exact `09aa2b01` still needs actual Pages build/applicable acceptance and live publication parity. See STATUS for evidence. Never duplicate completed jobs or treat a provider COMPLETE/exit0 as physical acceptance.
 
 PR822/823 are now integrated as `bc472fb4`/`d6020643`; their source/run rows
 below preserve accepted bindings, not pending merge tasks. PR825 is also
@@ -118,7 +120,7 @@ and update STATUS without incrementing scientific counts.
 ## Lane 3 — assess saved forecasts and reconcile the working catalog
 
 **Inputs:** `audits/target468-20261016/{README.md,scoreboard.json}`, working
-catalog `audits/working-experiments-20261018-reviewed-gas.json`, original manifests and saved
+catalog `audits/working-experiments-20261018-phase-replay.json`, original manifests and saved
 assessments. Current catalog204 / fixed468 selected200; goal401 means201 more. KN-007 is a separately qualified repaired-source replay; older forecasts and outcomes are unchanged.
 The original first120 had64 cases in this review backlog; three now earned final saved-gas selection. The earlier42 selected and14 reviewed-hold bindings remain unchanged. The [saved64 first screen](saved64-review-lanes-20261018.md)
 originally recorded44 candidates and20 named holds;41 candidates still need final review and the20 original holds remain historical. KN-007 has a separately earned repaired-source selection. All668 baseline
@@ -289,57 +291,12 @@ credentials, hostnames, session inventories or resource inventories.
 
 ## Current delivery and repair checklist
 
-This section replaces obsolete pending snapshots in this maintained handover;
-original outcomes remain in the linked immutable evidence.
+1. **Production/phase — completed:** delivered `0a5a92f1`, binary `e01b96e0`, producer lock `66886813`; full artifact,11 API and37 real-browser controls pass. Only original TH016 then ran once on changed source. Independent45-digit energy and atom checks plus both original criteria pass. Preserve the original all-liquid failure, first binding preflight failure and separate corrected binding. Do not repeat TH016 or the other three unchanged diagnostics.
+2. **Finite initializer — pending integration:** PR833 `e9cc8782` passes Clippy,604 PHREEQC/CEA tests,31 core controls and all33 original logical fleet jobs on authenticated CPU output. Inspect the existing current-head protected/platform checks and both actual native logs; refresh candidate/base and integrate normally after acceptance. Preserve first prerequisite failure. A separately bound deployed GS010 replay must follow accepted changed-source delivery; the old imbalance stays excluded.
+3. **Ammonia — current source work:** PR834 `6dee9254` uses explicit native phase identities after diagnostic `4d8e1705` proved supplied NH3 was named nonexistent `NH3(aq)(g)` from its display formula. First523 existing tests passed but four new tests failed; later dry fixture correction passes and the three chemical/refusal failures traced to dropped gas ownership. All original chemical/refusal assertions remain unchanged. Authenticate current full native logs, including the admission control and four original tests. Repair real failures, incorporate accepted PR833 normally and validate combined native/full-fleet/platform checks before integration. Preserve core/dry fallback, inert N2/O2 and explicit minteq missing-phase refusal. Original GS005 stays held until its separately bound accepted-source replay passes. See lane J and `docs/finite-ammonia-coupling.md` in PR834.
+4. **Pages — separate delivery:** PR832 `09aa2b01` selects reviewed MY-BASIC and probes the final payload before existing browser gates. Complete actual build/applicable acceptance, normal integration and live Pages arithmetic/uncached-solution parity. Published `76fe144` demonstrably refuses USER_PUNCH; Vercel acceptance does not close Pages chemistry.
+5. **Hydrolysis — design proof still required:** derive conserved available strong-base capacity with analytical/proton/counterion ownership and explicit buffer/weak-base/unknown-reservoir refusal. The rejected free-OH proposal remains rejected. Implement an atomic material applier with conservation and unchanged-state refusal controls; do not merely consume positive `base_equivalents`.
+6. **Saved review/catalog:** complete catalog205 includes201 unique fixed468 selections; previous204 records remain unchanged. TH016 is one separately earned selection;41 other saved candidates need final criterion/domain review. Twenty original holds remain historical. Achieving401 requires200 further earned selections, not automatic promotion from HTTP200 or engineering tests.
+7. **Documentation delivery:** PR831 is integrated as `ac1f9993`. Refresh main with the latest maintained summaries in a narrow MD-only PR, pinning evidence to immutable public audit commits when files are absent from main. Never merge the broad audit or isolated browser validation branches. Keep all host paths and private operations in the ignored handoff.
 
-1. **Integrated phase repair:** PR828 `5b054e6c` merged as `0a5a92f1` after25 CI,
-   both native-platform logs and all33 original logical fleet jobs. Preserve
-   the [merge receipt](../audits/target468-20261016/accepted-pr-integration/pr828-integration.json)
-   and [111 focused controls/first failures](../audits/target468-20261016/cpu-native-controls-20261018/README.md).
-   The paid-coexistence guard and transition-referenced cooling correction are
-   accepted; general reacting multiphase HP enthalpy remains a separate lane.
-2. **Actual release:** the previous `ed7c452d` / `f9358b91` release has11 API and37
-   live-browser controls accepted. The new single dispatch
-   [39143554661](https://github.com/CrispStrobe/kerotakis/actions/runs/39143554661)
-   targets accepted main `0a5a92f1`. Authenticate its actual artifact, source,
-   binary, producer lock and frontend assets, then the unchanged API/browser
-   controls. Freeze a separate TH016 replay after delivery acceptance. Do not
-   repeat already issued controls or certify delivery from deployment exit0.
-3. **Chromatography — integrated:** PR829 `8e2fe429` merged as `b3c18f5c` after8 core/3 native controls, all25 CI checks, both native platforms and all33 logical fleet jobs (25 GitHub +8 bounded native). The original transferred workflow is cancelled, not green. Producer runtime/harness match reviewed source; whole trees differ by reviewed prior metadata. Preserve the source and merge receipts. Missing retention parameters remain unsupported; SP012 is held.
-4. **Finite gas initialization:** PR833 current combined source `e9cc8782` passes Clippy,604 PHREEQC/CEA tests,31 core controls and all33 original logical fleet jobs on authenticated CPU output. First source524-test acceptance and first combined prerequisite failure remain separately preserved. Finish current protected/platform checks and inspect actual native logs; refresh main, review the candidate, integrate normally and verify parents/tree. Then bind a separate actual-source GS010 replay. Original brine C/charge failure remains excluded.
-5. **Pages:** PR832 `09aa2b01` selects the reviewed MY-BASIC profile and probes the
-   final site before existing browser gates. Complete actual build/applicable
-   acceptance, normal integration and published Pages interpreter plus uncached
-   solution parity. Published source `76fe144` demonstrably refuses USER_PUNCH;
-   Vercel's separately accepted profile does not close that Pages gap.
-6. **Documentation:** PR831 is ready with normal auto-merge enabled. Avoid
-   resetting active valid checks for optional changes. After integration, refresh
-   main's maintained summaries from these latest receipts in a narrow MD-only
-   branch; pin evidence links to their public commits when files are absent from
-   main. Never merge broad audit or isolated validation branches.
-7. **Coverage:** the [complete current catalog](../audits/working-experiments-20261018-reviewed-gas.json)
-   contains204 source-qualified entries, including200 fixed468 cases. The previous
-   201 entries are unchanged. [Final saved-gas review](../audits/target468-20261016/saved-gas-final-review-20261018/README.md)
-   adds GS001/003/009 after all six original criteria were reviewed without an
-   engine rerun. Forty-one other candidates need final review; historical holds
-   remain preserved. Achieving401 requires201 further earned selections.
-
-For hydrolysis, follow the [usable-base admission contract](saved64-review-lanes-20261018.md#d-share-authoritative-aqueous-base-with-named-ester-hydrolysis):
-positive analytical basis and instantaneous free OH alone are not a proved
-stoichiometric reserve. Preserve buffer/carbonate/ammonia negatives and atomic
-counterion/ledger updates. The [coupled ammonia owner lane](saved64-review-lanes-20261018.md#i-give-coupled-ammonia-protonation-and-headspace-exchange-one-owner)
-requires current-source reproduction before implementation; a source lead is not
-an observed current-source failure. Keep single-owner/native-fallback semantics
-and finite N/H/O/charge controls explicit.
-
-Current accepted-source receipts: [PR829 fleet](../audits/target468-20261016/hybrid-own-fleet-20261018/pr829/README.md), [verified integration](../audits/target468-20261016/accepted-pr-integration/pr829-integration.json), and [PR833 combined-source native/fleet acceptance](../audits/target468-20261016/cpu-combined-gas-833-20261018/README.md). Scientific catalog remains204 overall /200 fixed468. A separate current-accepted-equivalent ammonia control reproduces inconsistent neutral-gas/protonation coupling; lane J remains open, with no new scientific selection.
-
-## Active bounded ammonia repair
-
-[First current-equivalent control](../audits/target468-20261016/ammonia-coupled-first-control-20261018/README.md) confirms the uncoupled gas/protonation failure on accepted-equivalent runtime, with raw streams and all three arms independently assessed. A first saved reader overlooked sparse snapshots; its incorrect one-arm output is preserved and rejected. The corrected reader requires all three arms and records failure, not a scientific pass.
-
-PR834 current source `4d8e1705` diagnoses the first native failures and proposes finite-only native NH3 gas coupling with N(-3) ownership and explicit unchanged-state refusal when the routed database lacks NH3(g). The first four new tests failed while523 existing tests passed. Focused native admission/readback diagnosis is running on CPU; original assertions are retained. Review actual results before any acceptance; preserve dry/core-only fallback, inert carriers and open/swept behavior. Buffered/mixed-ligand capability remains a named boundary. Integrate the accepted finite-gas initialization prerequisite normally before final combined-source/full-fleet acceptance; do not claim either source deployed. See lane J and `docs/finite-ammonia-coupling.md` in the PR.
-
-Current delivery: PR831 merged normally as `ac1f9993` with verified parents/tree. The phase-source `0a5a92f1` artifact and11 API controls are accepted, binary `e01b96e0`; unchanged37-check actual browser validation is running with corrected engine-only asset binding; its first preflight failure is preserved, after which only the changed-source TH016 replay is authorized by its frozen plan. Last fully accepted API/browser release remains `ed7c452d` until that review completes. [First ammonia native failure](../audits/target468-20261016/ammonia-native-first-failure-20261018/README.md) remains preserved; no new scientific selection.
-
-[Current phase-source artifact/API evidence](../audits/target468-20261016/phase-release-api-20261018/README.md) records actual delivered bytes and11 passing controls. Browser and TH016 acceptance remain separate.
+Current evidence: [phase artifact/API](../audits/target468-20261016/phase-release-api-20261018/README.md), [browser/TH016 and selection](../audits/target468-20261016/phase-release-browser-thermal-20261018/README.md), [PR829 accepted fleet](../audits/target468-20261016/hybrid-own-fleet-20261018/pr829/README.md), [PR833 combined acceptance](../audits/target468-20261016/cpu-combined-gas-833-20261018/README.md), [first ammonia failures](../audits/target468-20261016/ammonia-native-first-failure-20261018/README.md), and [actual invalid-phase diagnosis](../audits/target468-20261016/ammonia-native-admission-trace-20261018/README.md).

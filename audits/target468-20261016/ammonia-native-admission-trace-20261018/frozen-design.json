@@ -1,0 +1,42 @@
+{
+  "frozen_utc": "2026-10-18T17:18:47.676098+00:00",
+  "source": "4d8e1705d4cb52366b9d22a06d2954c30aed4dab",
+  "tree": "860554f1943f80c43e5340aaa5ca404d07671d29",
+  "worker_sha256": "d6cd176c0ce525191af44b06fa7a9deacddf97311e8d2cc4687b012cebb1cab0",
+  "commands": [
+    [
+      "admission",
+      [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--lib",
+        "ammonia_phase_and_reduced_nitrogen_admission_match_the_actual_database",
+        "--",
+        "--nocapture"
+      ]
+    ],
+    [
+      "coupled-trace",
+      [
+        "env",
+        "KERO_DUMP_INPUT=all",
+        "KERO_READBACK=1",
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--test",
+        "coupled_ammonia",
+        "--",
+        "--nocapture",
+        "--test-threads=1"
+      ]
+    ]
+  ],
+  "purpose": "Investigate the preserved first four native failures; actual native problem and readback traces, no weakened original assertion. Only dry fixture pressure refresh before comparison.",
+  "full_regression_repeated": false,
+  "catalog_additions": 0,
+  "no_production_credentials": true
+}

@@ -78,7 +78,7 @@ reverse cooling, transfer and a second metal plus a molecular-solid control.
 No new oxide may appear without an oxygen source. Preserve original TH016 and
 freeze repaired-source evidence separately.
 
-Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses the destructive unchanged-chemistry readback boundary, with a separate smaller native first failure. It is normally integrated as `0a5a92f1` after25 CI, both native platforms and33 original logical fleet jobs; actual changed-source production/TH016 acceptance remains pending. The guard is restricted to supported paid coexistence plateaus; it does not implement general phase-aware CEA input enthalpy or energy closure across reacting HP phase transitions. Keep those algorithmic tasks separate.
+Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses the destructive unchanged-chemistry readback boundary, with a separate smaller native first failure. It is normally integrated as `0a5a92f1` after25 CI, both native platforms and33 original logical fleet jobs; actual changed-source artifact,11 API,37 browser and original TH016 replay acceptance now pass. The guard is restricted to supported paid coexistence plateaus; it does not implement general phase-aware CEA input enthalpy or energy closure across reacting HP phase transitions. Keep those algorithmic tasks separate.
 
 ## D. Share authoritative aqueous base with named ester hydrolysis
 
@@ -332,3 +332,9 @@ PR834 initial `2750df2d` implements the bounded finite-only ammonia coupling pro
 Current delivery: PR831 merged normally as `ac1f9993` with verified parents/tree. The phase-source `0a5a92f1` artifact and11 API controls are accepted, binary `e01b96e0`; unchanged37-check actual browser validation is running with corrected engine-only asset binding; its first preflight failure is preserved, after which only the changed-source TH016 replay is authorized by its frozen plan. Last fully accepted API/browser release remains `ed7c452d` until that review completes. [First ammonia native failure](../audits/target468-20261016/ammonia-native-first-failure-20261018/README.md) remains preserved; no new scientific selection.
 
 [Current phase-source artifact/API evidence](../audits/target468-20261016/phase-release-api-20261018/README.md) records actual delivered bytes and11 passing controls. Browser and TH016 acceptance remain separate.
+
+## Current phase and ammonia follow-up
+
+[Changed-source TH016](../audits/target468-20261016/phase-release-browser-thermal-20261018/README.md) now independently passes both original criteria after full artifact/API/browser acceptance. The old failure and every previous catalog entry remain preserved. Complete catalog205 / fixed468201 needs200 further selections for401. This does not implement general reacting multiphase HP energy.
+
+PR834 current `6dee9254` replaces constructed display-formula gas names with explicit native capability identities. [The actual failed admission trace](../audits/target468-20261016/ammonia-native-admission-trace-20261018/README.md) records `NH3(aq)(g)` being dropped, explaining failed gas absorption/trapping and missing-route refusal. All original assertions remain; full native acceptance is running. Finish combined-source acceptance with the initializer prerequisite and normal protected integration before separately bound GS005 replay. No ammonia scientific selection has been made.

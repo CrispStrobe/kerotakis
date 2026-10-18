@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-18T17:30:23.229794+00:00",
+  "selected_original_ids": [
+    "new120:th-016"
+  ],
+  "selected_catalog_ids": [
+    "new120-repaired-source:th-016"
+  ],
+  "previous_catalog_sha256": "74b9185e9a4260bfd98187fd19fa12a5830171f168e7a2467a12f856288d53cf",
+  "new_catalog_sha256": "a56e62483b3b58180971fd042de62843228f9bac66e183d35023416606ae9246",
+  "previous_entries_preserved_exactly": 204,
+  "new_count": 205,
+  "fixed468_selected_before": 200,
+  "fixed468_selected_after": 201,
+  "additional_qualified_cases_to401": 200,
+  "fixed_target_membership_independently_checked": true,
+  "new_changed_source_API_experiments": 1,
+  "unchanged_corpus_executions": 0,
+  "original_forecasts_and_first_failures_preserved": true
+}

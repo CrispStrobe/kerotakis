@@ -1,0 +1,39 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    'iphreeqc.mjs',
+    'iphreeqc.wasm',
+    'kerotakis.mjs',
+    'kerotakis_wasm.js',
+    'kerotakis_wasm_bg.wasm',
++   'rest.html'
+  ]
+
+    at file:///kaggle/temp/kerotakis-live-browser/browser/live-client.mjs:26:8 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'iphreeqc.mjs',
+    'iphreeqc.wasm',
+    'kerotakis.mjs',
+    'kerotakis_wasm.js',
+    'kerotakis_wasm_bg.wasm',
+    'rest.html'
+  ],
+  expected: [
+    'iphreeqc.mjs',
+    'iphreeqc.wasm',
+    'kerotakis.mjs',
+    'kerotakis_wasm.js',
+    'kerotakis_wasm_bg.wasm'
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

@@ -1,0 +1,22 @@
+{
+  "label": "ammonia-coupled-trace",
+  "utc": "2026-10-18T17:24:32.528362+00:00",
+  "argv": [
+    "env",
+    "KERO_DUMP_INPUT=all",
+    "KERO_READBACK=1",
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "--test",
+    "coupled_ammonia",
+    "--",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 101,
+  "elapsed_seconds": 16.670217468000033,
+  "stdout_sha256": "f5720f8c5a00993394bcbf7150ac44036b181f637f1b2af9e5c0256de4a5c544",
+  "stderr_sha256": "793b94fe766874fa13ae55bcf555d4faed4be16f6bcb0a15eb49811964880f4f"
+}

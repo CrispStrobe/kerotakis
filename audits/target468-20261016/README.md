@@ -125,3 +125,7 @@ The [independently reviewed redox selection](saved-redox-selection.json) adds8
 unchanged protocols without another engine/API execution:catalog200,target196.
 Six redox holds remain explicit. First120 totals42selected,14held,64unassessed;
 all original scripts, first failures and frozen reviews remain unchanged.
+
+## Current qualified checkpoint — 2026-10-18
+
+The [complete205-entry catalog](../working-experiments-20261018-phase-replay.json) contains201 unique fixed468 selections; [current membership receipt](scoreboard-20261018-phase-replay.json) preserves the earlier dated scoreboard. [TH016's changed-source replay](phase-release-browser-thermal-20261018/README.md) now passes both original criteria and independent phase-energy accounting after11 API/37 browser acceptance. All previous204 entries and original failures remain unchanged. Forty-one saved candidates still need final review; no unsupported/unassessed case is automatically promoted.

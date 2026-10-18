@@ -1,0 +1,46 @@
+{
+  "utc": "2026-10-18T17:22:16.129665+00:00",
+  "runtime_source": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+  "engine": {
+    "source_head": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+    "binary_sha256": "e01b96e0b9abf050f733de45344556a43185648114d45059cf2ab774deaff068",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "harness_head": "0b6669b7e36689bdc7272d923df47bb3c0409766",
+  "harness_tree": "a0848a3b843abc438a1d2f46319cf4dcd82bd9b3",
+  "never_merge_validation_ref": true,
+  "provider": "Kaggle CPU, unchanged Playwright helper and pinned browser package; no GitHub status claim",
+  "binding": {
+    "status": "bound_before_browser_dispatch",
+    "expected_engine_source": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+    "expected_binary_sha256": "e01b96e0b9abf050f733de45344556a43185648114d45059cf2ab774deaff068",
+    "client_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+    "frontend_assets": {
+      "iphreeqc.mjs": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
+      "iphreeqc.wasm": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
+      "kerotakis.mjs": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "kerotakis_wasm.js": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "kerotakis_wasm_bg.wasm": "388e0ff2f3fc0da77080a1745925f5b23d407fb0b4f9066d9771ae8e7b8c3343"
+    },
+    "native_bridge_reference": {
+      "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
+      "response_sha256": "2c544976574ce270b1c4e099265ad6b48c9994fb0aa9acb8ddd8428872a96e6b",
+      "engine": {
+        "source_head": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+        "binary_sha256": "e01b96e0b9abf050f733de45344556a43185648114d45059cf2ab774deaff068",
+        "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+      },
+      "solution": {
+        "ph": 6.975165409667,
+        "ionic_strength": 0.2708857843468
+      }
+    },
+    "producer_artifact_receipt_sha256": "5f40601fd68b47e1b1af7712bf2cd4e4697b12a71a37b09969f17e474c7331de",
+    "protocol_design_sha256": "18b3375f57c9dc72abfd01d2fd511d10e5dd183cf05fe0e0dfaff650168e060f"
+  },
+  "harness_script_sha256": "1f0ddea0b8a9e16d78cb15cfaaa319abbe2e6cd817999d7075c4e9c235a903a0",
+  "binding_sha256": "068fd1db029a5217880b9aa09bd656113b52cc892d066387c5f34e03dc6121ed",
+  "release_script_acceptance_sha256": "af0bf18521037a85c915394781c473bc0212dc836c982c45229f1b5cbd958a96",
+  "eleven_frozen_controls_pass": true,
+  "new_owner_keys_in_browser_or_kaggle": false
+}

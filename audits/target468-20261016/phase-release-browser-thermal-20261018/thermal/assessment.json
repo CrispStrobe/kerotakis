@@ -1,0 +1,61 @@
+{
+  "engine": {
+    "source_head": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+    "binary_sha256": "e01b96e0b9abf050f733de45344556a43185648114d45059cf2ab774deaff068",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "actual_source_property_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/phase_route.rs": "1224af69e0ab3cac56ee9069c4941db75d7e55a288663b9d0afab4bce4c3a6ee",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "8f9fa9b3cf3d02471f028abadbf4bd293fc84326defd82e0bd351c2c25decbdd"
+  },
+  "saved_reader_sha256": "54d2e261073b94d3162a5ef00491f3af13cb061e97d5cfb83fad7966ee84fb2b",
+  "cases": [
+    {
+      "id": "new120:th-016",
+      "script_sha256": "8fa2a9862e690ce02d073e355e5cd06c40ad3b992f1f6597eda620b63ddd0de1",
+      "response_sha256": "6443b17d93324940ef99fb0af5974cb95f8e4202ab22d6043791c7afa3436dd3",
+      "original_forecast": "The pulse can bring zinc to its melting region and partly melt it; a solid/liquid transition is not by itself a change in oxidation state.",
+      "original_criteria": [
+        {
+          "id": "TH-016-C1",
+          "criterion": "Identify metallic zinc in both phases near its declared melting transition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TH-016-C2",
+          "criterion": "Any oxide formation must have its own oxygen source and reaction accounting; melting alone cannot create ZnO.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "criteria": {
+        "no_solver_failure": true,
+        "zinc_conserved": true,
+        "retained_coexistence": true,
+        "event_matches_owned_liquid": true,
+        "paid_latent_budget": true,
+        "no_unaccounted_new_oxide": true
+      },
+      "metrics": {
+        "temperature_K": 692.68,
+        "solid_Zn_mol": 0.6908060053612909,
+        "liquid_Zn_mol": 0.07395386004097279,
+        "melt_event_mol": 0.07395386004097279,
+        "source_sensible_to_transition_J": 458.657744500174,
+        "source_latent_J_mol": 7320.0,
+        "expected_paid_liquid_mol": 0.07395386004095984,
+        "owned_phase_energy_excess_J": 9.481482265982777e-11,
+        "ZnO_mol": 0,
+        "qualification": "Independent integration of declared source Cp plus declared fusion enthalpy, not experimental calibration."
+      },
+      "status": "PASS"
+    }
+  ],
+  "new_requests": 0,
+  "catalog_additions_by_reader": 0,
+  "qualification": "Root must independently select only fully satisfied original criteria in their bounded domain; other failures remain excluded."
+}
