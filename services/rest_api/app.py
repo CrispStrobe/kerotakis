@@ -178,7 +178,10 @@ class Settings:
 def validate_script(script: str):
     if len(script.encode("utf-8")) > SCRIPT_LIMIT or any(ord(c) < 32 and c not in "\n\r\t" for c in script):
         raise HTTPException(422, "Script exceeds byte limit or contains control characters")
-    lines = [line.strip() for line in script.splitlines() if line.strip() and not line.lstrip().startswith("#")]
+    # Match the CLI's token-boundary comments without truncating embedded
+    # hashes. Charge the command itself, not words in an explanatory comment.
+    lines = [command for line in script.splitlines()
+             if (command := re.split(r"(?<!\S)#", line, maxsplit=1)[0].strip())]
     if not lines or len(lines) > 128:
         raise HTTPException(422, "Supply 1–128 commands")
     for n, line in enumerate(lines, 1):
@@ -276,7 +279,16 @@ def validate_script(script: str):
                 duration += 10  # The CLI's default stir duration.
                 continue
             raise HTTPException(422, "Duration required")
-        match = re.fullmatch(r"([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)(s|sec|secs|seconds|min|mins|minutes|h|hr|hours|)", words[index].lower())
+        raw_duration = words[index]
+        if verb == "wait":
+            tail = words[index:]
+            if len(tail) == 2 and re.fullmatch(
+                    r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?", tail[0]) and re.fullmatch(
+                    r"s|sec|secs|seconds|min|mins|minutes|h|hr|hours", tail[1].lower()):
+                raw_duration = "".join(tail)
+            elif len(tail) != 1:
+                raise HTTPException(422, "Use a finite Kero duration")
+        match = re.fullmatch(r"([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)(s|sec|secs|seconds|min|mins|minutes|h|hr|hours|)", raw_duration.lower())
         if not match:
             raise HTTPException(422, "Use a finite Kero duration")
         unit = match[2]

@@ -43,15 +43,18 @@ oxalate protocols via the [separate receipt](https://github.com/CrispStrobe/kero
 The analytical oxalate control stays excluded; no missing original identity,
 empirical rate or heat calibration is claimed closed.
 
-A separate [native MIX inventory boundary](mix-finite-inventory-boundary.md)
-sends supplied solids, gas and typed interface inventories through ordinary
-equilibrium instead of the dissolved-only shortcut. Exact-head native and
-full-fleet acceptance remain pending; this is not a multiphase MIX model.
+The native MIX inventory boundary (PR823) is integrated as `d6020643`, and the
+finite-solid repair (PR822) as `bc472fb4`, after exact-head CI and full-fleet
+acceptance. They preserve their bounded phase/typed-inventory exclusions; no
+multiphase MIX model, nitrate-solubility validation or catalog increment follows.
 
-A [finite-solid inventory repair](finite-solid-inventory-repair.md) now addresses
-the separately reproduced ferrous-hydroxide wait cycle and comparison omission.
-Its native regression and full-fleet acceptance remain pending; unsupported
-solid and nitrate-solubility domains remain open. No catalog count changes.
+A separate parser repair rejects ignored trailing tokens across fixed-arity
+operations and optional heating, titration, distillation, MIX and transport forms.
+Every documented verb has a complete-consumption regression. The corrected
+parser preserves full comments in saved command history while stripping inline
+comments from executable input, including the existing English-alias contract.
+Exact-head parser, REST and full-fleet acceptance remain pending.
+
 
 A separate numeric parser repair rejects non-finite operator fields and unit
 conversion overflow before an operator can enter a saved log. Public quantity
