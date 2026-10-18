@@ -66,6 +66,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Build the same payload Pages serves
+        env:
+          # Match the official native default and the live Wasm bridge gate.
+          IPHREEQC_BASIC_MODE: my-basic
         run: |
           bash tools/build-web.sh "$RUNNER_TEMP/site"
           test -s "$RUNNER_TEMP/site/iphreeqc.mjs"

@@ -7,8 +7,10 @@ not install Emscripten. `tools/build-web.sh` explicitly builds only a cache-back
 frontend when `emcc` is absent, so a successful deployment did not establish a
 live browser aqueous engine.
 
-The repair uses the same Emscripten setup as the required actual-browser CI gate,
-then requires both generated files before deployment. The frontend payload is
+The repair uses the same Emscripten setup as the required actual-browser CI gate
+and explicitly selects the MY-BASIC profile already exercised by the live Wasm
+bridge gate and used by the official native default. It then requires both
+generated files before deployment. The frontend payload is
 archived before API packaging. The native bundle also preserves actual producer
 `Cargo.lock` bytes and checks them against its manifest hash. Neither addition
 changes engine source, model data or server isolation policy.
