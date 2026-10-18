@@ -1,0 +1,2251 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "vessel_source_sha256": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "ideal_gas_constant_Pa_L_per_mol_K": 8314.462618,
+  "material_ledger_reference": "material-projection.json",
+  "cases": [
+    {
+      "id": "new120:gs-001",
+      "script_sha256": "21e7c282fa2c90f88496a48ad2b7c5e2510201d250fc1262a3aa5883f6ef9468",
+      "stdout_sha256": "c38d4351247927f87e1c5fe4922fc1bc62b9a3184f92f20cd7119fd28e9f55ca",
+      "original_criteria": [
+        {
+          "id": "GS-001-C1",
+          "criterion": "Compare pressure increments rather than treating the initial headspace as a vacuum.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-001-C2",
+          "criterion": "Use the actual gas-phase moles and temperature in P = nRT/V; O2 and N2 need not dissolve equally.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 1,
+          "operator": {
+            "headspace_volume": 1.0,
+            "op": "seal",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500706496033,
+          "pressure_Pa": 101324.63010419912,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 1.0
+          },
+          "owned_gas_mol": {
+            "N2": 0.032294582578672695,
+            "O2": 0.008563112327847018,
+            "CO2": 1.619071805156e-05
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.344574352215984e-07,
+            "HCO3-": 2.444185275085771e-08,
+            "water": 0.5534276746986935,
+            "H+": 2.4439971962886275e-08
+          },
+          "source_ideal_pressure_Pa": 101324.63010419912,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.610615732538,
+          "solution_ionic_strength": 2.455772982142e-06
+        },
+        {
+          "row": 2,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500706496033,
+          "pressure_Pa": 101324.63010419912,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 1.0
+          },
+          "owned_gas_mol": {
+            "N2": 0.032294582578672695,
+            "O2": 0.008563112327847018,
+            "CO2": 1.619071805156e-05
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.344574352215984e-07,
+            "HCO3-": 2.444185275085771e-08,
+            "water": 0.5534276746986935,
+            "H+": 2.4439971962886275e-08
+          },
+          "source_ideal_pressure_Pa": 101324.63010419912,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.610615732538,
+          "solution_ionic_strength": 2.455772982142e-06
+        },
+        {
+          "row": 4,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15007060128335,
+          "pressure_Pa": 103803.58770319182,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 1.0
+          },
+          "owned_gas_mol": {
+            "N2": 0.033294582578672696,
+            "O2": 0.008563112327847018,
+            "CO2": 1.619071758585e-05
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.344574311222322e-07,
+            "HCO3-": 2.4441852356272434e-08,
+            "water": 0.5534276746996343,
+            "H+": 2.44380907454822e-08
+          },
+          "source_ideal_pressure_Pa": 103803.58770319182,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.610615738777,
+          "solution_ionic_strength": 2.45577294683e-06
+        },
+        {
+          "row": 6,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15007055259946,
+          "pressure_Pa": 106282.5453012506,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 1.0
+          },
+          "owned_gas_mol": {
+            "N2": 0.033294582578672696,
+            "O2": 0.009563112327847019,
+            "CO2": 1.619071711987e-05
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.3445742725262147e-07,
+            "HCO3-": 2.4441852003659894e-08,
+            "water": 0.5534276747005751,
+            "H+": 2.443620959052817e-08
+          },
+          "source_ideal_pressure_Pa": 106282.5453012506,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.610615745016,
+          "solution_ionic_strength": 2.455772911519e-06
+        },
+        {
+          "row": 7,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15007055259946,
+          "pressure_Pa": 106282.5453012506,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 1.0
+          },
+          "owned_gas_mol": {
+            "N2": 0.033294582578672696,
+            "O2": 0.009563112327847019,
+            "CO2": 1.619071711987e-05
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.3445742725262147e-07,
+            "HCO3-": 2.4441852003659894e-08,
+            "water": 0.5534276747005751,
+            "H+": 2.443620959052817e-08
+          },
+          "source_ideal_pressure_Pa": 106282.5453012506,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.610615745016,
+          "solution_ionic_strength": 2.455772911519e-06
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    },
+    {
+      "id": "new120:gs-002",
+      "script_sha256": "2acef9e3b98755c0b08ffe992e75e6e12521f4398158493ff4d09de13cb0099c",
+      "stdout_sha256": "2b8c0154636f6973f0ebf35a86ac35e3e625fac2a549c23966080c6c9d5fb35d",
+      "original_criteria": [
+        {
+          "id": "GS-002-C1",
+          "criterion": "Compare gas-phase fractions of the added material, not pressure alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-002-C2",
+          "criterion": "The CO2 vessel should store more of the dose in the liquid under these conditions.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 1,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500613355836,
+          "pressure_Pa": 101318.29446139079,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112967714e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.1324340597045613e-06,
+            "HCO3-": 2.2425717832093086e-07,
+            "CO3-2": 4.6991272193190916e-12,
+            "water": 5.534276767134181,
+            "H+": 2.2426657658031202e-07
+          },
+          "source_ideal_pressure_Pa": 101318.29446139079,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509904e-06
+        },
+        {
+          "row": 3,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15006132702615,
+          "pressure_Pa": 111234.12461632442,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01814729128933635,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112969689e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.132434058084174e-06,
+            "HCO3-": 2.242571779676889e-07,
+            "CO3-2": 4.699127211240029e-12,
+            "water": 5.534276767134182,
+            "H+": 2.2426657622989787e-07
+          },
+          "source_ideal_pressure_Pa": 111234.12461632442,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509905e-06
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15006132702615,
+          "pressure_Pa": 111234.12461632442,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01814729128933635,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112969689e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.132434058084174e-06,
+            "HCO3-": 2.242571779676889e-07,
+            "CO3-2": 4.699127211240029e-12,
+            "water": 5.534276767134182,
+            "H+": 2.2426657622989787e-07
+          },
+          "source_ideal_pressure_Pa": 111234.12461632442,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509905e-06
+        },
+        {
+          "row": 7,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15006132702615,
+          "pressure_Pa": 111234.12461632442,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01814729128933635,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112969689e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.132434058084174e-06,
+            "HCO3-": 2.242571779676889e-07,
+            "CO3-2": 4.699127211240029e-12,
+            "water": 5.534276767134182,
+            "H+": 2.2426657622989787e-07
+          },
+          "source_ideal_pressure_Pa": 111234.12461632442,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509905e-06
+        },
+        {
+          "row": 7,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500613355836,
+          "pressure_Pa": 101318.29446139079,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112967714e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.1324340597045613e-06,
+            "HCO3-": 2.2425717832093086e-07,
+            "CO3-2": 4.6991272193190916e-12,
+            "water": 5.534276767134181,
+            "H+": 2.2426657658031202e-07
+          },
+          "source_ideal_pressure_Pa": 101318.29446139079,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509904e-06
+        },
+        {
+          "row": 9,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 1
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15006132702615,
+          "pressure_Pa": 111234.12461632442,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01814729128933635,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112969689e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.132434058084174e-06,
+            "HCO3-": 2.242571779676889e-07,
+            "CO3-2": 4.699127211240029e-12,
+            "water": 5.534276767134182,
+            "H+": 2.2426657622989787e-07
+          },
+          "source_ideal_pressure_Pa": 111234.12461632442,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509905e-06
+        },
+        {
+          "row": 9,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 1
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1637572006226,
+          "pressure_Pa": 109812.93472998671,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.001719150006883
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.000285442060841545,
+            "HCO3-": 3.582736371191418e-06,
+            "CO3-2": 4.808808130812868e-12,
+            "water": 5.5342734086548795,
+            "H+": 3.5827459875202583e-06
+          },
+          "source_ideal_pressure_Pa": 109812.93472998671,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.447479817228,
+          "solution_ionic_strength": 3.593561993961e-05
+        },
+        {
+          "row": 10,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1637572006226,
+          "pressure_Pa": 109812.93472998671,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.001719150006883
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.000285442060841545,
+            "HCO3-": 3.582736371191418e-06,
+            "CO3-2": 4.808808130812868e-12,
+            "water": 5.5342734086548795,
+            "H+": 3.5827459875202583e-06
+          },
+          "source_ideal_pressure_Pa": 109812.93472998671,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.447479817228,
+          "solution_ionic_strength": 3.593561993961e-05
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    },
+    {
+      "id": "new120:gs-003",
+      "script_sha256": "9060ad1912c82c28327f69131e17e5b8b57c33a906ccc188d10b70913618c997",
+      "stdout_sha256": "d159d0164a1b7c0b05ae135d3a60f376eb99ecd84a57d02702b0784022c33a8f",
+      "original_criteria": [
+        {
+          "id": "GS-003-C1",
+          "criterion": "Compare carbon partition fractions at the actual temperatures.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-003-C2",
+          "criterion": "The alkaline vessel retains the added carbon; pressure reduction alone must not be mistaken for carbon deletion.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 1,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500613355836,
+          "pressure_Pa": 101318.29446139079,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112967714e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.1324340597045613e-06,
+            "HCO3-": 2.2425717832093086e-07,
+            "CO3-2": 4.6991272193190916e-12,
+            "water": 5.534276767134181,
+            "H+": 2.2426657658031202e-07
+          },
+          "source_ideal_pressure_Pa": 101318.29446139079,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509904e-06
+        },
+        {
+          "row": 3,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15692375922686,
+          "pressure_Pa": 105562.73709319076,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.0008624223168846
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179892228,
+            "HCO3-": 2.534925434197053e-06,
+            "CO3-2": 4.787116798373672e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350083157807e-06
+          },
+          "source_ideal_pressure_Pa": 105562.73709319076,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15692375922686,
+          "pressure_Pa": 105562.73709319076,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.0008624223168846
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179892228,
+            "HCO3-": 2.534925434197053e-06,
+            "CO3-2": 4.787116798373672e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350083157807e-06
+          },
+          "source_ideal_pressure_Pa": 105562.73709319076,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 8,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15692375922686,
+          "pressure_Pa": 105562.73709319076,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.0008624223168846
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179892228,
+            "HCO3-": 2.534925434197053e-06,
+            "CO3-2": 4.787116798373672e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350083157807e-06
+          },
+          "source_ideal_pressure_Pa": 105562.73709319076,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 8,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.36552829704385,
+          "pressure_Pa": 101285.18424600801,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01613574086580585,
+            "O2": 0.004278493496248988
+          },
+          "owned_nongas_mol": {
+            "Na+": 0.001999999999999582,
+            "HCO3-": 6.803593828911565e-08,
+            "CO3-2": 8.100924921327211e-06,
+            "water": 5.534285092320039,
+            "base_equivalents": 0.001983730116098009
+          },
+          "source_ideal_pressure_Pa": 101285.18424600801,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 12.22932402365,
+          "solution_ionic_strength": 0.02011209376057
+        },
+        {
+          "row": 10,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 1
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15692375922686,
+          "pressure_Pa": 105562.73709319076,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.0008624223168846
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179892228,
+            "HCO3-": 2.534925434197053e-06,
+            "CO3-2": 4.787116798373672e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350083157807e-06
+          },
+          "source_ideal_pressure_Pa": 105562.73709319076,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 10,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 1
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.61261235188783,
+          "pressure_Pa": 101369.14234014008,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01613574086580585,
+            "O2": 0.004278493496248988,
+            "CO2": 1.63658541584e-08
+          },
+          "owned_nongas_mol": {
+            "Na+": 0.0020000000000000174,
+            "CO2(aq)": 3.12674988605362e-09,
+            "HCO3-": 0.0001386851942496925,
+            "CO3-2": 0.0008694642740054307,
+            "water": 5.535146455669123,
+            "base_equivalents": 0.00012238625962019897
+          },
+          "source_ideal_pressure_Pa": 101369.14234014008,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 10.92992584961,
+          "solution_ionic_strength": 0.02604450054713
+        },
+        {
+          "row": 11,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.61261235188783,
+          "pressure_Pa": 101369.14234014008,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01613574086580585,
+            "O2": 0.004278493496248988,
+            "CO2": 1.63658541584e-08
+          },
+          "owned_nongas_mol": {
+            "Na+": 0.0020000000000000174,
+            "CO2(aq)": 3.12674988605362e-09,
+            "HCO3-": 0.0001386851942496925,
+            "CO3-2": 0.0008694642740054307,
+            "water": 5.535146455669123,
+            "base_equivalents": 0.00012238625962019897
+          },
+          "source_ideal_pressure_Pa": 101369.14234014008,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 10.92992584961,
+          "solution_ionic_strength": 0.02604450054713
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    },
+    {
+      "id": "new120:gs-004",
+      "script_sha256": "4829ecf444e45b5228f4bb027c58ea3b22a5e4ebabc516d99217cfd785e465a9",
+      "stdout_sha256": "753ebb1ff532e8a39016307b872b62330b4b15a892e92c197d6b73c95697883f",
+      "original_criteria": [
+        {
+          "id": "GS-004-C1",
+          "criterion": "Compare dissolved-carbon fractions, not just the raw pressure difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-004-C2",
+          "criterion": "Check whether the runtime uses temperature-dependent partition data; fixed-Henry behaviour is a model limitation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 1,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 293.15006758065647,
+          "pressure_Pa": 101317.66539148489,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01642270134032281,
+            "O2": 0.0043545828765948974,
+            "CO2": 6.804841729082e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.27906833726956e-06,
+            "HCO3-": 2.303250931123243e-07,
+            "CO3-2": 4.22305573862555e-12,
+            "water": 5.534276761066742,
+            "H+": 2.303335392243866e-07
+          },
+          "source_ideal_pressure_Pa": 101317.66539148489,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.63655045593,
+          "solution_ionic_strength": 2.313254004572e-06
+        },
+        {
+          "row": 3,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 293.1660489345006,
+          "pressure_Pa": 109517.08679644883,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01642270134032281,
+            "O2": 0.0043545828765948974,
+            "CO2": 0.001687591907966
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00031707436285283484,
+            "HCO3-": 3.6479642452794136e-06,
+            "CO3-2": 4.318872458313686e-12,
+            "water": 5.534273343427493,
+            "H+": 3.647972884886219e-06
+          },
+          "source_ideal_pressure_Pa": 109517.08679644883,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.439646916558,
+          "solution_ionic_strength": 3.658975313756e-05
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 293.1660489345006,
+          "pressure_Pa": 109517.08679644883,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01642270134032281,
+            "O2": 0.0043545828765948974,
+            "CO2": 0.001687591907966
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00031707436285283484,
+            "HCO3-": 3.6479642452794136e-06,
+            "CO3-2": 4.318872458313686e-12,
+            "water": 5.534273343427493,
+            "H+": 3.647972884886219e-06
+          },
+          "source_ideal_pressure_Pa": 109517.08679644883,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.439646916558,
+          "solution_ionic_strength": 3.658975313756e-05
+        },
+        {
+          "row": 7,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 293.1660489345006,
+          "pressure_Pa": 109517.08679644883,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01642270134032281,
+            "O2": 0.0043545828765948974,
+            "CO2": 0.001687591907966
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00031707436285283484,
+            "HCO3-": 3.6479642452794136e-06,
+            "CO3-2": 4.318872458313686e-12,
+            "water": 5.534273343427493,
+            "H+": 3.647972884886219e-06
+          },
+          "source_ideal_pressure_Pa": 109517.08679644883,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.439646916558,
+          "solution_ionic_strength": 3.658975313756e-05
+        },
+        {
+          "row": 7,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 323.15004288613784,
+          "pressure_Pa": 101320.31965121212,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.014898081070449116,
+            "O2": 0.003950320192708631,
+            "CO2": 6.668891747713e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 6.863159490320919e-07,
+            "HCO3-": 1.8716314056236412e-07,
+            "CO3-2": 6.618937624420203e-12,
+            "water": 5.534276804226299,
+            "H+": 1.871763784348779e-07
+          },
+          "source_ideal_pressure_Pa": 101320.31965121214,
+          "absolute_pressure_residual_Pa": 1.4551915228366852e-11,
+          "relative_pressure_residual": 1.4362287129038643e-16,
+          "solution_ph": 5.72076084414,
+          "solution_ionic_strength": 1.905413369129e-06
+        },
+        {
+          "row": 9,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 1
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 293.1660489345006,
+          "pressure_Pa": 109517.08679644883,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01642270134032281,
+            "O2": 0.0043545828765948974,
+            "CO2": 0.001687591907966
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00031707436285283484,
+            "HCO3-": 3.6479642452794136e-06,
+            "CO3-2": 4.318872458313686e-12,
+            "water": 5.534273343427493,
+            "H+": 3.647972884886219e-06
+          },
+          "source_ideal_pressure_Pa": 109517.08679644883,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.439646916558,
+          "solution_ionic_strength": 3.658975313756e-05
+        },
+        {
+          "row": 9,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 1
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 323.1548727163487,
+          "pressure_Pa": 111052.16849067877,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.014898081070449116,
+            "O2": 0.003950320192708631,
+            "CO2": 0.001817395487717
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00018701845044034803,
+            "HCO3-": 3.128432442556524e-06,
+            "CO3-2": 6.856889986775331e-12,
+            "water": 5.534273862956757,
+            "H+": 3.1284461585318057e-06
+          },
+          "source_ideal_pressure_Pa": 111052.1684906788,
+          "absolute_pressure_residual_Pa": 2.9103830456733704e-11,
+          "relative_pressure_residual": 2.6207349980002006e-16,
+          "solution_ph": 4.506287886708,
+          "solution_ionic_strength": 3.138039888996e-05
+        },
+        {
+          "row": 10,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 323.1548727163487,
+          "pressure_Pa": 111052.16849067877,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.014898081070449116,
+            "O2": 0.003950320192708631,
+            "CO2": 0.001817395487717
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00018701845044034803,
+            "HCO3-": 3.128432442556524e-06,
+            "CO3-2": 6.856889986775331e-12,
+            "water": 5.534273862956757,
+            "H+": 3.1284461585318057e-06
+          },
+          "source_ideal_pressure_Pa": 111052.1684906788,
+          "absolute_pressure_residual_Pa": 2.9103830456733704e-11,
+          "relative_pressure_residual": 2.6207349980002006e-16,
+          "solution_ph": 4.506287886708,
+          "solution_ionic_strength": 3.138039888996e-05
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    },
+    {
+      "id": "new120:gs-005",
+      "script_sha256": "f99aa854cfcd70f6790dde48ca1d78e415e3ff612867a21957e410a458ba3330",
+      "stdout_sha256": "bba14dbd3df562f9f5cab90578a0b3f1dc2c5bf68bff2e1ba6959d7bd1b6219a",
+      "original_criteria": [
+        {
+          "id": "GS-005-C1",
+          "criterion": "The acid trap has a larger ammonium fraction and a smaller gas-phase NH3 fraction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-005-C2",
+          "criterion": "All added nitrogen is accounted for in each vessel; the acidified solution need not become neutral.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 1,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500613355836,
+          "pressure_Pa": 101318.29446139079,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112967714e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.1324340597045613e-06,
+            "HCO3-": 2.2425717832093086e-07,
+            "CO3-2": 4.6991272193190916e-12,
+            "water": 5.534276767134181,
+            "H+": 2.2426657658031202e-07
+          },
+          "source_ideal_pressure_Pa": 101318.29446139079,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509904e-06
+        },
+        {
+          "row": 3,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.2430633520531,
+          "pressure_Pa": 101333.80523702514,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "NH3": 3.571979019786675e-06,
+            "CO2": 1.131909591386e-09
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.8756434607298073e-10,
+            "HCO3-": 2.9639513050856225e-06,
+            "CO3-2": 5.20953812584577e-06,
+            "NH3": 0.0009473656863460967,
+            "NH4+": 4.906233463420224e-05,
+            "water": 5.53423313859955,
+            "base_equivalents": 3.567930707767085e-05
+          },
+          "source_ideal_pressure_Pa": 101333.80523702514,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 10.53868264893,
+          "solution_ionic_strength": 0.0005443547183311
+        },
+        {
+          "row": 7,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.2430633520531,
+          "pressure_Pa": 101333.80523702514,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "NH3": 3.571979019786675e-06,
+            "CO2": 1.131909591386e-09
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.8756434607298073e-10,
+            "HCO3-": 2.9639513050856225e-06,
+            "CO3-2": 5.20953812584577e-06,
+            "NH3": 0.0009473656863460967,
+            "NH4+": 4.906233463420224e-05,
+            "water": 5.53423313859955,
+            "base_equivalents": 3.567930707767085e-05
+          },
+          "source_ideal_pressure_Pa": 101333.80523702514,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 10.53868264893,
+          "solution_ionic_strength": 0.0005443547183311
+        },
+        {
+          "row": 7,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500568639633,
+          "pressure_Pa": 101319.26867259432,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291216508538,
+            "O2": 0.0042815561446127555,
+            "CO2": 7.015007746646e-06
+          },
+          "owned_nongas_mol": {
+            "Cl-": 0.001999999999999442,
+            "CO2(aq)": 1.1597679673012355e-06,
+            "HCO3-": 3.31540486352978e-11,
+            "water": 5.534276991362905,
+            "H+": 0.002000000033154049
+          },
+          "source_ideal_pressure_Pa": 101319.26867259432,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 1.748584263972,
+          "solution_ionic_strength": 0.02006018087493
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 300.1425089744222,
+          "pressure_Pa": 102014.4109091729,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291216508538,
+            "O2": 0.0042815561446127555,
+            "NH3": 3.571978177153434e-06,
+            "CO2": 7.060377342286e-06
+          },
+          "owned_nongas_mol": {
+            "Cl-": 0.001999999999999448,
+            "CO2(aq)": 1.1143664833973948e-06,
+            "HCO3-": 6.504231185784594e-11,
+            "NH3": 6.349450881910753e-11,
+            "NH4+": 0.000996427958328303,
+            "water": 5.534276991331017,
+            "H+": 0.0010035721067141092
+          },
+          "source_ideal_pressure_Pa": 102014.4109091729,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 2.048226840605,
+          "solution_ionic_strength": 0.02006018119574
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    },
+    {
+      "id": "new120:gs-006",
+      "script_sha256": "8f8df394ac3d2bd733592c621c99c4d0e8b7a9144de797eaf5b4fac238d26d94",
+      "stdout_sha256": "672aadf7e098df0d0115509c83ec19da123b66efde3b4900de2c66e15af8b3cc",
+      "original_criteria": [
+        {
+          "id": "GS-006-C1",
+          "criterion": "Carbonate/bicarbonate decline after acidification while headspace CO2 increases.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-006-C2",
+          "criterion": "Total carbon is conserved across the capture\u2013release cycle, apart from explicitly recorded initial air contributions.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 2,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.36552829704385,
+          "pressure_Pa": 101285.18424600801,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01613574086580585,
+            "O2": 0.004278493496248988
+          },
+          "owned_nongas_mol": {
+            "Na+": 0.001999999999999582,
+            "HCO3-": 6.803593828911565e-08,
+            "CO3-2": 8.100924921327211e-06,
+            "water": 5.534285092320039,
+            "base_equivalents": 0.001983730116098009
+          },
+          "source_ideal_pressure_Pa": 101285.18424600801,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 12.22932402365,
+          "solution_ionic_strength": 0.02011209376057
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.61261235188783,
+          "pressure_Pa": 101369.14234014008,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01613574086580585,
+            "O2": 0.004278493496248988,
+            "CO2": 1.63658541584e-08
+          },
+          "owned_nongas_mol": {
+            "Na+": 0.0020000000000000174,
+            "CO2(aq)": 3.12674988605362e-09,
+            "HCO3-": 0.0001386851942496925,
+            "CO3-2": 0.0008694642740054307,
+            "water": 5.535146455669123,
+            "base_equivalents": 0.00012238625962019897
+          },
+          "source_ideal_pressure_Pa": 101369.14234014008,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 10.92992584961,
+          "solution_ionic_strength": 0.02604450054713
+        },
+        {
+          "row": 5,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.61261235188783,
+          "pressure_Pa": 101369.14234014008,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01613574086580585,
+            "O2": 0.004278493496248988,
+            "CO2": 1.63658541584e-08
+          },
+          "owned_nongas_mol": {
+            "Na+": 0.0020000000000000174,
+            "CO2(aq)": 3.12674988605362e-09,
+            "HCO3-": 0.0001386851942496925,
+            "CO3-2": 0.0008694642740054307,
+            "water": 5.535146455669123,
+            "base_equivalents": 0.00012238625962019897
+          },
+          "source_ideal_pressure_Pa": 101369.14234014008,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 10.92992584961,
+          "solution_ionic_strength": 0.02604450054713
+        },
+        {
+          "row": 7,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.63783545834156,
+          "pressure_Pa": 105682.16886953294,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01613574086580585,
+            "O2": 0.004278493496248988,
+            "CO2": 0.0008667987607042
+          },
+          "owned_nongas_mol": {
+            "Cl-": 0.0030000000000007195,
+            "Na+": 0.002000000000000147,
+            "CO2(aq)": 0.0001413617162954916,
+            "HCO3-": 8.483859455935943e-09,
+            "water": 5.536276982913139,
+            "H+": 0.0010000084819786273
+          },
+          "source_ideal_pressure_Pa": 105682.16886953294,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 2.057369213662,
+          "solution_ionic_strength": 0.03007948573485
+        },
+        {
+          "row": 8,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.63783545834156,
+          "pressure_Pa": 105682.16886953294,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01613574086580585,
+            "O2": 0.004278493496248988,
+            "CO2": 0.0008667987607042
+          },
+          "owned_nongas_mol": {
+            "Cl-": 0.0030000000000007195,
+            "Na+": 0.002000000000000147,
+            "CO2(aq)": 0.0001413617162954916,
+            "HCO3-": 8.483859455935943e-09,
+            "water": 5.536276982913139,
+            "H+": 0.0010000084819786273
+          },
+          "source_ideal_pressure_Pa": 105682.16886953294,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 2.057369213662,
+          "solution_ionic_strength": 0.03007948573485
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.63783545834156,
+          "pressure_Pa": 105682.16886953294,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.01613574086580585,
+            "O2": 0.004278493496248988,
+            "CO2": 0.0008667987607042
+          },
+          "owned_nongas_mol": {
+            "Cl-": 0.0030000000000007195,
+            "Na+": 0.002000000000000147,
+            "CO2(aq)": 0.0001413617162954916,
+            "HCO3-": 8.483859455935943e-09,
+            "water": 5.536276982913139,
+            "H+": 0.0010000084819786273
+          },
+          "source_ideal_pressure_Pa": 105682.16886953294,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 2.057369213662,
+          "solution_ionic_strength": 0.03007948573485
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    },
+    {
+      "id": "new120:gs-007",
+      "script_sha256": "aee4f444f4bc8c20870b424b4a9c64d5ed6b30b5efa652432289c54acb08cce9",
+      "stdout_sha256": "8ffa0d9795fb539019117af386f0712243cb51ab0ee1d4f1ea3421abba82cb3d",
+      "original_criteria": [
+        {
+          "id": "GS-007-C1",
+          "criterion": "First verify that the CO2-rich stage dissolved a measurable calcium fraction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-007-C2",
+          "criterion": "After sweeping, check for increased calcium-carbonate solid and include swept carbon in the balance.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 1,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500613355836,
+          "pressure_Pa": 101318.29446139079,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112967714e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.1324340597045613e-06,
+            "HCO3-": 2.2425717832093086e-07,
+            "CO3-2": 4.6991272193190916e-12,
+            "water": 5.534276767134181,
+            "H+": 2.2426657658031202e-07
+          },
+          "source_ideal_pressure_Pa": 101318.29446139079,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509904e-06
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1705857463618,
+          "pressure_Pa": 112405.46078045602,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.002241513297008
+          },
+          "owned_nongas_mol": {
+            "Ca+2": 0.0003962852106327234,
+            "CO2(aq)": 0.0003790751549263057,
+            "HCO3-": 0.0007836610613022764,
+            "CO3-2": 2.105063042421741e-07,
+            "CaCO3": 0.0001037147893673,
+            "water": 5.533880916691737,
+            "base_equivalents": 8.488347341600866e-06
+          },
+          "source_ideal_pressure_Pa": 112405.46078045602,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 6.62028547761,
+          "solution_ionic_strength": 0.01143190563813
+        },
+        {
+          "row": 7,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 60.0,
+          "temperature_K": 298.1700790965273,
+          "pressure_Pa": 100000.0,
+          "headspace": {
+            "boundary": "swept",
+            "pressure": 100000.0
+          },
+          "owned_gas_mol": {},
+          "owned_nongas_mol": {
+            "Ca+2": 0.0004999999999907021,
+            "HCO3-": 5.684458930094522e-09,
+            "CO3-2": 3.183838210373731e-07,
+            "water": 5.533777309786574,
+            "base_equivalents": 0.0009993575345105836
+          },
+          "source_ideal_pressure_Pa": null,
+          "absolute_pressure_residual_Pa": null,
+          "relative_pressure_residual": null,
+          "solution_ph": 11.92669376926,
+          "solution_ionic_strength": 0.01413783309064
+        },
+        {
+          "row": 8,
+          "operator": {
+            "instrument": "ph_meter",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 60.0,
+          "temperature_K": 298.1700790965273,
+          "pressure_Pa": 100000.0,
+          "headspace": {
+            "boundary": "swept",
+            "pressure": 100000.0
+          },
+          "owned_gas_mol": {},
+          "owned_nongas_mol": {
+            "Ca+2": 0.0004999999999907021,
+            "HCO3-": 5.684458930094522e-09,
+            "CO3-2": 3.183838210373731e-07,
+            "water": 5.533777309786574,
+            "base_equivalents": 0.0009993575345105836
+          },
+          "source_ideal_pressure_Pa": null,
+          "absolute_pressure_residual_Pa": null,
+          "relative_pressure_residual": null,
+          "solution_ph": 11.92669376926,
+          "solution_ionic_strength": 0.01413783309064
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 60.0,
+          "temperature_K": 298.1700790965273,
+          "pressure_Pa": 100000.0,
+          "headspace": {
+            "boundary": "swept",
+            "pressure": 100000.0
+          },
+          "owned_gas_mol": {},
+          "owned_nongas_mol": {
+            "Ca+2": 0.0004999999999907021,
+            "HCO3-": 5.684458930094522e-09,
+            "CO3-2": 3.183838210373731e-07,
+            "water": 5.533777309786574,
+            "base_equivalents": 0.0009993575345105836
+          },
+          "source_ideal_pressure_Pa": null,
+          "absolute_pressure_residual_Pa": null,
+          "relative_pressure_residual": null,
+          "solution_ph": 11.92669376926,
+          "solution_ionic_strength": 0.01413783309064
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    },
+    {
+      "id": "new120:gs-008",
+      "script_sha256": "d060a6c2ea351c6d0f1c009603b70a63c20fbc322e05edfc6edaa16cf1e3ffe7",
+      "stdout_sha256": "e822303623187c8053b6baf38d61c1e3b0dff8684a47938c922843e2039a8466",
+      "original_criteria": [
+        {
+          "id": "GS-008-C1",
+          "criterion": "Total pressure rises, but total carbon remains unchanged.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-008-C2",
+          "criterion": "Compare CO2 partial pressure and dissolved-carbon fraction before and after; account for thermal and nonideal corrections.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 1,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500613355836,
+          "pressure_Pa": 101318.29446139079,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112967714e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.1324340597045613e-06,
+            "HCO3-": 2.2425717832093086e-07,
+            "CO3-2": 4.6991272193190916e-12,
+            "water": 5.534276767134181,
+            "H+": 2.2426657658031202e-07
+          },
+          "source_ideal_pressure_Pa": 101318.29446139079,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509904e-06
+        },
+        {
+          "row": 3,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15692375922686,
+          "pressure_Pa": 105562.73709319076,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.0008624223168846
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179892228,
+            "HCO3-": 2.534925434197053e-06,
+            "CO3-2": 4.787116798373672e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350083157807e-06
+          },
+          "source_ideal_pressure_Pa": 105562.73709319076,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 4,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15692375922686,
+          "pressure_Pa": 105562.73709319076,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.0008624223168846
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179892228,
+            "HCO3-": 2.534925434197053e-06,
+            "CO3-2": 4.787116798373672e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350083157807e-06
+          },
+          "source_ideal_pressure_Pa": 105562.73709319076,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 6,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1569213448919,
+          "pressure_Pa": 130352.88200662566,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.02114729128933635,
+            "O2": 0.004281556163923509,
+            "CO2": 0.000862422316891
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179251331,
+            "HCO3-": 2.5349254340741745e-06,
+            "CO3-2": 4.787116798122792e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350076635246e-06
+          },
+          "source_ideal_pressure_Pa": 130352.88200662566,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 7,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1569213448919,
+          "pressure_Pa": 130352.88200662566,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.02114729128933635,
+            "O2": 0.004281556163923509,
+            "CO2": 0.000862422316891
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179251331,
+            "HCO3-": 2.5349254340741745e-06,
+            "CO3-2": 4.787116798122792e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350076635246e-06
+          },
+          "source_ideal_pressure_Pa": 130352.88200662566,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 8,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1569213448919,
+          "pressure_Pa": 130352.88200662566,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.02114729128933635,
+            "O2": 0.004281556163923509,
+            "CO2": 0.000862422316891
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179251331,
+            "HCO3-": 2.5349254340741745e-06,
+            "CO3-2": 4.787116798122792e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350076635246e-06
+          },
+          "source_ideal_pressure_Pa": 130352.88200662566,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    },
+    {
+      "id": "new120:gs-009",
+      "script_sha256": "66399a99f578e0cdd1171ebc14b2a99053709e42cf6bdf08015bd366d6111e78",
+      "stdout_sha256": "0463b25825254125fdb33ee700f95b6783fc8431a0c09dfb7318d7332233eb1b",
+      "original_criteria": [
+        {
+          "id": "GS-009-C1",
+          "criterion": "Pressure stays near the setpoint while headspace volume expands.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-009-C2",
+          "criterion": "Track carbon conservation and any decrease in dissolved-carbon fraction; do not assume regulation vents mass.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 3,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15667676486476,
+          "pressure_Pa": 100000.0,
+          "headspace": {
+            "boundary": "pressure_controlled",
+            "pressure": 100000.0,
+            "volume": 0.5213146364617823
+          },
+          "owned_gas_mol": {
+            "N2": 0.015936137467886847,
+            "O2": 0.00422556739592747,
+            "CO2": 0.000867419731676
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.0001381585536677831,
+            "HCO3-": 2.489618979344469e-06,
+            "CO3-2": 4.786097440983792e-12,
+            "water": 5.534274501772293,
+            "H+": 2.4896285517571337e-06
+          },
+          "source_ideal_pressure_Pa": 100000.0,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.605065070387,
+          "solution_ionic_strength": 2.497166413065e-05
+        },
+        {
+          "row": 4,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15667676486476,
+          "pressure_Pa": 100000.0,
+          "headspace": {
+            "boundary": "pressure_controlled",
+            "pressure": 100000.0,
+            "volume": 0.5213146364617823
+          },
+          "owned_gas_mol": {
+            "N2": 0.015936137467886847,
+            "O2": 0.00422556739592747,
+            "CO2": 0.000867419731676
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.0001381585536677831,
+            "HCO3-": 2.489618979344469e-06,
+            "CO3-2": 4.786097440983792e-12,
+            "water": 5.534274501772293,
+            "H+": 2.4896285517571337e-06
+          },
+          "source_ideal_pressure_Pa": 100000.0,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.605065070387,
+          "solution_ionic_strength": 2.497166413065e-05
+        },
+        {
+          "row": 6,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1555408745978,
+          "pressure_Pa": 100000.0,
+          "headspace": {
+            "boundary": "pressure_controlled",
+            "pressure": 100000.0,
+            "volume": 0.6458528220761836
+          },
+          "owned_gas_mol": {
+            "N2": 0.020936137467886848,
+            "O2": 0.00422556739592747,
+            "CO2": 0.0008912202958747
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00011458096693305156,
+            "HCO3-": 2.266641520490223e-06,
+            "CO3-2": 4.780919833784413e-12,
+            "water": 5.534274724749757,
+            "H+": 2.2666510822964836e-06
+          },
+          "source_ideal_pressure_Pa": 99999.99999999999,
+          "absolute_pressure_residual_Pa": 1.4551915228366852e-11,
+          "relative_pressure_residual": 1.4551915228366853e-16,
+          "solution_ph": 4.645700001712,
+          "solution_ionic_strength": 2.273521780083e-05
+        },
+        {
+          "row": 7,
+          "operator": {
+            "instrument": "pressure_gauge",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1555408745978,
+          "pressure_Pa": 100000.0,
+          "headspace": {
+            "boundary": "pressure_controlled",
+            "pressure": 100000.0,
+            "volume": 0.6458528220761836
+          },
+          "owned_gas_mol": {
+            "N2": 0.020936137467886848,
+            "O2": 0.00422556739592747,
+            "CO2": 0.0008912202958747
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00011458096693305156,
+            "HCO3-": 2.266641520490223e-06,
+            "CO3-2": 4.780919833784413e-12,
+            "water": 5.534274724749757,
+            "H+": 2.2666510822964836e-06
+          },
+          "source_ideal_pressure_Pa": 99999.99999999999,
+          "absolute_pressure_residual_Pa": 1.4551915228366852e-11,
+          "relative_pressure_residual": 1.4551915228366853e-16,
+          "solution_ph": 4.645700001712,
+          "solution_ionic_strength": 2.273521780083e-05
+        },
+        {
+          "row": 8,
+          "operator": {
+            "instrument": "volume_meter",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1555408745978,
+          "pressure_Pa": 100000.0,
+          "headspace": {
+            "boundary": "pressure_controlled",
+            "pressure": 100000.0,
+            "volume": 0.6458528220761836
+          },
+          "owned_gas_mol": {
+            "N2": 0.020936137467886848,
+            "O2": 0.00422556739592747,
+            "CO2": 0.0008912202958747
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00011458096693305156,
+            "HCO3-": 2.266641520490223e-06,
+            "CO3-2": 4.780919833784413e-12,
+            "water": 5.534274724749757,
+            "H+": 2.2666510822964836e-06
+          },
+          "source_ideal_pressure_Pa": 99999.99999999999,
+          "absolute_pressure_residual_Pa": 1.4551915228366852e-11,
+          "relative_pressure_residual": 1.4551915228366853e-16,
+          "solution_ph": 4.645700001712,
+          "solution_ionic_strength": 2.273521780083e-05
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1555408745978,
+          "pressure_Pa": 100000.0,
+          "headspace": {
+            "boundary": "pressure_controlled",
+            "pressure": 100000.0,
+            "volume": 0.6458528220761836
+          },
+          "owned_gas_mol": {
+            "N2": 0.020936137467886848,
+            "O2": 0.00422556739592747,
+            "CO2": 0.0008912202958747
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00011458096693305156,
+            "HCO3-": 2.266641520490223e-06,
+            "CO3-2": 4.780919833784413e-12,
+            "water": 5.534274724749757,
+            "H+": 2.2666510822964836e-06
+          },
+          "source_ideal_pressure_Pa": 99999.99999999999,
+          "absolute_pressure_residual_Pa": 1.4551915228366852e-11,
+          "relative_pressure_residual": 1.4551915228366853e-16,
+          "solution_ph": 4.645700001712,
+          "solution_ionic_strength": 2.273521780083e-05
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    },
+    {
+      "id": "new120:gs-010",
+      "script_sha256": "e4652aa7ba19e0fd0fbfe144cde5ffb532c96cc885d29a9f65ca37a7dfedd78f",
+      "stdout_sha256": "d7fd61e74cbe48649baf0312f689e1c16ce61412d6d87ee3ac946270ea5ced8b",
+      "original_criteria": [
+        {
+          "id": "GS-010-C1",
+          "criterion": "Compare neutral dissolved CO2 separately from bicarbonate/carbonate and gas-phase carbon.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-010-C2",
+          "criterion": "If the partition model lacks a salinity correction, record the missing effect as unsupported rather than forcing an expected difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "observations": [
+        {
+          "row": 1,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 0
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.1500613355836,
+          "pressure_Pa": 101318.29446139079,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 6.818112967714e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.1324340597045613e-06,
+            "HCO3-": 2.2425717832093086e-07,
+            "CO3-2": 4.6991272193190916e-12,
+            "water": 5.534276767134181,
+            "H+": 2.2426657658031202e-07
+          },
+          "source_ideal_pressure_Pa": 101318.29446139079,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.647833229407,
+          "solution_ionic_strength": 2.253918509904e-06
+        },
+        {
+          "row": 3,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15692375922686,
+          "pressure_Pa": 105562.73709319076,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.0008624223168846
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179892228,
+            "HCO3-": 2.534925434197053e-06,
+            "CO3-2": 4.787116798373672e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350083157807e-06
+          },
+          "source_ideal_pressure_Pa": 105562.73709319076,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 7,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 0,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 298.15692375922686,
+          "pressure_Pa": 105562.73709319076,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016147291289336348,
+            "O2": 0.004281556163923509,
+            "CO2": 0.0008624223168846
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00014321756179892228,
+            "HCO3-": 2.534925434197053e-06,
+            "CO3-2": 4.787116798373672e-12,
+            "water": 5.5342744564658375,
+            "H+": 2.5349350083157807e-06
+          },
+          "source_ideal_pressure_Pa": 105562.73709319076,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.597255459885,
+          "solution_ionic_strength": 2.542608518871e-05
+        },
+        {
+          "row": 7,
+          "operator": {
+            "headspace_volume": 0.5,
+            "op": "seal",
+            "vessel": 1
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 297.21961080677374,
+          "pressure_Pa": 101318.5377143946,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016197840474388055,
+            "O2": 0.004294959599271355,
+            "CO2": 6.888872744336e-06
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 1.002876296241351e-06,
+            "HCO3-": 3.086362969015205e-07,
+            "CO3-2": 3.319988528212646e-11,
+            "Cl-": 0.09999999999996828,
+            "Na+": 0.09999999999996828,
+            "water": 5.534276682689867,
+            "H+": 3.08776087972612e-07
+          },
+          "source_ideal_pressure_Pa": 101318.5377143946,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 5.530562260288,
+          "solution_ionic_strength": 1.003012185312
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessel": 1,
+          "elapsed_seconds": 0.0,
+          "temperature_K": 297.2258972935949,
+          "pressure_Pa": 105622.94988879756,
+          "headspace": {
+            "boundary": "sealed",
+            "volume": 0.5
+          },
+          "owned_gas_mol": {
+            "N2": 0.016197840474388055,
+            "O2": 0.004294959599271355,
+            "CO2": 0.0008773447313394
+          },
+          "owned_nongas_mol": {
+            "CO2(aq)": 0.00012764677426733027,
+            "HCO3-": 3.4855966768411265e-06,
+            "CO3-2": 3.3272490420234087e-11,
+            "Cl-": 0.10000000000004466,
+            "Na+": 0.10000000000004466,
+            "water": 5.534272952295376,
+            "H+": 4.592604687912033e-06
+          },
+          "source_ideal_pressure_Pa": 105622.94988879756,
+          "absolute_pressure_residual_Pa": 0.0,
+          "relative_pressure_residual": 0.0,
+          "solution_ph": 4.47856529009,
+          "solution_ionic_strength": 1.003044725217
+        }
+      ],
+      "explicit_limits": [],
+      "formal_selection": "not_assigned"
+    }
+  ],
+  "scope": "Recompute from raw owned phase amounts, finite-headspace volume and actual temperature. Inventory includes trapped air; no pressure-only dose inference. Returned aqueous solution diagnostics are not additional matter. Residuals are retained numerically without a new fitted pass band. Gas law agreement does not prove partition chemistry, acid trapping, salinity, energy or empirical validation.",
+  "new_engine_or_api_executions": 0,
+  "catalog_additions": 0
+}

@@ -1,0 +1,18 @@
+"""Independent saved finite-gas arithmetic; no execution or catalog verdict."""
+from pathlib import Path
+import json,hashlib,subprocess,zipfile,math
+HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];SOURCE='c44692053a94c59dcf62e7fb67549f84c7d18f83';sha=lambda b:hashlib.sha256(b).hexdigest();archive=ROOT/'audits/target468-20261016/common-engine-completion/results/raw-artifact.zip';binding=json.loads((HERE.parent/'saved64-first-screen/material-projection.json').read_text());screen={c['id']:c for c in json.loads((HERE.parent/'saved64-first-screen/first-screen.json').read_text())['cases']};assert sha(archive.read_bytes())==binding['raw_artifact_sha256'];source=subprocess.check_output(['git','show',SOURCE+':crates/kerotakis-core/src/vessel.rs'],cwd=ROOT);assert b'const R_LITRE_PASCAL: f64 = 8_314.462_618;' in source;R=8314.462618;records=[]
+with zipfile.ZipFile(archive) as z:
+ for n in range(1,11):
+  cid=f'new120:gs-{n:03}';prepared=screen[cid];assert sha(z.read(cid.replace(':','_')+'/experiment.lab'))==prepared['original_script_sha256'];raw=z.read(cid.replace(':','_')+'/stdout.jsonl');assert sha(raw)==prepared['saved_execution_receipt']['stdout_sha256'];rows=[json.loads(l) for l in raw.splitlines()];state={};observations=[]
+  for i,row in enumerate(rows):
+   state.update({v['id']:v for v in row['bench']['vessels']})
+   if row['operator']['op'] not in ['seal','pressure','measure','inspect','open','purge']:continue
+   for v in row['bench']['vessels']:
+    gas={};nongas={}
+    for q in v['contents']:
+     assert math.isfinite(q['moles']) and q['moles']>=0;dest=gas if q['phase']=='gas' else nongas;dest[q['species']]=dest.get(q['species'],0)+q['moles']
+    h=v['headspace'];vol=h.get('volume');ideal=sum(gas.values())*R*v['temperature']/vol if isinstance(vol,(int,float)) and vol>0 else None
+    sol=v.get('solution') or {};observations.append({'row':i,'operator':row['operator'],'vessel':v['id'],'elapsed_seconds':v['elapsed_seconds'],'temperature_K':v['temperature'],'pressure_Pa':v['pressure'],'headspace':h,'owned_gas_mol':gas,'owned_nongas_mol':nongas,'source_ideal_pressure_Pa':ideal,'absolute_pressure_residual_Pa':None if ideal is None else abs(v['pressure']-ideal),'relative_pressure_residual':None if not ideal else abs(v['pressure']-ideal)/ideal,'solution_ph':sol.get('ph'),'solution_ionic_strength':sol.get('ionic_strength')})
+  records.append({'id':cid,'script_sha256':prepared['original_script_sha256'],'stdout_sha256':sha(raw),'original_criteria':prepared['original_criteria'],'observations':observations,'explicit_limits':[{'row':i,**e} for i,r in enumerate(rows) for e in r['events'] if e['event'] in ['solver_failed','not_yet_modeled']],'formal_selection':'not_assigned'})
+report={'source':SOURCE,'vessel_source_sha256':sha(source),'archive_sha256':binding['raw_artifact_sha256'],'ideal_gas_constant_Pa_L_per_mol_K':R,'material_ledger_reference':'material-projection.json','cases':records,'scope':'Recompute from raw owned phase amounts, finite-headspace volume and actual temperature. Inventory includes trapped air; no pressure-only dose inference. Returned aqueous solution diagnostics are not additional matter. Residuals are retained numerically without a new fitted pass band. Gas law agreement does not prove partition chemistry, acid trapping, salinity, energy or empirical validation.','new_engine_or_api_executions':0,'catalog_additions':0};expected=json.loads((HERE/'metrics.json').read_text());assert report==expected,'Saved gas projection changed';print(json.dumps({'gas_cases':len(records),'owned_observations':sum(len(c['observations']) for c in records),'new_executions':0,'new_selections':0}))
