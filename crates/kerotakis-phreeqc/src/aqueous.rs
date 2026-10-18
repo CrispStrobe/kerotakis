@@ -7639,3 +7639,38 @@ mod comparison_phase_inventory_tests {
         assert_eq!(scoped.phases[0].2, 0.0);
     }
 }
+
+#[cfg(test)]
+mod finite_ammonia_admission_diagnostics {
+    use super::*;
+
+    #[test]
+    fn ammonia_phase_and_reduced_nitrogen_admission_match_the_actual_database() {
+        assert!(
+            !derived::index_for("minteq.v4").has_phase("NH3(g)"),
+            "unexpected minteq phase: {:?}",
+            derived::index_for("minteq.v4").phases.get("NH3(g)")
+        );
+        assert!(derived::index_for("wateq4f").has_phase("NH3(g)"));
+        for phase in [Phase::Aqueous, Phase::Gas] {
+            let mut v = Vessel::new(kerotakis_core::VesselId(0), "beaker");
+            v.headspace = Headspace::Sealed {
+                volume: kerotakis_core::Liters(0.35),
+            };
+            v.deposit(SpeciesId::new("water"), Moles(3.87), Phase::Liquid);
+            v.deposit(SpeciesId::new("NH3"), Moles(0.0008), phase);
+            let problem = partition(&v).unwrap();
+            assert!(
+                problem.elements.iter().any(|element| element == "N(-3)"),
+                "phase {phase:?}, role {:?}, elements {:?}",
+                derived::role("NH3"),
+                problem.elements
+            );
+            assert!(
+                problem.gases.iter().any(|(name, _, _)| name == "NH3(g)"),
+                "phase {phase:?}, gases {:?}",
+                problem.gases
+            );
+        }
+    }
+}

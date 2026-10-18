@@ -111,6 +111,10 @@ fn acid_trapping_couples_finite_ammonia_gas_and_protonation_in_both_addition_ord
                 let neutral = arm(volume, dose, None, regulated);
                 let first = arm(volume, dose, Some(true), regulated);
                 let after = arm(volume, dose, Some(false), regulated);
+                eprintln!(
+                    "AMMONIA_ARMS {}",
+                    serde_json::json!({"volume":volume,"dose":dose,"regulated":regulated,"neutral":neutral,"acid_first":first,"acid_after":after})
+                );
                 let ng = amount(&neutral, "NH3", Phase::Gas);
                 assert!(ng > 1e-9, "positive control must actually form ammonia gas");
                 for acid in [&first, &after] {
@@ -148,6 +152,10 @@ fn supplied_gas_and_initially_absent_gas_close_the_same_reduced_nitrogen_pool() 
         v.deposit(SpeciesId::new("NH3"), Moles(0.0008), phase);
         let expected = v.clone();
         solver.equilibrate(&mut v).unwrap();
+        eprintln!(
+            "SUPPLIED_AMMONIA {}",
+            serde_json::json!({"input_phase":phase,"actual":v})
+        );
         closed(&expected, &v);
         assert!(amount(&v, "NH3", Phase::Gas) > 1e-9);
         assert!(amount(&v, "NH3", Phase::Aqueous) > 1e-4);
@@ -175,7 +183,12 @@ fn unavailable_extended_ammonia_gas_phase_refuses_before_mutating_the_vessel() {
         );
         v.deposit(SpeciesId::new("CH3COOH"), Moles(0.0001), Phase::Aqueous);
         let before = serde_json::to_value(&v).unwrap();
-        let error = solver.equilibrate(&mut v).unwrap_err();
+        let result = solver.equilibrate(&mut v);
+        eprintln!(
+            "EXTENDED_AMMONIA {}",
+            serde_json::json!({"supplied_gas":supplied_gas,"actual":v,"events_or_error":format!("{result:?}")})
+        );
+        let error = result.unwrap_err();
         assert!(error.to_string().contains("NH3(g)"), "{error}");
         assert_eq!(before, serde_json::to_value(&v).unwrap());
     }
@@ -189,6 +202,10 @@ fn dry_ammonia_and_core_henry_fallback_keep_their_own_inventory() {
         volume: Liters(0.35),
     };
     v.deposit(SpeciesId::new("NH3"), Moles(0.0008), Phase::Liquid);
+    // A manually built empty headspace starts at zero pressure, not the
+    // constructor's atmospheric default. Match that physical fixture
+    // before checking an unchanged dry solve.
+    v.refresh_pressure();
     let before = serde_json::to_value(&v).unwrap();
     solver.equilibrate(&mut v).unwrap();
     assert_eq!(before, serde_json::to_value(&v).unwrap());

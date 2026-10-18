@@ -7,3 +7,7 @@ The core Henry pass precedes the native aqueous tail. It partitions neutral ammo
 The extended minteq route lacks NH3(g). Finite ammonia on that mixed-domain route is explicitly refused before native mutation instead of silently dropping its headspace component or borrowing unreviewed phase data. This does not claim reconciled complex-bound ammonia inventory.
 
 Acceptance is pending. New native controls require positive neutral gas, strong acid trapping in both feed orders across three volumes, two doses and rigid/pressure-controlled boundaries, atom/charge closure, inert carriers, repeated waits, initially absent/supplied gas, unsupported-route atomicity and core/dry fallback. Full applicable regression, platform/protected checks, exact-head review and normal integration must follow. A separate changed-source original-protocol replay must earn any later scientific selection.
+
+## First native outcome
+
+Source `2750df2d` passes Clippy and523 existing native tests, but all four new tests fail. Preserve the raw streams and original assertions. The dry manually constructed fixture first compared an atmospheric constructor pressure with its physically empty sealed headspace; refresh that fixture before taking its snapshot. The three remaining failures need native state/admission traces, including the supplied-gas partition and extended-database boundary. New diagnostic output records actual inventories and adds a direct problem/database admission check; it does not relax any acid-trapping, conservation or refusal assertion.
