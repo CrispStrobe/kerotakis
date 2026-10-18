@@ -1,0 +1,3324 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "kinetics_source_sha256": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "source_bound_mixing_law": {
+    "actual_expression": "1.0 + max_mixing_gain * tip_speed / (mixing_half_speed_m_s + tip_speed)",
+    "nonnegative_tip_speed": true,
+    "max_mixing_gain": 1.0,
+    "half_speed_m_per_s": 0.1,
+    "derived_factor_range": [
+      1,
+      2.0
+    ],
+    "qualification": "Algebraic bound follows nonnegative speed and positive denominator; upper endpoint is approached, not a new fitted rate. Source declares the correction a teaching correlation, not empirical mixing calibration."
+  },
+  "supplemental_volume_metrics": "supplement-metrics-before-assessment.json",
+  "cases": [
+    {
+      "id": "new120:kn-001",
+      "script_sha256": "ab759ccb28fb7adcfe5034a7d401be1da8c1107c252351f92bb41772f40fb835",
+      "stdout_sha256": "a47e7b0c16097dea51b7762c93413ef26a3c7405b9144e8d9cfd598ca36e3663",
+      "original_criteria": [
+        {
+          "id": "KN-001-C1",
+          "criterion": "The finer-particle vessel has less residual peroxide at equal elapsed time.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-001-C2",
+          "criterion": "MnO2 amount remains unchanged; particle size, not catalyst quantity, is the independent variable.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 9,
+          "operator": {
+            "op": "wait",
+            "seconds": 10.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 298.15065845481854,
+              "reported_ph": 6.997364868311166,
+              "H2O2_mol": 0.0009944057616074222,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 2.7971191962889073e-06,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 298.156421235714,
+              "reported_ph": 6.997269450413326,
+              "H2O2_mol": 0.0009454451089830451,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 2.727744550847746e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 10,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 298.15065845481854,
+              "reported_ph": 6.997364868311166,
+              "H2O2_mol": 0.0009944057616074222,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 2.7971191962889073e-06,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 298.156421235714,
+              "reported_ph": 6.997269450413326,
+              "H2O2_mol": 0.0009454451089830451,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 2.727744550847746e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": -3.552713678800501e-15,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned",
+      "final_peroxide_by_comparison_vessel": [
+        {
+          "vessel": 0,
+          "elapsed_seconds": 10.0,
+          "temperature_K": 298.15065845481854,
+          "remaining_mol": 0.0009944057616074222,
+          "MnO2_mol": 0.001,
+          "catalase_mol": 0
+        },
+        {
+          "vessel": 1,
+          "elapsed_seconds": 10.0,
+          "temperature_K": 298.156421235714,
+          "remaining_mol": 0.0009454451089830451,
+          "MnO2_mol": 0.001,
+          "catalase_mol": 0
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-002",
+      "script_sha256": "52721a374f81df66471516b03fca94c4a73501861d6bbc2d5d06ac3f1b3211e0",
+      "stdout_sha256": "57a19124b3dd967a375954e337a7f534cea9542d9e8fcd2810dccaf8285058cb",
+      "original_criteria": [
+        {
+          "id": "KN-002-C1",
+          "criterion": "Inspect each vessel\u2019s elapsed time before comparing peroxide conversion; unequal time advancement makes the comparison inconclusive.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-002-C2",
+          "criterion": "At matched exposure, the vigorously stirred vessel should show greater conversion without catalyst consumption.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 7,
+          "operator": {
+            "op": "stir",
+            "rpm": 600.0,
+            "seconds": 5.0,
+            "vessel": 0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 5.0,
+              "temperature_K": 298.1585720347116,
+              "reported_ph": 6.997233839734504,
+              "H2O2_mol": 0.000927171890773381,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 3.64140546133095e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15,
+              "reported_ph": 6.997375771104036,
+              "H2O2_mol": 0.001,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 8,
+          "operator": {
+            "op": "stir",
+            "rpm": 1.0,
+            "seconds": 5.0,
+            "vessel": 1
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 5.0,
+              "temperature_K": 298.1585720347116,
+              "reported_ph": 6.997233839734504,
+              "H2O2_mol": 0.000927171890773381,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 3.64140546133095e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 5.0,
+              "temperature_K": 298.15468173760655,
+              "reported_ph": 6.997298251766786,
+              "H2O2_mol": 0.0009602239070230741,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 1.9888046488462924e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 5.0,
+              "temperature_K": 298.1585720347116,
+              "reported_ph": 6.997233839734504,
+              "H2O2_mol": 0.000927171890773381,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 3.64140546133095e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 5.0,
+              "temperature_K": 298.15468173760655,
+              "reported_ph": 6.997298251766786,
+              "H2O2_mol": 0.0009602239070230741,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 1.9888046488462924e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned",
+      "final_peroxide_by_comparison_vessel": [
+        {
+          "vessel": 0,
+          "elapsed_seconds": 5.0,
+          "temperature_K": 298.1585720347116,
+          "remaining_mol": 0.000927171890773381,
+          "MnO2_mol": 0.001,
+          "catalase_mol": 0
+        },
+        {
+          "vessel": 1,
+          "elapsed_seconds": 5.0,
+          "temperature_K": 298.15468173760655,
+          "remaining_mol": 0.0009602239070230741,
+          "MnO2_mol": 0.001,
+          "catalase_mol": 0
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-003",
+      "script_sha256": "7dd35bbe29a17ede0359589f67dd2a792e64779d0b8d4521f7663ccea2b042d0",
+      "stdout_sha256": "f1ee8e56a299f95cf8d3b4cdb0d42db3611045d5cfdf02d9a1215d71804dd50e",
+      "original_criteria": [
+        {
+          "id": "KN-003-C1",
+          "criterion": "The warm vessel retains less peroxide at the shared timepoint.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-003-C2",
+          "criterion": "Use measured temperatures after additions; added reagents and reaction heat can shift nominal starting temperatures.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 7,
+          "operator": {
+            "op": "wait",
+            "seconds": 10.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 293.17461432419503,
+              "reported_ph": 7.081865301631155,
+              "H2O2_mol": 0.0009813534567802392,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 9.323271609880456e-06,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 313.0923758458386,
+              "reported_ph": 6.767537277860933,
+              "H2O2_mol": 0.0009175952603608089,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 4.120236981959556e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 8,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 293.17461432419503,
+              "reported_ph": 7.081865301631155,
+              "H2O2_mol": 0.0009813534567802392,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 9.323271609880456e-06,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 313.0923758458386,
+              "reported_ph": 6.767537277860933,
+              "H2O2_mol": 0.0009175952603608089,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 4.120236981959556e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": -1.7763568394002505e-15,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned",
+      "final_peroxide_by_comparison_vessel": [
+        {
+          "vessel": 0,
+          "elapsed_seconds": 10.0,
+          "temperature_K": 293.17461432419503,
+          "remaining_mol": 0.0009813534567802392,
+          "MnO2_mol": 0.001,
+          "catalase_mol": 0
+        },
+        {
+          "vessel": 1,
+          "elapsed_seconds": 10.0,
+          "temperature_K": 313.0923758458386,
+          "remaining_mol": 0.0009175952603608089,
+          "MnO2_mol": 0.001,
+          "catalase_mol": 0
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-004",
+      "script_sha256": "1f44e226d0e5618250ee48cd47e191ef3acede4357b8fc89bf42e670fca66432",
+      "stdout_sha256": "bf078bb20e9bef0db1b7f6e1e597b6e5fe102f7ecdb95cf2a9fd931052ab4f69",
+      "original_criteria": [
+        {
+          "id": "KN-004-C1",
+          "criterion": "Compare fractional peroxide loss at the same very early virtual time.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-004-C2",
+          "criterion": "Both enzyme inventories remain present; do not infer a universal real-world turnover rate from this model.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 7,
+          "operator": {
+            "op": "wait",
+            "seconds": 1e-05
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 298.2057771562853,
+              "reported_ph": 6.996452460978835,
+              "H2O2_mol": 0.009525266307551303,
+              "MnO2_mol": 0,
+              "catalase_mol": 2e-12,
+              "O2_gas_mol": 0.00023736684622434822,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 298.25907360056965,
+              "reported_ph": 6.995570699929907,
+              "H2O2_mol": 0.009071644806093362,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.0004641775969533191,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 8,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 298.2057771562853,
+              "reported_ph": 6.996452460978835,
+              "H2O2_mol": 0.009525266307551303,
+              "MnO2_mol": 0,
+              "catalase_mol": 2e-12,
+              "O2_gas_mol": 0.00023736684622434822,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 298.25907360056965,
+              "reported_ph": 6.995570699929907,
+              "H2O2_mol": 0.009071644806093362,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.0004641775969533191,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned",
+      "final_peroxide_by_comparison_vessel": [
+        {
+          "vessel": 0,
+          "elapsed_seconds": 1e-05,
+          "temperature_K": 298.2057771562853,
+          "remaining_mol": 0.009525266307551303,
+          "MnO2_mol": 0,
+          "catalase_mol": 2e-12
+        },
+        {
+          "vessel": 1,
+          "elapsed_seconds": 1e-05,
+          "temperature_K": 298.25907360056965,
+          "remaining_mol": 0.009071644806093362,
+          "MnO2_mol": 0,
+          "catalase_mol": 4e-12
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-005",
+      "script_sha256": "0b393daffb713f18f0d666773abd9dab06a8084284aace6a1dd245ad207bcfb6",
+      "stdout_sha256": "f6019eb5520ac8f6b322194c064a49b66be9c9bc5ce054a84c39da71ae384182",
+      "original_criteria": [
+        {
+          "id": "KN-005-C1",
+          "criterion": "Early peroxide conversion is greater at moderate warmth than at room temperature.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-005-C2",
+          "criterion": "The very-hot case is slower than the moderately warm case; this is not a test of irreversible denaturation history.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 11,
+          "operator": {
+            "op": "wait",
+            "seconds": 1e-05
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 298.25907360056965,
+              "reported_ph": 6.995570699929907,
+              "H2O2_mol": 0.009071644806093362,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.0004641775969533191,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 308.27279073093223,
+              "reported_ph": 6.837976527591122,
+              "H2O2_mol": 0.00877344199970687,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.0006132790001465659,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 2,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 343.05418167025385,
+              "reported_ph": 6.396845295953202,
+              "H2O2_mol": 0.009999987210457058,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 6.394771470903321e-09,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 12,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 298.25907360056965,
+              "reported_ph": 6.995570699929907,
+              "H2O2_mol": 0.009071644806093362,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.0004641775969533191,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 308.27279073093223,
+              "reported_ph": 6.837976527591122,
+              "H2O2_mol": 0.00877344199970687,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.0006132790001465659,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 2,
+              "elapsed_seconds": 1e-05,
+              "temperature_K": 343.05418167025385,
+              "reported_ph": 6.396845295953202,
+              "H2O2_mol": 0.009999987210457058,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 6.394771470903321e-09,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": -7.105427357601002e-15,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 3.552713678800501e-15,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned",
+      "final_peroxide_by_comparison_vessel": [
+        {
+          "vessel": 0,
+          "elapsed_seconds": 1e-05,
+          "temperature_K": 298.25907360056965,
+          "remaining_mol": 0.009071644806093362,
+          "MnO2_mol": 0,
+          "catalase_mol": 4e-12
+        },
+        {
+          "vessel": 1,
+          "elapsed_seconds": 1e-05,
+          "temperature_K": 308.27279073093223,
+          "remaining_mol": 0.00877344199970687,
+          "MnO2_mol": 0,
+          "catalase_mol": 4e-12
+        },
+        {
+          "vessel": 2,
+          "elapsed_seconds": 1e-05,
+          "temperature_K": 343.05418167025385,
+          "remaining_mol": 0.009999987210457058,
+          "MnO2_mol": 0,
+          "catalase_mol": 4e-12
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-006",
+      "script_sha256": "459c8272b54ccf4810f69e285b78a702d897fb93298ba9f3ab0cfdbce841c9b1",
+      "stdout_sha256": "7c688ddf3c1e59229582bd5730642c8e84560ddfc46f4c6f8f09e67ca477b2e2",
+      "original_criteria": [
+        {
+          "id": "KN-006-C1",
+          "criterion": "Verify catalyst ownership after filtration before judging the reaction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-006-C2",
+          "criterion": "The catalase-containing filtrate consumes more peroxide than the MnO2-free filtrate at the same elapsed time.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 3,
+          "operator": {
+            "from": 0,
+            "op": "filter",
+            "to": 1
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15,
+              "reported_ph": null,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15,
+              "reported_ph": 6.997375771104036,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 8,
+          "operator": {
+            "from": 2,
+            "op": "filter",
+            "to": 3
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15,
+              "reported_ph": null,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15,
+              "reported_ph": 6.997375771104036,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 2,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15,
+              "reported_ph": null,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 3,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15,
+              "reported_ph": 6.997375771104036,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 11,
+          "operator": {
+            "op": "wait",
+            "seconds": 0.001
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 0.001,
+              "temperature_K": 298.15,
+              "reported_ph": null,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 0.001,
+              "temperature_K": 298.1500000009563,
+              "reported_ph": 6.997375771088174,
+              "H2O2_mol": 0.0009999999918756898,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 4.0621550946711936e-12,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 2,
+              "elapsed_seconds": 0.001,
+              "temperature_K": 298.15,
+              "reported_ph": null,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 3,
+              "elapsed_seconds": 0.001,
+              "temperature_K": 298.2677136462223,
+              "reported_ph": 6.995427799592063,
+              "H2O2_mol": 2.8796413392923395e-08,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.0004999856017933035,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 12,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 0.001,
+              "temperature_K": 298.15,
+              "reported_ph": null,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 0.001,
+              "temperature_K": 298.1500000009563,
+              "reported_ph": 6.997375771088174,
+              "H2O2_mol": 0.0009999999918756898,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 4.0621550946711936e-12,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 2,
+              "elapsed_seconds": 0.001,
+              "temperature_K": 298.15,
+              "reported_ph": null,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 3,
+              "elapsed_seconds": 0.001,
+              "temperature_K": 298.2677136462223,
+              "reported_ph": 6.995427799592063,
+              "H2O2_mol": 2.8796413392923395e-08,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.0004999856017933035,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": -1.7763568394002505e-15,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned",
+      "final_peroxide_by_comparison_vessel": [
+        {
+          "vessel": 1,
+          "elapsed_seconds": 0.001,
+          "temperature_K": 298.1500000009563,
+          "remaining_mol": 0.0009999999918756898,
+          "MnO2_mol": 0,
+          "catalase_mol": 0
+        },
+        {
+          "vessel": 3,
+          "elapsed_seconds": 0.001,
+          "temperature_K": 298.2677136462223,
+          "remaining_mol": 2.8796413392923395e-08,
+          "MnO2_mol": 0,
+          "catalase_mol": 4e-12
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-007",
+      "script_sha256": "b3ca508451c7973f3e52ecf8b0fbe01ce9b4cf94db9a26670b23862723bfc36c",
+      "stdout_sha256": "93d074f2a56b6f282c2e8dd5db23e945823e410e05b97b954ef3c1137e7e9a50",
+      "original_criteria": [
+        {
+          "id": "KN-007-C1",
+          "criterion": "The catalyst amount in v1 is not spent by the first reaction or created by reuse.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-007-C2",
+          "criterion": "The second peroxide charge undergoes decomposition; do not equate rates unless temperature and retained-liquid conditions match.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 3,
+          "operator": {
+            "op": "wait",
+            "seconds": 60.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 60.0,
+              "temperature_K": 298.16778335600304,
+              "reported_ph": 6.997081337043921,
+              "H2O2_mol": 0.0008451016670797621,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 7.744916646011897e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 60.0,
+              "temperature_K": 298.16778335600304,
+              "reported_ph": 6.997081337043921,
+              "H2O2_mol": 0.0008451016670797621,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 7.744916646011897e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 6,
+          "operator": {
+            "from": 0,
+            "op": "filter",
+            "to": 1
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 60.0,
+              "temperature_K": 298.16778335600304,
+              "reported_ph": null,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.16778335600304,
+              "reported_ph": 6.997081337043921,
+              "H2O2_mol": 0.0008451016670797621,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "wait",
+            "seconds": 60.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 120.0,
+              "temperature_K": 298.1677856085126,
+              "reported_ph": 6.99708129975309,
+              "H2O2_mol": 0.0008451016413386552,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 7.744917933067242e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 60.0,
+              "temperature_K": 298.1673931817239,
+              "reported_ph": 6.99708779648464,
+              "H2O2_mol": 0.0008446890717638586,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 2.062976579517978e-07,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 10,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 120.0,
+              "temperature_K": 298.1677856085126,
+              "reported_ph": 6.99708129975309,
+              "H2O2_mol": 0.0008451016413386552,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 7.744917933067242e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 60.0,
+              "temperature_K": 298.1673931817239,
+              "reported_ph": 6.99708779648464,
+              "H2O2_mol": 0.0008446890717638586,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 2.062976579517978e-07,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": -0.00015489833291937316,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "new120:kn-008",
+      "script_sha256": "ff149e6e7e40f543b08bd5c547edd22ff60995ea021e5939f508366a5df88aff",
+      "stdout_sha256": "2eb9d57f1974023ca24278a4ad1c8337764aec7d1f4ae917388ab6d66b0b2df4",
+      "original_criteria": [
+        {
+          "id": "KN-008-C1",
+          "criterion": "Peroxide decreases monotonically and never becomes negative.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-008-C2",
+          "criterion": "Compare consecutive mole losses, allowing a small thermal-rate change rather than assuming exactly isothermal decay.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 3,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15,
+              "reported_ph": 6.997375771104036,
+              "H2O2_mol": 0.001,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "wait",
+            "seconds": 20.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 20.0,
+              "temperature_K": 298.15642123571376,
+              "reported_ph": 6.99726945041335,
+              "H2O2_mol": 0.00094544510898425,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 2.7277445507875057e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 5,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 20.0,
+              "temperature_K": 298.15642123571376,
+              "reported_ph": 6.99726945041335,
+              "H2O2_mol": 0.00094544510898425,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 2.7277445507875057e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 6,
+          "operator": {
+            "op": "wait",
+            "seconds": 20.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 40.0,
+              "temperature_K": 298.1623918175788,
+              "reported_ph": 6.997170597669183,
+              "H2O2_mol": 0.0008938411804534224,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 5.307940977328884e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 7,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 40.0,
+              "temperature_K": 298.1623918175788,
+              "reported_ph": 6.997170597669183,
+              "H2O2_mol": 0.0008938411804534224,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 5.307940977328884e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 8,
+          "operator": {
+            "op": "wait",
+            "seconds": 20.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 60.0,
+              "temperature_K": 298.1679868420563,
+              "reported_ph": 6.997077968287314,
+              "H2O2_mol": 0.0008450316515860276,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 7.748417420698622e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 60.0,
+              "temperature_K": 298.1679868420563,
+              "reported_ph": 6.997077968287314,
+              "H2O2_mol": 0.0008450316515860276,
+              "MnO2_mol": 0.001,
+              "catalase_mol": 0,
+              "O2_gas_mol": 7.748417420698622e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 8.881784197001252e-16,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned",
+      "equal_interval_actual_times": [
+        0.0,
+        20.0,
+        40.0,
+        60.0
+      ],
+      "peroxide_mol": [
+        0.001,
+        0.00094544510898425,
+        0.0008938411804534224,
+        0.0008450316515860276
+      ],
+      "successive_positive_mole_losses": [
+        5.4554891015750067e-05,
+        5.160392853082753e-05,
+        4.880952886739478e-05
+      ]
+    },
+    {
+      "id": "new120:kn-009",
+      "script_sha256": "a34e180f4b92893409e310cf5dce9e42c2a5c5cf4d0f9425842eb7a1b2092aa9",
+      "stdout_sha256": "e5746e056eb47ddd32c58edc4751477bb594d10dc6414db15a6048d60ea4bfdb",
+      "original_criteria": [
+        {
+          "id": "KN-009-C1",
+          "criterion": "Calculate initial peroxide concentrations from actual liquid volumes, not from water volume alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-009-C2",
+          "criterion": "The ratio of early absolute peroxide-consumption rates is smaller than the ratio of initial substrate concentrations.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 7,
+          "operator": {
+            "op": "wait",
+            "seconds": 1e-06
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 1e-06,
+              "temperature_K": 298.1613585607699,
+              "reported_ph": 6.997187704499556,
+              "H2O2_mol": 0.009903324529796153,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 4.833773510192371e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 1e-06,
+              "temperature_K": 298.2424703059245,
+              "reported_ph": 6.995845341768677,
+              "H2O2_mol": 0.19918107791668335,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.000409461041658323,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 8,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 1e-06,
+              "temperature_K": 298.1613585607699,
+              "reported_ph": 6.997187704499556,
+              "H2O2_mol": 0.009903324529796153,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 4.833773510192371e-05,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 1e-06,
+              "temperature_K": 298.2424703059245,
+              "reported_ph": 6.995845341768677,
+              "H2O2_mol": 0.19918107791668335,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.000409461041658323,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned",
+      "final_peroxide_by_comparison_vessel": [
+        {
+          "vessel": 0,
+          "elapsed_seconds": 1e-06,
+          "temperature_K": 298.1613585607699,
+          "remaining_mol": 0.009903324529796153,
+          "MnO2_mol": 0,
+          "catalase_mol": 4e-12
+        },
+        {
+          "vessel": 1,
+          "elapsed_seconds": 1e-06,
+          "temperature_K": 298.2424703059245,
+          "remaining_mol": 0.19918107791668335,
+          "MnO2_mol": 0,
+          "catalase_mol": 4e-12
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-010",
+      "script_sha256": "dd9f3019e68bb363bc0d3f3f978ef1446ef5cad2c64530906a0da4aa1322060e",
+      "stdout_sha256": "43da9388370a125d4c20a4eedcc9217bb2195753e885b82bf77c19220fa9bee0",
+      "original_criteria": [
+        {
+          "id": "KN-010-C1",
+          "criterion": "Evaluate I2/I3- inventory alongside remaining thiosulfate at each timepoint.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-010-C2",
+          "criterion": "Require a later iodine-accumulation threshold in the larger-scavenger case, or report that the chosen sampling missed it.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 11,
+          "operator": {
+            "op": "wait",
+            "seconds": 5.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 5.0,
+              "temperature_K": 298.1982184303418,
+              "reported_ph": 1.481958685892,
+              "H2O2_mol": 0.004564434561543344,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0002055306424854747,
+              "thiosulfate_mol": 1.8869543378797075e-05,
+              "sulfur_all_phases_mol": 1.1304566212029268e-06,
+              "I2_all_phases_mol": 2.450415348570633e-05,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.003948730779786181,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 5.0,
+              "temperature_K": 298.198220989638,
+              "reported_ph": 1.485687478238,
+              "H2O2_mol": 0.004564603186185621,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.00020554185642205461,
+              "thiosulfate_mol": 9.43909263712812e-05,
+              "sulfur_all_phases_mol": 5.6090736287188056e-06,
+              "I2_all_phases_mol": 2.431310097026958e-05,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.003940155650802024,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 12,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 5.0,
+              "temperature_K": 298.1982184303418,
+              "reported_ph": 1.481958685892,
+              "H2O2_mol": 0.004564434561543344,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0002055306424854747,
+              "thiosulfate_mol": 1.8869543378797075e-05,
+              "sulfur_all_phases_mol": 1.1304566212029268e-06,
+              "I2_all_phases_mol": 2.450415348570633e-05,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.003948730779786181,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 5.0,
+              "temperature_K": 298.198220989638,
+              "reported_ph": 1.485687478238,
+              "H2O2_mol": 0.004564603186185621,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.00020554185642205461,
+              "thiosulfate_mol": 9.43909263712812e-05,
+              "sulfur_all_phases_mol": 5.6090736287188056e-06,
+              "I2_all_phases_mol": 2.431310097026958e-05,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.003940155650802024,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 13,
+          "operator": {
+            "op": "wait",
+            "seconds": 10.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 15.0,
+              "temperature_K": 298.28129158396956,
+              "reported_ph": 1.491720575945,
+              "H2O2_mol": 0.003811186205916038,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0005612276450045058,
+              "thiosulfate_mol": 1.6815812919405616e-05,
+              "sulfur_all_phases_mol": 3.184187080594385e-06,
+              "I2_all_phases_mol": 6.635850407495036e-05,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.003860914617688908,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 15.0,
+              "temperature_K": 298.28131326007707,
+              "reported_ph": 1.496922912234,
+              "H2O2_mol": 0.0038116210846708804,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0005613220343564776,
+              "thiosulfate_mol": 8.422071101012403e-05,
+              "sulfur_all_phases_mol": 1.5779288989875964e-05,
+              "I2_all_phases_mol": 6.573484661616439e-05,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0038369717287879187,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 14,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 15.0,
+              "temperature_K": 298.28129158396956,
+              "reported_ph": 1.491720575945,
+              "H2O2_mol": 0.003811186205916038,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0005612276450045058,
+              "thiosulfate_mol": 1.6815812919405616e-05,
+              "sulfur_all_phases_mol": 3.184187080594385e-06,
+              "I2_all_phases_mol": 6.635850407495036e-05,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.003860914617688908,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 15.0,
+              "temperature_K": 298.28131326007707,
+              "reported_ph": 1.496922912234,
+              "H2O2_mol": 0.0038116210846708804,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0005613220343564776,
+              "thiosulfate_mol": 8.422071101012403e-05,
+              "sulfur_all_phases_mol": 1.5779288989875964e-05,
+              "I2_all_phases_mol": 6.573484661616439e-05,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0038369717287879187,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 15,
+          "operator": {
+            "op": "wait",
+            "seconds": 30.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 45.0,
+              "temperature_K": 298.4515472856664,
+              "reported_ph": 1.512409870171,
+              "H2O2_mol": 0.002245472266112626,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0013015273232106662,
+              "thiosulfate_mol": 1.1972872959266548e-05,
+              "sulfur_all_phases_mol": 8.027127040733454e-06,
+              "I2_all_phases_mol": 0.00015147308746604168,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0036809995709864464,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 45.0,
+              "temperature_K": 298.45169213960696,
+              "reported_ph": 1.521288844263,
+              "H2O2_mol": 0.0022461852531091755,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0013021609143667998,
+              "thiosulfate_mol": 6.031481939839481e-05,
+              "sulfur_all_phases_mol": 3.9685180601605174e-05,
+              "I2_all_phases_mol": 0.00014949291815722523,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0036216438024823383,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 16,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 45.0,
+              "temperature_K": 298.4515472856664,
+              "reported_ph": 1.512409870171,
+              "H2O2_mol": 0.002245472266112626,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0013015273232106662,
+              "thiosulfate_mol": 1.1972872959266548e-05,
+              "sulfur_all_phases_mol": 8.027127040733454e-06,
+              "I2_all_phases_mol": 0.00015147308746604168,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0036809995709864464,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 45.0,
+              "temperature_K": 298.45169213960696,
+              "reported_ph": 1.521288844263,
+              "H2O2_mol": 0.0022461852531091755,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0.0013021609143667998,
+              "thiosulfate_mol": 6.031481939839481e-05,
+              "sulfur_all_phases_mol": 3.9685180601605174e-05,
+              "I2_all_phases_mol": 0.00014949291815722523,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0036216438024823383,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [
+        {
+          "row": 2,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 3,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 4,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 8,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 9,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 10,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 11,
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 11,
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 11,
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 11,
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 13,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 13,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 13,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 13,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 15,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 15,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 15,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        {
+          "row": 15,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 5.329070518200751e-15,
+        "P": 0.0,
+        "S": -2.710505431213761e-20,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": -3.469446951953614e-18
+      },
+      "physical_verdict": "not_assigned",
+      "sampled_iodine_and_scavenger": [
+        {
+          "vessel": 0,
+          "elapsed_seconds": 5.0,
+          "I2_mol": 2.450415348570633e-05,
+          "I3_mol": 0,
+          "thiosulfate_mol": 1.8869543378797075e-05
+        },
+        {
+          "vessel": 1,
+          "elapsed_seconds": 5.0,
+          "I2_mol": 2.431310097026958e-05,
+          "I3_mol": 0,
+          "thiosulfate_mol": 9.43909263712812e-05
+        },
+        {
+          "vessel": 0,
+          "elapsed_seconds": 15.0,
+          "I2_mol": 6.635850407495036e-05,
+          "I3_mol": 0,
+          "thiosulfate_mol": 1.6815812919405616e-05
+        },
+        {
+          "vessel": 1,
+          "elapsed_seconds": 15.0,
+          "I2_mol": 6.573484661616439e-05,
+          "I3_mol": 0,
+          "thiosulfate_mol": 8.422071101012403e-05
+        },
+        {
+          "vessel": 0,
+          "elapsed_seconds": 45.0,
+          "I2_mol": 0.00015147308746604168,
+          "I3_mol": 0,
+          "thiosulfate_mol": 1.1972872959266548e-05
+        },
+        {
+          "vessel": 1,
+          "elapsed_seconds": 45.0,
+          "I2_mol": 0.00014949291815722523,
+          "I3_mol": 0,
+          "thiosulfate_mol": 6.031481939839481e-05
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-011",
+      "script_sha256": "8a7100f3f39edd8742f0596889c302779ebe639eb256bfeeeff9b53914533fe9",
+      "stdout_sha256": "66ee6697332b7882915752928538accbf9dd751401e00df6e834b990805ef4b3",
+      "original_criteria": [
+        {
+          "id": "KN-011-C1",
+          "criterion": "Compare starting pH and sulfur production in both vessels at a common time.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-011-C2",
+          "criterion": "The more strongly acidic mixture should generally produce sulfur faster; match total thiosulfate loading.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 3,
+          "operator": {
+            "instrument": "ph_meter",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15000134425895,
+              "reported_ph": 1.413475572769,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.001,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.005,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 8,
+          "operator": {
+            "instrument": "ph_meter",
+            "op": "measure",
+            "vessel": 1
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15000134425895,
+              "reported_ph": 1.413475572769,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.001,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.005,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 0.0,
+              "temperature_K": 298.15009535032243,
+              "reported_ph": 3.042494343178,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.001,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.00011127172127994508,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "wait",
+            "seconds": 10.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 298.15000134425895,
+              "reported_ph": 1.432475196031,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0008771060474535195,
+              "sulfur_all_phases_mol": 0.0001228939525464805,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0047542120949070395,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 298.15009535032243,
+              "reported_ph": 3.042494343178,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.001,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.00011127172127994855,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 10,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 298.15000134425895,
+              "reported_ph": 1.432475196031,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0008771060474535195,
+              "sulfur_all_phases_mol": 0.0001228939525464805,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0047542120949070395,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 298.15009535032243,
+              "reported_ph": 3.042494343178,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.001,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.00011127172127994855,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [
+        {
+          "row": 9,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 9,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction}: Proton-consuming kinetics requires a coupled weak-acid/buffer equilibrium: measured free proton activity is not the titratable acid inventory. This uncoupled rate step is withheld rather than treating the buffer as a fixed acid reservoir",
+            "key": "not-modeled.proton-consuming-kinetics",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "thiosulfate-acid: Proton-consuming kinetics requires a coupled weak-acid/buffer equilibrium: measured free proton activity is not the titratable acid inventory. This uncoupled rate step is withheld rather than treating the buffer as a fixed acid reservoir"
+        }
+      ],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": -3.469446951953614e-18,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 1.7763568394002505e-15,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": -2.168404344971009e-18
+      },
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "new120:kn-012",
+      "script_sha256": "aee4d1cfe52a9c41329d9c5a0de25cb2bdfff62a5bec947d2c51a2fa10971e7c",
+      "stdout_sha256": "9553e0c76695e35fa75f7a26f928ebed9f1dd0b443c6a26858ec69e42dc6ea0f",
+      "original_criteria": [
+        {
+          "id": "KN-012-C1",
+          "criterion": "Compare residual thiosulfate and generated sulfur, not turbidity labels alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-012-C2",
+          "criterion": "Check measured temperatures and pH to avoid attributing every difference to temperature alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 7,
+          "operator": {
+            "op": "wait",
+            "seconds": 10.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 293.17072630379295,
+              "reported_ph": 1.520670632407,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0009277017284327391,
+              "sulfur_all_phases_mol": 7.229827156726083e-05,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0038554034568654776,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 313.0878295389982,
+              "reported_ph": 1.558068127468,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0007628912715927374,
+              "sulfur_all_phases_mol": 0.0002371087284072627,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0035257825431854748,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 8,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 293.17072630379295,
+              "reported_ph": 1.520670632407,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0009277017284327391,
+              "sulfur_all_phases_mol": 7.229827156726083e-05,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0038554034568654776,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            },
+            {
+              "vessel": 1,
+              "elapsed_seconds": 10.0,
+              "temperature_K": 313.0878295389982,
+              "reported_ph": 1.558068127468,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0007628912715927374,
+              "sulfur_all_phases_mol": 0.0002371087284072627,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0035257825431854748,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [
+        {
+          "row": 7,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 7,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        }
+      ],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned"
+    },
+    {
+      "id": "new120:kn-013",
+      "script_sha256": "881d4418e4c0910f513e29104895329b8875f3f1e1746364111e2817879ce2e7",
+      "stdout_sha256": "fcbb087a82c77f028c9dad0fb231b4562e8c081cb4fb03229cbd029f08d42170",
+      "original_criteria": [
+        {
+          "id": "KN-013-C1",
+          "criterion": "Residual thiosulfate coexists with a depleted acid reserve before the second acid addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-013-C2",
+          "criterion": "Further sulfur is generated after acid replenishment; account for SO2/bisulfite acidity rather than imposing an oversimplified fixed proton ceiling.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 3,
+          "operator": {
+            "op": "wait",
+            "seconds": 30.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 30.0,
+              "temperature_K": 298.1500016230199,
+              "reported_ph": 2.466079176413,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0009620184361910337,
+              "sulfur_all_phases_mol": 3.798156380896627e-05,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.00042403687238206766,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 30.0,
+              "temperature_K": 298.1500016230199,
+              "reported_ph": 2.466079176413,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0009620184361910337,
+              "sulfur_all_phases_mol": 3.798156380896627e-05,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.00042403687238206766,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 5,
+          "operator": {
+            "instrument": "ph_meter",
+            "op": "measure",
+            "vessel": 0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 30.0,
+              "temperature_K": 298.1500016230199,
+              "reported_ph": 2.466079176413,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0009620184361910337,
+              "sulfur_all_phases_mol": 3.798156380896627e-05,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.00042403687238206766,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 6,
+          "operator": {
+            "op": "wait",
+            "seconds": 300.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 330.0,
+              "temperature_K": 298.1500016230199,
+              "reported_ph": 3.089045751038,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0007997544296179742,
+              "sulfur_all_phases_mol": 0.00020024557038202594,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 9.950885923594964e-05,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 7,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 330.0,
+              "temperature_K": 298.1500016230199,
+              "reported_ph": 3.089045751038,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0007997544296179742,
+              "sulfur_all_phases_mol": 0.00020024557038202594,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 9.950885923594964e-05,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 9,
+          "operator": {
+            "op": "wait",
+            "seconds": 30.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 360.0,
+              "temperature_K": 298.15000162243393,
+              "reported_ph": 1.824945926025,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0006783116669054434,
+              "sulfur_all_phases_mol": 0.00032168833309455664,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0018566233338108882,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 10,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 360.0,
+              "temperature_K": 298.15000162243393,
+              "reported_ph": 1.824945926025,
+              "H2O2_mol": 0,
+              "MnO2_mol": 0,
+              "catalase_mol": 0,
+              "O2_gas_mol": 0,
+              "thiosulfate_mol": 0.0006783116669054434,
+              "sulfur_all_phases_mol": 0.00032168833309455664,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0.0018566233338108882,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [
+        {
+          "row": 3,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 6,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 9,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        }
+      ],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": -4.336808689942018e-19,
+        "O": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 8.673617379884035e-19
+      },
+      "physical_verdict": "not_assigned",
+      "acid_replenishment_snapshots": [
+        {
+          "elapsed_seconds": 30.0,
+          "H_basis_mol": 0.00042403687238206766,
+          "thiosulfate_mol": 0.0009620184361910337,
+          "sulfur_mol": 3.798156380896627e-05
+        },
+        {
+          "elapsed_seconds": 330.0,
+          "H_basis_mol": 9.950885923594964e-05,
+          "thiosulfate_mol": 0.0007997544296179742,
+          "sulfur_mol": 0.00020024557038202594
+        },
+        {
+          "elapsed_seconds": 360.0,
+          "H_basis_mol": 0.0018566233338108882,
+          "thiosulfate_mol": 0.0006783116669054434,
+          "sulfur_mol": 0.00032168833309455664
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-014",
+      "script_sha256": "4cd5296dfcf1b4c1a9fe272f1423f9dfbfd3a62c7d36454f20e22da9e6de6a14",
+      "stdout_sha256": "e0fe7d95bc0197f971dab4d36c2439d88102653f4a3efcd650c1b1120cdac370",
+      "original_criteria": [
+        {
+          "id": "KN-014-C1",
+          "criterion": "The second dose is consumed without a second catalase addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-014-C2",
+          "criterion": "Catalase inventory remains fixed while cumulative substrate turnover exceeds the enzyme amount by many orders of magnitude.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "timeline": [
+        {
+          "row": 3,
+          "operator": {
+            "op": "wait",
+            "seconds": 1.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 1.0,
+              "temperature_K": 298.2676682179414,
+              "reported_ph": 6.995428550911695,
+              "H2O2_mol": 9.999999999999998e-12,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.000499999995,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 1.0,
+              "temperature_K": 298.2676682179414,
+              "reported_ph": 6.995428550911695,
+              "H2O2_mol": 9.999999999999998e-12,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.000499999995,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 6,
+          "operator": {
+            "op": "wait",
+            "seconds": 1.0
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 2.0,
+              "temperature_K": 298.38523663233985,
+              "reported_ph": 6.993485285486594,
+              "H2O2_mol": 1e-11,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.000999999995,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        },
+        {
+          "row": 7,
+          "operator": {
+            "op": "inspect"
+          },
+          "vessels": [
+            {
+              "vessel": 0,
+              "elapsed_seconds": 2.0,
+              "temperature_K": 298.38523663233985,
+              "reported_ph": 6.993485285486594,
+              "H2O2_mol": 1e-11,
+              "MnO2_mol": 0,
+              "catalase_mol": 4e-12,
+              "O2_gas_mol": 0.000999999995,
+              "thiosulfate_mol": 0,
+              "sulfur_all_phases_mol": 0,
+              "I2_all_phases_mol": 0,
+              "I3_mol": 0,
+              "owned_H_basis_mol": 0,
+              "qualification": "Owned H basis is not a universal weak-acid titration reserve; reported pH/species are not extra matter."
+            }
+          ]
+        }
+      ],
+      "explicit_limit_events": [],
+      "represented_whole_bench_final_residual": {
+        "Ag": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": -1.7763568394002505e-15,
+        "I": 0.0,
+        "K": 0.0,
+        "Mg": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "P": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "catalase_tracer": 0.0,
+        "charge": 0.0
+      },
+      "physical_verdict": "not_assigned"
+    }
+  ],
+  "new_engine_or_api_executions": 0,
+  "catalog_selections": 0,
+  "physical_verdicts_assigned": 0,
+  "qualification": "Detailed original-criterion observations for subsequent independent selection. No unsupported branch credited for its zero rate; no clock threshold inferred from lower final iodine alone; catalyst tracer conservation is not an elemental protein formula."
+}

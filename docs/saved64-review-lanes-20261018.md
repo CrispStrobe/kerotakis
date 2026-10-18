@@ -22,6 +22,10 @@ material reader. Keep rounding, missing phase domains and property provenance
 explicit. Check the source's additive liquid volume, including peroxide, for
 KN009; the saved concentration ratio18.9029 exceeds consumption ratio8.47084.
 
+The [detailed kinetics preparation](../audits/target468-20261016/saved64-kinetics-preparation/README.md)
+reproduces all14 kinetics timelines, source mixing bounds and original model
+limits without assigning new passes. Use it to complete that group's review.
+
 **Done:** append a case-level final assessment and independent calculation review;
 add only supported IDs once with exact source/script association. Preserve all
 200 existing catalog entries and original first failures. Record before/after
