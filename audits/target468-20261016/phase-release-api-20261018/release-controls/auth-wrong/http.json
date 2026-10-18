@@ -1,0 +1,12 @@
+{
+  "id": "auth-wrong",
+  "http_status": 401,
+  "elapsed_seconds": 0.3249570522457361,
+  "response_sha256": "1994468f256bc2a622e543cd9bb4f68d04a733639bd417f54c6f09a0ce418872",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

@@ -1,0 +1,7 @@
+{
+  "utc": "2026-10-18T17:22:16.130050+00:00",
+  "first_harness": "446550c59bb5347cab60be1a7a376a55180fc81a",
+  "failure": "Binding incorrectly included rest.html in the five engine assets. Client HTML already separately authenticated. Node preflight assert ran before browser launch, report or API request; no experiment to repeat.",
+  "correction": "Binding only: remove the separately hashed client from engine-assets. All original37 assertions/helper/native reference/actual source remain unchanged.",
+  "first_actual_stderr_sha256": "4508882d3602c5e329bd721a98c5e1b24df8042d2859a517d53870755a676256"
+}

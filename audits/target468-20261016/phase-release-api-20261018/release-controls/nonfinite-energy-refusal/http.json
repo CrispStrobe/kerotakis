@@ -1,0 +1,12 @@
+{
+  "id": "nonfinite-energy-refusal",
+  "http_status": 200,
+  "elapsed_seconds": 3.186505099758506,
+  "response_sha256": "42e8b3d707cd1a44434d787837ae87a1e002481896555a7f7fa8f7d61e659ace",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

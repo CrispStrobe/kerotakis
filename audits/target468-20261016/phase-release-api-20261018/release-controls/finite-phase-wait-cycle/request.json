@@ -1,0 +1,1 @@
+{"script": "register lv3\nadd v1 water 100mL\nadd v1 Fe(OH)2 0.01mol\ninspect v1\nwait 1s\ninspect v1\nexplain v1\nwait 1s\ninspect v1\nexplain v1\n"}

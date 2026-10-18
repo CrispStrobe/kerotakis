@@ -36,14 +36,13 @@ produce one selection and three continuing failures:
   charge. The traced cause is ideal-pressure initialization into a native
   real-gas model. A distinct direct-solver control supplies0.001mol but receives
   0.0010003390707956424mol; exact native component moles close carbon to1.3e-17mol.
-  PR833 has524 passing native tests on its first source; current combined-source
-  acceptance remains pending.
+  PR833 has524 passing native tests on its first source; current combined-source native/full-fleet acceptance passes; protected/platform checks remain pending.
   A plausible salinity trend does not excuse the original imbalance.
 - **OR-006 fails:** the named hydrolysis request leaves ester unchanged and
   produces no acetate/ethanol. Analytical basis is not usable base capacity.
 - **TH-016 fails on deployed source:** all0.7647598654mol zinc is liquid though
   the pulse pays only0.07395386004mol melting; source-bound phase energy exceeds
-  the input by5056.699959J. The separately prepared repair is not deployed yet.
+  the input by5056.699959J. The phase-source repair is now delivered with artifact/API acceptance; browser and separate TH016 replay remain pending.
 
 ## Integrated source and actual production
 
@@ -142,4 +141,6 @@ Current accepted-source receipts: [PR829 fleet](../audits/target468-20261016/hyb
 
 [Ammonia first-control evidence](../audits/target468-20261016/ammonia-coupled-first-control-20261018/README.md) preserves the failed current-equivalent forecast, all three raw arms and the rejected first reader. PR834 is a proposed source repair undergoing actual execution, not an accepted fix.
 
-Current delivery: PR831 merged normally as `ac1f9993` with verified parents/tree. The phase-source `0a5a92f1` artifact and11 API controls are accepted, binary `e01b96e0`; unchanged37-check actual browser validation is running, after which only the changed-source TH016 replay is authorized by its frozen plan. Last fully accepted API/browser release remains `ed7c452d` until that review completes. [First ammonia native failure](../audits/target468-20261016/ammonia-native-first-failure-20261018/README.md) remains preserved; no new scientific selection.
+Current delivery: PR831 merged normally as `ac1f9993` with verified parents/tree. The phase-source `0a5a92f1` artifact and11 API controls are accepted, binary `e01b96e0`; unchanged37-check actual browser validation is running with corrected engine-only asset binding; its first preflight failure is preserved, after which only the changed-source TH016 replay is authorized by its frozen plan. Last fully accepted API/browser release remains `ed7c452d` until that review completes. [First ammonia native failure](../audits/target468-20261016/ammonia-native-first-failure-20261018/README.md) remains preserved; no new scientific selection.
+
+[Current phase-source artifact/API evidence](../audits/target468-20261016/phase-release-api-20261018/README.md) records actual delivered bytes and11 passing controls. Browser and TH016 acceptance remain separate.

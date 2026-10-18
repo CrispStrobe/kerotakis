@@ -1,0 +1,7 @@
+{
+  "utc": "2026-10-18T17:03:58.292780+00:00",
+  "design_sha256": "18b3375f57c9dc72abfd01d2fd511d10e5dd183cf05fe0e0dfaff650168e060f",
+  "runner_sha256": "dbe29dc09afe9f4c8a3bd9380151e8a289a127ddf6a0262f7660fc113de2c056",
+  "no_retries": true,
+  "local_engine_execution": false
+}

@@ -1,0 +1,15 @@
+{
+  "id": "cors-approved",
+  "http_status": 200,
+  "elapsed_seconds": 0.1861179769039154,
+  "response_sha256": "565339bc4d33d72817b583024112eb7f5cdf3e5eef0252d6ec1b9c9a94e12bb3",
+  "response_headers": {
+    "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type",
+    "access-control-allow-methods": "POST, GET",
+    "access-control-allow-origin": "https://crispstrobe.github.io",
+    "cache-control": "no-store",
+    "content-type": "text/plain; charset=utf-8",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}
