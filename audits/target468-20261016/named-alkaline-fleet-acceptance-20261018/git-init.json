@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/kerotakis-full-fleet/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "3aa972ef6f0a9f59b067d0b1085588e7d63703df084b0757ec0f2bc6d45bda9a",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

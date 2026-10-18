@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-full-fleet/source",
+    "/kaggle/temp/kerotakis-full-fleet/source-fleets-distillation"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "c4b1e5b0029147073620e1c7aebc4e26623e432b957b25f591a2db5bb180741c"
+}

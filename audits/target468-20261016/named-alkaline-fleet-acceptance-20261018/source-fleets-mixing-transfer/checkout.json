@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-full-fleet/source",
+    "/kaggle/temp/kerotakis-full-fleet/source-fleets-mixing-transfer"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "9cbb212d2b6d2b91e51ffcaef73467d89ddba07c90f4b0f78e28bc77ae824cc6"
+}

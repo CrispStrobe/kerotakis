@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/seventh_batch.py --binary target/release/kero --out audit-evidence/seventh-459-488"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "f1922bc42d97061f819c786e29fe7f925588f17532978ba8d3c9f676f45103f5",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

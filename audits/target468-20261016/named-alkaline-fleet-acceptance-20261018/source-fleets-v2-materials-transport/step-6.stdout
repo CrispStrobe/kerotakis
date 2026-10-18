@@ -1,0 +1,439 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "705-salt-transfer-0.2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "706-salt-transfer-0.4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "707-salt-transfer-0.6: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "708-salt-transfer-0.8: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "709-sugar-transfer-0.25: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "710-sugar-transfer-0.5: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "711-sugar-transfer-0.75: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "712-sugar-transfer-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "713-mix-portions-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "714-mix-portions-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "715-mix-portions-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "716-mix-portions-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "717-silica-transfer-0.2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "718-silica-transfer-0.4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "719-silica-transfer-0.6: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "720-silica-transfer-0.8: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "721-staged-transfer-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "722-staged-transfer-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "723-staged-transfer-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "724-staged-transfer-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "725-thermal-transfer-0.2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "726-thermal-transfer-0.4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "727-thermal-transfer-0.6: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "728-thermal-transfer-0.8: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "materials-transport:v2b-materials-transport-salt-transfer",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "705-salt-transfer-0.2": [
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176,
+            "Na": 0.006,
+            "Cl": 0.006
+          },
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176,
+            "Na": 0.006,
+            "Cl": 0.006
+          }
+        ],
+        "706-salt-transfer-0.4": [
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176,
+            "Na": 0.006,
+            "Cl": 0.006
+          },
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176,
+            "Na": 0.006,
+            "Cl": 0.006
+          }
+        ],
+        "707-salt-transfer-0.6": [
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176,
+            "Na": 0.006,
+            "Cl": 0.006
+          },
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176,
+            "Na": 0.006,
+            "Cl": 0.006
+          }
+        ],
+        "708-salt-transfer-0.8": [
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176,
+            "Na": 0.006,
+            "Cl": 0.006
+          },
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176,
+            "Na": 0.006,
+            "Cl": 0.006
+          }
+        ]
+      }
+    },
+    {
+      "check": "materials-transport:v2b-materials-transport-sugar-transfer",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "709-sugar-transfer-0.25": [
+          {
+            "C": 0.024,
+            "H": 33.253661948376354,
+            "O": 16.626830974188177
+          },
+          {
+            "C": 0.024,
+            "H": 33.253661948376354,
+            "O": 16.626830974188177
+          }
+        ],
+        "710-sugar-transfer-0.5": [
+          {
+            "C": 0.024,
+            "H": 33.253661948376354,
+            "O": 16.626830974188177
+          },
+          {
+            "C": 0.024,
+            "H": 33.253661948376354,
+            "O": 16.626830974188177
+          }
+        ],
+        "711-sugar-transfer-0.75": [
+          {
+            "C": 0.024,
+            "H": 33.253661948376354,
+            "O": 16.626830974188177
+          },
+          {
+            "C": 0.024,
+            "H": 33.253661948376354,
+            "O": 16.626830974188177
+          }
+        ],
+        "712-sugar-transfer-1": [
+          {
+            "C": 0.024,
+            "H": 33.253661948376354,
+            "O": 16.626830974188177
+          },
+          {
+            "C": 0.024,
+            "H": 33.253661948376354,
+            "O": 16.626830974188177
+          }
+        ]
+      }
+    },
+    {
+      "check": "materials-transport:v2b-materials-transport-mix-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "713-mix-portions-1": [
+          {
+            "H": 44.27421593116847,
+            "O": 22.137107965584235,
+            "Na": 0.002,
+            "Cl": 0.002
+          },
+          {
+            "H": 44.27421593116847,
+            "O": 22.137107965584235,
+            "Na": 0.002,
+            "Cl": 0.002
+          }
+        ],
+        "714-mix-portions-2": [
+          {
+            "H": 44.27421593116847,
+            "O": 22.137107965584235,
+            "Na": 0.002,
+            "Cl": 0.002
+          },
+          {
+            "H": 44.27421593116847,
+            "O": 22.137107965584235,
+            "Na": 0.002,
+            "Cl": 0.002
+          }
+        ],
+        "715-mix-portions-3": [
+          {
+            "H": 44.27421593116847,
+            "O": 22.137107965584235,
+            "Na": 0.002,
+            "Cl": 0.002
+          },
+          {
+            "H": 44.27421593116847,
+            "O": 22.137107965584235,
+            "Na": 0.002,
+            "Cl": 0.002
+          }
+        ],
+        "716-mix-portions-4": [
+          {
+            "H": 44.27421593116847,
+            "O": 22.137107965584235,
+            "Na": 0.002,
+            "Cl": 0.002
+          },
+          {
+            "H": 44.27421593116847,
+            "O": 22.137107965584235,
+            "Na": 0.002,
+            "Cl": 0.002
+          }
+        ]
+      }
+    },
+    {
+      "check": "materials-transport:v2b-materials-transport-silica-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "717-silica-transfer-0.2": [
+          {
+            "Si": 0.003,
+            "H": 33.20566194837635,
+            "O": 16.608830974188177
+          },
+          {
+            "Si": 0.003,
+            "H": 33.20566194837635,
+            "O": 16.608830974188177
+          }
+        ],
+        "718-silica-transfer-0.4": [
+          {
+            "Si": 0.003,
+            "H": 33.20566194837635,
+            "O": 16.608830974188177
+          },
+          {
+            "Si": 0.003,
+            "H": 33.20566194837635,
+            "O": 16.608830974188177
+          }
+        ],
+        "719-silica-transfer-0.6": [
+          {
+            "Si": 0.003,
+            "H": 33.20566194837635,
+            "O": 16.608830974188177
+          },
+          {
+            "Si": 0.003,
+            "H": 33.20566194837635,
+            "O": 16.608830974188177
+          }
+        ],
+        "720-silica-transfer-0.8": [
+          {
+            "Si": 0.003,
+            "H": 33.20566194837635,
+            "O": 16.608830974188177
+          },
+          {
+            "Si": 0.003,
+            "H": 33.20566194837635,
+            "O": 16.608830974188177
+          }
+        ]
+      }
+    },
+    {
+      "check": "materials-transport:v2b-materials-transport-staged-ledger",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "K": 0.006,
+          "Cl": 0.006,
+          "H": 33.20566194837635,
+          "O": 16.602830974188176
+        },
+        {
+          "K": 0.006,
+          "Cl": 0.006,
+          "H": 33.20566194837635,
+          "O": 16.602830974188176
+        },
+        {
+          "K": 0.005999999999999998,
+          "Cl": 0.005999999999999998,
+          "H": 33.205661948376346,
+          "O": 16.602830974188173
+        },
+        {
+          "K": 0.006,
+          "Cl": 0.006,
+          "H": 33.205661948376346,
+          "O": 16.602830974188173
+        }
+      ]
+    },
+    {
+      "check": "materials-transport:v2b-materials-transport-thermal-intensive",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        60.0,
+        60.0,
+        60.0,
+        60.0
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "bf03c11ac1d427e371071897543e2e1b2d81d67b",
+  "binary_sha256": "6719ddd65a1162265d1a33bbf805642a33c12466b7b535b2e432a96e4124ec57"
+}

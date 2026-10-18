@@ -1,0 +1,24 @@
+195-descending-acid-titration exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 5, 'temperature_changed': 1, 'neutralised': 4, 'titrated': 1}
+196-descending-fine-trial exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 29, 'temperature_changed': 1, 'neutralised': 28, 'titrated': 1}
+197-descending-half-concentration exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 9, 'temperature_changed': 1, 'neutralised': 8, 'titrated': 1}
+198-descending-neutralized-predose exit= 0 steps= 5 events= {'added': 3, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 5, 'temperature_changed': 1, 'neutralised': 4, 'titrated': 1}
+199-descending-extra-solvent exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 5, 'temperature_changed': 1, 'neutralised': 4, 'titrated': 1}
+200-descending-extensive-control exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 5, 'temperature_changed': 1, 'neutralised': 4, 'titrated': 1}
+201-conductivity-water-blank exit= 0 steps= 3 events= {'added': 1, 'solution_routed': 1, 'measured': 1}
+202-conductivity-dilute-nitrate exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 1, 'measured': 1}
+203-conductivity-double-nitrate exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 1, 'measured': 1}
+204-conductivity-nitrate-extensive exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 1, 'measured': 1}
+205-conductivity-neutral-solute exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 1, 'dissolved': 1, 'measured': 1}
+206-conductivity-chloride-control exit= 0 steps= 4 events= {'added': 2, 'solution_routed': 2, 'dissolved': 1, 'solution_characterized': 1, 'measured': 1}
+207-dry-gas-small-energy exit= 0 steps= 6 events= {'vessel_sealed': 1, 'added': 1, 'temperature_changed': 1, 'energy_transferred': 1, 'measured': 1}
+208-dry-gas-wide-headspace exit= 0 steps= 6 events= {'vessel_sealed': 1, 'added': 1, 'temperature_changed': 1, 'energy_transferred': 1, 'measured': 1}
+209-dry-gas-partitioned-energy exit= 0 steps= 7 events= {'vessel_sealed': 1, 'added': 1, 'temperature_changed': 2, 'energy_transferred': 2, 'measured': 1}
+210-dry-gas-larger-energy exit= 0 steps= 6 events= {'vessel_sealed': 1, 'added': 1, 'temperature_changed': 1, 'energy_transferred': 1, 'measured': 1}
+211-dry-gas-extensive-control exit= 0 steps= 6 events= {'vessel_sealed': 1, 'added': 1, 'temperature_changed': 1, 'energy_transferred': 1, 'measured': 1}
+212-dry-gas-energy-round-trip exit= 0 steps= 7 events= {'vessel_sealed': 1, 'added': 1, 'temperature_changed': 2, 'energy_transferred': 2, 'measured': 1}
+213-ester-repeat-asymmetric exit= 0 steps= 7 events= {'added': 4, 'not_yet_modeled': 3, 'org_reacted': 2}
+214-ester-repeat-product-rich exit= 0 steps= 7 events= {'added': 4, 'not_yet_modeled': 3, 'org_reacted': 2}
+215-ester-repeat-fourfold exit= 0 steps= 7 events= {'added': 4, 'not_yet_modeled': 3, 'org_reacted': 2}
+216-ester-repeat-low-water exit= 0 steps= 7 events= {'added': 4, 'not_yet_modeled': 3, 'org_reacted': 2}
+217-ester-three-requests exit= 0 steps= 8 events= {'added': 4, 'not_yet_modeled': 4, 'org_reacted': 3}
+218-ester-balanced-quotient exit= 0 steps= 7 events= {'added': 4, 'not_yet_modeled': 3, 'org_reacted': 2}

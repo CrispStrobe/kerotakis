@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-full-fleet/source",
+    "/kaggle/temp/kerotakis-full-fleet/source-fleets-v2-polyprotic-carbonate"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "81812ff9b410f3134e247901dee0478a0f52c67660f3501be00112e8a35d9189"
+}

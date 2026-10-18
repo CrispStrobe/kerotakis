@@ -1,0 +1,8 @@
+{
+  "name": "Source fleet v3 organic-equilibrium",
+  "key": "source-fleets-v3",
+  "family": "organic-equilibrium",
+  "all_original_run_steps_passed": true,
+  "original_run_steps_executed": 5,
+  "expected_original_run_steps": 5
+}

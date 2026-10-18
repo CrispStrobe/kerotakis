@@ -1,5 +1,7 @@
 # Fresh-agent handover — 2026-10-18
 
+Current delivery checkpoint: ammonia PR834 integrated normally as `c19b6e94` after25 CI checks, both actual native-platform log reviews and accepted full33 jobs; [actual parents/reconstructed tree](../audits/target468-20261016/accepted-pr-integration/pr834-integration.json) match. Its single production delivery is issued; artifact/API/browser and original GS005 replay remain unaccepted. Prior accepted production remains `d3883757`. Hydrolysis `bf03c11a` now also passes [all33 original logical jobs/142 steps/29 law reports](../audits/target468-20261016/named-alkaline-fleet-acceptance-20261018/README.md), separately bound to accepted2137 core/608 native controls. It predates ammonia. PR836 current `0c37523e` normally merges actual main `c19b6e94`; validate this combined source and complete current platform/protected acceptance before integration/delivery/original OR006 replay. Do not repeat either completed predecessor fleet or unchanged original experiments. Catalog remains233 total /229 fixed468;172 further earned selections are needed for401. Older source-specific pending notes below retain their historical scope.
+
 This is the executable continuation plan. Read `AGENTS.md`, `CONTRIBUTING.md`,
 `docs/STATUS.md`, `docs/improvement-agenda-20261014.md` and
 `docs/PR-WORKFLOW.md` first. User instructions override older dated notes.

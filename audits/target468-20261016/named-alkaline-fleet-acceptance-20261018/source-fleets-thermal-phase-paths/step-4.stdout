@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+387-water-heat-single-1 exit= 0 steps= 4
+388-water-heat-split-1 exit= 0 steps= 5
+389-water-heat-single-2 exit= 0 steps= 4
+390-water-heat-split-2 exit= 0 steps= 5
+391-water-heat-single-3 exit= 0 steps= 4
+392-water-heat-split-3 exit= 0 steps= 5
+393-water-heat-single-4 exit= 0 steps= 4
+394-water-heat-split-4 exit= 0 steps= 5
+395-thermal-mix-forward-1 exit= 0 steps= 9
+396-thermal-mix-reverse-1 exit= 0 steps= 9
+397-thermal-mix-forward-2 exit= 0 steps= 9
+398-thermal-mix-reverse-2 exit= 0 steps= 9
+399-thermal-mix-forward-3 exit= 0 steps= 9
+400-thermal-mix-reverse-3 exit= 0 steps= 9
+401-thermal-mix-forward-4 exit= 0 steps= 9
+402-thermal-mix-reverse-4 exit= 0 steps= 9
+403-thermal-roundtrip-1 exit= 0 steps= 5
+404-thermal-blank-1 exit= 0 steps= 3
+405-thermal-roundtrip-2 exit= 0 steps= 5
+406-thermal-blank-2 exit= 0 steps= 3
+407-thermal-roundtrip-3 exit= 0 steps= 5
+408-thermal-blank-3 exit= 0 steps= 3
+409-thermal-roundtrip-4 exit= 0 steps= 5
+410-thermal-blank-4 exit= 0 steps= 3

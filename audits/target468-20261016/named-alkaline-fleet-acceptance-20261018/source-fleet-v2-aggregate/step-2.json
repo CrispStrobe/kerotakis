@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/aggregate_source_fleets_2.py downloaded-evidence-v2"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "743627ca2f7a7364a382bbb3f19c4be6ff28df93b9746e6709633d71fc7a3077",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

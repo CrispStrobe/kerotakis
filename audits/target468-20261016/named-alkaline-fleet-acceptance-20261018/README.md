@@ -1,0 +1,7 @@
+# Named alkaline hydrolysis: original full-fleet acceptance
+
+Exact source `bf03c11ac1d427e371071897543e2e1b2d81d67b`, tree `9e47bc312d60b55b7cfb162982db696b7871fe84`, passes all33 original logical jobs,142 unchanged run steps,29 named-law reports and all three original aggregates. Root authenticated796 evidence files and2,193 archived artifact members, including the actual native binary and generated producer lock. All original outputs and artifact-member hashes are retained here. The archive digest is in [acceptance](acceptance.json).
+
+The separate [focused acceptance](../named-alkaline-native-acceptance-20261018/README.md) binds Clippy,2137 core and608 native tests plus nine independently reviewed chemical arms to the same source/tree and actual producer lock. No focused controls were duplicated by this full-fleet worker. The original GitHub producer was normally cancelled before any assigned runner or executed step, as retained in [transfer evidence](../named-alkaline-fleet-preparation-20261018/README.md). This CPU result is not a fabricated GitHub success.
+
+The saved review initially deferred before opening the archive because host resources were insufficient. It resumed once resources recovered and passed without another producer or engine run. This source predates the separately integrated ammonia repair; current combined-source validation, protected/platform acceptance, normal integration and actual deployed OR006 replay remain required. No scientific catalog additions or empirical calibration are claimed.

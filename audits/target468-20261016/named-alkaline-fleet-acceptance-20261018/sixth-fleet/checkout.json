@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-full-fleet/source",
+    "/kaggle/temp/kerotakis-full-fleet/sixth-fleet"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "70c7e55ac329fd9fdbd7167de47d009777fab900040ab6ccf6c86b51d2840066"
+}

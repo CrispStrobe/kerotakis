@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-full-fleet/source",
+    "/kaggle/temp/kerotakis-full-fleet/source-fleets-v2-crystallisation-boundaries"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "7c459b4af172900bea258d17b0e55d75ee369500e65559696923602297c2a98c"
+}
