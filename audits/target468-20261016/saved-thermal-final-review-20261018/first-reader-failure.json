@@ -1,0 +1,10 @@
+{
+  "error_type": "AssertionError",
+  "case": "new120:th-004",
+  "reader_sha256": "ca2dc55f6fae21f6196c485b4041097f56651407558fcb37f7bb0d26376345ea",
+  "cause": "The new Decimal reader compared native floating-point reserialization of a supplied salt dose to its decimal spelling with exact equality.",
+  "correction": "Use a relative1e-12 numerical amount comparison for supplied finite salt doses, preserving measured states, original criteria and all original1e-8 material bounds. This is not a physical uncertainty or calibration band.",
+  "assessment_created": false,
+  "new_executions": 0,
+  "catalog_additions": 0
+}

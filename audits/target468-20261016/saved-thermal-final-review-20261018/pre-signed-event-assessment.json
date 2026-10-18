@@ -1,0 +1,897 @@
+{
+  "schema": "kerotakis-saved-thermal-final-review-v1",
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "phase_route_sha256": "4389a723f7b77c3b395069c77b89a2f4f9c8d749dcc221a69dac90a35cbbbe52",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "decimal_precision": 45,
+  "cases": [
+    {
+      "id": "new120:th-001",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "Below phase transitions, the same energy pulse raises the temperature of ethanol more than that of the same mass of water.",
+      "original_criteria_review": [
+        {
+          "id": "TH-001-C1",
+          "criterion": "The ethanol temperature rise exceeds the water rise.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "At equal100g doses and equal5000J pulses, ethanol has a larger actual temperature rise than water."
+        },
+        {
+          "id": "TH-001-C2",
+          "criterion": "Neither case should cross its boiling point; compare energy per heat capacity, not just energy per mass.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Both final temperatures remain below their own pinned boiling transitions. Independent Cp(T) quadrature accounts for each5000J pulse to below3e-9J; this is source-property arithmetic, not calorimetric calibration."
+        }
+      ],
+      "script_sha256": "909649a0498d08f560a3333d3b4d18bf2a91db53ce6f1c4d38f3a016c2f73c5a",
+      "stdout_sha256": "0caa861fbf0bc334032f279ec906cff1df60c2b2160602aca41160eb42706baa",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "310.1036758243364",
+          "1": "318.66157613535177"
+        },
+        "reproduced_bounded_energy_arithmetic": [
+          {
+            "row": 3,
+            "method": "unchanged liquid inventory; integrate pinned Cp(T)",
+            "species": "water",
+            "sensible_J": 5000.000000002935,
+            "quadrature_refinement_delta_J": 7.185008144006133e-11,
+            "requested_J": 5000.0,
+            "accounted_J": 5000.000000002935,
+            "residual_J": 2.9349394026212394e-09
+          },
+          {
+            "row": 4,
+            "method": "unchanged liquid inventory; integrate pinned Cp(T)",
+            "species": "ethanol",
+            "sensible_J": 5000.000000000012,
+            "quadrature_refinement_delta_J": 0.0,
+            "requested_J": 5000.0,
+            "accounted_J": 5000.000000000012,
+            "residual_J": 1.1823431123048067e-11
+          }
+        ],
+        "reproduced_mixing_arithmetic": null
+      },
+      "explicit_limits_preserved": [],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    },
+    {
+      "id": "new120:th-002",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The mixture should settle only a few degrees above the water\u2019s initial temperature because water contributes much more heat capacity than the copper.",
+      "original_criteria_review": [
+        {
+          "id": "TH-002-C1",
+          "criterion": "The final temperature is much closer to 20 C than to the mass-weighted value 46.7 C.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual mixture is23.56744434C, much closer to initial20C water than the46.7C mass-weighted estimate."
+        },
+        {
+          "id": "TH-002-C2",
+          "criterion": "An ideal constant-heat-capacity estimate is about 23.5 C; compare with the model\u2019s actual property values.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual pinned variable-Cp calculation gives1491.94386717J gained by water and1491.94386734J lost by copper, closing the adiabatic balance to1.72e-7J. The approximate23.5C constant-Cp guide is not substituted for the model properties."
+        }
+      ],
+      "script_sha256": "5739d05f62c63c8acbde2d4aca2345891e8d3f76bfab2273d206fa776bab1757",
+      "stdout_sha256": "26c5172381434d319c71c36b9d16540db96e7f38a81efb00a0e43bd792915edc",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "296.71744433958713"
+        },
+        "reproduced_bounded_energy_arithmetic": [],
+        "reproduced_mixing_arithmetic": {
+          "reported_T_K": 296.71744433958713,
+          "initial_water_K": 293.15,
+          "initial_Cu_K": 373.15,
+          "water_heat_gain_J": 1491.9438671678543,
+          "copper_heat_change_J": -1491.9438673397933,
+          "adiabatic_residual_J": -1.719390638754703e-07,
+          "scope": "Pinned Cp(T) with documented endpoint clamping, not a mass-weighted or constant-Cp estimate."
+        },
+        "initial_to_final_temperature_C": "23.56744433958713"
+      },
+      "explicit_limits_preserved": [
+        {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "copper",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "copper in contact with liquid: no wired solver models this dissolution/reaction"
+        }
+      ],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    },
+    {
+      "id": "new120:th-003",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "After creating an ice/water mixture, a smaller heating pulse melts part of the ice while the temperature stays near the melting point.",
+      "original_criteria_review": [
+        {
+          "id": "TH-003-C1",
+          "criterion": "Ice decreases but is not exhausted by the partial reheating.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Ice decreases from1.66389351mol to0.831946755mol during the5000J partial reheating; both liquid water and ice remain."
+        },
+        {
+          "id": "TH-003-C2",
+          "criterion": "The mixture remains close to its melting plateau; pH of a fully homogeneous liquid is not presumed during phase coexistence.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Both mixed-phase snapshots stay at273.15K and the independently accounted liquid-fraction changes match the\u221210000J and+5000J pulses. No homogeneous-liquid pH is inferred from coexistence."
+        }
+      ],
+      "script_sha256": "f04dfb9c1ed91493a1deb37bd1608a4642283536721a8c9bb42561822f29966d",
+      "stdout_sha256": "f4230ac9459978de60a97d6ebf57dfdd082809211d2f00573c9b449d9d233b21",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "273.15"
+        },
+        "reproduced_bounded_energy_arithmetic": [
+          {
+            "row": 1,
+            "method": "water phase coexistence at273.15K; liquid-mole change times fusion enthalpy",
+            "requested_J": -10000.0,
+            "accounted_J": -9999.999999999989,
+            "residual_J": 1.0913936421275139e-11
+          },
+          {
+            "row": 3,
+            "method": "water phase coexistence at273.15K; liquid-mole change times fusion enthalpy",
+            "requested_J": 5000.0,
+            "accounted_J": 4999.999999991842,
+            "residual_J": -8.158167474903166e-09
+          }
+        ],
+        "reproduced_mixing_arithmetic": null,
+        "ice_after_cooling_mol": "1.663893510815306",
+        "ice_after_partial_thaw_mol": "0.8319467554090091"
+      },
+      "explicit_limits_preserved": [],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    },
+    {
+      "id": "new120:th-004",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The electrolyte produces a larger ideal particle-count effect than the same amount of a molecular nonelectrolyte, depressing the freezing equilibrium more strongly.",
+      "original_criteria_review": [
+        {
+          "id": "TH-004-C1",
+          "criterion": "Compare actual phase temperatures and dissolved particle inventories in the two mixed-phase states.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Both actual states own ice and liquid water: sucrose273.048624K versus NaCl272.953021K. The molecular solute owns0.005mol while NaCl owns0.005mol each Na+ and Cl\u2212."
+        },
+        {
+          "id": "TH-004-C2",
+          "criterion": "Do not impose exactly a factor of two once ion activities and freeze concentration become significant.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual temperature/depression comparison and dissolved inventories are retained; freeze concentration and activity effects preclude imposing an exact factor of two. No general mixture-energy or empirical cryoscopic calibration is claimed."
+        }
+      ],
+      "script_sha256": "1dcfe7d254d8f81994100b6ea9196a6940f70a102283ac5ebfd916828834c246",
+      "stdout_sha256": "f01553e1a08c66886217626751b01c75baa5b02d22223eeea855dff1c3a70b4a",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "273.04862429156685",
+          "1": "272.9530205166486"
+        },
+        "reproduced_bounded_energy_arithmetic": [],
+        "reproduced_mixing_arithmetic": null,
+        "sucrose_dissolved_mol": "0.005",
+        "salt_ion_mol_each": "0.005000000000000001",
+        "actual_depression_ratio": "1.94306393904308766754542988545832937722836550"
+      },
+      "explicit_limits_preserved": [],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 8.673617379884035e-19,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 3.552713678800501e-15,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 8.673617379884035e-19,
+          "O": 1.7763568394002505e-15,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 3.552713678800501e-15,
+        "max_per_step_residual": 3.552713678800501e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    },
+    {
+      "id": "new120:th-005",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "Freezing removes mostly water from the liquid phase, increasing the concentration of salt in the remaining brine without creating salt.",
+      "original_criteria_review": [
+        {
+          "id": "TH-005-C1",
+          "criterion": "Some ice appears while a liquid brine remains.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual cooling leaves positive ice and liquid brine at272.705155K."
+        },
+        {
+          "id": "TH-005-C2",
+          "criterion": "Compare dissolved salt per liquid-water amount before and after; inspect any separate salt solid rather than assuming all salt must remain dissolved.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Dissolved Na+ per liquid-water mole increases while Na+/Cl\u2212 inventories remain0.01mol each; the actual final state contains no separate salt solid. This is an observed bounded freeze-concentration case, not an assumption that all other brines retain dissolved salt."
+        }
+      ],
+      "script_sha256": "64079daba04d7516e18b7c050637e879e8b09e6a66dc46f66cfe8054cbba1178",
+      "stdout_sha256": "36cab72cef99ee6bc99fab71e59cf7cc61904a80bf6dd9433d5ceeff8c366f41",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "272.7051548876518"
+        },
+        "reproduced_bounded_energy_arithmetic": [],
+        "reproduced_mixing_arithmetic": null,
+        "dissolved_Na_per_liquid_water_before_after": [
+          "0.00180150000000000021446857500000002553248385375",
+          "0.00234617498271016818848207578924938155255467653"
+        ]
+      },
+      "explicit_limits_preserved": [],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    },
+    {
+      "id": "new120:th-006",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "When both cases are boiling, the saline solution should have a slightly higher phase-equilibrium temperature than pure water at the same external pressure.",
+      "original_criteria_review": [
+        {
+          "id": "TH-006-C1",
+          "criterion": "Verify actual vapour production before calling either final temperature a boiling point.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Both arms actually export water vapour, matching retained-water loss, before their final temperatures are compared."
+        },
+        {
+          "id": "TH-006-C2",
+          "criterion": "Compare plateaus and salt ownership, allowing concentration to increase as water evaporates.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Pure water is373.15K and saline liquid373.615804K, retaining0.05mol each Na+/Cl\u2212 while concentrating. The explicit boiling-is-not-settled warning excludes a settled pH claim; no universal open-mixture energy closure is inferred."
+        }
+      ],
+      "script_sha256": "1e12e432034138e575c466bdfee457e659f9a098f504c09500d050f5cfd07cb5",
+      "stdout_sha256": "2ccf3f77259f87b435793b6c0af000cb6a294cf5b45edadaa6fb4838e55a3828",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "373.15",
+          "1": "373.61580381960016"
+        },
+        "reproduced_bounded_energy_arithmetic": [],
+        "reproduced_mixing_arithmetic": null,
+        "actual_water_vapour_export_mol": [
+          "0.19418712705375846",
+          "0.18458218213936253"
+        ]
+      },
+      "explicit_limits_preserved": [
+        {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing",
+            "key": "not-modeled.boiling-is-not-settled"
+          },
+          "vessel": 1,
+          "what": "the water is at the boil and leaving as steam, so what is dissolved in the rest is concentrating while you look at it: this bench reports the transition rather than a settled pH for a composition that is still changing"
+        }
+      ],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 3.552713678800501e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    },
+    {
+      "id": "new120:th-011",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "A modest energy pulse can bring naphthalene to its modelled melting point and partly melt it instead of producing the full sensible-heat temperature rise.",
+      "original_criteria_review": [
+        {
+          "id": "TH-011-C1",
+          "criterion": "Look for coexistence of solid and liquid naphthalene near the declared transition temperature.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual naphthalene owns both0.355287188mol solid and0.034807527mol liquid at its declared353.4K melting plateau."
+        },
+        {
+          "id": "TH-011-C2",
+          "criterion": "Total naphthalene inventory is conserved except for any explicitly represented volatile loss.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Total naphthalene is conserved; independent source Cp/latent arithmetic accounts for339.35314494J sensible plus660.64685506J latent. No empirical phase-property accuracy is inferred."
+        }
+      ],
+      "script_sha256": "5e09b1e636540528c1b2a834ec87dad90f94241be19ab07f9062c62e602d746f",
+      "stdout_sha256": "2ae4035fe2b0f47a2d5e66bd72daa74c0dbe9c933bbea7d42bb5e727e0840895",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "353.4"
+        },
+        "reproduced_bounded_energy_arithmetic": [
+          {
+            "row": 1,
+            "method": "initial-phase sensible integral plus actual phase-fraction latent change; open ethanol export counted",
+            "species": "naphthalene",
+            "requested_J": 1000.0,
+            "sensible_J": 339.35314494359227,
+            "latent_J": 660.646855056409,
+            "accounted_J": 1000.0000000000013,
+            "residual_J": 1.2505552149377763e-12,
+            "note": "A large mismatch is retained as evidence, never a fitted property or repaired forecast."
+          }
+        ],
+        "reproduced_mixing_arithmetic": null,
+        "final_owned_solid_mol": "0.3552871883868745",
+        "final_owned_liquid_mol": "0.03480752660992671",
+        "registry_melting_temperature_K": "353.4"
+      },
+      "explicit_limits_preserved": [],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    },
+    {
+      "id": "new120:th-012",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "Pure acetic acid can enter a solid/liquid coexistence region near its declared melting point, well above 0 C.",
+      "original_criteria_review": [
+        {
+          "id": "TH-012-C1",
+          "criterion": "Confirm a phase change of acetic acid rather than formation of water ice.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual owned coexisting solid and liquid are acetic acid; no water ice is present. The historical repeated phase messages remain preserved and are not summed as additional physical freezing."
+        },
+        {
+          "id": "TH-012-C2",
+          "criterion": "The final temperature is compared with the registry transition of the pure substance, not vinegar or an aqueous acid solution.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The pure-acid state is289.75K, matching its pinned pure-substance transition rather than vinegar. Independent owned-fraction energy closes the\u22122000J pulse; the generic dissolution warning does not certify missing acid-phase dissolution chemistry."
+        }
+      ],
+      "script_sha256": "eeae5a5e9eb13ccbc83d0151a8f7e9e272f55c6b10ec3aa6255a6cc6f6bd3ca3",
+      "stdout_sha256": "41fcdf83fdbebf90d7ba795dcfb02421ae889b1a6967e843aeb6f70fbbea3b31",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "289.75"
+        },
+        "reproduced_bounded_energy_arithmetic": [
+          {
+            "row": 1,
+            "method": "initial-phase sensible integral plus actual phase-fraction latent change; open ethanol export counted",
+            "species": "CH3COOH",
+            "requested_J": -2000.0,
+            "sensible_J": -696.9626323852613,
+            "latent_J": -1303.0373676147397,
+            "accounted_J": -2000.000000000001,
+            "residual_J": -9.094947017729282e-13,
+            "note": "A large mismatch is retained as evidence, never a fitted property or repaired forecast."
+          }
+        ],
+        "reproduced_mixing_arithmetic": null,
+        "final_owned_solid_mol": "0.11118066276576272",
+        "final_owned_liquid_mol": "1.5540428102243125",
+        "registry_melting_temperature_K": "289.75",
+        "historical_phase_messages": [
+          {
+            "at": "289.75",
+            "event": "state_changed",
+            "from": "liquid",
+            "kind": "freezing",
+            "moles": "0.11118066276576277",
+            "shifted_by": "0.0",
+            "species": "CH3COOH",
+            "to": "solid",
+            "vessel": 0
+          },
+          {
+            "at": "289.75",
+            "event": "state_changed",
+            "from": "liquid",
+            "kind": "freezing",
+            "moles": "0.11118066276576277",
+            "shifted_by": "0.0",
+            "species": "CH3COOH",
+            "to": "solid",
+            "vessel": 0
+          },
+          {
+            "at": "289.75",
+            "event": "state_changed",
+            "from": "liquid",
+            "kind": "freezing",
+            "moles": "0.11118066276576277",
+            "shifted_by": "0.0",
+            "species": "CH3COOH",
+            "to": "solid",
+            "vessel": 0
+          },
+          {
+            "at": "289.75",
+            "event": "state_changed",
+            "from": "liquid",
+            "kind": "freezing",
+            "moles": "0.11118066276576277",
+            "shifted_by": "0.0",
+            "species": "CH3COOH",
+            "to": "solid",
+            "vessel": 0
+          },
+          {
+            "at": "289.75",
+            "event": "state_changed",
+            "from": "solid",
+            "kind": "melting",
+            "moles": "0.33354198829728837",
+            "shifted_by": "0.0",
+            "species": "CH3COOH",
+            "to": "liquid",
+            "vessel": 0
+          }
+        ]
+      },
+      "explicit_limits_preserved": [
+        {
+          "beside_a_visible_change": true,
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "acetic acid",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "acetic acid in contact with liquid: no wired solver models this dissolution/reaction"
+        }
+      ],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    },
+    {
+      "id": "new120:th-013",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The energy pulse first reaches ethanol\u2019s boiling region, then mainly drives vaporisation rather than heating all liquid far above its boiling point.",
+      "original_criteria_review": [
+        {
+          "id": "TH-013-C1",
+          "criterion": "Temperature approaches the declared ethanol boiling plateau while retained liquid mass falls.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Ethanol reaches its declared351.39K plateau and its retained liquid decreases by the actual0.119364983mol vapour export."
+        },
+        {
+          "id": "TH-013-C2",
+          "criterion": "No combustion is inferred: heat and ignite are different operations.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Only ethanol remains in the owned inventory; the heat command is not ignition or chemical combustion. Independent sensible plus exported-vapour latent energy accounts for the5000J pulse."
+        }
+      ],
+      "script_sha256": "50e84d350d61848b95846b144a33aa3fb2f1b89f2fcbb40e3544dc37b69886f5",
+      "stdout_sha256": "3fdded6611e11c247041b6c0861c305ef76b9cbaf40519639ebf10a50ae1995a",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "351.39"
+        },
+        "reproduced_bounded_energy_arithmetic": [
+          {
+            "row": 1,
+            "method": "initial-phase sensible integral plus actual phase-fraction latent change; open ethanol export counted",
+            "species": "ethanol",
+            "requested_J": 5000.0,
+            "sensible_J": 394.8989559139562,
+            "latent_J": 4605.101044086044,
+            "accounted_J": 5000.0,
+            "residual_J": 0.0,
+            "note": "A large mismatch is retained as evidence, never a fitted property or repaired forecast."
+          }
+        ],
+        "reproduced_mixing_arithmetic": null,
+        "actual_ethanol_vapour_export_mol": "0.11936498299860139"
+      },
+      "explicit_limits_preserved": [],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    },
+    {
+      "id": "new120:th-014",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "Under the documented dissolution-enthalpy model, calcium chloride warms the water while potassium chloride cools it.",
+      "original_criteria_review": [
+        {
+          "id": "TH-014-C1",
+          "criterion": "Use each water temperature before salt addition as its own baseline.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Each arm uses its own actual298.15K water baseline; CaCl2 ends300.129544K while KCl ends297.738775K."
+        },
+        {
+          "id": "TH-014-C2",
+          "criterion": "Both solids substantially dissolve; opposite heat effects do not mean only one underwent a physical/chemical change.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Both literal solids disappear into the matching owned aqueous ions. Opposite signs demonstrate the declared dissolution-enthalpy model, not that one salt failed to dissolve or an independently calibrated calorimetry result."
+        }
+      ],
+      "script_sha256": "88f439a627544472a4a4b51b3337ad214f9da98ccf85dc527ac8720d59b983bb",
+      "stdout_sha256": "7df179f1ff52e61a5fbf0c617109708ec37200781a3086b76341f3b61c06079b",
+      "metrics": {
+        "actual_final_temperature_K": {
+          "0": "300.1295438003384",
+          "1": "297.73877479102725"
+        },
+        "reproduced_bounded_energy_arithmetic": [],
+        "reproduced_mixing_arithmetic": null,
+        "own_water_baselines_K": {
+          "0": "298.15",
+          "1": "298.15"
+        },
+        "temperature_changes_K": [
+          "1.9795438003384",
+          "-0.41122520897275"
+        ]
+      },
+      "explicit_limits_preserved": [],
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original bounded phase/property/dissolution model. Numerical source-property balances are not empirical calibration, and no universal mixture/reaction/open-boundary enthalpy closure is inferred. Historical binary/lock hashes remain producer-qualified; not current-production certification."
+    }
+  ],
+  "selected": 10,
+  "new_engine_or_API_executions": 0,
+  "historical_holds_preserved": [
+    "new120:th-007",
+    "new120:th-008",
+    "new120:th-009",
+    "new120:th-010",
+    "new120:th-015",
+    "new120:th-016"
+  ],
+  "additional_gap": "TH012 historical repeated phase messages require separately bound current-source event/owned-fraction reconciliation. Its selected claim is final owned coexistence and energy, not a correct cumulative event ledger. TH016 already has a separate repaired-source selection; its old failure remains excluded."
+}

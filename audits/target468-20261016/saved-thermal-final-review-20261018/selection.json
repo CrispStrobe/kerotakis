@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-18T20:36:07.556631+00:00",
+  "selected_original_ids": [
+    "new120:th-001",
+    "new120:th-002",
+    "new120:th-003",
+    "new120:th-004",
+    "new120:th-005",
+    "new120:th-006",
+    "new120:th-011",
+    "new120:th-012",
+    "new120:th-013",
+    "new120:th-014"
+  ],
+  "selected_catalog_ids": [
+    "new120-saved-thermal:th-001",
+    "new120-saved-thermal:th-002",
+    "new120-saved-thermal:th-003",
+    "new120-saved-thermal:th-004",
+    "new120-saved-thermal:th-005",
+    "new120-saved-thermal:th-006",
+    "new120-saved-thermal:th-011",
+    "new120-saved-thermal:th-012",
+    "new120-saved-thermal:th-013",
+    "new120-saved-thermal:th-014"
+  ],
+  "previous_catalog_sha256": "5bbd634f6a1f884d66894bde3c7ebc8d323b7767b75fb4c132c4720a632ccd4e",
+  "new_catalog_sha256": "fdf15aa1d9d79aaa3f33ce68a992e5a2efeac960936648d19771ddb2961b87c3",
+  "previous_entries_preserved_exactly": 223,
+  "new_count": 233,
+  "fixed468_selected_before": 219,
+  "fixed468_selected_after": 229,
+  "additional_qualified_cases_to401": 172,
+  "remaining_first_screen_candidates": 14,
+  "historical_holds_unchanged": 20,
+  "new_simulator_or_API_executions": 0,
+  "new_current_source_certifications": 0,
+  "signed_phase_event_review": "TH012 four freezing messages and a compensating melt close signed net owned solid change to6e-17mol. Repetition alone does not establish a current bug; earlier preparation is preserved."
+}

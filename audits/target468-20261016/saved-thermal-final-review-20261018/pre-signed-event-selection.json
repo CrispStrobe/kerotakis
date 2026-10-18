@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-18T20:36:07.556631+00:00",
+  "selected_original_ids": [
+    "new120:th-001",
+    "new120:th-002",
+    "new120:th-003",
+    "new120:th-004",
+    "new120:th-005",
+    "new120:th-006",
+    "new120:th-011",
+    "new120:th-012",
+    "new120:th-013",
+    "new120:th-014"
+  ],
+  "selected_catalog_ids": [
+    "new120-saved-thermal:th-001",
+    "new120-saved-thermal:th-002",
+    "new120-saved-thermal:th-003",
+    "new120-saved-thermal:th-004",
+    "new120-saved-thermal:th-005",
+    "new120-saved-thermal:th-006",
+    "new120-saved-thermal:th-011",
+    "new120-saved-thermal:th-012",
+    "new120-saved-thermal:th-013",
+    "new120-saved-thermal:th-014"
+  ],
+  "previous_catalog_sha256": "5bbd634f6a1f884d66894bde3c7ebc8d323b7767b75fb4c132c4720a632ccd4e",
+  "new_catalog_sha256": "294c731f6c98f0e582beae874f5624deabf4f5f9a094c3023b809c61bb074881",
+  "previous_entries_preserved_exactly": 223,
+  "new_count": 233,
+  "fixed468_selected_before": 219,
+  "fixed468_selected_after": 229,
+  "additional_qualified_cases_to401": 172,
+  "remaining_first_screen_candidates": 14,
+  "historical_holds_unchanged": 20,
+  "new_simulator_or_API_executions": 0,
+  "new_current_source_certifications": 0,
+  "historical_phase_message_gap_preserved": "TH012 final owned phases and energy pass original criteria; repeated phase messages are explicitly retained for separate current-source reconciliation."
+}
