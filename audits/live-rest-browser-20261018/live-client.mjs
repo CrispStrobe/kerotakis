@@ -88,6 +88,7 @@ try {
     const lab = new module.Lab();
     try {
       const meta = JSON.parse(lab.meta());
+      const bareCanSolve = lab.canSolve();
       const pool = await PhreeqcPool.create(factory, async file => {
         const response = await fetch('/db/' + file, { redirect: 'error' });
         if (!response.ok) throw new Error('Database load failed: ' + response.status);
@@ -104,15 +105,15 @@ try {
         basic = { response: JSON.parse(pool.solve('wateq4f',
           'SOLUTION 777\n pH 7\nSELECTED_OUTPUT\n -reset false\nUSER_PUNCH\n10 PUNCH 2+3\nEND\n')) };
       } catch (error) { basic = { error: String(error) }; }
-      return { meta, canSolve, solver_hook_calls: calls, result, basic };
+      return { meta, bareCanSolve, canSolve, solver_hook_calls: calls, result, basic };
     } finally { lab.free(); }
   }, bridgeScript);
   report.live_browser_control = live;
   check('actual Wasm source revision', typeof live.meta.git_rev === 'string' &&
     live.meta.git_rev.length >= 7 && spec.expected_engine_source.startsWith(live.meta.git_rev), live.meta);
   const vessel = live.result.bench.vessels[0];
-  check('uncached browser solve uses live engine', live.canSolve && live.solver_hook_calls > 0 &&
-    vessel.solution != null, { canSolve: live.canSolve, solver_hook_calls: live.solver_hook_calls,
+  check('uncached browser solve uses live engine', !live.bareCanSolve && live.canSolve && live.solver_hook_calls > 0 &&
+    vessel.solution != null, { bareCanSolve: live.bareCanSolve, canSolve: live.canSolve, solver_hook_calls: live.solver_hook_calls,
       solution: vessel.solution });
   const deltaPh = Math.abs(vessel.solution.ph - nativeReference.solution.ph);
   const deltaI = Math.abs(vessel.solution.ionic_strength - nativeReference.solution.ionic_strength);
