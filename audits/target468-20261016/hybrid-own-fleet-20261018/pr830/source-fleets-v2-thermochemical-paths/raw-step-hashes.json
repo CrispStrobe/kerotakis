@@ -1,0 +1,52 @@
+[
+  {
+    "name": "step-4.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "name": "step-5.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "name": "step-6.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "name": "step-4.stdout",
+    "sha256": "9bc5a987b82b9a612926ab48297d9845b20a7cacb38b5b24dedc9e2f53aa8de8",
+    "bytes": 962
+  },
+  {
+    "name": "step-2.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "name": "step-5.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "name": "step-2.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "name": "step-3.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "name": "step-6.stdout",
+    "sha256": "070387771427cdbafedb89eb0ef2aa4266dad3ae1790c1c4e77f79777018c6ab",
+    "bytes": 6014
+  },
+  {
+    "name": "step-3.stdout",
+    "sha256": "175b84fe9b6f6a33ea3326446317aca760e0be7e82b41f84af301ef01e1f4c80",
+    "bytes": 652
+  }
+]

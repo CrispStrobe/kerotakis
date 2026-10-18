@@ -1,0 +1,11 @@
+{
+  "job": "All 120 source-informed v3 cases",
+  "key": "source-fleet-v3-aggregate",
+  "family": null,
+  "steps_completed": 1,
+  "elapsed_seconds": 0.4913854468613863,
+  "status": "all_original_run_steps_passed",
+  "provider": "local",
+  "source": "983ffedb1ee186b61b5610915ab8f110a0ed85da",
+  "binary_sha256": "774494ff46da5033e91a95f51d34026048e1562cd641dc880873216a3dd69a9e"
+}

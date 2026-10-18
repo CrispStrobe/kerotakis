@@ -1,0 +1,12 @@
+[
+  {
+    "name": "step-2.stdout",
+    "sha256": "ed0cdb13d7c6fe4b9145e3da7e504ca560f30bd7187c61043d367d3730a2ee43",
+    "bytes": 284
+  },
+  {
+    "name": "step-2.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  }
+]
