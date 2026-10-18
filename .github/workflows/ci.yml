@@ -560,6 +560,10 @@ jobs:
   demo:
     name: The demo page, in a real browser
     runs-on: ubuntu-latest
+    env:
+      # Publish the same reviewed live interpreter as the required bridge
+      # gates and Vercel; the builder's standalone default disables BASIC.
+      IPHREEQC_BASIC_MODE: my-basic
     steps:
       - uses: actions/checkout@v6
         with:
@@ -576,6 +580,8 @@ jobs:
         run: cargo install wasm-bindgen-cli --version 0.2.127
       - name: Build the site
         run: ./tools/build-web.sh "$RUNNER_TEMP/site"
+      - name: The packaged Pages engine executes the reviewed BASIC profile
+        run: node tools/test-iphreeqc-wasm.mjs "$RUNNER_TEMP/site" vendor/iphreeqc/database/wateq4f.dat
       # Node cannot catch what only a browser does. The first browser run of
       # this page failed on Chrome refusing TextDecoder over a resizable
       # ArrayBuffer, which Node does not reproduce at all.
