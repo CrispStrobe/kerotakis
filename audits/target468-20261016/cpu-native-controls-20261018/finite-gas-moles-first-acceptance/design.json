@@ -1,0 +1,42 @@
+{
+  "frozen_utc": "2026-10-18T15:35:38.378022+00:00",
+  "source": "8eece0b1c4412f23701871259f29d3c063444f1f",
+  "tree": "308bc29787abdf6a65275ecb9d00ad7cbc6cd003",
+  "script_sha256": "f4bde432ae3207a8e40d54534eece2b381d0a66d1d0ce956339a4272191a3c09",
+  "metadata_sha256": "dd5aa2998e5e83dbee4307ddfc366b846fe3ba47aef24ccca4bb7cce7d7248d3",
+  "cpu_only": true,
+  "max_jobs": 2,
+  "worker_seconds": 3600,
+  "commands": [
+    [
+      "clippy",
+      [
+        "cargo",
+        "clippy",
+        "-p",
+        "kerotakis-phreeqc",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ]
+    ],
+    [
+      "native-tests",
+      [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ]
+    ]
+  ],
+  "acceptance": "Inspect actual compiler, locks, all focused assertions and failures; Kaggle COMPLETE is not test acceptance. No automatic retries.",
+  "no_protected_context_replacement": true,
+  "scientific_selections": 0
+}

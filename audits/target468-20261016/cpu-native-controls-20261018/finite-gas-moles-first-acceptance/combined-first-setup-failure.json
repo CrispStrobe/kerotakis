@@ -1,0 +1,8 @@
+{
+  "original_worker_sha256": "27a642ae1f10755d105914cd198931972443645f9257b7038cfb92de53b97680",
+  "original_clippy_stderr_sha256": "378a1efe0407fad5fbaf7570586e20d0bc935c0eb35ab40ec36dd5e3f43e0ec1",
+  "app_source_unchanged": true,
+  "zero_engine_or_experiment_executions": true,
+  "reason": "Combined native commands ran before the original producer action initialized recursive submodules; Cargo stopped on missing sundials package before compilation or experimental execution. Original raw failure retained.",
+  "correction": "Initialize the original recursive source submodules before extra native checks; all original commands/criteria/source unchanged."
+}

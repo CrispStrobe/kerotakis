@@ -36,8 +36,9 @@ produce one selection and three continuing failures:
 - **GS-010 fails:** brine creates approximately2.767e-7mol carbon and1.107e-6eq
   charge. The traced cause is ideal-pressure initialization into a native
   real-gas model. A distinct direct-solver control supplies0.001mol but receives
- 0.0010003390707956424mol; exact native component moles close carbon to1.3e-17mol.
-  PR833 prepares that source repair; repaired Rust acceptance remains pending.
+  0.0010003390707956424mol; exact native component moles close carbon to1.3e-17mol.
+  PR833 has524 passing native tests on its first source; current combined-source
+  acceptance remains pending.
   A plausible salinity trend does not excuse the original imbalance.
 - **OR-006 fails:** the named hydrolysis request leaves ester unchanged and
   produces no acetate/ethanol. Analytical basis is not usable base capacity.
@@ -47,16 +48,19 @@ produce one selection and three continuing failures:
 
 ## Integrated source and actual production
 
-Latest verified main is **`0fe97e76`**, the normally protected PR830 merge after
-25 CI successes and all33 original logical fleet jobs (27 GitHub plus6
-source-bound local completions). Its [parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr830-integration.json) verifies the reviewed candidate. PR826 integrated as `ed7c452d` after
-25 CI successes. Its [parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr826-integration.json)
-verifies exact reviewed parents and reconstructed tree. PR822/823/824/825/827
+Latest verified main is **`0a5a92f1`**, the normally protected PR828 merge after
+25 CI successes, both reviewed native-platform logs and all33 original logical
+fleet jobs. Its [parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr828-integration.json)
+verifies the actual tree against the reviewed candidate. PR830 integrated as
+`0fe97e76` after25 CI and33 logical fleet jobs, with its separate retained
+[receipt](../audits/target468-20261016/accepted-pr-integration/pr830-integration.json).
+PR826 integrated as `ed7c452d`; its [receipt](../audits/target468-20261016/accepted-pr-integration/pr826-integration.json)
+remains preserved. PR822/823/824/825/827
 remain integrated as `bc472fb4`, `d6020643`, `76fe144f`, `050aea7f`, `e63a0824`.
 Their retained receipts cover finite phase inventory, conservative MIX fallback,
 complete command parsing, finite quantities and live-engine deployment.
 
-**Actual production is now `ed7c452d`, binary `f9358b91`, producer lock
+**Last accepted production remains `ed7c452d`, binary `f9358b91`, producer lock
 `66886813`.** [Release evidence](../audits/target468-20261016/production-release-ed7c452d-20261018/README.md)
 authenticates the actual artifact, runtime libraries and frontend assets:
 
@@ -74,6 +78,8 @@ whereas the full authenticated artifact manifest has more; a text-only explain
 row has no inventory snapshot. The corrected reader retained every physical
 criterion and assessed saved responses without repeating experiments.
 
+The [new phase-source production release](https://github.com/CrispStrobe/kerotakis/actions/runs/39143554661) is dispatched exactly once for `0a5a92f1`. Its eventual deploy success is not artifact/API/browser acceptance.
+
 The previous production404 engine-asset gap is closed on Vercel. **Pages still
 has a confirmed separate profile gap:** actual published source `76fe144`
 reports BASIC disabled and refuses USER_PUNCH. Pages REST client/UI checks pass;
@@ -84,11 +90,11 @@ that does not certify Pages chemistry. Follow
 
 | PR | Current reviewed head | Behavior and actual focused evidence | Remaining acceptance |
 | --- | --- | --- | --- |
-| [828](https://github.com/CrispStrobe/kerotakis/pull/828) | `5b054e6c` | Preserve supported paid solid/liquid coexistence across unchanged CEA readback. Correct freezing/condensation energy when phase Cp changes. Clippy,31 targeted core and80 CEA tests pass on authenticated CPU execution, including reverse cooling/pouring and water's actual solvent owner. | All33 original fleet jobs now pass on authenticated CPU execution, with142 original commands and29 zero-unmet law reports independently checked. Remaining protected/native-platform acceptance; normal exact-head integration, then separately bound deployment/replay. General reacting multiphase HP energy remains open. |
+| [828](https://github.com/CrispStrobe/kerotakis/pull/828) | `5b054e6c` | Preserve supported paid solid/liquid coexistence across unchanged CEA readback. Correct freezing/condensation energy when phase Cp changes. Clippy,31 targeted core and80 CEA tests pass on authenticated CPU execution, including reverse cooling/pouring and water's actual solvent owner. | Integrated as `0a5a92f1` after25 CI, both native platforms and all33 original logical jobs. A production release is dispatched; actual delivered artifact/API/browser acceptance and separate TH-016 replay remain pending. General reacting multiphase HP energy remains open. |
 | [829](https://github.com/CrispStrobe/kerotakis/pull/829) | `8e2fe429` | Report missing neutral chromatography parameters beside supported peaks; retain ionic exclusions. Actual8 core and3 native controls pass with real mixing/dissolution before PHREEQC and an explicit aqueous-glucose precondition. | Current-head protected/full-fleet acceptance and normal integration. Missing retention parameters remain unsupported; SP012 is not selected. |
 | [830](https://github.com/CrispStrobe/kerotakis/pull/830) | `f3517e08` | Cancellation-sensitive aggregates preserve original assertions/artifacts. Normal-cancellation control,25 CI and33 logical fleet jobs pass. | Integrated as `0fe97e76`; preserve the actual merge receipt. |
 | [832](https://github.com/CrispStrobe/kerotakis/pull/832) | `09aa2b01` | Select the existing reviewed MY-BASIC profile for the Pages build and probe the actual final payload before all existing browser gates. | Actual build, applicable acceptance and normal integration, then independent published Pages interpreter/uncached solution parity. |
-| [833](https://github.com/CrispStrobe/kerotakis/pull/833) | `8eece0b1` | Initialize finite gas with native raw component moles, preserving the database/EOS; direct real-solver comparison conserves carbon and permits initially empty gas formation. | Repaired Rust focused/native and full-fleet acceptance are pending; bounded CPU validation is running. Normal integration and a separate deployed GS-010 replay follow. |
+| [833](https://github.com/CrispStrobe/kerotakis/pull/833) | `e9cc8782` | Initialize finite gas with native raw component moles. First source `8eece0b1` passes Clippy and all524 PHREEQC native tests; current source includes accepted phase/energy repair. | Current combined-source native and full33 fleet validation is running on CPU; protected/platform acceptance and normal integration remain. A separate deployed GS-010 replay follows. |
 
 [Full original PR828 fleet evidence](../audits/target468-20261016/cpu-full-fleet-828-20261018/README.md) authenticates source, binary, producer lock and every original command. A redundant GitHub producer build occurred during transfer; no GitHub experimental Record step started. The cancelled workflow is not a GitHub success.
 
@@ -107,7 +113,7 @@ actual merge parents/tree afterward.
 
 ## Next executable work
 
-1. Finish PR828/829 current-head acceptance and normal integration; PR830 is integrated. Retain
+1. Finish PR829/833 current-head acceptance and normal integration; PR828/830 are integrated. Retain
    exact provider qualification and first failures; do not reset valid runs for
    optional changes. Document any held resource gate or active-run conflict.
 2. Deploy changed runtime source only after acceptance. Freeze a separate
@@ -124,3 +130,10 @@ Host paths, credentials, resource thresholds, session inventories and operating
 controllers belong only in the ignored private handoff. Legacy Hermes workers
 are closed; any independently approved reviewer is supervised and its conclusions
 need root review. No worker report alone earns a scientific selection.
+
+
+The [first gas native acceptance](../audits/target468-20261016/cpu-native-controls-20261018/finite-gas-moles-first-acceptance/README.md)
+retains actual524-test results and producer lock. The combined worker's first
+setup failure is preserved: missing recursive submodules stopped Cargo before
+compilation or experiments. Its correction initializes the original source
+submodules before unchanged native commands. No failing assertion is waived.

@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-18T16:04:21.576259+00:00",
+  "source": "8eece0b1c4412f23701871259f29d3c063444f1f",
+  "tree": "308bc29787abdf6a65275ecb9d00ad7cbc6cd003",
+  "actual_producer_locks": {
+    "clippy": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "native-tests": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "script_sha256": "f4bde432ae3207a8e40d54534eece2b381d0a66d1d0ce956339a4272191a3c09",
+  "all_recorded_steps_exit_zero": true,
+  "test_targets": 97,
+  "tests_passed": 524,
+  "tests_failed": 0,
+  "tests_ignored": 0,
+  "new_finite_molar_boundary_controls_both_pass": true,
+  "native_raw_streams_authenticated": true,
+  "full_own_fleet_pending": true,
+  "scientific_selections": 0
+}

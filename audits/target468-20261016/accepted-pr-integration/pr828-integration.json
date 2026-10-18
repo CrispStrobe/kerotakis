@@ -1,0 +1,16 @@
+{
+  "pr": 828,
+  "merge": "0a5a92f185d60f4b5b0e4a95cdd891b18934fede",
+  "reviewed_head": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+  "parents": [
+    "0fe97e76d21b599b4b6713aede6bf440c793dbc9",
+    "5b054e6cef6925828d9574cdd4cf9b0169da212b"
+  ],
+  "actual_tree": "ce405fa5e1489edff8d9a13aac8ea1e5e66e317b",
+  "reviewed_candidate_tree": "ce405fa5e1489edff8d9a13aac8ea1e5e66e317b",
+  "ci_successes": 25,
+  "native_both_platforms_reviewed": true,
+  "all33_original_logical_jobs_accepted": true,
+  "normal_protected_merge": true,
+  "deployed": false
+}

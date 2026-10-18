@@ -1,0 +1,34 @@
+{
+  "source": "8eece0b1c4412f23701871259f29d3c063444f1f",
+  "tree": "308bc29787abdf6a65275ecb9d00ad7cbc6cd003",
+  "commands": [
+    [
+      "clippy",
+      [
+        "cargo",
+        "clippy",
+        "-p",
+        "kerotakis-phreeqc",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ]
+    ],
+    [
+      "native-tests",
+      [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ]
+    ]
+  ],
+  "lock_qualification": "Actual generated worker bytes; source Cargo.lock is not assumed tracked"
+}
