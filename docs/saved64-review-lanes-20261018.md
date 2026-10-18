@@ -5,7 +5,7 @@ Finish accepted-source integration and the full frontend/native deployment in
 turn the [saved64 first screen](../audits/target468-20261016/saved64-first-screen/README.md)
 into concrete follow-ups. They preserve original forecasts and first outcomes;
 none authorizes treating unsupported chemistry, exit0 or a diagnostic warning
-as a scientific pass. The latest catalog is201 / fixed468 selected197 after the separate deployed-source KN-007 replay; the original screen and first failures remain unchanged.
+as a scientific pass. The latest catalog is204 / fixed468 selected200 after the separate deployed-source KN-007 replay and final review of three original saved gas cases; the original screen and first failures remain unchanged.
 
 ## A. Finalize bounded selections from existing evidence
 
@@ -78,7 +78,7 @@ reverse cooling, transfer and a second metal plus a molecular-solid control.
 No new oxide may appear without an oxygen source. Preserve original TH016 and
 freeze repaired-source evidence separately.
 
-Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses the destructive unchanged-chemistry readback boundary, with a separate smaller native first failure. Its actual repaired native/fleet acceptance is pending. The guard is restricted to supported paid coexistence plateaus; it does not implement general phase-aware CEA input enthalpy or energy closure across reacting HP phase transitions. Keep those algorithmic tasks separate.
+Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses the destructive unchanged-chemistry readback boundary, with a separate smaller native first failure. It is normally integrated as `0a5a92f1` after25 CI, both native platforms and33 original logical fleet jobs; actual changed-source production/TH016 acceptance remains pending. The guard is restricted to supported paid coexistence plateaus; it does not implement general phase-aware CEA input enthalpy or energy closure across reacting HP phase transitions. Keep those algorithmic tasks separate.
 
 ## D. Share authoritative aqueous base with named ester hydrolysis
 

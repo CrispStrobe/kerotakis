@@ -287,93 +287,60 @@ integrated and deployed states distinct. Preserve dated evidence rather than
 rewriting it. Public prose must contain no host paths, private snapshots,
 credentials, hostnames, session inventories or resource inventories.
 
-## Prepared repairs while the prior delivery queue waits
+## Current delivery and repair checklist
 
-Keep the earlier accepted-source production checkpoint first; preparation does
-not authorize merging an unaccepted product change. Refresh actual heads/checks.
+This section replaces obsolete pending snapshots in this maintained handover;
+original outcomes remain in the linked immutable evidence.
 
-1. **PR828** `5b054e6c`: read its `docs/paid-metal-phase-fractions.md`, original
-   smaller native failure and new native tests. Require actual successful focused
-   records from both platforms plus all33 original fleet jobs. Preserve Zn/Pb
-   below/at/above budget, repeated zero-time settlement, explicit cooling/pouring,
-   molecular and real-oxidation controls. The handoff is limited to supported
-   solid/liquid coexistence at the core plateau, unchanged chemical amounts and
-   unchanged actual atmosphere; display-event absence alone is insufficient.
-   Phase-aware input enthalpy and general HP discontinuity closure remain separate.
-2. **PR829** `8e2fe429`: read `docs/chromatogram-partial-coverage.md`. The reporting
-   omission is missing-model warnings beside supported peaks, not the empty
-   ionic `outside_method` field. Require real native/core mixed-sample controls,
-   unchanged neutral inventory and the full fleet. Never label unsupported
-   neutrals ions or invent retention coefficients. SP012 stays held for its
-   missing model coverage even when this reporting repair is accepted.
-3. **PR830** `f3517e08`: read `docs/chemistry-fleet-cancellation.md` and the public
-   scheduler receipt in STATUS. Its separate normal-cancellation control already
-   passed with zero physics recordings and no force request. Ordinary full CI
-   and33 fleet successes are still required. Preserve failed-family aggregation
-   and step-level raw uploads; a cancelled run is not a scientific pass.
+1. **Integrated phase repair:** PR828 `5b054e6c` merged as `0a5a92f1` after25 CI,
+   both native-platform logs and all33 original logical fleet jobs. Preserve
+   the [merge receipt](../audits/target468-20261016/accepted-pr-integration/pr828-integration.json)
+   and [111 focused controls/first failures](../audits/target468-20261016/cpu-native-controls-20261018/README.md).
+   The paid-coexistence guard and transition-referenced cooling correction are
+   accepted; general reacting multiphase HP enthalpy remains a separate lane.
+2. **Actual release:** the previous `ed7c452d` / `f9358b91` release has11 API and37
+   live-browser controls accepted. The new single dispatch
+   [39143554661](https://github.com/CrispStrobe/kerotakis/actions/runs/39143554661)
+   targets accepted main `0a5a92f1`. Authenticate its actual artifact, source,
+   binary, producer lock and frontend assets, then the unchanged API/browser
+   controls. Freeze a separate TH016 replay after delivery acceptance. Do not
+   repeat already issued controls or certify delivery from deployment exit0.
+3. **Chromatography:** PR829 `8e2fe429` passes8 core/3 native controls and all25 CI,
+   including both native platforms. Finish its existing full-fleet run
+   [39125735173](https://github.com/CrispStrobe/kerotakis/actions/runs/39125735173).
+   Preserve real mixing/dissolution and the aqueous-glucose precondition. Missing
+   retention parameters remain unsupported; SP012 is not selected. Review exact
+   head/base/tree and integrate normally once applicable acceptance completes.
+4. **Finite gas initialization:** PR833 first source `8eece0b1` passes Clippy and
+   [all524 PHREEQC native tests](../audits/target468-20261016/cpu-native-controls-20261018/finite-gas-moles-first-acceptance/README.md).
+   Current head `e9cc8782` incorporates the accepted phase repair for combined
+   acceptance. Authenticate current-source focused native output and all33
+   original logical fleet jobs; protected/platform CI remains separate. The
+   first combined worker omitted recursive submodule initialization and stopped
+   before compilation or experiments; preserve that setup failure. The corrected
+   worker changes prerequisites only. Integrate normally, then bind a separate
+   actual-source GS010 replay. Original brine C/charge failure remains excluded.
+5. **Pages:** PR832 `09aa2b01` selects the reviewed MY-BASIC profile and probes the
+   final site before existing browser gates. Complete actual build/applicable
+   acceptance, normal integration and published Pages interpreter plus uncached
+   solution parity. Published source `76fe144` demonstrably refuses USER_PUNCH;
+   Vercel's separately accepted profile does not close that Pages gap.
+6. **Documentation:** PR831 is ready with normal auto-merge enabled. Avoid
+   resetting active valid checks for optional changes. After integration, refresh
+   main's maintained summaries from these latest receipts in a narrow MD-only
+   branch; pin evidence links to their public commits when files are absent from
+   main. Never merge broad audit or isolated validation branches.
+7. **Coverage:** the [complete current catalog](../audits/working-experiments-20261018-reviewed-gas.json)
+   contains204 source-qualified entries, including200 fixed468 cases. The previous
+   201 entries are unchanged. [Final saved-gas review](../audits/target468-20261016/saved-gas-final-review-20261018/README.md)
+   adds GS001/003/009 after all six original criteria were reviewed without an
+   engine rerun. Forty-one other candidates need final review; historical holds
+   remain preserved. Achieving401 requires201 further earned selections.
 
-Normal exact-reviewed-head auto-merge applies once each named acceptance and the
-prior production checkpoint are complete. Verify actual merge parents/tree and
-update maintained summaries. Keep PRs draft only while those named gates remain.
-After accepted runtime follow-ups merge, freeze a separate release from that
-combined main and repeat only the changed-source controls needed to establish
-actual delivery. Do not overwrite the first production checkpoint or rerun the
-unchanged668 corpus. The catalog remains200/fixed196 until independent final
-selection review earns additional supported cases.
-
-### Delivery advancement and base-admission prerequisite
-
-PR826 merged as `ed7c452d` with25 CI successes; verify its
-[parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr826-integration.json).
-The single guarded production run is
-[39124453384](https://github.com/CrispStrobe/kerotakis/actions/runs/39124453384);
-review actual artifact/API/browser receipts before declaring delivery complete.
-PR828 current corrected head is `106dd5f3`: first macOS Clippy stopped before
-physics tests, then the unchanged test module moved after production items.
-Corrected native/fleet acceptance remains required.
-For hydrolysis, follow the strengthened
-[usable-base admission contract](saved64-review-lanes-20261018.md#d-share-authoritative-aqueous-base-with-named-ester-hydrolysis):
-positive analytical basis alone must never authorize buffered ester cleavage.
-No catalog entries were added by these corrections.
-
-### Chromatography control and CPU-provider bindings
-
-PR829's current head is `8e2fe429`; its first native failure at `7b5f62d1`
-exposed a missing neutral-solid mixing step in the new test. Read the corrected
-control and its explicit aqueous-glucose precondition; preserve all original
-assertions and first raw failure. Two separately frozen CPU-provider jobs
-cover original phase/chromatography heads and the changed chromatography source.
-Authenticate actual source/tree/compiler/producer-lock/test logs before accepting
-results. The original-source job cannot accept the corrected head. Provider
-validation does not replace protected GitHub checks or confer scientific catalog
-selection. Production run39124453384 remains a separate accepted-main delivery.
-
-## Authoritative release and repair checkpoint
-
-Production `ed7c452d` / binary `f9358b91` has11 unchanged API controls and37
-actual live-browser checks accepted; see the
-[release evidence](../audits/target468-20261016/production-release-ed7c452d-20261018/README.md).
-The four original diagnostics ran once afterward.
-[Saved assessment](../audits/target468-20261016/deployed-shared-diagnostics-20261018/assessment.json)
-qualifies KN-007 and preserves GS-010/OR-006/TH-016 failures.
-The [latest catalog](../audits/working-experiments-20261018-reviewed-gas.json) has201 overall/197
-fixed468. Earlier200 entries are unchanged; no44 older-source candidates were
-automatically promoted.
-
-PR828 `5b054e6c` passes Clippy and111 focused core/CEA tests on exact-source CPU
-execution; full/protected acceptance is still required. Its shared correction
-references pre/post-transition sensible energy to the same threshold, fixing
-reverse freezing and condensation when phase Cp changes. Preserve both native
-reverse-cooling failures and intermediate test-owner failure. Water stays in
-the regression through its solvent-state constant and solver. PR829 `8e2fe429`
-passes8 core and3 native controls; full/protected acceptance remains pending.
-PR830's remaining fleet jobs must complete or be safely transferred with exact
-source/artifact bindings; never cancel an active valid run for optional work.
-
-The actual Pages measurement now confirms `USER_PUNCH` refusal because BASIC
-is disabled on published source `76fe144`. Lane H is an observed gap, not just
-a configuration hypothesis. Keep Vercel's accepted profile separate.
-For GS-010, reproduce the retained2.767e-7mol C /1.107e-6eq charge drift on the
-closed brine addition before editing Henry/aqueous readback. For OR-006, retain
-matched-product criteria and buffer/carbonate/ammonia negatives; an instantaneous
-free-ion reading alone is not an analytical reserve.
+For hydrolysis, follow the [usable-base admission contract](saved64-review-lanes-20261018.md#d-share-authoritative-aqueous-base-with-named-ester-hydrolysis):
+positive analytical basis and instantaneous free OH alone are not a proved
+stoichiometric reserve. Preserve buffer/carbonate/ammonia negatives and atomic
+counterion/ledger updates. The [coupled ammonia owner lane](saved64-review-lanes-20261018.md#i-give-coupled-ammonia-protonation-and-headspace-exchange-one-owner)
+requires current-source reproduction before implementation; a source lead is not
+an observed current-source failure. Keep single-owner/native-fallback semantics
+and finite N/H/O/charge controls explicit.

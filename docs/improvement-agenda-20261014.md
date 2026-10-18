@@ -93,7 +93,7 @@ permit scientific verdicts from process exits.
 
 Production `ed7c452d` is authenticated with11 API and37 actual browser controls.
 The four original diagnostics were executed once; KN-007 now earns a separate
-working selection (catalog201 / fixed468197), while brine carbon/charge, named
+working selection (catalog204 / fixed468200), while brine carbon/charge, named
 hydrolysis and deployed zinc phase failures remain. Finish PR828 `5b054e6c`,
 PR829 `8e2fe429` and PR830 exact-head acceptance/integration; retain their focused
 CPU evidence and full original fleet requirements. Then deploy changed runtime
