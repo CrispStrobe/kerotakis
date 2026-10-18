@@ -48,6 +48,11 @@ sends supplied solids, gas and typed interface inventories through ordinary
 equilibrium instead of the dissolved-only shortcut. Exact-head native and
 full-fleet acceptance remain pending; this is not a multiphase MIX model.
 
+A [finite-solid inventory repair](finite-solid-inventory-repair.md) now addresses
+the separately reproduced ferrous-hydroxide wait cycle and comparison omission.
+Its native regression and full-fleet acceptance remain pending; unsupported
+solid and nitrate-solubility domains remain open. No catalog count changes.
+
 ## Integrated behavior
 
 | Front | Accepted integration and remaining scope |
