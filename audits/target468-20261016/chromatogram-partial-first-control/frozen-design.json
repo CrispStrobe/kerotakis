@@ -1,0 +1,22 @@
+{
+  "frozen_utc": "2026-10-18T10:27:59.471540+00:00",
+  "source": "5194f961a59b804f18bc4e593e067ab2cf8af0f5",
+  "binary_sha256": "d21fa9124d0e08c5c5fdfd5c62e634debab8476378f1e94b533dbefd0cc6e9a1",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_main_at_freeze": "e63a0824456626dfa6c6920c5a28b9a9ef10db0d",
+  "source_components_equal_to_main": [
+    "crates/kerotakis-core/src/bench.rs",
+    "crates/kerotakis-core/src/instrument.rs",
+    "data/registry/registry-source-v1.json"
+  ],
+  "script_sha256": "c2b459f6d2986cbb21fbd407092cf8308950516ffe7e929d0afdb89d2f359cbf",
+  "forecast": {
+    "ethanol_peak_present": true,
+    "ethyl_acetate_peak_not_invented_without_parameters": true,
+    "missing_ethyl_acetate_parameters_explicitly_reported": true,
+    "unknown_neutral_not_classified_as_ion_outside_method": true,
+    "measurement_preserves_owned_inventory": true
+  },
+  "catalog_additions": 0,
+  "qualification": "New smaller native instrument control, exact accepted source5194, not combined-main deployment or the original SP012 REST experiment."
+}

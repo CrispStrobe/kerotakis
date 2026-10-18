@@ -4579,7 +4579,7 @@ impl Bench {
                                     unparameterised.insert(p.species.clone());
                                 }
                             }
-                            if injectable.is_empty() && !unparameterised.is_empty() {
+                            if !unparameterised.is_empty() {
                                 // A solute this model cannot decompose is a GAP,
                                 // and must stay one. The column would separate it
                                 // on a real bench; reporting "not separated" would
@@ -4599,7 +4599,11 @@ impl Bench {
                                                     vec![("species".to_string(), Slot::texts(names))],
                                                 ),
                                             ));
-                            } else if injectable.is_empty() && outside.is_empty() {
+                            }
+                            if injectable.is_empty()
+                                && outside.is_empty()
+                                && unparameterised.is_empty()
+                            {
                                 // Nothing dissolved at all: there is no sample,
                                 // which is a different thing from a sample the
                                 // method cannot see.
@@ -4613,7 +4617,7 @@ impl Bench {
                                            phase",
                                                 ),
                                             ));
-                            } else if injectable.is_empty() {
+                            } else if injectable.is_empty() && !outside.is_empty() {
                                 // A sample the method cannot see is an ANSWER, not a
                                 // gap, and the answer was already computed: `outside`
                                 // holds exactly the species this column cannot
@@ -4635,7 +4639,7 @@ impl Bench {
                                     peaks: Vec::new(),
                                     outside_method: outside.into_iter().collect(),
                                 });
-                            } else {
+                            } else if !injectable.is_empty() {
                                 let mut peaks: Vec<ElutedPeak> = injectable
                                     .into_iter()
                                     .map(|(species, moles)| {

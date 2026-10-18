@@ -1,0 +1,6 @@
+register lv3
+add v1 water 20mL
+add v1 ethanol 0.0003mol
+add v1 ethyl_acetate 0.0007mol
+measure v1 chromatograph
+inspect v1
