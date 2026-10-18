@@ -364,3 +364,6 @@ Eight saved named-organic protocols OR001–005 and OR010–012 now satisfy all1
 
 
 Ten saved thermal protocols TH001–006 and TH011–014 satisfy all20 original bounded criteria after [source-bound actual phase/export/energy review](../audits/target468-20261016/saved-thermal-final-review-20261018/README.md). The catalog is233 / fixed468 selected229, preserving previous223 entries;172 more are needed for401. Fourteen first-screen candidates remain. TH012 four freezing messages and a compensating melting message close the signed net owned solid gain within6e-17mol; the initial unreviewed concern is preserved and no current-source defect is inferred from repetition alone. No current deployment certification or empirical calibration is claimed.
+
+
+Documentation PR835 `173be8a2` merged normally as `2eab41c4` after all25 applicable checks; [actual parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr835-integration.json) verifies the four-file-only scope. Runtime/accepted production remains `d3883757`. Deliver the current summaries through a new narrow MD-only branch from actual main, pinning audit evidence to an immutable public commit. Never merge broad audit history.

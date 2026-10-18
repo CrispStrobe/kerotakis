@@ -1,0 +1,195 @@
+{
+  "reviewed_utc": "2026-10-18T20:56:04.182520+00:00",
+  "pr": 835,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/835",
+  "reviewed_head": "173be8a29fc7e12c0c8ad074ca7aa27b3f8cddf0",
+  "actual_merge": "2eab41c40a230e4e7741ef83115bceb977177de3",
+  "merged_at": "2026-10-18T20:50:52Z",
+  "actual_parents": [
+    "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+    "173be8a29fc7e12c0c8ad074ca7aa27b3f8cddf0"
+  ],
+  "merge_base": "ac1f9993bfd21c400bfb3328cae94e9fab4d6e95",
+  "reconstructed_tree": "e0d87459512d9112c53f679db558585bd7c42f35",
+  "actual_tree": "e0d87459512d9112c53f679db558585bd7c42f35",
+  "actual_tree_matches_reconstructed_reviewed_merge": true,
+  "changed_paths_from_shared_base": [
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/saved64-review-lanes-20261018.md"
+  ],
+  "checks": [
+    {
+      "bucket": "skipping",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117786409568",
+      "name": "Publish the demo",
+      "state": "SKIPPED"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027957",
+      "name": "The demo page, in a real browser",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027901",
+      "name": "The two wasm halves, together",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027816",
+      "name": "Current registry source export",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027788",
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027620",
+      "name": "Full preflight gate",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027771",
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027783",
+      "name": "MY-BASIC preview (macos-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027769",
+      "name": "IPhreeqc wasm gate",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027661",
+      "name": "Legacy BASIC oracle (development only)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027734",
+      "name": "feos adapter (aarch64-linux-android)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027725",
+      "name": "The native host still compiles",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027719",
+      "name": "The bench in WebAssembly",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027582",
+      "name": "Theme contrast tokens",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027594",
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027684",
+      "name": "feos adapter (aarch64-apple-ios)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027872",
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027539",
+      "name": "BRD-080 viewer decision spike",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027525",
+      "name": "GPU release tools (deterministic)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027799",
+      "name": "Shell payload (windows-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027537",
+      "name": "Core and data schemas compile to wasm32",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027472",
+      "name": "Presentation authority adapters",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027673",
+      "name": "IPhreeqc under MSVC",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027535",
+      "name": "Test (native) (macos-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027790",
+      "name": "Shell payload (ubuntu-22.04)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39150178718/job/117742027322",
+      "name": "Test (native) (ubuntu-latest)",
+      "state": "SUCCESS"
+    }
+  ],
+  "all25_applicable_checks_pass": true,
+  "success_count": 25,
+  "conditional_publish_skip": {
+    "count": 1,
+    "source_if": "github.ref == 'refs/heads/main'",
+    "workflow_sha256": "8051e07954626482ddbb4cf393036a6bb1732ca74755cd1e3b7793e4c5ac1793",
+    "explanation": "Publishing runs on main, so this job is correctly skipped on a PR; it is not a failed or waived acceptance check."
+  },
+  "first_reader_guard_refusal_preserved": {
+    "predicate": "all26 statuses equal SUCCESS",
+    "result": false,
+    "no_receipt_or_acceptance_written_before_refusal": true,
+    "correction": "Independently authenticate the publish-only-on-main source condition; require all25 applicable CI checks to pass and retain the26th conditional skip explicitly."
+  },
+  "scope": "Documentation-only normal auto-merge, four maintained Markdown files. Source/runtime/workflows/data unchanged by this PR; no new chemistry fleet required. No admin bypass or force."
+}
