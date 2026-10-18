@@ -1,0 +1,127 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "original_dataset_sha256": "8e9fb7a92c20ad4de747d43540e417684ba398ff3896ab9d3de270e5a99b1fdd",
+  "raw_artifact_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "first_screen_sha256": "34f34d265755446e69f865a474532007ce676e4009f6e85a2637552312b902a3",
+  "groups": [
+    {
+      "family": "gas",
+      "cases": 10,
+      "ids": [
+        "new120:gs-001",
+        "new120:gs-002",
+        "new120:gs-003",
+        "new120:gs-004",
+        "new120:gs-005",
+        "new120:gs-006",
+        "new120:gs-007",
+        "new120:gs-008",
+        "new120:gs-009",
+        "new120:gs-010"
+      ],
+      "metrics_path": "saved64-gas-preparation/metrics.json",
+      "metrics_sha256": "8f93fd0b70cad5ba38656d489e51466823f6d7ba83bd132f5624ba3d786cc71d",
+      "reader_path": "saved64-gas-preparation/verify_metrics.py",
+      "reader_sha256": "c4956949a4a0ffcdfdb3353b5f549131f7fbe8d37b0224bc42552f0661c5dc6b"
+    },
+    {
+      "family": "kinetics",
+      "cases": 14,
+      "ids": [
+        "new120:kn-001",
+        "new120:kn-002",
+        "new120:kn-003",
+        "new120:kn-004",
+        "new120:kn-005",
+        "new120:kn-006",
+        "new120:kn-007",
+        "new120:kn-008",
+        "new120:kn-009",
+        "new120:kn-010",
+        "new120:kn-011",
+        "new120:kn-012",
+        "new120:kn-013",
+        "new120:kn-014"
+      ],
+      "metrics_path": "saved64-kinetics-preparation/metrics.json",
+      "metrics_sha256": "3a11b058f3a1baadad893034fcd36226a7b73e56b7ba9daa71b31a3bbc9386c5",
+      "reader_path": "saved64-kinetics-preparation/verify_metrics.py",
+      "reader_sha256": "73a39e11dbaf352c201cd033ff95e66f5ac2bd7e791a803f99b881bcc0e47ad8"
+    },
+    {
+      "family": "organic",
+      "cases": 12,
+      "ids": [
+        "new120:or-001",
+        "new120:or-002",
+        "new120:or-003",
+        "new120:or-004",
+        "new120:or-005",
+        "new120:or-006",
+        "new120:or-007",
+        "new120:or-008",
+        "new120:or-009",
+        "new120:or-010",
+        "new120:or-011",
+        "new120:or-012"
+      ],
+      "metrics_path": "saved64-organic-preparation/metrics.json",
+      "metrics_sha256": "9fd876970fb1207dab55eb364bc5dd20735c30acb306092cba38a1d43dafc88c",
+      "reader_path": "saved64-organic-preparation/verify_metrics.py",
+      "reader_sha256": "8781e049829e1ac6d323f501a7e83f7ad9f140c8384f73d701ef9d41ad81d72a"
+    },
+    {
+      "family": "separation",
+      "cases": 12,
+      "ids": [
+        "new120:sp-001",
+        "new120:sp-002",
+        "new120:sp-003",
+        "new120:sp-004",
+        "new120:sp-005",
+        "new120:sp-006",
+        "new120:sp-007",
+        "new120:sp-008",
+        "new120:sp-009",
+        "new120:sp-010",
+        "new120:sp-011",
+        "new120:sp-012"
+      ],
+      "metrics_path": "saved64-separation-preparation/metrics.json",
+      "metrics_sha256": "b07964e67b2c04f56c9bb174c201c92a9682711485709d0a69fab7da42b41a4d",
+      "reader_path": "saved64-separation-preparation/verify_metrics.py",
+      "reader_sha256": "33b1e26dbe7221698a975070ecf0387c222a4a7493bbd327d120b4c0a5da76f9"
+    },
+    {
+      "family": "thermal",
+      "cases": 16,
+      "ids": [
+        "new120:th-001",
+        "new120:th-002",
+        "new120:th-003",
+        "new120:th-004",
+        "new120:th-005",
+        "new120:th-006",
+        "new120:th-007",
+        "new120:th-008",
+        "new120:th-009",
+        "new120:th-010",
+        "new120:th-011",
+        "new120:th-012",
+        "new120:th-013",
+        "new120:th-014",
+        "new120:th-015",
+        "new120:th-016"
+      ],
+      "metrics_path": "saved64-thermal-preparation/metrics.json",
+      "metrics_sha256": "cfd008ac45ad8538e7a93265308d05e28836dfc80ceef0240db06700af3ddd6a",
+      "reader_path": "saved64-thermal-preparation/verify_metrics.py",
+      "reader_sha256": "953163ee3f18adb86ebe12f7470ef250d272885c48a5b84f7cf8a0847dc7ae99"
+    }
+  ],
+  "all64_original_ids_covered_once": true,
+  "all64_script_output_and_criterion_bindings_equal_original": true,
+  "catalog_additions": 0,
+  "new_engine_or_api_executions": 0,
+  "qualification": "Supplemental calculation coverage and integrity, not scientific acceptance or a current-deployment certificate."
+}

@@ -26,3 +26,5 @@ original criterion and supported model domain. Mixture/reaction heat, measured
 rate/partition/retention calibration and mechanisms absent from the explicit
 teaching models cannot be inferred from conserved atoms or a zero exit status.
 Keep all20 holds excluded unless separately bound evidence closes them.
+
+[The combined integrity manifest](preparation-manifest.json) verifies exactly64 unique original IDs across the five groups, with unchanged original script/output hashes and criterion text. This is preparation coverage, not a scientific pass count.
