@@ -9,7 +9,7 @@ GitHub references. Local operation details belong only in an ignored handoff.
 
 ## Start here
 
-1. Fetch actual main and inspect PR826/827, their exact heads, current checks and
+1. Fetch actual main and inspect PR826 and the production delivery, their exact heads, current checks and
    active workflows. A queued check is neither a failure nor an acceptance.
 2. Consult the ignored local operating handoff if present before touching
    worktrees, build targets, evidence or running controllers. Check load, available
@@ -34,7 +34,7 @@ PR822/823 are now integrated as `bc472fb4`/`d6020643`; their source/run rows
 below preserve accepted bindings, not pending merge tasks. PR825 is also
 integrated as `050aea7f` after its infrastructure-only retry passed. PR824 has a
 comment-history correction integrated as `76fe144f`, with25 CI, REST and all33 original logical fleet jobs satisfied (28 GitHub +5 exact-source local). The transferred GitHub fleet run is cancelled, not a successful workflow. PR827 repairs full
-Vercel engine delivery and has separate current-head validation.
+Vercel engine delivery and is integrated as `e63a0824` after25 CI, REST and all33 original fleet logical jobs (11 GitHub +22 same-source local). Both actual merge trees are verified. Production is still separately pending.
 
 Current source heads and existing runs are listed below. Refresh them; never
 launch duplicate validation or accept an older head's checks for a new head.
@@ -90,7 +90,7 @@ changes a candidate, use a normal signed merge/rebase consistent with branch
 policy and require the changed head's acceptance. Verify actual merged parents
 and reconstructed tree; record a receipt and update STATUS. Do not call these
 product repairs deployed until lane2 passes. PR826 is the evidence/documentation
-PR and follows the narrower protected-check policy.
+PR and follows the narrower protected-check policy. PR824/827 integration is complete; preserve their receipts and cancelled transferred GitHub workflows truthfully. Start with actual main and the production lane rather than repeating source acceptance.
 
 ## Lane 2 — deliver one accepted frontend/native production snapshot
 

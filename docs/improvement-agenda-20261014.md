@@ -2,7 +2,7 @@
 
 Current executable scope and delivery prerequisites are in the
 [fresh-agent handover](next-agent-handoff.md). Steps1–3 below are historical
-completed work; do not repeat them. PR822/823/824/825 are integrated. Finish PR827 acceptance and the full
+completed work; do not repeat them. PR822/823/824/825/827 are integrated. Finish the full
 production delivery before new model work. The handover scopes remaining step4 work and queued steps5–6.
 
 The user authorized all six steps below in this order. Steps 1–3 are complete;
