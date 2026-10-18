@@ -1,0 +1,337 @@
+{
+  "pr": 837,
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/837",
+  "head": "841593be782872ea7be54d1ab71a4771f7ceb432",
+  "tree": "734914880709c3a2396c1a788c84e5b6748c39c9",
+  "base": "2eab41c40a230e4e7741ef83115bceb977177de3",
+  "files": [
+    "docs/STATUS.md",
+    "docs/next-agent-handoff.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/saved64-review-lanes-20261018.md"
+  ],
+  "accepted_documentation_only_scope": true,
+  "link_review": {
+    "base": "2eab41c40a230e4e7741ef83115bceb977177de3",
+    "evidence_commit": "e83413d3645ea97492d55db3df42dbe0fbc003c6",
+    "documents": [
+      "docs/STATUS.md",
+      "docs/next-agent-handoff.md",
+      "docs/improvement-agenda-20261014.md",
+      "docs/saved64-review-lanes-20261018.md"
+    ],
+    "pinned_links": [
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/working-experiments-20261018-reviewed-thermal.json",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/scoreboard-20261018-reviewed-thermal.json",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/saved-thermal-final-review-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/saved-organic-final-review-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/gas-release-api-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/gas-release-browser-replay-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/phase-release-browser-thermal-20261018/selection.json",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/deployed-shared-diagnostics-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/hybrid-own-fleet-20261018/pr829/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/cpu-combined-gas-833-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/ammonia-native-first-failure-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/ammonia-native-admission-trace-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/gas-release-api-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/gas-release-browser-replay-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/cpu-combined-ammonia-834-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-first-failure-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-native-acceptance-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/STATUS.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-fleet-preparation-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/accepted-pr-integration/pr824-integration.json",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/phase-release-api-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/phase-release-browser-thermal-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/hybrid-own-fleet-20261018/pr829/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/cpu-combined-gas-833-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/ammonia-native-first-failure-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/ammonia-native-admission-trace-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/gas-release-api-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/gas-release-browser-replay-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/cpu-combined-ammonia-834-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-first-failure-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-native-acceptance-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-fleet-preparation-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/saved-organic-final-review-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/saved-thermal-final-review-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/next-agent-handoff.md",
+        "repository_path": "audits/target468-20261016/accepted-pr-integration/pr835-integration.json",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/improvement-agenda-20261014.md",
+        "repository_path": "audits/target468-20261016/gas-release-api-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/improvement-agenda-20261014.md",
+        "repository_path": "audits/target468-20261016/gas-release-browser-replay-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/improvement-agenda-20261014.md",
+        "repository_path": "audits/target468-20261016/cpu-combined-ammonia-834-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/improvement-agenda-20261014.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-first-failure-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/improvement-agenda-20261014.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-native-acceptance-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/improvement-agenda-20261014.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-fleet-preparation-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/improvement-agenda-20261014.md",
+        "repository_path": "audits/target468-20261016/saved-organic-final-review-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/improvement-agenda-20261014.md",
+        "repository_path": "audits/target468-20261016/saved-thermal-final-review-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/improvement-agenda-20261014.md",
+        "repository_path": "audits/target468-20261016/accepted-pr-integration/pr835-integration.json",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/saved64-first-screen/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/saved64-kinetics-preparation/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/deployed-shared-diagnostics-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/saved-gas-final-review-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/ammonia-coupled-first-control-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/ammonia-native-first-failure-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/phase-release-api-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/phase-release-browser-thermal-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/ammonia-native-admission-trace-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/gas-release-api-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/gas-release-browser-replay-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/cpu-combined-ammonia-834-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-first-failure-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-native-acceptance-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/named-alkaline-fleet-preparation-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/saved-organic-final-review-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/saved-thermal-final-review-20261018/README.md",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      },
+      {
+        "document": "docs/saved64-review-lanes-20261018.md",
+        "repository_path": "audits/target468-20261016/accepted-pr-integration/pr835-integration.json",
+        "source": "e83413d3645ea97492d55db3df42dbe0fbc003c6"
+      }
+    ],
+    "missing_relative_links": [],
+    "runtime_changed": false
+  },
+  "normal_exact_head_auto_merge_exit_status": 0,
+  "state": "Ready documentation-only PR; actual integration not yet claimed",
+  "runtime_or_workflow_changes": false,
+  "scientific_catalog_additions": 0
+}

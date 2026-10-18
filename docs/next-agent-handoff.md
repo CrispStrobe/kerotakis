@@ -314,3 +314,6 @@ Ten saved thermal protocols TH001–006 and TH011–014 satisfy all20 original b
 
 
 Documentation PR835 `173be8a2` merged normally as `2eab41c4` after all25 applicable checks; [actual parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr835-integration.json) verifies the four-file-only scope. Runtime/accepted production remains `d3883757`. Deliver the current summaries through a new narrow MD-only branch from actual main, pinning audit evidence to an immutable public commit. Never merge broad audit history.
+
+
+The fresh four-file documentation update is [PR837](https://github.com/CrispStrobe/kerotakis/pull/837), exact reviewed head `841593be`, ready with normal auto-merge enabled. It starts from actual main `2eab41c4`, pins61 authenticated public audit links to `e83413d3` and changes no runtime/workflow/scientific contract. Observe protected CI and verify actual merged parents/tree afterward; do not churn its accepted head for optional snapshot edits.
