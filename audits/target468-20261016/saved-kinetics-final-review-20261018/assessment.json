@@ -1,0 +1,930 @@
+{
+  "schema": "kerotakis-saved-kinetics-final-review-v1",
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "kinetics_source_sha256": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "cases": [
+    {
+      "id": "new120:kn-001",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "At equal catalyst amount, smaller modelled particles expose more surface and consume more peroxide during the same virtual interval.",
+      "original_criteria_review": [
+        {
+          "id": "KN-001-C1",
+          "criterion": "The finer-particle vessel has less residual peroxide at equal elapsed time.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "At the common10s timepoint the50um arm retains less peroxide than the500um arm; all wait-step oxygen production matches half the peroxide loss."
+        },
+        {
+          "id": "KN-001-C2",
+          "criterion": "MnO2 amount remains unchanged; particle size, not catalyst quantity, is the independent variable.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Both catalyst inventories remain exactly0.001mol throughout after addition. Particle diameters are the prescribed differing surface input; this is a spherical-area teaching model."
+        }
+      ],
+      "script_sha256": "ab759ccb28fb7adcfe5034a7d401be1da8c1107c252351f92bb41772f40fb835",
+      "stdout_sha256": "a47e7b0c16097dea51b7762c93413ef26a3c7405b9144e8d9cfd598ca36e3663",
+      "metrics": {
+        "final_temperatures_K": {
+          "0": 298.15065845481854,
+          "1": 298.156421235714
+        },
+        "matched_times_s": {
+          "0": 10.0,
+          "1": 10.0
+        },
+        "final_peroxide_mol": {
+          "0": 0.0009944057616074222,
+          "1": 0.0009454451089830451
+        },
+        "maximum_catalyst_inventory_residual_mol": 0.0,
+        "independent_45_digit_wait_stoichiometry": [
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.0000055942383925778",
+            "oxygen_gain_mol": "0.0000027971191962889073",
+            "O2_minus_half_loss_mol": "7.3E-21"
+          },
+          {
+            "vessel": 1,
+            "peroxide_loss_mol": "0.0000545548910169549",
+            "oxygen_gain_mol": "0.00002727744550847746",
+            "O2_minus_half_loss_mol": "1E-20"
+          }
+        ],
+        "particle_diameters_um": [
+          500.0,
+          50.0
+        ]
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": -3.552713678800501e-15,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 3.552713678800501e-15,
+        "max_per_step_residual": 3.552713678800501e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Qualitative original curated peroxide/catalyst teaching model and ideal phase filtration. Absolute rates, spherical area/mixing, enzyme envelope and additive volume are source contracts, not empirical calibration. Catalase is a conserved molecular tracer, not an invented protein formula. Historical source and producer-qualified lock metadata retained; no current-production certification."
+    },
+    {
+      "id": "new120:kn-002",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "A vigorously stirred catalyst suspension is expected to consume peroxide faster than a minimally stirred one, without an unbounded proportional gain with rpm.",
+      "original_criteria_review": [
+        {
+          "id": "KN-002-C1",
+          "criterion": "Inspect each vessel\u2019s elapsed time before comparing peroxide conversion; unequal time advancement makes the comparison inconclusive.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual independent vessel clocks both read5s after their respective stirring commands; the comparison is matched."
+        },
+        {
+          "id": "KN-002-C2",
+          "criterion": "At matched exposure, the vigorously stirred vessel should show greater conversion without catalyst consumption.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The600rpm arm consumes more peroxide while retaining all catalyst. The pinned source factor1+v/(0.1+v) lies in[1,2) for finite nonnegative tip speed; two sample outcomes alone are not used to prove the bound."
+        }
+      ],
+      "script_sha256": "52721a374f81df66471516b03fca94c4a73501861d6bbc2d5d06ac3f1b3211e0",
+      "stdout_sha256": "57a19124b3dd967a375954e337a7f534cea9542d9e8fcd2810dccaf8285058cb",
+      "metrics": {
+        "final_temperatures_K": {
+          "0": 298.1585720347116,
+          "1": 298.15468173760655
+        },
+        "matched_times_s": {
+          "0": 5.0,
+          "1": 5.0
+        },
+        "final_peroxide_mol": {
+          "0": 0.000927171890773381,
+          "1": 0.0009602239070230741
+        },
+        "maximum_catalyst_inventory_residual_mol": 0.0,
+        "independent_45_digit_wait_stoichiometry": [
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.000072828109226619",
+            "oxygen_gain_mol": "0.0000364140546133095",
+            "O2_minus_half_loss_mol": "0E-19"
+          },
+          {
+            "vessel": 1,
+            "peroxide_loss_mol": "0.0000397760929769259",
+            "oxygen_gain_mol": "0.000019888046488462924",
+            "O2_minus_half_loss_mol": "-2.6E-20"
+          }
+        ],
+        "source_mixing_factor_bound": {
+          "lower": 1,
+          "upper_limit": 2,
+          "upper_attained_at_finite_speed": false
+        }
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 1.7763568394002505e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Qualitative original curated peroxide/catalyst teaching model and ideal phase filtration. Absolute rates, spherical area/mixing, enzyme envelope and additive volume are source contracts, not empirical calibration. Catalase is a conserved molecular tracer, not an invented protein formula. Historical source and producer-qualified lock metadata retained; no current-production certification."
+    },
+    {
+      "id": "new120:kn-003",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The warmer heterogeneous-catalyst mixture reacts faster over a common short interval.",
+      "original_criteria_review": [
+        {
+          "id": "KN-003-C1",
+          "criterion": "The warm vessel retains less peroxide at the shared timepoint.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "At the common10s exposure the warmer vessel retains less peroxide, with conserved MnO2 and stoichiometric oxygen."
+        },
+        {
+          "id": "KN-003-C2",
+          "criterion": "Use measured temperatures after additions; added reagents and reaction heat can shift nominal starting temperatures.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual post-addition and final temperatures are recorded separately. The result is a qualitative Arrhenius direction within the source model, not a measured rate or an exactly isothermal comparison."
+        }
+      ],
+      "script_sha256": "7dd35bbe29a17ede0359589f67dd2a792e64779d0b8d4521f7663ccea2b042d0",
+      "stdout_sha256": "f1ee8e56a299f95cf8d3b4cdb0d42db3611045d5cfdf02d9a1215d71804dd50e",
+      "metrics": {
+        "final_temperatures_K": {
+          "0": 293.17461432419503,
+          "1": 313.0923758458386
+        },
+        "matched_times_s": {
+          "0": 10.0,
+          "1": 10.0
+        },
+        "final_peroxide_mol": {
+          "0": 0.0009813534567802392,
+          "1": 0.0009175952603608089
+        },
+        "maximum_catalyst_inventory_residual_mol": 0.0,
+        "independent_45_digit_wait_stoichiometry": [
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.0000186465432197608",
+            "oxygen_gain_mol": "0.000009323271609880456",
+            "O2_minus_half_loss_mol": "5.6E-20"
+          },
+          {
+            "vessel": 1,
+            "peroxide_loss_mol": "0.0000824047396391911",
+            "oxygen_gain_mol": "0.00004120236981959556",
+            "O2_minus_half_loss_mol": "1E-20"
+          }
+        ],
+        "post_addition_pre_wait_temperatures_K": [
+          293.1517167473096,
+          313.14484970826834
+        ]
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": -1.7763568394002505e-15,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 1.7763568394002505e-15,
+        "max_per_step_residual": 1.7763568394002505e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Qualitative original curated peroxide/catalyst teaching model and ideal phase filtration. Absolute rates, spherical area/mixing, enzyme envelope and additive volume are source contracts, not empirical calibration. Catalase is a conserved molecular tracer, not an invented protein formula. Historical source and producer-qualified lock metadata retained; no current-production certification."
+    },
+    {
+      "id": "new120:kn-004",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The higher catalase loading produces a larger early peroxide loss, before substrate exhaustion masks the dose response.",
+      "original_criteria_review": [
+        {
+          "id": "KN-004-C1",
+          "criterion": "Compare fractional peroxide loss at the same very early virtual time.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "At the common1e-5s exposure the higher-loading arm has greater fractional peroxide loss, calculated from each0.01mol input."
+        },
+        {
+          "id": "KN-004-C2",
+          "criterion": "Both enzyme inventories remain present; do not infer a universal real-world turnover rate from this model.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The2e-12mol and4e-12mol catalase inventories remain exact through all observations. Catalase is a conserved molecular tracer; no protein elemental formula or universal enzyme turnover is inferred."
+        }
+      ],
+      "script_sha256": "1f44e226d0e5618250ee48cd47e191ef3acede4357b8fc89bf42e670fca66432",
+      "stdout_sha256": "bf078bb20e9bef0db1b7f6e1e597b6e5fe102f7ecdb95cf2a9fd931052ab4f69",
+      "metrics": {
+        "final_temperatures_K": {
+          "0": 298.2057771562853,
+          "1": 298.25907360056965
+        },
+        "matched_times_s": {
+          "0": 1e-05,
+          "1": 1e-05
+        },
+        "final_peroxide_mol": {
+          "0": 0.009525266307551303,
+          "1": 0.009071644806093362
+        },
+        "maximum_catalyst_inventory_residual_mol": 0.0,
+        "independent_45_digit_wait_stoichiometry": [
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.000474733692448697",
+            "oxygen_gain_mol": "0.00023736684622434822",
+            "O2_minus_half_loss_mol": "-2.8E-19"
+          },
+          {
+            "vessel": 1,
+            "peroxide_loss_mol": "0.000928355193906638",
+            "oxygen_gain_mol": "0.0004641775969533191",
+            "O2_minus_half_loss_mol": "1E-19"
+          }
+        ],
+        "fractional_peroxide_loss": [
+          0.04747336924486971,
+          0.09283551939066377
+        ]
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 0.0,
+        "max_per_step_residual": 0.0,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Qualitative original curated peroxide/catalyst teaching model and ideal phase filtration. Absolute rates, spherical area/mixing, enzyme envelope and additive volume are source contracts, not empirical calibration. Catalase is a conserved molecular tracer, not an invented protein formula. Historical source and producer-qualified lock metadata retained; no current-production certification."
+    },
+    {
+      "id": "new120:kn-005",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The source model predicts acceleration from room temperature to moderate warmth, but suppression in very hot water due to its enzyme-activity envelope.",
+      "original_criteria_review": [
+        {
+          "id": "KN-005-C1",
+          "criterion": "Early peroxide conversion is greater at moderate warmth than at room temperature.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "At matched1e-5s exposure, actual moderate-temperature peroxide loss exceeds the room-temperature loss with equal enzyme loading."
+        },
+        {
+          "id": "KN-005-C2",
+          "criterion": "The very-hot case is slower than the moderately warm case; this is not a test of irreversible denaturation history.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual hot arm consumes much less peroxide than the moderate arm. The pinned source explicitly uses an editorial high-temperature activity envelope; this supports that original model forecast and does not establish irreversible denaturation or measured enzyme activity."
+        }
+      ],
+      "script_sha256": "0b393daffb713f18f0d666773abd9dab06a8084284aace6a1dd245ad207bcfb6",
+      "stdout_sha256": "f6019eb5520ac8f6b322194c064a49b66be9c9bc5ce054a84c39da71ae384182",
+      "metrics": {
+        "final_temperatures_K": {
+          "0": 298.25907360056965,
+          "1": 308.27279073093223,
+          "2": 343.05418167025385
+        },
+        "matched_times_s": {
+          "0": 1e-05,
+          "1": 1e-05,
+          "2": 1e-05
+        },
+        "final_peroxide_mol": {
+          "0": 0.009071644806093362,
+          "1": 0.00877344199970687,
+          "2": 0.009999987210457058
+        },
+        "maximum_catalyst_inventory_residual_mol": 0.0,
+        "independent_45_digit_wait_stoichiometry": [
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.000928355193906638",
+            "oxygen_gain_mol": "0.0004641775969533191",
+            "O2_minus_half_loss_mol": "1E-19"
+          },
+          {
+            "vessel": 1,
+            "peroxide_loss_mol": "0.00122655800029313",
+            "oxygen_gain_mol": "0.0006132790001465659",
+            "O2_minus_half_loss_mol": "9E-19"
+          },
+          {
+            "vessel": 2,
+            "peroxide_loss_mol": "1.2789542942E-8",
+            "oxygen_gain_mol": "6.394771470903321E-9",
+            "O2_minus_half_loss_mol": "-9.6679E-20"
+          }
+        ]
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": -7.105427357601002e-15,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 3.552713678800501e-15,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 7.105427357601002e-15,
+        "max_per_step_residual": 7.105427357601002e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Qualitative original curated peroxide/catalyst teaching model and ideal phase filtration. Absolute rates, spherical area/mixing, enzyme envelope and additive volume are source contracts, not empirical calibration. Catalase is a conserved molecular tracer, not an invented protein formula. Historical source and producer-qualified lock metadata retained; no current-production certification."
+    },
+    {
+      "id": "new120:kn-006",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "An ideal filter retains solid MnO2 but passes molecularly represented catalase, so the two filtrates differ in catalytic activity.",
+      "original_criteria_review": [
+        {
+          "id": "KN-006-C1",
+          "criterion": "Verify catalyst ownership after filtration before judging the reaction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual filter outputs retain solid MnO2 in its donor and transfer all molecularly represented aqueous catalase to its filtrate; whole-bench ledgers and tracer amounts close."
+        },
+        {
+          "id": "KN-006-C2",
+          "criterion": "The catalase-containing filtrate consumes more peroxide than the MnO2-free filtrate at the same elapsed time.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "At matched0.001s exposure the catalase-bearing filtrate consumes more peroxide than the MnO2-free filtrate. This qualifies the explicit ideal phase filter, not real membrane pore size or protein retention."
+        }
+      ],
+      "script_sha256": "459c8272b54ccf4810f69e285b78a702d897fb93298ba9f3ab0cfdbce841c9b1",
+      "stdout_sha256": "7c688ddf3c1e59229582bd5730642c8e84560ddfc46f4c6f8f09e67ca477b2e2",
+      "metrics": {
+        "final_temperatures_K": {
+          "0": 298.15,
+          "1": 298.1500000009563,
+          "2": 298.15,
+          "3": 298.2677136462223
+        },
+        "matched_times_s": {
+          "0": 0.001,
+          "1": 0.001,
+          "2": 0.001,
+          "3": 0.001
+        },
+        "final_peroxide_mol": {
+          "0": 0,
+          "1": 0.0009999999918756898,
+          "2": 0,
+          "3": 2.8796413392923395e-08
+        },
+        "maximum_catalyst_inventory_residual_mol": 0.0,
+        "independent_45_digit_wait_stoichiometry": [
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0",
+            "oxygen_gain_mol": "0",
+            "O2_minus_half_loss_mol": "0"
+          },
+          {
+            "vessel": 1,
+            "peroxide_loss_mol": "8.1243102E-12",
+            "oxygen_gain_mol": "4.0621550946711936E-12",
+            "O2_minus_half_loss_mol": "-5.3288064E-21"
+          },
+          {
+            "vessel": 2,
+            "peroxide_loss_mol": "0",
+            "oxygen_gain_mol": "0",
+            "O2_minus_half_loss_mol": "0"
+          },
+          {
+            "vessel": 3,
+            "peroxide_loss_mol": "0.000999971203586607076605",
+            "oxygen_gain_mol": "0.0004999856017933035",
+            "O2_minus_half_loss_mol": "-3.83025E-20"
+          }
+        ],
+        "filter_ownership": {
+          "MnO2_donor_solid_mol": 0.001,
+          "MnO2_filtrate_mol": 0,
+          "catalase_donor_mol": 0,
+          "catalase_filtrate_aqueous_mol": 4e-12
+        }
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": -1.7763568394002505e-15,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 1.7763568394002505e-15,
+        "max_per_step_residual": 3.552713678800501e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Qualitative original curated peroxide/catalyst teaching model and ideal phase filtration. Absolute rates, spherical area/mixing, enzyme envelope and additive volume are source contracts, not empirical calibration. Catalase is a conserved molecular tracer, not an invented protein formula. Historical source and producer-qualified lock metadata retained; no current-production certification."
+    },
+    {
+      "id": "new120:kn-008",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "With nearly constant catalytic conditions, a first-order-like substrate decay consumes less absolute peroxide in each successive equal interval.",
+      "original_criteria_review": [
+        {
+          "id": "KN-008-C1",
+          "criterion": "Peroxide decreases monotonically and never becomes negative.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Owned peroxide decreases at each sampled time and stays nonnegative at every saved observation; each wait produces the balanced oxygen amount."
+        },
+        {
+          "id": "KN-008-C2",
+          "criterion": "Compare consecutive mole losses, allowing a small thermal-rate change rather than assuming exactly isothermal decay.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The three successive20s mole losses decrease. Actual sample temperatures are retained, so the conclusion is a near-constant-condition model trend rather than exactly isothermal fitted first-order kinetics."
+        }
+      ],
+      "script_sha256": "ff149e6e7e40f543b08bd5c547edd22ff60995ea021e5939f508366a5df88aff",
+      "stdout_sha256": "2eb9d57f1974023ca24278a4ad1c8337764aec7d1f4ae917388ab6d66b0b2df4",
+      "metrics": {
+        "final_temperatures_K": {
+          "0": 298.1679868420563
+        },
+        "matched_times_s": {
+          "0": 60.0
+        },
+        "final_peroxide_mol": {
+          "0": 0.0008450316515860276
+        },
+        "maximum_catalyst_inventory_residual_mol": 0.0,
+        "independent_45_digit_wait_stoichiometry": [
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.00005455489101575",
+            "oxygen_gain_mol": "0.000027277445507875057",
+            "O2_minus_half_loss_mol": "5.7E-20"
+          },
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.0000516039285308276",
+            "oxygen_gain_mol": "0.000025801964265413783",
+            "O2_minus_half_loss_mol": "-1.7E-20"
+          },
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.0000488095288673948",
+            "oxygen_gain_mol": "0.00002440476443369738",
+            "O2_minus_half_loss_mol": "-2E-20"
+          }
+        ],
+        "sample_times_s": [
+          0.0,
+          20.0,
+          40.0,
+          60.0
+        ],
+        "peroxide_mol": [
+          0.001,
+          0.00094544510898425,
+          0.0008938411804534224,
+          0.0008450316515860276
+        ],
+        "successive_losses_mol": [
+          5.4554891015750067e-05,
+          5.160392853082753e-05,
+          4.880952886739478e-05
+        ],
+        "sample_temperatures_K": [
+          298.15,
+          298.15642123571376,
+          298.1623918175788,
+          298.1679868420563
+        ]
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 0.0,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 8.881784197001252e-16,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 8.881784197001252e-16,
+        "max_per_step_residual": 1.7763568394002505e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Qualitative original curated peroxide/catalyst teaching model and ideal phase filtration. Absolute rates, spherical area/mixing, enzyme envelope and additive volume are source contracts, not empirical calibration. Catalase is a conserved molecular tracer, not an invented protein formula. Historical source and producer-qualified lock metadata retained; no current-production certification."
+    },
+    {
+      "id": "new120:kn-009",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The Michaelis-type catalyst model predicts a less-than-proportional increase in initial reaction rate as peroxide concentration approaches or exceeds its saturation scale.",
+      "original_criteria_review": [
+        {
+          "id": "KN-009-C1",
+          "criterion": "Calculate initial peroxide concentrations from actual liquid volumes, not from water volume alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The independently calculated additive volumes include peroxide liquid:0.1003063964L and0.1061279279L. They use pinned registry pure-liquid density/molar mass, not only the100mL water dose."
+        },
+        {
+          "id": "KN-009-C2",
+          "criterion": "The ratio of early absolute peroxide-consumption rates is smaller than the ratio of initial substrate concentrations.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "At the common1e-6s exposure the absolute peroxide-consumption ratio8.47084 is below the initial concentration ratio18.90292. This meets the original bounded Michaelis-model forecast; changing volume, small thermal shifts and uncalibrated absolute rate remain explicit."
+        }
+      ],
+      "script_sha256": "a34e180f4b92893409e310cf5dce9e42c2a5c5cf4d0f9425842eb7a1b2092aa9",
+      "stdout_sha256": "e5746e056eb47ddd32c58edc4751477bb594d10dc6414db15a6048d60ea4bfdb",
+      "metrics": {
+        "final_temperatures_K": {
+          "0": 298.1613585607699,
+          "1": 298.2424703059245
+        },
+        "matched_times_s": {
+          "0": 1e-06,
+          "1": 1e-06
+        },
+        "final_peroxide_mol": {
+          "0": 0.009903324529796153,
+          "1": 0.19918107791668335
+        },
+        "maximum_catalyst_inventory_residual_mol": 0.0,
+        "independent_45_digit_wait_stoichiometry": [
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.000096675470203847",
+            "oxygen_gain_mol": "0.00004833773510192371",
+            "O2_minus_half_loss_mol": "2.1E-19"
+          },
+          {
+            "vessel": 1,
+            "peroxide_loss_mol": "0.00081892208331665",
+            "oxygen_gain_mol": "0.000409461041658323",
+            "O2_minus_half_loss_mol": "-2E-18"
+          }
+        ],
+        "peroxide_volume_source_quantities": {
+          "molar_mass": {
+            "value": 34.01,
+            "unit": {
+              "symbol": "g/mol",
+              "dimension": "molar_mass"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "liquid",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/H2O2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "mass_density": {
+            "value": 1.11,
+            "unit": {
+              "symbol": "g/mL",
+              "dimension": "mass_density"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "liquid",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "unestablished"
+            },
+            "source_id": "legacy/H2O2",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        "additive_liquid_volumes_L": [
+          0.10030639639639641,
+          0.10612792792792794
+        ],
+        "initial_peroxide_mol_L": [
+          0.09969453952349602,
+          1.8845180896758968
+        ],
+        "concentration_ratio": 18.902921851921022,
+        "early_absolute_loss_ratio": 8.47083631028535
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": 3.552713678800501e-15,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 3.552713678800501e-15,
+        "max_per_step_residual": 3.552713678800501e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Qualitative original curated peroxide/catalyst teaching model and ideal phase filtration. Absolute rates, spherical area/mixing, enzyme envelope and additive volume are source contracts, not empirical calibration. Catalase is a conserved molecular tracer, not an invented protein formula. Historical source and producer-qualified lock metadata retained; no current-production certification."
+    },
+    {
+      "id": "new120:kn-014",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "original_forecast": "The finite first substrate dose is consumed, but the enzyme remains available to process a second dose.",
+      "original_criteria_review": [
+        {
+          "id": "KN-014-C1",
+          "criterion": "The second dose is consumed without a second catalase addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Each of the two original substrate pulses loses more than0.00099mol during its1s wait, without a second catalase addition; each pulse separately closes peroxide/O2 stoichiometry."
+        },
+        {
+          "id": "KN-014-C2",
+          "criterion": "Catalase inventory remains fixed while cumulative substrate turnover exceeds the enzyme amount by many orders of magnitude.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "All saved states retain exactly4e-12mol catalase after its single addition. Cumulative consumed substrate exceeds the enzyme tracer amount by over1e8; this is catalytic reuse in the lumped model, not an empirical turnover measurement."
+        }
+      ],
+      "script_sha256": "4cd5296dfcf1b4c1a9fe272f1423f9dfbfd3a62c7d36454f20e22da9e6de6a14",
+      "stdout_sha256": "e0fe7d95bc0197f971dab4d36c2439d88102653f4a3efcd650c1b1120cdac370",
+      "metrics": {
+        "final_temperatures_K": {
+          "0": 298.38523663233985
+        },
+        "matched_times_s": {
+          "0": 2.0
+        },
+        "final_peroxide_mol": {
+          "0": 1e-11
+        },
+        "maximum_catalyst_inventory_residual_mol": 0.0,
+        "independent_45_digit_wait_stoichiometry": [
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.000999999990000000000000002",
+            "oxygen_gain_mol": "0.000499999995",
+            "O2_minus_half_loss_mol": "-1E-27"
+          },
+          {
+            "vessel": 0,
+            "peroxide_loss_mol": "0.00100000000",
+            "oxygen_gain_mol": "0.000500000000",
+            "O2_minus_half_loss_mol": "0E-12"
+          }
+        ],
+        "first_and_second_loss_mol": [
+          0.00099999999,
+          0.001
+        ],
+        "cumulative_substrate_per_enzyme_molar_ratio": 499999997.50000006
+      },
+      "material_projection": {
+        "final_residual": {
+          "Ag": 0.0,
+          "C": 0.0,
+          "Ca": 0.0,
+          "Cl": 0.0,
+          "Cu": 0.0,
+          "Fe": 0.0,
+          "H": -1.7763568394002505e-15,
+          "I": 0.0,
+          "K": 0.0,
+          "Mg": 0.0,
+          "Mn": 0.0,
+          "N": 0.0,
+          "Na": 0.0,
+          "O": 0.0,
+          "P": 0.0,
+          "S": 0.0,
+          "Si": 0.0,
+          "Zn": 0.0,
+          "catalase_tracer": 0.0,
+          "charge": 0.0
+        },
+        "final_maximum_absolute_residual": 1.7763568394002505e-15,
+        "max_per_step_residual": 1.7763568394002505e-15,
+        "scope": "Whole-bench represented owned atoms and charge plus recorded air, solvent and exports; catalase is a molecular tracer. No per-vessel transfer or energy validation."
+      },
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "scope": "Qualitative original curated peroxide/catalyst teaching model and ideal phase filtration. Absolute rates, spherical area/mixing, enzyme envelope and additive volume are source contracts, not empirical calibration. Catalase is a conserved molecular tracer, not an invented protein formula. Historical source and producer-qualified lock metadata retained; no current-production certification."
+    }
+  ],
+  "selected": 9,
+  "new_engine_or_API_executions": 0,
+  "unselected_originals": {
+    "new120:kn-007": "Historical filter oxygen loss preserved; separately repaired deployed-source catalog entry already exists.",
+    "new120:kn-010": "Chosen samples do not establish a delayed clock onset; original criterion stays unclosed.",
+    "new120:kn-011": "Weak-acid kinetic arm explicitly unsupported; its zero rate cannot earn a physical comparison.",
+    "new120:kn-012": "Requires separate criterion/domain review of finite-acid interval handling; not selected by this reader.",
+    "new120:kn-013": "Acid reserve remains positive before replenishment; original depletion criterion does not pass."
+  }
+}

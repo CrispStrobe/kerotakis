@@ -1,0 +1,44 @@
+{
+  "utc": "2026-10-18T18:51:20.049584+00:00",
+  "selected_original_ids": [
+    "new120:kn-001",
+    "new120:kn-002",
+    "new120:kn-003",
+    "new120:kn-004",
+    "new120:kn-005",
+    "new120:kn-006",
+    "new120:kn-008",
+    "new120:kn-009",
+    "new120:kn-014"
+  ],
+  "selected_catalog_ids": [
+    "new120-saved-kinetics:kn-001",
+    "new120-saved-kinetics:kn-002",
+    "new120-saved-kinetics:kn-003",
+    "new120-saved-kinetics:kn-004",
+    "new120-saved-kinetics:kn-005",
+    "new120-saved-kinetics:kn-006",
+    "new120-saved-kinetics:kn-008",
+    "new120-saved-kinetics:kn-009",
+    "new120-saved-kinetics:kn-014"
+  ],
+  "previous_catalog_sha256": "a56e62483b3b58180971fd042de62843228f9bac66e183d35023416606ae9246",
+  "new_catalog_sha256": "ab7c31d9b0170719a5f494122b2b830e205db6c7b58dde14dbd33d538ab6ac48",
+  "previous_entries_preserved_exactly": 205,
+  "new_count": 214,
+  "fixed468_selected_before": 201,
+  "fixed468_selected_after": 210,
+  "additional_qualified_cases_to401": 191,
+  "remaining_first_screen_candidates": 32,
+  "historical_holds_unchanged": 20,
+  "new_simulator_or_API_executions": 0,
+  "all214_script_hashes_verified": true,
+  "independent_checks": [
+    "All64 original represented material records exactly reproduced by the independent material reader.",
+    "All14 original detailed kinetics/source records exactly reproduced.",
+    "Nine selected raw protocols and outputs authenticated;18 original criteria satisfied.",
+    "Every wait/stir peroxide loss closes against twice O2 production using45-digit Decimal arithmetic; maximum stoichiometric residual2e-18mol.",
+    "Catalyst inventories checked at every original post-addition state, including tiny catalase inventories without a large absolute tolerance.",
+    "KN009 uses actual structured pinned registry molar-mass/density values and units. Initial wrong-property reader stop retained."
+  ]
+}

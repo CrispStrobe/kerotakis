@@ -1,0 +1,7 @@
+{
+  "utc": "2026-10-18T18:49:56.979729+00:00",
+  "error": "AssertionError: guessed peroxide property literals34.014/1110.0 absent from bound registry",
+  "stage": "KN009 saved additive-volume independent calculation before any assessment/catalog output",
+  "engine_requests": 0,
+  "correction_required": "Read actual source quantity structure/units. Do not change raw responses, original expectations or audit tolerances."
+}
