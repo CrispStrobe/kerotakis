@@ -1,0 +1,338 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.079760000
+    Cl 1.003009027081e0
+    Na 1.003009027081e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl Na
+    -equilibrium_phases Halite
+    -molalities H+ OH-
+END
+---
+readback: kgw_out=7.976000000000e-2
+   pH           6.886038779027e+00
+   pe           4.000000000000e+00
+   mu           1.003009164133e+00
+   mass_H2O     7.976000000000e-02
+   Cl           1.003009027081e+00
+   Na           1.003009027081e+00
+   m_H+         1.370524028565e-07
+   m_OH-        1.370524028813e-07
+   Halite       0.000000000000e+00
+   d_Halite     0.000000000000e+00
+   elements=["Cl", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.0696
+    pH        7  charge
+    water     0.079760000
+    Cl 1.003009027081e0
+    Na 1.003009027081e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   Cl Na
+    -equilibrium_phases Halite
+    -molalities H+ OH-
+END
+---
+readback: kgw_out=7.976000000000e-2
+   pH           6.901167006055e+00
+   pe           4.000000000000e+00
+   mu           1.003009159215e+00
+   mass_H2O     7.976000000000e-02
+   Cl           1.003009027081e+00
+   Na           1.003009027081e+00
+   m_H+         1.321340175044e-07
+   m_OH-        1.321340175847e-07
+   Halite       0.000000000000e+00
+   d_Halite     0.000000000000e+00
+   elements=["Cl", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.0696
+    pH        7  charge
+    water     7.976000000000e-2
+    Cl 1.003009027081e0
+    Na 1.003009027081e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+GAS_PHASE 1
+    -temperature 2.406955254023e1
+    -fixed_volume
+    -volume 4.000000000000e-1
+    CO2(g) 4.000113770191e-4
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   C Cl Na
+    -equilibrium_phases Halite Nahcolite
+    -gases    CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+END
+---
+readback: kgw_out=7.975999573299e-2
+   pH           5.530562609428e+00
+   pe           4.000000000000e+00
+   mu           1.003012183018e+00
+   mass_H2O     7.975999573299e-02
+   C            1.315492340225e-05
+   Cl           1.003009080740e+00
+   Na           1.003009080740e+00
+   m_H+         3.101945012845e-06
+   m_OH-        5.628932805277e-09
+   m_CO2        1.005894031989e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      3.095650084495e-06
+   m_CO3-2      3.329978641996e-10
+   Halite       0.000000000000e+00
+   d_Halite     0.000000000000e+00
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   pressure     3.360351530988e-04
+   total mol    5.511098195466e-06
+   volume       4.000000000000e-01
+   g_CO2(g)     5.511098195466e-06
+   elements=["C", "Cl", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.0696
+    pH        7  charge
+    water     7.976000000000e-2
+    Cl 1.003009027081e0
+    Na 1.003009027081e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+GAS_PHASE 1
+    -temperature 2.406961080677e1
+    -fixed_volume
+    -volume 4.000000000000e-1
+    CO2(g) 4.000114554368e-4
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   C Cl Na
+    -equilibrium_phases Halite Nahcolite
+    -gases    CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+END
+---
+readback: kgw_out=7.975999573299e-2
+   pH           5.530562609428e+00
+   pe           4.000000000000e+00
+   mu           1.003012183018e+00
+   mass_H2O     7.975999573299e-02
+   C            1.315492340224e-05
+   Cl           1.003009080740e+00
+   Na           1.003009080740e+00
+   m_H+         3.101945012842e-06
+   m_OH-        5.628932805283e-09
+   m_CO2        1.005894031988e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      3.095650084495e-06
+   m_CO3-2      3.329978641999e-10
+   Halite       0.000000000000e+00
+   d_Halite     0.000000000000e+00
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   pressure     3.360351530984e-04
+   total mol    5.511098195461e-06
+   volume       4.000000000000e-01
+   g_CO2(g)     5.511098195461e-06
+   elements=["C", "Cl", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.0696
+    pH        7  charge
+    water     7.975999555093e-2
+    C 1.315492343227e-5
+    Cl 1.003009083030e0
+    Na 1.003009083030e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+GAS_PHASE 1
+    -temperature 2.406961080677e1
+    -fixed_volume
+    -volume 4.000000000000e-1
+    CO2(g) 3.360357969227e-4
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   C Cl Na
+    -equilibrium_phases Halite Nahcolite
+    -gases    CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.0697
+    pH        7  charge
+    water     7.975999555093e-2
+    C 1.315492343227e-5
+    Cl 1.003009083030e0
+    Na 1.003009083030e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+GAS_PHASE 1
+    -temperature 2.406968318315e1
+    -fixed_volume
+    -volume 4.000000000000e-1
+    CO2(g) 4.301811244193e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   C Cl Na
+    -equilibrium_phases Halite Nahcolite
+    -gases    CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+END
+---
+readback: kgw_out=7.975995299102e-2
+   pH           4.507388814209e+00
+   pe           4.000000000000e+00
+   mu           1.003042338541e+00
+   mass_H2O     7.975995299102e-02
+   C            1.154189574191e-03
+   Cl           1.003009618236e+00
+   Na           1.003009618236e+00
+   m_H+         3.271997143482e-05
+   m_OH-        5.336403394746e-10
+   m_CO2        1.121470470075e-03
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      3.271877043665e-05
+   m_CO3-2      3.336788585198e-10
+   Halite       0.000000000000e+00
+   d_Halite     0.000000000000e+00
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   pressure     3.747140223984e-02
+   total mol    6.146720478365e-04
+   volume       4.000000000000e-01
+   g_CO2(g)     6.146720478365e-04
+   elements=["C", "Cl", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.0751
+    pH        7  charge
+    water     7.975999555093e-2
+    C 1.315492343227e-5
+    Cl 1.003009083030e0
+    Na 1.003009083030e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+GAS_PHASE 1
+    -temperature 2.407511484581e1
+    -fixed_volume
+    -volume 4.000000000000e-1
+    CO2(g) 4.301889859402e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   C Cl Na
+    -equilibrium_phases Halite Nahcolite
+    -gases    CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+END
+---
+readback: kgw_out=7.975995299180e-2
+   pH           4.507398660333e+00
+   pe           4.000000000000e+00
+   mu           1.003042338113e+00
+   mass_H2O     7.975995299180e-02
+   C            1.154060514881e-03
+   Cl           1.003009618226e+00
+   Na           1.003009618226e+00
+   m_H+         3.271955321332e-05
+   m_OH-        5.338746091384e-10
+   m_CO2        1.121341829260e-03
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      3.271835190219e-05
+   m_CO3-2      3.337182558896e-10
+   Halite       0.000000000000e+00
+   d_Halite     0.000000000000e+00
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   pressure     3.747271034460e-02
+   total mol    6.146823353129e-04
+   volume       4.000000000000e-01
+   g_CO2(g)     6.146823353129e-04
+   elements=["C", "Cl", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.0751
+    pH        7  charge
+    water     7.975994686843e-2
+    C 1.154060603481e-3
+    Cl 1.003009695230e0
+    Na 1.003009695230e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+GAS_PHASE 1
+    -temperature 2.407511484581e1
+    -fixed_volume
+    -volume 4.000000000000e-1
+    CO2(g) 3.748056850983e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -totals   C Cl Na
+    -equilibrium_phases Halite Nahcolite
+    -gases    CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+END
+---

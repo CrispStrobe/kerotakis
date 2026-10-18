@@ -9,7 +9,7 @@ GitHub references. Local operation details belong only in an ignored handoff.
 
 ## Start here
 
-1. Fetch actual main and inspect PR826 and the production delivery, their exact heads, current checks and
+1. Fetch actual main and inspect PR826, the production delivery and prepared PR828–830, their exact heads, current checks and
    active workflows. A queued check is neither a failure nor an acceptance.
 2. Consult the ignored local operating handoff if present before touching
    worktrees, build targets, evidence or running controllers. Check load, available
@@ -34,7 +34,7 @@ PR822/823 are now integrated as `bc472fb4`/`d6020643`; their source/run rows
 below preserve accepted bindings, not pending merge tasks. PR825 is also
 integrated as `050aea7f` after its infrastructure-only retry passed. PR824 has a
 comment-history correction integrated as `76fe144f`, with25 CI, REST and all33 original logical fleet jobs satisfied (28 GitHub +5 exact-source local). The transferred GitHub fleet run is cancelled, not a successful workflow. PR827 repairs full
-Vercel engine delivery and is integrated as `e63a0824` after25 CI, REST and all33 original fleet logical jobs (11 GitHub +22 same-source local). Both actual merge trees are verified. Production is still separately pending.
+Vercel engine delivery and is integrated as `e63a0824` after25 CI, REST and all33 original fleet logical jobs (11 GitHub +22 same-source local). Both actual merge trees are verified. Production `ed7c452d` now has actual11 API and37 live-browser controls accepted; see the current STATUS and retained release receipt.
 
 Current source heads and existing runs are listed below. Refresh them; never
 launch duplicate validation or accept an older head's checks for a new head.
@@ -67,7 +67,7 @@ launch duplicate validation or accept an older head's checks for a new head.
   lesson, Wasm and browser failures are real; do not regenerate goldens to hide
   them. The latest correction preserves full comments in saved command history
   without weakening the existing English-alias assertion. All19 local HTTP
-  policy tests passed; both hosted native focused groups and full original fleet acceptance passed. Preserve [integration receipt](../audits/target468-20261016/accepted-pr-integration/pr824-integration.json) and [provider-qualified raw evidence](https://github.com/CrispStrobe/kerotakis/tree/53c3eee5396018927d608a28db35945056ebebfb/audits/target468-20261016/hybrid-own-fleet-20261018/pr824); do not repeat completed cases.
+  policy tests passed; both hosted native focused groups and full original fleet acceptance passed. Preserve [integration receipt](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/accepted-pr-integration/pr824-integration.json) and [provider-qualified raw evidence](https://github.com/CrispStrobe/kerotakis/tree/53c3eee5396018927d608a28db35945056ebebfb/audits/target468-20261016/hybrid-own-fleet-20261018/pr824); do not repeat completed cases.
 - **825:** inspect the shared finite-quantity guard, scaled public quantity
   readers and `finite_script_quantities.rs`. Require NaN/infinity/exponent and
   unit-scaling overflow refusals across numeric families, plus ordinary and
@@ -96,7 +96,7 @@ PR and follows the narrower protected-check policy. PR824/827 integration is com
 
 **Inputs:** `docs/simulation-api-lane.md`, `services/rest_api/README.md`,
 `tools/build-web.sh`, the existing deployment tooling and authenticated source
-receipts. Last verified production is `c4469205` / binary `670bd3d8`; Pages client
+receipts. Last verified production is `ed7c452d` / binary `f9358b91` after actual API/browser acceptance; Pages client
 publication is `fa5a75fa`. Preview/sandbox changes are not full production delivery.
 
 **Work:** after lane1 integrations, choose one accepted source and authenticate
@@ -117,7 +117,7 @@ and update STATUS without incrementing scientific counts.
 
 **Inputs:** `audits/target468-20261016/{README.md,scoreboard.json}`, working
 catalog `audits/working-experiments-20261016.json`, original manifests and saved
-assessments. Current catalog200 / fixed468 selected196; goal401 means205 more.
+assessments. Current catalog201 / fixed468 selected197; goal401 means204 more. KN-007 is a separately qualified repaired-source replay; older forecasts and outcomes are unchanged.
 First120 has64 cases awaiting final selection review,14 earlier reviewed holds
 and42 selected. The [saved64 first screen](saved64-review-lanes-20261018.md)
 records44 candidates and20 named holds; none is yet a new scientific pass. All668 baseline
@@ -285,3 +285,94 @@ and this handover after a material change. Keep pending, implemented, accepted,
 integrated and deployed states distinct. Preserve dated evidence rather than
 rewriting it. Public prose must contain no host paths, private snapshots,
 credentials, hostnames, session inventories or resource inventories.
+
+## Prepared repairs while the prior delivery queue waits
+
+Keep the earlier accepted-source production checkpoint first; preparation does
+not authorize merging an unaccepted product change. Refresh actual heads/checks.
+
+1. **PR828** `5b054e6c`: read its `docs/paid-metal-phase-fractions.md`, original
+   smaller native failure and new native tests. Require actual successful focused
+   records from both platforms plus all33 original fleet jobs. Preserve Zn/Pb
+   below/at/above budget, repeated zero-time settlement, explicit cooling/pouring,
+   molecular and real-oxidation controls. The handoff is limited to supported
+   solid/liquid coexistence at the core plateau, unchanged chemical amounts and
+   unchanged actual atmosphere; display-event absence alone is insufficient.
+   Phase-aware input enthalpy and general HP discontinuity closure remain separate.
+2. **PR829** `8e2fe429`: read `docs/chromatogram-partial-coverage.md`. The reporting
+   omission is missing-model warnings beside supported peaks, not the empty
+   ionic `outside_method` field. Require real native/core mixed-sample controls,
+   unchanged neutral inventory and the full fleet. Never label unsupported
+   neutrals ions or invent retention coefficients. SP012 stays held for its
+   missing model coverage even when this reporting repair is accepted.
+3. **PR830** `f3517e08`: read `docs/chemistry-fleet-cancellation.md` and the public
+   scheduler receipt in STATUS. Its separate normal-cancellation control already
+   passed with zero physics recordings and no force request. Ordinary full CI
+   and33 fleet successes are still required. Preserve failed-family aggregation
+   and step-level raw uploads; a cancelled run is not a scientific pass.
+
+Normal exact-reviewed-head auto-merge applies once each named acceptance and the
+prior production checkpoint are complete. Verify actual merge parents/tree and
+update maintained summaries. Keep PRs draft only while those named gates remain.
+After accepted runtime follow-ups merge, freeze a separate release from that
+combined main and repeat only the changed-source controls needed to establish
+actual delivery. Do not overwrite the first production checkpoint or rerun the
+unchanged668 corpus. The catalog remains200/fixed196 until independent final
+selection review earns additional supported cases.
+
+### Delivery advancement and base-admission prerequisite
+
+PR826 merged as `ed7c452d` with25 CI successes; verify its
+[parents/tree receipt](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/accepted-pr-integration/pr826-integration.json).
+The single guarded production run is
+[39124453384](https://github.com/CrispStrobe/kerotakis/actions/runs/39124453384);
+review actual artifact/API/browser receipts before declaring delivery complete.
+PR828 current corrected head is `106dd5f3`: first macOS Clippy stopped before
+physics tests, then the unchanged test module moved after production items.
+Corrected native/fleet acceptance remains required.
+For hydrolysis, follow the strengthened
+[usable-base admission contract](saved64-review-lanes-20261018.md#d-share-authoritative-aqueous-base-with-named-ester-hydrolysis):
+positive analytical basis alone must never authorize buffered ester cleavage.
+No catalog entries were added by these corrections.
+
+### Chromatography control and CPU-provider bindings
+
+PR829's current head is `8e2fe429`; its first native failure at `7b5f62d1`
+exposed a missing neutral-solid mixing step in the new test. Read the corrected
+control and its explicit aqueous-glucose precondition; preserve all original
+assertions and first raw failure. Two separately frozen CPU-provider jobs
+cover original phase/chromatography heads and the changed chromatography source.
+Authenticate actual source/tree/compiler/producer-lock/test logs before accepting
+results. The original-source job cannot accept the corrected head. Provider
+validation does not replace protected GitHub checks or confer scientific catalog
+selection. Production run39124453384 remains a separate accepted-main delivery.
+
+## Authoritative release and repair checkpoint
+
+Production `ed7c452d` / binary `f9358b91` has11 unchanged API controls and37
+actual live-browser checks accepted; see the
+[release evidence](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/production-release-ed7c452d-20261018/README.md).
+The four original diagnostics ran once afterward.
+[Saved assessment](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/deployed-shared-diagnostics-20261018/assessment.json)
+qualifies KN-007 and preserves GS-010/OR-006/TH-016 failures.
+The [latest catalog](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/working-experiments-20261018.json) has201 overall/197
+fixed468. Earlier200 entries are unchanged; no44 older-source candidates were
+automatically promoted.
+
+PR828 `5b054e6c` passes Clippy and111 focused core/CEA tests on exact-source CPU
+execution; full/protected acceptance is still required. Its shared correction
+references pre/post-transition sensible energy to the same threshold, fixing
+reverse freezing and condensation when phase Cp changes. Preserve both native
+reverse-cooling failures and intermediate test-owner failure. Water stays in
+the regression through its solvent-state constant and solver. PR829 `8e2fe429`
+passes8 core and3 native controls; full/protected acceptance remains pending.
+PR830's remaining fleet jobs must complete or be safely transferred with exact
+source/artifact bindings; never cancel an active valid run for optional work.
+
+The actual Pages measurement now confirms `USER_PUNCH` refusal because BASIC
+is disabled on published source `76fe144`. Lane H is an observed gap, not just
+a configuration hypothesis. Keep Vercel's accepted profile separate.
+For GS-010, reproduce the retained2.767e-7mol C /1.107e-6eq charge drift on the
+closed brine addition before editing Henry/aqueous readback. For OR-006, retain
+matched-product criteria and buffer/carbonate/ammonia negatives; an instantaneous
+free-ion reading alone is not an analytical reserve.

@@ -2,16 +2,18 @@
 
 Finish accepted-source integration and the full frontend/native deployment in
 [the handover](next-agent-handoff.md) before starting new model work. These lanes
-turn the [saved64 first screen](https://github.com/CrispStrobe/kerotakis/blob/7c14f3966d40f7c771bc90a31f497a1a72971320/audits/target468-20261016/saved64-first-screen/README.md)
+turn the [saved64 first screen](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/saved64-first-screen/README.md)
 into concrete follow-ups. They preserve original forecasts and first outcomes;
 none authorizes treating unsupported chemistry, exit0 or a diagnostic warning
-as a scientific pass. The catalog remains200 / fixed468 selected196.
+as a scientific pass. The latest catalog is201 / fixed468 selected197 after the separate deployed-source KN-007 replay; the original screen and first failures remain unchanged.
 
 ## A. Finalize bounded selections from existing evidence
 
 **Input:** all64 records and original criteria in `first-screen.json`, original
 producer archive and pinned source, material projection and supplemental metrics.
 There are44 first-screen candidates and20 holds; candidate is not a final pass.
+
+The [complete reproducible preparation index](https://github.com/CrispStrobe/kerotakis/blob/f865e4c23566043f3224598d466a4459757cfe62/audits/target468-20261016/saved64-review-preparation/README.md) covers all64 cases:10 gas,14 kinetics,12 organic,12 separation and16 thermal. It includes actual owned phase/species timelines, original criteria and explicit scope limits. No simulation or API replay and no selection was added by these readers.
 
 **Work:** review each original criterion against the actual timepoint and owned
 inventory. Check source contracts for bounded stirring, enzyme activity, ideal
@@ -22,7 +24,7 @@ material reader. Keep rounding, missing phase domains and property provenance
 explicit. Check the source's additive liquid volume, including peroxide, for
 KN009; the saved concentration ratio18.9029 exceeds consumption ratio8.47084.
 
-The [detailed kinetics preparation](https://github.com/CrispStrobe/kerotakis/blob/9038ac6a5ac6155a04d940857e508d6c9828a05e/audits/target468-20261016/saved64-kinetics-preparation/README.md)
+The [detailed kinetics preparation](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/saved64-kinetics-preparation/README.md)
 reproduces all14 kinetics timelines, source mixing bounds and original model
 limits without assigning new passes. Use it to complete that group's review.
 
@@ -55,7 +57,7 @@ is not accepted until conservation and actual activity ownership are established
 ## C. Preserve latent phase fractions through downstream metal writers
 
 **Case:** TH016. A1kJ pulse emits a Zn melt event for0.07395386mol, but the old
-result labels all0.76475987mol as liquid at692.68K. No retained solid remains.
+result labels all0.76475987mol as liquid at692.68K. No retained solid remains. The [independent saved thermal calculation](https://github.com/CrispStrobe/kerotakis/blob/f865e4c23566043f3224598d466a4459757cfe62/audits/target468-20261016/saved64-thermal-preparation/README.md) accounts for458.65774450J sensible plus5598.04221474J latent for that full liquid fraction:6056.69995924J against the1000J pulse. Keep the5056.69995924J mismatch and original phase/event disagreement; do not fit a property to erase it.
 **Source:** `crates/kerotakis-core/src/{phase_route,displacement,bench,vessel}.rs`,
 `crates/kerotakis-phreeqc/src/aqueous.rs`,
 `crates/kerotakis-cea/src/thermal.rs` and the standard solver stack.
@@ -76,6 +78,8 @@ reverse cooling, transfer and a second metal plus a molecular-solid control.
 No new oxide may appear without an oxygen source. Preserve original TH016 and
 freeze repaired-source evidence separately.
 
+Prepared [PR828](https://github.com/CrispStrobe/kerotakis/pull/828) addresses the destructive unchanged-chemistry readback boundary, with a separate smaller native first failure. Its actual repaired native/fleet acceptance is pending. The guard is restricted to supported paid coexistence plateaus; it does not implement general phase-aware CEA input enthalpy or energy closure across reacting HP phase transitions. Keep those algorithmic tasks separate.
+
 ## D. Share authoritative aqueous base with named ester hydrolysis
 
 **Cases:** OR006–009. Explicit `react ... saponification` leaves ester unchanged
@@ -86,8 +90,19 @@ transfer/readback; `crates/kerotakis-phreeqc/tests/family_aqueous_tail.rs`.
 
 **Work:** distinguish the explicit requested stoichiometric template from the
 warm kinetic family and inspect their hydroxide-capacity owners. Use actual
-full-precision analytical base, not rounded displayed OH activity or residual
-NaOH molecules. Deduct residual acetic-acid neutralization before ester cleavage.
+full-precision usable strong-base capacity, not rounded displayed OH activity or
+residual NaOH molecules. The `base_equivalents` inventory coordinate is not that
+capacity: an acetate buffer can own positive basis equivalents while having
+negligible free hydroxide. Establish the authoritative capacity/admission
+contract before consumption; if retained state is insufficient, repair its
+ownership rather than infer caustic capacity from the coordinate. Instantaneous
+measured `free_hydroxide` is not, by itself, proof of the total stoichiometric
+reserve either: re-equilibration can recruit weak acid/base reservoirs. An
+existing kinetic-family measurement contract must not silently become the
+named to-completion verb's capacity contract. Establish measured-versus-literal
+hydroxide ownership before adding those amounts, and verify numerical negative
+controls against the actual admission threshold. Account for
+weak-acid/bound-proton reservoirs and prior neutralization before ester cleavage.
 Do not add naming aliases for an inventory-ownership failure. Keep the
 counterion ledger explicit: consuming hydroxide equivalents while depositing
 neutral sodium acetate can double count sodium if the spectator cation is also
@@ -97,7 +112,12 @@ balanced net ionic reaction or state their precise admission boundary.
 **Done:** base-limited and ester-limited requests form matched acetate/ethanol,
 retain the correct excess, and close C/H/O/Na/charge. Include prior aqueous solve,
 changed pouring order, repeated request, transfer/save/cache and atomic refusals.
-Keep heat, rate and warm-family limitations separate. Reassess OR008/009 only
+Include acetate-buffer, carbonate and ammonia negative controls, unsolved
+molecular base, literal hydroxide and a non-sodium alkali spectator. Refresh the
+solute-charge cache after the complete atomic ionic inventory change, as the
+shared family path does. A successful base-only control must not cause false
+cleavage in buffered samples. Keep heat, rate and warm-family limitations
+separate. Reassess OR008/009 only
 after their hydrolysis prerequisites actually occur.
 
 ## E. Repair analytical coverage reporting and staged separation
@@ -111,6 +131,8 @@ report missing-method species rather than silently implying absence. Require
 actual differentiated peaks only where parameters exist, unchanged sample
 inventory, response-factor qualification and CLI/browser parity. Unsupported
 parameters are a coverage limit, not a license to invent retention constants.
+
+Prepared [PR829](https://github.com/CrispStrobe/kerotakis/pull/829) corrects the lost missing-model warning beside supported peaks. `outside_method` should remain the ionic-method exclusion list; an unsupported neutral belongs in a separate parameter-gap warning. The new smaller native failure confirms this distinction. Actual8 core and3 native controls pass at corrected head8e2fe429; protected/full-fleet integration remains pending and SP012 stays held for missing retention coverage.
 
 For **SP003**, inspect distillation's accumulated-condensate positivity refusal.
 One stage delivers product; four stages refuse atomically. Freeze matched feed,
@@ -225,3 +247,14 @@ recorded and independently verifiable. Native and frontend claims distinguish
 what was captured. Existing source-qualified results, original locks, first
 failures and scientific counts remain unchanged. Byte-for-byte rebuild or
 empirical-calibration claims require their own evidence.
+
+## Actual deployed-source follow-up
+
+The [four unchanged diagnostic protocols](https://github.com/CrispStrobe/kerotakis/blob/a1dbcedddca6bd6e8eae86048f045f9cc1dcd126/audits/target468-20261016/deployed-shared-diagnostics-20261018/README.md)
+now have source/binary/lock-bound API results on `ed7c452d`, after actual release
+acceptance. KN-007 passes both original criteria and whole H/O/Mn/charge/filter
+oxygen checks; its separate selection does not rewrite the old oxygen-loss
+outcome. GS-010, OR-006 and TH-016 remain excluded. PR828 `5b054e6c` passes111
+focused tests but is not deployed; do not overwrite TH-016's production failure.
+Actual Pages source `76fe144` fails interpreter arithmetic with BASIC disabled,
+confirming lane H's configuration gap. No empirical calibration is inferred.

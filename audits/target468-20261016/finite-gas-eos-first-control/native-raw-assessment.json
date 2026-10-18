@@ -1,0 +1,14 @@
+{
+  "legacy": {
+    "native_status": 0,
+    "carbon_out_mol": 0.0010003390707956424,
+    "carbon_residual_mol": 3.39070795642377e-07,
+    "passes_frozen_1e_10_mol_bound": false
+  },
+  "raw": {
+    "native_status": 0,
+    "carbon_out_mol": 0.000999999999999987,
+    "carbon_residual_mol": -1.3010426069826053e-17,
+    "passes_frozen_1e_10_mol_bound": true
+  }
+}
