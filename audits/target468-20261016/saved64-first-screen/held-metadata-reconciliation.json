@@ -1,0 +1,331 @@
+{
+  "recorded_utc": "2026-10-18T07:41:50.397332+00:00",
+  "scope": "Reconcile eight already reviewed held states; no new verdicts or selections. The new64 first screen remains separate from formal selection.",
+  "scoreboard_before_sha256": "4c070d9416789b2f50e6317904775197ac9c5980e1dcfd37055db77457e2dce9",
+  "scoreboard_after_sha256": "39d79b37279fe66a49e753ab3af19cedde337322ba396d699c9d48c7c76c7a86",
+  "previous_selection_receipt_path": "audits/target468-20261016/saved-first120-selection.json",
+  "previous_selection_receipt_sha256": "452777ab7f7eeb87799ba0ad563ad93ef7d98e775888d741a5fdf4ccd79d4424",
+  "changed_rows": [
+    {
+      "id": "new120:ab-002",
+      "before": {
+        "id": "new120:ab-002",
+        "batch": "first120",
+        "title": "Weak-acid conductometric titration distinguishes neutralisation from dilution",
+        "script_sha256": "740f1116ec90cac8965d36d5fb7565d836f8fb54b21bc1cfb80268276530e80c",
+        "original_physical_forecast": "Formation of sodium acetate increases the mobile-ion inventory; after equivalence, excess hydroxide gives a steeper conductivity rise.",
+        "state": "completed_requires_physical_assessment",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "740f1116ec90cac8965d36d5fb7565d836f8fb54b21bc1cfb80268276530e80c",
+          "stdout_sha256": "f3a080b4f06b62573730e3016336da4723989ccd443898aca2d5391001b5d8c5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "after": {
+        "id": "new120:ab-002",
+        "batch": "first120",
+        "title": "Weak-acid conductometric titration distinguishes neutralisation from dilution",
+        "script_sha256": "740f1116ec90cac8965d36d5fb7565d836f8fb54b21bc1cfb80268276530e80c",
+        "original_physical_forecast": "Formation of sodium acetate increases the mobile-ion inventory; after equivalence, excess hydroxide gives a steeper conductivity rise.",
+        "state": "assessed_not_selected",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "740f1116ec90cac8965d36d5fb7565d836f8fb54b21bc1cfb80268276530e80c",
+          "stdout_sha256": "f3a080b4f06b62573730e3016336da4723989ccd443898aca2d5391001b5d8c5",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "physical_assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "hold_selection_receipt": "audits/target468-20261016/saved-first120-selection.json"
+      }
+    },
+    {
+      "id": "new120:ab-017",
+      "before": {
+        "id": "new120:ab-017",
+        "batch": "first120",
+        "title": "Combine a weak-acid cation and weak-base anion",
+        "script_sha256": "c07a11e30d5ee527d9f03d3ee54553a13326f2be8c33f33ae1b6a3c5d7ee335e",
+        "original_physical_forecast": "Comparable ammonium acidity and acetate basicity tend to give a near-neutral mixture while both weak equilibria remain active.",
+        "state": "completed_requires_physical_assessment",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "c07a11e30d5ee527d9f03d3ee54553a13326f2be8c33f33ae1b6a3c5d7ee335e",
+          "stdout_sha256": "48f13c7dbb298de652c5d29ccccaf95a4c4af70cde8219ce79e7affbdf9b62f7",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "after": {
+        "id": "new120:ab-017",
+        "batch": "first120",
+        "title": "Combine a weak-acid cation and weak-base anion",
+        "script_sha256": "c07a11e30d5ee527d9f03d3ee54553a13326f2be8c33f33ae1b6a3c5d7ee335e",
+        "original_physical_forecast": "Comparable ammonium acidity and acetate basicity tend to give a near-neutral mixture while both weak equilibria remain active.",
+        "state": "assessed_not_selected",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "c07a11e30d5ee527d9f03d3ee54553a13326f2be8c33f33ae1b6a3c5d7ee335e",
+          "stdout_sha256": "48f13c7dbb298de652c5d29ccccaf95a4c4af70cde8219ce79e7affbdf9b62f7",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "physical_assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "hold_selection_receipt": "audits/target468-20261016/saved-first120-selection.json"
+      }
+    },
+    {
+      "id": "new120:ab-018",
+      "before": {
+        "id": "new120:ab-018",
+        "batch": "first120",
+        "title": "Metal-ion hydrolysis acidifies ferric chloride",
+        "script_sha256": "0cedf8a141123efe08288fbe0bb7e72f7842e97327836ae32b01e3dc61581e35",
+        "original_physical_forecast": "Ferric-ion hydrolysis acidifies the water much more than calcium chloride does; hydroxide-bearing ferric species or solids may also appear.",
+        "state": "completed_requires_physical_assessment",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "0cedf8a141123efe08288fbe0bb7e72f7842e97327836ae32b01e3dc61581e35",
+          "stdout_sha256": "8b64a7c7f3cfbebbcb7bdbdcf6be30f126ddc4375ae61c4a1e2fe98b3304acc4",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "after": {
+        "id": "new120:ab-018",
+        "batch": "first120",
+        "title": "Metal-ion hydrolysis acidifies ferric chloride",
+        "script_sha256": "0cedf8a141123efe08288fbe0bb7e72f7842e97327836ae32b01e3dc61581e35",
+        "original_physical_forecast": "Ferric-ion hydrolysis acidifies the water much more than calcium chloride does; hydroxide-bearing ferric species or solids may also appear.",
+        "state": "assessed_not_selected",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "0cedf8a141123efe08288fbe0bb7e72f7842e97327836ae32b01e3dc61581e35",
+          "stdout_sha256": "8b64a7c7f3cfbebbcb7bdbdcf6be30f126ddc4375ae61c4a1e2fe98b3304acc4",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "physical_assessment": "audits/target468-20261016/saved-assessment-first120-ab/assessment.json",
+        "hold_selection_receipt": "audits/target468-20261016/saved-first120-selection.json"
+      }
+    },
+    {
+      "id": "new120:pr-005",
+      "before": {
+        "id": "new120:pr-005",
+        "batch": "first120",
+        "title": "Selective hydroxide precipitation separates ferric and cupric ions",
+        "script_sha256": "f5a6b08641709d92815ff6544ed3150abbe2cc1cedad3495c669ccc0f4c0f3d9",
+        "original_physical_forecast": "A moderately acidic endpoint should preferentially remove ferric hydroxide while leaving much more copper in the filtrate.",
+        "state": "completed_requires_physical_assessment",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "f5a6b08641709d92815ff6544ed3150abbe2cc1cedad3495c669ccc0f4c0f3d9",
+          "stdout_sha256": "e038deaa5f3c3b74cd7c05c2ec8c0a4e027b2f4bb183bed1ab4f5f3c4f772747",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "after": {
+        "id": "new120:pr-005",
+        "batch": "first120",
+        "title": "Selective hydroxide precipitation separates ferric and cupric ions",
+        "script_sha256": "f5a6b08641709d92815ff6544ed3150abbe2cc1cedad3495c669ccc0f4c0f3d9",
+        "original_physical_forecast": "A moderately acidic endpoint should preferentially remove ferric hydroxide while leaving much more copper in the filtrate.",
+        "state": "assessed_not_selected",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "f5a6b08641709d92815ff6544ed3150abbe2cc1cedad3495c669ccc0f4c0f3d9",
+          "stdout_sha256": "e038deaa5f3c3b74cd7c05c2ec8c0a4e027b2f4bb183bed1ab4f5f3c4f772747",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "physical_assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "hold_selection_receipt": "audits/target468-20261016/saved-first120-selection.json"
+      }
+    },
+    {
+      "id": "new120:pr-008",
+      "before": {
+        "id": "new120:pr-008",
+        "batch": "first120",
+        "title": "Carbonate and sulfate precipitates respond differently to acid",
+        "script_sha256": "54a49cb5867789766d1a9ebee13476abc6844a6bb53ff560dc99b8f2927f78d8",
+        "original_physical_forecast": "Barium carbonate is acid-labile and can release CO2; barium sulfate should largely persist under the same dilute-acid challenge.",
+        "state": "completed_requires_physical_assessment",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "54a49cb5867789766d1a9ebee13476abc6844a6bb53ff560dc99b8f2927f78d8",
+          "stdout_sha256": "38096bcc339056507d89fe14a4b189aed3a3445934846be0dd2cb036d1ffbcdc",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "after": {
+        "id": "new120:pr-008",
+        "batch": "first120",
+        "title": "Carbonate and sulfate precipitates respond differently to acid",
+        "script_sha256": "54a49cb5867789766d1a9ebee13476abc6844a6bb53ff560dc99b8f2927f78d8",
+        "original_physical_forecast": "Barium carbonate is acid-labile and can release CO2; barium sulfate should largely persist under the same dilute-acid challenge.",
+        "state": "assessed_not_selected",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "54a49cb5867789766d1a9ebee13476abc6844a6bb53ff560dc99b8f2927f78d8",
+          "stdout_sha256": "38096bcc339056507d89fe14a4b189aed3a3445934846be0dd2cb036d1ffbcdc",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "physical_assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "hold_selection_receipt": "audits/target468-20261016/saved-first120-selection.json"
+      }
+    },
+    {
+      "id": "new120:pr-017",
+      "before": {
+        "id": "new120:pr-017",
+        "batch": "first120",
+        "title": "Iodide precipitation extends the silver-halide test",
+        "script_sha256": "69b3b8332cefb4d6ae665b62ad42bc4ce0cc6eb9e1a7c6dbc604e0085c02eae5",
+        "original_physical_forecast": "Chemical expectation: iodide and silver ions form poorly soluble silver iodide, commonly described as a yellow precipitate.",
+        "state": "completed_requires_physical_assessment",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "69b3b8332cefb4d6ae665b62ad42bc4ce0cc6eb9e1a7c6dbc604e0085c02eae5",
+          "stdout_sha256": "3932d1beba7147fd1307a345ca6eff45708567e9072afdbca17d8a2fa984952c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "after": {
+        "id": "new120:pr-017",
+        "batch": "first120",
+        "title": "Iodide precipitation extends the silver-halide test",
+        "script_sha256": "69b3b8332cefb4d6ae665b62ad42bc4ce0cc6eb9e1a7c6dbc604e0085c02eae5",
+        "original_physical_forecast": "Chemical expectation: iodide and silver ions form poorly soluble silver iodide, commonly described as a yellow precipitate.",
+        "state": "assessed_not_selected",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "69b3b8332cefb4d6ae665b62ad42bc4ce0cc6eb9e1a7c6dbc604e0085c02eae5",
+          "stdout_sha256": "3932d1beba7147fd1307a345ca6eff45708567e9072afdbca17d8a2fa984952c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "physical_assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "hold_selection_receipt": "audits/target468-20261016/saved-first120-selection.json"
+      }
+    },
+    {
+      "id": "new120:pr-018",
+      "before": {
+        "id": "new120:pr-018",
+        "batch": "first120",
+        "title": "Bromide precipitation without inventing an unregistered salt bottle",
+        "script_sha256": "e63ba40ee49d2cab6f11a9f410901a96c61756b2d1eaaa565082cddd1f56c1fc",
+        "original_physical_forecast": "Chemical expectation: bromide from hydrobromic acid forms a pale silver-bromide precipitate with silver ions.",
+        "state": "completed_requires_physical_assessment",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "e63ba40ee49d2cab6f11a9f410901a96c61756b2d1eaaa565082cddd1f56c1fc",
+          "stdout_sha256": "ce507018cb035b3c8d4c3cc8d4df9c1f0305bbe851dd36e6b3080b5ce35b891c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "after": {
+        "id": "new120:pr-018",
+        "batch": "first120",
+        "title": "Bromide precipitation without inventing an unregistered salt bottle",
+        "script_sha256": "e63ba40ee49d2cab6f11a9f410901a96c61756b2d1eaaa565082cddd1f56c1fc",
+        "original_physical_forecast": "Chemical expectation: bromide from hydrobromic acid forms a pale silver-bromide precipitate with silver ions.",
+        "state": "assessed_not_selected",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "e63ba40ee49d2cab6f11a9f410901a96c61756b2d1eaaa565082cddd1f56c1fc",
+          "stdout_sha256": "ce507018cb035b3c8d4c3cc8d4df9c1f0305bbe851dd36e6b3080b5ce35b891c",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "physical_assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "hold_selection_receipt": "audits/target468-20261016/saved-first120-selection.json"
+      }
+    },
+    {
+      "id": "new120:pr-016",
+      "before": {
+        "id": "new120:pr-016",
+        "batch": "first120",
+        "title": "Solvent identity changes the route to a silver-chloride precipitate",
+        "script_sha256": "3dcc1ae6bec0f994324b4a0770b8bc1c851f402c36500cf7957e823d38dffc66",
+        "original_physical_forecast": "AgCl formation in water uses aqueous speciation, whereas the documented pure-ethanol route is constrained by dissolved reagent fractions and a curated metathesis rule.",
+        "state": "completed_requires_physical_assessment",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "3dcc1ae6bec0f994324b4a0770b8bc1c851f402c36500cf7957e823d38dffc66",
+          "stdout_sha256": "a8a2cebdfe5bc5a8680fb44717abccfb97baafb2ac09d05d8cd11e6084370f2a",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "after": {
+        "id": "new120:pr-016",
+        "batch": "first120",
+        "title": "Solvent identity changes the route to a silver-chloride precipitate",
+        "script_sha256": "3dcc1ae6bec0f994324b4a0770b8bc1c851f402c36500cf7957e823d38dffc66",
+        "original_physical_forecast": "AgCl formation in water uses aqueous speciation, whereas the documented pure-ethanol route is constrained by dissolved reagent fractions and a curated metathesis rule.",
+        "state": "assessed_not_selected",
+        "latest_combined_release_revalidated": false,
+        "common_c446_execution": {
+          "run_id": 38909751180,
+          "status": "zero_exit",
+          "exit_code": 0,
+          "script_sha256": "3dcc1ae6bec0f994324b4a0770b8bc1c851f402c36500cf7957e823d38dffc66",
+          "stdout_sha256": "a8a2cebdfe5bc5a8680fb44717abccfb97baafb2ac09d05d8cd11e6084370f2a",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "physical_assessment": "audits/target468-20261016/saved-assessment-first120-precip/assessment.json",
+        "hold_selection_receipt": "audits/target468-20261016/saved-first120-selection.json",
+        "independent_review": "audits/target468-20261016/saved-assessment-first120-ab/precip-selection-independent-review.json"
+      }
+    }
+  ],
+  "other_case_rows_unchanged": true,
+  "all_noncase_fields_unchanged": true,
+  "catalog_before_after_entries": 200,
+  "fixed468_before_after_selected": 196,
+  "additional_selections_for401": 205,
+  "new_simulation_executions": 0,
+  "new_scientific_selections": 0,
+  "frozen_originals_or_outcomes_changed": false
+}

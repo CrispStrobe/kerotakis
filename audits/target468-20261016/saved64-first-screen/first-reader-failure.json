@@ -1,0 +1,1 @@
+{"kind":"assessment_reader_failure","unknown_formula":"AgCl","new_executions":0,"physical_verdict":"not_assigned","correction":"Add literal AgCl stoichiometry; do not silently ignore unknown species."}

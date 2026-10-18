@@ -1,0 +1,35 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "registry_path": "data/registry/registry-source-v1.json",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "kn009": {
+    "pre_wait_additive_liquid_L": [
+      0.10030639639639641,
+      0.10612792792792794
+    ],
+    "pre_wait_H2O2_mol_per_L": [
+      0.09969453952349602,
+      1.8845180896758968
+    ],
+    "concentration_ratio": 18.902921851921022,
+    "equal_elapsed_seconds": [
+      1e-06,
+      1e-06
+    ],
+    "peroxide_loss_mol": [
+      9.667547020384727e-05,
+      0.0008189220833166588
+    ],
+    "absolute_early_loss_ratio": 8.47083631028535,
+    "loss_ratio_below_concentration_ratio": true,
+    "qualification": "Exact registry additive liquid-volume method, includes peroxide liquid. Dissolved solute volume is excluded by the source contract; not an independent measured mixture density."
+  },
+  "sp007": {
+    "dry_AgCl_mol": 0.001999953299357,
+    "registry_AgCl_g_per_mol": 143.32,
+    "dry_AgCl_g": 0.28663330686384525,
+    "chloride_mol_inferred_from_1_to_1_stoichiometry": 0.001999953299357
+  },
+  "new_executions": 0,
+  "physical_verdicts_assigned": 0
+}

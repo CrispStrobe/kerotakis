@@ -1,0 +1,1 @@
+{"kind":"assessment_reader_failure","operator":"extract","incorrect_assumption":"moles field","actual_field":"total_solvent","new_executions":0,"physical_verdict":"not_assigned"}

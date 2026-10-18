@@ -1,0 +1,1 @@
+{"kind":"assessment_reader_failure","detail":"Registry contains tagged property objects as well as string properties; select requested string properties explicitly.","new_executions":0}
