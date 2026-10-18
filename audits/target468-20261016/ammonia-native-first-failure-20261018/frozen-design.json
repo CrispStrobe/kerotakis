@@ -1,0 +1,41 @@
+{
+  "frozen_utc": "2026-10-18T16:49:17.270752+00:00",
+  "source": "2750df2dd5af044e90b699c55f9834c8b4dbe53f",
+  "tree": "2895a70ef0dc43a41d24de38074bee1d3c9af95d",
+  "worker_sha256": "929e5d5982ae570624d8840ff5fb3086f980e73a2b02a60fa089797792337dbc",
+  "commands": [
+    [
+      "clippy",
+      [
+        "cargo",
+        "clippy",
+        "-p",
+        "kerotakis-phreeqc",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ]
+    ],
+    [
+      "native-tests",
+      [
+        "cargo",
+        "test",
+        "-p",
+        "kerotakis-phreeqc",
+        "--lib",
+        "--tests",
+        "--no-fail-fast",
+        "--",
+        "--nocapture"
+      ]
+    ]
+  ],
+  "new_controls": "four coupled_ammonia tests; neutral/acid-first/acid-after, 3 volumes x2 doses x2 boundaries, repeat waits, supplied/absent gas, unchanged-state missing-phase refusal and dry/core fallback",
+  "first_failure_preserved": true,
+  "root_raw_review_required": true,
+  "cpu_only": true,
+  "scientific_catalog_additions": 0,
+  "no_production_credentials": true
+}

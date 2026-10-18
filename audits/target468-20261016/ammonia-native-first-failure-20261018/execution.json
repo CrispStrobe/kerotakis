@@ -1,0 +1,19 @@
+{
+  "label": "ammonia-native-tests",
+  "utc": "2026-10-18T17:02:33.806524+00:00",
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "--lib",
+    "--tests",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "elapsed_seconds": 463.54922823799984,
+  "stdout_sha256": "0aa2a7dce321423fb612cb3a6f9842ee15999380e4db922db0dfa6f70597cad5",
+  "stderr_sha256": "1eee4286eb6c95b43f2ec8882d74a2bd3fbb960e8a7c7399ae5bd59b4f437123"
+}

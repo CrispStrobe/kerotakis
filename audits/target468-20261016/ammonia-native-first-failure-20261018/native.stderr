@@ -1,0 +1,371 @@
+   Compiling libm v0.2.16
+   Compiling bytemuck v1.25.2
+   Compiling crossbeam-utils v0.8.23
+   Compiling rand_core v0.6.4
+   Compiling rand v0.8.8
+   Compiling num-traits v0.2.19
+   Compiling serde_core v1.0.229
+   Compiling num-complex v0.4.6
+   Compiling crossbeam-epoch v0.9.21
+   Compiling zerocopy v0.8.63
+   Compiling crossbeam-deque v0.8.8
+   Compiling either v1.19.0
+   Compiling bitflags v2.13.2
+   Compiling once_cell v1.21.4
+   Compiling raw-cpuid v11.6.0
+   Compiling rayon-core v1.13.0
+   Compiling rayon v1.12.0
+   Compiling serde v1.0.229
+   Compiling reborrow v0.5.5
+   Compiling pulp-wasm-simd-flag v0.1.1
+   Compiling pulp v0.22.3
+   Compiling dyn-stack v0.13.2
+   Compiling num-integer v0.1.47
+   Compiling nano-gemm-core v0.2.1
+   Compiling thiserror v2.0.21
+   Compiling num-bigint v0.4.8
+   Compiling gemm-common v0.19.0
+   Compiling getrandom v0.3.4
+   Compiling byteorder v1.5.0
+   Compiling rand_core v0.9.5
+   Compiling ppv-lite86 v0.2.21
+   Compiling crossbeam-channel v0.5.17
+   Compiling crossbeam-queue v0.3.14
+   Compiling smallvec v1.16.3
+   Compiling equator v0.4.2
+   Compiling crossbeam v0.8.5
+   Compiling rand_chacha v0.9.0
+   Compiling serde_json v1.0.154
+   Compiling safe_arch v1.2.0
+   Compiling atomic-wait v1.1.0
+   Compiling hashbrown v0.17.1
+   Compiling scopeguard v1.2.0
+   Compiling equivalent v1.0.3
+   Compiling chematic-core v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-core-0.18.0)
+   Compiling indexmap v2.14.2
+   Compiling lock_api v0.4.14
+   Compiling equator v0.2.2
+   Compiling spindle v0.2.6
+   Compiling wide v1.7.1
+   Compiling rand v0.9.5
+   Compiling py_literal v0.4.0
+   Compiling nano-gemm-f32 v0.2.1
+   Compiling nano-gemm-c64 v0.2.1
+   Compiling nano-gemm-c32 v0.2.1
+   Compiling nano-gemm-f64 v0.2.1
+   Compiling gemm-f64 v0.19.0
+   Compiling gemm-c64 v0.19.0
+   Compiling gemm-f32 v0.19.0
+   Compiling gemm-c32 v0.19.0
+   Compiling qd v0.8.0
+   Compiling approx v0.5.1
+   Compiling num_cpus v1.17.0
+   Compiling generativity v1.2.1
+   Compiling rawpointer v0.2.1
+   Compiling rustc-hash v2.1.3
+   Compiling chematic-perception v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-perception-0.18.0)
+   Compiling equator v0.6.0
+   Compiling matrixmultiply v0.3.11
+   Compiling faer-traits v0.24.0
+   Compiling private-gemm-x86 v0.1.22
+   Compiling simba v0.10.2
+   Compiling gemm v0.19.0
+   Compiling nano-gemm v0.2.2
+   Compiling npyz v0.8.4
+   Compiling rand_distr v0.5.1
+   Compiling num-rational v0.4.2
+   Compiling faer v0.24.4
+   Compiling nalgebra v0.35.0
+   Compiling ahash v0.8.12
+   Compiling foldhash v0.1.5
+   Compiling allocator-api2 v0.2.21
+   Compiling hashbrown v0.14.5
+   Compiling hashbrown v0.15.5
+   Compiling kerotakis-data v0.0.1 (/kaggle/temp/kerotakis-native-controls/ammonia/crates/kerotakis-data)
+   Compiling parking_lot_core v0.9.12
+   Compiling geo-types v0.7.20
+   Compiling toml_datetime v0.6.11
+   Compiling serde_spanned v0.6.9
+   Compiling log v0.4.34
+   Compiling rustc-hash v1.1.0
+   Compiling winnow v0.7.15
+   Compiling toml_write v0.1.2
+   Compiling fixedbitset v0.5.7
+   Compiling lazy_static v1.5.1
+   Compiling slab v0.4.12
+   Compiling contour v0.13.1
+   Compiling petgraph v0.8.3
+   Compiling toml_edit v0.22.27
+   Compiling diffsol-la v0.1.1
+   Compiling dashmap v6.2.1
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/kerotakis-native-controls/ammonia/crates/kerotakis-core)
+   Compiling diffsol-nl v0.1.1
+   Compiling chematic-smarts v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-smarts-0.18.0)
+   Compiling chematic-smiles v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-smiles-0.18.0)
+   Compiling ryu v1.0.23
+   Compiling libyaml-rs v0.3.0
+   Compiling yaml_serde v0.10.7
+   Compiling chematic-rxn v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-rxn-0.18.0)
+   Compiling diffsol v0.16.2
+   Compiling lasso v0.7.3
+   Compiling toml v0.8.23
+   Compiling kerotakis-thermo v0.0.1 (/kaggle/temp/kerotakis-native-controls/ammonia/crates/kerotakis-thermo)
+   Compiling bumpalo v3.20.3
+   Compiling chematic-fp v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-fp-0.18.0)
+   Compiling chematic-cip v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-cip-0.18.0)
+   Compiling chematic-iupac v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-iupac-0.18.0)
+   Compiling chematic-chem v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-chem-0.18.0)
+   Compiling spin v0.9.9
+   Compiling hash32 v0.2.1
+   Compiling stable_deref_trait v1.2.1
+   Compiling heapless v0.7.17
+   Compiling kerotakis-phreeqc v0.0.1 (/kaggle/temp/kerotakis-native-controls/ammonia/crates/kerotakis-phreeqc)
+   Compiling chematic-inchi v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-inchi-0.18.0)
+   Compiling chematic-mol v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-mol-0.18.0)
+   Compiling cobs v0.3.0
+   Compiling half v2.7.1
+   Compiling plotters-backend v0.3.7
+   Compiling anstyle v1.0.14
+   Compiling regex-syntax v0.8.11
+   Compiling ciborium-io v0.2.2
+   Compiling clap_lex v1.1.1
+   Compiling clap_builder v4.6.7
+   Compiling ciborium-ll v0.2.2
+   Compiling regex-automata v0.4.18
+   Compiling plotters-svg v0.3.7
+   Compiling postcard v1.1.3
+   Compiling chematic v0.18.0 (/kaggle/temp/kerotakis-native-controls/ammonia/vendor/chematic-0.18/chematic-0.18.0)
+   Compiling itertools v0.10.5
+   Compiling cast v0.3.0
+   Compiling same-file v1.0.6
+   Compiling walkdir v2.5.0
+   Compiling criterion-plot v0.5.0
+   Compiling kerotakis-org v0.0.1 (/kaggle/temp/kerotakis-native-controls/ammonia/crates/kerotakis-org)
+   Compiling kerotakis-cea v0.0.1 (/kaggle/temp/kerotakis-native-controls/ammonia/crates/kerotakis-cea)
+   Compiling plotters v0.3.7
+   Compiling regex v1.13.1
+   Compiling ciborium v0.2.2
+   Compiling clap v4.6.7
+   Compiling tinytemplate v1.2.1
+   Compiling is-terminal v0.4.17
+   Compiling anes v0.1.6
+   Compiling oorandom v11.1.5
+   Compiling criterion v0.5.1
+   Compiling kerotakis-stack v0.0.1 (/kaggle/temp/kerotakis-native-controls/ammonia/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/kaggle/temp/kerotakis-native-controls/ammonia/crates/kerotakis-safety)
+    Finished `test` profile [unoptimized] target(s) in 5m 14s
+     Running unittests src/lib.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/kerotakis_phreeqc-38e0ac7d898294ef)
+boiled-dry chalk: kgw=6.755985e-7 before=71048.1120 after=0.000260
+brine: kgw=1.000013e0 before=15.9998 after=12.2649
+1 mL probe: kgw=1.000000e-3 before=200.0000 after=12.2649
+droplet: kgw=1.000013e-4 before=3.9999 after=0.4000
+     Running unittests src/bin/generate-dbindex.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/generate_dbindex-89a1bca900f07fe6)
+     Running tests/acid_base.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/acid_base-d4bec36338422903)
+     Running tests/acid_permanganate_cache_only.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/acid_permanganate_cache_only-969355a52473204e)
+     Running tests/acid_permanganate_endpoint.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/acid_permanganate_endpoint-741a04d3f3c40e30)
+     Running tests/agcl.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/agcl-57c9c126dcccd697)
+     Running tests/analytical_inventory.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/analytical_inventory-4592fa55eff80f24)
+ligand routing: 36 computed, 0 explicitly refused with unchanged inventory
+     Running tests/aqueous_continuation.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/aqueous_continuation-22b6094cd4417063)
+     Running tests/aqueous_continuation_cache_only.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/aqueous_continuation_cache_only-9af772765f2a4170)
+     Running tests/aqueous_transfer_snapshot.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/aqueous_transfer_snapshot-a4f9316448e698c8)
+     Running tests/basic_dialect_oracle.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/basic_dialect_oracle-ae19b5ae05215ea1)
+     Running tests/borate_speciation.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/borate_speciation-0700ae0b5a6ac602)
+     Running tests/bridge_contract.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/bridge_contract-56783f54bedb67f4)
+     Running tests/brine_and_phosphate.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/brine_and_phosphate-2a03954656691d0b)
+     Running tests/bundled_rates_oracle.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/bundled_rates_oracle-488073036bb5a2df)
+checking phreeqc.dat RATES/Quartz
+Quartz remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/K-feldspar
+K-feldspar remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Albite
+Albite remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Calcite
+Calcite remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Pyrite
+Pyrite remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Organic_C
+Organic_C remaining=1.000000000000000e-3
+checking phreeqc.dat RATES/Pyrolusite
+Pyrolusite remaining=3.957000000000000e-2
+checking wateq4f.dat RATES/Quartz
+Quartz remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/K-feldspar
+K-feldspar remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Albite
+Albite remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Calcite
+Calcite remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Pyrite
+Pyrite remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Organic_C
+Organic_C remaining=1.000000000000000e-3
+checking wateq4f.dat RATES/Pyrolusite
+Pyrolusite remaining=3.811600000000000e-2
+     Running tests/calcium_phosphate.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/calcium_phosphate-00290926fa369b08)
+     Running tests/carbonate.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/carbonate-18644b44dd653216)
+     Running tests/census_locale.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/census_locale-bdc9bd692983519b)
+     Running tests/charged_component_inputs.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/charged_component_inputs-92100ce81ebf4905)
+     Running tests/chromatograph.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/chromatograph-3c213ccc5c07c452)
+     Running tests/colligative_numbers.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/colligative_numbers-7dddfe629b5aa68e)
+0.01 molal NaCl: freezing point -0.0377 C (ideal route)
+0.01 molal NaCl: an ion-interaction route would say -0.0350 C
+0.1 molal NaCl: phi = 0.9453
+0.1 molal NaCl: freezing point -0.3516 C
+0.1 molal NaCl: Raoult's law would say -0.3712 C
+     Running tests/coupled_ammonia.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/coupled_ammonia-277706bdcda99a64)
+
+thread 'dry_ammonia_and_core_henry_fallback_keep_their_own_inventory' (6392) panicked at crates/kerotakis-phreeqc/tests/coupled_ammonia.rs:194:5:
+assertion `left == right` failed
+  left: Object {"co2_partial_pressure_atm": Null, "contents": Array [Object {"moles": Number(0.0008), "phase": String("liquid"), "species": String("NH3")}], "elapsed_seconds": Number(0.0), "excess_enthalpy_j": Number(0.0), "foam": Object {"peak_volume_liters": Number(0.0), "trapped_gas_liters": Number(0.0), "volume_liters": Number(0.0)}, "free_hydroxide": Number(0.0), "free_proton": Number(0.0), "headspace": Object {"boundary": String("sealed"), "volume": Number(0.35)}, "id": Number(0), "label": String("beaker"), "nuclides": Object {"inventory": Object {}}, "pending_co2_transfer_mol": Number(0.0), "pressure": Number(101325.0), "resolved": Object {"solution": Null, "valid": Bool(false)}, "solute_charge": Number(0.0), "solution": Null, "surfaces": Array [], "temperature": Number(298.15), "thermal_mode": String("adiabatic")}
+ right: Object {"co2_partial_pressure_atm": Null, "contents": Array [Object {"moles": Number(0.0008), "phase": String("liquid"), "species": String("NH3")}], "elapsed_seconds": Number(0.0), "excess_enthalpy_j": Number(0.0), "foam": Object {"peak_volume_liters": Number(0.0), "trapped_gas_liters": Number(0.0), "volume_liters": Number(0.0)}, "free_hydroxide": Number(0.0), "free_proton": Number(0.0), "headspace": Object {"boundary": String("sealed"), "volume": Number(0.35)}, "id": Number(0), "label": String("beaker"), "nuclides": Object {"inventory": Object {}}, "pending_co2_transfer_mol": Number(0.0), "pressure": Number(-0.0), "resolved": Object {"solution": Null, "valid": Bool(false)}, "solute_charge": Number(0.0), "solution": Null, "surfaces": Array [], "temperature": Number(298.15), "thermal_mode": String("adiabatic")}
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'supplied_gas_and_initially_absent_gas_close_the_same_reduced_nitrogen_pool' (6393) panicked at crates/kerotakis-phreeqc/tests/coupled_ammonia.rs:153:9:
+assertion failed: amount(&v, "NH3", Phase::Aqueous) > 1e-4
+
+thread 'unavailable_extended_ammonia_gas_phase_refuses_before_mutating_the_vessel' (6394) panicked at crates/kerotakis-phreeqc/tests/coupled_ammonia.rs:178:48:
+called `Result::unwrap_err()` on an `Ok` value: [SolutionRouted { vessel: VesselId(0), provenance: Provenance { engine: "PHREEQC (IPhreeqc, USGS)", dataset: "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice", model: "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)", dataset_sources: ["usbm-ic9429-complexes-25c", "sander-2023-hbr-reference"], routing: "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)", routing_phrase: Some(Phrase { key: "routing.extended-chemistry", en: "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)", slots: [] }), dataset_phrase: Some(Phrase { key: "provenance.dataset.with-gas-uptake-slice", en: "{file}, with the reviewed Sander HBr gas-uptake slice", slots: [("file", Phrase { phrase: Phrase { key: "provenance.dataset.plus-lactate-and-reference-complexes", en: "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes", slots: [("file", Text { text: "minteq.v4.dat" })] } })] }), model_phrase: Some(Phrase { key: "provenance.model.wateq-debye-huckel", en: "{name} extension (reliable to about I = {ionic_strength} mol/kgw)", slots: [("name", Text { text: "WATEQ Debye-Hückel" }), ("ionic_strength", Number { text: "1" })] }) } }, SolutionCharacterized { vessel: VesselId(0), ph: 3.824488237109, ionic_strength: 0.0001519493756456 }]
+
+thread 'acid_trapping_couples_finite_ammonia_gas_and_protonation_in_both_addition_orders' (6391) panicked at crates/kerotakis-phreeqc/tests/coupled_ammonia.rs:120:21:
+acid gas 0.00000000011625102582347671, neutral 0.0000009368465985817292
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test coupled_ammonia`
+     Running tests/curated_reachability_at_runtime.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/curated_reachability_at_runtime-b67c461b860b8869)
+     Running tests/curated_reactants_survive_a_solve.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/curated_reactants_survive_a_solve-6248fcca44ae3ebf)
+     Running tests/dialect_corpus.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/dialect_corpus-b720514c9460c5d8)
+     Running tests/differential_oracle.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/differential_oracle-c2a1055a702fcedf)
+     Running tests/displacement.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/displacement-f6bc1b8511be4e66)
+     Running tests/displacement_exhausted.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/displacement_exhausted-7586f59ce12e431d)
+     Running tests/drain.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/drain-89a9a336f5e27390)
+     Running tests/electrolyse_solution.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/electrolyse_solution-46db8eee3d71a869)
+     Running tests/engine_call_budget.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/engine_call_budget-056b23686d1c9936)
+first titration: 54 engine calls, 1 trial-cache hits
+second titration: 0 engine calls, 0 trial-cache hits
+     Running tests/enthalpy_basis.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/enthalpy_basis-171b481fa6fa21c7)
+     Running tests/equilibrator.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/equilibrator-763f9ff79cd71f16)
+     Running tests/error_location_parity.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/error_location_parity-6844754bcb42cc0f)
+     Running tests/ex21_observable_parity.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/ex21_observable_parity-3530d99af82c271b)
+     Running tests/exchange.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/exchange-7a5a46be04fca3b4)
+     Running tests/exchange_transport.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/exchange_transport-5fc085ee52c6f24c)
+     Running tests/family_aqueous_tail.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/family_aqueous_tail-b7eadd3425dee1d2)
+     Running tests/faraday.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/faraday-3fe259dcaddec0e8)
+     Running tests/finite_gas_temperature.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/finite_gas_temperature-37b745dcd7221043)
+     Running tests/food_chemistry.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/food_chemistry-a6c55cc486983ec9)
+     Running tests/formula_parser_diff.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/formula_parser_diff-307ba2e8230a5c4c)
+compared 658 database formulas
+     Running tests/hard_water.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/hard_water-ee016927bf34f9a3)
+     Running tests/headspace.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/headspace-6894621554a3e4e7)
+     Running tests/hypochlorite_speciation.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/hypochlorite_speciation-e48228108e1b7d95)
+     Running tests/ignite_over_fizz.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/ignite_over_fizz-3277050622cf82a0)
+     Running tests/instrument_oracle.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/instrument_oracle-1b5f9449561b88c5)
+     Running tests/kinetic_reactants_survive_a_solve.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/kinetic_reactants_survive_a_solve-91c478ec6789e3a7)
+     Running tests/kinetics_trajectory.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/kinetics_trajectory-eb228f48815ad3b8)
+     Running tests/kinetics_trajectory_oracle.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/kinetics_trajectory_oracle-fce51eac5fb1c500)
+     Running tests/lactate_speciation.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/lactate_speciation-c362bff92e21e00c)
+     Running tests/ligand_reference.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/ligand_reference-afd9a39c85d849a9)
+     Running tests/measured_acidity.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/measured_acidity-4c644256f751d1a4)
+     Running tests/metastable.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/metastable-80a4c6a889c09bcb)
+     Running tests/milk_buffer.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/milk_buffer-44f3443de9a65031)
+     Running tests/mineral_crosswalk.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/mineral_crosswalk-76c7c44dbc6a7f4c)
+     Running tests/mix.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/mix-591b926a69fd9b66)
+MIX spent 1 engine call(s)
+     Running tests/mix_finite_inventory.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/mix_finite_inventory-36652d8ea122d516)
+     Running tests/mix_redox_boundary.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/mix_redox_boundary-daf5fd3015f488bc)
+     Running tests/my_basic_preview.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/my_basic_preview-24676d0006b13fa4)
+     Running tests/native_delta_h.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/native_delta_h-2dc0fe5f76151d1c)
+     Running tests/no_basic.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/no_basic-e3fc46cd6f41c61a)
+     Running tests/official_examples_completion.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/official_examples_completion-0da7891662835c13)
+EXAMPLE_COMPLETION name=ex1 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex2 ok selected_rows=53
+EXAMPLE_COMPLETION name=ex2b ok selected_rows=0
+EXAMPLE_COMPLETION name=ex3 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex4 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex5 ok selected_rows=8
+EXAMPLE_COMPLETION name=ex6 ok selected_rows=39
+EXAMPLE_COMPLETION name=ex7 ok selected_rows=28
+EXAMPLE_COMPLETION name=ex8 ok selected_rows=161
+EXAMPLE_COMPLETION name=ex9 ok selected_rows=13
+EXAMPLE_COMPLETION name=ex10 ok selected_rows=621
+EXAMPLE_COMPLETION name=ex11 ok selected_rows=203
+EXAMPLE_COMPLETION name=ex12 ok selected_rows=126
+EXAMPLE_COMPLETION name=ex12a ok selected_rows=164
+EXAMPLE_COMPLETION name=ex13a ok selected_rows=41
+EXAMPLE_COMPLETION name=ex13b ok selected_rows=41
+EXAMPLE_COMPLETION name=ex13c ok selected_rows=41
+EXAMPLE_COMPLETION name=ex13ac ok selected_rows=108
+EXAMPLE_COMPLETION name=ex14 ok selected_rows=202
+EXAMPLE_COMPLETION name=ex15 ok selected_rows=155
+EXAMPLE_COMPLETION name=ex15a ok selected_rows=155
+EXAMPLE_COMPLETION name=ex15b ok selected_rows=155
+EXAMPLE_COMPLETION name=ex16 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex17 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex17b ok selected_rows=0
+EXAMPLE_COMPLETION name=ex18 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex19 ok selected_rows=0
+EXAMPLE_COMPLETION name=ex19b ok selected_rows=0
+EXAMPLE_COMPLETION name=ex20a ok selected_rows=0
+EXAMPLE_COMPLETION name=ex20b ok selected_rows=1
+EXAMPLE_COMPLETION name=ex21 ok selected_rows=209
+EXAMPLE_COMPLETION name=ex22 ok selected_rows=0
+     Running tests/order_invariance.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/order_invariance-c366174a30308038)
+     Running tests/partial_freezing.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/partial_freezing-6f9599d6fa20c484)
+     Running tests/physical_solid_settling.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/physical_solid_settling-6384fa7dedbdf8cd)
+     Running tests/positive_phase_inventory.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/positive_phase_inventory-fb5494618e7e30dc)
+     Running tests/pourbaix.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/pourbaix-8a03ec5395913c56)
+     Running tests/prewarm.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/prewarm-58a4a7ec092794e3)
+     Running tests/provenance.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/provenance-622f995e97969c92)
+     Running tests/qualitative.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/qualitative-b1792c52c668871c)
+     Running tests/r1_acceptance.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/r1_acceptance-d44cb9e731b98ee0)
+     Running tests/reaction_heat.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/reaction_heat-e5449dbb4a1a7f33)
+     Running tests/reactive_gas.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/reactive_gas-14aea48965b9fcc9)
+     Running tests/redox.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/redox-271ccbf3c50aad77)
+     Running tests/redox_isolation_probe.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/redox_isolation_probe-2a8417d04ad95301)
+     Running tests/redox_titrimetry.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/redox_titrimetry-438151d09663c9bb)
+open-flask pe curve: [(0.0, 19.01578598439), (0.05, 19.01523110484)]
+     Running tests/resource_limits.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/resource_limits-3bbdcb9e3060b131)
+     Running tests/saturation_versus_equilibrium_phase.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/saturation_versus_equilibrium_phase-024985773b384e1f)
+     Running tests/school_salts.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/school_salts-b3e7ef496a4cf645)
+     Running tests/sealed_mass.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/sealed_mass-8ec019d08c6f9db5)
+     Running tests/separations.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/separations-4ac13076f7194889)
+     Running tests/silver_ammine_route.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/silver_ammine_route-493c3da444e4f402)
+     Running tests/solid_registry_matching.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/solid_registry_matching-58e2ab47cdb12033)
+     Running tests/solid_solution.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/solid_solution-79272062449a1ac8)
+     Running tests/speciation.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/speciation-edf074c46101a37a)
+     Running tests/standalone_basic_corpus.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/standalone_basic_corpus-9b2ee0820258c2e5)
+BASIC_CORPUS name=iso.bas status=ok bytes=1116 lines=32 fnv=1095bf192c78020b normalized_bytes=875 normalized_lines=21 normalized_fnv=e7e4ec4fee4e6f95
+BASIC_CORPUS name=iso1.bas status=ok bytes=468 lines=17 fnv=8658fbc4f019bc9b normalized_bytes=227 normalized_lines=6 normalized_fnv=7abcd8d539780975
+BASIC_CORPUS name=iso1revised.bas status=ok bytes=3756 lines=83 fnv=40c305abf8e5fd81 normalized_bytes=3515 normalized_lines=72 normalized_fnv=90fb594757a27dab
+BASIC_CORPUS name=iso2.bas status=ok bytes=1158 lines=32 fnv=72729784c38fe63b normalized_bytes=917 normalized_lines=21 normalized_fnv=a88de414828188d5
+BASIC_CORPUS name=iso2revised.bas status=ok bytes=464 lines=16 fnv=4bb322f2723ab778 normalized_bytes=223 normalized_lines=5 normalized_fnv=52d88b33e35182ba
+BASIC_CORPUS name=iso3.bas status=ok bytes=2784 lines=67 fnv=e343c3c3b4da7cfb normalized_bytes=2543 normalized_lines=56 normalized_fnv=e190c011847dbe15
+BASIC_CORPUS name=iso3revised.bas status=ok bytes=7468 lines=145 fnv=0be9b736701ee746 normalized_bytes=7227 normalized_lines=134 normalized_fnv=14a4d93b194b0ec4
+BASIC_CORPUS name=iso4.bas status=ok bytes=7548 lines=137 fnv=2a658a8ff9de2eb3 normalized_bytes=7307 normalized_lines=126 normalized_fnv=3490192127692d7d
+BASIC_CORPUS name=iso4revised.bas status=ok bytes=28407 lines=441 fnv=aae94d83f8a756b5 normalized_bytes=28166 normalized_lines=430 normalized_fnv=954fd6e1ffe321cb
+     Running tests/sulfite_speciation.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/sulfite_speciation-b04638222b1ebb6e)
+HARVEST Na2SO3 0.005 mol in 100 mL: pH 9.703889  I Some(0.1503342049309)  SO3-2 0.00499148  HSO3- 0.00000694  Na+ 0.00999683  Na2SO3 -0.00000000  NaHSO3 -0.00000000
+HARVEST NaHSO3 0.005 mol in 100 mL: pH 4.167321  I Some(0.05028679683029)  SO3-2 0.00000826  HSO3- 0.00498881  Na+ 0.00499707  Na2SO3 -0.00000000  NaHSO3 -0.00000000
+HARVEST Na2SO3 with a little acid: pH 7.035005  I Some(0.1303435206819)  SO3-2 0.00299841  HSO3- 0.00200000  Na+ 0.00999683  Na2SO3 -0.00000000  NaHSO3 -0.00000000
+     Running tests/surface.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/surface-1f3e415880ad20b8)
+     Running tests/surface_transport.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/surface_transport-f10c05b516986265)
+     Running tests/thiosulfate_speciation.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/thiosulfate_speciation-b9b1aad0fc537e7f)
+HARVEST hypo-in-water pH = 7.0249045339
+HARVEST t=0    pH = 1.8837734312
+HARVEST t=0    S2O3-2 = 0.0049965214
+HARVEST t=600  pH = 6.6319643911
+HARVEST t=600  S2O3-2 = 0.0039965359
+HARVEST t=600  S      = 0.0009999855
+HARVEST acid+thiosulfate pH = 1.8837734312
+HARVEST acid alone        pH = 1.7485817507
+HARVEST thiosulfate alone pH = 7.0249045339
+HARVEST ionic strength with = Some(0.16490617732)
+HARVEST ionic strength without = Some(0.02006018054227)
+HARVEST t=40   S      = 0.0005725639
+HARVEST t=40   S2O3-2 = 0.0044239575
+     Running tests/titration_refinement.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/titration_refinement-2efc76c671e04380)
+     Running tests/transport_effluent_ownership.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/transport_effluent_ownership-6e7a7345caa129d5)
+     Running tests/unknown_water.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/unknown_water-2879821a3298d76c)
+     Running tests/unsupported_ionic.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/unsupported_ionic-4d1857a310fdcd2a)
+     Running tests/validity_ceiling.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/validity_ceiling-ad944355a84b08d4)
+     Running tests/weak_acid.rs (/kaggle/temp/kerotakis-native-controls/target/debug/deps/weak_acid-9f3fa3a434809fce)
+error: 1 target failed:
+    `-p kerotakis-phreeqc --test coupled_ammonia`

@@ -1,0 +1,13 @@
+{
+  "pr": 831,
+  "merge": "ac1f9993bfd21c400bfb3328cae94e9fab4d6e95",
+  "reviewed_head": "6577cd146d03f038b97969c90d4b1074c98824c1",
+  "parents": [
+    "b3c18f5c6dc57fa9b28e7fb49498958af2440146",
+    "6577cd146d03f038b97969c90d4b1074c98824c1"
+  ],
+  "actual_tree": "ad5821acc10d965a4c2021370744389b8e0e4a00",
+  "reviewed_candidate_tree": "ad5821acc10d965a4c2021370744389b8e0e4a00",
+  "scope": "Maintained docs and prior accepted receipts only; no new scientific selection or deployed-source claim",
+  "normal_protected_auto_merge": true
+}
