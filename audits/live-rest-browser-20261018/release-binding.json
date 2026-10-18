@@ -1,0 +1,6 @@
+{
+  "status": "unbound_do_not_execute",
+  "expected_engine_source": "pending accepted production source",
+  "expected_binary_sha256": "pending authenticated deployment artifact",
+  "client_sha256": "pending exact accepted client bytes"
+}
