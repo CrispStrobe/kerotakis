@@ -129,6 +129,37 @@ try {
     .some(value => String(value).trim() !== '' && Number(value) === 5);
   check('actual browser interpreter executes arithmetic', !live.basic.error && punched, live.basic);
   await liveContext.close();
+  // Diagnostic only: independently observe the Pages build profile. This is
+  // separate from production acceptance and makes no Pages chemistry claim.
+  const pagesContext = await browser.newContext();
+  const pagesPage = await pagesContext.newPage();
+  await pagesPage.goto(origins[1][1], { waitUntil: 'networkidle' });
+  report.pages_interpreter_diagnostic = await pagesPage.evaluate(async () => {
+    const base = new URL('.', location.href);
+    const observed = { scope: 'Actual published interpreter arithmetic only; not chemical validation',
+      mode: 'measurement_only_no_pass_assigned' };
+    try {
+      const module = await import(new URL('kerotakis_wasm.js', base).href);
+      await module.default();
+      const { PhreeqcPool } = await import(new URL('kerotakis.mjs', base).href);
+      const factory = (await import(new URL('iphreeqc.mjs', base).href)).default;
+      const lab = new module.Lab();
+      try {
+        observed.meta = JSON.parse(lab.meta());
+        const pool = await PhreeqcPool.create(factory, async file => {
+          const r = await fetch(new URL('db/' + file, base), { redirect: 'error' });
+          if (!r.ok) throw new Error('Database load failed: ' + r.status);
+          return r.text();
+        }, tag => lab.aqueousDatabase(tag));
+        observed.basic_response = JSON.parse(pool.solve('wateq4f',
+          'SOLUTION 777\n pH 7\nSELECTED_OUTPUT\n -reset false\nUSER_PUNCH\n10 PUNCH 2+3\nEND\n'));
+        observed.arithmetic_result_5 = (observed.basic_response.selected ?? []).flat()
+          .some(v => String(v).trim() !== '' && Number(v) === 5);
+      } finally { lab.free(); }
+    } catch (error) { observed.error = String(error); }
+    return observed;
+  });
+  await pagesContext.close();
   for (const [name, url] of origins) {
     const context = await browser.newContext({ serviceWorkers: 'allow' });
     const page = await context.newPage();
