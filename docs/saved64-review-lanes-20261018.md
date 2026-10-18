@@ -95,7 +95,13 @@ residual NaOH molecules. The `base_equivalents` inventory coordinate is not that
 capacity: an acetate buffer can own positive basis equivalents while having
 negligible free hydroxide. Establish the authoritative capacity/admission
 contract before consumption; if retained state is insufficient, repair its
-ownership rather than infer caustic capacity from the coordinate. Account for
+ownership rather than infer caustic capacity from the coordinate. Instantaneous
+measured `free_hydroxide` is not, by itself, proof of the total stoichiometric
+reserve either: re-equilibration can recruit weak acid/base reservoirs. An
+existing kinetic-family measurement contract must not silently become the
+named to-completion verb's capacity contract. Establish measured-versus-literal
+hydroxide ownership before adding those amounts, and verify numerical negative
+controls against the actual admission threshold. Account for
 weak-acid/bound-proton reservoirs and prior neutralization before ester cleavage.
 Do not add naming aliases for an inventory-ownership failure. Keep the
 counterion ledger explicit: consuming hydroxide equivalents while depositing
