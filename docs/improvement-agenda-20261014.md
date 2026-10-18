@@ -3,7 +3,7 @@
 Current executable scope and delivery prerequisites are in the
 [fresh-agent handover](next-agent-handoff.md). Steps1–3 below are historical
 completed work; do not repeat them. PR822/823/824/825/827 are integrated. Finish the full
-production delivery before new model work. The handover scopes remaining step4 work and queued steps5–6. Prepared PR828–830 add phase ownership, partial chromatogram coverage reporting and cancellable aggregate follow-ups; their source preparation does not replace actual acceptance or the prior production checkpoint.
+production delivery before new model work. The handover scopes remaining step4 work and queued steps5–6. PR830 cancellation repair is integrated as `0fe97e76`. PR828 phase ownership/energy repair has111 focused tests and all33 original fleet jobs accepted on CPU; outstanding platform/protected checks remain. PR829 partial chromatogram coverage has11 focused controls and both native platforms passing, with fleet acceptance pending. PR832 prepares the actual Pages interpreter-profile/probe repair. Source preparation does not replace remaining acceptance or actual changed-source deployment.
 
 The user authorized all six steps below in this order. Steps 1–3 are complete;
 step 4 is active and steps 5–6 are queued. This agenda orders the current fresh-experiment gap work;

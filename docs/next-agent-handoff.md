@@ -9,11 +9,11 @@ GitHub references. Local operation details belong only in an ignored handoff.
 
 ## Start here
 
-1. Fetch actual main and inspect PR826, the production delivery and prepared PR828–830, their exact heads, current checks and
+1. Fetch actual main and inspect integrated PR830, the production delivery and prepared PR828/829/832, their exact heads, current checks and
    active workflows. A queued check is neither a failure nor an acceptance.
 2. Consult the ignored local operating handoff if present before touching
    worktrees, build targets, evidence or running controllers. Check load, available
-   memory and disk before large work. Keep Hermes workers frozen. Do not start
+   memory and disk before large work. Legacy Hermes workers are closed. Do not start
    extra agents without a new explicit instruction.
 3. Continue one narrow accepted lane from actual main. Never merge the public
    `audit/systematic-chemistry-20261002` branch or isolated validation history.
@@ -29,6 +29,8 @@ Read paths below at that commit where necessary. It is an evidence source, not
 an integration branch. Do not copy credentials or host details into public docs.
 
 ## Lane 1 — finish pending delivery, first priority
+
+Actual main is `0fe97e76` after PR830:25 CI plus33 original logical fleet jobs accepted, with reviewed parents/tree. PR828 exact `5b054e6c` has111 focused tests and all33 original fleet jobs accepted on CPU; outstanding platform/protected acceptance still gates integration. PR829 exact `8e2fe429` has11 focused tests and both native platforms passing; its active fleet must finish. PR832 exact `09aa2b01` prepares the Pages profile/probe repair; actual build, applicable acceptance and published Pages parity remain pending. See STATUS for evidence links. Do not duplicate completed CPU runs or cancel active validation for optional changes.
 
 PR822/823 are now integrated as `bc472fb4`/`d6020643`; their source/run rows
 below preserve accepted bindings, not pending merge tasks. PR825 is also
@@ -116,11 +118,11 @@ and update STATUS without incrementing scientific counts.
 ## Lane 3 — assess saved forecasts and reconcile the working catalog
 
 **Inputs:** `audits/target468-20261016/{README.md,scoreboard.json}`, working
-catalog `audits/working-experiments-20261016.json`, original manifests and saved
+catalog `audits/working-experiments-20261018.json`, original manifests and saved
 assessments. Current catalog201 / fixed468 selected197; goal401 means204 more. KN-007 is a separately qualified repaired-source replay; older forecasts and outcomes are unchanged.
 First120 has64 cases awaiting final selection review,14 earlier reviewed holds
 and42 selected. The [saved64 first screen](saved64-review-lanes-20261018.md)
-records44 candidates and20 named holds; none is yet a new scientific pass. All668 baseline
+records44 candidates and20 named holds; the44 candidates still need final review and the20 original holds remain historical. KN-007 has a separately earned repaired-source selection. All668 baseline
 executions are already complete. The separate curriculum200 is not part of468.
 
 **Work:** pick a small named group of unassessed IDs, read original prospective

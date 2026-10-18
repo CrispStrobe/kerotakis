@@ -43,7 +43,9 @@ produce one selection and three continuing failures:
 
 ## Integrated source and actual production
 
-Latest verified main is **`ed7c452d`**, the normally protected PR826 merge after
+Latest verified main is **`0fe97e76`**, the normally protected PR830 merge after
+25 CI successes and all33 original logical fleet jobs (27 GitHub plus6
+source-bound local completions). Its [parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr830-integration.json) verifies the reviewed candidate. PR826 integrated as `ed7c452d` after
 25 CI successes. Its [parents/tree receipt](../audits/target468-20261016/accepted-pr-integration/pr826-integration.json)
 verifies exact reviewed parents and reconstructed tree. PR822/823/824/825/827
 remain integrated as `bc472fb4`, `d6020643`, `76fe144f`, `050aea7f`, `e63a0824`.
@@ -78,11 +80,14 @@ that does not certify Pages chemistry. Follow
 
 | PR | Current reviewed head | Behavior and actual focused evidence | Remaining acceptance |
 | --- | --- | --- | --- |
-| [828](https://github.com/CrispStrobe/kerotakis/pull/828) | `5b054e6c` | Preserve supported paid solid/liquid coexistence across unchanged CEA readback. Correct freezing/condensation energy when phase Cp changes. Clippy,31 targeted core and80 CEA tests pass on authenticated CPU execution, including reverse cooling/pouring and water's actual solvent owner. | Current-head protected/native-platform and all33 original fleet acceptance; normal exact-head integration, then separately bound deployment/replay. General reacting multiphase HP energy remains open. |
+| [828](https://github.com/CrispStrobe/kerotakis/pull/828) | `5b054e6c` | Preserve supported paid solid/liquid coexistence across unchanged CEA readback. Correct freezing/condensation energy when phase Cp changes. Clippy,31 targeted core and80 CEA tests pass on authenticated CPU execution, including reverse cooling/pouring and water's actual solvent owner. | All33 original fleet jobs now pass on authenticated CPU execution, with142 original commands and29 zero-unmet law reports independently checked. Remaining protected/native-platform acceptance; normal exact-head integration, then separately bound deployment/replay. General reacting multiphase HP energy remains open. |
 | [829](https://github.com/CrispStrobe/kerotakis/pull/829) | `8e2fe429` | Report missing neutral chromatography parameters beside supported peaks; retain ionic exclusions. Actual8 core and3 native controls pass with real mixing/dissolution before PHREEQC and an explicit aqueous-glucose precondition. | Current-head protected/full-fleet acceptance and normal integration. Missing retention parameters remain unsupported; SP012 is not selected. |
-| [830](https://github.com/CrispStrobe/kerotakis/pull/830) | `f3517e08` | Make three aggregate conditions cancellation-sensitive without changing assertions/artifacts. Actual normal-cancellation control passes. | Remaining original fleet jobs, exact-head review and normal protected integration. |
+| [830](https://github.com/CrispStrobe/kerotakis/pull/830) | `f3517e08` | Cancellation-sensitive aggregates preserve original assertions/artifacts. Normal-cancellation control,25 CI and33 logical fleet jobs pass. | Integrated as `0fe97e76`; preserve the actual merge receipt. |
+| [832](https://github.com/CrispStrobe/kerotakis/pull/832) | `09aa2b01` | Select the existing reviewed MY-BASIC profile for the Pages build and probe the actual final payload before all existing browser gates. | Actual build, applicable acceptance and normal integration, then independent published Pages interpreter/uncached solution parity. |
 
-[Authenticated CPU evidence](../audits/target468-20261016/cpu-native-controls-20261018/README.md)
+[Full original PR828 fleet evidence](../audits/target468-20261016/cpu-full-fleet-828-20261018/README.md) authenticates source, binary, producer lock and every original command. A redundant GitHub producer build occurred during transfer; no GitHub experimental Record step started. The cancelled workflow is not a GitHub success.
+
+[Authenticated focused CPU evidence](../audits/target468-20261016/cpu-native-controls-20261018/README.md)
 retains original failures, actual compiler/producer locks and raw stdout. PR828's
 first lint failure and later reverse-cooling failure remain preserved. PR829's
 first native test omitted neutral-solid dissolution; its correction uses the
@@ -97,7 +102,7 @@ actual merge parents/tree afterward.
 
 ## Next executable work
 
-1. Finish PR828/829/830 current-head acceptance and normal integration. Retain
+1. Finish PR828/829 current-head acceptance and normal integration; PR830 is integrated. Retain
    exact provider qualification and first failures; do not reset valid runs for
    optional changes. Document any held resource gate or active-run conflict.
 2. Deploy changed runtime source only after acceptance. Freeze a separate

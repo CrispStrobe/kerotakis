@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+489-fixed-salt-dilution-100 exit= 0 steps= 4
+490-fixed-salt-dilution-200 exit= 0 steps= 4
+491-fixed-salt-dilution-400 exit= 0 steps= 4
+492-fixed-salt-dilution-800 exit= 0 steps= 4
+493-salt-dose-conductivity-0.0005 exit= 0 steps= 4
+494-salt-dose-conductivity-0.001 exit= 0 steps= 4
+495-salt-dose-conductivity-0.002 exit= 0 steps= 4
+496-salt-dose-conductivity-0.004 exit= 0 steps= 4
+497-acid-dose-ph-0.0002 exit= 0 steps= 4
+498-acid-dose-ph-0.0005 exit= 0 steps= 4
+499-acid-dose-ph-0.001 exit= 0 steps= 4
+500-acid-dose-ph-0.002 exit= 0 steps= 4
+501-base-dose-ph-0.0002 exit= 0 steps= 4
+502-base-dose-ph-0.0005 exit= 0 steps= 4
+503-base-dose-ph-0.001 exit= 0 steps= 4
+504-base-dose-ph-0.002 exit= 0 steps= 4
+505-saline-extensive-1 exit= 0 steps= 4
+506-saline-extensive-2 exit= 0 steps= 4
+507-saline-extensive-3 exit= 0 steps= 4
+508-saline-extensive-4 exit= 0 steps= 4
+509-fixed-solute-mass-100 exit= 0 steps= 4
+510-fixed-solute-mass-200 exit= 0 steps= 4
+511-fixed-solute-mass-400 exit= 0 steps= 4
+512-fixed-solute-mass-800 exit= 0 steps= 4

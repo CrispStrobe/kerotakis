@@ -1,0 +1,232 @@
+{
+  "reviewed_utc": "2026-10-18T15:27:35.657534+00:00",
+  "source": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+  "tree": "b35e3dde3337b7122d1d1daf4840043ef69912f8",
+  "engine": {
+    "source": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+    "tree": "b35e3dde3337b7122d1d1daf4840043ef69912f8",
+    "binary_sha256": "6c617d2bdbd5a2501cbddb723be56e75fb86bb40c5e39cd183f57c36179c1b55",
+    "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "runtime_libraries": {
+      "libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+      "libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+      "libm.so.6": "fce00b6f25f459cf4ae0b7fae4257909a1a8a86f9149e7c029a5d617baf1ccd0",
+      "libc.so.6": "3a15d66867d83762c7f2f1e37359cb8f6c5743edb369c65285cb0b1c4f7498bf",
+      "ld-linux-x86-64.so.2": "c20a2dc8917c755f02b94049356320fe1f62ac7d9f8994731f807d9df39302da"
+    }
+  },
+  "logical_jobs": 33,
+  "original_run_steps_independently_checked": 142,
+  "law_reports": [
+    {
+      "artifact_member": "artifacts/chemistry-audit-acid-base-buffers-5b054e6cef6925828d9574cdd4cf9b0169da212b/acid-base-buffers/acid-base-buffers-law-checks.json",
+      "sha256": "bd05247f27a4ce2bac723070ad66e3de7de5caed4f4ff9c16b3d9ef4a32765d9",
+      "checks": 32,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-distillation-5b054e6cef6925828d9574cdd4cf9b0169da212b/distillation/distillation-law-checks.json",
+      "sha256": "44425d12e56f438658760ae3a66e97c1bdb4ebcbe4b949ffcb795d2fed3be059",
+      "checks": 36,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-electrochemistry-5b054e6cef6925828d9574cdd4cf9b0169da212b/electrochemistry/electrochemistry-law-checks.json",
+      "sha256": "6d70bc76e3490377fa9ad27a0ab0de251328cc42d01db4a84216b5d0b4e97efd",
+      "checks": 31,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-filtration-evaporation-5b054e6cef6925828d9574cdd4cf9b0169da212b/filtration-evaporation/filtration-evaporation-law-checks.json",
+      "sha256": "31b73d2809cccc4e9a8b6888cf132eb3c41bada86d41a2bb36f813736eab2afc",
+      "checks": 36,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-gas-boundaries-5b054e6cef6925828d9574cdd4cf9b0169da212b/gas-boundaries/gas-boundaries-law-checks.json",
+      "sha256": "b862241a9dd5892649cfaf76688884814bf86712ee19a777327daf4e99bdc3e3",
+      "checks": 32,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-mixing-transfer-5b054e6cef6925828d9574cdd4cf9b0169da212b/mixing-transfer/mixing-transfer-law-checks.json",
+      "sha256": "e382109bb1de83ccde10a45938d7f944a15ed0ad8d2fed57fd05932ae059e1c1",
+      "checks": 31,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-observables-negative-controls-5b054e6cef6925828d9574cdd4cf9b0169da212b/observables-negative-controls/observables-negative-controls-law-checks.json",
+      "sha256": "9b0828a86c965262c38f0272b321f1a3bdf0e5af5f02de2efe7c6eff0200f843",
+      "checks": 36,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-organic-equilibria-5b054e6cef6925828d9574cdd4cf9b0169da212b/organic-equilibria/organic-equilibria-law-checks.json",
+      "sha256": "5bf4e8268856bba0a23077c6d4cb80b4e8f1cd53bf4acbb5324fda840510e88e",
+      "checks": 36,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-seventh-5b054e6cef6925828d9574cdd4cf9b0169da212b/seventh-459-488/law-checks.json",
+      "sha256": "f209a535ae5bd98c1070ae6849c647212bdd9470662715aaec4a3448da78f58a",
+      "checks": 69,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-sixth-5b054e6cef6925828d9574cdd4cf9b0169da212b/sixth-195-218/law-checks.json",
+      "sha256": "21d9064f7910cb649bd28b37d5e082d17f594b545bca272bb72fa118b3fa6187",
+      "checks": 66,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-solubility-precipitation-5b054e6cef6925828d9574cdd4cf9b0169da212b/solubility-precipitation/solubility-precipitation-law-checks.json",
+      "sha256": "8b3e0118642db20edebd3dd399af12aef8b444dd7395d895cb51ebbb12d007e5",
+      "checks": 32,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-audit-thermal-phase-paths-5b054e6cef6925828d9574cdd4cf9b0169da212b/thermal-phase-paths/thermal-phase-paths-law-checks.json",
+      "sha256": "b8327a4599e0e4d3f7c6d809732dbc6de0b73196cebff36100c8d83af2661ba2",
+      "checks": 36,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-analytical-observables-5b054e6cef6925828d9574cdd4cf9b0169da212b/analytical-observables/analytical-observables-law-checks.json",
+      "sha256": "577d66ff7a6d95b42358c63c4b8846d6f668dd74da09b887056fca4f7cc210a4",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-crystallisation-boundaries-5b054e6cef6925828d9574cdd4cf9b0169da212b/crystallisation-boundaries/crystallisation-boundaries-law-checks.json",
+      "sha256": "f5bbfa6aea88a072950a8dbc92ca52c179aebe73c7654300850bf4e9b96881b0",
+      "checks": 36,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-gas-production-transfer-5b054e6cef6925828d9574cdd4cf9b0169da212b/gas-production-transfer/gas-production-transfer-law-checks.json",
+      "sha256": "b68d4306a76236f0051408d06c4e6a748801dd59358c7b99377fa2828cfd73cb",
+      "checks": 32,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-household-biochemistry-5b054e6cef6925828d9574cdd4cf9b0169da212b/household-biochemistry/household-biochemistry-law-checks.json",
+      "sha256": "5d04ece60ca6849edf0ffae745c4714fc78ca831cedfeb82b8c944944189c7d2",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-kinetics-boundaries-5b054e6cef6925828d9574cdd4cf9b0169da212b/kinetics-boundaries/kinetics-boundaries-law-checks.json",
+      "sha256": "b909b6e3c69c21251cf3717184245a47c2add3b7d7bce79cd612d790b6a2d3ec",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-materials-transport-5b054e6cef6925828d9574cdd4cf9b0169da212b/materials-transport/materials-transport-law-checks.json",
+      "sha256": "e3573a0e33e42f17224a1ac4f3547499d5d4b197a5f299a4a46059654ae6181e",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-phase-colligative-5b054e6cef6925828d9574cdd4cf9b0169da212b/phase-colligative/phase-colligative-law-checks.json",
+      "sha256": "a653d9e28ef574bfd2265b24dba76b8b21c50c3fe059cbdfa0f55d50f390c31f",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-polyprotic-carbonate-5b054e6cef6925828d9574cdd4cf9b0169da212b/polyprotic-carbonate/polyprotic-carbonate-law-checks.json",
+      "sha256": "6750da1409661aa06d17b73454780b88bfc468a7cefa7e193df4bbbbe2344e92",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-quantitative-solutions-5b054e6cef6925828d9574cdd4cf9b0169da212b/quantitative-solutions/quantitative-solutions-law-checks.json",
+      "sha256": "a9abd1d573c1a6fcb4b01416077152d544a0993aacbece065d1896492bbe6de8",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-redox-cells-5b054e6cef6925828d9574cdd4cf9b0169da212b/redox-cells/redox-cells-law-checks.json",
+      "sha256": "3a9be966bae0bd1c614486f3003286ec7c383618507ee2058e4a4d5873ba91fa",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-separation-trains-5b054e6cef6925828d9574cdd4cf9b0169da212b/separation-trains/separation-trains-law-checks.json",
+      "sha256": "6155e17a4c08948b8c7f6cc167abe8c06f9ee552c62fe05c2fb42198a4975a92",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v2-thermochemical-paths-5b054e6cef6925828d9574cdd4cf9b0169da212b/thermochemical-paths/thermochemical-paths-law-checks.json",
+      "sha256": "b814742d1c265fe29b5a5506dc6cadcbb9d910c2eca98a0562f9ef76db31f3cd",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v3-aqueous-selectivity-5b054e6cef6925828d9574cdd4cf9b0169da212b/aqueous-selectivity/aqueous-selectivity-law-checks.json",
+      "sha256": "60a7ca2646745d5e3d86bcf7f72a12ce293d6b74ed95da7781f951cbee876c36",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v3-ionic-conductivity-5b054e6cef6925828d9574cdd4cf9b0169da212b/ionic-conductivity/ionic-conductivity-law-checks.json",
+      "sha256": "b1c25d55223cfa08cd0e5fb317ec7dc8ba95d347948ee054c88720b3d57fb62e",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v3-metal-ligand-5b054e6cef6925828d9574cdd4cf9b0169da212b/metal-ligand/metal-ligand-law-checks.json",
+      "sha256": "8db7a20155934b8dde239200469f77592653df67a0b3d8a1d68ec2bd9256e9f7",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v3-organic-equilibrium-5b054e6cef6925828d9574cdd4cf9b0169da212b/organic-equilibrium/organic-equilibrium-law-checks.json",
+      "sha256": "e38ba036f68d744479e8de12007a14f894d6469d4600579a1382a5a0f4572baf",
+      "checks": 30,
+      "unmet": 0
+    },
+    {
+      "artifact_member": "artifacts/chemistry-source-v3-water-energy-5b054e6cef6925828d9574cdd4cf9b0169da212b/water-energy/water-energy-law-checks.json",
+      "sha256": "196a03020497fbda9e06f06f7e55740cea63c0fc7b532108031ff906ddca4937",
+      "checks": 30,
+      "unmet": 0
+    }
+  ],
+  "aggregates": {
+    "source-fleet-aggregate": {
+      "families": 10,
+      "cases": 240,
+      "checks": 338,
+      "unmet_families": []
+    },
+    "source-fleet-v2-aggregate": {
+      "schema": "kerotakis-source-aggregate-v2",
+      "families": 12,
+      "cases": 288,
+      "relations": 80,
+      "checks": 368,
+      "commit": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+      "binary_sha256": "6c617d2bdbd5a2501cbddb723be56e75fb86bb40c5e39cd183f57c36179c1b55",
+      "unmet_families": []
+    },
+    "source-fleet-v3-aggregate": {
+      "schema": "kerotakis-source-aggregate-v3",
+      "families": 5,
+      "cases": 120,
+      "relations": 30,
+      "checks": 150,
+      "commit": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+      "binary_sha256": "6c617d2bdbd5a2501cbddb723be56e75fb86bb40c5e39cd183f57c36179c1b55",
+      "unmet_families": []
+    }
+  },
+  "authenticated_evidence_files": 787,
+  "authenticated_artifact_files": 2193,
+  "worker_sha256": "5d9dd0c28fc60199f98f06ab529b32cf9ad0e8dcaa98830a6569d54d68f34508",
+  "artifact_archive_sha256": "071f8ef28dd887c386cbe1b8af42ea4a4aa6b40e336ec739880a03c186190fdf",
+  "all_original_steps_and_named_laws_pass": true,
+  "protected_contexts_replaced": false,
+  "catalog_additions": 0,
+  "transfer_note": "One redundant GitHub producer build completed after a shell guard did not stop the next command. No GitHub experimental Record step started. Normal cancellation and zero-active terminal cleanup are separately retained."
+}

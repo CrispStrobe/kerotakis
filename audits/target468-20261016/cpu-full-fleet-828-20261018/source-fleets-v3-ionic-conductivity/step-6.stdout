@@ -1,0 +1,227 @@
+{
+  "schema": "kerotakis-source-analysis-v3",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "825-conductivity-nacl-150-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "826-conductivity-nacl-150-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "827-conductivity-nacl-150-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "828-conductivity-nacl-150-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "829-conductivity-kcl-200-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "830-conductivity-kcl-200-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "831-conductivity-kcl-200-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "832-conductivity-kcl-200-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "833-conductivity-cacl2-250-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "834-conductivity-cacl2-250-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "835-conductivity-cacl2-250-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "836-conductivity-cacl2-250-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "837-conductivity-nacl-300-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "838-conductivity-nacl-300-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "839-conductivity-nacl-300-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "840-conductivity-nacl-300-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "841-conductivity-kcl-350-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "842-conductivity-kcl-350-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "843-conductivity-kcl-350-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "844-conductivity-kcl-350-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "845-conductivity-cacl2-400-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "846-conductivity-cacl2-400-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "847-conductivity-cacl2-400-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "848-conductivity-cacl2-400-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "ionic-conductivity:v3-ionic-conductivity-1",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        83.42813507930205,
+        206.898524577938,
+        410.0403183400011,
+        810.2823915689039
+      ]
+    },
+    {
+      "check": "ionic-conductivity:v3-ionic-conductivity-2",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        74.29228269833041,
+        184.43073892934837,
+        366.0283740720914,
+        724.1727863722297
+      ]
+    },
+    {
+      "check": "ionic-conductivity:v3-ionic-conductivity-3",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        107.03757346539255,
+        264.7493009506416,
+        523.3836976624322,
+        1030.1439080185396
+      ]
+    },
+    {
+      "check": "ionic-conductivity:v3-ionic-conductivity-4",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        41.90098145777225,
+        104.09625867711536,
+        206.898524577938,
+        410.0403183400011
+      ]
+    },
+    {
+      "check": "ionic-conductivity:v3-ionic-conductivity-5",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        42.60238467072235,
+        105.86194911684976,
+        210.48244925541536,
+        417.5287270891029
+      ]
+    },
+    {
+      "check": "ionic-conductivity:v3-ionic-conductivity-6",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        67.17821480772787,
+        166.4887329288185,
+        329.89837617045345,
+        651.2801203505982
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "5b054e6cef6925828d9574cdd4cf9b0169da212b",
+  "binary_sha256": "6c617d2bdbd5a2501cbddb723be56e75fb86bb40c5e39cd183f57c36179c1b55"
+}

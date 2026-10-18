@@ -1,0 +1,1087 @@
+{
+  "fleet": "sixth-195-218",
+  "checks": [
+    {
+      "check": "195: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "196: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "197: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "198: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 5,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "199: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "200: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "201: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 3,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "202: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "203: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "204: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "205: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "206: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 4,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "207: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 6,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "208: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 6,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "209: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 7,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "210: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 6,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "211: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 6,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "212: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 7,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "213: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 7,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "214: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 7,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "215: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 7,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "216: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 7,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "217: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 8,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "218: finite registered complete execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": {
+        "exit": 0,
+        "rows": 7,
+        "malformed": [],
+        "solver_failures": []
+      }
+    },
+    {
+      "check": "195: descending endpoint and net base equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_acid_mol": 0.0011,
+        "delivered_acid_mol": 0.0010999995422363283,
+        "event": {
+          "concentration": 0.04,
+          "curve": [
+            [
+              0.0,
+              11.39341626402
+            ],
+            [
+              7.0,
+              11.25856897838
+            ],
+            [
+              14.0,
+              11.07000603056
+            ],
+            [
+              21.0,
+              10.74555493289
+            ],
+            [
+              27.499988555908203,
+              6.999982410232
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 6.999982410232,
+          "steps": 4,
+          "titrant": "HCl",
+          "total_volume": 0.027499988555908204,
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "195: titrant and starting solute element ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected": {
+          "Na": 0.0011,
+          "Cl": 0.0010999995422363283
+        },
+        "actual": {
+          "Na": 0.0011,
+          "Cl": 0.001099999542236328
+        }
+      }
+    },
+    {
+      "check": "196: descending endpoint and net base equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_acid_mol": 0.0011,
+        "delivered_acid_mol": 0.001099999542236329,
+        "event": {
+          "concentration": 0.04,
+          "curve": [
+            [
+              0.0,
+              11.39341626402
+            ],
+            [
+              1.0,
+              11.37628078098
+            ],
+            [
+              2.0,
+              11.35853207241
+            ],
+            [
+              3.0,
+              11.34011731004
+            ],
+            [
+              4.0,
+              11.32098404745
+            ],
+            [
+              5.0,
+              11.30106270159
+            ],
+            [
+              6.0,
+              11.2802849577
+            ],
+            [
+              7.0,
+              11.25856897838
+            ],
+            [
+              8.0,
+              11.23582064277
+            ],
+            [
+              9.000000000000002,
+              11.21193424561
+            ],
+            [
+              10.000000000000002,
+              11.18677603723
+            ],
+            [
+              11.000000000000004,
+              11.1602029547
+            ],
+            [
+              12.000000000000004,
+              11.13203069536
+            ],
+            [
+              13.000000000000005,
+              11.10205251593
+            ],
+            [
+              14.000000000000005,
+              11.07000603056
+            ],
+            [
+              15.000000000000007,
+              11.03556895761
+            ],
+            [
+              16.000000000000007,
+              10.99834896667
+            ],
+            [
+              17.000000000000007,
+              10.95783480872
+            ],
+            [
+              18.00000000000001,
+              10.91336569
+            ],
+            [
+              19.00000000000001,
+              10.86405976744
+            ],
+            [
+              20.00000000000001,
+              10.80869974717
+            ],
+            [
+              21.00000000000001,
+              10.74555493289
+            ],
+            [
+              22.000000000000014,
+              10.67201279968
+            ],
+            [
+              23.000000000000014,
+              10.58387001729
+            ],
+            [
+              24.000000000000014,
+              10.47373508366
+            ],
+            [
+              25.000000000000014,
+              10.32661873488
+            ],
+            [
+              26.000000000000018,
+              10.1037839101
+            ],
+            [
+              27.000000000000018,
+              9.625680657303
+            ],
+            [
+              27.49998855590822,
+              6.999982410232
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 6.999982410232,
+          "steps": 28,
+          "titrant": "HCl",
+          "total_volume": 0.027499988555908222,
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "196: titrant and starting solute element ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected": {
+          "Na": 0.0011,
+          "Cl": 0.001099999542236329
+        },
+        "actual": {
+          "Na": 0.0011,
+          "Cl": 0.0010999995422363285
+        }
+      }
+    },
+    {
+      "check": "197: descending endpoint and net base equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_acid_mol": 0.0011,
+        "delivered_acid_mol": 0.0010999995422363283,
+        "event": {
+          "concentration": 0.02,
+          "curve": [
+            [
+              0.0,
+              11.39341626402
+            ],
+            [
+              7.0,
+              11.32717353317
+            ],
+            [
+              14.0,
+              11.25171379444
+            ],
+            [
+              21.0,
+              11.16351856225
+            ],
+            [
+              28.0,
+              11.05662178325
+            ],
+            [
+              35.0,
+              10.9196151011
+            ],
+            [
+              42.0,
+              10.72595459125
+            ],
+            [
+              49.0,
+              10.38369133195
+            ],
+            [
+              54.999977111816406,
+              6.999967779242
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 6.999967779242,
+          "steps": 8,
+          "titrant": "HCl",
+          "total_volume": 0.05499997711181641,
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "197: titrant and starting solute element ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected": {
+          "Na": 0.0011,
+          "Cl": 0.0010999995422363283
+        },
+        "actual": {
+          "Na": 0.0011000000000000003,
+          "Cl": 0.0010999995422363285
+        }
+      }
+    },
+    {
+      "check": "198: descending endpoint and net base equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_acid_mol": 0.0008000000000000001,
+        "delivered_acid_mol": 0.0007999995517730713,
+        "event": {
+          "concentration": 0.04,
+          "curve": [
+            [
+              0.0,
+              11.25479246003
+            ],
+            [
+              7.0,
+              11.06044405943
+            ],
+            [
+              14.0,
+              10.71751251456
+            ],
+            [
+              19.999988794326782,
+              6.999942134576
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 6.999942134576,
+          "steps": 3,
+          "titrant": "HCl",
+          "total_volume": 0.01999998879432678,
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "198: titrant and starting solute element ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected": {
+          "Na": 0.0011,
+          "Cl": 0.0010999995517730712
+        },
+        "actual": {
+          "Na": 0.0011,
+          "Cl": 0.0010999995517730714
+        }
+      }
+    },
+    {
+      "check": "199: descending endpoint and net base equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_acid_mol": 0.0011,
+        "delivered_acid_mol": 0.001099999475479126,
+        "event": {
+          "concentration": 0.04,
+          "curve": [
+            [
+              0.0,
+              11.09976524794
+            ],
+            [
+              7.0,
+              10.96850878165
+            ],
+            [
+              14.0,
+              10.78344321615
+            ],
+            [
+              21.0,
+              10.46240576433
+            ],
+            [
+              27.499986886978153,
+              7.00002990037
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 7.00002990037,
+          "steps": 4,
+          "titrant": "HCl",
+          "total_volume": 0.02749998688697815,
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "199: titrant and starting solute element ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected": {
+          "Na": 0.0011,
+          "Cl": 0.001099999475479126
+        },
+        "actual": {
+          "Na": 0.0011,
+          "Cl": 0.0010999994754791258
+        }
+      }
+    },
+    {
+      "check": "200: descending endpoint and net base equivalents",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "expected_acid_mol": 0.0033,
+        "delivered_acid_mol": 0.0032999986267089844,
+        "event": {
+          "concentration": 0.04,
+          "curve": [
+            [
+              0.0,
+              11.39341626402
+            ],
+            [
+              21.0,
+              11.25856897838
+            ],
+            [
+              42.0,
+              11.07000603056
+            ],
+            [
+              63.0,
+              10.74555493289
+            ],
+            [
+              82.49996566772461,
+              6.999982410232
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 6.999982410232,
+          "steps": 4,
+          "titrant": "HCl",
+          "total_volume": 0.0824999656677246,
+          "vessel": 0
+        }
+      }
+    },
+    {
+      "check": "200: titrant and starting solute element ledger",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected": {
+          "Na": 0.0033,
+          "Cl": 0.0032999986267089844
+        },
+        "actual": {
+          "Na": 0.0033000000000000004,
+          "Cl": 0.003299998626708984
+        }
+      }
+    },
+    {
+      "check": "201: explicit finite nonnegative conductivity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": 0.05508761762446267
+    },
+    {
+      "check": "202: explicit finite nonnegative conductivity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": 28.904972872514758
+    },
+    {
+      "check": "203: explicit finite nonnegative conductivity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": 57.57722712649922
+    },
+    {
+      "check": "204: explicit finite nonnegative conductivity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": 28.904972872514758
+    },
+    {
+      "check": "205: explicit finite nonnegative conductivity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": 0.05508761762446267
+    },
+    {
+      "check": "206: explicit finite nonnegative conductivity",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": 29.87857535495008
+    },
+    {
+      "check": "201/202/203/206: charge-carrier dose and electrolyte controls",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "201": 0.05508761762446267,
+        "202": 28.904972872514758,
+        "203": 57.57722712649922,
+        "206": 29.87857535495008
+      }
+    },
+    {
+      "check": "202/204: intensive conductivity under extensive scaling",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        28.904972872514758,
+        28.904972872514758
+      ]
+    },
+    {
+      "check": "201/202/205: neutral-solute negative electrical control",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "201": 0.05508761762446267,
+        "202": 28.904972872514758,
+        "205": 0.05508761762446267
+      }
+    },
+    {
+      "check": "207: dry sealed gas pressure and retained atoms",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_pressure_Pa": 129090.46216104855,
+        "pressure_Pa": 129090.46215866934,
+        "gas_mol": 0.0187146560287586,
+        "conserved": true
+      }
+    },
+    {
+      "check": "208: dry sealed gas pressure and retained atoms",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_pressure_Pa": 115207.70354977371,
+        "pressure_Pa": 115207.70354765038,
+        "gas_mol": 0.033429312057517195,
+        "conserved": true
+      }
+    },
+    {
+      "check": "209: dry sealed gas pressure and retained atoms",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_pressure_Pa": 129090.46216104855,
+        "pressure_Pa": 129090.46215866934,
+        "gas_mol": 0.0187146560287586,
+        "conserved": true
+      }
+    },
+    {
+      "check": "210: dry sealed gas pressure and retained atoms",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_pressure_Pa": 129311.95078865519,
+        "pressure_Pa": 129311.95078627189,
+        "gas_mol": 0.0187146560287586,
+        "conserved": true
+      }
+    },
+    {
+      "check": "211: dry sealed gas pressure and retained atoms",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_pressure_Pa": 129090.46216104855,
+        "pressure_Pa": 129090.46215866934,
+        "gas_mol": 0.0374293120575172,
+        "conserved": true
+      }
+    },
+    {
+      "check": "212: dry sealed gas pressure and retained atoms",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "expected_pressure_Pa": 128868.96699744958,
+        "pressure_Pa": 128868.96699507446,
+        "gas_mol": 0.0187146560287586,
+        "conserved": true
+      }
+    },
+    {
+      "check": "207/209/211: partitioned and extensive energy controls",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "207": 298.6624490757215,
+        "209": 298.6624490757215,
+        "211": 298.6624490757215
+      }
+    },
+    {
+      "check": "207/210: larger energy raises dry gas temperature",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        298.6624490757215,
+        299.1748830298342
+      ]
+    },
+    {
+      "check": "212: equal positive/negative energy restores temperature",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": [
+        298.15,
+        298.15
+      ]
+    },
+    {
+      "check": "213: equilibrium law and explicit repeated zero-extent outcome",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.006734499573571652,
+            "name": "esterification",
+            "vessel": 0
+          },
+          {
+            "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ],
+        "current_state_Q": 3.999999999999993
+      }
+    },
+    {
+      "check": "213: no-op material state unchanged",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "max_mole_change": 0.0
+      }
+    },
+    {
+      "check": "214: equilibrium law and explicit repeated zero-extent outcome",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": -0.0024826263120124583,
+            "name": "esterification",
+            "vessel": 0
+          },
+          {
+            "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ],
+        "current_state_Q": 4.0000000000000036
+      }
+    },
+    {
+      "check": "214: no-op material state unchanged",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "max_mole_change": 0.0
+      }
+    },
+    {
+      "check": "215: equilibrium law and explicit repeated zero-extent outcome",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.02693799829428662,
+            "name": "esterification",
+            "vessel": 0
+          },
+          {
+            "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ],
+        "current_state_Q": 4.000000000000001
+      }
+    },
+    {
+      "check": "215: no-op material state unchanged",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "max_mole_change": 0.0
+      }
+    },
+    {
+      "check": "216: equilibrium law and explicit repeated zero-extent outcome",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.007441349907563502,
+            "name": "esterification",
+            "vessel": 0
+          },
+          {
+            "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ],
+        "current_state_Q": 3.999999999999997
+      }
+    },
+    {
+      "check": "216: no-op material state unchanged",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "max_mole_change": 0.0
+      }
+    },
+    {
+      "check": "217: equilibrium law and explicit repeated zero-extent outcome",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "events": [
+          {
+            "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.006734499573571652,
+            "name": "esterification",
+            "vessel": 0
+          },
+          {
+            "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0,
+            "name": "esterification",
+            "vessel": 0
+          },
+          {
+            "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ],
+        "current_state_Q": 3.999999999999993
+      }
+    },
+    {
+      "check": "217: no-op material state unchanged",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "max_mole_change": 0.0
+      }
+    },
+    {
+      "check": "218: equilibrium law and explicit repeated zero-extent outcome",
+      "kind": "model-law",
+      "passed": true,
+      "evidence": {
+        "events": [
+          {
+            "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0,
+            "name": "esterification",
+            "vessel": 0
+          },
+          {
+            "boundary": "Computed equilibrium extent is within the 1e-12 mol no-conversion tolerance; inventory unchanged. Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+            "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+            "event": "org_reacted",
+            "extent": 0.0,
+            "name": "esterification",
+            "vessel": 0
+          }
+        ],
+        "current_state_Q": 4.0
+      }
+    },
+    {
+      "check": "218: no-op material state unchanged",
+      "kind": "conservation",
+      "passed": true,
+      "evidence": {
+        "max_mole_change": 0.0
+      }
+    }
+  ],
+  "passed": 66,
+  "unmet": 0
+}

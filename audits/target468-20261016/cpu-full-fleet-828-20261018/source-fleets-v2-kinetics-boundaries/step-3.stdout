@@ -1,0 +1,4 @@
+{"families": 12, "cases": 288, "distinct_scripts": 288}
+{"safe_assertions": ["case-elements-conserved", "event-boundary-present", "event-components-total-order", "event-present", "event-scalar-equal", "event-scalar-order", "final-elements-equal", "final-inventory-equal", "final-scalar-equal", "final-scalar-order"], "mutation_tests": {"valid": "passed", "missing-evidence": "rejected", "nonfinite": "rejected", "unregistered-species": "rejected", "missing-boundary": "rejected", "altered-inventory": "rejected", "malformed-components": "rejected"}}
+{"families": 6, "cases": 144, "status": "current"}
+{"families": 6, "cases": 144, "status": "current"}

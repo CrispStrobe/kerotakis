@@ -1,0 +1,4 @@
+{
+  "reader_sha256": "41b5a592e49acf4de7284200c164c9a2d40a56a15dca0592025d3e1d4473e9df",
+  "error": "Reader expected an empty unmet list; original analyzer schema has numeric unmet=0. All named checks remain required true. Saved-only correction, no engine requests."
+}
