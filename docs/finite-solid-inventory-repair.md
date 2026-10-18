@@ -39,13 +39,14 @@ The correction uses positive phase elemental inventory for oxidation-state
 pinning and admission decisions, while leaving solution totals unchanged to
 avoid counting the solid twice. The same inventory detects a redox partner
 supplied in a solid, preserving the coupled-domain exclusion. Native controls
-also require no new ferric inventory in the ferrous-only case. Exact-source
-acceptance of the corrected head remains pending.
+also require no new ferric inventory in the ferrous-only case. Exact-source corrected replay, focused native tests,25 CI checks and33 full-fleet
+jobs passed. PR822 integrated as `bc472fb4`; the
+[integration receipt](../audits/target468-20261016/accepted-pr-integration/pr822-integration.json)
+verifies actual parents and merge tree.
 
-## Acceptance still required
+## Accepted regression scope and remaining limits
 
-The candidate is unaccepted until exact-head native CI and the full own fleet
-pass. The native regression uses the actual engine and repeats unchanged finite
+The reviewed source passed exact-head native CI and the full own fleet. The native regression uses the actual engine and repeats unchanged finite
 inventory equilibrations, checking retained solid, represented iron, canonical
 solvent, analytical charge baseline, enthalpy, temperature and pH, then compares
 live and same-dataset phase/pH observations. Helper controls distinguish trace
@@ -54,8 +55,9 @@ exclusions. German and French CLI diagnostics explain refused comparisons.
 These checks establish regression consistency, not complete empirical validation
 or a general H/O/charge closure proof.
 
-After source/binary/lock binding, replay the unchanged diagnostic separately on
-the repaired engine and retain the original responses and first test failures.
+The separately bound corrected replay is complete in
+[its own evidence directory](../audits/target468-20261016/finite-phase-corrected-replay/README.md).
+Retain the original responses and first test failures; do not repeat that replay.
 Do not rerun the whole unchanged corpus or increment the working catalog from
 these diagnostic controls.
 

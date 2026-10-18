@@ -39,3 +39,6 @@ web/app/node_modules
 # accident tools/mutation/mutate.py's recovery guard exists to prevent.
 .mutation-state/
 .mutation-tmp/
+
+# Private operating handoff; never publish host details.
+/CLAUDE.local.md

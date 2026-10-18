@@ -1,0 +1,33 @@
+{
+  "pr": 825,
+  "reviewed_head": "bc8607061d8cec84de4035fa2d8b66d71b7b7892",
+  "merge_commit": "050aea7f78e31bf058b36326d9c4347a4e7d40d4",
+  "merged_at": "2026-10-18T07:01:35Z",
+  "actual_parents": [
+    "bc472fb434108741f92a10e6af7534ba00e8ef30",
+    "bc8607061d8cec84de4035fa2d8b66d71b7b7892"
+  ],
+  "actual_tree": "694e2e6e480a58960c689eba7012179250c48aae",
+  "reconstructed_merge_tree": "694e2e6e480a58960c689eba7012179250c48aae",
+  "tree_matches": true,
+  "normal_protected_integration": true,
+  "ci_run": 39002639113,
+  "ci_success": 25,
+  "expected_skips": 1,
+  "fleet_run": 39002639110,
+  "fleet_success": 33,
+  "rest_run": 39002639181,
+  "focused_native": [
+    {
+      "job": 117606822851,
+      "platform": "Test (native) (macos-latest)",
+      "log_sha256": "1a9b5732b0610fb731f5d763c9c1922d43794049fb482eeb49d1a75c444c8455"
+    },
+    {
+      "job": 117606827413,
+      "platform": "Test (native) (ubuntu-latest)",
+      "log_sha256": "d3ed205ace198ae0d817b1afead180dd4abaa36bd97f387383cdeca8a97c467b"
+    }
+  ],
+  "qualification": "Source acceptance/integration only; no production or catalog claim."
+}
