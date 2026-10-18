@@ -1,4 +1,4 @@
-# Fresh-agent handover — 2026-10-17
+# Fresh-agent handover — 2026-10-18
 
 This is the executable continuation plan. Read `AGENTS.md`, `CONTRIBUTING.md`,
 `docs/STATUS.md`, `docs/improvement-agenda-20261014.md` and
@@ -9,7 +9,7 @@ GitHub references. Local operation details belong only in an ignored handoff.
 
 ## Start here
 
-1. Fetch actual main and inspect PR822–826, their exact heads, current checks and
+1. Fetch actual main and inspect PR824–826, their exact heads, current checks and
    active workflows. A queued check is neither a failure nor an acceptance.
 2. Consult the ignored local operating handoff if present before touching
    worktrees, build targets, evidence or running controllers. Check load, available
@@ -30,6 +30,11 @@ an integration branch. Do not copy credentials or host details into public docs.
 
 ## Lane 1 — finish pending delivery, first priority
 
+PR822/823 are now integrated as `bc472fb4`/`d6020643`; their source/run rows
+below preserve accepted bindings, not pending merge tasks. PR824/825 remain
+open; PR825 reruns only failed preflight attempt2 after a runner communication
+loss, while PR824 has a new comment-history correction.
+
 Current source heads and existing runs are listed below. Refresh them; never
 launch duplicate validation or accept an older head's checks for a new head.
 
@@ -37,7 +42,7 @@ launch duplicate validation or accept an older head's checks for a new head.
 | --- | --- | --- |
 | 822 | `e2a4ff7054041c21adaaf90435d1a4363362fac6` | `39001207755` / `39001207751` / not separately required by unchanged HTTP layer |
 | 823 | `4730f7e689fee8ec3ed0eaa3794c50f18755c8d1` | `38999106064` / `38999106102` / unchanged HTTP layer |
-| 824 | `7ea71e56a9461a49186884e97c591ccc07ed1242` | `39008139762` / `39008139769` / `39008139763` |
+| 824 | `654cf041dcf794d529bd9049c1316b9602e0c7e1` | `39104378850` / `39104378835` / `39104378816` |
 | 825 | `bc8607061d8cec84de4035fa2d8b66d71b7b7892` | `39002639113` / `39002639110` / `39002639181` |
 
 - **822:** review `crates/kerotakis-phreeqc/src/aqueous.rs` phase admission,
@@ -58,7 +63,9 @@ launch duplicate validation or accept an older head's checks for a new head.
   forms, comments, embedded hashes and `wait 60 seconds`. Check spaced-unit
   conversion and per-command/aggregate API budgets. First broader-head native,
   lesson, Wasm and browser failures are real; do not regenerate goldens to hide
-  them. All19 local HTTP policy tests passed; hosted native acceptance is pending.
+  them. The latest correction preserves full comments in saved command history
+  without weakening the existing English-alias assertion. All19 local HTTP
+  policy tests passed; new-head hosted native acceptance is pending.
 - **825:** inspect the shared finite-quantity guard, scaled public quantity
   readers and `finite_script_quantities.rs`. Require NaN/infinity/exponent and
   unit-scaling overflow refusals across numeric families, plus ordinary and
