@@ -1,0 +1,17 @@
+{
+  "source": "5194f961a59b804f18bc4e593e067ab2cf8af0f5",
+  "binary_sha256": "d21fa9124d0e08c5c5fdfd5c62e634debab8476378f1e94b533dbefd0cc6e9a1",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "script_sha256": "c2b459f6d2986cbb21fbd407092cf8308950516ffe7e929d0afdb89d2f359cbf",
+  "actual_main_at_freeze": "e63a0824456626dfa6c6920c5a28b9a9ef10db0d",
+  "checks": {
+    "ethanol_peak_present": true,
+    "no_invented_ethyl_acetate_peak": true,
+    "missing_neutral_parameters_reported": false,
+    "unknown_neutral_not_misclassified_outside_method": true,
+    "owned_contents_unchanged": true
+  },
+  "status": "FAIL",
+  "scope": "The actual measurement silently drops missing neutral parameters beside a supported peak. No retention coefficient, repaired execution or scientific catalog addition is claimed.",
+  "catalog_additions": 0
+}

@@ -174,3 +174,102 @@ fn the_injection_consumes_nothing() {
     let after = format!("{:?}", bench.vessel(VesselId(0)).unwrap().contents);
     assert_eq!(before, after, "an analytical injection moves no ledger");
 }
+
+#[test]
+fn supported_peaks_do_not_hide_a_neutral_parameter_gap() {
+    let events = chromatogram_of(&[("water", 2.0), ("ethanol", 0.001), ("ethyl_acetate", 0.001)]);
+    assert!(
+        events.iter().any(|event| matches!(event,
+            Event::NotYetModeled { cause: ops::NotModelledCause::NotParameterised, what, .. }
+                if what.contains("ethyl_acetate")
+        )),
+        "the supported ethanol peak must not suppress the missing coefficient: {events:?}"
+    );
+    let (peaks, outside) = events
+        .iter()
+        .find_map(|event| match event {
+            Event::Chromatographed {
+                peaks,
+                outside_method,
+                ..
+            } => Some((peaks, outside_method)),
+            _ => None,
+        })
+        .expect("the supported part still has a chromatogram");
+    assert_eq!(peaks.len(), 1);
+    assert_eq!(peaks[0].species.0, "ethanol");
+    assert!(
+        outside.is_empty(),
+        "an unknown neutral is a model gap, not an ion"
+    );
+}
+
+#[test]
+fn an_entirely_unparameterised_sample_has_no_invented_empty_result() {
+    let events = chromatogram_of(&[("water", 2.0), ("ethyl_acetate", 0.001)]);
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::NotYetModeled {
+            cause: ops::NotModelledCause::NotParameterised,
+            ..
+        }
+    )));
+    assert!(!events
+        .iter()
+        .any(|event| matches!(event, Event::Chromatographed { .. })));
+    assert!(
+        !events.iter().any(|event| matches!(
+            event,
+            Event::NotYetModeled {
+                cause: ops::NotModelledCause::NothingToActOn,
+                ..
+            }
+        )),
+        "a present but unparameterised sample is not a solute-free sample"
+    );
+}
+
+#[test]
+fn ions_and_unknown_neutrals_keep_their_separate_coverage_reports() {
+    let mut bench = Bench::new();
+    // Instrument admission fixture; actual aqueous dissolution is also tested
+    // with the native engine in kerotakis-phreeqc/tests/chromatograph.rs.
+    for (key, n, phase) in [
+        ("water", 2.0, Phase::Liquid),
+        ("Na+", 0.001, Phase::Aqueous),
+        ("Cl-", 0.001, Phase::Aqueous),
+        ("ethyl_acetate", 0.001, Phase::Liquid),
+    ] {
+        bench.vessels[0].deposit(SpeciesId::new(key), Moles(n), phase);
+    }
+    let before = serde_json::to_value(&bench.vessels[0].contents).unwrap();
+    let events = bench
+        .step(Operator::Measure {
+            vessel: VesselId(0),
+            instrument: Instrument::Chromatograph,
+        })
+        .unwrap();
+    assert_eq!(
+        before,
+        serde_json::to_value(&bench.vessels[0].contents).unwrap()
+    );
+    assert!(events.iter().any(|event| matches!(event,
+        Event::NotYetModeled { cause: ops::NotModelledCause::NotParameterised, what, .. }
+            if what.contains("ethyl_acetate")
+    )));
+    let (peaks, outside) = events
+        .iter()
+        .find_map(|event| match event {
+            Event::Chromatographed {
+                peaks,
+                outside_method,
+                ..
+            } => Some((peaks, outside_method)),
+            _ => None,
+        })
+        .expect("the method's ionic non-separation is still reported");
+    assert!(peaks.is_empty());
+    assert!(outside.iter().any(|s| s.0 == "Na+"));
+    assert!(outside.iter().any(|s| s.0 == "Cl-"));
+    assert!(!outside.iter().any(|s| s.0 == "ethyl_acetate"));
+}
