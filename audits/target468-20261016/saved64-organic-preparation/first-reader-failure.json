@@ -1,0 +1,13 @@
+{
+  "kind": "assessment_reader_error_before_publication",
+  "problem": "First inorganic-carbon projection omitted the separately owned canonical CO2(aq) species. Total carbon was already counted correctly from formulas. No simulation, original forecast or raw stream changed.",
+  "original_reader_sha256": "4cafe972ebb0f801a801da6c64769c7141db758ab88199cef7d5262382efe370",
+  "original_metrics_sha256": "1350cf0d8a61b96abdb88ee391d9405255494688b7eff3b76244ba2743dc2c00",
+  "retained_original_wrong_inorganic_carbon_deltas_mol": {
+    "new120:or-011": 0.005806332626683493,
+    "new120:or-012": 0.0010726773648309126
+  },
+  "correction": "Include CO2(aq) along with CO2,HCO3-,CO3-2; validate against original owned contents.",
+  "new_engine_or_api_executions": 0,
+  "catalog_additions": 0
+}
