@@ -1,0 +1,18 @@
+{
+  "label": "baseline-0",
+  "utc": "2026-10-18T20:06:11.234633+00:00",
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "named_alkaline",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "elapsed_seconds": 156.47837542200006,
+  "stdout_sha256": "4671931dcade1ab8871d5e4f5a47f7299707bdc789f9a6eb725ae945dc326b96",
+  "stderr_sha256": "6eb53c48511626547ff2d70dc2e1ef77ca7d99628507859d08225a2cf6262569"
+}

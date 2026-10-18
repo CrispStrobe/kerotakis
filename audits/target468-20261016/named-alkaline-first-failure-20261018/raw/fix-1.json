@@ -1,0 +1,19 @@
+{
+  "label": "fix-1",
+  "utc": "2026-10-18T20:20:09.157917+00:00",
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--lib",
+    "--tests",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "elapsed_seconds": 339.32294139400005,
+  "stdout_sha256": "63f694f94ed3aa3ee985eac9e108e5470c52f9a19c993bc48b325f0145bf4364",
+  "stderr_sha256": "f0fa6fdd05b407bd8380943277c6870c5f32974c85cd97252e4e5a0c3534d867"
+}

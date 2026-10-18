@@ -1,0 +1,13 @@
+{
+  "label": "rustc-version",
+  "utc": "2026-10-18T20:03:25.391686+00:00",
+  "argv": [
+    "rustc",
+    "--version",
+    "--verbose"
+  ],
+  "exit_status": 0,
+  "elapsed_seconds": 0.03244291300001123,
+  "stdout_sha256": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,24 @@
+
+running 9 tests
+test acetate_buffer_basis_and_measured_hydroxide_are_not_a_caustic_reserve ... ok
+test excess_strong_base_after_the_entire_acetate_reservoir_is_spent_only_once ... FAILED
+test literal_sodium_hydroxide_keeps_its_original_balanced_conversion ... ok
+test literal_hydroxide_and_basis_are_owned_once_each ... FAILED
+test potassium_hydroxide_uses_the_same_net_ionic_sink_without_sodium ... FAILED
+test neutralized_salt_and_bare_cation_cannot_supply_hydroxide ... ok
+test serialization_does_not_recreate_spent_capacity_or_require_a_live_solution_cache ... FAILED
+test solved_base_and_ester_limits_use_the_analytical_reserve ... FAILED
+test unknown_acid_base_reservoirs_refuse_atomically_even_beside_literal_base ... FAILED
+
+failures:
+
+failures:
+    excess_strong_base_after_the_entire_acetate_reservoir_is_spent_only_once
+    literal_hydroxide_and_basis_are_owned_once_each
+    potassium_hydroxide_uses_the_same_net_ionic_sink_without_sodium
+    serialization_does_not_recreate_spent_capacity_or_require_a_live_solution_cache
+    solved_base_and_ester_limits_use_the_analytical_reserve
+    unknown_acid_base_reservoirs_refuse_atomically_even_beside_literal_base
+
+test result: FAILED. 3 passed; 6 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

@@ -1,0 +1,12 @@
+{
+  "label": "fetch-sundials",
+  "utc": "2026-10-18T20:03:34.755271+00:00",
+  "argv": [
+    "bash",
+    "tools/fetch-sundials.sh"
+  ],
+  "exit_status": 0,
+  "elapsed_seconds": 2.9745897290000016,
+  "stdout_sha256": "6de4db2b1c79c090357f8a6aab7a5b1f74d50c910a2026e7972b9a212f18a494",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,22 @@
+{
+  "source": "2157e5fa5891abc5fea03334d3779a8a883bfbb3",
+  "runtime_base": "d3883757ef12433561cb7831a9c9ce3f1b999eef",
+  "only_source_changes": [
+    "crates/kerotakis-core/tests/named_alkaline.rs",
+    "crates/kerotakis-phreeqc/tests/named_hydrolysis.rs"
+  ],
+  "outcomes": [
+    {
+      "label": "baseline-0",
+      "exit_status": 101,
+      "first_actual_failed_controls": true
+    },
+    {
+      "label": "baseline-1",
+      "exit_status": 101,
+      "first_actual_failed_controls": true
+    }
+  ],
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "no_original_corpus_replay": true
+}

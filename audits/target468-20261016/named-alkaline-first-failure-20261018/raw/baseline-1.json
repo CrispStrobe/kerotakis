@@ -1,0 +1,18 @@
+{
+  "label": "baseline-1",
+  "utc": "2026-10-18T20:09:51.950914+00:00",
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "--test",
+    "named_hydrolysis",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "elapsed_seconds": 220.71567361500001,
+  "stdout_sha256": "670b1da2c9f30b73c36a317046c15c96e62dcc277ed9131c6d0481837548d646",
+  "stderr_sha256": "f178f22837bc58d75e44df3dd3963960359c38adacf53069c96c9d2f10813cda"
+}
