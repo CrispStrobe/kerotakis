@@ -1869,25 +1869,36 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                 // turns room air into nitrate, a thermodynamic endpoint that
                 // is kinetically impossible on a bench. Reviewed reactive
                 // gases use the database's own dissolution equilibrium.
-                if !EQUILIBRIUM_GASES
-                    .iter()
-                    .any(|(_, species)| *species == p.species.0)
-                {
+                let gas_phase = if p.species.0 == "NH3" {
+                    Some("NH3(g)")
+                } else {
+                    EQUILIBRIUM_GASES
+                        .iter()
+                        .find(|(_, species)| *species == p.species.0)
+                        .map(|(phase, _)| *phase)
+                };
+                let Some(phase) = gas_phase else {
                     continue;
-                }
+                };
                 // This is a conversion into PHREEQC's input convention,
                 // not the lab's physical gas constant. Its native initializer
                 // divides PV by R_LITER_ATM=0.0820597 (global_structures.h).
                 // Using CODATA here silently changes supplied gas moles.
                 const NATIVE_R_LITRE_ATM: f64 = 0.082_059_7;
-                let Some(data) = species::lookup(&p.species) else {
-                    continue;
-                };
-                let phase = format!("{}(g)", data.formula);
+                // A registry display formula may include a phase suffix
+                // (NH3(aq)); it is not a native database phase identifier.
+                // Use the reviewed capability mapping for supplied gas just
+                // as we do for an initially empty gas component below.
                 let partial_pressure =
                     p.moles.0 * NATIVE_R_LITRE_ATM * vessel.temperature.0 / volume.0;
-                gases.push((phase, p.species.0.clone(), partial_pressure));
-                if let Some(formula) = crate::dbindex::parse_formula(data.formula) {
+                gases.push((phase.to_string(), p.species.0.clone(), partial_pressure));
+                if p.species.0 == "NH3" {
+                    // Gas and aqueous ammonia share reduced nitrogen. Bare
+                    // N would admit nitrate/redox conversion of the dose.
+                    note_element("N(-3)");
+                } else if let Some(formula) =
+                    crate::dbindex::parse_formula(phase.trim_end_matches("(g)"))
+                {
                     for element in formula
                         .keys()
                         .filter(|element| *element != "H" && *element != "O")
@@ -2102,6 +2113,16 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             if all_present && !gases.iter().any(|(name, ..)| name == phase) {
                 gases.push((phase.to_string(), species.to_string(), 0.0));
             }
+        }
+        // Couple finite NH3 to the SAME native solve as NH3/NH4+
+        // protonation. Core Henry partitioning runs before this aqueous
+        // tail and remains the fallback without a native wet solver; it
+        // cannot determine acid trapping on its own. This capability is
+        // finite-only: it introduces no open/swept ammonia reservoir.
+        if elements.iter().any(|element| element == "N(-3)")
+            && !gases.iter().any(|(_, species, _)| species == "NH3")
+        {
+            gases.push(("NH3(g)".to_string(), "NH3".to_string(), 0.0));
         }
     } else {
         // Explicit finite doses are admitted by the reviewed gas capability,
@@ -4104,6 +4125,19 @@ impl PhreeqcEquilibrator {
         // phases are kept so the engine errors honestly rather than the
         // ledger losing their crystal water silently.
         let idx = derived::index_for(db_tag);
+        // WATEQ defines NH3(g); minteq's extended aqueous/ligand route
+        // does not. Silently dropping this component would leave a stale
+        // headspace beside a seemingly complete acid/base equilibrium.
+        // Refuse before mutation instead of borrowing unreviewed phase
+        // data or treating analytical bound ligand as free ammonia.
+        if problem.gases.iter().any(|(phase, _, _)| phase == "NH3(g)") && !idx.has_phase("NH3(g)") {
+            return Err(SolveError::NotConverged {
+                solver: self.name().to_string(),
+                detail: format!(
+                    "finite ammonia gas/protonation equilibrium requires NH3(g), which the routed {db_tag} database does not define; this mixed-domain headspace is not modeled"
+                ),
+            });
+        }
         problem.gases.retain(|(phase, ..)| idx.has_phase(phase));
         let mut freed: Vec<(String, f64)> = Vec::new();
         // What was freed, as phases rather than loose elements — the heat
@@ -7616,5 +7650,40 @@ mod comparison_phase_inventory_tests {
         assert_eq!(scoped.phases[0].0, posed_phase(&phase.name, tag).unwrap());
         assert_eq!(scoped.phases[0].1, 0.002);
         assert_eq!(scoped.phases[0].2, 0.0);
+    }
+}
+
+#[cfg(test)]
+mod finite_ammonia_admission_diagnostics {
+    use super::*;
+
+    #[test]
+    fn ammonia_phase_and_reduced_nitrogen_admission_match_the_actual_database() {
+        assert!(
+            !derived::index_for("minteq.v4").has_phase("NH3(g)"),
+            "unexpected minteq phase: {:?}",
+            derived::index_for("minteq.v4").phases.get("NH3(g)")
+        );
+        assert!(derived::index_for("wateq4f").has_phase("NH3(g)"));
+        for phase in [Phase::Aqueous, Phase::Gas] {
+            let mut v = Vessel::new(kerotakis_core::VesselId(0), "beaker");
+            v.headspace = Headspace::Sealed {
+                volume: kerotakis_core::Liters(0.35),
+            };
+            v.deposit(SpeciesId::new("water"), Moles(3.87), Phase::Liquid);
+            v.deposit(SpeciesId::new("NH3"), Moles(0.0008), phase);
+            let problem = partition(&v).unwrap();
+            assert!(
+                problem.elements.iter().any(|element| element == "N(-3)"),
+                "phase {phase:?}, role {:?}, elements {:?}",
+                derived::role("NH3"),
+                problem.elements
+            );
+            assert!(
+                problem.gases.iter().any(|(name, _, _)| name == "NH3(g)"),
+                "phase {phase:?}, gases {:?}",
+                problem.gases
+            );
+        }
     }
 }

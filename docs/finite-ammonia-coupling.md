@@ -1,0 +1,15 @@
+# Finite ammonia gas and protonation coupling
+
+The current-equivalent diagnostic shows neutral NH3 gas near2.86 micromol while acid suppresses free aqueous NH3 by over seven orders of magnitude and leaves over90% of that headspace amount. Original raw streams, pre-issue forecasts and corrected saved-output assessment are retained in the public audit branch under `audits/target468-20261016/ammonia-coupled-first-control-20261018/`; this is a failed control, not a working catalog selection.
+
+The core Henry pass precedes the native aqueous tail. It partitions neutral ammonia but cannot settle NH3/NH4+ protonation simultaneously. The proposed repair admits finite NH3(g) to the same native equilibrium as reduced nitrogen, including initially absent gas. WATEQ's existing NH3 phase and protonation data remain authoritative; no empirical coefficients are fitted. Open/swept ammonia behavior and core-only/dry fallback are unchanged. Inert nitrogen and oxygen stay outside unrestricted aqueous redox equilibrium.
+
+The extended minteq route lacks NH3(g). Finite ammonia on that mixed-domain route is explicitly refused before native mutation instead of silently dropping its headspace component or borrowing unreviewed phase data. This does not claim reconciled complex-bound ammonia inventory.
+
+Acceptance is pending. New native controls require positive neutral gas, strong acid trapping in both feed orders across three volumes, two doses and rigid/pressure-controlled boundaries, atom/charge closure, inert carriers, repeated waits, initially absent/supplied gas, unsupported-route atomicity and core/dry fallback. Full applicable regression, platform/protected checks, exact-head review and normal integration must follow. A separate changed-source original-protocol replay must earn any later scientific selection.
+
+## First native outcome
+
+Source `2750df2d` passes Clippy and523 existing native tests, but all four new tests fail. Preserve the raw streams and original assertions. The dry manually constructed fixture first compared an atmospheric constructor pressure with its physically empty sealed headspace; refresh that fixture before taking its snapshot. The three remaining failures need native state/admission traces, including the supplied-gas partition and extended-database boundary. New diagnostic output records actual inventories and adds a direct problem/database admission check; it does not relax any acid-trapping, conservation or refusal assertion.
+
+The diagnostic follow-up reproduces the cause: supplied NH3 used its registry display formula `NH3(aq)` to construct nonexistent native phase `NH3(aq)(g)`, then the routed database filter silently dropped it. The initially empty component used correct `NH3(g)`. Resolve supplied gas from explicit capability identities, including existing CO2/HBr mappings, rather than constructing database names from display formulas. All original acid trapping, supplied-gas and missing-phase refusal assertions remain unchanged. The dry fixture now passes; validate the repaired mapping with the full native suite before acceptance.
