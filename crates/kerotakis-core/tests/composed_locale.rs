@@ -841,3 +841,58 @@ fn a_gap_without_a_recipe_falls_back_to_its_english() {
     let line = render_events_in(&[event], Register::LV2, Locale::parse("de")).join(" ");
     assert!(line.contains("nothing here at all"), "{line}");
 }
+
+#[test]
+fn kinetic_catalyst_names_are_localized_in_every_register() {
+    let event = kerotakis_core::Event::Reacted {
+        vessel: VesselId(0),
+        reaction: "peroxide-decomposition".into(),
+        equation: "2 H2O2 -> 2 H2O + O2".into(),
+        moles: Moles(0.001),
+        seconds: 1.0,
+        catalyst: Some("potassium iodide".into()),
+        activation_energy: 56000.0,
+    };
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        let expected = locale
+            .lookup("species.potassium iodide")
+            .expect("catalogued catalyst");
+        for level in 1..=3 {
+            let text = kerotakis_core::render::render_event_in(
+                &event,
+                kerotakis_core::render::Register(level),
+                locale,
+            );
+            assert!(
+                text.contains(expected),
+                "{} level {level}: {text}",
+                locale.code()
+            );
+            assert!(!text.contains("potassium iodide"), "{text}");
+        }
+    }
+}
+
+#[test]
+fn kinetic_reaction_display_names_cover_the_registry_and_render_heat() {
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        for reaction in kerotakis_core::kinetics::REGISTRY {
+            let key = format!("kinetic-reaction.{}", reaction.id);
+            let expected = locale
+                .lookup(&key)
+                .unwrap_or_else(|| panic!("{} missing {key}", locale.code()));
+            let event = kerotakis_core::Event::ReactionHeatReleased {
+                vessel: VesselId(0),
+                reaction: reaction.id.into(),
+                energy_j: 0.13,
+            };
+            let text = kerotakis_core::render::render_event_in(
+                &event,
+                kerotakis_core::render::Register(3),
+                locale,
+            );
+            assert!(text.contains(expected), "{text}");
+            assert!(!text.contains(reaction.id), "{text}");
+        }
+    }
+}
