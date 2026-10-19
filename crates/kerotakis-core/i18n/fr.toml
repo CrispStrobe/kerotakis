@@ -1709,6 +1709,7 @@ and-the-others-are-spared = ", et le {others} à côté est épargné"
 
 # The boundary a conductivity reading carries with it (I18N-12).
 [measured]
+neutral-water-baseline = "référence idéale de l’autoprotolyse de l’eau à 25 °C ; les solutés neutres répertoriés sans spéciation sont supposés ne contribuer ni à l’acidité ni à la basicité. Le CO₂ dissous, les effets d’activité, la dépendance en température et les contaminations à l’état de traces ne sont pas pris en compte dans ce blanc"
 conductivity-past-the-dilute-limit = "au-delà de I = {limit} mol/kgw, une somme de conductivités molaires limites n'est plus une lecture étalonnée : {where_it_stands}. Le type de charge et la taille des ions ne figurent pas dans la correction, si bien qu'un sel 2:2 est une affirmation plus faible qu'un sel 1:1"
 conductivity-fitted-correction = "le frottement ion-ion est corrigé par un facteur empirique ({factor}× la somme à dilution infinie ici), ajusté sur les chlorures de sodium et de potassium entre 0,01 et {limit} mol/kgw"
 conductivity-extrapolated = "cette solution est à I = {ionic_strength} mol/kgw, AU-DESSUS des {limit} mol/kgw sur lesquels la correction a été ajustée : le facteur appliqué ({factor}×) est donc une extrapolation"

@@ -1993,6 +1993,7 @@ and-the-others-are-spared = ", und das {others} daneben bleibt verschont"
 
 # The boundary a conductivity reading carries with it (I18N-12).
 [measured]
+neutral-water-baseline = "idealer Referenzwert der Autoprotolyse von Wasser bei 25 °C; die aufgeführten neutralen, nicht speziierten gelösten Stoffe werden als weder sauer noch basisch angenommen. Gelöstes CO₂, Aktivitätseffekte, Temperaturabhängigkeit und Spurenverunreinigungen sind in dieser Blindprobe nicht berücksichtigt"
 conductivity-past-the-dilute-limit = "jenseits von I = {limit} mol/kgw ist eine Summe von Grenzleitfähigkeiten keine kalibrierte Messung mehr: {where_it_stands}. Ladungstyp und Ionengröße stecken nicht in der Korrektur, ein 2:2-Salz ist deshalb eine schwächere Aussage als ein 1:1-Salz"
 conductivity-fitted-correction = "die Ion-Ion-Reibung wird mit einem empirischen Faktor korrigiert ({factor}× der Summe bei unendlicher Verdünnung hier), angepasst an Natrium- und Kaliumchlorid zwischen 0,01 und {limit} mol/kgw"
 conductivity-extrapolated = "diese Lösung liegt bei I = {ionic_strength} mol/kgw, ÜBER den {limit} mol/kgw, an die die Korrektur angepasst wurde; der angewandte Faktor ({factor}×) ist also eine Extrapolation"
