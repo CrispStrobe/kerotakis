@@ -1,0 +1,26 @@
+{
+  "source": "d40a1929a5322629ff63e8d0e0b6cb7105d99eac",
+  "tree": "0f530fb07a0fe13ac1734c9cfa0a7d0db1d15015",
+  "baseline_head": "dda2368df098ea90c53c5bd5af6b8dd8610fdb29",
+  "worker_sha256": "e1e80c1b881bba47e32db4adfc4ce405621737ae0f67620aefde5a5be5cd73a0",
+  "issue_status": "not issued; resource/prerequisite waiter prepared",
+  "prerequisite": "Independent acceptance of preceding b703b695 blank-note focused controls",
+  "local_submission_gate": {
+    "min_available_memory_mib": 3200,
+    "max_load1": 3.5
+  },
+  "hosted_worker_limits": {
+    "cpus": 2,
+    "min_available_memory_mib": 6000,
+    "min_free_disk_gib": 8
+  },
+  "static_checks": [
+    "Rust formatting",
+    "both TOML catalogues parse",
+    "new Phrase slots match both translations",
+    "engine-locale lint 764/764 DE and FR",
+    "git diff --check"
+  ],
+  "runtime_tests_executed": false,
+  "production_or_scientific_acceptance": false
+}
