@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-19T06:42:35.870865+00:00",
+  "run": 39211285236,
+  "producer_steps": 0,
+  "assigned_runners": 0,
+  "replacement": "One corrected-runtime source-bound CPU job, all33 unchanged logical commands; original baselines preserved without reexecution",
+  "protected_contexts_unchanged": true,
+  "active_work_cancelled": false
+}

@@ -1,0 +1,32 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 117925018210,
+      "run_id": 39211285236,
+      "workflow_name": "Chemistry audit fleets",
+      "head_branch": "fix/peroxide-aqueous-domain-20261019",
+      "run_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/runs/39211285236",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOT8z0Oc8AAAAbdOD6Yg",
+      "head_sha": "6a95f24991d0b9e2d64c14605d348d11c3bb4ef4",
+      "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/jobs/117925018210",
+      "html_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39211285236/job/117925018210",
+      "status": "queued",
+      "conclusion": null,
+      "created_at": "2026-10-19T06:40:37Z",
+      "started_at": "2026-10-19T06:40:37Z",
+      "completed_at": null,
+      "name": "Build audited CLI once",
+      "steps": [],
+      "check_run_url": "https://api.github.com/repos/CrispStrobe/kerotakis/check-runs/117925018210",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 0,
+      "runner_name": "",
+      "runner_group_id": 0,
+      "runner_group_name": ""
+    }
+  ]
+}

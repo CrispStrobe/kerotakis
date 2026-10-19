@@ -1,0 +1,12 @@
+{
+  "source": "342bfa7568dee10b516f3afc99ed2c2480c612e0",
+  "same_tests_sha256": {
+    "crates/kerotakis-core/tests/composed_locale.rs": "d3827b2c40b95dee9298a19951341558559eca59f4045a2e331d267569eb78f7",
+    "crates/kerotakis-core/tests/nonaqueous_routing.rs": "063e09c8c45a91cd906d57ad2bc63f27f57ebd8a06d99bfc0ed5633e7d09246c",
+    "crates/kerotakis-phreeqc/tests/peroxide_medium.rs": "8bb2d234153291c4c73519cf9ac275d8e8292560e42842aa30b6c3a64b4b75b9",
+    "tools/engine-locale-lint.py": "1cb2e8f5e7e61ecf24482a269c6e5b12954b4ed15bf6be761fff4958aeaa2883"
+  },
+  "actual_failing_commands": 1,
+  "original_native_baselines_preserved_not_reexecuted": true,
+  "no_compiler_failure": true
+}

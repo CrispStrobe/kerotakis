@@ -1,0 +1,35 @@
+{
+  "source": "20ea572cc323e0402633c3842c6cf0f4be8e1ef4",
+  "actual_native_tests": {
+    "passed": 619,
+    "failed": 1,
+    "ignored": 0
+  },
+  "only_failure": "aqueous::solid_solution_raw_readback_contracts_refusal_atomicity::stack_records_failed_native_route_and_preserves_complete_vessel",
+  "new_native_regressions_passed": 7,
+  "corrected_parser_baseline_cases_passed": 2,
+  "clippy_exit": 0,
+  "original_failure_preserved": true,
+  "prepared_correction": "4fe2c947d9fa7edc2305d359bedc9f44fcacbea3",
+  "all33_product_jobs_executed": false,
+  "full_source_acceptance": false,
+  "authenticated_files_sha256": {
+    "STARTED.json": "00cae770ee94d8a4decb0193eed998e2dbbb0d75a2f85e421315b88c38b9724e",
+    "BASELINE-REPRODUCED.json": "e43b51ed1a542c209905810b5c53be2dedd299d457d341b5a8a2b2690186d39d",
+    "STOPPED.json": "8d8b15f466d2180f1f2c52cc9a14b9f17e756f9e87331882c675d46236f06688",
+    "baseline-core.json": "3d8cf5678d6ea24a2dd66cd4466aea652e73f7f5537ff39abd60b5448da77b6a",
+    "baseline-core.stdout": "0658bca9e73ff2da7acec5a55e9450d60d62435be39c8d2ba8c9435ed9adb2ed",
+    "baseline-core.stderr": "8c7018b06b136ab42e1a949767660b99c9065f7d02bc61facd7f8c98c6103be5",
+    "combined-native-0.json": "7ae4a0d9935e5592b02ce49934307f0f39307fa04a7853bb5ca340ee1b52089d",
+    "combined-native-0.stdout": "fde283bb5935dfadc07aab5db2d23c9795c7895b4eea194bddb175b89bf1ecea",
+    "combined-native-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "combined-native-1.json": "be95ee4579677d7b8f80c72b4f584a35df899e4ea8e74571e4191101bae4273f",
+    "combined-native-1.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "combined-native-1.stderr": "8167ae9567eed093255f7a777345fb38635d36d6d05482783fd822f4ed5ff3d7",
+    "combined-native-2.json": "a1cd91744750232c64fc173f57f4365cffc1c1e03629babcdefd50639e32d749",
+    "combined-native-2.stdout": "ce41e336fa9139c99278373342b14b14eab0f00fb0f6b136bc9b8ef54055d03e",
+    "combined-native-2.stderr": "7c5c3751a03e3e1eb684f2167398627a331798b7f32bba4d3c187a5d88f57357"
+  },
+  "kernel_id": 139555003,
+  "version": 1
+}
