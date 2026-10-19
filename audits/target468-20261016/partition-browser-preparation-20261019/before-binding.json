@@ -1,0 +1,14 @@
+{
+  "reviewed_head": "74544b440db9b9b370720bbc3db064182f89529a",
+  "targeted_checks": 7,
+  "helper_sha256": "f17c5c7fe143d9930efeeafa8cf9c14c1a873ba10ea4927ca5fc30fa91cba4f9",
+  "independent_reference_fixture": "crates/kerotakis-thermo/tests/fixtures/thermo_oracle.tsv",
+  "fixture_sha256": "8e75e54cdbdac960b2c725e772904bc54ca7518968146370f3ebf7d718f6ec80",
+  "reference_methanol_gamma": {
+    "water": 2.2456696539,
+    "hexane": 20.986888086
+  },
+  "reference_methanol_gamma_ratio": 0.10700346067019094,
+  "original_experiment_requests": 0,
+  "scientific_catalog_additions": 0
+}
