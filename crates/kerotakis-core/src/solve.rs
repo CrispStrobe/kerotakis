@@ -626,6 +626,15 @@ pub struct MixingEquilibrator;
 /// Growing the table is data work: a pair enters when its UNIFAC groups
 /// are curated and the split is oracle-checked.
 pub fn layered_pair(vessel: &Vessel) -> Option<(&'static str, &'static str)> {
+    // Read-only callers omit an uncomputed split; operational callers use
+    // try_layered_pair to distinguish refusal from a computed single phase.
+    try_layered_pair(vessel).ok().flatten()
+}
+
+/// Preserve model admission errors before assigning a phase split.
+pub fn try_layered_pair(
+    vessel: &Vessel,
+) -> Result<Option<(&'static str, &'static str)>, kerotakis_thermo::unifac::UnifacError> {
     const LLE_PAIRS: &[(&str, &str)] = &[
         // (upper by density, lower)
         ("hexane", "water"),
@@ -644,13 +653,13 @@ pub fn layered_pair(vessel: &Vessel) -> Option<(&'static str, &'static str)> {
         if a > crate::OBSERVABLE_MOLES && b > crate::OBSERVABLE_MOLES {
             let z = a / (a + b);
             if let kerotakis_thermo::lle::LleResult::TwoPhase { .. } =
-                kerotakis_thermo::lle::water_hexane_lle(z, vessel.temperature.0)
+                kerotakis_thermo::lle::try_water_hexane_lle(z, vessel.temperature.0)?
             {
-                return Some((upper, lower));
+                return Ok(Some((upper, lower)));
             }
         }
     }
-    None
+    Ok(None)
 }
 
 impl Equilibrator for MixingEquilibrator {
@@ -676,7 +685,22 @@ impl Equilibrator for MixingEquilibrator {
             }
         }
 
-        if let Some((upper, lower)) = layered_pair(vessel) {
+        let pair = match try_layered_pair(vessel) {
+            Ok(pair) => pair,
+            Err(error) => {
+                events.push(Event::not_modeled(
+                    vessel.id,
+                    crate::ops::NotModelledCause::ModelBoundary,
+                    crate::bench::liquid_partition_refusal(
+                        &SpeciesId::new("hexane"),
+                        vessel.temperature.0,
+                        error,
+                    ),
+                ));
+                return Ok(events);
+            }
+        };
+        if let Some((upper, lower)) = pair {
             events.push(Event::LayersFormed {
                 vessel: vessel.id,
                 upper: SpeciesId::new(upper),

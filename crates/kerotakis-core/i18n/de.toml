@@ -1667,6 +1667,7 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+"liquid-partition-refused" = "Die Berechnung eines endlichen Flüssig-Flüssig-Verteilungskoeffizienten für {species} bei {temperature} K ist nicht möglich: {why}; ein nicht unterstützter Stoffübergang wird nicht durchgeführt"
 "peroxide-rich-medium" = "Diese peroxidhaltige Flüssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze für ein überwiegend wässriges Lösungsmittel. Eine durch Reaktionen entstandene Wasserspur begründet noch kein wässriges Medium. Für dieses peroxidreiche Medium ist kein validiertes Aktivitätsmodell verfügbar: wässriger pH, Ionenstärke und Speziation werden zurückgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollständige Vorhersage für das Gemisch."
 "silver-ammine-ligand-inventory" = "Silber-Ammoniak-Komplexe und freie Liganden sind in der Lösungsspeziation dargestellt. Die kanonischen NH3/NH4-Anteile bleiben analytische Träger des gesamten reduzierten Stickstoffs einschließlich komplexgebundenen Ammoniaks; sie sind keine gemessenen Mengen freien NH3. Ihre Verwendung für nachfolgende Ammoniakverdampfung oder die Verfügbarkeit in kuratierten Reaktionen ist noch nicht mit dem gebundenen Liganden abgeglichen. Diese Einschränkung nimmt die berichtete Gleichgewichtsverteilung der Komplexe nicht zurück."
 "analytical-component-charge" = "Der zugeführte Stoffbestand hat eine nicht ausgeglichene Ionenladung. Dieser Adapter interpretiert die Elementsummen außerhalb der H/O-Basis als analytisches Komponentenproblem und passt den pH an, um Elektroneutralität herzustellen; H/O-Basiseinträge sind Erhaltungskoordinaten und keine vorgegebenen freien Ionenkonzentrationen. Ein berichteter pH oder eine Speziation beschreibt daher dieses protonenkompensierte analytische Problem und ist keine Vorhersage für ein vollständiges physikalisches Gemisch dieser Ionen. Tatsächliche Gegenionen oder vollständige Säure-, Base- oder Salzreagenzien sind erforderlich; Natrium, Chlorid oder andere Gegenionen werden nicht ergänzt."
@@ -1719,6 +1720,7 @@ no-reviewed-bulk-density = "die Dichte von {material} — das Rezept führt kein
 density-of-a-mixture = "eine einzelne Dichte für dieses Gefäß: es enthält {contents}, und eine Dichte gehört zu einem Stoff und nicht zu einem Gemisch daraus. Wiege sie einzeln"
 incomplete-absorbance = "die vollständige Absorption ist nicht verfügbar: für {species} liegt kein Absorptionsspektrum vor"
 no-group-decomposition = "die Säule hat keine kuratierte Gruppenzerlegung für {species} — eine echte Säule würde diese trennen, das ist also eine Lücke im Modell und kein Ergebnis"
+column-partition-refused = "die Säule kann für {species} bei {temperature} K keinen endlichen Verteilungskoeffizienten berechnen: {why}; die Probe bleibt erhalten und für diese Stoffe wird kein Peak vorhergesagt"
 nothing-to-electrolyse = "hier lässt sich nichts elektrolysieren: {why}"
 electrolysis-needs-an-electrolyte = "das Modell der Lösungsmittelelektrolyse braucht einen gelösten Leitelektrolyten; reines Wasser hat eine endliche, aber sehr geringe Leitfähigkeit, und die Spannung, der Elektrodenabstand und die Überspannungen, die für den geforderten Strom nötig wären, sind nicht modelliert"
 no-curated-nuclide = "kein kuratiertes Nuklid '{nuclide}' — die Auswahl für den Unterricht: {known}"
@@ -2049,6 +2051,18 @@ receiver = "Vorlage"
 [corrosion-creep]
 "battery/lead-terminal" = "Die weiße Kruste auf einem Batteriepol ist Blei(II)-sulfat, und sie kommt nicht aus dem Wasser in diesem Becherglas - sie kommt aus der Batterie. Schwefelsäure kriecht als dünner Film am Blei den Pol hinauf und unter der Dichtung hervor und benetzt den Pol mit Elektrolyt; das Blei unter diesem Film korrodiert als Anode der Zelle, zu der es gehört, Pb + SO4(2-) -> PbSO4 + 2 e-, und Bleisulfat ist weiß, unlöslich und pulvrig, es bleibt also genau dort, wo es gewachsen ist, statt weggespült zu werden. Deshalb sitzt die Kruste am Pol und sonst nirgends am Gehäuse, deshalb kommt sie nach dem Abbürsten wieder, solange der Film noch da ist, und deshalb besteht die Abhilfe darin, das Kriechen zu stoppen, und nicht darin, den Pol zu putzen. HIER WIRD NICHTS IN DIE BILANZ EINGETRAGEN: keine PbSO4-Spezies ist installiert und in diesem Gefäß ist kein Sulfat, das Produkt wird also benannt und nicht gewogen, und der Säurefilm wird aus der Identität des Objekts behauptet statt aufgelöst - das Rezept battery/lead-terminal sagt genau das in seinen eigenen Chargenannahmen"
 
+[partition]
+interaction-range = "die gerichtete Gruppenwechselwirkung {interaction} hat bei dieser Temperatur keinen darstellbaren endlichen positiven Boltzmann-Faktor"
+species-refusal = "{species}: {why}"
+unknown-group = "Komponente {component} verwendet die unbekannte Moleküluntergruppe {group}"
+invalid-group-data = "die Moleküluntergruppe {group} hat ungültige Volumen- oder Oberflächendaten"
+invalid-decomposition = "Komponente {component} hat keinen gültigen positiven Bestand an Molekülgruppen"
+invalid-temperature = "{temperature} K ist keine endliche positive Temperatur"
+invalid-composition = "Komponente {component} hat einen Molenbruch außerhalb des endlichen Intervalls von null bis eins"
+composition-sum = "die Molenbrüche ergeben {sum} statt eins innerhalb der numerischen Summationstoleranz"
+missing-interaction = "die gerichtete Gruppenwechselwirkung {interaction} fehlt im Parametersatz"
+invalid-interaction = "die gerichtete Gruppenwechselwirkung {interaction} ist nicht endlich"
+numerical-range = "der Aktivitätskoeffizient für Komponente {component} lässt sich nicht als endlicher positiver Wert darstellen"
 [kinetic-reaction]
 "thiosulfate-acid" = "Ansäuerung von Thiosulfat"
 "peroxide-decomposition" = "Peroxidzersetzung"
