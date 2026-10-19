@@ -46,3 +46,31 @@ fn acetic_acid_counts_as_solvent_when_routing_low_water_organic_mixtures() {
         "{events:?}"
     );
 }
+
+#[test]
+fn decomposition_water_does_not_make_bulk_peroxide_an_aqueous_medium() {
+    let mut vessel = Vessel::new(VesselId(0), "peroxide matrix");
+    vessel.deposit(
+        SpeciesId::new("H2O2"),
+        kerotakis_core::Moles(0.326375),
+        Phase::Liquid,
+    );
+    vessel.deposit(
+        SpeciesId::new("water"),
+        kerotakis_core::Moles(0.00001),
+        Phase::Liquid,
+    );
+    let before = vessel.contents.clone();
+    let fraction = water_fraction_among_solvents(&vessel).expect("peroxide is a liquid matrix");
+    assert!((fraction - 0.00001 / 0.326385).abs() < 1e-12);
+    let events = HonestyEquilibrator
+        .equilibrate(&mut vessel)
+        .expect("honesty");
+    assert!(events.iter().any(|e| matches!(e, Event::NotYetModeled { reason: Some(p), .. } if p.key == "not-modeled.peroxide-rich-medium")), "{events:?}");
+    assert_eq!(vessel.contents, before);
+    assert!(vessel.solution.is_none());
+    assert!(
+        !kerotakis_core::nonaqueous::KNOWN_SOLVENTS.contains(&"H2O2"),
+        "an aqueous-domain guard must not invent organic-solubility data"
+    );
+}

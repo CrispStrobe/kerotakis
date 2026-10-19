@@ -43,6 +43,26 @@ use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, Vessel
 /// never correctness, and `unknown_composers_are_declared` below fails if
 /// a new file starts composing without being listed.
 const COMPOSERS: &[(&str, &str)] = &[
+    (
+        "kerotakis-phreeqc/aqueous.rs",
+        include_str!("../../kerotakis-phreeqc/src/aqueous.rs"),
+    ),
+    (
+        "kerotakis-phreeqc/phase_diagnostics.rs",
+        include_str!("../../kerotakis-phreeqc/src/phase_diagnostics.rs"),
+    ),
+    (
+        "kerotakis-phreeqc/dbindex.rs",
+        include_str!("../../kerotakis-phreeqc/src/dbindex.rs"),
+    ),
+    (
+        "kerotakis-cea/thermal.rs",
+        include_str!("../../kerotakis-cea/src/thermal.rs"),
+    ),
+    (
+        "kerotakis-org/family_oracle.rs",
+        include_str!("../../kerotakis-org/src/family_oracle.rs"),
+    ),
     ("acid_endpoint.rs", include_str!("../src/acid_endpoint.rs")),
     ("appearance.rs", include_str!("../src/appearance.rs")),
     (
@@ -125,6 +145,46 @@ fn without_test_modules(text: &str) -> String {
 /// `Phrase::new("key", "english …"` and the `bare` form, as (key, en).
 ///
 /// A regex would need a crate; the shape is fixed enough to scan for.
+fn phrase_arguments(mut rest: &str) -> Option<(String, String)> {
+    // Comments between the opener and first argument are not arguments.
+    loop {
+        rest = rest.trim_start();
+        if let Some(comment) = rest.strip_prefix("//") {
+            rest = comment.split_once('\n')?.1;
+        } else {
+            break;
+        }
+    }
+    let (key, after_key) = if rest.starts_with('"') {
+        next_literal(rest)?
+    } else {
+        let (argument, after) = rest.split_once(',')?;
+        let argument = argument.trim();
+        match argument {
+            // Resolve the production constant itself, without duplicating
+            // its key or mistaking the next English literal for that key.
+            "kerotakis_core::family::UNNAMEABLE_PRODUCT" | "UNNAMEABLE_PRODUCT" => (
+                kerotakis_core::family::UNNAMEABLE_PRODUCT.to_string(),
+                after,
+            ),
+            _ if argument.contains('(')
+                || argument
+                    .rsplit("::")
+                    .next()
+                    .unwrap_or(argument)
+                    .chars()
+                    .any(|c| c.is_ascii_lowercase()) =>
+            {
+                // Computed table keys remain covered by their table gates.
+                return None;
+            }
+            _ => panic!("unresolved static Phrase key: {argument}"),
+        }
+    };
+    let (english, _) = next_literal(after_key)?;
+    Some((key, english))
+}
+
 fn phrase_literals() -> Vec<(&'static str, String, String)> {
     let mut out = Vec::new();
     // Guarded at the end: a scanner that matches nothing makes every
@@ -137,28 +197,7 @@ fn phrase_literals() -> Vec<(&'static str, String, String)> {
             let mut rest: &str = &src;
             while let Some(at) = rest.find(opener) {
                 rest = &rest[at + opener.len()..];
-                // A key BUILT from a table row — `&format!("inert-in-
-                // solvent.{}-{}", …)`, `&format!("unavailable-solid.{}",
-                // …)` — is not a literal key, and what sits between the
-                // paren and the first quote is how you tell. Scanning one
-                // demands a translation for a key no catalogue can ever
-                // carry. Those tables are gated separately, each over the
-                // `const` the engine itself reads, which is the only
-                // denominator that can be right for them.
-                //
-                // This was true by accident before it was true on
-                // purpose: the scanner happened not to reach
-                // `inert-in-solvent`'s pair, and nothing said why.
-                let is_literal_key = rest
-                    .find('"')
-                    .is_some_and(|quote| !rest[..quote].contains('('));
-                if !is_literal_key {
-                    continue;
-                }
-                let Some((key, after_key)) = next_literal(rest) else {
-                    continue;
-                };
-                let Some((en, _)) = next_literal(after_key) else {
+                let Some((key, en)) = phrase_arguments(rest) else {
                     continue;
                 };
                 out.push((*file, key, en));
@@ -290,10 +329,18 @@ fn unknown_composers_are_declared() {
     let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src");
     let mut undeclared = Vec::new();
     let mut stack = vec![dir];
+    for adapter in ["kerotakis-phreeqc", "kerotakis-cea", "kerotakis-org"] {
+        stack.push(
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("..")
+                .join(adapter)
+                .join("src"),
+        );
+    }
     while let Some(path) = stack.pop() {
         for entry in std::fs::read_dir(&path).expect("src is readable") {
             let entry = entry.expect("a directory entry");
-            let p = entry.path();
+            let p = entry.path().canonicalize().expect("canonical source path");
             if p.is_dir() {
                 stack.push(p);
                 continue;
@@ -308,12 +355,33 @@ fn unknown_composers_are_declared() {
             // DOES compose — `look.sentence-join`, the space between two
             // statements — is counted by `tools/engine-locale-lint.py`,
             // which reads it out of the same source.
-            if name == "phrase.rs" || declared.contains(name) {
+            let relative = p
+                .strip_prefix(
+                    std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                        .parent()
+                        .unwrap(),
+                )
+                .expect("workspace source");
+            let adapter_name = relative
+                .components()
+                .next()
+                .unwrap()
+                .as_os_str()
+                .to_str()
+                .unwrap();
+            let label = if adapter_name == "kerotakis-core" {
+                name.to_string()
+            } else {
+                format!("{adapter_name}/{name}")
+            };
+            if (adapter_name == "kerotakis-core" && name == "phrase.rs")
+                || declared.contains(label.as_str())
+            {
                 continue;
             }
             let text = without_test_modules(&std::fs::read_to_string(&p).expect("a source file"));
             if text.contains("Phrase::new(") || text.contains("Phrase::bare(") {
-                undeclared.push(name.to_string());
+                undeclared.push(label);
             }
         }
     }
@@ -791,4 +859,75 @@ fn a_gap_without_a_recipe_falls_back_to_its_english() {
     };
     let line = render_events_in(&[event], Register::LV2, Locale::parse("de")).join(" ");
     assert!(line.contains("nothing here at all"), "{line}");
+}
+
+#[test]
+fn kinetic_catalyst_names_are_localized_in_every_register() {
+    let event = kerotakis_core::Event::Reacted {
+        vessel: VesselId(0),
+        reaction: "peroxide-decomposition".into(),
+        equation: "2 H2O2 -> 2 H2O + O2".into(),
+        moles: Moles(0.001),
+        seconds: 1.0,
+        catalyst: Some("potassium iodide".into()),
+        activation_energy: 56000.0,
+    };
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        let expected = locale
+            .lookup("species.potassium iodide")
+            .expect("catalogued catalyst");
+        for level in 1..=3 {
+            let text = kerotakis_core::render::render_event_in(
+                &event,
+                kerotakis_core::render::Register(level),
+                locale,
+            );
+            assert!(
+                text.contains(expected),
+                "{} level {level}: {text}",
+                locale.code()
+            );
+            assert!(!text.contains("potassium iodide"), "{text}");
+        }
+    }
+}
+
+#[test]
+fn kinetic_reaction_display_names_cover_the_registry_and_render_heat() {
+    for locale in Locale::available().into_iter().filter(|l| !l.is_english()) {
+        for reaction in kerotakis_core::kinetics::REGISTRY {
+            let key = format!("kinetic-reaction.{}", reaction.id);
+            let expected = locale
+                .lookup(&key)
+                .unwrap_or_else(|| panic!("{} missing {key}", locale.code()));
+            let event = kerotakis_core::Event::ReactionHeatReleased {
+                vessel: VesselId(0),
+                reaction: reaction.id.into(),
+                energy_j: 0.13,
+            };
+            let text = kerotakis_core::render::render_event_in(
+                &event,
+                kerotakis_core::render::Register(3),
+                locale,
+            );
+            assert!(text.contains(expected), "{text}");
+            assert!(!text.contains(reaction.id), "{text}");
+        }
+    }
+}
+
+#[test]
+fn production_constant_phrase_keys_resolve_without_using_the_english_as_a_key() {
+    let (key, english) = phrase_arguments("// production key\n kerotakis_core::family::UNNAMEABLE_PRODUCT, \"family {family} cannot name {smiles}\", vec![]").expect("constant phrase");
+    assert_eq!(key, kerotakis_core::family::UNNAMEABLE_PRODUCT);
+    assert_eq!(english, "family {family} cannot name {smiles}");
+    assert!(
+        phrase_arguments("&format!(\"inert.{}\", solute), \"unchanged table verdict\"").is_none()
+    );
+}
+
+#[test]
+#[should_panic(expected = "unresolved static Phrase key")]
+fn an_unresolved_static_phrase_key_fails_closed() {
+    phrase_arguments("UNREGISTERED_KEY, \"must not silently leave the denominator\"");
 }

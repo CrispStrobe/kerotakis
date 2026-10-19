@@ -507,6 +507,41 @@ fn increment_group<K: Ord>(
         .or_default() += 1;
 }
 
+/// Handling and a visual description beside an explicit model limitation
+/// do not become a calculation merely because their event list is nonempty.
+/// Other result events remain eligible for the existing computed fallback.
+fn unsupported_observation(events: &[Event]) -> Option<(Disposition, &'static str)> {
+    if !events
+        .iter()
+        .any(|event| matches!(event, Event::NotYetModeled { .. }))
+        || !events.iter().all(|event| {
+            matches!(
+                event,
+                Event::Added { .. }
+                    | Event::MaterialAdded { .. }
+                    | Event::VesselCreated { .. }
+                    | Event::VesselRemoved { .. }
+                    | Event::Stirred { .. }
+                    | Event::SolutionRouted { .. }
+                    | Event::NotYetModeled { .. }
+                    | Event::Observed { .. }
+            )
+        })
+    {
+        return None;
+    }
+    Some(
+        if events
+            .iter()
+            .any(|event| matches!(event, Event::Observed { .. }))
+        {
+            (Disposition::Qualitative, "typed-observation")
+        } else {
+            (Disposition::Missing, "not-yet-modeled")
+        },
+    )
+}
+
 fn execute_prompt(
     prompt: &CuriosityPrompt,
     stack: &mut SolverStack,
@@ -858,6 +893,8 @@ fn execute_prompt(
         (Disposition::Computed, "computed-route")
     } else if succeeded(SolverRouteKind::Qualitative) {
         (Disposition::Qualitative, "qualitative-route")
+    } else if let Some(observation) = unsupported_observation(&all_events) {
+        observation
     } else if !all_events.is_empty() {
         (Disposition::Computed, "typed-engine-event")
     } else {
@@ -986,6 +1023,58 @@ fn flag_value<'a>(args: &'a [String], flag: &str) -> Option<&'a str> {
 
 #[cfg(test)]
 mod tests {
+    fn original_prompt(id: &str) -> CuriosityPrompt {
+        load_manifest(Path::new(DEFAULT_MANIFEST))
+            .unwrap()
+            .prompts
+            .into_iter()
+            .find(|prompt| prompt.id == id)
+            .unwrap()
+    }
+
+    #[test]
+    fn unsupported_dissolution_and_visual_inspection_are_not_computed() {
+        let result =
+            execute_prompt(&original_prompt("bio-034"), &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Qualitative);
+        assert_eq!(result.reason_code, "typed-observation");
+    }
+
+    #[test]
+    fn unsupported_digestion_and_visual_inspection_are_not_computed() {
+        let result =
+            execute_prompt(&original_prompt("bio-041"), &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Qualitative);
+        assert_eq!(result.reason_code, "typed-observation");
+    }
+
+    #[test]
+    fn unrelated_vessel_bookkeeping_cannot_upgrade_an_unsupported_observation() {
+        let mut prompt = original_prompt("bio-034");
+        prompt.script.push("new".into());
+        let result = execute_prompt(&prompt, &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Qualitative);
+        assert_eq!(result.reason_code, "typed-observation");
+    }
+
+    #[test]
+    fn a_model_limit_and_handling_without_observation_are_not_a_computation() {
+        let mut prompt = original_prompt("bio-034");
+        assert_eq!(prompt.script.pop().as_deref(), Some("look v1"));
+        let result = execute_prompt(&prompt, &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Missing);
+        assert_eq!(result.reason_code, "not-yet-modeled");
+    }
+
+    #[test]
+    fn independent_positive_kinetic_results_keep_their_declared_computed_grade() {
+        for id in ["th-073", "bio-112"] {
+            let result = execute_prompt(&original_prompt(id), &mut crate::build_stack()).unwrap();
+            assert_eq!(result.observed, Disposition::Computed, "{id}");
+            assert_eq!(result.reason_code, "typed-engine-event", "{id}");
+        }
+    }
+
     #[test]
     fn an_unmet_requirement_is_sorted_by_where_missing_sits() {
         use Disposition::*;
@@ -1156,5 +1245,14 @@ mod tests {
         assert!(compare_baseline(&baseline, &current)
             .expect("compare smoke subset")
             .is_empty());
+    }
+
+    #[test]
+    fn unsupported_reaction_and_ignition_attempts_remain_observations() {
+        for id in ["bio-108", "th-049", "th-063"] {
+            let result = execute_prompt(&original_prompt(id), &mut crate::build_stack()).unwrap();
+            assert_eq!(result.observed, Disposition::Qualitative, "{id}");
+            assert_eq!(result.reason_code, "typed-observation", "{id}");
+        }
     }
 }

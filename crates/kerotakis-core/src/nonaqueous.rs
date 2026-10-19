@@ -731,9 +731,10 @@ pub fn single_organic_solvent(vessel: &Vessel) -> Option<&'static str> {
 }
 
 /// The mole fraction of water among the liquids that could act as a
-/// solvent, when at least one known organic solvent is present beside
-/// water. `None` when the question does not arise (no organic solvent,
-/// or no water).
+/// solvent, when a known organic solvent or liquid peroxide matrix is present.
+/// Peroxide is counted for aqueous-model admission only, without adding
+/// it to the organic solubility tables. `None` when no competing matrix
+/// is present; dry peroxide has fraction zero.
 ///
 /// CAP-23 rung 3, routing half: an aqueous activity model describes a
 /// solution IN WATER. Below [`AQUEOUS_WATER_FRACTION_FLOOR`] the liquid
@@ -745,24 +746,57 @@ pub fn single_organic_solvent(vessel: &Vessel) -> Option<&'static str> {
 pub fn water_fraction_among_solvents(vessel: &Vessel) -> Option<f64> {
     let mut water = 0.0f64;
     let mut organic = 0.0f64;
+    let mut peroxide = 0.0f64;
     for p in &vessel.contents {
         if !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
             continue;
         }
         if p.species.0 == "water" {
             water += p.moles.0;
+        } else if p.species.0 == "H2O2" {
+            peroxide += p.moles.0;
         } else if KNOWN_SOLVENTS.contains(&p.species.0.as_str()) {
             organic += p.moles.0;
         }
     }
-    (organic > 0.0 && water > 0.0).then(|| water / (water + organic))
+    ((organic > 0.0 && water > 0.0) || peroxide > 0.0).then(|| water / (water + organic + peroxide))
 }
 
 /// Below this water mole fraction the aqueous engine is not asked: the
-/// mixture's dielectric environment is the organic's, not water's, and
-/// every shipped activity model assumes the latter. An editorial teaching
+/// mixture is not admitted as a water-majority solvent. The shipped
+/// aqueous activity models do not validate that competing liquid matrix. An editorial teaching
 /// boundary, stated wherever it acts.
 pub const AQUEOUS_WATER_FRACTION_FLOOR: f64 = 0.5;
+
+/// Withdraw aqueous diagnostics over a peroxide-rich matrix. This is an
+/// admission boundary using the existing editorial water-majority floor,
+/// not a fitted peroxide/water activity model. Matter and independently
+/// represented kinetics remain untouched. Both the direct aqueous entry
+/// point and the honesty tail use it, including previously complete readings.
+pub fn peroxide_medium_boundary(vessel: &mut Vessel) -> Option<Event> {
+    let has_peroxide_matrix = vessel.contents.iter().any(|p| {
+        p.species.0 == "H2O2"
+            && matches!(p.phase, Phase::Liquid | Phase::Aqueous)
+            && p.moles.0 > 0.0
+    });
+    if !has_peroxide_matrix
+        || water_fraction_among_solvents(vessel).is_none_or(|x| x >= AQUEOUS_WATER_FRACTION_FLOOR)
+    {
+        return None;
+    }
+    vessel.solution = None;
+    vessel.free_proton = 0.0;
+    vessel.free_hydroxide = 0.0;
+    vessel.resolved.invalidate();
+    Some(Event::not_modeled(
+        vessel.id,
+        crate::ops::NotModelledCause::ModelBoundary,
+        Phrase::bare(
+            "not-modeled.peroxide-rich-medium",
+            "this peroxide-containing liquid is below the aqueous model's editorial water-majority admission boundary. A trace of water produced by a reaction does not establish an aqueous solvent. No validated activity model for this peroxide-rich medium is available: aqueous pH, ionic strength and speciation are withdrawn, the inventory is retained, and independently represented reaction progress is not a complete prediction for the mixture",
+        ),
+    ))
+}
 
 /// True when this rung has a computed verdict for the pair — the
 /// honesty pass consults this so a spoken answer is not followed by an
