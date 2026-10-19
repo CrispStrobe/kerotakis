@@ -3440,6 +3440,24 @@ mod route_trace_tests {
     }
 
     #[test]
+    fn an_explicit_model_boundary_is_not_a_successful_route_answer() {
+        let mut vessel = Vessel::new(VesselId(0), "peroxide domain boundary");
+        vessel.deposit(SpeciesId::new("H2O2"), Moles(0.1), Phase::Liquid);
+        let before = serde_json::to_value(&vessel.contents).unwrap();
+        let mut stack = SolverStack::new(vec![Box::new(HonestyEquilibrator)]);
+        let events = stack.equilibrate(&mut vessel).unwrap();
+        assert_eq!(events.len(), 1);
+        assert!(matches!(events[0], Event::NotYetModeled { .. }));
+        assert_eq!(serde_json::to_value(&vessel.contents).unwrap(), before);
+        assert_eq!(answer_event_count(&events), 0);
+        assert_eq!(stack.last_routes.len(), 1);
+        assert!(matches!(
+            stack.last_routes[0].outcome,
+            SolverRouteOutcome::Succeeded { event_count: 0 }
+        ));
+    }
+
+    #[test]
     fn stack_records_typed_routes_without_changing_events() {
         let mut stack = SolverStack::new(vec![
             Box::new(TestRoute {
