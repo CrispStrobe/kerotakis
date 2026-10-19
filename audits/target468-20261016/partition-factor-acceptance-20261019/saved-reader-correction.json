@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-19T13:56:39.015485+00:00",
+  "first_reader_sha256": "c12adb75700eead8d766864d776110441a2b83d74f2af37de7d6bf50080ab360",
+  "corrected_reader_sha256": "8c0c1875e255f63b0067e143319dadacb711c3a793c13841ca56133daf03dc2b",
+  "first_failure": "Reader expected unqualified names for two unit tests; actual Cargo stdout includes unifac::tests:: prefix.",
+  "correction": "Require the two exact qualified names; all hashes, native counts, test assertions, fixtures, laws, source, data and lock checks unchanged.",
+  "new_engine_requests": 0
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "review_saved.py", line 68, in <module>
+    for name in (required_core if n==3 else required_thermo if n==5 else []):assert 'test '+name+' ... ok' in raw,name
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: missing_forward_interaction_is_a_named_refusal
