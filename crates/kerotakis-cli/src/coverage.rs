@@ -986,6 +986,56 @@ fn flag_value<'a>(args: &'a [String], flag: &str) -> Option<&'a str> {
 
 #[cfg(test)]
 mod tests {
+    fn original_prompt(id: &str) -> CuriosityPrompt {
+        load_manifest(Path::new(DEFAULT_MANIFEST))
+            .unwrap()
+            .prompts
+            .into_iter()
+            .find(|prompt| prompt.id == id)
+            .unwrap()
+    }
+
+    #[test]
+    fn unsupported_dissolution_and_visual_inspection_are_not_computed() {
+        let result = execute_prompt(&original_prompt("bio-034"), &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Qualitative);
+        assert_eq!(result.reason_code, "typed-observation");
+    }
+
+    #[test]
+    fn unsupported_digestion_and_visual_inspection_are_not_computed() {
+        let result = execute_prompt(&original_prompt("bio-041"), &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Qualitative);
+        assert_eq!(result.reason_code, "typed-observation");
+    }
+
+    #[test]
+    fn unrelated_vessel_bookkeeping_cannot_upgrade_an_unsupported_observation() {
+        let mut prompt = original_prompt("bio-034");
+        prompt.script.push("new".into());
+        let result = execute_prompt(&prompt, &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Qualitative);
+        assert_eq!(result.reason_code, "typed-observation");
+    }
+
+    #[test]
+    fn a_model_limit_and_handling_without_observation_are_not_a_computation() {
+        let mut prompt = original_prompt("bio-034");
+        assert_eq!(prompt.script.pop().as_deref(), Some("look v1"));
+        let result = execute_prompt(&prompt, &mut crate::build_stack()).unwrap();
+        assert_eq!(result.observed, Disposition::Missing);
+        assert_eq!(result.reason_code, "not-yet-modeled");
+    }
+
+    #[test]
+    fn independent_positive_kinetic_results_keep_their_declared_computed_grade() {
+        for id in ["th-073", "bio-112"] {
+            let result = execute_prompt(&original_prompt(id), &mut crate::build_stack()).unwrap();
+            assert_eq!(result.observed, Disposition::Computed, "{id}");
+            assert_eq!(result.reason_code, "typed-engine-event", "{id}");
+        }
+    }
+
     #[test]
     fn an_unmet_requirement_is_sorted_by_where_missing_sits() {
         use Disposition::*;
