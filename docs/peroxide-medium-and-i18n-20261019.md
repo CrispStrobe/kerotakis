@@ -39,3 +39,8 @@ PR840 source `76f62539` and tests-only baseline `6c4a6d30` remain frozen. Its ac
 7. **Extend medium support only with provenance.** If peroxide-rich equilibrium predictions are wanted, specify supported composition/temperature ranges and obtain suitable thermodynamic/activity data, licensing and independent physical controls. Keep unsupported mixtures explicit until then. Neither successful convergence nor a random mixed-reagent run is a calibration result.
 
 Current qualified experiment counts remain unchanged by this candidate; a correct refusal is not a scientific pass.
+
+
+## Changed production delivery and browser follow-through
+
+PR839 is integrated as `0b579699` with exact protected/native-platform/full-product acceptance. Its single production workflow is building. Authenticate that workflow's actual native/artifact/lock/frontend bytes, then the11 unchanged API controls and concurrency policy. The existing browser helper retains all37 assertions and binds the actual new runtime, binary and frontend assets. [Five separately frozen deployed peroxide/locale controls](../audits/target468-20261016/peroxide-browser-targeted-preparation-20261019/README.md) then exercise the user's dry-peroxide path, a real water-rich solve, withdrawal of a prior aqueous result and German/French labels through the real Wasm/PHREEQC bridge. All five remain unaccepted until actual saved evidence is independently reviewed. Preserve any first failure and do not replay accepted OR006/MO006 or frozen MO011/AB031. Dynamic family/capability/vendor presentation remains the separately scoped i18n lane even after these literal controls pass.

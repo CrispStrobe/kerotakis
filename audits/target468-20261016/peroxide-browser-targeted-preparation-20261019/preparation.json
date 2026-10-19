@@ -1,0 +1,9 @@
+{
+  "source": "0b57969911f96bcb97fb159eef725d7db7048801",
+  "targeted_helper_sha256": "6995402186a197d3bfbf189248c333d17884dd72474e67e9d467690bceaf3248",
+  "planned_checks": 5,
+  "requires_actual_release_artifact_API_and_unchanged37_browser_acceptance": true,
+  "original_experiment_requests": 0,
+  "owner_credentials_supplied": false,
+  "scientific_catalog_additions": 0
+}
