@@ -39,7 +39,7 @@ fn invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory() {
                 _ => None,
             })
             .expect("the refused coefficient must be explicit");
-        for locale in [Locale::DE, Locale::FR] {
+        for locale in [Locale::parse("de"), Locale::parse("fr")] {
             assert_ne!(phrase.render(locale), phrase.render(Locale::EN));
             assert!(!phrase
                 .render(locale)
