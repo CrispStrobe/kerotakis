@@ -145,6 +145,46 @@ fn without_test_modules(text: &str) -> String {
 /// `Phrase::new("key", "english …"` and the `bare` form, as (key, en).
 ///
 /// A regex would need a crate; the shape is fixed enough to scan for.
+fn phrase_arguments(mut rest: &str) -> Option<(String, String)> {
+    // Comments between the opener and first argument are not arguments.
+    loop {
+        rest = rest.trim_start();
+        if let Some(comment) = rest.strip_prefix("//") {
+            rest = comment.split_once('\n')?.1;
+        } else {
+            break;
+        }
+    }
+    let (key, after_key) = if rest.starts_with('"') {
+        next_literal(rest)?
+    } else {
+        let (argument, after) = rest.split_once(',')?;
+        let argument = argument.trim();
+        match argument {
+            // Resolve the production constant itself, without duplicating
+            // its key or mistaking the next English literal for that key.
+            "kerotakis_core::family::UNNAMEABLE_PRODUCT" | "UNNAMEABLE_PRODUCT" => (
+                kerotakis_core::family::UNNAMEABLE_PRODUCT.to_string(),
+                after,
+            ),
+            _ if argument.contains('(')
+                || argument
+                    .rsplit("::")
+                    .next()
+                    .unwrap_or(argument)
+                    .chars()
+                    .any(|c| c.is_ascii_lowercase()) =>
+            {
+                // Computed table keys remain covered by their table gates.
+                return None;
+            }
+            _ => panic!("unresolved static Phrase key: {argument}"),
+        }
+    };
+    let (english, _) = next_literal(after_key)?;
+    Some((key, english))
+}
+
 fn phrase_literals() -> Vec<(&'static str, String, String)> {
     let mut out = Vec::new();
     // Guarded at the end: a scanner that matches nothing makes every
@@ -157,28 +197,7 @@ fn phrase_literals() -> Vec<(&'static str, String, String)> {
             let mut rest: &str = &src;
             while let Some(at) = rest.find(opener) {
                 rest = &rest[at + opener.len()..];
-                // A key BUILT from a table row — `&format!("inert-in-
-                // solvent.{}-{}", …)`, `&format!("unavailable-solid.{}",
-                // …)` — is not a literal key, and what sits between the
-                // paren and the first quote is how you tell. Scanning one
-                // demands a translation for a key no catalogue can ever
-                // carry. Those tables are gated separately, each over the
-                // `const` the engine itself reads, which is the only
-                // denominator that can be right for them.
-                //
-                // This was true by accident before it was true on
-                // purpose: the scanner happened not to reach
-                // `inert-in-solvent`'s pair, and nothing said why.
-                let is_literal_key = rest
-                    .find('"')
-                    .is_some_and(|quote| !rest[..quote].contains('('));
-                if !is_literal_key {
-                    continue;
-                }
-                let Some((key, after_key)) = next_literal(rest) else {
-                    continue;
-                };
-                let Some((en, _)) = next_literal(after_key) else {
+                let Some((key, en)) = phrase_arguments(rest) else {
                     continue;
                 };
                 out.push((*file, key, en));
@@ -895,4 +914,20 @@ fn kinetic_reaction_display_names_cover_the_registry_and_render_heat() {
             assert!(!text.contains(reaction.id), "{text}");
         }
     }
+}
+
+#[test]
+fn production_constant_phrase_keys_resolve_without_using_the_english_as_a_key() {
+    let (key, english) = phrase_arguments("// production key\n kerotakis_core::family::UNNAMEABLE_PRODUCT, \"family {family} cannot name {smiles}\", vec![]").expect("constant phrase");
+    assert_eq!(key, kerotakis_core::family::UNNAMEABLE_PRODUCT);
+    assert_eq!(english, "family {family} cannot name {smiles}");
+    assert!(
+        phrase_arguments("&format!(\"inert.{}\", solute), \"unchanged table verdict\"").is_none()
+    );
+}
+
+#[test]
+#[should_panic(expected = "unresolved static Phrase key")]
+fn an_unresolved_static_phrase_key_fails_closed() {
+    phrase_arguments("UNREGISTERED_KEY, \"must not silently leave the denominator\"");
 }
