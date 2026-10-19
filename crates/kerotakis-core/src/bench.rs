@@ -3584,6 +3584,7 @@ impl Bench {
                         }
                         match try_partition_k(&p.species, &upper_id, &lower_id, t_k) {
                             Err(error) => {
+                                self.validate_numeric_state()?;
                                 events.push(Event::not_modeled(
                                     *from,
                                     crate::ops::NotModelledCause::ModelBoundary,
@@ -3778,6 +3779,7 @@ impl Bench {
                         match try_partition_k(&solute, solvent, &water, source.temperature.0) {
                             Ok(Some(prediction)) => prediction,
                             Err(error) => {
+                                self.validate_numeric_state()?;
                                 events.push(Event::not_modeled(
                                     *from,
                                     crate::ops::NotModelledCause::ModelBoundary,
