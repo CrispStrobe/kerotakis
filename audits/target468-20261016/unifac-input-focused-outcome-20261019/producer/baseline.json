@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-thermo",
+    "--locked",
+    "--test",
+    "unifac_admission",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "stdout_sha256": "0852f6e160c334a7e44007635bb858e4580f61944660185b8b4613bf6f635020",
+  "stderr_sha256": "0aaf9369dac7795473e92d43755517874b0aa5ffc3a3ec6286d1ec64fb19d6b7"
+}

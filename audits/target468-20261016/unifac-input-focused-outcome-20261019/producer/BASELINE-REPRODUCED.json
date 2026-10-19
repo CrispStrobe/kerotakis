@@ -1,0 +1,12 @@
+{
+  "source": "f1d0a73384341683d57c01da955262ebf0686e66",
+  "actual_failed_names": [
+    "unknown_subgroup_cannot_be_silently_dropped_from_a_molecule",
+    "nonpositive_and_nonfinite_temperatures_are_refused",
+    "invalid_mole_fractions_are_refused_before_evaluation",
+    "empty_or_zero_count_molecular_decompositions_are_refused",
+    "nonfinite_group_and_interaction_parameters_are_refused",
+    "numerical_overflow_is_a_refusal_not_a_successful_vector"
+  ],
+  "positive_control_passed": true
+}

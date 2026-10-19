@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "cargo",
+    "metadata",
+    "--locked",
+    "--no-deps",
+    "--format-version",
+    "1"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "b4c9e5fad40b9be43c62485d9f163b122d62685af6fa27b43ad105382573ccd5",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

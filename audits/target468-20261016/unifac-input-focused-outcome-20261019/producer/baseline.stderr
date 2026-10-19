@@ -1,0 +1,68 @@
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded geo-types v0.7.20
+  Downloaded approx v0.5.1
+  Downloaded autocfg v1.5.1
+  Downloaded itoa v1.0.18
+  Downloaded slab v0.4.12
+  Downloaded thiserror v2.0.21
+  Downloaded thiserror-impl v2.0.21
+  Downloaded unicode-ident v1.0.27
+  Downloaded quote v1.0.47
+  Downloaded lazy_static v1.5.1
+  Downloaded serde v1.0.229
+  Downloaded rustc-hash v1.1.0
+  Downloaded zmij v1.0.23
+  Downloaded proc-macro2 v1.0.107
+  Downloaded serde_core v1.0.229
+  Downloaded num-traits v0.2.19
+  Downloaded serde_derive v1.0.229
+  Downloaded memchr v2.8.3
+  Downloaded libm v0.2.16
+  Downloaded serde_json v1.0.154
+  Downloaded syn v3.0.9
+  Downloaded contour v0.13.1
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling autocfg v1.5.1
+   Compiling libm v0.2.16
+   Compiling num-traits v0.2.19
+   Compiling syn v3.0.9
+   Compiling thiserror v2.0.21
+   Compiling serde_core v1.0.229
+   Compiling thiserror-impl v2.0.21
+   Compiling zmij v1.0.23
+   Compiling serde v1.0.229
+   Compiling geo-types v0.7.20
+   Compiling serde_derive v1.0.229
+   Compiling serde_json v1.0.154
+   Compiling rustc-hash v1.1.0
+   Compiling lazy_static v1.5.1
+   Compiling slab v0.4.12
+   Compiling contour v0.13.1
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling kerotakis-thermo v0.0.1 (/kaggle/temp/kerotakis-unifac-admission/source/crates/kerotakis-thermo)
+    Finished `test` profile [unoptimized] target(s) in 14.77s
+     Running tests/unifac_admission.rs (target/debug/deps/unifac_admission-ae9ffbf911417c72)
+
+thread 'invalid_mole_fractions_are_refused_before_evaluation' (620) panicked at crates/kerotakis-thermo/tests/unifac_admission.rs:47:9:
+invalid composition [-0.1, 1.1] produced Ok([3.2726506040803915, 1.019080862215371])
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'nonfinite_group_and_interaction_parameters_are_refused' (621) panicked at crates/kerotakis-thermo/tests/unifac_admission.rs:75:5:
+invalid group data produced Ok([NaN, NaN])
+
+thread 'empty_or_zero_count_molecular_decompositions_are_refused' (619) panicked at crates/kerotakis-thermo/tests/unifac_admission.rs:63:9:
+an empty molecule was evaluated: Ok([NaN, 0.7357588823428847])
+
+thread 'nonpositive_and_nonfinite_temperatures_are_refused' (622) panicked at crates/kerotakis-thermo/tests/unifac_admission.rs:26:9:
+temperature 0.0 produced Ok([NaN, 0.0])
+
+thread 'numerical_overflow_is_a_refusal_not_a_successful_vector' (623) panicked at crates/kerotakis-thermo/tests/unifac_admission.rs:94:5:
+overflow produced a successful result: Ok([NaN, 0.0])
+
+thread 'unknown_subgroup_cannot_be_silently_dropped_from_a_molecule' (625) panicked at crates/kerotakis-thermo/tests/unifac_admission.rs:16:5:
+a partial molecule was evaluated: Ok([1.1157409095232311, 1.2007599526938662])
+error: test failed, to rerun pass `-p kerotakis-thermo --test unifac_admission`

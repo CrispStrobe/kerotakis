@@ -1,0 +1,16 @@
+    Checking libm v0.2.16
+    Checking thiserror v2.0.21
+    Checking serde_core v1.0.229
+    Checking num-traits v0.2.19
+    Checking geo-types v0.7.20
+    Checking rustc-hash v1.1.0
+    Checking slab v0.4.12
+    Checking lazy_static v1.5.1
+    Checking contour v0.13.1
+    Checking zmij v1.0.23
+    Checking serde v1.0.229
+    Checking itoa v1.0.18
+    Checking memchr v2.8.3
+    Checking kerotakis-thermo v0.0.1 (/kaggle/temp/kerotakis-unifac-admission/source/crates/kerotakis-thermo)
+    Checking serde_json v1.0.154
+    Finished `dev` profile [unoptimized] target(s) in 3.74s

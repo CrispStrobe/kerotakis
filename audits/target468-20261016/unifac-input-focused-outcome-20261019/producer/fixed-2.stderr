@@ -1,0 +1,30 @@
+   Compiling kerotakis-thermo v0.0.1 (/kaggle/temp/kerotakis-unifac-admission/source/crates/kerotakis-thermo)
+    Finished `test` profile [unoptimized] target(s) in 2.34s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_thermo-7a035f82bc728bb2)
+
+thread 'unifac::tests::compatibility_entry_point_also_fails_closed' (1087) panicked at crates/kerotakis-thermo/src/unifac.rs:433:33:
+UNIFAC calculation refused: UNIFAC parameter table is missing directional interaction a_1_7
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+E110 legacy first failed x=[0.48518157582744614, 0.5148184241725539]; switch pressures=101.32061837170411,101.32635060233795 kPa
+E110 with joined correlation: Err(UnrepresentableCondensate)
+     Running tests/distillation_completion.rs (target/debug/deps/distillation_completion-f91d653208c49b6e)
+     Running tests/flash_gamma.rs (target/debug/deps/flash_gamma-2c0c3016a5361bff)
+     Running tests/ideal_still_diagnostics.rs (target/debug/deps/ideal_still_diagnostics-f80ebcda8bbed9ff)
+     Running tests/ideal_still_precision.rs (target/debug/deps/ideal_still_precision-9d1d82594b89d8dc)
+     Running tests/lle_unifac.rs (target/debug/deps/lle_unifac-be4b1ee98087832a)
+     Running tests/overlap_continuity.rs (target/debug/deps/overlap_continuity-af6d50fc4e6af9d2)
+     Running tests/paired_binary_still.rs (target/debug/deps/paired_binary_still-d9e05058157a46dc)
+     Running tests/pure_binary_still.rs (target/debug/deps/pure_binary_still-eb8c5ff43189f507)
+     Running tests/pure_ideal_still.rs (target/debug/deps/pure_ideal_still-e7a9758f53b520de)
+     Running tests/still.rs (target/debug/deps/still-8e95b6d890a352bf)
+     Running tests/still_diagnostics.rs (target/debug/deps/still_diagnostics-a796495282617e04)
+     Running tests/thermo_oracle.rs (target/debug/deps/thermo_oracle-67e524dc19eb6036)
+hmix: 85 rows, worst gap 0.006130 J/mol
+gammainf: 16 rows
+gamma: 254 rows over 17 binaries
+bubble: 27 rows compared, 8 refused as out of range
+     Running tests/trace_phase_convergence.rs (target/debug/deps/trace_phase_convergence-bb9947e3eee18b7a)
+     Running tests/trace_phase_representation.rs (target/debug/deps/trace_phase_representation-7259b623e48b1ea6)
+     Running tests/unifac_admission.rs (target/debug/deps/unifac_admission-ae9ffbf911417c72)
+     Running tests/unifac_checked_refusals.rs (target/debug/deps/unifac_checked_refusals-41ea52626bf1c2e6)
+     Running tests/vle.rs (target/debug/deps/vle-0cfc75730dd98bd9)

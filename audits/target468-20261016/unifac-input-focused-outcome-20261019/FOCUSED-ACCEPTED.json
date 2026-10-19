@@ -1,0 +1,15 @@
+{
+  "source": "e64c7d29aa371fc2739415e813e71f056604c669",
+  "tree": "7120b0712650287ac978f9a72e3d4850addd34d1",
+  "six_genuine_baseline_assertion_failures": true,
+  "baseline_positive_control_passed": true,
+  "formatter_clippy_all_thermo_tests_and_core_compile_pass": true,
+  "thermo_tests_passed": 178,
+  "typed_and_checked_refusal_controls_pass": true,
+  "approved_parameter_table_unchanged": true,
+  "actual_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "compiled_test_binaries_independently_verified": 30,
+  "full_product_or_deployment_acceptance": false,
+  "scientific_catalog_additions": 0,
+  "original_experiment_requests": 0
+}

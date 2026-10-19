@@ -1,0 +1,276 @@
+{
+  "utc": "2026-10-19T10:14:43.706124+00:00",
+  "version": 3,
+  "status": {
+    "status": "COMPLETE",
+    "failureMessage": null
+  },
+  "files": {
+    "kerotakis-unifac-input-admission-20261019.log": {
+      "bytes": 2172,
+      "sha256": "d390ae1c59fff8eec2821d2d6330c1701d886315189bd549dbe564ec4ed59e3e"
+    },
+    "unifac-admission-evidence/workspace-submodules.stderr": {
+      "bytes": 413,
+      "sha256": "81a48ddd9272636eb1fb87fd3cd3f79c2982d4f88d1ae0d583182d91ea2e08c1"
+    },
+    "unifac-admission-evidence/compiler.json": {
+      "bytes": 260,
+      "sha256": "63aa247837b640296a95f263b29352e69ff5afc0cb7b434944218909f65874e1"
+    },
+    "unifac-admission-evidence/fetch-rustup.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/workspace-native-source.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/fixed-3.stderr": {
+      "bytes": 12127,
+      "sha256": "6da63e1aac234b0151367510d1754f93a4c36247292edb7e5b215c82b6998b0c"
+    },
+    "unifac-admission-evidence/source-unchanged.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/fetch-baseline.stderr": {
+      "bytes": 122,
+      "sha256": "379c8de393c76b5a5006441b793960c0247fe98bc8f39f1898a2cef557c5114a"
+    },
+    "unifac-admission-evidence/components.stderr": {
+      "bytes": 31,
+      "sha256": "4ae2551ea6202e5136e5d7344c5cd841fb1b981ec6798b8e0c525a228d335c72"
+    },
+    "unifac-admission-evidence/init.stdout": {
+      "bytes": 89,
+      "sha256": "b110144e269b1824ac5293856c53b1ef6f5eef4d8801406991a3ba2732f0276a"
+    },
+    "unifac-admission-evidence/checkout-fixed.json": {
+      "bytes": 274,
+      "sha256": "cc502e78f889652462ac3fc27653d62fd85627bf5d8a2f1bcaa5f836588bef13"
+    },
+    "unifac-admission-evidence/install-rust.stderr": {
+      "bytes": 346,
+      "sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2"
+    },
+    "unifac-admission-evidence/workspace-native-source.json": {
+      "bytes": 256,
+      "sha256": "d2fab22db43e4f55229b77c9664c72d20edd76ed7b9162b5f751f5d29797d90b"
+    },
+    "unifac-admission-evidence/components.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/checkout-fixed.stderr": {
+      "bytes": 373,
+      "sha256": "feab7db45962cb74810b34a6113a24662a7cec67185bc3359fad836a65980b18"
+    },
+    "unifac-admission-evidence/fetch-baseline.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/init.json": {
+      "bytes": 290,
+      "sha256": "490ff021e182d2b3b23045d23bb42866b35dd41cc92186160e6e534c0b1364f0"
+    },
+    "unifac-admission-evidence/COMPLETED.json": {
+      "bytes": 303,
+      "sha256": "5218098208a29c603b6b6c0aa0443e5d941a95c3c47f1f9a0abd413ab8680895"
+    },
+    "unifac-admission-evidence/frozen-plan.json": {
+      "bytes": 112304,
+      "sha256": "41426e89fad6e6360efe1b8c610bfbe1f937ba608fbc4bd899c7b43cfc2ecb74"
+    },
+    "unifac-admission-evidence/fixed-3.json": {
+      "bytes": 308,
+      "sha256": "a49708d47c300195c1b4e122a3e836dc71a14483a9edae2e1088e659d33c2a25"
+    },
+    "unifac-admission-evidence/workspace-submodules.stdout": {
+      "bytes": 183,
+      "sha256": "506b14f556ca726d5c1f6bef730fff3e5e526ca71c2d74b689b3c6e131de8f75"
+    },
+    "unifac-admission-evidence/init.stderr": {
+      "bytes": 485,
+      "sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+    },
+    "unifac-admission-evidence/install-rust.json": {
+      "bytes": 392,
+      "sha256": "bf228fe3355970dabaa78119f2058df933fa0d7cfedbf5afaf4a7c6508a1930f"
+    },
+    "unifac-admission-evidence/fixed-0.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/compiler.stdout": {
+      "bytes": 196,
+      "sha256": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369"
+    },
+    "unifac-admission-evidence/STARTED.json": {
+      "bytes": 220,
+      "sha256": "dadd63c72e4e5929db1b710fb39422b95c4c10fa933f5cb803ccae7d3e541659"
+    },
+    "unifac-admission-evidence/baseline.json": {
+      "bytes": 357,
+      "sha256": "888cd6979e412d21e24154e861f5ef84543c7f4d682f72cecf3a86d210a3aaec"
+    },
+    "unifac-admission-evidence/BASELINE-REPRODUCED.json": {
+      "bytes": 499,
+      "sha256": "becf8e46f66d001a60ea567773a48f8885e47c464a56097a167c00611cd4170d"
+    },
+    "unifac-admission-evidence/fixed-1.json": {
+      "bytes": 347,
+      "sha256": "608a4cbbad627f14cb7f365529aa1258be536af1b5608b2d435292cc7f2e7ecd"
+    },
+    "unifac-admission-evidence/fixed-2.stderr": {
+      "bytes": 2501,
+      "sha256": "b1899ba25abc57204a8b944339e2609e41809fb1aa2852206230eea5c8434b47"
+    },
+    "unifac-admission-evidence/workspace-metadata.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/components.json": {
+      "bytes": 284,
+      "sha256": "f09a33bd8a3e8e4af4af98ca299f8714ebb60dc41731508b397374fa88e3b8a4"
+    },
+    "unifac-admission-evidence/fixed-0.json": {
+      "bytes": 296,
+      "sha256": "22efba8085a9f6e90df3be22e13eac3cf729ce3f08794d5abc1ae76074ad3b66"
+    },
+    "unifac-admission-evidence/remote.json": {
+      "bytes": 315,
+      "sha256": "0af2d7ef65659703d31c87a63e35c318b4552852109c37762b6c10799effe6e0"
+    },
+    "unifac-admission-evidence/workspace-submodules.json": {
+      "bytes": 312,
+      "sha256": "b9c18c1e7486c2b3cb923aed21ee5bf26e72f8ac36a0dba42d97fbbb6f1c0e8f"
+    },
+    "unifac-admission-evidence/fixed-3.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/fixed-1.stderr": {
+      "bytes": 581,
+      "sha256": "aea714a9f0f9f6afae598a1943c780ecaddedef849823410581abfec46079e3e"
+    },
+    "unifac-admission-evidence/checkout-baseline.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/workspace-metadata.json": {
+      "bytes": 308,
+      "sha256": "9bc9dd2810fb78376777e0b70fc8dfd16d6f7d5aa9a6165d839fdd86617c5f76"
+    },
+    "unifac-admission-evidence/SHA256.json": {
+      "bytes": 5899,
+      "sha256": "61ddab6fb7c6e011da576a4e0757876840afd88cfda2cfb584ca2e7087a69c38"
+    },
+    "unifac-admission-evidence/checkout-fixed.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/remote.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/checkout-baseline.json": {
+      "bytes": 274,
+      "sha256": "8c44c6c16b222c1101e067bc7f53fc5d73a0f0d53ee5cae65bfe77f081ff462b"
+    },
+    "unifac-admission-evidence/fixed-1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/actual-test-binaries.tar.gz": {
+      "bytes": 18321238,
+      "sha256": "f6cae219fa2f7183b636a94834ec89af678b1ec54883e1387cd6a1955ce3ad88"
+    },
+    "unifac-admission-evidence/fetch-baseline.json": {
+      "bytes": 323,
+      "sha256": "3d67730e24a28921ee26575e3958c6d96ec18b05466c6fd58d716d6dcc6dca5d"
+    },
+    "unifac-admission-evidence/fixed-0.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/baseline.stdout": {
+      "bytes": 986,
+      "sha256": "0852f6e160c334a7e44007635bb858e4580f61944660185b8b4613bf6f635020"
+    },
+    "unifac-admission-evidence/fetch-fixed.json": {
+      "bytes": 323,
+      "sha256": "56b7452cf8eca71717d7f9bb662c0a60d312b2586968812594012469f6db3864"
+    },
+    "unifac-admission-evidence/producer-Cargo.lock": {
+      "bytes": 79537,
+      "sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+    },
+    "unifac-admission-evidence/fixed-2.stdout": {
+      "bytes": 14766,
+      "sha256": "a41eb37cae4ad785dc1304558f5920eb15430bfbc175b468b7b3b2af7c8b99b6"
+    },
+    "unifac-admission-evidence/checkout-baseline.stderr": {
+      "bytes": 77,
+      "sha256": "7e1ddc836efe3a834f1d7f49c8bdd15e7760bc8a2725d4dbb26b70c20b1f6a73"
+    },
+    "unifac-admission-evidence/fetch-fixed.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/workspace-metadata.stdout": {
+      "bytes": 131251,
+      "sha256": "b4c9e5fad40b9be43c62485d9f163b122d62685af6fa27b43ad105382573ccd5"
+    },
+    "unifac-admission-evidence/baseline.stderr": {
+      "bytes": 2963,
+      "sha256": "0aaf9369dac7795473e92d43755517874b0aa5ffc3a3ec6286d1ec64fb19d6b7"
+    },
+    "unifac-admission-evidence/remote.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/TEST-BINARY-BINDING.json": {
+      "bytes": 3638,
+      "sha256": "7ea57e0f5f07a60a06bab4e63ebf32413f4fd10aa6205eba597094b0ff47a894"
+    },
+    "unifac-admission-evidence/source-unchanged.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/source-unchanged.json": {
+      "bytes": 267,
+      "sha256": "b1fbc7a7650c5bff3a6735a7ad31851169b382f5a60190865d4d67b0b57fc52a"
+    },
+    "unifac-admission-evidence/workspace-native-source.stdout": {
+      "bytes": 125,
+      "sha256": "ec08ef62cec923ae23ed5e299264ed74018f5fbbceb42b0447df2be4b12fa914"
+    },
+    "unifac-admission-evidence/fetch-rustup.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/fetch-rustup.json": {
+      "bytes": 362,
+      "sha256": "5a4e10cc154fc1cc8dd8ef02e46ee2acf81c2c779cadd9412e3eec429d96f197"
+    },
+    "unifac-admission-evidence/fetch-fixed.stderr": {
+      "bytes": 122,
+      "sha256": "fad85e4fd92c83449910f3d89394963267492ba0a2d907d04a3abf31eb46a34b"
+    },
+    "unifac-admission-evidence/compiler.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unifac-admission-evidence/install-rust.stdout": {
+      "bytes": 1278,
+      "sha256": "5fdda60e01e81030f7653635bd532c1bc92e226b17975b689669c15f2fe10973"
+    },
+    "unifac-admission-evidence/fixed-2.json": {
+      "bytes": 360,
+      "sha256": "8898410d948de43430b18fd1a503f812ca16911a580f6c31d80e21afcb79a3d5"
+    }
+  },
+  "source_acceptance": "Not assigned; root must authenticate script/source/lock and inspect raw test output",
+  "scientific_selections": 0
+}

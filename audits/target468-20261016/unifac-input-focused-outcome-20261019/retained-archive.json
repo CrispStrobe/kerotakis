@@ -1,0 +1,9 @@
+{
+  "filename": "actual-test-binaries.tar.gz",
+  "sha256": "f6cae219fa2f7183b636a94834ec89af678b1ec54883e1387cd6a1955ce3ad88",
+  "source": "e64c7d29aa371fc2739415e813e71f056604c669",
+  "separately_retained": true,
+  "payload_files": 30,
+  "test_executables": 18,
+  "compiled_shared_libraries": 12
+}

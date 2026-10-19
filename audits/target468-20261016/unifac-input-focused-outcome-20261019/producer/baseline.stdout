@@ -1,0 +1,22 @@
+
+running 7 tests
+test invalid_mole_fractions_are_refused_before_evaluation ... FAILED
+test nonfinite_group_and_interaction_parameters_are_refused ... FAILED
+test empty_or_zero_count_molecular_decompositions_are_refused ... FAILED
+test nonpositive_and_nonfinite_temperatures_are_refused ... FAILED
+test numerical_overflow_is_a_refusal_not_a_successful_vector ... FAILED
+test pure_water_and_absent_probe_limits_remain_admitted ... ok
+test unknown_subgroup_cannot_be_silently_dropped_from_a_molecule ... FAILED
+
+failures:
+
+failures:
+    empty_or_zero_count_molecular_decompositions_are_refused
+    invalid_mole_fractions_are_refused_before_evaluation
+    nonfinite_group_and_interaction_parameters_are_refused
+    nonpositive_and_nonfinite_temperatures_are_refused
+    numerical_overflow_is_a_refusal_not_a_successful_vector
+    unknown_subgroup_cannot_be_silently_dropped_from_a_molecule
+
+test result: FAILED. 1 passed; 6 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "cargo",
+    "check",
+    "-p",
+    "kerotakis-core",
+    "--all-targets",
+    "--locked"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "6da63e1aac234b0151367510d1754f93a4c36247292edb7e5b215c82b6998b0c"
+}
