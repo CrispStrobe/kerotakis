@@ -1790,6 +1790,7 @@ receiver = "récepteur"
 "battery/lead-terminal" = "La croûte blanche sur une borne de batterie est du sulfate de plomb(II), et elle ne sort pas de l'eau de ce bécher - elle sort de la batterie. L'acide sulfurique remonte la borne en un film mince le long du plomb et ressort sous le joint, mouillant la borne d'électrolyte ; le plomb sous ce film se corrode comme anode de la pile dont il fait partie, Pb + SO4(2-) -> PbSO4 + 2 e-, et le sulfate de plomb est blanc, insoluble et pulvérulent : il reste donc exactement là où il a poussé au lieu d'être emporté. Voilà pourquoi la croûte est à la borne et nulle part ailleurs sur le boîtier, pourquoi elle revient après qu'on l'a brossée tant que le film est là, et pourquoi le remède est d'arrêter la remontée plutôt que de nettoyer la borne. RIEN N'EST INSCRIT AU BILAN ICI : aucune espèce PbSO4 n'est installée et il n'y a pas de sulfate dans ce récipient, le produit est donc nommé et non pesé, et le film d'acide est affirmé à partir de l'identité de l'objet plutôt que résolu - la recette battery/lead-terminal dit exactement cela dans ses propres hypothèses de lot"
 
 [partition]
+interaction-range = "le facteur de Boltzmann de l’interaction dirigée {interaction} ne peut pas être représenté par une valeur finie strictement positive à cette température"
 species-refusal = "{species} : {why}"
 unknown-group = "le composant {component} utilise le sous-groupe moléculaire inconnu {group}"
 invalid-group-data = "le sous-groupe moléculaire {group} possède des données de volume ou de surface invalides"

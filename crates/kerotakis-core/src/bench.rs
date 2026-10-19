@@ -7044,6 +7044,7 @@ fn partition_input_refusal(error: kerotakis_thermo::unifac::UnifacError) -> Phra
         E::CompositionNotNormalized { total } => Phrase::new("partition.composition-sum", "the mole fractions sum to {sum}, not one within numerical summation tolerance", vec![("sum".into(), Slot::number(format!("{total:.6}")))]),
         E::MissingInteraction(pair) => Phrase::new("partition.missing-interaction", "directional group interaction {interaction} is missing from the parameter set", vec![("interaction".into(), Slot::text(format!("a_{}_{}", pair.from_main_group, pair.to_main_group)))]),
         E::InvalidInteraction { from_main_group, to_main_group } => Phrase::new("partition.invalid-interaction", "directional group interaction {interaction} is not finite", vec![("interaction".into(), Slot::text(format!("a_{from_main_group}_{to_main_group}")))]),
+        E::InteractionFactorRange { from_main_group, to_main_group } => Phrase::new("partition.interaction-range", "directional group interaction {interaction} has no representable finite positive Boltzmann factor at this temperature", vec![("interaction".into(), Slot::text(format!("a_{from_main_group}_{to_main_group}")))]),
         E::NumericalRange { component } => Phrase::new("partition.numerical-range", "the activity coefficient for component {component} cannot be represented as a finite positive value", vec![("component".into(), Slot::number((component + 1).to_string()))]),
     }
 }

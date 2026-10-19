@@ -105,6 +105,10 @@ pub enum UnifacError {
         from_main_group: u32,
         to_main_group: u32,
     },
+    InteractionFactorRange {
+        from_main_group: u32,
+        to_main_group: u32,
+    },
     NumericalRange {
         component: usize,
     },
@@ -121,6 +125,7 @@ impl fmt::Display for UnifacError {
             Self::CompositionNotNormalized { total } => write!(f, "UNIFAC mole fractions must sum to one within floating-point summation tolerance, got {total}"),
             Self::MissingInteraction(error) => error.fmt(f),
             Self::InvalidInteraction { from_main_group, to_main_group } => write!(f, "UNIFAC directional interaction a_{from_main_group}_{to_main_group} is not finite"),
+            Self::InteractionFactorRange { from_main_group, to_main_group } => write!(f, "UNIFAC directional interaction a_{from_main_group}_{to_main_group} has no representable finite positive Boltzmann factor at this temperature"),
             Self::NumericalRange { component } => write!(f, "UNIFAC component {component} has no representable finite positive activity coefficient for this input"),
         }
     }
@@ -548,6 +553,7 @@ pub fn try_activity_coefficients(
 
     // Validate the complete directional matrix used by this calculation up
     // front. This makes absence unrepresentable inside the numerical loop.
+    let mut interaction_factors = BTreeMap::new();
     for &m in &all_main {
         for &n_g in &all_main {
             if m == n_g {
@@ -566,7 +572,16 @@ pub fn try_activity_coefficients(
                         to_main_group: n_g,
                     })
                 }
-                Some(_) => {}
+                Some(value) => {
+                    let factor = (-value / t_kelvin).exp();
+                    if !factor.is_finite() || factor <= 0.0 {
+                        return Err(UnifacError::InteractionFactorRange {
+                            from_main_group: m,
+                            to_main_group: n_g,
+                        });
+                    }
+                    interaction_factors.insert((m, n_g), factor);
+                }
             }
         }
     }
@@ -576,11 +591,9 @@ pub fn try_activity_coefficients(
             // no table row is required or consulted for this identity.
             return 1.0;
         }
-        (-table
-            .interaction(m, n_g)
-            .expect("directional UNIFAC matrix was validated above")
-            / t_kelvin)
-            .exp()
+        *interaction_factors
+            .get(&(m, n_g))
+            .expect("directional UNIFAC factors were validated above")
     };
     let ln_gamma_groups = |xg: &BTreeMap<u32, f64>| -> BTreeMap<u32, f64> {
         let qt: f64 = xg

@@ -2052,6 +2052,7 @@ receiver = "Vorlage"
 "battery/lead-terminal" = "Die weiße Kruste auf einem Batteriepol ist Blei(II)-sulfat, und sie kommt nicht aus dem Wasser in diesem Becherglas - sie kommt aus der Batterie. Schwefelsäure kriecht als dünner Film am Blei den Pol hinauf und unter der Dichtung hervor und benetzt den Pol mit Elektrolyt; das Blei unter diesem Film korrodiert als Anode der Zelle, zu der es gehört, Pb + SO4(2-) -> PbSO4 + 2 e-, und Bleisulfat ist weiß, unlöslich und pulvrig, es bleibt also genau dort, wo es gewachsen ist, statt weggespült zu werden. Deshalb sitzt die Kruste am Pol und sonst nirgends am Gehäuse, deshalb kommt sie nach dem Abbürsten wieder, solange der Film noch da ist, und deshalb besteht die Abhilfe darin, das Kriechen zu stoppen, und nicht darin, den Pol zu putzen. HIER WIRD NICHTS IN DIE BILANZ EINGETRAGEN: keine PbSO4-Spezies ist installiert und in diesem Gefäß ist kein Sulfat, das Produkt wird also benannt und nicht gewogen, und der Säurefilm wird aus der Identität des Objekts behauptet statt aufgelöst - das Rezept battery/lead-terminal sagt genau das in seinen eigenen Chargenannahmen"
 
 [partition]
+interaction-range = "die gerichtete Gruppenwechselwirkung {interaction} hat bei dieser Temperatur keinen darstellbaren endlichen positiven Boltzmann-Faktor"
 species-refusal = "{species}: {why}"
 unknown-group = "Komponente {component} verwendet die unbekannte Moleküluntergruppe {group}"
 invalid-group-data = "die Moleküluntergruppe {group} hat ungültige Volumen- oder Oberflächendaten"
