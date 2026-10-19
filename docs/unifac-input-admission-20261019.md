@@ -2,7 +2,7 @@
 
 Read [current state](STATUS.md), the [source lanes](post-hydrolysis-gap-lanes-20261019.md) and [delivery policy](PR-WORKFLOW.md). PR839 current source `755ae8d2` has accepted CPU/native/core/full-product evidence and awaits current protected/platform integration and changed browser delivery. The separate numerical precursor starts from actual main `2270a62d`; it must refresh those prerequisites before combined-source acceptance or integration.
 
-Candidate `e64c7d29` and tests-only baseline `f1d0a733` have [frozen controls, source/worker/lock bindings and the first setup failure](../audits/target468-20261016/unifac-input-preparation-20261019/README.md). Focused validation is issued; actual numerical failures and repaired acceptance are pending. No experiment or scientific-catalog entry is promoted by this work.
+Candidate `e64c7d29` and tests-only baseline `f1d0a733` have [frozen controls, source/worker/lock bindings and the first setup failure](../audits/target468-20261016/unifac-input-preparation-20261019/README.md). [The corrected workspace-prepared validation](../audits/target468-20261016/unifac-workspace-preparation-20261019/README.md) is issued after two preserved setup-only failures. No regression assertion ran in those failures; actual numerical failures and repaired acceptance are pending. No experiment or scientific-catalog entry is promoted by this work.
 
 ## 1. Authenticate focused input refusals
 

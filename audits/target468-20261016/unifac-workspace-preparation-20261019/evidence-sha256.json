@@ -1,0 +1,15 @@
+{
+  "README.md": "bb8f9cf57b5ed7c864d812fcecbd73753cdbf31c78a9d5f29c66154e4d921131",
+  "first-workspace-stop/STARTED.json": "a1c0c8107880df2e8c1627e9f93068ce240c3299bea482af32e490dbd7278ca9",
+  "first-workspace-stop/STOPPED.json": "b7818cc42471ee3b341c735698d2637d929cb35939ba9834b54a210f63670893",
+  "first-workspace-stop/baseline.json": "38f6018e80d8105333fa36de5ddde60677d3777a559c40736ccab090a1b7fe65",
+  "first-workspace-stop/baseline.stderr": "3c4be63cfd83746763380af2eb4f4378cc8c8b57a3b5431aa0c246489185b383",
+  "first-workspace-stop/baseline.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "first-workspace-stop/compiler.json": "63aa247837b640296a95f263b29352e69ff5afc0cb7b434944218909f65874e1",
+  "first-workspace-stop/compiler.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "first-workspace-stop/compiler.stdout": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+  "first-workspace-stop/producer-Cargo.lock": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "preparation.json": "56261ddb7697acaa1e4206619dc9541afd9ce1ad249e742d84b94bc78bb9a506",
+  "verify_focused.py": "663f181b3c684e5879f527078c0c2c08793ec6a589cec05cb6dd7936853ce169",
+  "worker.py": "6c1a955237ba2a7c2460d5b5c0d36f687624575d676dd6c9b322da098efea371"
+}
