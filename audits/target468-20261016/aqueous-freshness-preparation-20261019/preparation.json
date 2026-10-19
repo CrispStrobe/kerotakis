@@ -1,0 +1,70 @@
+{
+  "reviewed_head": "76f62539c0ef4e56eeebf30a56333f705c775114",
+  "tree": "88f0ac459400b95351bc51c1808e3b5cf07b9519",
+  "baseline_tests_only_head": "6c4a6d304a9688794d603ef4d8f53befd083080e",
+  "baseline_parent": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "frozen_utc": "2026-10-19T06:08:40.991234+00:00",
+  "unchanged_regression_files_sha256": {
+    "crates/kerotakis-phreeqc/tests/diagnostic_freshness.rs": "8d94f016bf468c98f92f3e9f74ecdcc2879e5304d865c19fefc4298d35eb1a29"
+  },
+  "workflow_sha256": "f27783836bc5b2869a32128d857efb0af8a75d2a18902320b9121b225f14b7d3",
+  "expected_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "focused_native_commands": [
+    [
+      "cargo",
+      "clippy",
+      "-p",
+      "kerotakis-core",
+      "-p",
+      "kerotakis-cea",
+      "-p",
+      "kerotakis-phreeqc",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "-p",
+      "kerotakis-cea",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-core",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ]
+  ],
+  "uploaded_worker_sha256": "bc1f45be174faadaf402b92e868c8c7a7aeadecdcfb9d8d97866bd93d5f908c9",
+  "metadata_sha256": "44f8b14e004723defafa09ec6463a07b7a27533fdfc65f65c591de9d5b8b062f",
+  "pr": 840,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/840",
+  "bounded_cpu": {
+    "kernel_id": 139553235,
+    "version": 1,
+    "cpu_limit": 2,
+    "gpu": false,
+    "datasets": [],
+    "owner_credentials_uploaded": false,
+    "minimum_available_memory_mib": 6000,
+    "minimum_free_disk_gib": 10,
+    "maximum_seconds": 7200
+  },
+  "acceptance": "Pending actual baseline/fixed output, native/core/Clippy/full33 original logical jobs, independent review and protected/platform checks.",
+  "failure_fixture": "Real native warm-up and real family router; explicitly injected transaction errors do not claim measured chemical convergence failure.",
+  "catalog_additions": 0
+}
