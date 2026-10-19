@@ -1661,6 +1661,11 @@ impl Vessel {
     /// A failed aqueous owner cannot restore an older successful reading as
     /// the answer for the current state.
     pub fn invalidate_aqueous_diagnostics(&mut self) {
+        if self.solution.is_none() && self.resolved.solution.is_none() {
+            // Without an assigned characterization, free-ion hints are
+            // unclassified input. A failed proposal must not erase them.
+            return;
+        }
         self.solution = None;
         self.free_proton = 0.0;
         self.free_hydroxide = 0.0;
