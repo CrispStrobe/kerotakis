@@ -2469,3 +2469,31 @@ are still all exercised (`computed` 11, `curated` 2, `qualitative` 1,
 `boundary` 2).
 
 Three drifts, no regressions.
+
+## Refresh 2026-10-19 — separate unsupported observations from calculations
+
+The unsupported-model route count and nonempty-event fallback had two different
+faults. A `NotYetModeled` warning counted as a qualitative solver answer; after
+that was corrected, additions/stirring/a visual description could fall through
+to `computed` merely because the event list was nonempty. The full500 gate caught
+both faults; its first seven unmet/ten drift and subsequent three drift reports
+are preserved separately. No corpus question, script or requirement changes.
+
+Three descriptive snapshot records have explicit, narrow reviews:
+
+- `bio-034` (maltose) and `bio-041` (cellulose/amylase) retain `qualitative`,
+  changing only `qualitative-route` to `typed-observation`. Actual traces show
+  unsupported dissolution, handling and appearance, with no calculated
+  transformation. This does not establish maltose solubility or digestion.
+- `bio-112` changes `qualitative / typed-observation` to
+  `computed / typed-engine-event`. Its actual finite peroxide/melanin bleaching
+  extent produces matching owned oxidised pigment. This names arithmetic in the
+  declared lumped teaching model, whose rates are editorial; it is not measured
+  hair chemistry or empirical calibration. A peroxide-medium boundary still
+  withdraws unsupported aqueous readouts.
+
+The classifier rule uses typed events, not these IDs, rendered text or a desired
+score. Real native regressions cover both unsupported observations, unrelated
+vessel bookkeeping, absence of even a visual observation, and independently
+calculated kinetic results. The other497 descriptive records remain exact.
+The fixed468 scientific catalog is not incremented by this snapshot refresh.

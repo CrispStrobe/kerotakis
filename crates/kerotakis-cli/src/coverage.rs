@@ -507,6 +507,41 @@ fn increment_group<K: Ord>(
         .or_default() += 1;
 }
 
+/// Handling and a visual description beside an explicit model limitation
+/// do not become a calculation merely because their event list is nonempty.
+/// Other result events remain eligible for the existing computed fallback.
+fn unsupported_observation(events: &[Event]) -> Option<(Disposition, &'static str)> {
+    if !events
+        .iter()
+        .any(|event| matches!(event, Event::NotYetModeled { .. }))
+        || !events.iter().all(|event| {
+            matches!(
+                event,
+                Event::Added { .. }
+                    | Event::MaterialAdded { .. }
+                    | Event::VesselCreated { .. }
+                    | Event::VesselRemoved { .. }
+                    | Event::Stirred { .. }
+                    | Event::SolutionRouted { .. }
+                    | Event::NotYetModeled { .. }
+                    | Event::Observed { .. }
+            )
+        })
+    {
+        return None;
+    }
+    Some(
+        if events
+            .iter()
+            .any(|event| matches!(event, Event::Observed { .. }))
+        {
+            (Disposition::Qualitative, "typed-observation")
+        } else {
+            (Disposition::Missing, "not-yet-modeled")
+        },
+    )
+}
+
 fn execute_prompt(
     prompt: &CuriosityPrompt,
     stack: &mut SolverStack,
@@ -858,6 +893,8 @@ fn execute_prompt(
         (Disposition::Computed, "computed-route")
     } else if succeeded(SolverRouteKind::Qualitative) {
         (Disposition::Qualitative, "qualitative-route")
+    } else if let Some(observation) = unsupported_observation(&all_events) {
+        observation
     } else if !all_events.is_empty() {
         (Disposition::Computed, "typed-engine-event")
     } else {
