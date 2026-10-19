@@ -1,0 +1,54 @@
+{
+  "baseline_before_sha256": "bc0999b8392b7bd024ee6d923b60d0c08cb855d879cf29a870a1322859a50e85",
+  "baseline_after_sha256": "61adcee18d492805a4109804a20ade644581cc4077f64605bb1f472621baa3ec",
+  "reviewed_changes": [
+    {
+      "id": "bio-034",
+      "before": {
+        "id": "bio-034",
+        "owning_task": "BRD-012",
+        "outcome": "qualitative",
+        "reason_code": "qualitative-route"
+      },
+      "after": {
+        "id": "bio-034",
+        "owning_task": "BRD-012",
+        "outcome": "qualitative",
+        "reason_code": "typed-observation"
+      }
+    },
+    {
+      "id": "bio-041",
+      "before": {
+        "id": "bio-041",
+        "owning_task": "BRD-052",
+        "outcome": "qualitative",
+        "reason_code": "qualitative-route"
+      },
+      "after": {
+        "id": "bio-041",
+        "owning_task": "BRD-052",
+        "outcome": "qualitative",
+        "reason_code": "typed-observation"
+      }
+    },
+    {
+      "id": "bio-112",
+      "before": {
+        "id": "bio-112",
+        "owning_task": "BRD-023",
+        "outcome": "qualitative",
+        "reason_code": "typed-observation"
+      },
+      "after": {
+        "id": "bio-112",
+        "owning_task": "BRD-023",
+        "outcome": "computed",
+        "reason_code": "typed-engine-event"
+      }
+    }
+  ],
+  "other497_records_unchanged": true,
+  "all_original_questions_scripts_requirements_unchanged": true,
+  "qualification": "Two source-bound observations replace unsupported-route provenance; one independently traced finite teaching kinetic result replaces an accidental qualitative grade. No empirical calibration or working-catalog selection."
+}

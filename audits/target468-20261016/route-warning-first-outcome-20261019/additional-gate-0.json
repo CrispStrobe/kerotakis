@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "run",
+    "-p",
+    "kerotakis-cli",
+    "--",
+    "coverage",
+    "curiosity",
+    "--check",
+    "--json"
+  ],
+  "exit_status": 1,
+  "stdout_sha256": "ff8e60f79f2c67e99a359d61579918ea8f6d1cd27911e7c4a04135b619023cdc",
+  "stderr_sha256": "83deb8af6b587ec665e049734d489f9c6946639ba59185e0bd5c80ca1eed3c9d"
+}

@@ -1,0 +1,7 @@
+{
+  "error_type": "AssertionError",
+  "error": "additional-gate-0",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 44, in <module>\n    for g,gate in enumerate(PLAN['additional_gate_commands']):run('additional-gate-'+str(g),gate,cwd=base,env=env,timeout=1800)\n                                                              ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/kaggle/src/script.py\", line 15, in run\n    if required:assert p.returncode==0,name\n                       ^^^^^^^^^^^^^^^\nAssertionError: additional-gate-0\n",
+  "logical_jobs_completed": [],
+  "no_auto_retry": true
+}

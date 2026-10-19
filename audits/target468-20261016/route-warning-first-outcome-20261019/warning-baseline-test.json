@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--lib",
+    "an_explicit_model_boundary_is_not_a_successful_route_answer",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "stdout_sha256": "8adb41ab7176815c965e66da357304ce6896dbfd4cc24fa4d5d639fc1c8574e1",
+  "stderr_sha256": "d5c54dc60eac037e372d1e4fbc2446bc3654c76a372debf3c1c0f6f00926139c"
+}

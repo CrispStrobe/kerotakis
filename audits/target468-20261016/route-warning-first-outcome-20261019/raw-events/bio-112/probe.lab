@@ -1,0 +1,4 @@
+add v1 hair_pigment 0.001mol
+add v1 H2O2 0.01mol
+wait 10min
+look v1

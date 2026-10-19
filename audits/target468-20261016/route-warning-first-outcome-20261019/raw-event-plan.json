@@ -1,0 +1,75 @@
+{
+  "utc": "2026-10-19T08:09:49.624012+00:00",
+  "source": "6a95f24991d0b9e2d64c14605d348d11c3bb4ef4",
+  "binary_sha256": "8330dd6b94f237bdc2c65e265ac080f41efb23f54af481d0aa9edb234ea353d6",
+  "actual_local_runtime_libraries": {
+    "libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+    "libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+    "libm.so.6": "e9c4b28d340e415b8137480ec442662f981e1399386c5931dae0e886e3639e91",
+    "libc.so.6": "8db37cf3f2169f59a0f07ef1fea308c35656668c64c8ff294e1860f4121eb161",
+    "ld-linux-x86-64.so.2": "cd4df4f3c7b83673d61189bf2eaebd33ca4f2853ab9772b8a25e025ef99b1e81"
+  },
+  "cases": [
+    {
+      "id": "bio-034",
+      "question": "Can maltose dissolve in water?",
+      "age_band": "age9_to12",
+      "action": "mix_and_dissolve",
+      "material_class": "carbohydrate",
+      "expected": "qualitative",
+      "owning_task": "BRD-012",
+      "tags": [
+        "maltose",
+        "solubility"
+      ],
+      "script": [
+        "add v1 water 100mL",
+        "add v1 maltose 0.01mol",
+        "stir v1",
+        "look v1"
+      ],
+      "smoke": false
+    },
+    {
+      "id": "bio-041",
+      "question": "Can cellulose in paper be digested by human amylase?",
+      "age_band": "age13_to15",
+      "action": "food_and_life",
+      "material_class": "carbohydrate",
+      "owning_task": "BRD-052",
+      "tags": [
+        "cellulose",
+        "digestion"
+      ],
+      "script": [
+        "add v1 cellulose 1g",
+        "add v1 water 100mL",
+        "add v1 amylase 0.001mol",
+        "wait 1h",
+        "look v1"
+      ],
+      "smoke": false
+    },
+    {
+      "id": "bio-112",
+      "question": "Why does hydrogen peroxide bleach hair pigments?",
+      "age_band": "age13_to15",
+      "action": "food_and_life",
+      "material_class": "cosmetic",
+      "owning_task": "BRD-023",
+      "tags": [
+        "hair",
+        "oxidation"
+      ],
+      "script": [
+        "add v1 hair_pigment 0.001mol",
+        "add v1 H2O2 0.01mol",
+        "wait 10min",
+        "look v1"
+      ],
+      "smoke": false
+    }
+  ],
+  "purpose": "Bounded raw-event counterexample diagnostics because the failed full500 report retains routing/grades but not primary event streams. No corpus baseline/forecast changes, whole-corpus rerun or scientific selection. Physical source is the explicitly preceding candidate; b88 changed only route counting and its test.",
+  "scientific_catalog_additions": 0
+}

@@ -1,0 +1,169 @@
+{
+  "source": "6a95f24991d0b9e2d64c14605d348d11c3bb4ef4",
+  "binary_sha256": "8330dd6b94f237bdc2c65e265ac080f41efb23f54af481d0aa9edb234ea353d6",
+  "actual_local_runtime_libraries": {
+    "libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+    "libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+    "libm.so.6": "e9c4b28d340e415b8137480ec442662f981e1399386c5931dae0e886e3639e91",
+    "libc.so.6": "8db37cf3f2169f59a0f07ef1fea308c35656668c64c8ff294e1860f4121eb161",
+    "ld-linux-x86-64.so.2": "cd4df4f3c7b83673d61189bf2eaebd33ca4f2853ab9772b8a25e025ef99b1e81"
+  },
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "cases": [
+    {
+      "id": "bio-034",
+      "raw_sha256": "c3739bd85f88c8a2d1c76f2dea22dd65abc18cce8a13f1c6b99f28caef923778",
+      "finding": "Only handling, unsupported-model notes and appearance are observed; there is no calculated transformation. This visual grade does not prove the requested chemistry.",
+      "metrics": {},
+      "maximum_per_step_atom_charge_residual": "0",
+      "per_step": [
+        {
+          "op": "add",
+          "residual": {
+            "O": "0E-16",
+            "charge": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "op": "add",
+          "residual": {
+            "O": "0E-16",
+            "charge": "0E-16",
+            "H": "0E-16",
+            "C": "0.000"
+          }
+        },
+        {
+          "op": "stir",
+          "residual": {
+            "O": "0E-16",
+            "charge": "0E-16",
+            "H": "0E-16",
+            "C": "0.000"
+          }
+        },
+        {
+          "op": "measure",
+          "residual": {
+            "O": "0E-16",
+            "charge": "0E-16",
+            "H": "0E-16",
+            "C": "0.000"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bio-041",
+      "raw_sha256": "79892a05140aee9f876258fb569290eba5052d62bae2159601e0484cb4771869",
+      "finding": "Only handling, unsupported-model notes and appearance are observed; there is no calculated transformation. This visual grade does not prove the requested chemistry.",
+      "metrics": {},
+      "maximum_per_step_atom_charge_residual": "0",
+      "per_step": [
+        {
+          "op": "add",
+          "residual": {
+            "O": "0E-19",
+            "charge": "0E-19",
+            "H": "0E-19",
+            "C": "0E-19"
+          }
+        },
+        {
+          "op": "add",
+          "residual": {
+            "O": "0E-19",
+            "charge": "0E-19",
+            "H": "0E-19",
+            "C": "0E-19"
+          }
+        },
+        {
+          "op": "add",
+          "residual": {
+            "O": "0E-19",
+            "charge": "0E-19",
+            "H": "0E-19",
+            "C": "0E-19"
+          }
+        },
+        {
+          "op": "wait",
+          "residual": {
+            "O": "0E-19",
+            "charge": "0E-19",
+            "H": "0E-19",
+            "C": "0E-19"
+          }
+        },
+        {
+          "op": "measure",
+          "residual": {
+            "O": "0E-19",
+            "charge": "0E-19",
+            "H": "0E-19",
+            "C": "0E-19"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bio-112",
+      "raw_sha256": "05fe8f08e7492769603e6934ce52e797ec0c6475393ce6321aeb123a7d645438",
+      "finding": "Finite declared teaching-model arithmetic changes the owned pigment inventory. Rates are editorial; this is not empirical hair chemistry or aqueous-medium calibration.",
+      "metrics": {
+        "bleaching_extent_mol": "0.0009771711034646012",
+        "decomposition_extent_mol": "0.000022492640541961947",
+        "pigment_remaining_mol": "0.000022828896535398782",
+        "oxidised_pigment_mol": "0.0009771711034646012"
+      },
+      "maximum_per_step_atom_charge_residual": "2.740E-19",
+      "per_step": [
+        {
+          "op": "add",
+          "residual": {
+            "charge": "0.0000",
+            "H": "0.0000",
+            "N": "0.0000",
+            "O": "0.0000",
+            "C": "0.0000"
+          }
+        },
+        {
+          "op": "add",
+          "residual": {
+            "charge": "0.0000",
+            "H": "0.0000",
+            "N": "0.0000",
+            "O": "0.0000",
+            "C": "0.0000"
+          }
+        },
+        {
+          "op": "wait",
+          "residual": {
+            "charge": "0E-22",
+            "H": "2.740E-19",
+            "N": "-1.80E-20",
+            "O": "2.580E-19",
+            "C": "-1.440E-19"
+          }
+        },
+        {
+          "op": "measure",
+          "residual": {
+            "charge": "0E-22",
+            "H": "0E-22",
+            "N": "0E-22",
+            "O": "0E-22",
+            "C": "0E-22"
+          }
+        }
+      ]
+    }
+  ],
+  "new_engine_executions_by_reviewer": 0,
+  "scientific_catalog_additions": 0,
+  "qualification": "Three separately frozen diagnostic probes explain missing primary events in the failed classifier report. This does not rerun the whole corpus or qualify original experiments."
+}

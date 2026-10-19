@@ -1,0 +1,6 @@
+{
+  "source": "b5dcdb41d922670565f7c7cfd625d161762ae839",
+  "fixture_sha256": "de0f12d2326497ab543c72644c1bc6c600569bde9e8bdaf0647ff9f32b2fcfad",
+  "actual_assertion_failed": true,
+  "other_baselines_not_reexecuted": true
+}
