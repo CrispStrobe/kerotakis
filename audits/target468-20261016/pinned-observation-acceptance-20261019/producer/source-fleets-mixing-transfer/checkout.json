@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-pinned-observation/source",
+    "/kaggle/temp/kerotakis-pinned-observation/source-fleets-mixing-transfer"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "8ff2441c6816fe426349447d53e389a7a14a2be78b33d4ca7e2d5de916991742"
+}

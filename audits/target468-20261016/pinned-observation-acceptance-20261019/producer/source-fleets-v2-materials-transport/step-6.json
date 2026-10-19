@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/materials-transport' --family 'materials-transport' --out 'audit-evidence-v2/materials-transport/materials-transport-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "1724c3b37f2d38bb0c0cf0e1bb937cc0453ad48758bed90ddef60ea1cac742b4",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

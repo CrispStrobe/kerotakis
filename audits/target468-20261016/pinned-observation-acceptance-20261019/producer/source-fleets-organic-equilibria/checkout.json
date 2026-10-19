@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-pinned-observation/source",
+    "/kaggle/temp/kerotakis-pinned-observation/source-fleets-organic-equilibria"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "bfed718393db1bc5a50f3c0f9af97a8a1db21e7227dec683bc43546c603ed161"
+}

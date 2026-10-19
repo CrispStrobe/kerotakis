@@ -1,0 +1,12 @@
+
+running 1 test
+test cache_miss_and_failed_hook_leave_complete_endpoint_stock_unchanged ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+
+running 1 test
+test concrete_cache_miss_and_failed_hook_cannot_reuse_an_old_solution ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+

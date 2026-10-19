@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_2.py --family 'household-biochemistry' --binary target/release/kero --out 'audit-evidence-v2/household-biochemistry'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "bf70e15d24bb4d9eea0184d76feaaac4cd6cb9e1ff19bc8b464892a8358a29b8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

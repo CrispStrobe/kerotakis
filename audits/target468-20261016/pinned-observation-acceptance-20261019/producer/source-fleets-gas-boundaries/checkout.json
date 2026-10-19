@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-pinned-observation/source",
+    "/kaggle/temp/kerotakis-pinned-observation/source-fleets-gas-boundaries"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "f1a1841e73b51685f64a2b64ea0f343d6053acadf119ee379627deeb53531245"
+}

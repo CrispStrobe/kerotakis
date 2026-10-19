@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-pinned-observation/source",
+    "/kaggle/temp/kerotakis-pinned-observation/source-fleets-v3-water-energy"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "7679fc90702552230bec1e2f835e36bc3919b94af81cfe780b03948f52cbecd4"
+}

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_2.py --family 'gas-production-transfer' --binary target/release/kero --out 'audit-evidence-v2/gas-production-transfer'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e7575772a625721f54552935ce1a29a29fee264d32bf8be1b50e6606730ea9af",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

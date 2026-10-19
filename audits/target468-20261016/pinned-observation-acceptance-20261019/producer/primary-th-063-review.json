@@ -1,0 +1,12 @@
+{
+  "id": "th-063",
+  "input_commands_unchanged": true,
+  "event_kinds": [
+    "added",
+    "added",
+    "not_yet_modeled",
+    "observed"
+  ],
+  "only_passive_events_and_explicit_model_limits": true,
+  "not_a_scientific_pass": true
+}

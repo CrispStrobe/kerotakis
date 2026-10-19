@@ -1,0 +1,10 @@
+{
+  "actual-artifacts.tar.gz": {
+    "bytes": 7622548,
+    "sha256": "05debd1a6a46e2cf3970e120d04465f324896fa3a94a974a04464ecb52d75761"
+  },
+  "actual-debug-kero.gz": {
+    "bytes": 24448423,
+    "sha256": "95a9334049948cae1788d08b1dcdb8c1c90058f84bc811bc07ddd2212894cb65"
+  }
+}

@@ -1,0 +1,4 @@
+add v1 vegetable_oil 20mL
+add v1 NaOH 0.1mol
+react v1 saponification
+look v1

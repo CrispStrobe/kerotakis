@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/kaggle/temp/kerotakis-pinned-observation/source/target/debug/kero",
+    "run",
+    "/kaggle/working/full-fleet-evidence/primary-th-063.lab",
+    "--json"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "2dd6241e91b2c6af4a1cd6bc2c90ab534d678e1d4a97fd5ce5e777ad64f85665",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

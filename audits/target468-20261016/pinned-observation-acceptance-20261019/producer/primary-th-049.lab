@@ -1,0 +1,4 @@
+add v1 vegetable_oil 10mL
+heat v1 50kJ
+ignite v1
+look v1

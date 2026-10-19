@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+705-salt-transfer-0.2 exit= 0 steps= 6
+706-salt-transfer-0.4 exit= 0 steps= 6
+707-salt-transfer-0.6 exit= 0 steps= 6
+708-salt-transfer-0.8 exit= 0 steps= 6
+709-sugar-transfer-0.25 exit= 0 steps= 6
+710-sugar-transfer-0.5 exit= 0 steps= 6
+711-sugar-transfer-0.75 exit= 0 steps= 6
+712-sugar-transfer-1 exit= 0 steps= 6
+713-mix-portions-1 exit= 0 steps= 8
+714-mix-portions-2 exit= 0 steps= 8
+715-mix-portions-3 exit= 0 steps= 8
+716-mix-portions-4 exit= 0 steps= 8
+717-silica-transfer-0.2 exit= 0 steps= 6
+718-silica-transfer-0.4 exit= 0 steps= 6
+719-silica-transfer-0.6 exit= 0 steps= 6
+720-silica-transfer-0.8 exit= 0 steps= 6
+721-staged-transfer-1 exit= 0 steps= 6
+722-staged-transfer-2 exit= 0 steps= 7
+723-staged-transfer-3 exit= 0 steps= 8
+724-staged-transfer-4 exit= 0 steps= 9
+725-thermal-transfer-0.2 exit= 0 steps= 5
+726-thermal-transfer-0.4 exit= 0 steps= 5
+727-thermal-transfer-0.6 exit= 0 steps= 5
+728-thermal-transfer-0.8 exit= 0 steps= 5

@@ -1,0 +1,8 @@
+{
+  "name": "Source fleet observables-negative-controls",
+  "key": "source-fleets",
+  "family": "observables-negative-controls",
+  "all_original_run_steps_passed": true,
+  "original_run_steps_executed": 4,
+  "expected_original_run_steps": 4
+}

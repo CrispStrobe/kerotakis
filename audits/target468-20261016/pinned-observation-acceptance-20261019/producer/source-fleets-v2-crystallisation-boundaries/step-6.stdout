@@ -1,0 +1,299 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "609-nacl-evaporation-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "610-nacl-evaporation-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "611-nacl-evaporation-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "612-nacl-evaporation-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "613-kcl-evaporation-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "614-kcl-evaporation-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "615-kcl-evaporation-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "616-kcl-evaporation-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "617-nitrate-evaporation-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "618-nitrate-evaporation-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "619-nitrate-evaporation-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "620-nitrate-evaporation-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "621-nacl-loading-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "622-nacl-loading-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "623-nacl-loading-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "624-nacl-loading-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "625-kcl-loading-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "626-kcl-loading-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "627-kcl-loading-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "628-kcl-loading-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "629-evaporation-partition-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "630-evaporation-partition-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "631-evaporation-partition-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "632-evaporation-partition-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "crystallisation-boundaries:cb-nacl-evaporation",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-nacl-evaporation-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2.2137107965584235,
+        5.534276991396059,
+        11.068553982792118,
+        16.602830974188176
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-kcl-evaporation",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-kcl-evaporation-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2.2137107965584235,
+        5.534276991396059,
+        11.068553982792118,
+        16.602830974188176
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-nitrate-evaporation",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-nitrate-evaporation-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2.2137107965584235,
+        5.534276991396059,
+        11.068553982792118,
+        16.602830974188176
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-nacl-loading",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-nacl-loading-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2.075353871773522,
+        4.150707743547044,
+        6.9178462392450735,
+        9.684984734943102
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-kcl-loading",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-kcl-loading-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2.075353871773522,
+        4.150707743547044,
+        6.9178462392450735,
+        9.684984734943102
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-evaporation-partition",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        1,
+        2,
+        2,
+        4
+      ]
+    },
+    {
+      "check": "crystallisation-boundaries:cb-evaporation-partition-inventory",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {},
+        {},
+        {},
+        {}
+      ]
+    }
+  ],
+  "passed": 36,
+  "unmet": 0,
+  "commit": "755ae8d2d08080d00b8611810710ad1eca173027",
+  "binary_sha256": "13f4b9cb97dc2488f36758adeec98a3cd56df28b88bb0efa24e2064a884c20d7"
+}

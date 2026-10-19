@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_2.py --family 'kinetics-boundaries' --binary target/release/kero --out 'audit-evidence-v2/kinetics-boundaries'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "df48287de707c026d5cc590a809ce3562757a7fa5a3b1d6f34355ea9fa525723",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/household-biochemistry' --family 'household-biochemistry' --out 'audit-evidence-v2/household-biochemistry/household-biochemistry-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "2f8be2b48d54c4bbc76d065b9029aeb84cc8169d8d9099953b6d35fc1ce797c9",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

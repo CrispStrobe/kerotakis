@@ -1,0 +1,4 @@
+add v1 PS 2g
+add v1 O2 0.2mol
+ignite v1
+look v1

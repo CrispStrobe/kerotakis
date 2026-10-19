@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "cargo build --release -p kerotakis-cli"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "d0d4d4eb625423a95d02dac1f5c5fdb7fbfadb461f9bcf9a810156b08ae20897"
+}
