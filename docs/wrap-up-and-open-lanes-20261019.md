@@ -1,0 +1,61 @@
+# Wrap-up and executable open lanes —2026-10-19
+
+The current scientific position is244 qualified fixed468 selections,248 catalog entries including four outside the target. Reaching401 needs157 further independently earned selections. Software checks and disclosed unsupported behavior do not increase that count. Read [the handoff](next-agent-handoff.md) for already-issued work and [STATUS](STATUS.md) for accepted source versus production.
+
+## 1. Finish issued acceptance and delivery
+
+**Input:** integrated partition `dacf7651`, queued production workflow39275725643, and draft localization PR843/source `78a91bd4`. Existing monitors own once-only collection and delivery dispatch. CPU kernel `chr1s4/kerotakis-combined-locale-20261019` version1 is issued; CI39279318029 remains required.
+
+**Actions:** inspect current provider/observer state and saved first failures; collect authenticated output once. Review [the exact combined plan and saved reader](https://github.com/CrispStrobe/kerotakis/blob/0adea10fed02887006dd385232de802a16803ce0/audits/target468-20261016/combined-locale-preparation-20261019/README.md), all33 jobs/142 steps/29 laws,500 coverage checks,2164 core/184 thermo/620 native/two external hooks and all11 new locale names. Independently read both actual native-platform logs. Confirm source/tree/worker/actual producer lock and binary/archive hashes. Retain source unchanged while its acceptance runs. Once accepted, perform exact-head normal protected auto-merge and verify actual merge tree. Partition delivery requires11 API/concurrency controls,37 unchanged real-browser controls and seven targeted controls already frozen; PR843 additionally needs separately frozen actual shipped-family and served German/French boundary/caveat controls. Design those from real registry admission conditions, not synthetic chemistry yields. Authenticate actual served assets and source before accepting either release.
+
+**Done when:** each accepted candidate, actual merge and actual delivered artifact has its own evidence receipt; maintained summaries distinguish those stages. A failed check remains pending until diagnosed and repaired; no dispatch duplication or protected-check bypass. Do not equate777 literal keys with complete runtime i18n.
+
+## 2. Fix liquid-transfer ownership before extending parameters
+
+**Input:** [original frozen three-control preparation](https://github.com/CrispStrobe/kerotakis/blob/0adea10fed02887006dd385232de802a16803ce0/audits/target468-20261016/partition-ownership-preparation-20261019/README.md), still unexecuted. Refresh from actual main after lane1; preserve its original forecasts and source binding separately.
+
+**Source:** `crates/kerotakis-core/src/bench.rs` drain/extraction planning and commit paths; `crates/kerotakis-core/src/vessel.rs` `withdraw` versus `withdraw_phase`; `crates/kerotakis-thermo/src/lle.rs` model admission.
+
+**Actions:** first reproduce unknown-neutral drain silently assigning everything to water, supported liquid-phase ethanol omitted from extraction, and explicit dissolved-ion positive transfer. Separately freeze gas-first/dissolved-second portions of the same species to test whether generic withdrawal consumes the wrong phase. Isolate that operator using a sealed headspace and an empty solver stack so evaporation cannot masquerade as transfer. This gas-portion lead is source inspection only, not a demonstrated failure. Audit phase-limited lots and material ownership; avoid globally changing total-withdraw semantics used intentionally by reactions. The extraction helper already refuses a solid inventory that cannot fit water plus stages: do not invent that missing guard as a bug.
+
+**Done when:** supported transfer conserves per-species/per-phase inventories and leaves nonparticipating gas/solid portions intact; unsupported neutral questions refuse atomically before receiver creation or inventory mutation. Complete-ion and analytical acid/carrier controls establish classification without treating every neutral formula as a neutral solute. Preserve existing valid layer/column/extraction behavior, English/German/French notes, named controls, full product/native and served-browser acceptance. No new chemical coefficient is needed to fix ownership.
+
+## 3. Extend neutral parameter and retention coverage with justified data
+
+**Input:** MO011 genuinely performs hydrolysis but lacks its initial ester peak. [Primary-source compatibility review](https://github.com/CrispStrobe/kerotakis/blob/0adea10fed02887006dd385232de802a16803ce0/docs/neutral-parameter-domain-review-20261019.md) and [detailed parameter contract](post-hydrolysis-gap-lanes-20261019.md#1-neutral-partition-and-chromatography-parameter-coverage) scope the gap. Numerical admission, methanol assignment and underflow handling are integrated; do not reimplement them.
+
+**Actions:** retrieve actual original table layout; establish a compatible revision, attribution and redistribution basis under CONTRIBUTING before adding values. The1979 publication changes alcohol definitions; a later VLE matrix is not automatically compatible with the existing layer model. Independently reconstruct ester groups, complete both directional pairs and compare reference calculations inside a declared composition/temperature/method domain. Registry aliases do not supply these data. Do not copy proprietary Consortium tables or guessed/OCR-only values. Keep analytical acid coordinates separate from molecular analytes.
+
+**Done when:** justified rows/reference fixtures, missing reverse/group/domain controls and real column/extraction controls pass; unsupported partial samples retain visible limits. After actual changed-source delivery, replay unchanged MO011 once and assess both original criteria. No calibration claim follows merely from internally matching a model.
+
+## 4. Model swept ammonia with explicit boundary ownership
+
+**Source and evidence:** [AB031 and boundary contract](post-hydrolysis-gap-lanes-20261019.md#2-swept-ammonia-boundary-and-competing-carbon-dioxide); `crates/kerotakis-phreeqc/src/aqueous.rs`, core clock/boundary exports and vessel inventories.
+
+**Actions:** disclose absent continued swept-NH3 capability before a complete boundary prediction. Specify ideal-reservoir versus finite-flow behavior, supported database/ligand domain and partial-pressure/extent policy. Pressure is not flow. Cover sealed/open/swept/finite-pressure cases with acid, competing trappedCO2 and complex-bound ligand refusals; preserve actual time and temperature histories.
+
+**Done when:** native/external hooks and per-vessel/per-step C/H/O/N/Cl/charge close including all exports and trapped-airN2; initial venting is distinct from later dissolved transfer, with no double exports or dropped ligands. Original AB031 stays unchanged even if competingCO2 still makes its pH forecast fail.
+
+## 5. Complete runtime localization and diagnostic authority
+
+**Source:** `family.rs` capability-report `Applicability.reason`, its CLI/API/browser consumers, structured `Declined.detail`, `time_boundaries`, Phrase catalogues, and `crates/kerotakis-cli/src/coverage.rs` event classification.
+
+**Actions:** after PR843, inventory remaining dynamic app-owned strings, labels and nested alternatives. Carry typed recipes through capability reports without changing stable IDs, English legacy fields or raw vendor evidence. Cover actual shipped structural-oracle families and served DE/FR text; unknown registry labels retain honest fallback. Audit every Event variant's role: handling, observation, model limit or owned computed result. The current nonempty-event fallback must not manufacture computational authority from a new bookkeeping event.
+
+**Done when:** actual consumers render structured localized reasons, composed numeric/window/alternative slots are checked and real language/browser paths pass. Handling-only/empty/bookkeeping traces never qualify as computed chemistry; real independent results beside model limits remain visible. Preserve all original500 coverage requirements and source-bound first failures. Keep computational grading separate from scientific criterion selection.
+
+## 6. Preserve unresolved-material presence without invented properties
+
+**Source:** Vessel unresolved-material ownership, heat operator, appearance/readback and locale consumers; [existing contract](unifac-input-admission-20261019.md#4-preserve-unresolved-commercial-material-ownership).
+
+**Actions:** distinguish physically empty vessels from unresolved-only or mixed inventory. Test original mass, recipe/version/basis, transfer/clear/replay and partial resolution. Display an honest localized presence/model-limit description; refuse unsupported heat capacity, optics or chemical predictions without assigning arbitrary surrogate properties.
+
+**Done when:** retained material is never described as empty, all ownership is conserved and supported-only behavior is unchanged. A presence repair does not qualify original soap/oil-combustion chemistry; any later surrogate composition needs its own supported data domain.
+
+## 7. Carbonate reserve and criterion-level progress toward401
+
+**Input:** [proved carbonate reserve laneK](saved64-review-lanes-20261018.md#k-extend-proved-reserve-to-a-bounded-carbonate-pool-before-sealed-staged-synthesis), original MO003, saved candidate reviews and the remaining201 cohorts.
+
+**Actions:** extend the proved analytical reserve domain with owned carbonate pools and independent conservation; retain the original seal and all air carbon. Review remaining original criteria from authenticated saved outputs first, grouping failures by shared source cause. Freeze only changed-source follow-ups that address an actual gap. KN012 and SP004 remain first-screen candidates; SP004's energy convention excludes sensible/reflux/reboiler duties and its second criterion remains unresolved.
+
+**Done when:** selected originals meet all their unchanged bounded criteria with independent material/energy review, exact evidence and catalog membership/count updates. Unsupported, failed and inconclusive records remain explicit. No rerun of unchanged668, no relaxed forecasts and no count increase from aliases, zero exits or software test passes.
