@@ -17,7 +17,8 @@ fn op(text: &str) -> Operator {
 
 #[test]
 fn invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory() {
-    for temperature in [0.0, -1.0, f64::NAN, f64::INFINITY] {
+    // Zero is the disclosed COOL floor; tiny positive T exercises numerical range.
+    for temperature in [0.0, 1e-300] {
         let mut bench = sample();
         bench.vessels[0].temperature = Kelvin(temperature);
         let before = serde_json::to_value(&bench.vessels).unwrap();
@@ -48,6 +49,22 @@ fn invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory() {
 }
 
 #[test]
+fn globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract() {
+    for temperature in [-1.0, f64::NAN, f64::INFINITY] {
+        let mut bench = sample();
+        bench.vessels[0].temperature = Kelvin(temperature);
+        let before = serde_json::to_value(&bench.vessels).unwrap();
+        let bits = bench.vessels[0].temperature.0.to_bits();
+        assert!(matches!(
+            bench.step(op("chromatograph v1")),
+            Err(BenchError::InvalidState(_))
+        ));
+        assert_eq!(serde_json::to_value(&bench.vessels).unwrap(), before);
+        assert_eq!(bench.vessels[0].temperature.0.to_bits(), bits);
+    }
+}
+
+#[test]
 fn invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter() {
     let mut bench = sample();
     bench.step(op("new")).unwrap();
@@ -68,7 +85,7 @@ fn invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter() {
 fn reference_gamma(solvent: &str, temperature: f64) -> f64 {
     include_str!("../../kerotakis-thermo/tests/fixtures/thermo_oracle.tsv")
         .lines()
-        .filter_map(|line| {
+        .find_map(|line| {
             let row: Vec<_> = line.split('\t').collect();
             if row.len() == 5
                 && row[0] == "gammainf"
@@ -81,7 +98,6 @@ fn reference_gamma(solvent: &str, temperature: f64) -> f64 {
                 None
             }
         })
-        .next()
         .expect("unchanged independent implementation row")
 }
 
