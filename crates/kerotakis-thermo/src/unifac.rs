@@ -76,6 +76,63 @@ impl fmt::Display for MissingInteraction {
 
 impl std::error::Error for MissingInteraction {}
 
+/// A checked UNIFAC refusal, before a partial molecule or invalid coordinate
+/// can become a successful numerical answer. Numeric admission alone does not
+/// establish the published parameter set's physical composition/temperature domain.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum UnifacError {
+    MissingGroup {
+        component: usize,
+        group_id: u32,
+    },
+    InvalidGroupParameters {
+        group_id: u32,
+    },
+    InvalidDecomposition {
+        component: usize,
+    },
+    InvalidTemperature {
+        kelvin: f64,
+    },
+    InvalidComposition {
+        component: usize,
+    },
+    CompositionNotNormalized {
+        total: f64,
+    },
+    MissingInteraction(MissingInteraction),
+    InvalidInteraction {
+        from_main_group: u32,
+        to_main_group: u32,
+    },
+    InteractionFactorRange {
+        from_main_group: u32,
+        to_main_group: u32,
+    },
+    NumericalRange {
+        component: usize,
+    },
+}
+
+impl fmt::Display for UnifacError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::MissingGroup { component, group_id } => write!(f, "UNIFAC component {component} uses unknown subgroup {group_id}"),
+            Self::InvalidGroupParameters { group_id } => write!(f, "UNIFAC subgroup {group_id} has invalid volume or surface parameters"),
+            Self::InvalidDecomposition { component } => write!(f, "UNIFAC component {component} needs a nonempty decomposition with positive group counts, volume and surface"),
+            Self::InvalidTemperature { kelvin } => write!(f, "UNIFAC temperature must be finite and positive, got {kelvin} K"),
+            Self::InvalidComposition { component } => write!(f, "UNIFAC component {component} has a mole fraction outside the finite interval [0, 1]"),
+            Self::CompositionNotNormalized { total } => write!(f, "UNIFAC mole fractions must sum to one within floating-point summation tolerance, got {total}"),
+            Self::MissingInteraction(error) => error.fmt(f),
+            Self::InvalidInteraction { from_main_group, to_main_group } => write!(f, "UNIFAC directional interaction a_{from_main_group}_{to_main_group} is not finite"),
+            Self::InteractionFactorRange { from_main_group, to_main_group } => write!(f, "UNIFAC directional interaction a_{from_main_group}_{to_main_group} has no representable finite positive Boltzmann factor at this temperature"),
+            Self::NumericalRange { component } => write!(f, "UNIFAC component {component} has no representable finite positive activity coefficient for this input"),
+        }
+    }
+}
+
+impl std::error::Error for UnifacError {}
+
 const SOURCE_1975: &str = "Fredenslund, Jones & Prausnitz, AIChE J. 21(6), 1086-1099, 1975";
 const SOURCE_1982: &str =
     "Gmehling, Rasmussen & Fredenslund, Ind. Eng. Chem. Process Des. Dev. 21, 118-127, 1982";
@@ -381,20 +438,56 @@ pub fn activity_coefficients(
         .unwrap_or_else(|error| panic!("UNIFAC calculation refused: {error}"))
 }
 
-/// Compute UNIFAC activity coefficients, refusing incomplete interaction data.
+/// Compute UNIFAC activity coefficients, refusing incomplete group/interaction
+/// data, invalid numerical coordinates and unrepresentable results.
 ///
 /// Use this checked entry point when a refusal should be propagated to a
 /// caller. [`activity_coefficients`] remains as the compatibility entry point,
-/// but fails closed with the same named error rather than returning a result
+/// but fails closed with the same structured error rather than returning a result
 /// calculated with an implicit ideal interaction.
 pub fn try_activity_coefficients(
     table: &UnifacTable,
     compositions: &[(GroupDecomposition, f64)],
     t_kelvin: f64,
-) -> Result<Vec<f64>, MissingInteraction> {
+) -> Result<Vec<f64>, UnifacError> {
     let n = compositions.len();
     if n == 0 {
         return Ok(Vec::new());
+    }
+
+    if !t_kelvin.is_finite() || t_kelvin <= 0.0 {
+        return Err(UnifacError::InvalidTemperature { kelvin: t_kelvin });
+    }
+    let mut total = 0.0;
+    for (component, (groups, fraction)) in compositions.iter().enumerate() {
+        if !fraction.is_finite() || !(0.0..=1.0).contains(fraction) {
+            return Err(UnifacError::InvalidComposition { component });
+        }
+        if groups.is_empty() || groups.values().any(|count| *count == 0) {
+            return Err(UnifacError::InvalidDecomposition { component });
+        }
+        let (mut volume, mut surface) = (0.0, 0.0);
+        for (&group_id, &count) in groups {
+            let group = table.group(group_id).ok_or(UnifacError::MissingGroup {
+                component,
+                group_id,
+            })?;
+            if !group.r.is_finite() || group.r <= 0.0 || !group.q.is_finite() || group.q < 0.0 {
+                return Err(UnifacError::InvalidGroupParameters { group_id });
+            }
+            volume += group.r * count as f64;
+            surface += group.q * count as f64;
+        }
+        if !volume.is_finite() || volume <= 0.0 || !surface.is_finite() || surface <= 0.0 {
+            return Err(UnifacError::InvalidDecomposition { component });
+        }
+        total += fraction;
+    }
+    // A numerical summation allowance, not a physical composition tolerance:
+    // scale machine epsilon by the number of accumulated nonnegative terms.
+    let rounding = 16.0 * f64::EPSILON * n as f64;
+    if !total.is_finite() || (total - 1.0).abs() > rounding {
+        return Err(UnifacError::CompositionNotNormalized { total });
     }
 
     // Combinatorial part (Staverman-Guggenheim)
@@ -460,13 +553,35 @@ pub fn try_activity_coefficients(
 
     // Validate the complete directional matrix used by this calculation up
     // front. This makes absence unrepresentable inside the numerical loop.
+    let mut interaction_factors = BTreeMap::new();
     for &m in &all_main {
         for &n_g in &all_main {
-            if m != n_g && table.interaction(m, n_g).is_none() {
-                return Err(MissingInteraction {
-                    from_main_group: m,
-                    to_main_group: n_g,
-                });
+            if m == n_g {
+                continue;
+            }
+            match table.interaction(m, n_g) {
+                None => {
+                    return Err(UnifacError::MissingInteraction(MissingInteraction {
+                        from_main_group: m,
+                        to_main_group: n_g,
+                    }))
+                }
+                Some(value) if !value.is_finite() => {
+                    return Err(UnifacError::InvalidInteraction {
+                        from_main_group: m,
+                        to_main_group: n_g,
+                    })
+                }
+                Some(value) => {
+                    let factor = (-value / t_kelvin).exp();
+                    if !factor.is_finite() || factor <= 0.0 {
+                        return Err(UnifacError::InteractionFactorRange {
+                            from_main_group: m,
+                            to_main_group: n_g,
+                        });
+                    }
+                    interaction_factors.insert((m, n_g), factor);
+                }
             }
         }
     }
@@ -476,11 +591,9 @@ pub fn try_activity_coefficients(
             // no table row is required or consulted for this identity.
             return 1.0;
         }
-        (-table
-            .interaction(m, n_g)
-            .expect("directional UNIFAC matrix was validated above")
-            / t_kelvin)
-            .exp()
+        *interaction_factors
+            .get(&(m, n_g))
+            .expect("directional UNIFAC factors were validated above")
     };
     let ln_gamma_groups = |xg: &BTreeMap<u32, f64>| -> BTreeMap<u32, f64> {
         let qt: f64 = xg
@@ -546,9 +659,16 @@ pub fn try_activity_coefficients(
                 c as f64 * (lg_mix.get(&gid).unwrap_or(&0.0) - lg_pure.get(&gid).unwrap_or(&0.0));
         }
     }
-    Ok((0..n)
-        .map(|i| (ln_gamma_c[i] + ln_gamma_r[i]).exp())
-        .collect())
+    (0..n)
+        .map(|component| {
+            let gamma = (ln_gamma_c[component] + ln_gamma_r[component]).exp();
+            if gamma.is_finite() && gamma > 0.0 {
+                Ok(gamma)
+            } else {
+                Err(UnifacError::NumericalRange { component })
+            }
+        })
+        .collect()
 }
 
 #[cfg(test)]
@@ -784,10 +904,10 @@ mod tests {
 
         assert_eq!(
             error,
-            MissingInteraction {
+            UnifacError::MissingInteraction(MissingInteraction {
                 from_main_group: 1,
                 to_main_group: 7,
-            }
+            })
         );
         assert!(error.to_string().contains("a_1_7"));
     }
@@ -801,8 +921,13 @@ mod tests {
         let error = try_activity_coefficients(&table, &ethanol_water_composition(), 298.15)
             .expect_err("a_1_7 cannot substitute for missing a_7_1");
 
-        assert_eq!(error.from_main_group, 7);
-        assert_eq!(error.to_main_group, 1);
+        assert_eq!(
+            error,
+            UnifacError::MissingInteraction(MissingInteraction {
+                from_main_group: 7,
+                to_main_group: 1,
+            })
+        );
     }
 
     #[test]

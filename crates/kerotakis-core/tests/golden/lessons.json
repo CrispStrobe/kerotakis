@@ -5995,8 +5995,8 @@
       "v1: +0.0500 mol methanol",
       "v1: +0.1000 mol ethanol",
       "v1: +0.0500 mol propanone",
-      "v1: chromatogram — methanol at 63 s, Rf 0.08 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)",
-      "v1: chromatogram — methanol at 63 s, Rf 0.08 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)"
+      "v1: chromatogram — methanol at 63 s, Rf 0.10 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)",
+      "v1: chromatogram — methanol at 63 s, Rf 0.10 (50% area); ethanol at 68 s, Rf 0.22 (100% area); propanone at 115 s, Rf 0.65 (50% area)"
     ],
     "lesson": "one-thing-at-a-time.lab",
     "vessels": [
