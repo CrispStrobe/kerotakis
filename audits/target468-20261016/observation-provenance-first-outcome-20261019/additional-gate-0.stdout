@@ -1,0 +1,16 @@
+
+running 11 tests
+test coverage::tests::a_requirement_is_a_floor_and_an_exceeded_floor_is_met ... ok
+test coverage::tests::an_unmet_requirement_is_sorted_by_where_missing_sits ... ok
+test coverage::tests::baseline_reports_changed_added_and_removed_prompts ... ok
+test coverage::tests::boundary_is_off_the_scale_and_compares_only_for_equality ... ok
+test coverage::tests::computed_and_curated_are_one_grade_in_both_directions ... ok
+test coverage::tests::independent_positive_kinetic_results_keep_their_declared_computed_grade ... ok
+test coverage::tests::smoke_comparison_ignores_baseline_entries_outside_the_subset ... ok
+test coverage::tests::a_model_limit_and_handling_without_observation_are_not_a_computation ... ok
+test coverage::tests::unsupported_digestion_and_visual_inspection_are_not_computed ... ok
+test coverage::tests::unrelated_vessel_bookkeeping_cannot_upgrade_an_unsupported_observation ... ok
+test coverage::tests::unsupported_dissolution_and_visual_inspection_are_not_computed ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 43 filtered out; finished in 2.29s
+

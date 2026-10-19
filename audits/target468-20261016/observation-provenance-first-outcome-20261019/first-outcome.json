@@ -1,0 +1,75 @@
+{
+  "recorded_utc": "2026-10-19T08:56:14.881207+00:00",
+  "source": "fa99b687b7ed14cdc40b22a6e7105095a11bdafd",
+  "kernel_id": 139573203,
+  "kernel_version": 1,
+  "actual_four_baseline_assertion_failures": true,
+  "actual_fixed_cli_tests_passed": 11,
+  "unmet_requirements": 0,
+  "solver_failures": 0,
+  "baseline_drift": [
+    {
+      "id": "bio-108",
+      "kind": "changed",
+      "baseline": {
+        "id": "bio-108",
+        "owning_task": "BRD-023",
+        "outcome": "computed",
+        "reason_code": "typed-engine-event"
+      },
+      "observed": {
+        "id": "bio-108",
+        "owning_task": "BRD-023",
+        "outcome": "qualitative",
+        "reason_code": "typed-observation"
+      }
+    },
+    {
+      "id": "th-049",
+      "kind": "changed",
+      "baseline": {
+        "id": "th-049",
+        "owning_task": "BRD-014",
+        "outcome": "computed",
+        "reason_code": "typed-engine-event"
+      },
+      "observed": {
+        "id": "th-049",
+        "owning_task": "BRD-014",
+        "outcome": "qualitative",
+        "reason_code": "typed-observation"
+      }
+    },
+    {
+      "id": "th-063",
+      "kind": "changed",
+      "baseline": {
+        "id": "th-063",
+        "owning_task": "BRD-023",
+        "outcome": "computed",
+        "reason_code": "typed-engine-event"
+      },
+      "observed": {
+        "id": "th-063",
+        "owning_task": "BRD-023",
+        "outcome": "qualitative",
+        "reason_code": "typed-observation"
+      }
+    }
+  ],
+  "first_stop": {
+    "kind": "dependency_resolution_drift",
+    "original_stop_sha256": "48b319cdf241627323484411888edb36476bdb14eb92aff900c618e1bc83d539",
+    "expected_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "changes": [
+      "cc 1.8.0 to 1.9.0",
+      "find-msvc-tools 0.1.14 to 0.1.15"
+    ]
+  },
+  "full_native_core_product_not_executed": true,
+  "partial_saved_reader_failure_sha256": "d7891b8ed292784dfaa26b9666e99109734d1730fcaee8d5774ceb428e695397",
+  "binary_archive_retained_privately": true,
+  "binary_archive_root_review_pending_resource_gate": true,
+  "scientific_catalog_additions": 0
+}

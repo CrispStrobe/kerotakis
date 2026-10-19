@@ -1,0 +1,4 @@
+   Compiling kerotakis-phreeqc v0.0.1 (/kaggle/temp/kerotakis-observation-provenance/source/crates/kerotakis-phreeqc)
+   Compiling kerotakis-cli v0.0.1 (/kaggle/temp/kerotakis-observation-provenance/source/crates/kerotakis-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.93s
+     Running unittests src/main.rs (target/debug/deps/kero-0115d2d6f1373a0d)

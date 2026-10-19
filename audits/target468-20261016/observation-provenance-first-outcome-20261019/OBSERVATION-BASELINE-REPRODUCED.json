@@ -1,0 +1,11 @@
+{
+  "source": "ab10933c4a20e03cd156ccc711f35d6e9667ca66",
+  "actual_failing_names": [
+    "unsupported_dissolution_and_visual_inspection_are_not_computed",
+    "unsupported_digestion_and_visual_inspection_are_not_computed",
+    "unrelated_vessel_bookkeeping_cannot_upgrade_an_unsupported_observation",
+    "a_model_limit_and_handling_without_observation_are_not_a_computation"
+  ],
+  "positive_control_passed": true,
+  "prior_baselines_not_reexecuted": true
+}
