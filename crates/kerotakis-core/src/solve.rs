@@ -203,12 +203,19 @@ pub enum SolverRouteOutcome {
 /// This is a no-op on everything that shipped before it: the only producer
 /// of `SolutionRouted` is the aqueous solver, which until now emitted one
 /// only on the path where `chemistry_applies` is already true, and
-/// coverage's chemistry branch does not look at the count.
+/// coverage's chemistry branch does not look at the count. An explicit
+/// `NotYetModeled` boundary is likewise not an answer: its presence must
+/// not give an otherwise silent route precedence over an independent result.
 #[must_use]
 pub fn answer_event_count(events: &[Event]) -> usize {
     events
         .iter()
-        .filter(|event| !matches!(event, Event::SolutionRouted { .. }))
+        .filter(|event| {
+            !matches!(
+                event,
+                Event::SolutionRouted { .. } | Event::NotYetModeled { .. }
+            )
+        })
         .count()
 }
 
