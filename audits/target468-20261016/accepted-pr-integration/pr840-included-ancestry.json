@@ -1,0 +1,14 @@
+{
+  "pr": 840,
+  "actual": {
+    "headRefOid": "76f62539c0ef4e56eeebf30a56333f705c775114",
+    "mergeCommit": {
+      "oid": "20ea572cc323e0402633c3842c6cf0f4be8e1ef4"
+    },
+    "mergedAt": "2026-10-19T10:37:57Z",
+    "state": "MERGED"
+  },
+  "included_head_is_ancestor_of_reviewed_839_head": true,
+  "integration": "Included ancestry of accepted PR839, not an independent merge of the incomplete predecessor",
+  "no_close_of_an_already_merged_pr": true
+}

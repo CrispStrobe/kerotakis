@@ -1,0 +1,6 @@
+{
+  "error_type": "AssertionError",
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 33, in <module>\n    assert status==101 and 'error[E' not in stderr and str(len(PLAN['expected_failing_names']))+' failed' in stdout and '1 passed' in stdout\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "no_auto_retry": true
+}

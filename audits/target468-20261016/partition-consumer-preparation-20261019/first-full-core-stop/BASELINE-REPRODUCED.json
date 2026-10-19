@@ -1,0 +1,10 @@
+{
+  "source": "ff5dc39aa417e0884cb47b3073c9695340b3e472",
+  "actual_failed_names": [
+    "invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory",
+    "globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract",
+    "invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter",
+    "methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures"
+  ],
+  "positive_control_passed": true
+}
