@@ -1,5 +1,7 @@
 # Kerotakis current state — 2026-10-18
 
+Urgent user-reported peroxide/i18n lane: confirmed no added water. A narrow candidate now prevents trace decomposition water from admitting bulk peroxide to aqueous equilibrium and expands locale acceptance to chemistry adapters. Tests are frozen before the runtime fix; compilation, native/browser validation, integration and delivery remain pending. See [source diagnosis and executable follow-up lanes](peroxide-medium-and-i18n-20261019.md). Existing delivery controllers and experiment counts remain separate.
+
 Read the [fresh-agent handover](next-agent-handoff.md), [ordered agenda](improvement-agenda-20261014.md) and [PR delivery policy](PR-WORKFLOW.md). This maintained summary supersedes older pending notes. Preserve original forecasts, first outcomes, raw responses and exact source/binary/producer-lock associations.
 
 ## Execution and qualified coverage

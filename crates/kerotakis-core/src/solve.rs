@@ -2765,6 +2765,9 @@ impl Equilibrator for HonestyEquilibrator {
         // an early return would let it stand. The state pass has already
         // decided this vessel is not a settled solution; this is where
         // that decision reaches the reader and the meter.
+        if let Some(boundary) = crate::nonaqueous::peroxide_medium_boundary(vessel) {
+            return Ok(vec![boundary]);
+        }
         let state = solvent_state(vessel);
         if let Some((reason, cause)) = state.boundary() {
             events.push(Event::not_modeled(vessel.id, cause, reason));
