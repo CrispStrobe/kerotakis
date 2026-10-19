@@ -43,6 +43,26 @@ use kerotakis_core::{appearance, scene, Locale, Moles, SpeciesId, Vessel, Vessel
 /// never correctness, and `unknown_composers_are_declared` below fails if
 /// a new file starts composing without being listed.
 const COMPOSERS: &[(&str, &str)] = &[
+    (
+        "kerotakis-phreeqc/aqueous.rs",
+        include_str!("../../kerotakis-phreeqc/src/aqueous.rs"),
+    ),
+    (
+        "kerotakis-phreeqc/phase_diagnostics.rs",
+        include_str!("../../kerotakis-phreeqc/src/phase_diagnostics.rs"),
+    ),
+    (
+        "kerotakis-phreeqc/dbindex.rs",
+        include_str!("../../kerotakis-phreeqc/src/dbindex.rs"),
+    ),
+    (
+        "kerotakis-cea/thermal.rs",
+        include_str!("../../kerotakis-cea/src/thermal.rs"),
+    ),
+    (
+        "kerotakis-org/family_oracle.rs",
+        include_str!("../../kerotakis-org/src/family_oracle.rs"),
+    ),
     ("acid_endpoint.rs", include_str!("../src/acid_endpoint.rs")),
     ("appearance.rs", include_str!("../src/appearance.rs")),
     (
@@ -290,10 +310,18 @@ fn unknown_composers_are_declared() {
     let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src");
     let mut undeclared = Vec::new();
     let mut stack = vec![dir];
+    for adapter in ["kerotakis-phreeqc", "kerotakis-cea", "kerotakis-org"] {
+        stack.push(
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("..")
+                .join(adapter)
+                .join("src"),
+        );
+    }
     while let Some(path) = stack.pop() {
         for entry in std::fs::read_dir(&path).expect("src is readable") {
             let entry = entry.expect("a directory entry");
-            let p = entry.path();
+            let p = entry.path().canonicalize().expect("canonical source path");
             if p.is_dir() {
                 stack.push(p);
                 continue;
@@ -308,12 +336,33 @@ fn unknown_composers_are_declared() {
             // DOES compose — `look.sentence-join`, the space between two
             // statements — is counted by `tools/engine-locale-lint.py`,
             // which reads it out of the same source.
-            if name == "phrase.rs" || declared.contains(name) {
+            let relative = p
+                .strip_prefix(
+                    std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                        .parent()
+                        .unwrap(),
+                )
+                .expect("workspace source");
+            let adapter_name = relative
+                .components()
+                .next()
+                .unwrap()
+                .as_os_str()
+                .to_str()
+                .unwrap();
+            let label = if adapter_name == "kerotakis-core" {
+                name.to_string()
+            } else {
+                format!("{adapter_name}/{name}")
+            };
+            if (adapter_name == "kerotakis-core" && name == "phrase.rs")
+                || declared.contains(label.as_str())
+            {
                 continue;
             }
             let text = without_test_modules(&std::fs::read_to_string(&p).expect("a source file"));
             if text.contains("Phrase::new(") || text.contains("Phrase::bare(") {
-                undeclared.push(name.to_string());
+                undeclared.push(label);
             }
         }
     }
