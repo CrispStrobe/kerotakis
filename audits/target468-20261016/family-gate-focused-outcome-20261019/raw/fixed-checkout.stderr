@@ -1,0 +1,11 @@
+Warning: you are leaving 1 commit behind, not connected to
+any of your branches:
+
+  dda2368 test: derive family-locale terms from shipped records and pin legacy reasons
+
+If you want to keep it by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> dda2368
+
+HEAD is now at d40a192 fix: retain structured localized family gate explanations

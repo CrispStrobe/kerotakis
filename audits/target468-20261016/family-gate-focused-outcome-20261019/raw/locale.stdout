@@ -1,0 +1,15 @@
+engine prose in render.rs         
+   reachable by a catalogue :  700 keys
+   still inside a bare format!:    0 literals
+bench refusals in bench.rs        
+   reachable by a catalogue :   64 keys
+sentences the engine composes     
+   reachable by a catalogue :  252 keys
+   (acid_endpoint.rs, appearance.rs, aqueous_continuation.rs, displacement.rs, solve.rs, nonaqueous.rs, scene.rs, selectivity.rs, gas_tests.rs, clock.rs, family.rs, bench.rs, corrosion.rs, chart.rs, states.rs, volatility.rs, aqueous.rs, phase_diagnostics.rs, family_oracle.rs, kinetics.rs, combustion.rs, thermal.rs, dbindex.rs, particles.rs, main.rs, phrase.rs)
+refusals in NotYetModeled.what    
+   carrying a Phrase        :   93 sites
+   still a finished sentence:    0 sites
+
+language     translated   of  reachable   coverage
+de                  764    /        764   100.0%   (+690 looked up by value, +22 chosen by a match arm)
+fr                  764    /        764   100.0%   (+710 looked up by value, +22 chosen by a match arm)

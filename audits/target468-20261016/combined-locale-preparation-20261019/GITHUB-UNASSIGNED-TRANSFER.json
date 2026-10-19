@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-19T15:40:19.435805+00:00",
+  "snapshot": {
+    "headSha": "78a91bd4914d7db735d71a46696783bc360e1007",
+    "jobs": [
+      {
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "databaseId": 118150488173,
+        "name": "Build audited CLI once",
+        "startedAt": "2026-10-19T15:36:40Z",
+        "status": "queued",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39279318083/job/118150488173"
+      }
+    ],
+    "status": "queued"
+  },
+  "cpu_issue": {
+    "utc": "2026-10-19T15:35:50.915151+00:00",
+    "worker_sha256": "ba0340b8615cf6bb2a377105af0536e0453968c71070970ccb773acbac4bf331",
+    "cpu_only": true,
+    "new_baseline_or_original_experiment_requests": 0
+  },
+  "reason": "Once-issued CPU worker retains all 33 original jobs; duplicate producer wholly queued, unassigned and zero-step; protected/native CI untouched."
+}

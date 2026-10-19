@@ -1,0 +1,18 @@
+{
+  "source": "d40a1929a5322629ff63e8d0e0b6cb7105d99eac",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": {
+    "target/debug/deps/family_gate_locale-534c4c9309cdb39f": {
+      "sha256": "5daac78e061c840ab1f5cdf9e280eed4bffca03ad31561602f13bd4921150375",
+      "bytes": 43031368
+    },
+    "target/debug/deps/family_gate_registry_locale-c6e97f49b593d638": {
+      "sha256": "9bf07826666ce6dd0a3d9899895f04e0808f3a6184d22b2117e304a55ce14ce9",
+      "bytes": 42040088
+    },
+    "target/debug/deps/family_gate_legacy-e020e3971053cce4": {
+      "sha256": "725884a4cda5b2242f022a32ef3cecb8cbb1ce49d0aaa935c74d692e509c10b6",
+      "bytes": 41916416
+    }
+  }
+}

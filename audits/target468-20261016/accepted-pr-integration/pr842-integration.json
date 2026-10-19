@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-19T15:38:14.903131+00:00",
+  "pr": 842,
+  "head": "74cb2fa91e7ebce2ed20938196bca61033e1de4b",
+  "merge": "572398cc91f0f9fd7796438754f9cd00735102a4",
+  "parents": [
+    "dacf76513328c2226e2f5133a79fb9af84343431",
+    "74cb2fa91e7ebce2ed20938196bca61033e1de4b"
+  ],
+  "tree": "b38eb687c21ece4285a05fff838f658773119f18",
+  "reconstructed_tree": "b38eb687c21ece4285a05fff838f658773119f18",
+  "actual_changed_paths": [
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/peroxide-medium-and-i18n-20261019.md",
+    "docs/post-hydrolysis-gap-lanes-20261019.md",
+    "docs/unifac-input-admission-20261019.md"
+  ],
+  "runtime_change": false,
+  "no_protection_bypass": true
+}

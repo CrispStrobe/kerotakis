@@ -1,0 +1,9 @@
+# Combined localization: issued full acceptance, not a pass
+
+[Draft PR843](https://github.com/CrispStrobe/kerotakis/pull/843) freezes source `78a91bd4914d7db735d71a46696783bc360e1007`, tree `22d7902fab95766e377eb012bd7274783a970158`, normally combining the accepted partition main with both focused localization repairs. All catalogue rows from both parents are preserved. Literal German/French lint reaches777/777 keys; that does not certify all runtime strings.
+
+[Exact worker](full_fleet.py), [frozen plan](frozen-plan.json), [once-issued CPU binding](PUSH-ISSUED.json) and [duplicate-provider transfer](GITHUB-UNASSIGNED-TRANSFER.json) retain provenance. CPU kernel `chr1s4/kerotakis-combined-locale-20261019`, version1, was issued once. It executes all33 original logical jobs/142 steps/29 laws, full core/native/thermo/external controls, coverage500, locale and Clippy. Required core minimum2164 includes all11 new locale controls; thermo184, native620 and external hooks2 remain required. Baseline/failure bytes from accepted predecessors are reused, not reexecuted. No original experiment/API requests are added.
+
+Protected CI [39279318029](https://github.com/CrispStrobe/kerotakis/actions/runs/39279318029), both actual platform logs, exact-head review, normal protected integration and actual changed-source artifact/API/browser acceptance remain open. The wholly queued duplicate chemistry producer39279318083 was transferred only after the CPU issue; protected/native CI was untouched.
+
+The [portable saved reviewer](review_saved.py) takes `--run-dir` pointing at authenticated collected evidence and verifies source, archive members, actual binary/lock, original commands, named tests and law/coverage outputs. It requires Python/PyYAML and the referenced Git objects. Review its first stop from raw evidence; do not weaken checks or reissue a completed producer to repair a reader. Monitoring and private operating locations are outside Git.
