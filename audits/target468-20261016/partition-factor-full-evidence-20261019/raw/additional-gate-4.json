@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "--no-default-features",
+    "--test",
+    "aqueous_continuation_cache_only",
+    "--test",
+    "acid_permanganate_cache_only",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "6f08c674d2b5676c032e2c84a3cc6b61479bc3a3491f530be495595fcf7b80b4",
+  "stderr_sha256": "f66000841f235d9bb249c46f4d1869eed14ccb8de4a9d34cacf5d093d8382160"
+}

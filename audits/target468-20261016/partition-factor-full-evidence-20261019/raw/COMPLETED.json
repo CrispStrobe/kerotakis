@@ -1,0 +1,275 @@
+{
+  "utc": "2026-10-19T13:42:56.469481+00:00",
+  "source": "d67205091a22bcdb2fc490866224c4bc7fef8a4e",
+  "tree": "76820b9c397038cd8fb6e1f267708d34c153cbe1",
+  "logical_jobs": [
+    {
+      "name": "Build audited CLI once",
+      "key": "build-cli",
+      "family": null,
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 2,
+      "expected_original_run_steps": 2
+    },
+    {
+      "name": "Frozen fleet 195-218",
+      "key": "sixth-fleet",
+      "family": null,
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 6,
+      "expected_original_run_steps": 6
+    },
+    {
+      "name": "Frozen fleet 459-488",
+      "key": "seventh-fleet",
+      "family": null,
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 6,
+      "expected_original_run_steps": 6
+    },
+    {
+      "name": "Source fleet acid-base-buffers",
+      "key": "source-fleets",
+      "family": "acid-base-buffers",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "Source fleet solubility-precipitation",
+      "key": "source-fleets",
+      "family": "solubility-precipitation",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "Source fleet gas-boundaries",
+      "key": "source-fleets",
+      "family": "gas-boundaries",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "Source fleet electrochemistry",
+      "key": "source-fleets",
+      "family": "electrochemistry",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "Source fleet mixing-transfer",
+      "key": "source-fleets",
+      "family": "mixing-transfer",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "Source fleet filtration-evaporation",
+      "key": "source-fleets",
+      "family": "filtration-evaporation",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "Source fleet distillation",
+      "key": "source-fleets",
+      "family": "distillation",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "Source fleet thermal-phase-paths",
+      "key": "source-fleets",
+      "family": "thermal-phase-paths",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "Source fleet organic-equilibria",
+      "key": "source-fleets",
+      "family": "organic-equilibria",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "Source fleet observables-negative-controls",
+      "key": "source-fleets",
+      "family": "observables-negative-controls",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 4,
+      "expected_original_run_steps": 4
+    },
+    {
+      "name": "All 240 source-informed cases",
+      "key": "source-fleet-aggregate",
+      "family": null,
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 1,
+      "expected_original_run_steps": 1
+    },
+    {
+      "name": "Source fleet v2 quantitative-solutions",
+      "key": "source-fleets-v2",
+      "family": "quantitative-solutions",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "key": "source-fleets-v2",
+      "family": "polyprotic-carbonate",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 redox-cells",
+      "key": "source-fleets-v2",
+      "family": "redox-cells",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 gas-production-transfer",
+      "key": "source-fleets-v2",
+      "family": "gas-production-transfer",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 phase-colligative",
+      "key": "source-fleets-v2",
+      "family": "phase-colligative",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "key": "source-fleets-v2",
+      "family": "crystallisation-boundaries",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 separation-trains",
+      "key": "source-fleets-v2",
+      "family": "separation-trains",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 kinetics-boundaries",
+      "key": "source-fleets-v2",
+      "family": "kinetics-boundaries",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 household-biochemistry",
+      "key": "source-fleets-v2",
+      "family": "household-biochemistry",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 materials-transport",
+      "key": "source-fleets-v2",
+      "family": "materials-transport",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 analytical-observables",
+      "key": "source-fleets-v2",
+      "family": "analytical-observables",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v2 thermochemical-paths",
+      "key": "source-fleets-v2",
+      "family": "thermochemical-paths",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "All 288 source-informed v2 cases",
+      "key": "source-fleet-v2-aggregate",
+      "family": null,
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 1,
+      "expected_original_run_steps": 1
+    },
+    {
+      "name": "Source fleet v3 water-energy",
+      "key": "source-fleets-v3",
+      "family": "water-energy",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v3 aqueous-selectivity",
+      "key": "source-fleets-v3",
+      "family": "aqueous-selectivity",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v3 ionic-conductivity",
+      "key": "source-fleets-v3",
+      "family": "ionic-conductivity",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v3 metal-ligand",
+      "key": "source-fleets-v3",
+      "family": "metal-ligand",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "Source fleet v3 organic-equilibrium",
+      "key": "source-fleets-v3",
+      "family": "organic-equilibrium",
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 5,
+      "expected_original_run_steps": 5
+    },
+    {
+      "name": "All 120 source-informed v3 cases",
+      "key": "source-fleet-v3-aggregate",
+      "family": null,
+      "all_original_run_steps_passed": true,
+      "original_run_steps_executed": 1,
+      "expected_original_run_steps": 1
+    }
+  ],
+  "all33_original_jobs_pass": true,
+  "GitHub_success_claim": false,
+  "root_raw_review_required": true,
+  "scientific_catalog_additions": 0
+}

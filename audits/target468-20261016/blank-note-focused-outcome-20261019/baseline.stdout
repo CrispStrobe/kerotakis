@@ -1,0 +1,15 @@
+
+running 4 tests
+test blank_ph_caveat_is_in_the_actual_german_measurement ... FAILED
+test blank_ph_caveat_is_in_the_actual_french_measurement ... FAILED
+test english_blank_reading_and_legacy_caveat_are_preserved ... ok
+test localization_does_not_expand_the_admitted_blank_domain ... ok
+
+failures:
+
+failures:
+    blank_ph_caveat_is_in_the_actual_french_measurement
+    blank_ph_caveat_is_in_the_actual_german_measurement
+
+test result: FAILED. 2 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+

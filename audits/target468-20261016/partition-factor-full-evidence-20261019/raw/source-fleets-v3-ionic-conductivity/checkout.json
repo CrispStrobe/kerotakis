@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-partition-factor/source",
+    "/kaggle/temp/kerotakis-partition-factor/source-fleets-v3-ionic-conductivity"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "77acaf108ec9912f6ac97f5ca1e1d6a2933c7c3211715edf1591b57893d3769e"
+}

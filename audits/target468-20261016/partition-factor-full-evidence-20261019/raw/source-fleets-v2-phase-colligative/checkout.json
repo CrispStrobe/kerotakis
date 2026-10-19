@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-partition-factor/source",
+    "/kaggle/temp/kerotakis-partition-factor/source-fleets-v2-phase-colligative"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "1cbe3e7ff0d6806e9cce35390881d9a2293a2e36c1afa373dbd2b5a4af13bf7c"
+}

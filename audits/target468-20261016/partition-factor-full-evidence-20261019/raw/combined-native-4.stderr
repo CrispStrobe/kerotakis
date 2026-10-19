@@ -1,0 +1,15 @@
+warning: associated function `new` is never used
+   --> crates/kerotakis-phreeqc/src/aqueous.rs:412:8
+    |
+394 | impl PathResult {
+    | --------------- associated function in this implementation
+...
+412 |     fn new(db_tag: &str, model: crate::dbindex::ActivityModel, outcome: PathOutcome) -> PathResult {
+    |        ^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `kerotakis-phreeqc` (lib) generated 1 warning
+   Compiling kerotakis-phreeqc v0.0.1 (/kaggle/temp/kerotakis-partition-factor/source/crates/kerotakis-phreeqc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.99s
+     Running tests/peroxide_medium.rs (target/debug/deps/peroxide_medium-c2aeaeaa007e59e2)

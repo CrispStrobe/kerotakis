@@ -1,0 +1,8 @@
+{
+  "name": "Source fleet thermal-phase-paths",
+  "key": "source-fleets",
+  "family": "thermal-phase-paths",
+  "all_original_run_steps_passed": true,
+  "original_run_steps_executed": 4,
+  "expected_original_run_steps": 4
+}

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-partition-factor/source",
+    "/kaggle/temp/kerotakis-partition-factor/source-fleets-acid-base-buffers"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "f2ff0ce78673b1d199f96608b6a3750c2c10a4c8bf7ad782571e63f0cdc854aa"
+}

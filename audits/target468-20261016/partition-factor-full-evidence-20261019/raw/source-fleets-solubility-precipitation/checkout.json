@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-partition-factor/source",
+    "/kaggle/temp/kerotakis-partition-factor/source-fleets-solubility-precipitation"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "27a8f386448ef69323661bab3a5725e11168c8dbb0857af872b686bd720e1b71"
+}

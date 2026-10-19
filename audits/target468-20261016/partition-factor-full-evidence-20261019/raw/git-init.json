@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/kerotakis-partition-factor/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e208cde28f95a9102e9770fc4ed1af32373599fc0fcdd0c252258b503b7e8373",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

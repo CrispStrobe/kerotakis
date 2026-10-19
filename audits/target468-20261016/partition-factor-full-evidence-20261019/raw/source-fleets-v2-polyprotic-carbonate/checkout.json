@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-partition-factor/source",
+    "/kaggle/temp/kerotakis-partition-factor/source-fleets-v2-polyprotic-carbonate"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "c354a4518d3664aa3b3298419cbc771ea87b1184a882b22eccd69de0837d7809"
+}

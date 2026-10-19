@@ -1,0 +1,14 @@
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/kerotakis-liquid-refusal/source/crates/kerotakis-core)
+    Finished `test` profile [unoptimized] target(s) in 29.91s
+     Running tests/liquid_partition_refusals.rs (target/debug/deps/liquid_partition_refusals-7dcdf3173cc7b997)
+
+thread 'globally_invalid_transfer_state_keeps_error_and_rollback_contract' (4243) panicked at crates/kerotakis-thermo/src/unifac.rs:433:33:
+UNIFAC calculation refused: UNIFAC temperature must be finite and positive, got -1 K
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'refused_drain_creates_no_receiver_and_moves_no_material' (4245) panicked at crates/kerotakis-thermo/src/unifac.rs:433:33:
+UNIFAC calculation refused: UNIFAC temperature must be finite and positive, got 0 K
+error: test failed, to rerun pass `-p kerotakis-core --test liquid_partition_refusals`
+     Running tests/partition_consumer_admission.rs (target/debug/deps/partition_consumer_admission-2fe3f71b66efdfcb)
+error: 1 target failed:
+    `-p kerotakis-core --test liquid_partition_refusals`

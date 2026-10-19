@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/filtration-evaporation' --family 'filtration-evaporation' --out 'audit-evidence/filtration-evaporation/filtration-evaporation-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "31b73d2809cccc4e9a8b6888cf132eb3c41bada86d41a2bb36f813736eab2afc",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

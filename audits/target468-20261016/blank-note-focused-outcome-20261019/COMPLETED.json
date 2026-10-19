@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-19T13:59:47.003841+00:00",
+  "source": "b703b695d6fea2efdf0f0ac6ff7fd172e8b49cc1",
+  "tree": "13a8af79080f6712d771a4dfe9ae87a46db39638",
+  "two_genuine_baseline_failures": true,
+  "four_fixed_controls": true,
+  "full_source_acceptance": false,
+  "protected_contexts_replaced": false,
+  "scientific_selections": 0,
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+}

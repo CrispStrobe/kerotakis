@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-19T13:55:09.800202+00:00",
+  "source": "b703b695d6fea2efdf0f0ac6ff7fd172e8b49cc1",
+  "baseline_head": "7595b3e1be2576e0ec72900d42bdac84ad2f9477",
+  "kernel": "/code/chr1s4/kerotakis-blank-note-locale-20261019",
+  "version": 2,
+  "worker_sha256": "772f9cd4dd5a8cb7f82b1f2d1ed04126fd7f98f0ce189fadd9da56c332da2a6c",
+  "source_and_assertions_unchanged": true,
+  "setup_change": "Initialize pinned workspace submodules before Cargo tests.",
+  "acceptance": false
+}

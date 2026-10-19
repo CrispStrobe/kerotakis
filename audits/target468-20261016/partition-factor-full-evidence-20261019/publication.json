@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-19T15:14:00.954059+00:00",
+  "source": "d67205091a22bcdb2fc490866224c4bc7fef8a4e",
+  "published_raw_files": 853,
+  "published_raw_bytes": 4136452,
+  "authenticated_artifact_members": 2193,
+  "excluded_authenticated_blobs": {
+    "actual-artifacts.tar.gz": {
+      "bytes": 7637855,
+      "sha256": "0635e38c22f0ba2c979abab268aa6c5a214453d531f57d851031186de1be6acf"
+    },
+    "actual-debug-kero.gz": {
+      "bytes": 24510241,
+      "sha256": "5e359f06e731defa165b0509bb45d330d68c279478d04f69045934380a5e013e"
+    }
+  },
+  "new_engine_or_original_experiment_requests": 0,
+  "large_saved_review_gate_observed": true
+}

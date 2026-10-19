@@ -1,0 +1,3 @@
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/blank-note/source/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 29.09s
+     Running tests/neutral_blank_note_locale.rs (target/debug/deps/neutral_blank_note_locale-7d5dec92bcf9a42b)

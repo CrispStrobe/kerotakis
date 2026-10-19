@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+753-water-heat-path-1 exit= 0 steps= 4
+754-water-heat-path-2 exit= 0 steps= 5
+755-water-heat-path-3 exit= 0 steps= 5
+756-water-heat-path-4 exit= 0 steps= 6
+757-water-cool-path-1 exit= 0 steps= 4
+758-water-cool-path-2 exit= 0 steps= 5
+759-water-cool-path-3 exit= 0 steps= 5
+760-water-cool-path-4 exit= 0 steps= 6
+761-water-heat-dose-0 exit= 0 steps= 4
+762-water-heat-dose-100 exit= 0 steps= 4
+763-water-heat-dose-200 exit= 0 steps= 4
+764-water-heat-dose-400 exit= 0 steps= 4
+765-mix-scale-1 exit= 0 steps= 7
+766-mix-scale-2 exit= 0 steps= 7
+767-mix-scale-3 exit= 0 steps= 7
+768-mix-scale-4 exit= 0 steps= 7
+769-hot-share-1 exit= 0 steps= 7
+770-hot-share-2 exit= 0 steps= 7
+771-hot-share-3 exit= 0 steps= 7
+772-hot-share-4 exit= 0 steps= 7
+773-thermal-roundtrip-50 exit= 0 steps= 5
+774-thermal-roundtrip-100 exit= 0 steps= 5
+775-thermal-roundtrip-200 exit= 0 steps= 5
+776-thermal-roundtrip-300 exit= 0 steps= 5

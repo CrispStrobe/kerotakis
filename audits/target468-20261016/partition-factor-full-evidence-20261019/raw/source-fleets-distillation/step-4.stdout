@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+363-still-order-1-forward exit= 0 steps= 6
+364-still-order-1-reverse exit= 0 steps= 6
+365-still-order-2-forward exit= 0 steps= 6
+366-still-order-2-reverse exit= 0 steps= 6
+367-still-order-3-forward exit= 0 steps= 6
+368-still-order-3-reverse exit= 0 steps= 6
+369-still-order-4-forward exit= 0 steps= 6
+370-still-order-4-reverse exit= 0 steps= 6
+371-still-order-5-forward exit= 0 steps= 6
+372-still-order-5-reverse exit= 0 steps= 6
+373-still-order-6-forward exit= 0 steps= 6
+374-still-order-6-reverse exit= 0 steps= 6
+375-still-duty-1-low exit= 0 steps= 6
+376-still-duty-1-high exit= 0 steps= 6
+377-still-duty-2-low exit= 0 steps= 6
+378-still-duty-2-high exit= 0 steps= 6
+379-still-duty-3-low exit= 0 steps= 6
+380-still-duty-3-high exit= 0 steps= 6
+381-still-fraction-4-low exit= 0 steps= 6
+382-still-fraction-4-high exit= 0 steps= 6
+383-still-fraction-5-low exit= 0 steps= 6
+384-still-fraction-5-high exit= 0 steps= 6
+385-still-fraction-6-low exit= 0 steps= 6
+386-still-fraction-6-high exit= 0 steps= 6

@@ -1,0 +1,56 @@
+{
+  "utc": "2026-10-19T15:10:57.546517+00:00",
+  "head": "d67205091a22bcdb2fc490866224c4bc7fef8a4e",
+  "base": "0b57969911f96bcb97fb159eef725d7db7048801",
+  "tree": "76820b9c397038cd8fb6e1f267708d34c153cbe1",
+  "reviewed_base_advancement_paths": [],
+  "native_log_review": [
+    {
+      "job": 118072621809,
+      "name": "Test (native) (macos-latest)",
+      "raw_log_sha256": "787e1d7a1cfbb8fd30cf30aea41bdd5ca5620aa763ff5fa48b7c63477e04f366",
+      "required_named_controls_present": true
+    },
+    {
+      "job": 118072622103,
+      "name": "Test (native) (ubuntu-latest)",
+      "raw_log_sha256": "86d1661ecf554f359135cb76852134eceb6aa5b80093b7133f4356875a567070",
+      "required_named_controls_present": true
+    }
+  ],
+  "protection": {
+    "url": "https://api.github.com/repos/CrispStrobe/kerotakis/branches/main/protection/required_status_checks",
+    "strict": false,
+    "contexts": [
+      "Full preflight gate",
+      "Test (native) (ubuntu-latest)",
+      "Test (native) (macos-latest)",
+      "The bench in WebAssembly",
+      "The demo page, in a real browser"
+    ],
+    "contexts_url": "https://api.github.com/repos/CrispStrobe/kerotakis/branches/main/protection/required_status_checks/contexts",
+    "checks": [
+      {
+        "context": "Full preflight gate",
+        "app_id": 15368
+      },
+      {
+        "context": "Test (native) (ubuntu-latest)",
+        "app_id": 15368
+      },
+      {
+        "context": "Test (native) (macos-latest)",
+        "app_id": 15368
+      },
+      {
+        "context": "The bench in WebAssembly",
+        "app_id": 15368
+      },
+      {
+        "context": "The demo page, in a real browser",
+        "app_id": 15368
+      }
+    ]
+  },
+  "full33_external_acceptance": true
+}

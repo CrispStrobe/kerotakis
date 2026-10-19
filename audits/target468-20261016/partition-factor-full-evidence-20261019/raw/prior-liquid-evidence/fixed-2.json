@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--locked",
+    "--test",
+    "liquid_partition_refusals",
+    "--test",
+    "partition_consumer_admission",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "stdout_sha256": "4d41fdffcbc98f353efaefd8c4ff478a1d8df06f07a55e7b9c567371a2dcaac6",
+  "stderr_sha256": "d851b98c4b731143293c3c88945eceabb9c302254111e5de70b835ab217dcc16"
+}

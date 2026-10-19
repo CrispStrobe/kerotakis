@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/blank-note/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "f58558e50242d38a5014a617f741048a883db4c20da58b2f60317486a836fe90",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

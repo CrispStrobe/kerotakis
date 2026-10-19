@@ -1,0 +1,347 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "339-silver-filter-chloride-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "340-silver-filter-silver-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "341-barium-filter-sulfate-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "342-barium-filter-barium-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "343-sand-salt-filter-unit: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "344-sand-salt-filter-triple: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "345-brine-evaporation-single: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "346-brine-evaporation-partitioned: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "347-potassium-brine-half: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "348-potassium-brine-two-halves: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "349-nitrate-evaporation-unit: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "350-nitrate-evaporation-fourfold: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "351-dilute-sugar-filter: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "352-dilute-sugar-filter-reordered: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "353-silver-filter-dilute: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "354-silver-filter-concentrated: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "355-brine-evaporate-mild: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "356-brine-evaporate-deep: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "357-mixed-salts-filter: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "358-mixed-salts-filter-feed-reverse: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "359-silica-brine-filter-then-evaporate: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "360-silica-brine-scaled-process: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "361-barium-filter-before-drying: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "362-barium-filter-and-dry-filtrate: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "filtration-evaporation:r339-01-silver-feed-order",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Ag": 0.0012000000000000127,
+          "Cl": 0.0012000000000000127
+        },
+        {
+          "Ag": 0.0012000000000000127,
+          "Cl": 0.0012000000000000127
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-02-barium-feed-order",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Ba": 0.0011000000000004663,
+          "S": 0.0007000000000001862,
+          "Cl": 0.0022000000000000487,
+          "Na": 0.0013999999999997049
+        },
+        {
+          "Ba": 0.0010999999999998192,
+          "S": 0.0006999999999999679,
+          "Cl": 0.002200000000000278,
+          "Na": 0.001400000000000177
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-03-sand-salt-scale",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Si": 0.004,
+          "K": 0.002,
+          "Cl": 0.002
+        },
+        {
+          "Si": 0.012,
+          "K": 0.006,
+          "Cl": 0.006
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-04-brine-step-partition",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 13.282264779350541
+        },
+        {
+          "water|liquid": 13.282264779350541
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-05-potassium-step-partition",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 8.854843186233694
+        },
+        {
+          "water|liquid": 8.854843186570614
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-06-nitrate-scale",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Na": 0.01,
+          "N": 0.01
+        },
+        {
+          "Na": 0.04,
+          "N": 0.04
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-07-dissolved-filter-setup",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 15.495975575908966,
+          "glucose|aqueous": 0.003
+        },
+        {
+          "water|liquid": 15.495975575908966,
+          "glucose|aqueous": 0.003
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-08-silver-dilution-ledger",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Ag": 0.000500000000000098,
+          "Cl": 0.00040000000000003433
+        },
+        {
+          "Ag": 0.0005000000000000261,
+          "Cl": 0.0004000000000001269
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-09-evaporation-nonvolatile-ledger",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Na": 0.055,
+          "Cl": 0.055
+        },
+        {
+          "Na": 0.055,
+          "Cl": 0.055
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-10-soluble-feed-order",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {},
+        {}
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-11-combined-process-scale",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Si": 0.003,
+          "Na": 0.02,
+          "Cl": 0.02
+        },
+        {
+          "Si": 0.006,
+          "Na": 0.04,
+          "Cl": 0.04
+        }
+      ]
+    },
+    {
+      "check": "filtration-evaporation:r339-12-filtrate-drying-conservation",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Ba": 0.0005999999999999547,
+          "S": 0.0005999999999999513,
+          "Cl": 0.001199999999999901,
+          "Na": 0.001199999999999901
+        },
+        {
+          "Ba": 0.0005999999999999547,
+          "S": 0.0005999999999999513,
+          "Cl": 0.001199999999999901,
+          "Na": 0.001199999999999901
+        }
+      ]
+    }
+  ],
+  "passed": 36,
+  "unmet": 0
+}

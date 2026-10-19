@@ -1,0 +1,11 @@
+Warning: you are leaving 1 commit behind, not connected to
+any of your branches:
+
+  d672050 fix: reject unrepresentable directional UNIFAC interaction weights
+
+If you want to keep it by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> d672050
+
+HEAD is now at 5bdc4ea test: expose finite-looking UNIFAC results from underflowed weights

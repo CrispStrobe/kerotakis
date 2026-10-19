@@ -1,0 +1,8 @@
+
+running 3 tests
+test curiosity_full_reports_every_prompt_or_failure ... ignored, scheduled native curiosity corpus
+test curiosity_check_rejects_a_synthetic_routing_regression ... ok
+test curiosity_smoke_routes_without_crashing ... ok
+
+test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 3.37s
+

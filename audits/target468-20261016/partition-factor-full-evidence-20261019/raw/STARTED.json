@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-19T13:00:55.705078+00:00",
+  "script_sha256": "9f350883494583320c1bfcc6efe7932351ba1739f32d14b722590fc5d0c67b63",
+  "source": "d67205091a22bcdb2fc490866224c4bc7fef8a4e",
+  "tree": "76820b9c397038cd8fb6e1f267708d34c153cbe1",
+  "cpu_only": true,
+  "protected_contexts_replaced": false
+}
