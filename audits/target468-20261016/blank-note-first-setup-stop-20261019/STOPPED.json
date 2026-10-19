@@ -1,0 +1,6 @@
+{
+  "error_type": "AssertionError",
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 43, in <module>\n    assert result==101 and '2 passed; 2 failed; 0 ignored' in text\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "no_auto_retry": true
+}

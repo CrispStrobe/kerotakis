@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-19T13:53:56.976360+00:00",
+  "first_worker_sha256": "935bba8b3f168b50923bd6a29696c89eadcc2a694047a061a61d6d9b25b39873",
+  "setup_only_failure": "Workspace dependency resolution requires the Sundials submodule before Cargo can run the selected core tests. No baseline assertion executed.",
+  "first_baseline_stderr_sha256": "63ad31893bf7550768e40f6b3b61c15aad5e198a398ce2f5e7de48735dc5e19a",
+  "correction": "Initialize pinned git submodules before each checkout test. Source, test fixture, forecasts and assertions unchanged.",
+  "scientific_selections": 0
+}

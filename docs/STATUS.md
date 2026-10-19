@@ -49,6 +49,8 @@ Hydrolysis certifies only the admitted analytical strong-base pool, bounds the u
 
 The [next liquid-transfer ownership controls](../audits/target468-20261016/partition-ownership-preparation-20261019/README.md) are frozen separately from active PR841: source inspection identifies silent all-water assignment for an unparameterized neutral and skipped liquid-tagged supported extraction solutes. Three unexecuted controls distinguish both anticipated failures from explicit-ion water transfer. This is a prepared follow-up, not an accepted repair or scientific selection; finish current source validation and delivery before executing it on refreshed main.
 
+A [separate blank-pH note localization candidate](../audits/target468-20261016/blank-note-preparation-20261019/README.md), `b703b695`, adds typed German/French measurement caveats with unchanged English/numerical behavior. Focused baseline/repaired validation is issued; no full acceptance or delivery is claimed. [Primary-source review](neutral-parameter-domain-review-20261019.md) also scopes incompatible UNIFAC parameter vintages before ester extension.
+
 ## Ordered next work
 
 1. **Complete checked partition acceptance.** Peroxide delivery is accepted; review the existing source-bound combined PR841 CPU/protected/platform runs, integrate its exact accepted head, then complete its changed delivery. Hydrolysis delivery and original OR006/MO006 review are complete. MO011/AB031 outcomes are frozen; no further unchanged replay is needed.

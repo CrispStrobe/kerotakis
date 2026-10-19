@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-19T13:52:18.540840+00:00",
+  "source": "b703b695d6fea2efdf0f0ac6ff7fd172e8b49cc1",
+  "baseline_head": "7595b3e1be2576e0ec72900d42bdac84ad2f9477",
+  "kernel": "/code/chr1s4/kerotakis-blank-note-locale-20261019",
+  "version": 1,
+  "worker_sha256": "935bba8b3f168b50923bd6a29696c89eadcc2a694047a061a61d6d9b25b39873",
+  "provider_response_error": null,
+  "warning_preserved": "The requested title resolved to a different slug; observation uses the actual provider response ref. No repeat push.",
+  "execution_acceptance": false,
+  "scientific_selections": 0
+}
