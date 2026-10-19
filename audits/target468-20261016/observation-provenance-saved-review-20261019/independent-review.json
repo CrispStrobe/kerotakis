@@ -1,0 +1,16 @@
+{
+  "source": "fa99b687b7ed14cdc40b22a6e7105095a11bdafd",
+  "four_actual_baseline_assertion_failures_and_positive_control_pass": true,
+  "identical_five_regressions_pass_on_fixed_source": true,
+  "all11_fixed_cli_tests_pass": true,
+  "all500_unmet": 0,
+  "all500_solver_failures": 0,
+  "three_further_descriptive_drifts_preserved": true,
+  "only_generic_passive_event_guard_changed": true,
+  "actual_lock_diff_limited_to_two_build_tools": true,
+  "debug_binary_archive_independently_verified": true,
+  "binary_sha256": "ff6127883e0a1afb2888fe2128b37b1b077359361ca6a87a2dffadddadaa1757",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "full_native_core_product_acceptance": false,
+  "scientific_catalog_additions": 0
+}
