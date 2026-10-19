@@ -3441,7 +3441,7 @@ mod route_trace_tests {
 
     #[test]
     fn an_explicit_model_boundary_is_not_a_successful_route_answer() {
-        let mut vessel = Vessel::new(VesselId(0), "peroxide domain boundary");
+        let mut vessel = Vessel::new(crate::vessel::VesselId(0), "peroxide domain boundary");
         vessel.deposit(SpeciesId::new("H2O2"), Moles(0.1), Phase::Liquid);
         let before = serde_json::to_value(&vessel.contents).unwrap();
         let mut stack = SolverStack::new(vec![Box::new(HonestyEquilibrator)]);
