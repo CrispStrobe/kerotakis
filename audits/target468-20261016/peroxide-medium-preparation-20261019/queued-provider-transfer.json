@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-19T05:54:19.105174+00:00",
+  "run": 39206749822,
+  "producer_steps": 0,
+  "assigned_runners": 0,
+  "replacement": "Single already-issued source-bound bounded CPU job with all33 identical logical jobs",
+  "protected_contexts_unchanged": true,
+  "active_work_cancelled": false
+}

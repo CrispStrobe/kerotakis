@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-19T05:54:53.001915+00:00",
+  "selected_original_ids": [
+    "new120:sp-001",
+    "new120:sp-002",
+    "new120:sp-005",
+    "new120:sp-006",
+    "new120:sp-007",
+    "new120:sp-008",
+    "new120:sp-009",
+    "new120:sp-010"
+  ],
+  "selected_catalog_ids": [
+    "new120-saved-separation-final:sp-001",
+    "new120-saved-separation-final:sp-002",
+    "new120-saved-separation-final:sp-005",
+    "new120-saved-separation-final:sp-006",
+    "new120-saved-separation-final:sp-007",
+    "new120-saved-separation-final:sp-008",
+    "new120-saved-separation-final:sp-009",
+    "new120-saved-separation-final:sp-010"
+  ],
+  "previous_catalog_sha256": "51323ac9c02c830f71c6ce16dcc5f1f70fad32e650a09b3effa9b41e5cb75e06",
+  "new_catalog_sha256": "800e3e36ea6e8cdb147a3beecb4a809e615ec23ef837c40aa84c6571a36578d3",
+  "independent_assessment_sha256": "44dfbfd993af49c8f1c6f42827742b6d044ca4c64804aebfe0e01d7cad2d9e6c",
+  "previous_entries_preserved_exactly": 238,
+  "new_count": 246,
+  "fixed468_selected_before": 234,
+  "fixed468_selected_after": 242,
+  "additional_qualified_cases_to401": 159,
+  "remaining_first_screen_candidates": 2,
+  "unselected_candidates": [
+    "new120:kn-012",
+    "new120:sp-004"
+  ],
+  "historical_holds_unchanged": true,
+  "new_simulator_or_API_executions": 0,
+  "new_current_source_certifications": 0
+}

@@ -1,0 +1,99 @@
+{
+  "frozen_utc": "2026-10-19T05:51:12.431505+00:00",
+  "reviewed_head": "80a81d6a7c0337dffdc57d0382ebc49c562c6a9c",
+  "tree": "5185cf600a4207df6761e36a9fb2bcbe1df5e698",
+  "baseline_tests_only_head": "6ec2f11a83b59340c941cbd1a46cb9bedf878794",
+  "baseline_parent": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "unchanged_regression_files_sha256": {
+    "crates/kerotakis-core/tests/composed_locale.rs": "4171583578f8be2320959e5883222e0ac1090a387c1edd793560052602b1a8de",
+    "crates/kerotakis-core/tests/nonaqueous_routing.rs": "063e09c8c45a91cd906d57ad2bc63f27f57ebd8a06d99bfc0ed5633e7d09246c",
+    "crates/kerotakis-phreeqc/tests/peroxide_medium.rs": "8bb2d234153291c4c73519cf9ac275d8e8292560e42842aa30b6c3a64b4b75b9",
+    "tools/engine-locale-lint.py": "1cb2e8f5e7e61ecf24482a269c6e5b12954b4ed15bf6be761fff4958aeaa2883"
+  },
+  "workflow_sha256": "f27783836bc5b2869a32128d857efb0af8a75d2a18902320b9121b225f14b7d3",
+  "original_logical_job_total": 33,
+  "focused_native_commands": [
+    [
+      "python3",
+      "tools/engine-locale-lint.py",
+      "--check"
+    ],
+    [
+      "cargo",
+      "clippy",
+      "-p",
+      "kerotakis-core",
+      "-p",
+      "kerotakis-cea",
+      "-p",
+      "kerotakis-phreeqc",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "-p",
+      "kerotakis-cea",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-core",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "--no-default-features",
+      "--test",
+      "peroxide_medium",
+      "--",
+      "--nocapture"
+    ]
+  ],
+  "expected_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "uploaded_worker_sha256": "70353921a8e0d7bb22b79e8c08a89e44442d71716a9b9fb421fd50e1accb0fc0",
+  "metadata_sha256": "a47cbe5cf8d09156025312495cd489173e2dde4fc466a36a3398db21f7e20372",
+  "scientific_catalog_additions": 0,
+  "pr": 839,
+  "pr_url": "https://github.com/CrispStrobe/kerotakis/pull/839",
+  "actual_cpu_job": {
+    "kernel_id": 139550847,
+    "version": 1,
+    "cpu_limit": 2,
+    "minimum_available_memory_mib": 6000,
+    "minimum_free_disk_gib": 10,
+    "maximum_seconds": 7200,
+    "gpu": false,
+    "datasets": [],
+    "owner_credentials_uploaded": false
+  },
+  "acceptance": "Pending actual baseline/fixed/native/fleet output, independent review and protected/platform checks. No integration or delivery claimed.",
+  "local_text_only_checks": {
+    "reachable_literal_keys": 745,
+    "de_translated": 745,
+    "fr_translated": 745,
+    "engine_locale_check": "PASS",
+    "locale_collisions": "PASS",
+    "rustfmt_changed_files": "PASS",
+    "diff_whitespace": "PASS",
+    "placeholder_lint": "No missing placeholders; existing extra name value in event.electrolysed.efficiency.lv2 remains unchanged."
+  }
+}
