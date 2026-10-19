@@ -1,0 +1,61 @@
+{
+  "engine": {
+    "source_head": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+    "binary_sha256": "13a4d1340526c540232cd6946cf549fb5c7fa80c951a683dd3d18a3745b674e4",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "actual_source_property_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/phase_route.rs": "1224af69e0ab3cac56ee9069c4941db75d7e55a288663b9d0afab4bce4c3a6ee",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "090ee656666153e0d19cf0a4c68ce6b463073c80a3705b074d6b8e07eb04c634"
+  },
+  "saved_reader_sha256": "54d2e261073b94d3162a5ef00491f3af13cb061e97d5cfb83fad7966ee84fb2b",
+  "cases": [
+    {
+      "id": "new120:or-006",
+      "script_sha256": "76533f7bf9d3aa1c3504807d65ad19016a4c6b04932346bdd91d36796d7c560d",
+      "response_sha256": "f10bc57cad2013d8ba49077b7561ef51b8ac4f49abd8cc6a38e93f56b3750aa4",
+      "original_forecast": "The nominal hydroxide dose can hydrolyse at most half the ester through the saponification reaction, producing acetate and ethanol.",
+      "original_criteria": [
+        {
+          "id": "OR-006-C1",
+          "criterion": "Ester remains after the available hydroxide-equivalent budget has been spent.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-006-C2",
+          "criterion": "Any conversion must match formation of both acetate and ethanol; a pH change alone is insufficient.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "criteria": {
+        "no_solver_failure": true,
+        "ester_matches_stoichiometry": true,
+        "ethanol_matches_stoichiometry": true,
+        "acetate_family_matches_stoichiometry": true,
+        "sodium_matches_stoichiometry": true
+      },
+      "metrics": {
+        "ester_mol": 0.005000000000000003,
+        "ethanol_mol": 0.0049999999999999975,
+        "acetate_family_mol": 0.0049999999999999975,
+        "sodium_mol": 0.005,
+        "before_after_ledger_residual": {
+          "O": 0.0,
+          "charge": 8.673617379884035e-19,
+          "H": 0.0,
+          "C": 0.0,
+          "Na": 0.0
+        }
+      },
+      "status": "PASS"
+    }
+  ],
+  "new_requests": 0,
+  "catalog_additions_by_reader": 0,
+  "qualification": "Root must independently select only fully satisfied original criteria in their bounded domain; other failures remain excluded."
+}

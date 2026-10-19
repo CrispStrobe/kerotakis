@@ -1,0 +1,41 @@
+{
+  "source": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "tree": "53526757212e01f9f8f391a5c884d5afa7598082",
+  "engine": {
+    "source_head": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+    "binary_sha256": "13a4d1340526c540232cd6946cf549fb5c7fa80c951a683dd3d18a3745b674e4",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "artifact_zip_sha256": "bde0124c26795ce150914730636b731cf8892c491963b010d3281f24f5da9265",
+  "actual_archive_members_rehashed": {
+    "rest-native/Cargo.lock": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "rest-native/kero": "13a4d1340526c540232cd6946cf549fb5c7fa80c951a683dd3d18a3745b674e4",
+    "rest-native/ldd.txt": "4f9c1fe6f8cc6a680339db2a5a0e1cd12b18072a82b1dab3dc91731ffc9aab33",
+    "rest-native/lib/ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+    "rest-native/lib/libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+    "rest-native/lib/libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+    "rest-native/lib/libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+    "rest-native/lib/libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d",
+    "rest-native/manifest.json": "a800fdd40128e1c7563c4778ea0b074a10d1fe6a31a461b3a0ea1e3beb397f3d",
+    "rest-native/rustc.txt": "55cd0529c005d3f62869ea6e2271bfa9d5196f56dc65a8be00a371af114a4a98",
+    "rest-snapshot.json": "7e9a0d3c86d7c043e34cea2f5c7a0c0f24f945515359f6147a327dbf9bbec3b6",
+    "rest-isolation.json": "f7ad62ae1386ccbbd04d6f9b505ae60ff671733163fc258a55e5893a0e63f2a6",
+    "rest-frontend.tar.gz": "8eb836b60d5cd3a7ca8a8c0731d050f352e626d6c5932add26df9ef4190dbb22"
+  },
+  "actual_frontend_assets_rehashed": {
+    "iphreeqc.wasm": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
+    "rest.html": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+    "kerotakis_wasm_bg.wasm": "b68fba1190cc62f9de36d1f5e690e95820c01838f936f5431f5573995a0b6f6e",
+    "kerotakis_wasm.js": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+    "iphreeqc.mjs": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
+    "kerotakis.mjs": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44"
+  },
+  "browser_manifest_files_rehashed": 45,
+  "actual_browser_checks": 37,
+  "same37_check_names_as_previous_accepted_release": true,
+  "eleven_API_control_responses_rehashed": true,
+  "browser_report_sha256": "2bb4d6e936ff4e9bc4464a58043793e9001455048e9a9f51a80c1eba91d323ec",
+  "script_assessment_sha256": "3eab9bed23324fec912dbd966ca90e792fc4a43e88d04b4eb359493ef1c97589",
+  "new_requests": 0,
+  "scope": "Authenticated delivered bytes/API/native browser parity and policy controls. Original experiment needs separate independent material/criterion review; no physical calibration."
+}

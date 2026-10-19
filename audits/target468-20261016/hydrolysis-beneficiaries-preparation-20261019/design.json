@@ -1,0 +1,91 @@
+{
+  "frozen_utc": "2026-10-19T06:54:13.548520+00:00",
+  "status": "FROZEN_BEFORE_SINGLE_ISSUE",
+  "cases": [
+    {
+      "id": "batch2:mo-006",
+      "title": "Back-titration assay of an ester with excess hydroxide",
+      "script": "# MO-006: Back-titration assay of an ester with excess hydroxide\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NaOH 0.001mol\nadd v1 ethyl_acetate 0.0005mol\nreact v1 saponification\ninspect v1\ntitrate v1 HCl 0.1M 0.1mL until ph 8.5 max 150\ninspect v1\nnew\nadd v2 water 100mL\nadd v2 NaOH 0.001mol\ntitrate v2 HCl 0.1M 0.1mL until ph 8.5 max 150\ninspect\n",
+      "script_sha256": "a87cc37fca0406e43894b2f68094fdd92aa6e5c5b4d56da7d80c99efa53da8c3",
+      "original_forecast": "For complete hydrolysis, the activated sample should consume about 0.0005 mol less strong acid than the base blank at an endpoint that mostly leaves acetate deprotonated.",
+      "original_criteria": [
+        {
+          "id": "MO-006-C1",
+          "criterion": "Compare the blank-minus-sample delivered acid equivalents with the observed ester loss.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-006-C2",
+          "criterion": "Correct for endpoint resolution and check that appreciable acetate protonation or incomplete hydrolysis does not bias the difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "At pH 8.5 acetate is mostly, not perfectly, deprotonated.",
+        "Strong-base pool ownership and titrator direction handling must be confirmed at runtime."
+      ],
+      "original_baseline": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+      "run_status": "UNISSUED on repaired source",
+      "prerequisites": "Integrated hydrolysis source, current artifact/API/browser acceptance and independently accepted original OR006 replay.",
+      "additional_review": "Reconstruct blank-minus-sample actual acid equivalents, including titrant solvent, endpoint step size and acetate protonation at8.5. Compare with actual ester loss; no rounded endpoint pass."
+    },
+    {
+      "id": "batch2:mo-011",
+      "title": "Chromatographic tracking of an ester-hydrolysis intermediate",
+      "script": "# MO-011: Chromatographic tracking of an ester-hydrolysis intermediate\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 ethyl_acetate 0.001mol\nadd v1 NaOH 0.0005mol\nmeasure v1 chromatograph\ninspect v1\nreact v1 saponification\nmeasure v1 chromatograph\ninspect v1\nadd v1 NaOH 0.0005mol\nreact v1 saponification\nmeasure v1 chromatograph\ninspect\n",
+      "script_sha256": "a59e4c385cefbeec54a06cb3c813d8c3846a2bd03722cbfcd8d3ea9f84899541",
+      "original_forecast": "If the chromatograph recognises the relevant molecular pools, ester features should decrease and ethanol features increase as additional hydroxide permits further hydrolysis.",
+      "original_criteria": [
+        {
+          "id": "MO-011-C1",
+          "criterion": "Relate peak identities to independently reported species inventories after each stage.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-011-C2",
+          "criterion": "Do not compare raw areas as stoichiometric mole ratios unless response factors are provided; ionic acetate need not produce a comparable volatile peak.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Chromatographic retention and detector coverage are simplified and may omit ionic products.",
+        "The two named calls must consume the correct remaining substrate pools."
+      ],
+      "original_baseline": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+      "run_status": "UNISSUED on repaired source",
+      "prerequisites": "Integrated hydrolysis source, current artifact/API/browser acceptance and independently accepted original OR006 replay.",
+      "additional_review": "Verify successive0.5mmol named conversions spend remaining ester once. Independently identify ester/ethanol peaks and preserved unsupported ionic acetate; peak area is not mole fraction."
+    }
+  ],
+  "accepted_engine": {
+    "source_head": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+    "binary_sha256": "13a4d1340526c540232cd6946cf549fb5c7fa80c951a683dd3d18a3745b674e4",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "bound_to_authenticated_accepted_artifact": true,
+  "verified_release_receipt_sha256": "bd9d35d982f99ded55230164b02a629b29d86fd73a37da6e224a8e746660327f",
+  "independent_OR006_review_sha256": "e1222f6871485fbe73e14279cbd2208cdf1f883d915fba9bad418ecb8d31e342",
+  "policy": {
+    "attempts_per_case": 1,
+    "minimum_serial_seconds": 3.1,
+    "no_retries_or_unchanged_baseline_execution": true
+  },
+  "review_constraints": {
+    "MO006": {
+      "titrant_increment_mol": "0.00001",
+      "compare_actual_delivered_acid_with_actual_ester_loss": true,
+      "retain_endpoint_overshoot_and_acetate_protonation": true
+    },
+    "MO011": {
+      "nominal_stage_max_extent_mol": "0.0005",
+      "match_actual_peak_identities_to_each_owned_inventory": true,
+      "raw_peak_areas_are_not_stoichiometric_mole_ratios": true
+    }
+  },
+  "catalog_additions": 0
+}

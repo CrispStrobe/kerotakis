@@ -1,0 +1,5 @@
+# Two original hydrolysis beneficiaries: separately bound follow-up
+
+[Before-issue design](design.json) preserves unchanged MO006 back-titration and MO011 staged chromatographic hydrolysis scripts, forecasts, criteria and limits. Actual delivered source `8c584e20` now has independently accepted artifact/11 API/37 browser and original OR006 acceptance. Issue each original once, serially, with exact engine/script binding and no automatic retries. Do not rerun the historical baseline, whole corpus or OR006.
+
+For MO006, reconstruct actual blank-minus-sample acid equivalents, titrant solvent, step resolution and acetate protonation. Compare actual ester loss, not rounded endpoints. For MO011, review both successive owned conversions and actual ester/ethanol peak identities; preserve missing ionic detector coverage, and never treat raw area as molar stoichiometry. Preserve every first failure. Actual requests/results and independent criteria acceptance remain pending; these preparations award no selections. MO003 still needs the separately proved carbonate reserve.

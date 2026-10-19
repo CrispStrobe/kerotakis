@@ -1,0 +1,108 @@
+{
+  "source": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "engine": {
+    "source_head": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+    "binary_sha256": "13a4d1340526c540232cd6946cf549fb5c7fa80c951a683dd3d18a3745b674e4",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "response_sha256": "f10bc57cad2013d8ba49077b7561ef51b8ac4f49abd8cc6a38e93f56b3750aa4",
+  "original_criteria_passed": [
+    "OR-006-C1",
+    "OR-006-C2"
+  ],
+  "ester_remaining_mol": "0.005000000000000003",
+  "ester_consumed_mol": "0.004999999999999997",
+  "ethanol_formed_mol": "0.0049999999999999975",
+  "acetate_family_formed_mol": "0.00499999999999999787466",
+  "restricted_stoichiometric_reserve_before_mol": "0.005",
+  "restricted_stoichiometric_reserve_after_mol": "2.12534E-18",
+  "maximum_per_step_atom_charge_residual": "2.9379460E-17",
+  "per_step_residuals": [
+    {
+      "operator": {
+        "moles": "1.1068553982792118",
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "residual": {
+        "H": "0E-17",
+        "charge": "0E-17",
+        "O": "0E-17"
+      }
+    },
+    {
+      "operator": {
+        "moles": "0.01",
+        "op": "add",
+        "species": "ethyl_acetate",
+        "vessel": 0
+      },
+      "residual": {
+        "H": "0E-17",
+        "charge": "0E-17",
+        "O": "0E-17",
+        "C": "0.000"
+      }
+    },
+    {
+      "operator": {
+        "moles": "0.005",
+        "op": "add",
+        "species": "NaOH",
+        "vessel": 0
+      },
+      "residual": {
+        "H": "-2.5E-18",
+        "O": "-2.5E-18",
+        "Na": "0.0000",
+        "charge": "2.5E-18",
+        "C": "0.000"
+      }
+    },
+    {
+      "operator": {
+        "op": "inspect"
+      },
+      "residual": {
+        "H": "0E-19",
+        "O": "0E-19",
+        "Na": "0.0000",
+        "charge": "0E-19",
+        "C": "0.000"
+      }
+    },
+    {
+      "operator": {
+        "op": "react",
+        "reaction": "saponification",
+        "vessel": 0
+      },
+      "residual": {
+        "H": "-2.9379460E-17",
+        "O": "-1.6128780E-17",
+        "Na": "0.0000",
+        "charge": "8.78100E-19",
+        "C": "2.749320E-18"
+      }
+    },
+    {
+      "operator": {
+        "op": "inspect"
+      },
+      "residual": {
+        "H": "0E-24",
+        "O": "0E-24",
+        "Na": "0.0000",
+        "charge": "0E-24",
+        "C": "0E-24"
+      }
+    }
+  ],
+  "temperatures_K": [
+    "300.7643786420616",
+    "300.76420533320845"
+  ],
+  "new_engine_or_API_requests": 0,
+  "qualification": "Explicit overall template and this closed analytical inventory only; not a rate, heat, activity-model or empirical calibration claim. Free-ion/base-equivalent meters alone are not available-base capacity."
+}

@@ -1,0 +1,52 @@
+{
+  "utc": "2026-10-19T06:50:01.175713+00:00",
+  "source": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "original_properties_sha256": "836ba654d6c0f5aed2bf5eb0559d4a309638646ee1eaa5ce14f70cfb5482f4b1",
+  "completed_properties_sha256": "6ddb57906a72eb63130df93176fb165b98fdcd70ab72a04ce583edea69b1fe71",
+  "additions": {
+    "CH3COO-": {
+      "composition_id": "composition/CH3COO-",
+      "source_id": "legacy/CH3COO-",
+      "data": {
+        "formula": "CH3COO-",
+        "elements": {
+          "C": 2.0,
+          "H": 3.0,
+          "O": 2.0
+        },
+        "charge": -1.0
+      }
+    },
+    "CH3COOH": {
+      "composition_id": "composition/CH3COOH",
+      "source_id": "legacy/CH3COOH",
+      "data": {
+        "formula": "CH3COOH",
+        "elements": {
+          "C": 2.0,
+          "H": 4.0,
+          "O": 2.0
+        },
+        "charge": 0.0
+      }
+    },
+    "ethanol": {
+      "composition_id": "composition/ethanol",
+      "source_id": "legacy/ethanol",
+      "data": {
+        "formula": "C2H5OH",
+        "elements": {
+          "C": 2.0,
+          "H": 6.0,
+          "O": 1.0
+        },
+        "charge": 0.0
+      }
+    }
+  },
+  "original_reader_unchanged": true,
+  "original_failed_reader_stderr_sha256": "9172f913cbc2b86df5db893a437c98ffe7a661e8b5a20cdb2aa3e8d082838d24",
+  "new_API_requests": 0,
+  "changed_expectations": false
+}

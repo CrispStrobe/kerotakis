@@ -1,0 +1,13 @@
+{
+  "type": "KeyError",
+  "first_missing_species": "ethanol",
+  "also_missing_observed_species": [
+    "CH3COO-",
+    "CH3COOH"
+  ],
+  "raw_stderr_sha256": "9172f913cbc2b86df5db893a437c98ffe7a661e8b5a20cdb2aa3e8d082838d24",
+  "first_failed_run_preserved": true,
+  "raw_private_host_paths_omitted": true,
+  "followup_changes": "Complete property metadata from the exact tested source; unchanged reader/assertions/response/expectations",
+  "additional_API_requests": 0
+}

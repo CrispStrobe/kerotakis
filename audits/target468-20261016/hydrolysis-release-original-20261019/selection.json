@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-19T06:53:02.435323+00:00",
+  "original_id": "new120:or-006",
+  "selected_catalog_id": "new120-hydrolysis-repaired:or-006",
+  "previous_catalog_sha256": "800e3e36ea6e8cdb147a3beecb4a809e615ec23ef837c40aa84c6571a36578d3",
+  "new_catalog_sha256": "dee4b4720f6ad87db98c832bb626adb993f2d634a2887c8a7ea74d3f7c3f6047",
+  "previous246_entries_preserved_exactly": true,
+  "new_count": 247,
+  "fixed468_selected_before": 242,
+  "fixed468_selected_after": 243,
+  "additional_qualified_cases_to401": 158,
+  "actual_source": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "actual_replay_requests": 1,
+  "additional_requests_by_review": 0,
+  "first_metadata_reader_failure_preserved": true
+}

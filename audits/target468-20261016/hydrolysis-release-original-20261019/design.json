@@ -1,0 +1,68 @@
+{
+  "frozen_utc": "2026-10-18T07:58:57.648705+00:00",
+  "status": "Bound to accepted changed-source artifact/API/browser before its single issue",
+  "cases": [
+    {
+      "id": "new120:or-006",
+      "script": "# OR-006: Base-limited ester hydrolysis leaves residual ester\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 20mL\nadd v1 ethyl_acetate 0.01mol\nadd v1 NaOH 0.005mol\ninspect v1\nreact v1 saponification\ninspect v1\n",
+      "script_sha256": "76533f7bf9d3aa1c3504807d65ad19016a4c6b04932346bdd91d36796d7c560d",
+      "original_forecast": "The nominal hydroxide dose can hydrolyse at most half the ester through the saponification reaction, producing acetate and ethanol.",
+      "original_criteria": [
+        {
+          "id": "OR-006-C1",
+          "criterion": "Ester remains after the available hydroxide-equivalent budget has been spent.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-006-C2",
+          "criterion": "Any conversion must match formation of both acetate and ethanol; a pH change alone is insufficient.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "changed_source_expectations": {
+        "represented_material_charge_resolution_mol_or_eq": 1e-08,
+        "post_request_ester_mol": 0.005,
+        "post_request_ethanol_mol": 0.005,
+        "post_request_acetate_family_mol": 0.005,
+        "post_request_sodium_mol": 0.005,
+        "stoichiometric_resolution_mol": 1e-08,
+        "limiting_inventory": "0.005mol analytical hydroxide-equivalent budget, not rounded displayed OH activity or NaOH bottle identity",
+        "scope": "Explicit requested overall template, not cold/warm kinetic prediction or reaction heat."
+      },
+      "baseline_stdout_sha256": "a6a0978646de24196cade82e31150858dd13f4f1dff5ca2bc1083cb0e9046aec",
+      "baseline_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      }
+    }
+  ],
+  "requests_planned": 1,
+  "policy": {
+    "one_attempt_per_case": true,
+    "minimum_serial_seconds": 3.1,
+    "stop_on_ambiguous_5xx_or_network": true,
+    "no_original_forecast_or_script_changes": true,
+    "no_whole_corpus_reexecution": true
+  },
+  "catalog_additions": 0,
+  "bound_to_authenticated_accepted_artifact": true,
+  "single_changed_source_replay": "Only original OR006 on the authenticated named-hydrolysis release; do not repeat completed KN007/TH016 or unchanged OR006",
+  "accepted_engine": {
+    "source_head": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+    "binary_sha256": "13a4d1340526c540232cd6946cf549fb5c7fa80c951a683dd3d18a3745b674e4",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "verified_release_receipt_sha256": "bd9d35d982f99ded55230164b02a629b29d86fd73a37da6e224a8e746660327f",
+  "actual_release_property_source_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/phase_route.rs": "1224af69e0ab3cac56ee9069c4941db75d7e55a288663b9d0afab4bce4c3a6ee",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "090ee656666153e0d19cf0a4c68ce6b463073c80a3705b074d6b8e07eb04c634"
+  }
+}
