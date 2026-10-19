@@ -69,3 +69,26 @@ fn ordinary_supported_drain_retains_both_solute_shares_and_total() {
     assert!(shares.iter().all(|n| *n > 0.0 && *n < 0.01));
     assert!((shares.iter().sum::<f64>() - 0.01).abs() < 1e-12);
 }
+
+#[test]
+fn globally_invalid_transfer_state_keeps_error_and_rollback_contract() {
+    for layered in [false, true] {
+        for temperature in [-1.0, f64::NAN, f64::INFINITY] {
+            let mut b = sample(layered);
+            b.vessels[0].temperature = Kelvin(temperature);
+            let before = serde_json::to_value(&b.vessels).unwrap();
+            let bits = temperature.to_bits();
+            let command = if layered {
+                "drain v1 v2"
+            } else {
+                "extract v1 v2 hexane 0.5mol stages 2"
+            };
+            assert!(
+                matches!(b.step(op(command)), Err(BenchError::InvalidState(_))),
+                "{command} {temperature}"
+            );
+            assert_eq!(serde_json::to_value(&b.vessels).unwrap(), before);
+            assert_eq!(b.vessels[0].temperature.0.to_bits(), bits);
+        }
+    }
+}
