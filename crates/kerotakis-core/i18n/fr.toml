@@ -1458,6 +1458,7 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+"liquid-partition-refused" = "Un coefficient de partage liquide/liquide fini pour {species} à {temperature} K est indisponible : {why} ; aucun transfert de soluté non pris en charge n’est appliqué"
 editorial-organic-solubility = "{solute} dans {solvent} : la valeur de solubilité est une estimation pédagogique éditoriale, pas une limite numérique mesurée. Les quantités dissoutes, la répartition entre phases et les rendements qui en dépendent sont provisoires et ne constituent pas des prédictions validées"
 withdrawn-organic-solubility = "{solute} dans {solvent} : la provenance de la valeur historique de solubilité a été retirée et aucune valeur de remplacement étayée n’est disponible. Les quantités dissoutes, la répartition entre phases et les rendements qui en dépendent sont provisoires et ne constituent pas des prédictions validées ; la spéciation et les activités des électrolytes en solvant organique ne sont pas modélisées"
 acid-permanganate-endpoint = "Ce calcul du permanganate et du peroxyde en milieu sulfurique est un point final stœchiométrique limité. Aucune durée de réaction ni chaleur de réaction n’est adoptée ; le chlorure, les réactifs concurrents et les autres domaines de produits sont hors de ce modèle"

@@ -3582,8 +3582,19 @@ impl Bench {
                                 return Ok(events);
                             }
                         }
-                        match partition_k(&p.species, &upper_id, &lower_id, t_k) {
-                            Some(prediction) if lower_volume_l > 0.0 && upper_volume_l > 0.0 => {
+                        match try_partition_k(&p.species, &upper_id, &lower_id, t_k) {
+                            Err(error) => {
+                                events.push(Event::not_modeled(
+                                    *from,
+                                    crate::ops::NotModelledCause::ModelBoundary,
+                                    liquid_partition_refusal(&p.species, t_k, error),
+                                ));
+                                *disposition = ApplyDisposition::Unchanged;
+                                return Ok(events);
+                            }
+                            Ok(Some(prediction))
+                                if lower_volume_l > 0.0 && upper_volume_l > 0.0 =>
+                            {
                                 let f = crate::apparatus::extract(
                                     p.moles.0,
                                     lower_volume_l,
@@ -3595,7 +3606,9 @@ impl Bench {
                                 moved.push((p.species.clone(), Moles(p.moles.0 * f), p.phase));
                                 partitioned.push((p.species.clone(), f));
                             }
-                            Some(_) | None => moved.push((p.species.clone(), p.moles, p.phase)),
+                            Ok(Some(_)) | Ok(None) => {
+                                moved.push((p.species.clone(), p.moles, p.phase))
+                            }
                         }
                     }
                 }
@@ -3761,14 +3774,24 @@ impl Bench {
                             continue;
                         }
                     }
-                    let Some(prediction) =
-                        partition_k(&solute, solvent, &water, source.temperature.0)
-                    else {
-                        if aqueous_moles > 0.0 || solid_moles > 0.0 {
-                            outside.push(solute);
-                        }
-                        continue;
-                    };
+                    let prediction =
+                        match try_partition_k(&solute, solvent, &water, source.temperature.0) {
+                            Ok(Some(prediction)) => prediction,
+                            Err(error) => {
+                                events.push(Event::not_modeled(
+                                    *from,
+                                    crate::ops::NotModelledCause::ModelBoundary,
+                                    liquid_partition_refusal(&solute, source.temperature.0, error),
+                                ));
+                                continue;
+                            }
+                            Ok(None) => {
+                                if aqueous_moles > 0.0 || solid_moles > 0.0 {
+                                    outside.push(solute);
+                                }
+                                continue;
+                            }
+                        };
                     let solubility = species::lookup(&solute).and_then(|data| {
                         data.aqueous_solubility_at(source.temperature.0)
                             .map(|grams_per_100_ml| grams_per_100_ml * 10.0 / data.molar_mass)
@@ -6999,50 +7022,91 @@ pub(crate) struct PartitionPrediction {
 /// Empirical rows win where molecular group decomposition would be fiction;
 /// otherwise UNIFAC computes the infinite-dilution coefficient from the
 /// curated structure groups.
+/// Read-only scene consumers omit a refused coefficient instead of inventing one.
 pub(crate) fn partition_k(
     solute: &SpeciesId,
     organic_solvent: &SpeciesId,
     aqueous_solvent: &SpeciesId,
     temperature_k: f64,
 ) -> Option<PartitionPrediction> {
+    try_partition_k(solute, organic_solvent, aqueous_solvent, temperature_k)
+        .ok()
+        .flatten()
+}
+
+fn liquid_partition_refusal(
+    solute: &SpeciesId,
+    temperature: f64,
+    error: kerotakis_thermo::unifac::UnifacError,
+) -> Phrase {
+    Phrase::new(
+        "not-modeled.liquid-partition-refused",
+        "a finite liquid/liquid partition coefficient for {species} at {temperature} K is unavailable: {why}; no unsupported solute transfer is applied",
+        vec![
+            ("species".into(), Slot::term("species", species::lookup(solute).map(|s| s.name).unwrap_or(solute.0.as_str()))),
+            ("temperature".into(), Slot::number(format!("{temperature:.2}"))),
+            ("why".into(), Slot::phrase(partition_input_refusal(error))),
+        ],
+    )
+}
+
+fn try_partition_k(
+    solute: &SpeciesId,
+    organic_solvent: &SpeciesId,
+    aqueous_solvent: &SpeciesId,
+    temperature_k: f64,
+) -> Result<Option<PartitionPrediction>, kerotakis_thermo::unifac::UnifacError> {
     if let Some(row) = crate::apparatus::partition_coefficient(
         solute,
         organic_solvent,
         aqueous_solvent,
         temperature_k,
     ) {
-        return Some(PartitionPrediction {
+        return Ok(Some(PartitionPrediction {
             k_organic_over_aqueous: row.k_organic_over_aqueous,
             model: "constant dilute-solution distribution coefficient",
             provenance: row.source.to_string(),
-        });
+        }));
     }
     if organic_solvent.0 != "hexane" || aqueous_solvent.0 != "water" {
-        return None;
+        return Ok(None);
     }
-    let groups = partition_groups(solute)?;
-    let mole_fraction_ratio =
-        kerotakis_thermo::lle::try_infinite_dilution_gamma(&groups, &water_groups(), temperature_k)
-            .ok()?
-            / kerotakis_thermo::lle::try_infinite_dilution_gamma(
-                &groups,
-                &hexane_groups(),
-                temperature_k,
-            )
-            .ok()?;
+    let Some(groups) = partition_groups(solute) else {
+        return Ok(None);
+    };
+    let mole_fraction_ratio = kerotakis_thermo::lle::try_infinite_dilution_gamma(
+        &groups,
+        &water_groups(),
+        temperature_k,
+    )? / kerotakis_thermo::lle::try_infinite_dilution_gamma(
+        &groups,
+        &hexane_groups(),
+        temperature_k,
+    )?;
     // UNIFAC gives an infinite-dilution mole-fraction ratio. The extraction
     // operator consumes a concentration ratio, so convert with the pure
     // solvent molar concentrations. This makes the volume formula exactly
     // agree with the existing equal-activity mole-balance formula.
-    let water_molar_volume = species::lookup(aqueous_solvent)?.molar_volume_l_per_mol()?;
-    let organic_molar_volume = species::lookup(organic_solvent)?.molar_volume_l_per_mol()?;
+    let Some(water_molar_volume) =
+        species::lookup(aqueous_solvent).and_then(|s| s.molar_volume_l_per_mol())
+    else {
+        return Ok(None);
+    };
+    let Some(organic_molar_volume) =
+        species::lookup(organic_solvent).and_then(|s| s.molar_volume_l_per_mol())
+    else {
+        return Ok(None);
+    };
     let k = mole_fraction_ratio * water_molar_volume / organic_molar_volume;
-    (k.is_finite() && k > 0.0).then(|| PartitionPrediction {
+    if !k.is_finite() || k <= 0.0 {
+        return Err(kerotakis_thermo::unifac::UnifacError::NumericalRange { component: 0 });
+    }
+    Ok(Some(PartitionPrediction {
         k_organic_over_aqueous: k,
         model: "UNIFAC infinite-dilution activity-coefficient ratio converted from mole-fraction to concentration basis with solvent molar volumes",
         provenance: "Fredenslund, Jones & Prausnitz, AIChE Journal 21(6), 1086-1099 (1975); curated water/hexane and solute group decompositions"
             .to_string(),
-    })
+    }))
 }
 
 pub(crate) fn water_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
