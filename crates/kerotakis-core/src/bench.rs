@@ -5347,6 +5347,33 @@ impl Bench {
                                 ),
                             ));
                         }
+                        Some(r) if r.name == "saponification" => {
+                            let v = self.vessel_mut(*vessel)?;
+                            let result = crate::named_alkaline::saponify(v);
+                            let ionic = result.as_ref().is_ok_and(|outcome| outcome.ionic);
+                            let extent = result.map(|outcome| outcome.extent).map_err(|detail| {
+                                Phrase::new(
+                                    "not-modeled.unproven-strong-base-capacity",
+                                    "Named hydrolysis cannot certify its strong-base reserve: {detail}",
+                                    vec![("detail".into(), Slot::text(detail))],
+                                )
+                            });
+                            if let Some(extent) = curated_reaction_extent(
+                                extent,
+                                &crate::family::OutcomeModel::ToCompletion,
+                                r,
+                                *vessel,
+                                true,
+                                &mut events,
+                            ) {
+                                events.push(Event::OrgReacted {
+                                    vessel: *vessel, name: r.name.into(),
+                                    equation: if ionic { "CH3COOC2H5 + OH- → CH3COO- + C2H5OH".into() } else { r.equation.into() },
+                                    extent: Moles(extent),
+                                    boundary: if ionic { format!("{} Strong-base capacity is certified from the admitted alkali/anion/acetate inventory; counterions remain owned. This is a requested net ionic conversion, not a rate or heat prediction.", r.boundary) } else { r.boundary.into() },
+                                });
+                            }
+                        }
                         Some(r) => {
                             let v = self.vessel_mut(*vessel)?;
                             let model = r.equilibrium_log_k.map_or(
