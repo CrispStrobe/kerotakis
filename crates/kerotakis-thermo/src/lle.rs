@@ -283,13 +283,25 @@ pub fn infinite_dilution_gamma(
     solvent: &crate::unifac::GroupDecomposition,
     t_kelvin: f64,
 ) -> f64 {
+    try_infinite_dilution_gamma(solute, solvent, t_kelvin)
+        .unwrap_or_else(|error| panic!("UNIFAC infinite dilution refused: {error}"))
+}
+
+/// The checked infinite-dilution entry point. Callers can retain a missing
+/// group, interaction or invalid-coordinate refusal instead of a panic.
+/// The existing trace-composition approximation and approved data are unchanged.
+pub fn try_infinite_dilution_gamma(
+    solute: &crate::unifac::GroupDecomposition,
+    solvent: &crate::unifac::GroupDecomposition,
+    t_kelvin: f64,
+) -> Result<f64, crate::unifac::UnifacError> {
     let table = crate::unifac::approved_table();
-    let g = crate::unifac::activity_coefficients(
+    let g = crate::unifac::try_activity_coefficients(
         &table,
         &[(solute.clone(), 1e-9), (solvent.clone(), 1.0 - 1e-9)],
         t_kelvin,
-    );
-    g[0]
+    )?;
+    Ok(g[0])
 }
 
 /// How a neutral solute splits between two liquid layers at equilibrium:
