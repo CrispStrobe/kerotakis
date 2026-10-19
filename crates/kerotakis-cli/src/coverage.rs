@@ -997,14 +997,16 @@ mod tests {
 
     #[test]
     fn unsupported_dissolution_and_visual_inspection_are_not_computed() {
-        let result = execute_prompt(&original_prompt("bio-034"), &mut crate::build_stack()).unwrap();
+        let result =
+            execute_prompt(&original_prompt("bio-034"), &mut crate::build_stack()).unwrap();
         assert_eq!(result.observed, Disposition::Qualitative);
         assert_eq!(result.reason_code, "typed-observation");
     }
 
     #[test]
     fn unsupported_digestion_and_visual_inspection_are_not_computed() {
-        let result = execute_prompt(&original_prompt("bio-041"), &mut crate::build_stack()).unwrap();
+        let result =
+            execute_prompt(&original_prompt("bio-041"), &mut crate::build_stack()).unwrap();
         assert_eq!(result.observed, Disposition::Qualitative);
         assert_eq!(result.reason_code, "typed-observation");
     }
