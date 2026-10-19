@@ -460,6 +460,13 @@ impl Equilibrator for SolverStack {
                 // had declined the solution.
                 Err(e) => {
                     *vessel = checkpoint;
+                    // Roll back the failed material proposal, but do not put
+                    // an earlier aqueous answer back on the instruments when
+                    // its owning adapter could not characterize this state.
+                    // Other model failures do not own these diagnostics.
+                    if solver.trusted_aqueous_readback().is_some() {
+                        vessel.invalidate_aqueous_diagnostics();
+                    }
                     self.last_routes.push(SolverRoute {
                         solver: solver_name.clone(),
                         kind,
@@ -2180,9 +2187,16 @@ pub fn equilibrate_phase_coupled(
 
     for pass in 0..MAX_PASSES {
         if chemistry.applies(vessel) {
+            let checkpoint = vessel.clone();
             match chemistry.equilibrate(vessel) {
                 Ok(mut more) => events.append(&mut more),
                 Err(error) => {
+                    // As in SolverStack, an error must not commit a partial
+                    // proposal or resurrect this owner's stale diagnostics.
+                    *vessel = checkpoint;
+                    if chemistry.trusted_aqueous_readback().is_some() {
+                        vessel.invalidate_aqueous_diagnostics();
+                    }
                     events.push(Event::SolverFailed {
                         vessel: vessel.id,
                         solver: chemistry.name().to_string(),
