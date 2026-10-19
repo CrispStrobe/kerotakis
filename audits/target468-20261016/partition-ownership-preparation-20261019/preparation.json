@@ -1,0 +1,16 @@
+{
+  "source_reviewed": "d67205091a22bcdb2fc490866224c4bc7fef8a4e",
+  "source_files_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "5c4f5dcdaa779607340f237645b7cd4fd0bdcebd17f15a8b354375b7cb871957",
+    "crates/kerotakis-core/tests/liquid_partition_refusals.rs": "39fb4b748ec493c8cd9dba0ec8567605a8294bc136af26197c9022a5a07b1052"
+  },
+  "fixture_sha256": "fbba3c76e696bcf95c7997a92294cbdf053e4ec8df67b618c6e07e39ed21fca1",
+  "execution_status": "not issued",
+  "forecast": {
+    "unparameterized_neutral_drain_refuses_without_assigning_a_layer": "expected assertion failure",
+    "supported_liquid_and_aqueous_solute_tags_give_the_same_extraction": "expected assertion failure",
+    "explicit_dissolved_ions_follow_water_without_neutral_partition_data": "expected pass"
+  },
+  "runtime_changes": false,
+  "scientific_selections": 0
+}

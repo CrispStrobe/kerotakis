@@ -47,6 +47,8 @@ Earlier selections remain unchanged: four saved GS002/004/006/008 protocols, ten
 
 Hydrolysis certifies only the admitted analytical strong-base pool, bounds the update by owned carriers, and commits stoichiometry atomically. Positive basis or measured free OH alone is not reserve. Unknown buffers retain explicit refusals. Predecessor baseline six-core/two-native failures and the French locale failure remain immutable. The first combined saved reader expected the test filename in stdout; Cargo puts it on stderr. The corrected reader requires all nine exact passing core test names while preserving source/count/law/lock checks. No chemistry assertions or engine runs changed.
 
+The [next liquid-transfer ownership controls](../audits/target468-20261016/partition-ownership-preparation-20261019/README.md) are frozen separately from active PR841: source inspection identifies silent all-water assignment for an unparameterized neutral and skipped liquid-tagged supported extraction solutes. Three unexecuted controls distinguish both anticipated failures from explicit-ion water transfer. This is a prepared follow-up, not an accepted repair or scientific selection; finish current source validation and delivery before executing it on refreshed main.
+
 ## Ordered next work
 
 1. **Complete checked partition acceptance.** Peroxide delivery is accepted; review the existing source-bound combined PR841 CPU/protected/platform runs, integrate its exact accepted head, then complete its changed delivery. Hydrolysis delivery and original OR006/MO006 review are complete. MO011/AB031 outcomes are frozen; no further unchanged replay is needed.
