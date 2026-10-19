@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets.py --family 'observables-negative-controls' --binary target/release/kero --out 'audit-evidence/observables-negative-controls'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "af1d4a242a95e88cc2075acbc5b9185f432e73526f8b12c04f2deff1badbe35c",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

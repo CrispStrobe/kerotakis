@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/gas-boundaries' --family 'gas-boundaries' --out 'audit-evidence/gas-boundaries/gas-boundaries-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "b862241a9dd5892649cfaf76688884814bf86712ee19a777327daf4e99bdc3e3",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

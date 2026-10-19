@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+339-silver-filter-chloride-first exit= 0 steps= 6
+340-silver-filter-silver-first exit= 0 steps= 6
+341-barium-filter-sulfate-first exit= 0 steps= 6
+342-barium-filter-barium-first exit= 0 steps= 6
+343-sand-salt-filter-unit exit= 0 steps= 6
+344-sand-salt-filter-triple exit= 0 steps= 6
+345-brine-evaporation-single exit= 0 steps= 4
+346-brine-evaporation-partitioned exit= 0 steps= 5
+347-potassium-brine-half exit= 0 steps= 4
+348-potassium-brine-two-halves exit= 0 steps= 5
+349-nitrate-evaporation-unit exit= 0 steps= 4
+350-nitrate-evaporation-fourfold exit= 0 steps= 4
+351-dilute-sugar-filter exit= 0 steps= 5
+352-dilute-sugar-filter-reordered exit= 0 steps= 5
+353-silver-filter-dilute exit= 0 steps= 6
+354-silver-filter-concentrated exit= 0 steps= 6
+355-brine-evaporate-mild exit= 0 steps= 4
+356-brine-evaporate-deep exit= 0 steps= 4
+357-mixed-salts-filter exit= 0 steps= 6
+358-mixed-salts-filter-feed-reverse exit= 0 steps= 6
+359-silica-brine-filter-then-evaporate exit= 0 steps= 7
+360-silica-brine-scaled-process exit= 0 steps= 7
+361-barium-filter-before-drying exit= 0 steps= 6
+362-barium-filter-and-dry-filtrate exit= 0 steps= 7

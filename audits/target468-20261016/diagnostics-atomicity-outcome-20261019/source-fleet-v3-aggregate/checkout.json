@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-combined-diagnostics/source",
+    "/kaggle/temp/kerotakis-combined-diagnostics/source-fleet-v3-aggregate"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "6e08188d8c77a437d0476f780d611bda118e689e381113d929c51357d967f461"
+}

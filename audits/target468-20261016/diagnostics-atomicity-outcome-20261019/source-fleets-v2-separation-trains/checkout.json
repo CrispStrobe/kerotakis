@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-combined-diagnostics/source",
+    "/kaggle/temp/kerotakis-combined-diagnostics/source-fleets-v2-separation-trains"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "9d30f0ef4a0505a10db64f9bc5945f2d149be1a2e8f3b98de00fb2180531e0ea"
+}

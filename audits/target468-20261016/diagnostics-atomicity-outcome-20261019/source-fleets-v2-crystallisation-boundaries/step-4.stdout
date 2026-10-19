@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+609-nacl-evaporation-1 exit= 0 steps= 5
+610-nacl-evaporation-2 exit= 0 steps= 5
+611-nacl-evaporation-3 exit= 0 steps= 5
+612-nacl-evaporation-4 exit= 0 steps= 5
+613-kcl-evaporation-1 exit= 0 steps= 5
+614-kcl-evaporation-2 exit= 0 steps= 5
+615-kcl-evaporation-3 exit= 0 steps= 5
+616-kcl-evaporation-4 exit= 0 steps= 5
+617-nitrate-evaporation-1 exit= 0 steps= 5
+618-nitrate-evaporation-2 exit= 0 steps= 5
+619-nitrate-evaporation-3 exit= 0 steps= 5
+620-nitrate-evaporation-4 exit= 0 steps= 5
+621-nacl-loading-1 exit= 0 steps= 5
+622-nacl-loading-2 exit= 0 steps= 5
+623-nacl-loading-3 exit= 0 steps= 5
+624-nacl-loading-4 exit= 0 steps= 5
+625-kcl-loading-1 exit= 0 steps= 5
+626-kcl-loading-2 exit= 0 steps= 5
+627-kcl-loading-3 exit= 0 steps= 5
+628-kcl-loading-4 exit= 0 steps= 5
+629-evaporation-partition-1 exit= 0 steps= 5
+630-evaporation-partition-2 exit= 0 steps= 6
+631-evaporation-partition-3 exit= 0 steps= 6
+632-evaporation-partition-4 exit= 0 steps= 8

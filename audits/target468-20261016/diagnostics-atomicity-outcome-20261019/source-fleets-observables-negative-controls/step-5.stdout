@@ -1,0 +1,297 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "435-conductivity-nitrate-once: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "436-conductivity-nitrate-repeat: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "437-ph-acid-once: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "438-ph-acid-repeat: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "439-temperature-water-once: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "440-temperature-water-repeat: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "441-pressure-nitrogen-once: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "442-pressure-nitrogen-repeat: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "443-balance-water-once: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "444-balance-water-repeat: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "445-conductivity-water-blank: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "446-conductivity-glucose-control: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "447-look-water-before-wait: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "448-look-water-after-wait: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "449-filter-glucose-before: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "450-filter-glucose-after-wait: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "451-inert-potassium-before-ignite: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "452-inert-potassium-after-ignite: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "453-dry-nitrogen-before-wait: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "454-dry-nitrogen-after-wait: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "455-water-balance-before-filter: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "456-water-balance-after-filter: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "457-glucose-ph-before-wait: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "458-glucose-ph-after-wait: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "observables-negative-controls:r435-01-conductivity-repeat",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        43.25749817354754,
+        43.25749817354754
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-02-ph-repeat",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        3.704598415367,
+        3.704598415367
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-03-temperature-repeat",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        25.2398009382307,
+        25.2398009382307
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-04-pressure-repeat",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        119.62206378958521,
+        119.62206378958521
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-05-balance-repeat",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        209.37,
+        209.37
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-06-neutral-solute-conductivity",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        0.05508761762446267,
+        0.05508761762446267
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-07-water-wait-null",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 16.04940327504857
+        },
+        {
+          "water|liquid": 16.04940327504857
+        }
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-08-glucose-wait-null",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "C": 0.0054,
+          "H": 34.323317346655564,
+          "O": 17.161658673327782
+        },
+        {
+          "C": 0.0054,
+          "H": 34.323317346655564,
+          "O": 17.161658673327782
+        }
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-09-inert-ignite-null",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "K": 0.003,
+          "Cl": 0.003
+        },
+        {
+          "K": 0.003,
+          "Cl": 0.003
+        }
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-10-gas-wait-null",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        119917.17772167525,
+        119917.17772167525
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-11-water-filter-mass",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "H": 28.77824035525951,
+          "O": 14.389120177629755
+        },
+        {
+          "H": 28.77824035525951,
+          "O": 14.389120177629755
+        }
+      ]
+    },
+    {
+      "check": "observables-negative-controls:r435-12-glucose-ph-wait-null",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        6.997375771104036,
+        6.997375771104036
+      ]
+    }
+  ],
+  "passed": 36,
+  "unmet": 0
+}

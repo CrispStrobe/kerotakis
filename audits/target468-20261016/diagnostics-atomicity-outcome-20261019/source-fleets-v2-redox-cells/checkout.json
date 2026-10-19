@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-combined-diagnostics/source",
+    "/kaggle/temp/kerotakis-combined-diagnostics/source-fleets-v2-redox-cells"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "fa261b71e783513666f9a57af43e598dfebee2fdda34f7d1055e24d41dd288e5"
+}

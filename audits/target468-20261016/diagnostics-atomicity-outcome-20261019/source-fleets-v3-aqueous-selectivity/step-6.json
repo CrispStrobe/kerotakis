@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/aqueous-selectivity' --family 'aqueous-selectivity' --out 'audit-evidence-v3/aqueous-selectivity/aqueous-selectivity-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "6747cf41a1b50b7f528830c1bd565541160279b2d05e1d098da8e49a61bc8cdc",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

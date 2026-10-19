@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-combined-diagnostics/source",
+    "/kaggle/temp/kerotakis-combined-diagnostics/source-fleets-solubility-precipitation"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "f5d3d444cfeba724c208a260f261292bb35be77c3511fd12f9410e2220e9d8e0"
+}

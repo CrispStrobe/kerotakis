@@ -1,0 +1,8 @@
+{
+  "name": "All 240 source-informed cases",
+  "key": "source-fleet-aggregate",
+  "family": null,
+  "all_original_run_steps_passed": true,
+  "original_run_steps_executed": 1,
+  "expected_original_run_steps": 1
+}

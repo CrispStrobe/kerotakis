@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/analytical-observables' --family 'analytical-observables' --out 'audit-evidence-v2/analytical-observables/analytical-observables-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "7d6da1059f276404c5294baed3ec49003d8e2496e0cd7f5be475a94fcc17fff9",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

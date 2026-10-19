@@ -1,0 +1,227 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "753-water-heat-path-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "754-water-heat-path-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "755-water-heat-path-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "756-water-heat-path-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "757-water-cool-path-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "758-water-cool-path-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "759-water-cool-path-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "760-water-cool-path-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "761-water-heat-dose-0: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "762-water-heat-dose-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "763-water-heat-dose-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "764-water-heat-dose-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "765-mix-scale-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "766-mix-scale-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "767-mix-scale-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "768-mix-scale-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "769-hot-share-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "770-hot-share-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "771-hot-share-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "772-hot-share-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "773-thermal-roundtrip-50: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "774-thermal-roundtrip-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "775-thermal-roundtrip-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "776-thermal-roundtrip-300: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "thermochemical-paths:v2b-thermochemical-paths-heat-partition",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        25.368923732187454,
+        25.368923732188364,
+        25.368923732187568,
+        25.36892373218791
+      ]
+    },
+    {
+      "check": "thermochemical-paths:v2b-thermochemical-paths-cool-partition",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        49.71209748933461,
+        49.712097489333246,
+        49.712097489333814,
+        49.712097489334155
+      ]
+    },
+    {
+      "check": "thermochemical-paths:v2b-thermochemical-paths-heat-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        25.0,
+        25.095920607325525,
+        25.191840904416722,
+        25.383680588604193
+      ]
+    },
+    {
+      "check": "thermochemical-paths:v2b-thermochemical-paths-mix-intensive",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        45.00130805377387,
+        45.00130805377387,
+        45.00130805377387,
+        45.00130805377387
+      ]
+    },
+    {
+      "check": "thermochemical-paths:v2b-thermochemical-paths-hot-share",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        32.49962568999774,
+        38.74966890382757,
+        51.25403124042532,
+        57.506148025602215
+      ]
+    },
+    {
+      "check": "thermochemical-paths:v2b-thermochemical-paths-roundtrip",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        24.999999999999886,
+        25.00000000000034,
+        24.999999999999886,
+        25.000000000000682
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "6a95f24991d0b9e2d64c14605d348d11c3bb4ef4",
+  "binary_sha256": "8330dd6b94f237bdc2c65e265ac080f41efb23f54af481d0aa9edb234ea353d6"
+}

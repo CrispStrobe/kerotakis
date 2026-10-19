@@ -1,0 +1,49 @@
+2026-10-19T07:05:26.2909576Z curiosity curiosity-v1: 500 prompts
+2026-10-19T07:05:26.2912145Z   computed     312
+2026-10-19T07:05:26.2912509Z   curated      64
+2026-10-19T07:05:26.2912869Z   qualitative  63
+2026-10-19T07:05:26.2913264Z   boundary     60
+2026-10-19T07:05:26.2913581Z   missing      1
+2026-10-19T07:05:26.2913908Z   unmet requirements: 7
+2026-10-19T07:05:26.2914310Z     engine stood aside (corpus claimed it): 0
+2026-10-19T07:05:26.2914813Z     answered below the required grade:     7
+2026-10-19T07:05:26.2915461Z       th-073 [EXP-14] requires computed, observed qualitative (qualitative-route)
+2026-10-19T07:05:26.2916275Z       th-074 [EXP-14] requires computed, observed qualitative (qualitative-route)
+2026-10-19T07:05:26.2917073Z       th-075 [EXP-14] requires computed, observed qualitative (qualitative-route)
+2026-10-19T07:05:26.2917844Z       th-076 [EXP-14] requires computed, observed qualitative (qualitative-route)
+2026-10-19T07:05:26.2918608Z       th-105 [EXP-46] requires computed, observed qualitative (qualitative-route)
+2026-10-19T07:05:26.2919442Z       bio-078 [EXP-14] requires computed, observed qualitative (qualitative-route)
+2026-10-19T07:05:26.2920537Z       bio-079 [EXP-14] requires computed, observed qualitative (qualitative-route)
+2026-10-19T07:05:26.2921203Z   solver/runtime failures: 0
+2026-10-19T07:05:26.2921601Z   baseline drift: 10
+2026-10-19T07:05:26.2921953Z     bio-076: Changed
+2026-10-19T07:05:26.2922669Z       baseline: {"id":"bio-076","owning_task":"EXP-14","outcome":"computed","reason_code":"typed-engine-event"}
+2026-10-19T07:05:26.2923833Z       observed: {"id":"bio-076","owning_task":"EXP-14","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2924972Z     bio-077: Changed
+2026-10-19T07:05:26.2925673Z       baseline: {"id":"bio-077","owning_task":"BRD-050","outcome":"computed","reason_code":"typed-engine-event"}
+2026-10-19T07:05:26.2926862Z       observed: {"id":"bio-077","owning_task":"BRD-050","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2927652Z     bio-078: Changed
+2026-10-19T07:05:26.2928122Z       baseline: {"id":"bio-078","owning_task":"EXP-14","outcome":"computed","reason_code":"typed-engine-event"}
+2026-10-19T07:05:26.2928782Z       observed: {"id":"bio-078","owning_task":"EXP-14","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2929260Z     bio-079: Changed
+2026-10-19T07:05:26.2929905Z       baseline: {"id":"bio-079","owning_task":"EXP-14","outcome":"computed","reason_code":"typed-engine-event"}
+2026-10-19T07:05:26.2930615Z       observed: {"id":"bio-079","owning_task":"EXP-14","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2931402Z     bio-112: Changed
+2026-10-19T07:05:26.2932128Z       baseline: {"id":"bio-112","owning_task":"BRD-023","outcome":"qualitative","reason_code":"typed-observation"}
+2026-10-19T07:05:26.2933171Z       observed: {"id":"bio-112","owning_task":"BRD-023","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2933642Z     th-073: Changed
+2026-10-19T07:05:26.2934054Z       baseline: {"id":"th-073","owning_task":"EXP-14","outcome":"computed","reason_code":"typed-engine-event"}
+2026-10-19T07:05:26.2935239Z       observed: {"id":"th-073","owning_task":"EXP-14","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2935728Z     th-074: Changed
+2026-10-19T07:05:26.2936135Z       baseline: {"id":"th-074","owning_task":"EXP-14","outcome":"computed","reason_code":"typed-engine-event"}
+2026-10-19T07:05:26.2937029Z       observed: {"id":"th-074","owning_task":"EXP-14","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2937694Z     th-075: Changed
+2026-10-19T07:05:26.2938100Z       baseline: {"id":"th-075","owning_task":"EXP-14","outcome":"computed","reason_code":"typed-engine-event"}
+2026-10-19T07:05:26.2938770Z       observed: {"id":"th-075","owning_task":"EXP-14","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2939232Z     th-076: Changed
+2026-10-19T07:05:26.2939629Z       baseline: {"id":"th-076","owning_task":"EXP-14","outcome":"computed","reason_code":"typed-engine-event"}
+2026-10-19T07:05:26.2940544Z       observed: {"id":"th-076","owning_task":"EXP-14","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2940996Z     th-105: Changed
+2026-10-19T07:05:26.2941377Z       baseline: {"id":"th-105","owning_task":"EXP-46","outcome":"computed","reason_code":"typed-engine-event"}
+2026-10-19T07:05:26.2942008Z       observed: {"id":"th-105","owning_task":"EXP-46","outcome":"qualitative","reason_code":"qualitative-route"}
+2026-10-19T07:05:26.2969591Z ##[error]Process completed with exit code 1.

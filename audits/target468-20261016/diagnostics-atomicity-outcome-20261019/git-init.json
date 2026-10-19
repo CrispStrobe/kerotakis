@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/kerotakis-combined-diagnostics/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "1c45560aa0c7e1d163fec52d048dbe0a2b4fd548eea0bcf15ba9ae237725bcbd",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

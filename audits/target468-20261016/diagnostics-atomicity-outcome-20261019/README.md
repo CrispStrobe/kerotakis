@@ -1,0 +1,9 @@
+# Diagnostic correction: focused/fleet pass, platform grading blocker
+
+Source `6a95f249` actually passes Clippy,620 native tests,2142 core tests, two external-hook controls and all33 unchanged product jobs (142 original steps,29 law reports). [Independent authenticated acceptance](focused-and-fleet-acceptance.json) binds actual source/tree, binary and producer lock. Original baselines and prior first failures are retained. The binary archive is independently rehashed and retained with its member hashes; compiled bytes are not committed here.
+
+Both native platform jobs pass workspace tests/cache-only controls/codex lint but fail the full500 curiosity gate: seven unmet grades and ten baseline drifts. [First Linux/macOS failures](platform-first-failures.json) and verbatim grading excerpts preserve that acceptance blocker. The new peroxide-domain warning was counted as a qualitative route answer, outranking independently modeled kinetic events. This source is not accepted for integration.
+
+The first saved reader separately stopped because Cargo labels a declared panic test with `- should panic`. [Corrected reader receipt](saved-reader-correction.json) preserves the original failure and requires that exact label for that declared test; ordinary tests retain their exact ordinary `ok` form. No engine, test or corpus expectation was rerun or changed to repair the reader.
+
+[Required source follow-up](../route-warning-preparation-20261019/README.md) adds a real boundary/route regression and excludes explicit unsupported-model events from answer counts. Original corpus forecasts, requirements and baseline remain unchanged. The new source still needs actual baseline/fixed/full500/product/protected/platform acceptance; no scientific catalog addition follows from these software checks.

@@ -1,0 +1,20 @@
+{
+  "linux": {
+    "job": 117925228208,
+    "full_original_job_log_sha256": "de7f31a6b8cbc9879c9b2aef6e3b73d100fbea69e8fbdb9a03cccbf69f86dbfc",
+    "public_excerpt_sha256": "97e46bd0a619e4958063621d78aec4510b342280daceb38590ca251dc3af2a0b",
+    "native_job_failed_at": "Curiosity coverage \u2014 the recorded route is still the route",
+    "actual_unmet_requirements": 7,
+    "actual_baseline_drift": 10,
+    "workspace_tests_and_codex_lint_passed": true
+  },
+  "macos": {
+    "job": 117925228550,
+    "full_original_job_log_sha256": "edf002c49d53437205c22749e27d7b22c08af122808825f990addd5939ca5790",
+    "public_excerpt_sha256": "bb832e2957d6ccb1cc5df37268e0d39a377d763d0c130abda6015b763dc426ef",
+    "native_job_failed_at": "Curiosity coverage \u2014 the recorded route is still the route",
+    "actual_unmet_requirements": 7,
+    "actual_baseline_drift": 10,
+    "workspace_tests_and_codex_lint_passed": true
+  }
+}

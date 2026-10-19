@@ -1,0 +1,293 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "315-water-mix-hot-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "316-water-mix-cold-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "317-water-mix-halves: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "318-water-mix-extensive: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "319-water-mix-hot-fraction-0.2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "320-water-mix-hot-fraction-0.4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "321-water-mix-hot-fraction-0.6: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "322-water-mix-hot-fraction-0.8: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "323-salt-transfer-whole: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "324-salt-transfer-two-halves: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "325-salt-transfer-split-solute: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "326-salt-transfer-solute-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "327-mix-salt-left: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "328-mix-salt-right: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "329-mix-salt-split: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "330-mix-salt-portioned: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "331-mix-conductivity-0: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "332-mix-conductivity-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "333-mix-conductivity-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "334-mix-conductivity-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "335-mix-extensive-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "336-mix-extensive-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "337-mix-extensive-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "338-mix-extensive-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "mixing-transfer:mix-equal-water-temperature",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        50.01426646663492,
+        50.01426646663492,
+        50.01426646663492,
+        50.01426646663492
+      ]
+    },
+    {
+      "check": "mixing-transfer:mix-hot-share-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        32.00398938945057,
+        44.00957999393768,
+        56.01876630718175,
+        68.01961157384221
+      ]
+    },
+    {
+      "check": "mixing-transfer:mix-transfer-system-elements",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "H": 33.20566194837635,
+          "O": 16.602830974188176,
+          "Na": 0.003,
+          "Cl": 0.003
+        },
+        {
+          "H": 33.20566194837635,
+          "O": 16.602830974188176,
+          "Na": 0.003,
+          "Cl": 0.003
+        },
+        {
+          "H": 33.20566194837635,
+          "O": 16.602830974188176,
+          "Na": 0.003,
+          "Cl": 0.003
+        },
+        {
+          "H": 33.20566194837635,
+          "O": 16.602830974188176,
+          "Na": 0.003,
+          "Cl": 0.003
+        }
+      ]
+    },
+    {
+      "check": "mixing-transfer:mix-salt-path-independence",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "check": "mixing-transfer:mix-conductivity-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        0.05508761762446267,
+        308.8566877754742,
+        611.0523686910502,
+        1204.2742133145518
+      ]
+    },
+    {
+      "check": "mixing-transfer:mix-extensive-temperature",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        39.99963551861583,
+        39.99963551861583,
+        39.99963551861583,
+        39.99963551861583
+      ]
+    },
+    {
+      "check": "mixing-transfer:mix-extensive-elements",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "335-mix-extensive-1": [
+          {
+            "H": 16.602830974188176,
+            "O": 8.301415487094088
+          },
+          {
+            "H": 16.602830974188176,
+            "O": 8.301415487094088
+          }
+        ],
+        "336-mix-extensive-2": [
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176
+          },
+          {
+            "H": 33.20566194837635,
+            "O": 16.602830974188176
+          }
+        ],
+        "337-mix-extensive-3": [
+          {
+            "H": 49.808492922564525,
+            "O": 24.904246461282263
+          },
+          {
+            "H": 49.808492922564525,
+            "O": 24.904246461282263
+          }
+        ],
+        "338-mix-extensive-4": [
+          {
+            "H": 66.4113238967527,
+            "O": 33.20566194837635
+          },
+          {
+            "H": 66.4113238967527,
+            "O": 33.20566194837635
+          }
+        ]
+      }
+    }
+  ],
+  "passed": 31,
+  "unmet": 0
+}

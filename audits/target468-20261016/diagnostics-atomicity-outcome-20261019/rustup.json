@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "sh",
+    "/kaggle/temp/kerotakis-combined-diagnostics/rustup-init.sh",
+    "-y",
+    "--profile",
+    "minimal",
+    "--default-toolchain",
+    "1.99.1",
+    "--no-modify-path"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "c45bbef754fcbd33eb90a2418704508296cc699eecb4a9aec75006de56267e36",
+  "stderr_sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2"
+}

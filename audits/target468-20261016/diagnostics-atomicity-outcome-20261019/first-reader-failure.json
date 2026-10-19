@@ -1,0 +1,8 @@
+{
+  "cause": "The first saved reader expected the declared should_panic parser test in ordinary-test output form. Actual Cargo output says name - should panic ... ok.",
+  "raw_stderr_sha256": "7922b9380e7c37d74aa106c36f8a1ec519638b24f392388f16d861ed5ca2f907",
+  "original_reader_sha256": "25cf0a244a9fb67908500f5be71dfcd4ba468414dfe7eb4dfe82d0881ba23856",
+  "corrected_reader_sha256": "6d16b9d949df70191603ccf61af5e9282413e0af7f88114cbe357cee36c86313",
+  "all_other_source_test_hash_count_and_law_checks_preserved": true,
+  "producer_or_tests_reexecuted": false
+}

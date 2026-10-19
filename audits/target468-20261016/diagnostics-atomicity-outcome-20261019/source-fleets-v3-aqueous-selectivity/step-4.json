@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_3.py --family 'aqueous-selectivity' --binary target/release/kero --out 'audit-evidence-v3/aqueous-selectivity'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "aeaede575a31c6ba02578d5e6d274d2a78fd41f525dda0063cb3dea5454799f5",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
