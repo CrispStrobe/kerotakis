@@ -64,3 +64,19 @@ fn water_rich_peroxide_still_solves_and_stale_complete_reading_is_withdrawn() {
     assert_eq!((v.free_proton, v.free_hydroxide), (0.0, 0.0));
     assert_eq!(v.contents, before);
 }
+
+#[test]
+fn external_browser_hook_is_not_asked_to_solve_peroxide_matrix() {
+    let mut eq = PhreeqcEquilibrator::new().expect("solver");
+    eq.set_hook(Box::new(|_, _| {
+        panic!("an aqueous browser hook must not receive a peroxide-rich problem")
+    }));
+    let mut v = mixture(0.00001, 0.326375, 0.019062);
+    let before = v.contents.clone();
+    let events = eq.equilibrate(&mut v).expect("domain refusal");
+    assert!(events
+        .iter()
+        .any(|e| matches!(e, Event::NotYetModeled { .. })));
+    assert!(v.solution.is_none());
+    assert_eq!(v.contents, before);
+}
