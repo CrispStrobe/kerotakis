@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-19T13:02:47.796645+00:00",
+  "run": 39256271665,
+  "actual_pre_cancel": {
+    "headSha": "d67205091a22bcdb2fc490866224c4bc7fef8a4e",
+    "jobs": [
+      {
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "databaseId": 118072242696,
+        "name": "Build audited CLI once",
+        "startedAt": "2026-10-19T12:58:38Z",
+        "status": "queued",
+        "steps": [],
+        "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39256271665/job/118072242696"
+      }
+    ],
+    "status": "queued"
+  },
+  "new_source_CPU_binding_issued": true,
+  "protected_and_platform_CI_untouched": true
+}
