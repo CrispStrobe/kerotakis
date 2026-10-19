@@ -1,0 +1,175 @@
+{
+  "source": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "engine": {
+    "source_head": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+    "binary_sha256": "13a4d1340526c540232cd6946cf549fb5c7fa80c951a683dd3d18a3745b674e4",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "response_sha256": "c6309f4cd34424de179f0bed9b8cb861e03ed6ffa964db26dba1d4e575d21bb0",
+  "original_criteria": [
+    {
+      "id": "AB-031-C1",
+      "criterion": "A pH decrease is accompanied by a documented loss of nitrogen through the gas boundary.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "AB-031-C2",
+      "criterion": "Chloride remains retained and is not confused with volatile NH3.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "criteria": {
+    "AB-031-C1": false,
+    "AB-031-C2": true
+  },
+  "status": "FAIL_FORECAST_WITH_SEPARATE_MODEL_LIMIT",
+  "before_sweep_ph": "9.286315883367",
+  "final_sealed_ph": "9.286276077177",
+  "final_swept_ph": "9.287908348168",
+  "reduced_N_before_mol": "0.0019999999999995287",
+  "reduced_N_after_mol": "0.0019993078386458902",
+  "NH3_export_mol": "6.921532827576E-7",
+  "chloride_before_mol": "0.001000000000000786",
+  "chloride_after_mol": "0.000999999995964176",
+  "all_boundary_exports_mol": {
+    "1:N2": "0.003229798669226705",
+    "1:O2": "0.0008564014950044231",
+    "1:CO2": "0.000001635130479678087",
+    "1:NH3": "6.921532827576E-7"
+  },
+  "maximum_sweep_and_wait_per_vessel_atom_charge_residual": "2.200545767678009920E-11",
+  "per_step": [
+    {
+      "operator": {
+        "op": "sweep",
+        "pressure": "100000.0",
+        "vessel": 1
+      },
+      "residuals": {
+        "0": {
+          "N": "0E-20",
+          "C": "0E-25",
+          "O": "0E-25",
+          "H": "0E-23",
+          "Cl": "0E-19",
+          "charge": "0E-25"
+        },
+        "1": {
+          "N": "-1.37625380E-12",
+          "C": "-4.019730124782730E-13",
+          "O": "2.4271291810E-18",
+          "H": "6.6284457270E-18",
+          "Cl": "-6.8837440E-13",
+          "charge": "3.2092455242742730E-12"
+        }
+      }
+    },
+    {
+      "operator": {
+        "op": "wait",
+        "seconds": "120.0"
+      },
+      "residuals": {
+        "0": {
+          "N": "-1.5120E-16",
+          "C": "5.545060E-20",
+          "O": "-8.9595999880E-16",
+          "H": "-1.79174860E-15",
+          "Cl": "-4.6550E-16",
+          "charge": "9.1949320000E-16"
+        },
+        "1": {
+          "N": "-6.69462710E-12",
+          "C": "-3.5666450738009920E-13",
+          "O": "3.710845970240E-17",
+          "H": "7.302321990080E-17",
+          "Cl": "-3.34823560E-12",
+          "charge": "2.200545767678009920E-11"
+        }
+      }
+    },
+    {
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "residuals": {
+        "0": {
+          "N": "0E-20",
+          "C": "0E-26",
+          "O": "0E-26",
+          "H": "0E-23",
+          "Cl": "0E-20",
+          "charge": "0E-26"
+        },
+        "1": {
+          "N": "0E-20",
+          "C": "0E-29",
+          "O": "0E-29",
+          "H": "0E-29",
+          "Cl": "0E-19",
+          "charge": "0E-29"
+        }
+      }
+    },
+    {
+      "operator": {
+        "instrument": "ph_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "residuals": {
+        "0": {
+          "N": "0E-20",
+          "C": "0E-26",
+          "O": "0E-26",
+          "H": "0E-23",
+          "Cl": "0E-20",
+          "charge": "0E-26"
+        },
+        "1": {
+          "N": "0E-20",
+          "C": "0E-29",
+          "O": "0E-29",
+          "H": "0E-29",
+          "Cl": "0E-19",
+          "charge": "0E-29"
+        }
+      }
+    },
+    {
+      "operator": {
+        "op": "inspect"
+      },
+      "residuals": {
+        "0": {
+          "N": "0E-20",
+          "C": "0E-26",
+          "O": "0E-26",
+          "H": "0E-23",
+          "Cl": "0E-20",
+          "charge": "0E-26"
+        },
+        "1": {
+          "N": "0E-20",
+          "C": "0E-29",
+          "O": "0E-29",
+          "H": "0E-29",
+          "Cl": "0E-19",
+          "charge": "0E-29"
+        }
+      }
+    }
+  ],
+  "final_temperatures_K": {
+    "0": "298.12351333879207",
+    "1": "298.1200459907216"
+  },
+  "catalog_additions": 0,
+  "new_requests_by_reader": 0,
+  "qualification": "Only initial trapped NH3 is explicitly exported; current source adds NH3(g) to finite headspaces but not the swept reservoir. CO2 is also stripped, so pH sign must not be forced to satisfy the forecast. No continuous ammonia-transfer or flow/rate calibration is claimed."
+}

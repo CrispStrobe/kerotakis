@@ -1,0 +1,51 @@
+{
+  "frozen_utc": "2026-10-19T07:00:25.982882+00:00",
+  "status": "FROZEN_BEFORE_SINGLE_ISSUE",
+  "cases": [
+    {
+      "id": "batch2:ab-031",
+      "title": "Sweeping ammonia changes the composition of a basic buffer",
+      "script": "# AB-031: Sweeping ammonia changes the composition of a basic buffer\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NH4Cl 0.001mol\nadd v1 NH3 0.001mol\nseal v1 100mL\nnew\nadd v2 water 100mL\nadd v2 NH4Cl 0.001mol\nadd v2 NH3 0.001mol\nseal v2 100mL\nmeasure v1 ph\nmeasure v2 ph\nsweep v2 1bar\nwait 120s\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "af3626570548145f5564e4f2a8ff2a7c3a9fd10a7024bcb59c05746ecbd54251",
+      "original_forecast": "Selective NH3 removal should deplete the base component and lower pH relative to the sealed control; the ammonium/chloride reservoir is not itself a gas.",
+      "original_criteria": [
+        {
+          "id": "AB-031-C1",
+          "criterion": "A pH decrease is accompanied by a documented loss of nitrogen through the gas boundary.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "AB-031-C2",
+          "criterion": "Chloride remains retained and is not confused with volatile NH3.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "The sweep is an ideal boundary, not a specified physical gas-flow apparatus; NH3 transfer coverage must be checked."
+      ],
+      "original_baseline": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+      "run_status": "UNISSUED on repaired source",
+      "prerequisites": "Ammonia artifact/API/browser acceptance and independent original GS005 replay; sweep remains its own boundary model.",
+      "additional_review": "Own all per-vessel elapsed histories because globalwait advances both controls. Close nitrogen using actual swept exports, retain chloride and NH4 pools, compare pH with sealed control; finite-headspace improvement alone does not validate sweep."
+    }
+  ],
+  "accepted_engine": {
+    "source_head": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+    "binary_sha256": "13a4d1340526c540232cd6946cf549fb5c7fa80c951a683dd3d18a3745b674e4",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "bound_to_authenticated_accepted_artifact": true,
+  "policy": {
+    "attempts_per_case": 1,
+    "no_retries_or_unchanged_baseline_execution": true
+  },
+  "review_constraints": {
+    "nitrogen": "Use actual swept exports and all per-vessel histories; trapped air N2 is separate from the original reduced-nitrogen dose.",
+    "chloride": "Retain all chloride/NH4 inventories; do not infer NH3 export from pH alone.",
+    "temperature": "Record actual temperatures and elapsed times; global wait advances both arms."
+  },
+  "catalog_additions": 0
+}

@@ -1,0 +1,21 @@
+{
+  "cases": [
+    {
+      "id": "batch2:mo-006",
+      "http_status": 200,
+      "elapsed_seconds": 6.197863789275289,
+      "response_sha256": "24a2c645031ac38ec630383f93cb0b820191d8ada3699c0f760bfe0a01fb73d8",
+      "attempts": 1
+    },
+    {
+      "id": "batch2:mo-011",
+      "http_status": 200,
+      "elapsed_seconds": 3.3842730969190598,
+      "response_sha256": "9cf02d65520f9cf787d5f06d65d28cc31b134edab344769f1a8f2a648daf2c4e",
+      "attempts": 1
+    }
+  ],
+  "physical_assessment": "pending independent owned material and phase/energy review",
+  "catalog_additions": 0,
+  "no_retries": true
+}

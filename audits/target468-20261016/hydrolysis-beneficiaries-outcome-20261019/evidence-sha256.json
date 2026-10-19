@@ -1,0 +1,14 @@
+{
+  "README.md": "952cb25cc009ea3e2a8f7a2cf32e35c0301020a255f029f129a066419c609ca0",
+  "assessment.json": "f1631dc6ee3ff3272c94b14ed313e74933eed61400158b31e20df7d91e010943",
+  "batch2-mo-006-http.json": "197f6a55d778bdca17759f6d19c921b0a59ab1f0326b74405b8af85cc46e0ff0",
+  "batch2-mo-011-http.json": "fe785370cf9cdc8a863aa73fb85b11e9a2b99373ae27f9d0101cfc7db77f1c8e",
+  "catalog-membership.json": "8e2eaf71909d0d94af74401cd244aae00ea572fa832584ba3f093c14bd7271e5",
+  "completion.json": "1fb7c7e876cf408953cd83f1b0be541bbf0ea517f9174ec2d17c3a4d56db8bcd",
+  "design.json": "004c823cbf120901543152c955a7c188b9a1146e12395295eabb19bf8ff7abe9",
+  "responses/batch2-mo-006.json": "24a2c645031ac38ec630383f93cb0b820191d8ada3699c0f760bfe0a01fb73d8",
+  "responses/batch2-mo-011.json": "9cf02d65520f9cf787d5f06d65d28cc31b134edab344769f1a8f2a648daf2c4e",
+  "review_saved.py": "2860d363a7758fe649cd0d3d57cd8c53664395a841dc5dbb4281775a376e8ab0",
+  "selection.json": "859f2d1c241729f45652cb829cc3f491c8e4f0b9decf79e5063a05cd80e942e4",
+  "verify_catalog.py": "ff862b98a8f818e544008ceca4135030a27338fc91842939fc055a77eef54baa"
+}

@@ -1,0 +1,645 @@
+{
+  "source": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "engine": {
+    "source_head": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+    "binary_sha256": "13a4d1340526c540232cd6946cf549fb5c7fa80c951a683dd3d18a3745b674e4",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "cases": [
+    {
+      "id": "batch2:mo-006",
+      "status": "PASS",
+      "script_sha256": "a87cc37fca0406e43894b2f68094fdd92aa6e5c5b4d56da7d80c99efa53da8c3",
+      "response_sha256": "24a2c645031ac38ec630383f93cb0b820191d8ada3699c0f760bfe0a01fb73d8",
+      "original_criteria": [
+        {
+          "id": "MO-006-C1",
+          "criterion": "Compare the blank-minus-sample delivered acid equivalents with the observed ester loss.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-006-C2",
+          "criterion": "Correct for endpoint resolution and check that appreciable acetate protonation or incomplete hydrolysis does not bias the difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "criteria": {
+        "every_step_atoms_charge": true,
+        "no_solver_failure": true,
+        "MO-006-C1": true,
+        "MO-006-C2": true
+      },
+      "metrics": {
+        "actual_sample_acid_mol": "0.0004997076416015625",
+        "actual_blank_acid_mol": "0.000999609985351562",
+        "acid_difference_mol": "0.0004999023437499995",
+        "ester_loss_mol": "0.0005",
+        "declared_increment_mol": "0.00001",
+        "sample_protonated_acetate_mol": "8.168209412077034E-8",
+        "blank_minus_sample_residual_base_coordinate_mol": "1.597415585793160E-8",
+        "corrected_acid_difference_mol": "0.00049999999999997820194",
+        "uncorrected_bias_fraction": "0.000195312500001",
+        "endpoint_temperatures_K": [
+          "298.3152757775025",
+          "298.3688128099027"
+        ],
+        "titrant_water_moles_per_litre": "55.3427699139605883985567582570080488481820705"
+      },
+      "maximum_per_step_atom_charge_residual": "1.73251507161504301970580072162E-14",
+      "per_step": [
+        {
+          "operator": {
+            "moles": "5.534276991396059",
+            "op": "add",
+            "species": "water",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-16",
+              "O": "0E-16",
+              "charge": "0E-16"
+            }
+          }
+        },
+        {
+          "operator": {
+            "moles": "0.001",
+            "op": "add",
+            "species": "NaOH",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-16",
+              "Na": "0.0000",
+              "O": "0E-16",
+              "charge": "0E-16"
+            }
+          }
+        },
+        {
+          "operator": {
+            "moles": "0.0005",
+            "op": "add",
+            "species": "ethyl_acetate",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-16",
+              "Na": "0.0000",
+              "O": "0E-16",
+              "charge": "0E-16",
+              "C": "0.00000"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "react",
+            "reaction": "saponification",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "-1.558299436960E-15",
+              "Na": "0.0000",
+              "O": "-7.79249718480E-16",
+              "charge": "2.00000000E-19",
+              "C": "5.0281520E-20"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "inspect"
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-27",
+              "Na": "0.0000",
+              "O": "0E-27",
+              "charge": "0E-27",
+              "C": "0E-27"
+            }
+          }
+        },
+        {
+          "operator": {
+            "concentration": "0.1",
+            "max_steps": 150,
+            "op": "titrate",
+            "step": "0.0001",
+            "target_ph": "8.5",
+            "titrant": "HCl",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "-8.3771178666786344712739383847E-15",
+              "Na": "-2.0E-19",
+              "O": "-4.17858844833931723563696919234E-15",
+              "charge": "-2.07409700000000000000000000000E-17",
+              "C": "6.90398480E-19",
+              "Cl": "6.0E-19"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "inspect"
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-24",
+              "Na": "0E-20",
+              "O": "0E-24",
+              "charge": "0E-24",
+              "C": "0E-24",
+              "Cl": "0E-20"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "new_vessel"
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-24",
+              "Na": "0E-20",
+              "O": "0E-24",
+              "charge": "0E-24",
+              "C": "0E-24",
+              "Cl": "0E-20"
+            },
+            "1": {}
+          }
+        },
+        {
+          "operator": {
+            "moles": "5.534276991396059",
+            "op": "add",
+            "species": "water",
+            "vessel": 1
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-24",
+              "Na": "0E-20",
+              "O": "0E-24",
+              "charge": "0E-24",
+              "C": "0E-24",
+              "Cl": "0E-20"
+            },
+            "1": {
+              "H": "0E-16",
+              "O": "0E-16",
+              "charge": "0E-16"
+            }
+          }
+        },
+        {
+          "operator": {
+            "moles": "0.001",
+            "op": "add",
+            "species": "NaOH",
+            "vessel": 1
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-24",
+              "Na": "0E-20",
+              "O": "0E-24",
+              "charge": "0E-24",
+              "C": "0E-24",
+              "Cl": "0E-20"
+            },
+            "1": {
+              "H": "0E-16",
+              "Na": "0.0000",
+              "O": "0E-16",
+              "charge": "0E-16"
+            }
+          }
+        },
+        {
+          "operator": {
+            "concentration": "0.1",
+            "max_steps": 150,
+            "op": "titrate",
+            "step": "0.0001",
+            "target_ph": "8.5",
+            "titrant": "HCl",
+            "vessel": 1
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-24",
+              "Na": "0E-20",
+              "O": "0E-24",
+              "charge": "0E-24",
+              "C": "0E-24",
+              "Cl": "0E-20"
+            },
+            "1": {
+              "H": "-1.73251507161504301970580072162E-14",
+              "Na": "0.0000",
+              "O": "-8.66378907307521509852900360810E-15",
+              "charge": "-7.25700000000000000000000000E-20",
+              "Cl": "2.50E-18"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "inspect"
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-24",
+              "Na": "0E-20",
+              "O": "0E-24",
+              "charge": "0E-24",
+              "C": "0E-24",
+              "Cl": "0E-20"
+            },
+            "1": {
+              "H": "0E-23",
+              "Na": "0.0000",
+              "O": "0E-23",
+              "charge": "0E-23",
+              "Cl": "0E-20"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "batch2:mo-011",
+      "status": "UNSUPPORTED",
+      "script_sha256": "a59e4c385cefbeec54a06cb3c813d8c3846a2bd03722cbfcd8d3ea9f84899541",
+      "response_sha256": "9cf02d65520f9cf787d5f06d65d28cc31b134edab344769f1a8f2a648daf2c4e",
+      "original_criteria": [
+        {
+          "id": "MO-011-C1",
+          "criterion": "Relate peak identities to independently reported species inventories after each stage.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-011-C2",
+          "criterion": "Do not compare raw areas as stoichiometric mole ratios unless response factors are provided; ionic acetate need not produce a comparable volatile peak.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "criteria": {
+        "every_step_atoms_charge": true,
+        "no_solver_failure": true,
+        "owned_two_stage_conversions": true,
+        "MO-011-C1": false,
+        "MO-011-C2": true
+      },
+      "metrics": {
+        "stages": [
+          {
+            "ester_mol": "0.001",
+            "ethanol_mol": "0",
+            "acetate_family_mol": "0",
+            "modeled_peak_species": [],
+            "outside_method": [
+              "Na+"
+            ],
+            "raw_missing_parameter_events": [
+              {
+                "cause": "not-parameterised",
+                "event": "not_yet_modeled",
+                "reason": {
+                  "en": "the column has no curated group decomposition for {species} \u2014 a real column would separate these, so this is a gap in the model rather than a result",
+                  "key": "not-modeled.no-group-decomposition",
+                  "slots": [
+                    [
+                      "species",
+                      {
+                        "list": {
+                          "items": [
+                            {
+                              "text": {
+                                "text": "base_equivalents"
+                              }
+                            },
+                            {
+                              "text": {
+                                "text": "ethyl_acetate"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "vessel": 0,
+                "what": "the column has no curated group decomposition for base_equivalents and ethyl_acetate \u2014 a real column would separate these, so this is a gap in the model rather than a result"
+              }
+            ]
+          },
+          {
+            "ester_mol": "0.0005000000000000004",
+            "ethanol_mol": "0.0004999999999999996",
+            "acetate_family_mol": "0.00049999999999999963802",
+            "modeled_peak_species": [
+              "ethanol"
+            ],
+            "outside_method": [
+              "CH3COO-",
+              "Na+"
+            ],
+            "raw_missing_parameter_events": [
+              {
+                "cause": "not-parameterised",
+                "event": "not_yet_modeled",
+                "reason": {
+                  "en": "the column has no curated group decomposition for {species} \u2014 a real column would separate these, so this is a gap in the model rather than a result",
+                  "key": "not-modeled.no-group-decomposition",
+                  "slots": [
+                    [
+                      "species",
+                      {
+                        "list": {
+                          "items": [
+                            {
+                              "text": {
+                                "text": "CH3COOH"
+                              }
+                            },
+                            {
+                              "text": {
+                                "text": "base_equivalents"
+                              }
+                            },
+                            {
+                              "text": {
+                                "text": "ethyl_acetate"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "vessel": 0,
+                "what": "the column has no curated group decomposition for CH3COOH, base_equivalents and ethyl_acetate \u2014 a real column would separate these, so this is a gap in the model rather than a result"
+              }
+            ]
+          },
+          {
+            "ester_mol": "0",
+            "ethanol_mol": "0.001",
+            "acetate_family_mol": "0.0010000000000000000102",
+            "modeled_peak_species": [
+              "ethanol"
+            ],
+            "outside_method": [
+              "CH3COO-",
+              "Na+"
+            ],
+            "raw_missing_parameter_events": [
+              {
+                "cause": "not-parameterised",
+                "event": "not_yet_modeled",
+                "reason": {
+                  "en": "the column has no curated group decomposition for {species} \u2014 a real column would separate these, so this is a gap in the model rather than a result",
+                  "key": "not-modeled.no-group-decomposition",
+                  "slots": [
+                    [
+                      "species",
+                      {
+                        "list": {
+                          "items": [
+                            {
+                              "text": {
+                                "text": "CH3COOH"
+                              }
+                            },
+                            {
+                              "text": {
+                                "text": "base_equivalents"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "vessel": 0,
+                "what": "the column has no curated group decomposition for CH3COOH and base_equivalents \u2014 a real column would separate these, so this is a gap in the model rather than a result"
+              }
+            ]
+          }
+        ],
+        "reason": "Ester retention/group parameters are absent: no initial ester peak exists to track. Correct molecular conversion and ethanol peaks do not satisfy the original ester-feature criterion. Raw relative peak areas are not mole ratios."
+      },
+      "maximum_per_step_atom_charge_residual": "1.964015730240E-15",
+      "per_step": [
+        {
+          "operator": {
+            "moles": "5.534276991396059",
+            "op": "add",
+            "species": "water",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-16",
+              "O": "0E-16",
+              "charge": "0E-16"
+            }
+          }
+        },
+        {
+          "operator": {
+            "moles": "0.001",
+            "op": "add",
+            "species": "ethyl_acetate",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-16",
+              "O": "0E-16",
+              "charge": "0E-16",
+              "C": "0.0000"
+            }
+          }
+        },
+        {
+          "operator": {
+            "moles": "0.0005",
+            "op": "add",
+            "species": "NaOH",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "-4E-19",
+              "Na": "0.00000",
+              "O": "-4E-19",
+              "charge": "4E-19",
+              "C": "0.0000"
+            }
+          }
+        },
+        {
+          "operator": {
+            "instrument": "chromatograph",
+            "op": "measure",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-19",
+              "Na": "0.00000",
+              "O": "0E-19",
+              "charge": "0E-19",
+              "C": "0.0000"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "inspect"
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-19",
+              "Na": "0.00000",
+              "O": "0E-19",
+              "charge": "0E-19",
+              "C": "0.0000"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "react",
+            "reaction": "saponification",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "4.01625050E-16",
+              "Na": "0.00000",
+              "O": "2.00549010E-16",
+              "charge": "5.27030E-19",
+              "C": "7.6040E-20"
+            }
+          }
+        },
+        {
+          "operator": {
+            "instrument": "chromatograph",
+            "op": "measure",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-24",
+              "Na": "0.00000",
+              "O": "0E-24",
+              "charge": "0E-24",
+              "C": "0E-24"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "inspect"
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-24",
+              "Na": "0.00000",
+              "O": "0E-24",
+              "charge": "0E-24",
+              "C": "0E-24"
+            }
+          }
+        },
+        {
+          "operator": {
+            "moles": "0.0005",
+            "op": "add",
+            "species": "NaOH",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "-1.964015730240E-15",
+              "Na": "0.00000",
+              "O": "-9.82044350120E-16",
+              "charge": "7.2970000E-20",
+              "C": "-1.71380120E-19"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "react",
+            "reaction": "saponification",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "-4.29639619760E-16",
+              "Na": "0.0000",
+              "O": "-2.15055359880E-16",
+              "charge": "4.71100000E-19",
+              "C": "1.15740120E-19"
+            }
+          }
+        },
+        {
+          "operator": {
+            "instrument": "chromatograph",
+            "op": "measure",
+            "vessel": 0
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-23",
+              "Na": "0.0000",
+              "O": "0E-23",
+              "charge": "0E-23",
+              "C": "0E-23"
+            }
+          }
+        },
+        {
+          "operator": {
+            "op": "inspect"
+          },
+          "residuals": {
+            "0": {
+              "H": "0E-23",
+              "Na": "0.0000",
+              "O": "0E-23",
+              "charge": "0E-23",
+              "C": "0E-23"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "new_engine_or_API_requests": 0,
+  "catalog_additions_by_reader": 0,
+  "qualification": "Bounded declared analytical/template and ideal detector domains, with actual temperatures retained; not rate/heat/retention or empirical apparatus calibration."
+}

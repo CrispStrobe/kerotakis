@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-19T06:59:41.470280+00:00",
+  "original_id": "batch2:mo-006",
+  "selected_catalog_id": "batch2-hydrolysis-repaired:mo-006",
+  "previous_catalog_sha256": "dee4b4720f6ad87db98c832bb626adb993f2d634a2887c8a7ea74d3f7c3f6047",
+  "new_catalog_sha256": "4b70e54ecd313293ab78ce2026842da7546dcf56023d42d8085951c05c7c5d43",
+  "previous247_entries_preserved_exactly": true,
+  "new_count": 248,
+  "fixed468_selected_before": 243,
+  "fixed468_selected_after": 244,
+  "additional_qualified_cases_to401": 157,
+  "actual_source": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "actual_replay_requests": 2,
+  "selected_originals": 1,
+  "unsupported_originals": [
+    "batch2:mo-011"
+  ],
+  "additional_requests_by_review": 0
+}
