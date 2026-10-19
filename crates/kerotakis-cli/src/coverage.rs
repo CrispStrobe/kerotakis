@@ -1246,4 +1246,13 @@ mod tests {
             .expect("compare smoke subset")
             .is_empty());
     }
+
+    #[test]
+    fn unsupported_reaction_and_ignition_attempts_remain_observations() {
+        for id in ["bio-108", "th-049", "th-063"] {
+            let result = execute_prompt(&original_prompt(id), &mut crate::build_stack()).unwrap();
+            assert_eq!(result.observed, Disposition::Qualitative, "{id}");
+            assert_eq!(result.reason_code, "typed-observation", "{id}");
+        }
+    }
 }

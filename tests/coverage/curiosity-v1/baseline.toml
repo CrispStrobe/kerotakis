@@ -1397,8 +1397,8 @@ reason_code = "typed-observation"
 [[observation]]
 id = "bio-108"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "typed-engine-event"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "bio-109"
@@ -2543,8 +2543,8 @@ reason_code = "curated-route"
 [[observation]]
 id = "th-049"
 owning_task = "BRD-014"
-outcome = "computed"
-reason_code = "typed-engine-event"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "th-050"
@@ -2627,8 +2627,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "th-063"
 owning_task = "BRD-023"
-outcome = "computed"
-reason_code = "typed-engine-event"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "th-064"

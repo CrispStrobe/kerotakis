@@ -2495,5 +2495,18 @@ Three descriptive snapshot records have explicit, narrow reviews:
 The classifier rule uses typed events, not these IDs, rendered text or a desired
 score. Real native regressions cover both unsupported observations, unrelated
 vessel bookkeeping, absence of even a visual observation, and independently
-calculated kinetic results. The other497 descriptive records remain exact.
+calculated kinetic results. The other497 descriptive records remain exact at that first refresh.
 The fixed468 scientific catalog is not incremented by this snapshot refresh.
+
+The successor guard exposes three additional old overstatements: `bio-108`
+(saponification), `th-049` (cooking-oil ignition) and `th-063` (polystyrene soot)
+reach passive handling/appearance with model-limit notes. Their descriptive
+records change from `computed / typed-engine-event` to
+`qualitative / typed-observation`. This names the actual observation and does
+not claim the requested transformation happened. The source rule remains
+generic and all500 original questions, scripts and requirements remain exact.
+A regression covers those three original protocols. Acceptance additionally
+requires their complete primary-event traces, retaining the model-limit notes
+and showing no calculated transformation; a passing grade alone is insufficient.
+Together the two reviews change exactly six descriptive records; the other494
+remain exact. Neither refresh adds a scientific-catalog selection.
