@@ -1,0 +1,31 @@
+# UNIFAC input admission before neutral parameter extension
+
+Read [current state](STATUS.md), the [source lanes](post-hydrolysis-gap-lanes-20261019.md) and [delivery policy](PR-WORKFLOW.md). PR839 current source `755ae8d2` has accepted CPU/native/core/full-product evidence and awaits current protected/platform integration and changed browser delivery. The separate numerical precursor starts from actual main `2270a62d`; it must refresh those prerequisites before combined-source acceptance or integration.
+
+Candidate `e64c7d29` and tests-only baseline `f1d0a733` have [frozen controls, source/worker/lock bindings and the first setup failure](../audits/target468-20261016/unifac-input-preparation-20261019/README.md). Focused validation is issued; actual numerical failures and repaired acceptance are pending. No experiment or scientific-catalog entry is promoted by this work.
+
+## 1. Authenticate focused input refusals
+
+`crates/kerotakis-thermo/src/unifac.rs` previously used `if let Some` and `filter_map` to discard unknown subgroup IDs. The new checked path validates every molecular decomposition, used group/interaction parameter and numerical coordinate before evaluation, then refuses unrepresentable nonpositive/nonfinite results. It returns a structured `UnifacError` carrying the affected coordinate/group/direction. Existing missing-forward and missing-reverse controls retain their original direction and assertions. `try_infinite_dilution_gamma` propagates these refusals; the compatibility wrappers still fail closed instead of inventing coefficients.
+
+The seven-test fixture must genuinely fail six assertions on the tests-only old runtime, with pure-water/absent-probe limits passing. It must remain byte-identical in the repair. The fixed run then requires formatter/Clippy, all thermo/reference fixtures, typed checked-refusal controls and core consumer compilation. Verify actual test-binary archive, source/tree and seeded/actual lock. Preserve any compiler, setup or numerical failure separately; a compiler/setup error is not a demonstrated numerical regression.
+
+The sum-to-one allowance scales machine epsilon with term count. It is a numerical admission policy, not a physical composition range or empirical uncertainty. Positive temperature admission likewise does not certify the published data's temperature domain. Approved parameter rows and the existing numerical expressions remain unchanged; no new group, molecule or interaction data is imported.
+
+## 2. Propagate checked refusals through app consumers
+
+Audit `crates/kerotakis-thermo/src/lle.rs` and `crates/kerotakis-core/src/bench.rs`: `partition_k`, extraction/layer operations and the column/paper branches still include compatibility calls. Use checked results to preserve the refused species and coordinate, leave owned inventory intact, and emit localized model-limit notes alongside genuinely supported peaks. A missing group, missing reverse interaction or invalid temperature must not panic, disappear into an ideal coefficient, or produce an invented peak.
+
+Add real Bench controls for invalid numerical coordinates and partial samples; prove no unsupported extraction/reaction extent or material loss. Derive unknown-group and missing-direction controls at the public thermo seam, without adding fictitious registry species to production. Preserve valid ethanol/methanol/propanone, approved dye, pure-component and infinite-dilution controls. Keep ionic acetate outside the neutral method, and retain neutral missing-data notes. Distinguish absent molecular decomposition from a known molecule whose parameter/coordinate question is refused. App-owned explanations need English/German/French Phrase templates and typed slots; structured technical error details and stable IDs remain separate.
+
+## 3. Refresh prerequisites and complete product acceptance
+
+After PR839 integration/delivery, refresh actual main normally into the narrow precursor; retain the original baseline and focused evidence as their own source bindings. Verify the combined source, applicable full native/core/reference/locale checks, all original product jobs and current protected/platform logs. Use exact-head normal auto-merge after actual review, verify actual merge parents/tree, then validate the changed browser delivery. Keep a draft while these named acceptance tasks remain. Never merge the broad audit or an isolated validation branch.
+
+Only then extend neutral group/retention coverage using compatible attributed data and independent reference calculations from the [parameter lane](post-hydrolysis-gap-lanes-20261019.md). Original MO011 remains unselected until its actual missing ester feature is supported and its unchanged protocol independently satisfies its original criteria. Numerical refusals alone do not repair that scientific coverage gap.
+
+## 4. Preserve unresolved commercial material ownership
+
+The three new primary-event traces in [PR839 CPU acceptance](../audits/target468-20261016/pinned-observation-acceptance-20261019/README.md) expose another distinct presentation/domain gap. The oil protocols retain9.2g or18.4g as `unresolved_materials`, while canonical `contents` is empty or only NaOH. Heating says the vessel is empty, and appearance can say nothing is visible. The material mass is retained; it is not a modeled oil molecule, heat capacity or saponification result.
+
+Scope a separate repair across `Vessel`, the heat operator, appearance and localization. Distinguish physically empty inventory from present unresolved material. Show an honest localized material-presence/model-limit description and refuse unsupported thermal/optical predictions without assigning arbitrary heat capacity, colour or composition. Preserve recipe ID/version, basis, original mass and all transfer/clear/replay ownership. Test unresolved-only, supported-only and mixed vessels, partial resolution, actual readback and English/German/French rendering. A later reviewed surrogate recipe needs its own admitted composition/data domain; an alias or a visibility badge cannot earn the original soap/oil-combustion criteria.

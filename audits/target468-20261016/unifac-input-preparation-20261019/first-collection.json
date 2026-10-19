@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-19T10:01:59.916208+00:00",
+  "version": 1,
+  "status": {
+    "status": "ERROR",
+    "failureMessage": null
+  },
+  "files": {
+    "kerotakis-unifac-input-admission-20261019.log": {
+      "bytes": 1769,
+      "sha256": "92150b7f4d3c2531e4f27c30017745af45a6f9aa39ed2ce73678f876f816a6fc"
+    }
+  },
+  "source_acceptance": "Not assigned; root must authenticate script/source/lock and inspect raw test output",
+  "scientific_selections": 0
+}

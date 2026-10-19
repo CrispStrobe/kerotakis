@@ -1,0 +1,15 @@
+[{"stream_name":"stderr","time":0.961602777,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":0.96538992,"data":"  File \"/kaggle/src/script.py\", line 5, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":0.965430948,"data":"    W=pathlib.Path('/kaggle/temp/kerotakis-unifac-admission');W.mkdir(exist_ok=False);R=W/'source';START=time.monotonic()\n"}
+,{"stream_name":"stderr","time":0.965437724,"data":"                                                              ~~~~~~~^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":0.965442978,"data":"  File \"/usr/lib/python3.13/pathlib/_local.py\", line 722, in mkdir\n"}
+,{"stream_name":"stderr","time":0.965454165,"data":"    os.mkdir(self, mode)\n"}
+,{"stream_name":"stderr","time":0.965458966,"data":"    ~~~~~~~~^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":0.965463524,"data":"FileNotFoundError: [Errno 2] No such file or directory: '/kaggle/temp/kerotakis-unifac-admission'\n"}
+,{"stream_name":"stderr","time":4.369549331,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":4.369590842,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":4.861227785,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":4.861269931,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":6.996626337,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":8.460034699,"data":"[NbConvertApp] Writing 424995 bytes to __results__.html\n"}
+]
