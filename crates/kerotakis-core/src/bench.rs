@@ -4530,7 +4530,7 @@ impl Bench {
                             let t_k = v.temperature.0;
                             let mut injectable: std::collections::BTreeMap<
                                 SpeciesId,
-                                f64,
+                                (f64, f64),
                             > = std::collections::BTreeMap::new();
                             let mut outside: std::collections::BTreeSet<SpeciesId> =
                                 std::collections::BTreeSet::new();
@@ -4540,6 +4540,7 @@ impl Bench {
                             // of them is a result.
                             let mut unparameterised: std::collections::BTreeSet<SpeciesId> =
                                 std::collections::BTreeSet::new();
+                            let mut refused = std::collections::BTreeMap::<SpeciesId, kerotakis_thermo::unifac::UnifacError>::new();
                             for p in v.contents.iter() {
                                 let dissolved = p.phase == Phase::Aqueous
                                     || (p.phase == Phase::Liquid && p.species != water);
@@ -4554,12 +4555,11 @@ impl Bench {
                                 // calculation, and leaving it out meant the
                                 // ink experiment every child does had
                                 // nothing to separate.
-                                if partition_groups(&p.species).is_some()
-                                    || crate::instrument::curated_partition_k(&p.species.0)
-                                        .is_some()
-                                {
-                                    *injectable.entry(p.species.clone()).or_insert(0.0) +=
-                                        p.moles.0;
+                                let coefficient = column_partition_k(&p.species, t_k);
+                                if let Ok(Some(k)) = coefficient {
+                                    injectable.entry(p.species.clone()).or_insert((0.0, k)).0 += p.moles.0;
+                                } else if let Err(error) = coefficient {
+                                    refused.insert(p.species.clone(), error);
                                 } else if is_ionic(&p.species) {
                                     // Genuinely outside the METHOD: a partition
                                     // column separates by how a neutral solute
@@ -4578,6 +4578,23 @@ impl Bench {
                                     // separating them is the classic demonstration.
                                     unparameterised.insert(p.species.clone());
                                 }
+                            }
+                            if !refused.is_empty() {
+                                let names = refused.keys().map(|id| species::lookup(id).map(|entry| entry.name.to_string()).unwrap_or_else(|| id.0.clone()));
+                                let reasons = refused.iter().map(|(id, error)| Slot::phrase(Phrase::new(
+                                    "partition.species-refusal",
+                                    "{species}: {why}",
+                                    vec![("species".into(), Slot::term("species", species::lookup(id).map(|entry| entry.name).unwrap_or(id.0.as_str()))), ("why".into(), Slot::phrase(partition_input_refusal(*error)))],
+                                ))).collect();
+                                events.push(Event::not_modeled(
+                                    *vessel,
+                                    crate::ops::NotModelledCause::ModelBoundary,
+                                    Phrase::new(
+                                        "not-modeled.column-partition-refused",
+                                        "the column cannot calculate a finite partition coefficient for {species} at {temperature} K: {why}; the sample is retained and no peak is predicted for these species",
+                                        vec![("species".into(), Slot::terms("species", names)), ("temperature".into(), Slot::number(format!("{t_k:.2}"))), ("why".into(), Slot::list(reasons))],
+                                    ),
+                                ));
                             }
                             if !unparameterised.is_empty() {
                                 // A solute this model cannot decompose is a GAP,
@@ -4603,6 +4620,7 @@ impl Bench {
                             if injectable.is_empty()
                                 && outside.is_empty()
                                 && unparameterised.is_empty()
+                                && refused.is_empty()
                             {
                                 // Nothing dissolved at all: there is no sample,
                                 // which is a different thing from a sample the
@@ -4642,25 +4660,7 @@ impl Bench {
                             } else if !injectable.is_empty() {
                                 let mut peaks: Vec<ElutedPeak> = injectable
                                     .into_iter()
-                                    .map(|(species, moles)| {
-                                        let k = match partition_groups(&species) {
-                                            Some(solute) => {
-                                                kerotakis_thermo::lle::infinite_dilution_gamma(
-                                                    &solute,
-                                                    &water_groups(),
-                                                    t_k,
-                                                ) / kerotakis_thermo::lle::infinite_dilution_gamma(
-                                                    &solute,
-                                                    &hexane_groups(),
-                                                    t_k,
-                                                )
-                                            }
-                                            None => crate::instrument::curated_partition_k(
-                                                &species.0,
-                                            )
-                                            .expect("filtered on Some above")
-                                            .0,
-                                        };
+                                    .map(|(species, (moles, k))| {
                                         let tr = column.retention_time(k);
                                         ElutedPeak {
                                             species,
@@ -6923,8 +6923,7 @@ pub(crate) fn partition_groups(
             g.insert(14, 1); // OH
         }
         "methanol" => {
-            g.insert(1, 1); // CH3
-            g.insert(14, 1); // OH
+            g.insert(15, 1); // Dedicated CH3OH subgroup in the approved table.
         }
         "propanone" => {
             g.insert(1, 1); // CH3
@@ -6933,6 +6932,61 @@ pub(crate) fn partition_groups(
         _ => return None,
     }
     Some(g)
+}
+
+/// Column/paper use the existing mole-fraction gamma ratio, while extraction
+/// converts that ratio to the concentration basis its balance consumes.
+fn column_partition_k(
+    solute: &SpeciesId,
+    temperature: f64,
+) -> Result<Option<f64>, kerotakis_thermo::unifac::UnifacError> {
+    use kerotakis_thermo::unifac::UnifacError;
+    let groups = partition_groups(solute);
+    let curated = crate::instrument::curated_partition_k(&solute.0);
+    if groups.is_none() && curated.is_none() {
+        return Ok(None);
+    }
+    if !temperature.is_finite() || temperature <= 0.0 {
+        return Err(UnifacError::InvalidTemperature {
+            kelvin: temperature,
+        });
+    }
+    let k = match groups {
+        Some(groups) => {
+            kerotakis_thermo::lle::try_infinite_dilution_gamma(
+                &groups,
+                &water_groups(),
+                temperature,
+            )? / kerotakis_thermo::lle::try_infinite_dilution_gamma(
+                &groups,
+                &hexane_groups(),
+                temperature,
+            )?
+        }
+        None => curated.expect("a reviewed coefficient was checked above").0,
+    };
+    if k.is_finite() && k > 0.0 {
+        Ok(Some(k))
+    } else {
+        Err(UnifacError::NumericalRange { component: 0 })
+    }
+}
+
+/// App-owned explanations stay as recipes; raw Rust errors remain structured
+/// technical data. Component slots are one-based display indices.
+fn partition_input_refusal(error: kerotakis_thermo::unifac::UnifacError) -> Phrase {
+    use kerotakis_thermo::unifac::UnifacError as E;
+    match error {
+        E::MissingGroup { component, group_id } => Phrase::new("partition.unknown-group", "component {component} uses unknown molecular subgroup {group}", vec![("component".into(), Slot::number((component + 1).to_string())), ("group".into(), Slot::text(group_id.to_string()))]),
+        E::InvalidGroupParameters { group_id } => Phrase::new("partition.invalid-group-data", "molecular subgroup {group} has invalid volume or surface data", vec![("group".into(), Slot::text(group_id.to_string()))]),
+        E::InvalidDecomposition { component } => Phrase::new("partition.invalid-decomposition", "component {component} has no valid positive molecular group inventory", vec![("component".into(), Slot::number((component + 1).to_string()))]),
+        E::InvalidTemperature { kelvin } => Phrase::new("partition.invalid-temperature", "{temperature} K is not a finite positive temperature", vec![("temperature".into(), Slot::number(format!("{kelvin:.2}")))]),
+        E::InvalidComposition { component } => Phrase::new("partition.invalid-composition", "component {component} has a mole fraction outside the finite interval from zero to one", vec![("component".into(), Slot::number((component + 1).to_string()))]),
+        E::CompositionNotNormalized { total } => Phrase::new("partition.composition-sum", "the mole fractions sum to {sum}, not one within numerical summation tolerance", vec![("sum".into(), Slot::number(format!("{total:.6}")))]),
+        E::MissingInteraction(pair) => Phrase::new("partition.missing-interaction", "directional group interaction {interaction} is missing from the parameter set", vec![("interaction".into(), Slot::text(format!("a_{}_{}", pair.from_main_group, pair.to_main_group)))]),
+        E::InvalidInteraction { from_main_group, to_main_group } => Phrase::new("partition.invalid-interaction", "directional group interaction {interaction} is not finite", vec![("interaction".into(), Slot::text(format!("a_{from_main_group}_{to_main_group}")))]),
+        E::NumericalRange { component } => Phrase::new("partition.numerical-range", "the activity coefficient for component {component} cannot be represented as a finite positive value", vec![("component".into(), Slot::number((component + 1).to_string()))]),
+    }
 }
 
 pub(crate) struct PartitionPrediction {
@@ -6968,12 +7022,14 @@ pub(crate) fn partition_k(
     }
     let groups = partition_groups(solute)?;
     let mole_fraction_ratio =
-        kerotakis_thermo::lle::infinite_dilution_gamma(&groups, &water_groups(), temperature_k)
-            / kerotakis_thermo::lle::infinite_dilution_gamma(
+        kerotakis_thermo::lle::try_infinite_dilution_gamma(&groups, &water_groups(), temperature_k)
+            .ok()?
+            / kerotakis_thermo::lle::try_infinite_dilution_gamma(
                 &groups,
                 &hexane_groups(),
                 temperature_k,
-            );
+            )
+            .ok()?;
     // UNIFAC gives an infinite-dilution mole-fraction ratio. The extraction
     // operator consumes a concentration ratio, so convert with the pure
     // solvent molar concentrations. This makes the volume formula exactly

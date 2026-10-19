@@ -1505,6 +1505,7 @@ no-reviewed-bulk-density = "la masse volumique de {material} — la recette ne p
 density-of-a-mixture = "une masse volumique unique pour ce récipient : il contient {contents}, et une masse volumique appartient à une substance, pas à un mélange. Pèse-les séparément"
 incomplete-absorbance = "l'absorbance complète est indisponible : aucun spectre d'absorption pour {species}"
 no-group-decomposition = "la colonne n'a aucune décomposition en groupes curatée pour {species} — une vraie colonne les séparerait, c'est donc une lacune du modèle plutôt qu'un résultat"
+column-partition-refused = "la colonne ne peut pas calculer de coefficient de partage fini pour {species} à {temperature} K : {why} ; l’échantillon est conservé et aucun pic n’est prédit pour ces espèces"
 nothing-to-electrolyse = "rien ici ne peut être électrolysé : {why}"
 electrolysis-needs-an-electrolyte = "le modèle d'électrolyse du solvant exige un électrolyte support dissous ; l'eau pure a une conductivité finie mais très faible, et la tension, l'écartement des électrodes et les surtensions nécessaires pour soutenir le courant demandé ne sont pas modélisés"
 no-curated-nuclide = "aucun nucléide curaté nommé '{nuclide}' — le jeu pédagogique : {known}"
@@ -1779,3 +1780,15 @@ receiver = "récepteur"
 
 [corrosion-creep]
 "battery/lead-terminal" = "La croûte blanche sur une borne de batterie est du sulfate de plomb(II), et elle ne sort pas de l'eau de ce bécher - elle sort de la batterie. L'acide sulfurique remonte la borne en un film mince le long du plomb et ressort sous le joint, mouillant la borne d'électrolyte ; le plomb sous ce film se corrode comme anode de la pile dont il fait partie, Pb + SO4(2-) -> PbSO4 + 2 e-, et le sulfate de plomb est blanc, insoluble et pulvérulent : il reste donc exactement là où il a poussé au lieu d'être emporté. Voilà pourquoi la croûte est à la borne et nulle part ailleurs sur le boîtier, pourquoi elle revient après qu'on l'a brossée tant que le film est là, et pourquoi le remède est d'arrêter la remontée plutôt que de nettoyer la borne. RIEN N'EST INSCRIT AU BILAN ICI : aucune espèce PbSO4 n'est installée et il n'y a pas de sulfate dans ce récipient, le produit est donc nommé et non pesé, et le film d'acide est affirmé à partir de l'identité de l'objet plutôt que résolu - la recette battery/lead-terminal dit exactement cela dans ses propres hypothèses de lot"
+
+[partition]
+species-refusal = "{species} : {why}"
+unknown-group = "le composant {component} utilise le sous-groupe moléculaire inconnu {group}"
+invalid-group-data = "le sous-groupe moléculaire {group} possède des données de volume ou de surface invalides"
+invalid-decomposition = "le composant {component} ne possède aucun inventaire positif valide de groupes moléculaires"
+invalid-temperature = "{temperature} K n’est pas une température positive finie"
+invalid-composition = "le composant {component} possède une fraction molaire hors de l’intervalle fini de zéro à un"
+composition-sum = "la somme des fractions molaires vaut {sum}, au lieu d’un dans la tolérance numérique de sommation"
+missing-interaction = "l’interaction directionnelle de groupes {interaction} manque dans le jeu de paramètres"
+invalid-interaction = "l’interaction directionnelle de groupes {interaction} n’est pas finie"
+numerical-range = "le coefficient d’activité du composant {component} ne peut pas être représenté par une valeur positive finie"
