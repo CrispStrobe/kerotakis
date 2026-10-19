@@ -203,12 +203,19 @@ pub enum SolverRouteOutcome {
 /// This is a no-op on everything that shipped before it: the only producer
 /// of `SolutionRouted` is the aqueous solver, which until now emitted one
 /// only on the path where `chemistry_applies` is already true, and
-/// coverage's chemistry branch does not look at the count.
+/// coverage's chemistry branch does not look at the count. An explicit
+/// `NotYetModeled` boundary is likewise not an answer: its presence must
+/// not give an otherwise silent route precedence over an independent result.
 #[must_use]
 pub fn answer_event_count(events: &[Event]) -> usize {
     events
         .iter()
-        .filter(|event| !matches!(event, Event::SolutionRouted { .. }))
+        .filter(|event| {
+            !matches!(
+                event,
+                Event::SolutionRouted { .. } | Event::NotYetModeled { .. }
+            )
+        })
         .count()
 }
 
@@ -460,6 +467,13 @@ impl Equilibrator for SolverStack {
                 // had declined the solution.
                 Err(e) => {
                     *vessel = checkpoint;
+                    // Roll back the failed material proposal, but do not put
+                    // an earlier aqueous answer back on the instruments when
+                    // its owning adapter could not characterize this state.
+                    // Other model failures do not own these diagnostics.
+                    if solver.trusted_aqueous_readback().is_some() {
+                        vessel.invalidate_aqueous_diagnostics();
+                    }
                     self.last_routes.push(SolverRoute {
                         solver: solver_name.clone(),
                         kind,
@@ -2180,9 +2194,16 @@ pub fn equilibrate_phase_coupled(
 
     for pass in 0..MAX_PASSES {
         if chemistry.applies(vessel) {
+            let checkpoint = vessel.clone();
             match chemistry.equilibrate(vessel) {
                 Ok(mut more) => events.append(&mut more),
                 Err(error) => {
+                    // As in SolverStack, an error must not commit a partial
+                    // proposal or resurrect this owner's stale diagnostics.
+                    *vessel = checkpoint;
+                    if chemistry.trusted_aqueous_readback().is_some() {
+                        vessel.invalidate_aqueous_diagnostics();
+                    }
                     events.push(Event::SolverFailed {
                         vessel: vessel.id,
                         solver: chemistry.name().to_string(),
@@ -2765,6 +2786,9 @@ impl Equilibrator for HonestyEquilibrator {
         // an early return would let it stand. The state pass has already
         // decided this vessel is not a settled solution; this is where
         // that decision reaches the reader and the meter.
+        if let Some(boundary) = crate::nonaqueous::peroxide_medium_boundary(vessel) {
+            return Ok(vec![boundary]);
+        }
         let state = solvent_state(vessel);
         if let Some((reason, cause)) = state.boundary() {
             events.push(Event::not_modeled(vessel.id, cause, reason));
@@ -3420,6 +3444,24 @@ mod route_trace_tests {
             1,
             "the answer counts and the sentence about it does not"
         );
+    }
+
+    #[test]
+    fn an_explicit_model_boundary_is_not_a_successful_route_answer() {
+        let mut vessel = Vessel::new(crate::vessel::VesselId(0), "peroxide domain boundary");
+        vessel.deposit(SpeciesId::new("H2O2"), Moles(0.1), Phase::Liquid);
+        let before = serde_json::to_value(&vessel.contents).unwrap();
+        let mut stack = SolverStack::new(vec![Box::new(HonestyEquilibrator)]);
+        let events = stack.equilibrate(&mut vessel).unwrap();
+        assert_eq!(events.len(), 1);
+        assert!(matches!(events[0], Event::NotYetModeled { .. }));
+        assert_eq!(serde_json::to_value(&vessel.contents).unwrap(), before);
+        assert_eq!(answer_event_count(&events), 0);
+        assert_eq!(stack.last_routes.len(), 1);
+        assert!(matches!(
+            stack.last_routes[0].outcome,
+            SolverRouteOutcome::Succeeded { event_count: 0 }
+        ));
     }
 
     #[test]

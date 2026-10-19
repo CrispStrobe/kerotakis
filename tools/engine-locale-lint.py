@@ -620,6 +620,12 @@ def main() -> int:
     for path in sorted(CATALOGUES.glob("*.toml")):
         code = path.stem
         cat = load_catalogue(path)
+        # A reported percentage is not an acceptance gate: every source key
+        # must resolve, including adapter diagnostics outside the core crate.
+        missing = sorted(set(used) - set(cat))
+        for key in missing:
+            print(f"   MISSING: {code}.toml has no translation for '{key}'")
+        problems += len(missing)
         hit = sum(1 for k in used if k in cat)
         pct = 100 * hit / len(used) if used else 100.0
         dyn = sum(1 for k in cat if k.split(".")[0] in dynamic)

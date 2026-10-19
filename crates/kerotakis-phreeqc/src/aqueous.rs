@@ -2681,6 +2681,9 @@ impl Equilibrator for PhreeqcEquilibrator {
         // different vessel is a guess, not a memory. The warm start exists
         // for the temperature fixed point *inside* this call.
         self.warm_pe = None;
+        if let Some(boundary) = kerotakis_core::nonaqueous::peroxide_medium_boundary(vessel) {
+            return Ok(vec![boundary]);
+        }
         if has_solvent_only_basis(vessel) {
             // The water relation cannot price a finite H+/OH- reaction or
             // normalize its water inventory. A neutral reading would hide

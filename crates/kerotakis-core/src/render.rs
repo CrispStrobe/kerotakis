@@ -1248,7 +1248,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel}: {reaction} released {energy} J",
                 &[
                     ("vessel", &vessel.to_string()),
-                    ("reaction", reaction),
+                    ("reaction", locale.lookup(&format!("kinetic-reaction.{reaction}")).unwrap_or(reaction)),
                     ("energy", &locale.number(format!("{energy_j:.2}"))),
                 ],
             ),
@@ -4696,7 +4696,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 Some(c) => locale.fill(
                     "event.reacted.lv1-making-happen-much",
                     "In {vessel}, the {c} is making it happen much faster — after {seconds} seconds a lot has changed!",
-                    &[("vessel", &vessel.to_string()), ("c", &c.to_string()), ("seconds", &locale.number(format!("{seconds:.0}")))],
+                    &[("vessel", &vessel.to_string()), ("c", locale.lookup(&format!("species.{c}")).unwrap_or(c.as_str())), ("seconds", &locale.number(format!("{seconds:.0}")))],
                 ),
                 None => locale.fill(
                     "event.reacted.lv1-after-seconds-something",
@@ -4709,7 +4709,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     Some(c) => locale.fill(
                         "event.reacted.lv2",
                         ", sped up by {c}",
-                        &[("c", &c.to_string())],
+                        &[("c", locale.lookup(&format!("species.{c}")).unwrap_or(c.as_str()))],
                     ),
                     None => String::new(),
                 };
@@ -4724,7 +4724,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     Some(c) => locale.fill(
                         "event.reacted.lv3-catalyst",
                         " (catalyst: {c})",
-                        &[("c", &c.to_string())],
+                        &[("c", locale.lookup(&format!("species.{c}")).unwrap_or(c.as_str()))],
                     ),
                     None => String::new(),
                 };
