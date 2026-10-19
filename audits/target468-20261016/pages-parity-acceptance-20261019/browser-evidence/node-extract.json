@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "tar",
+    "-xJf",
+    "/kaggle/temp/kerotakis-live-browser/node-v22.23.3-linux-x64.tar.xz",
+    "--strip-components=1",
+    "-C",
+    "/kaggle/temp/kerotakis-live-browser/node"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

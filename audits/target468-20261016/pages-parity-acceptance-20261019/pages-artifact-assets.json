@@ -1,0 +1,27 @@
+{
+  "source": "5a234a5ba36bbbb5c21fff058952f9f34f76cb09",
+  "artifact_id": 12152902609,
+  "artifact_zip_sha256": "4a281d6962ac8dc39f238dd8013f1d812fc3c610ea90ddd2c54d6b16ef3d9f4c",
+  "assets": {
+    "iphreeqc.mjs": {
+      "sha256": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
+      "bytes": 33213
+    },
+    "iphreeqc.wasm": {
+      "sha256": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
+      "bytes": 1952556
+    },
+    "kerotakis.mjs": {
+      "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "bytes": 8205
+    },
+    "kerotakis_wasm.js": {
+      "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "bytes": 41630
+    },
+    "kerotakis_wasm_bg.wasm": {
+      "sha256": "e1325f121959f67acce5b22bcd81fcba61b7e2ea6f4f46b7db8930a08507427b",
+      "bytes": 11305419
+    }
+  }
+}

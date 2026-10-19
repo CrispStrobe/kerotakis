@@ -1,0 +1,447 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "decimal_precision": 45,
+  "cases": [
+    {
+      "id": "new120:sp-001",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "f0e04851ed20daf415d294b1cf4a1e37f2650625ba93ac9a7b3bbc91b19873d7",
+      "stdout_sha256": "29dcaeb1a4d84dc7876ba42912c41463ca61b34eb0866170806f5322fb0291ae",
+      "original_forecast": "The earlier vapour cut is normally richer in the more volatile ethanol than a later cut from the depleted pot.",
+      "original_criteria_review": [
+        {
+          "id": "SP-001-C1",
+          "criterion": "Compare ethanol mole fractions in v2 and v3, not their unequal absolute amounts.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The first actual receiver has higher ethanol mole fraction than the second; unequal absolute ethanol amounts are not used as the criterion."
+        },
+        {
+          "id": "SP-001-C2",
+          "criterion": "Each fractional cut applies to the then-remaining feed; reconcile all three vessel inventories.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Each actual10% cut is independently reconciled against the then-remaining volatile-mole feed. Water/ethanol and all represented atoms/charge close across all three vessels."
+        }
+      ],
+      "metrics": {
+        "first_second_cut_ethanol_mole_fractions": [
+          "0.239679918908941173919774973429088783243016269",
+          "0.111156143379013421076677644355021802323694509"
+        ],
+        "actual_cut_moles": [
+          "0.5767995486527417",
+          "0.51911959378746739"
+        ]
+      },
+      "explicit_limit_events_preserved": [],
+      "maximum_whole_bench_atom_charge_residual_mol_or_eq": "5.40E-16",
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original ideal separation/declared property model; no empirical apparatus recovery, quantitative iodine speciation, general mixture enthalpy or current-production certification. Historical binary/lock hashes remain producer-reported where bytes are absent."
+    },
+    {
+      "id": "new120:sp-002",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "ec082c7e83f597c15f44d990bb6cf5211b5b9159e3df9f26a06293bc27cf7a58",
+      "stdout_sha256": "84659d98b63a0222fe9ca44a317b753d8571fe9508efae9ad075f386d4668771",
+      "original_forecast": "Redistilling the first condensate increases ethanol fraction in the second condensate, while only part of the original ethanol reaches the final receiver.",
+      "original_criteria_review": [
+        {
+          "id": "SP-002-C1",
+          "criterion": "Final-receiver ethanol fraction exceeds that of its feed.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual second distillate is richer in ethanol than its actual first-distillate feed."
+        },
+        {
+          "id": "SP-002-C2",
+          "criterion": "Calculate final ethanol recovery against the initial 10 g dose, and include both residual pots in the balance.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Final ethanol recovery is calculated against the original10g dose, retaining both residual pots and all water/ethanol in the balance; enrichment is not complete recovery."
+        }
+      ],
+      "metrics": {
+        "first_distillate_feed_fraction": "0.172741458401045314217526051324066623308023696",
+        "final_receiver_fraction": "0.485351319864934862916214710125365645071855454",
+        "final_ethanol_recovery": "0.515881440079808106468138955965437098787663806",
+        "original_ethanol_dose_mol": "0.21706570578914236"
+      },
+      "explicit_limit_events_preserved": [],
+      "maximum_whole_bench_atom_charge_residual_mol_or_eq": "8.60E-16",
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original ideal separation/declared property model; no empirical apparatus recovery, quantitative iodine speciation, general mixture enthalpy or current-production certification. Historical binary/lock hashes remain producer-reported where bytes are absent."
+    },
+    {
+      "id": "new120:sp-005",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "fd1f7bdc3959d1ecc961a94328d5c97fb6a6a17e50f4a1c9603721edbe1ca75c",
+      "stdout_sha256": "88362db89a96df326211188b6a66edfb065144c1a5605ed2dd0aebb841f8525c",
+      "original_forecast": "Ideal filtration transfers the homogeneous ethanol\u2013water liquid without selectively retaining one molecular liquid as a solid.",
+      "original_criteria_review": [
+        {
+          "id": "SP-005-C1",
+          "criterion": "The receiver composition matches the transferred liquid feed within numerical tolerance.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual receiver retains the feed water and ethanol amounts and their mole fraction exactly."
+        },
+        {
+          "id": "SP-005-C2",
+          "criterion": "No ethanol-rich filter cake is invented; non-volatility and filtration are different selection rules.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Neither water nor ethanol remains as an invented filter cake. The ideal filter transfers the miscible liquids together; volatility is not used as its selection rule."
+        }
+      ],
+      "metrics": {
+        "transferred_ethanol_fraction": "0.0376327801046573589037134869521201192462743659"
+      },
+      "explicit_limit_events_preserved": [],
+      "maximum_whole_bench_atom_charge_residual_mol_or_eq": "0E-16",
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original ideal separation/declared property model; no empirical apparatus recovery, quantitative iodine speciation, general mixture enthalpy or current-production certification. Historical binary/lock hashes remain producer-reported where bytes are absent."
+    },
+    {
+      "id": "new120:sp-006",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "fdd3f698aefd614bd2f8d4e04bb9d31ca8dd69ae481c3211bcda6f1ef39a37ec",
+      "stdout_sha256": "24a12e1ffb78c238cae17c2daa3fd2fb92a2f3bae1d3927e00f8544f2e3b9612",
+      "original_forecast": "Magnetic collection isolates iron, filtration leaves a sand-rich residue, and evaporation recovers salt from the dissolved fraction.",
+      "original_criteria_review": [
+        {
+          "id": "SP-006-C1",
+          "criterion": "Assign the main iron, silica and sodium/chloride inventories to their intended final vessels.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual solid iron is in the magnet receiver, most silica is in the filter residue and Na/Cl occupy the evaporated salt receiver."
+        },
+        {
+          "id": "SP-006-C2",
+          "criterion": "Include the remaining mother liquor and removed water; recovered crystals do not need to equal the full initial salt dose.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The independent balance includes positive mother-liquor water, dissolved salt, dissolved silica and explicit water export. The preserved supersaturated-silica and iron/water kinetic limitations do not certify complete crystallisation or oxidation."
+        }
+      ],
+      "metrics": {
+        "iron_recovery_mol": "0.017906706061420002",
+        "retained_solid_silica_mol": "0.016623393915185407",
+        "mother_liquor_silica_mol": "0.000019972039145196722",
+        "crystals_NaCl_mol": "0.0109564908925",
+        "mother_liquor_Na_mol": "0.006154198154952426",
+        "exported_water_mol": "5.478934221482098"
+      },
+      "explicit_limit_events_preserved": [
+        {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+        },
+        {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        {
+          "beside_a_visible_change": true,
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+        },
+        {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+        }
+      ],
+      "maximum_whole_bench_atom_charge_residual_mol_or_eq": "4.4860E-15",
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original ideal separation/declared property model; no empirical apparatus recovery, quantitative iodine speciation, general mixture enthalpy or current-production certification. Historical binary/lock hashes remain producer-reported where bytes are absent."
+    },
+    {
+      "id": "new120:sp-007",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "6eacd06782aad3057c589f0d9e0eae6b1e142bd555f90d91ab430abfdecccf74",
+      "stdout_sha256": "0e558550eb5bd7a5e9362344e62851437d61a5c0795ca5c3a0be0b472fb75673",
+      "original_forecast": "Two chlorides per calcium-chloride formula unit can yield nearly 0.002 mol AgCl, while a small silver excess remains in the filtrate.",
+      "original_criteria_review": [
+        {
+          "id": "SP-007-C1",
+          "criterion": "Use identified dry AgCl amount to infer chloride, not the original formula-unit amount of CaCl2.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "The actual cake contains only identified dry AgCl; its amount plus dissolved chloride accounts for2mmol Cl from1mmol CaCl2."
+        },
+        {
+          "id": "SP-007-C2",
+          "criterion": "The ideal AgCl mass is approximately 0.2866 g before solubility or retained-liquid corrections; calcium remains mainly dissolved.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Registry-derived ideal AgCl mass is about0.2866g; the small dissolved-chloride remainder explains the actual dry mass. Calcium remains dissolved, and the balance reading is independently reproduced from identified AgCl rather than wet material."
+        }
+      ],
+      "metrics": {
+        "dry_AgCl_mol": "0.001999953299357",
+        "dry_AgCl_mass_g": "0.28663330686384524",
+        "ideal_dose_AgCl_mass_g": "0.28664",
+        "dissolved_Ca_mol": "0.0009999999999995561",
+        "residual_dissolved_chloride_mol": "4.670064289554547E-8"
+      },
+      "explicit_limit_events_preserved": [],
+      "maximum_whole_bench_atom_charge_residual_mol_or_eq": "2.0E-15",
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original ideal separation/declared property model; no empirical apparatus recovery, quantitative iodine speciation, general mixture enthalpy or current-production certification. Historical binary/lock hashes remain producer-reported where bytes are absent."
+    },
+    {
+      "id": "new120:sp-008",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "e1f163dcc0dbbc4ac7f095e570354cb610aecc0f12d2f932a0aa34fe70a37ade",
+      "stdout_sha256": "4da05262b76d743d3238fc7bc7b3d5bf0df1cd5dbf4114d8739a7c9007f99c8f",
+      "original_forecast": "Both dissolved solutes transfer with water; salt gives much greater conductivity because dissolution is not the same as ionisation.",
+      "original_criteria_review": [
+        {
+          "id": "SP-008-C1",
+          "criterion": "Both filtrates retain the corresponding dissolved solute inventory.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Both actual filtrates retain their introduced dissolved solute:1mmol glucose or1mmol each Na+/Cl\u2212."
+        },
+        {
+          "id": "SP-008-C2",
+          "criterion": "The salt filtrate conducts more strongly than the glucose filtrate without falsely calling glucose insoluble.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual measured conductivity is higher in the salt filtrate, while the glucose inventory proves it is dissolved. The conclusion does not infer glucose insolubility from low conductivity."
+        }
+      ],
+      "metrics": {
+        "glucose_and_salt_conductivity_uS_cm": [
+          "0.05508761762446267",
+          "1204.2742133145518"
+        ]
+      },
+      "explicit_limit_events_preserved": [],
+      "maximum_whole_bench_atom_charge_residual_mol_or_eq": "0E-16",
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original ideal separation/declared property model; no empirical apparatus recovery, quantitative iodine speciation, general mixture enthalpy or current-production certification. Historical binary/lock hashes remain producer-reported where bytes are absent."
+    },
+    {
+      "id": "new120:sp-009",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "ab1c00ded46c382c3af771f9c1716ff63df1e29e97f538aff448b52568a95123",
+      "stdout_sha256": "9660db22820fb523026986e59a4633784b0fc887f5fe8f949b0b0aa6ea8ed0f1",
+      "original_forecast": "A resolved water/hexane two-phase mixture can be separated by draining its denser aqueous layer while the organic-rich layer remains.",
+      "original_criteria_review": [
+        {
+          "id": "SP-009-C1",
+          "criterion": "Verify that the phase solver actually reported two liquid layers before judging the drain.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual layer events identify water below hexane before the drain; layer existence is not inferred from colour or the command name."
+        },
+        {
+          "id": "SP-009-C2",
+          "criterion": "The receiver is water/salt-rich; iodine distribution is interpreted from phase composition rather than colour alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual water/Na/Cl move to the receiver while hexane stays in the source. All solid/dissolved iodine across both vessels closes; phase inventory, not colour, supports the comparison. Missing iodine ionic speciation remains explicit and earns no pH/ionic-strength claim."
+        }
+      ],
+      "metrics": {
+        "actual_layer_events": [
+          {
+            "event": "layers_formed",
+            "lower": "water",
+            "upper": "hexane",
+            "vessel": 0
+          },
+          {
+            "event": "layers_formed",
+            "lower": "water",
+            "upper": "hexane",
+            "vessel": 0
+          }
+        ],
+        "receiver_water_mol": "2.7671384956980294",
+        "source_hexane_mol": "0.3832764742741767",
+        "receiver_I2_mol": "7.772279228099285E-7",
+        "source_all_phase_I2_mol": "0.000099222772077190074"
+      },
+      "explicit_limit_events_preserved": [
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+            "key": "not-modeled.dissolves-unspeciated",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iodine",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iodine dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        }
+      ],
+      "maximum_whole_bench_atom_charge_residual_mol_or_eq": "5.00E-21",
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original ideal separation/declared property model; no empirical apparatus recovery, quantitative iodine speciation, general mixture enthalpy or current-production certification. Historical binary/lock hashes remain producer-reported where bytes are absent."
+    },
+    {
+      "id": "new120:sp-010",
+      "status": "PASS_IN_ORIGINAL_BOUNDED_DOMAIN",
+      "script_sha256": "18c32150706bff6a10d3f00291b51e39006d8eefea307515e0fd43c3757e0fe4",
+      "stdout_sha256": "5f613a93162a33d5e9d7c30c1160c121dba0dda895741650bb5f2706d2aeb803",
+      "original_forecast": "The distillate is ethanol-enriched relative to the starting liquid and strongly depleted in nonvolatile salt.",
+      "original_criteria_review": [
+        {
+          "id": "SP-010-C1",
+          "criterion": "Assess ethanol enrichment and sodium/chloride rejection separately.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Actual ethanol enrichment and Na/Cl rejection are checked independently: both salt elements stay in the feed."
+        },
+        {
+          "id": "SP-010-C2",
+          "criterion": "Close the ethanol, water and salt balances across both vessels; a pure-solvent condensate is not assumed.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "PASS",
+          "reason": "Both water and ethanol enter the receiver; the actual condensate is not assumed pure. Every operation closes represented atoms/charge and each distillation closes molecular water/ethanol across both vessels."
+        }
+      ],
+      "metrics": {
+        "feed_ethanol_fraction": "0.0376327801046573589037134869521201192462743659",
+        "distillate_ethanol_fraction": "0.239679918908941173919774973429088783243016269",
+        "distillate_water_mol": "0.4385522796049387",
+        "distillate_ethanol_mol": "0.138247269047803"
+      },
+      "explicit_limit_events_preserved": [],
+      "maximum_whole_bench_atom_charge_residual_mol_or_eq": "5.40E-16",
+      "source_binding": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "qualification": "Original ideal separation/declared property model; no empirical apparatus recovery, quantitative iodine speciation, general mixture enthalpy or current-production certification. Historical binary/lock hashes remain producer-reported where bytes are absent."
+    }
+  ],
+  "selected": 8,
+  "original_criteria_passed": 16,
+  "unselected": {
+    "new120:sp-004": "Energy-budget convention needs a separate explicit final review; no total sensible/latent or practical apparatus-energy closure inferred.",
+    "new120:sp-003": "Prior held result remains unchanged.",
+    "new120:sp-011": "Prior held result remains unchanged.",
+    "new120:sp-012": "Missing retention data remain unsupported."
+  },
+  "new_engine_or_API_executions": 0
+}

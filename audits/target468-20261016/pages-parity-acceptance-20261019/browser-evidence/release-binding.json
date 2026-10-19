@@ -1,0 +1,52 @@
+{
+  "pages_origin": "https://crispstrobe.github.io/kerotakis/",
+  "pages_source": "5a234a5ba36bbbb5c21fff058952f9f34f76cb09",
+  "artifact_id": 12152902609,
+  "artifact_zip_sha256": "4a281d6962ac8dc39f238dd8013f1d812fc3c610ea90ddd2c54d6b16ef3d9f4c",
+  "artifact_assets": {
+    "iphreeqc.mjs": {
+      "sha256": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
+      "bytes": 33213
+    },
+    "iphreeqc.wasm": {
+      "sha256": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
+      "bytes": 1952556
+    },
+    "kerotakis.mjs": {
+      "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "bytes": 8205
+    },
+    "kerotakis_wasm.js": {
+      "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "bytes": 41630
+    },
+    "kerotakis_wasm_bg.wasm": {
+      "sha256": "e1325f121959f67acce5b22bcd81fcba61b7e2ea6f4f46b7db8930a08507427b",
+      "bytes": 11305419
+    }
+  },
+  "native_runtime_source": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+  "native_reference": {
+    "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
+    "response_sha256": "75d15b0c9bb332f40bb1d8ae7fb107c44ef5ef9282b192dc78298feb29a3f5c2",
+    "engine": {
+      "source_head": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+      "binary_sha256": "26a1e8b8df8afc5fd0f12f9dbd5124355e28df1840a969986eadb5206894955a",
+      "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+    },
+    "solution": {
+      "ph": 6.975165409667,
+      "ionic_strength": 0.2708857843468
+    }
+  },
+  "runtime_equivalence_paths": [
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/saved64-review-lanes-20261018.md"
+  ],
+  "expected_browser_checks": 11,
+  "new_rest_requests": 0,
+  "new_corpus_executions": 0,
+  "qualification": "One actual uncached Pages salt control plus interpreter capability, bound to independently measured native chemistry on runtime-equivalent documentation-only source; not comprehensive Pages scientific certification."
+}

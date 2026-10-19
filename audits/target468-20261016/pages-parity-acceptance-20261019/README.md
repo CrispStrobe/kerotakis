@@ -1,0 +1,7 @@
+# Actual Pages profile and uncached chemistry parity accepted
+
+Published Pages source `5a234a5b` passes all11 frozen browser controls. Each of its five served engine assets matches the original GitHub Pages artifact bytes. A fresh Lab starts without a solver, installs the real IPhreeqc bridge, makes four actual solver calls and executes both original salt commands without solver refusal. pH6.975165409667 and ionic strength0.2708857843468 match the already authenticated native reference exactly; owned Na+ and Cl− are0.037mol each. USER_PUNCH2+3 returns5. No REST execution, corpus case or owner-key request was issued.
+
+The native reference belongs to accepted production `c19b6e94`; exact source comparison with Pages `5a234a5b` contains only four maintained Markdown files. [Root review](ROOT-INDEPENDENT-REVIEW.json), [actual artifact binding](pages-artifact-assets.json), full browser raw output and43 authenticated evidence files are retained. This closes the earlier disabled-interpreter/profile and uncached-reference parity lane for this actual snapshot. The old failure remains historical.
+
+This is one bounded native/browser control, not comprehensive Pages chemistry or empirical calibration. Latest hydrolysis main `8c584e20` has its own pending publication; the current observation does not certify an unserved new payload. Reproduce saved numerical/source checks from the repository root with `python3 audits/target468-20261016/pages-parity-acceptance-20261019/review_saved.py`.

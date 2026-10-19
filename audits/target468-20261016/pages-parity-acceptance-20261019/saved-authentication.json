@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-19T05:31:02.578213+00:00",
+  "pages_source": "5a234a5ba36bbbb5c21fff058952f9f34f76cb09",
+  "harness_source": "cc6857a67293d571ee23d87914c9abfa75572616",
+  "authenticated_saved_files": 43,
+  "actual_browser_checks": 11,
+  "report_sha256": "f63d124c4fe7c1291a596c0fa6d280faae2bd0e71d3e26f9fbc558e816328755",
+  "spec_sha256": "c8cf6faecca5ca1ea83e706008d25f984884e045ce5d4ddd9a7bc275ad6dfd5f",
+  "root_actual_numeric_source_review_still_required": true,
+  "catalog_additions": 0,
+  "new_engine_or_api_requests": 0
+}

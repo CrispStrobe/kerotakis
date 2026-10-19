@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-19T05:32:00.909138+00:00",
+  "pages_source": "5a234a5ba36bbbb5c21fff058952f9f34f76cb09",
+  "native_source": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+  "runtime_equivalence_docs_only_paths": [
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/saved64-review-lanes-20261018.md"
+  ],
+  "actual_published_artifact_id": 12152902609,
+  "actual_artifact_zip_sha256": "4a281d6962ac8dc39f238dd8013f1d812fc3c610ea90ddd2c54d6b16ef3d9f4c",
+  "served_engine_asset_hashes_match_artifact": 5,
+  "actual_browser_checks_passed": 11,
+  "fresh_solver_calls": 4,
+  "native_browser_differences": {
+    "ph": "0E-12",
+    "ionic_strength": "0E-13"
+  },
+  "finite_sodium_chloride_mol_each": "0.037",
+  "actual_USER_PUNCH_arithmetic": 5,
+  "actual_native_response_sha256": "75d15b0c9bb332f40bb1d8ae7fb107c44ef5ef9282b192dc78298feb29a3f5c2",
+  "authenticated_browser_files": 43,
+  "new_REST_execution_requests": 0,
+  "new_corpus_executions": 0,
+  "owner_credentials_supplied": false,
+  "scope": "Actual5a234a5b Pages interpreter/profile and one uncached salt-reference parity control, not comprehensive scientific coverage or latest-main publication."
+}
