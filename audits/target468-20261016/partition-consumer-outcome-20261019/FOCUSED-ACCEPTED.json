@@ -1,0 +1,16 @@
+{
+  "source": "e83f6d7b1d43cb67ec68ddb732af93f932313705",
+  "tree": "445dcafa1e9f5ff8ab50415beada570c28dbccf3",
+  "four_genuine_baseline_failures_reused": true,
+  "five_repaired_consumer_controls_pass": true,
+  "formatter_clippy_full_core_pass": true,
+  "core_tests_passed": 2142,
+  "actual_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "test_executables_verified": 190,
+  "compiled_shared_libraries_verified": 12,
+  "unchanged_thermo_focused_evidence_reused": true,
+  "two_reviewed_lesson_strings_only": true,
+  "combined_source_full_product_platform_or_deployment_acceptance": false,
+  "scientific_catalog_additions": 0,
+  "original_experiment_requests": 0
+}

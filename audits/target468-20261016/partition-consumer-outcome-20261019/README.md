@@ -1,0 +1,7 @@
+# Checked app predecessor: saved full-core acceptance
+
+Source `e83f6d7b` passes formatter/Clippy and all2142 core tests, including the five real app controls, two unchanged-reference methanol temperatures and the reviewed two-string lesson update. Its actual test archive has190 test executables and12 proc-macro shared libraries; actual source/tree/seeded producer lock `66886813` and reused genuine baseline bytes were independently verified. The precursor numerical source has its own178-test acceptance; the later LLE implementation changes require new full thermo validation.
+
+The copied observer’s terminal/collection metadata incorrectly retains a literal `version:2`. The actual issued successor is provider version3, authenticated by its push response, source/worker hash and full producer bindings. The first observer expected2 before collection and was corrected to observe3; that first error and correction receipt remain immutable. Do not relabel the genuine earlier version2 full-core failure as this successful successor.
+
+This outcome certifies the predecessor, not the later combined source, liquid follow-up, full product/native/platform integration or deployment. Subsequent liquid tests exposed another earlier phase-detection panic; that failure remains separate and the current checked-LLE successor is under full validation. No original experiment or scientific-catalog entry is promoted.

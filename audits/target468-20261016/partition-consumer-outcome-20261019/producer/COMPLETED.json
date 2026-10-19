@@ -1,0 +1,9 @@
+{
+  "source": "e83f6d7b1d43cb67ec68ddb732af93f932313705",
+  "tree": "445dcafa1e9f5ff8ab50415beada570c28dbccf3",
+  "baseline_genuine_failures": 4,
+  "fixed_all_commands_pass": true,
+  "core_consumer_compiles": true,
+  "full_product_or_deployment_acceptance": false,
+  "scientific_catalog_additions": 0
+}

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/kerotakis-liquid-refusal/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "48f8e5844eb6f9a6ed4f57d3f8361e6a4377778f37146c47da545f091b5e78b8",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

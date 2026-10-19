@@ -1,0 +1,12 @@
+{
+  "id": "finite-phase-wait-cycle",
+  "http_status": 200,
+  "elapsed_seconds": 3.4229189604520798,
+  "response_sha256": "3ddc93403d8bca1b94a701576bc9c21ab68f1118785510c5dbd32d84893e9625",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

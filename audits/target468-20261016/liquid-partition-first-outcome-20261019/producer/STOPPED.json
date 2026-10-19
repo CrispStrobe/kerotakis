@@ -1,0 +1,6 @@
+{
+  "error_type": "AssertionError",
+  "error": "fixed-2",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 40, in <module>\n    for i,command in enumerate(PLAN['fixed_commands']):run('fixed-'+str(i),command,R)\n                                                       ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/kaggle/src/script.py\", line 17, in run\n    if required:assert result.returncode==0,name\n                       ^^^^^^^^^^^^^^^^^^^^\nAssertionError: fixed-2\n",
+  "no_auto_retry": true
+}

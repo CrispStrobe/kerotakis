@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "sh",
+    "/kaggle/temp/kerotakis-partition-consumers/rustup-init.sh",
+    "-y",
+    "--profile",
+    "minimal",
+    "--default-toolchain",
+    "1.99.1",
+    "--no-modify-path"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "d829d9231fc983348ee3b0941ab8d9bf3498a1252a5d03d9998c5f5bb802a0a8",
+  "stderr_sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2"
+}

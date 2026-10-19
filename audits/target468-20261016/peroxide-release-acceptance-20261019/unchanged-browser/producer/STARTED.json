@@ -1,0 +1,7 @@
+{
+  "script_sha256": "3f1f7f663a92804ce4e84ba46db0d6a81811fd92b83143459345da82c703def1",
+  "cpu_only": true,
+  "owner_credentials_supplied": false,
+  "runtime_source": "0b57969911f96bcb97fb159eef725d7db7048801",
+  "harness_source": "b890ba176bf34a5818d3ceac275f53cde3c22376"
+}

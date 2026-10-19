@@ -1,0 +1,13 @@
+{
+  "id": "vercel-client",
+  "http_status": 200,
+  "elapsed_seconds": 0.31916556879878044,
+  "response_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+  "response_headers": {
+    "access-control-allow-origin": "*",
+    "cache-control": "public, max-age=0, must-revalidate",
+    "content-type": "text/html; charset=utf-8",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

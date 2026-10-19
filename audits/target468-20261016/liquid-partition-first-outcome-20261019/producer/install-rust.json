@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "sh",
+    "/kaggle/temp/kerotakis-liquid-refusal/rustup-init.sh",
+    "-y",
+    "--profile",
+    "minimal",
+    "--default-toolchain",
+    "1.99.1",
+    "--no-modify-path"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "86a7006da993e8029a7a4d6c6baade7d8604488dac9ed4f95b7c08c8c8c7a22b",
+  "stderr_sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2"
+}

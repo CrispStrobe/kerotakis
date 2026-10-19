@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "curl",
+    "-fsSL",
+    "--retry",
+    "0",
+    "https://nodejs.org/dist/latest-v22.x/node-v22.23.3-linux-x64.tar.xz",
+    "-o",
+    "/kaggle/temp/kerotakis-live-browser/node-v22.23.3-linux-x64.tar.xz"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

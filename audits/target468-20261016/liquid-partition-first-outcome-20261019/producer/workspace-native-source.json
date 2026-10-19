@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "bash",
+    "tools/fetch-sundials.sh"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "956c3eb700b988e33f07d9467c2baf9df130882ee9912a31c291488ccdb788ef",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

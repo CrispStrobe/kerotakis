@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/kerotakis-live-browser/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "3f1d4462c4b45c1f20c51598f0b7d199287d1b29eba5c4d408b889828b436bdb",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

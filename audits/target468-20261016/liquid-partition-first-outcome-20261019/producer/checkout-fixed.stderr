@@ -1,0 +1,11 @@
+Warning: you are leaving 1 commit behind, not connected to
+any of your branches:
+
+  7e18b22 test: retain invalid-state rollback for refused liquid transfers
+
+If you want to keep it by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> 7e18b22
+
+HEAD is now at 5cdf8a6 fix: retain invalid-state rollback before liquid model refusals

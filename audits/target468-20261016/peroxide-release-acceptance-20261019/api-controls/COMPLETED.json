@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-19T11:22:55.322553+00:00",
+  "http_requests": 21,
+  "request_response_and_source_bindings_verified": true,
+  "physical_verdict": "not_assigned",
+  "physical_assessment_required": true,
+  "concurrency_qualification": "See separate actual statuses; two429 is inconclusive, not a pass.",
+  "catalog_additions": 0
+}

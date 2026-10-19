@@ -1,0 +1,12 @@
+{
+  "id": "health-before",
+  "http_status": 200,
+  "elapsed_seconds": 0.3929820992052555,
+  "response_sha256": "f3a985b34505256afc70597b6148f74a83022fc89df8e83583f9e4f4ba43776a",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

@@ -1,0 +1,12 @@
+{
+  "id": "auth-missing",
+  "http_status": 401,
+  "elapsed_seconds": 0.31536066345870495,
+  "response_sha256": "370184e0b2b404611d135ab27d53b40c56d8f98e42afea63a72523c67d2c47b8",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

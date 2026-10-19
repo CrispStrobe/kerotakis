@@ -1,0 +1,18 @@
+
+running 5 tests
+test globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract ... FAILED
+test invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory ... FAILED
+test a_partial_sample_keeps_its_supported_peak_and_missing_data_note ... ok
+test invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter ... FAILED
+test methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures ... FAILED
+
+failures:
+
+failures:
+    globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract
+    invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory
+    invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter
+    methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures
+
+test result: FAILED. 1 passed; 4 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,9 @@
+{
+  "source": "7e18b221246df777c2e26d505fb444ee825d609f",
+  "actual_failed_names": [
+    "refused_drain_creates_no_receiver_and_moves_no_material",
+    "refused_extraction_preserves_the_numerical_reason_and_inventory",
+    "globally_invalid_transfer_state_keeps_error_and_rollback_contract"
+  ],
+  "positive_control_passed": true
+}

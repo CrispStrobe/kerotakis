@@ -1,0 +1,6 @@
+{
+  "utc": "2026-10-19T11:01:50.223660+00:00",
+  "prior_monitor_sha256": "587bb1ef04aef52604f0ad3cfb3ebd39163a8f987aab8af324c554e64af547af",
+  "reason": "Copied observer expected version2; actual issued successor is3. No output collection or new producer occurred.",
+  "provider_reissued": false
+}

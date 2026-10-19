@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "npm",
+    "install",
+    "--ignore-scripts",
+    "--no-audit",
+    "--no-fund",
+    "--save-exact",
+    "@playwright/test@1.62.1"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "c59541a7d8bfc9987c0aa47adf2cdd2858be8b66de5abc0331d5a6484ae63ab6",
+  "stderr_sha256": "c884fe29effaff733ee4200ea15832ae7dbfd4e66cfb0b21656e1561b3060545"
+}

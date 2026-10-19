@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-19T12:30:27.537448+00:00",
+  "source": "0b57969911f96bcb97fb159eef725d7db7048801",
+  "engine": {
+    "source_head": "0b57969911f96bcb97fb159eef725d7db7048801",
+    "binary_sha256": "8741340853083c8216664aa34ae2f1ec43b3c7a26e22cdae713f4ff0212c19b2",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "unchanged37_names_equal_preceding_accepted_suite": true,
+  "actual_both_browser_manifests_rehashed": true,
+  "original_experiment_requests": 0,
+  "catalog_additions": 0,
+  "release_native_runtime_and_asset_archive_bytes_verified_by_frozen_artifact_verifier": true,
+  "public_file_secret_scan_pass": true
+}

@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "npx",
+    "playwright",
+    "install",
+    "--with-deps",
+    "chromium"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "c2d662b1a68ace62e4ba65abd49a116b8df5e54562eb0a58fb67890403e3a3b7",
+  "stderr_sha256": "06c9322839309ecb298d9d37a70cf656e6d8d6f6a98e6898748c93fd94792630"
+}

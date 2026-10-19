@@ -1,0 +1,9 @@
+{
+  "http_statuses": [
+    200,
+    429
+  ],
+  "admission_control": "observed_one_admitted_one_rejected",
+  "no_retries": true,
+  "qualification": "The production429 message intentionally combines lease and quota rejection; this observes the prospective one-admitted/one-rejected pattern, not independent server lease telemetry."
+}

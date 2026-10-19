@@ -1,0 +1,1917 @@
+{
+  "additional_gate_commands": [
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-cli",
+      "--bin",
+      "kero",
+      "coverage::tests::",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "run",
+      "-p",
+      "kerotakis-cli",
+      "--",
+      "coverage",
+      "curiosity",
+      "--check",
+      "--json"
+    ],
+    [
+      "cargo",
+      "run",
+      "-p",
+      "kerotakis-cli",
+      "--",
+      "codex",
+      "lint"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-cli",
+      "--test",
+      "curiosity",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "--no-default-features",
+      "--test",
+      "aqueous_continuation_cache_only",
+      "--test",
+      "acid_permanganate_cache_only",
+      "--",
+      "--nocapture"
+    ]
+  ],
+  "source_native_manifest_files_sha256": {
+    "crates/kerotakis-core/i18n/de.toml": "dddc643bad96e8a7e05526a63cd4db4c446b490c7e0f743c8d87d5004625026f",
+    "crates/kerotakis-core/i18n/fr.toml": "218c43f477212030bef476ccb47ce61b39b9de1e9d488fe05abfc970d85cbcf9",
+    "crates/kerotakis-core/src/bench.rs": "8735ed01723a71127b98f33dd6ea1ec97971779b1b9475d8fa01f91f6e0d8c56",
+    "crates/kerotakis-core/src/lib.rs": "cc0022bb26e09b9edb86f0ff8809f7238831059f1fca6c177c6b34c692ab1334",
+    "crates/kerotakis-core/src/named_alkaline.rs": "5d0260e78827f5dc6d47693db31624e3a78666a51e06f8ef62de1c11c6005099",
+    "crates/kerotakis-core/src/phase_route.rs": "1224af69e0ab3cac56ee9069c4941db75d7e55a288663b9d0afab4bce4c3a6ee",
+    "crates/kerotakis-core/tests/named_alkaline.rs": "2e7e7d79523870abc46d7b75c5b2378a3d15444d90aa7d5e4c568a2e30f298c1",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "faf5a9cca1f76a11b94171a0367db809d4cba7762672074cbcf2e45bc9b49ab5",
+    "crates/kerotakis-phreeqc/tests/coupled_ammonia.rs": "e19a36270634f1a3a73273ec2429ec6205192577fa11a0ed9cd8df0b8d9134bf",
+    "crates/kerotakis-phreeqc/tests/finite_gas_moles.rs": "d03b5f08e9f380d98f7e47a630ff0d42d68ae169c4fc7a66858b4ed4649b3f29",
+    "crates/kerotakis-phreeqc/tests/named_hydrolysis.rs": "c3c44e13733d90a9ce975f88217cab771361f85085dc96a5ca9fdfbc83dc6325",
+    "tools/chemistry-audit/CONTINUATION.md": "263bc584bf52b5effca92d1c6b6015d5664ad69499d87136d2c089a246885e95",
+    "tools/chemistry-audit/HISTORY.md": "80ad714cf8de37cc9d8c797c5beb1c738c5cc8773f2dd50abeaa523c7362420a",
+    "tools/chemistry-audit/INTEGRATOR-HANDOFF.md": "8e97cab4014fce5ce9f6fe7c9051dc54c200d8989d4a40dadf268c37be40fd22",
+    "tools/chemistry-audit/README.md": "569c9af13e13982eb4a2805024cdea61e864b37e279a114715dc59f02f045e15",
+    "tools/chemistry-audit/SEVENTH-BATCH.md": "31970d0de906c761bfc5775e1442b682294a7b847cc93566be0da2e5b95126c7",
+    "tools/chemistry-audit/SIXTH-BATCH.md": "a70c598032cb4e6632a8a0036f91f12234e58b3865cbc94a4799249ed1c0104b",
+    "tools/chemistry-audit/SOURCE-FLEETS-2.md": "6787ec23d9af4171b2495b54befbf73234ed02b602e86a54794d8fc482ef23a2",
+    "tools/chemistry-audit/SOURCE-FLEETS-3.md": "9a5fb827fd797eb57508ab3ddf98ccacb3c473aa4828b84287b11cf9583b4116",
+    "tools/chemistry-audit/SOURCE-FLEETS.md": "8a9061978aabac8485087f3900da35a034edad25c5e0b065db24f9b355bbb43b",
+    "tools/chemistry-audit/aggregate_source_fleets.py": "9db772935ed0315bd86b4f53d12aea2e1320702605f33e31ad8f7537f5eb1968",
+    "tools/chemistry-audit/aggregate_source_fleets_2.py": "beab0853e7004dd773406f32926020d447a14bb26d592d3927b419c05780ae23",
+    "tools/chemistry-audit/aggregate_source_fleets_3.py": "b08794184b85c6a6812bff5cff6a3fab97a64f01453aa279794ad218c3cebc54",
+    "tools/chemistry-audit/analyse.py": "0cc5a87e1a7238c22cab80020fd660ae24f2b4e869bf212c0853a72e619b0f89",
+    "tools/chemistry-audit/analyse_catalog.py": "2f91da890daff701b5ca66b36d94c955481cc5f0213ee68e1ec9ac546b2c15f6",
+    "tools/chemistry-audit/analyse_fifth.py": "830db37c08d69a45f1876d6314fcb506668f0dd21a428264454300b9b33e5506",
+    "tools/chemistry-audit/analyse_fourth.py": "af57ebe8ef99eb11e5a39b3ba82728d026e96ec2b1d30cfc3be2d58ae1e6d30d",
+    "tools/chemistry-audit/analyse_next.py": "ced12b0cb6410414444ef7e756155918498a3d32786bf514b1f46efe87f1e952",
+    "tools/chemistry-audit/analyse_seventh.py": "d03c7a468401ba6872cc2a4bdc8c4730c30d1480b526fa164f226ff96efa2ea3",
+    "tools/chemistry-audit/analyse_sixth.py": "979dc23a458e502ee33176d15867eba529760ec3c1b6c6c5f1098273c255dcfe",
+    "tools/chemistry-audit/analyse_source_fleets.py": "1d4d741ce8afd537ba7def50bce422187f178bdc5feefb1cb5a59c3e6e8e6957",
+    "tools/chemistry-audit/analyse_source_fleets_2.py": "aaa69aa6d5f736418085e68efc46d1ff08cf29d627e3b242e8da653abf709cc9",
+    "tools/chemistry-audit/analyse_source_fleets_3.py": "0f01ac5a331b2e26dcf17ec391a23cf5be7d7461a038cca32d92dade042b75c5",
+    "tools/chemistry-audit/analyse_third.py": "f83e9937bc67ee5af741c8e35e435c83a9339f926f3855331c0d91c27a4d3c3d",
+    "tools/chemistry-audit/basis_records.py": "e0a95797e9a51aae3b8a42790fd7323d3384cf86dbea2f11170ca173181a2d38",
+    "tools/chemistry-audit/check_native_inventory.py": "917a6437cf9e8bcb2cef18c0a8b95216dcbbece714ee31d1061f2cbc12bd5868",
+    "tools/chemistry-audit/fifth_batch.py": "ad849abb21ca922024992e96456786097aa75f94c3bf98ba415587f54c9ab74b",
+    "tools/chemistry-audit/fourth_batch.py": "3173192d10c97862eddb684d62c66353bda2625d9a8112f3351828d1bf0ab01a",
+    "tools/chemistry-audit/generate_source_fleets.py": "f67d195fa3822596c1201def7a7742398957339a360d12165ac776753370fa45",
+    "tools/chemistry-audit/generate_source_fleets_2a.py": "53de9cf078540595b41e53c8f3c0d93017ba60c35b40d77fda5c9eb7cb46a539",
+    "tools/chemistry-audit/generate_source_fleets_2b.py": "89c0ceeb5b2453207aca424705061068a8f2ebde2c66b433012746c3de51173d",
+    "tools/chemistry-audit/generate_source_fleets_3.py": "b0606aeac2a43ffe6ee3610ecfef98f48d0ca9c276473982fdbf38d6fed696e9",
+    "tools/chemistry-audit/generate_source_manifests_b.py": "8a319b72a6858a8039161e67e495bc04a3bb3d57e9d2deefbaa26a174d6a9671",
+    "tools/chemistry-audit/hbr_conversion.py": "f502838b2850d57fdea02217f66ef4c49f4246f1ad612204ac7490c105350f39",
+    "tools/chemistry-audit/merge_codex_snapshot.py": "bed67820328aabdad0a89b4c914941863d34e2ae96cacfa479383150f8c8f9c7",
+    "tools/chemistry-audit/next_batch.py": "5afd0b6ff3a4b6e090cc5c38c6b05aab938d3edadafc05bab11b1dca1e898b8b",
+    "tools/chemistry-audit/obsolete_tests.py": "eb30ebda26645b7b772d666b83b4c8f3c99b9abec96df4cbe3fdb36cbf55995b",
+    "tools/chemistry-audit/replay_catalog.py": "498bd4daddda302386a3a12c07ff412f2605dd6c821ccfb0f07f9299090cad05",
+    "tools/chemistry-audit/revision.py": "32507d998afa1bb19994f81b04c0154559c8e2a8503a11c8edf8d7bfb2aea151",
+    "tools/chemistry-audit/run.py": "3adead02d502903ec4663f1314d94caf0a5b607aa51d6397d841c0fbb9b94e23",
+    "tools/chemistry-audit/seventh_batch.py": "9164c194e10e7d5d5561c7e76506e844bfc2a57acd3aa38161126d9c4ae7ea7f",
+    "tools/chemistry-audit/sixth_batch.py": "64b27d8d51d36ee20ddb99832a6ff0cc8a806acc30f8b1345d66203d82c528e4",
+    "tools/chemistry-audit/source-fleets-2/analytical-observables.json": "dfa33ef1dbc0aef0794797f8ee9ace8451b1e5a5a513472ff61d953fdc9dc456",
+    "tools/chemistry-audit/source-fleets-2/crystallisation-boundaries.json": "a9a6e784485f049dd7934f551ad4d8da659dd5c064233662e55bee41369091b2",
+    "tools/chemistry-audit/source-fleets-2/gas-production-transfer.json": "75e6f80a20f9fd604ab4f511fbe673e88e3719b1abe6386754b90ae361e4fc72",
+    "tools/chemistry-audit/source-fleets-2/household-biochemistry.json": "7a9b6dc8daa8837b17cc44236ce9ead6dc1b1e9b9d886e885d6ffa28bfd8bc07",
+    "tools/chemistry-audit/source-fleets-2/kinetics-boundaries.json": "269720e059de27411314b854ba7b8b7244787bf6bd1b5f3eb7c9bc497e6054c5",
+    "tools/chemistry-audit/source-fleets-2/materials-transport.json": "c14d8316439fc92f5adb7076f4263a72381d668fc5c215dd7493ceb6c5fd1257",
+    "tools/chemistry-audit/source-fleets-2/phase-colligative.json": "9ba0f1fd49deebdc100a82c01229375416a9c388bdd1f627dcee0e6f26d400cb",
+    "tools/chemistry-audit/source-fleets-2/polyprotic-carbonate.json": "6da507e0e754a16d10802fdc836db9e4a7e74f7207464cf98db406f6f10b7d3e",
+    "tools/chemistry-audit/source-fleets-2/quantitative-solutions.json": "5ce701f5f8e1ceb973e3d3718c0798a1dede51e7543a82900d94b9baba33bf12",
+    "tools/chemistry-audit/source-fleets-2/redox-cells.json": "7b0b1f2f116e539cd14e3e532ea4000bb9d07537b22bb0c24a8bcd3e840a1733",
+    "tools/chemistry-audit/source-fleets-2/separation-trains.json": "01468eb7d08769b60b406124a73ab1379d2863e62863bff46432c513bdb1dafa",
+    "tools/chemistry-audit/source-fleets-2/thermochemical-paths.json": "d75425998b76e1a685f388819879b181dd9b16f4b61bcd9723c6ecf0cd610369",
+    "tools/chemistry-audit/source-fleets-3/aqueous-selectivity.json": "404dfc24cd6a69ca90ff5d83a72aaaa68e471f9b40062f577a68cf9ee231e2bf",
+    "tools/chemistry-audit/source-fleets-3/ionic-conductivity.json": "f53b66e9178c33cd176afb5cc7c2d00525586cb15ad1a5a1638612b63be54571",
+    "tools/chemistry-audit/source-fleets-3/metal-ligand.json": "e512ac166452fd2efd86ce79a3efee2697e2f64729b288fb156b3d6a342f6911",
+    "tools/chemistry-audit/source-fleets-3/organic-equilibrium.json": "74a2a4f941212f16ad68b1b04c3bb68f41ad3ba26697dfeceb8b371fd1d2e660",
+    "tools/chemistry-audit/source-fleets-3/water-energy.json": "dc595215444aa4d0b5d0002737724e5e54f74f6d3099361e53a806c9b9d8077e",
+    "tools/chemistry-audit/source-fleets/acid-base-buffers.json": "685a4c0edad27dbb0eff02754995bb8916bac0fd55fe9dc16b70b832706e1492",
+    "tools/chemistry-audit/source-fleets/distillation.json": "18bfcab295e4dec165ee168953225b2b48f4f7ed3952eb6b3757de27dea6684a",
+    "tools/chemistry-audit/source-fleets/electrochemistry.json": "51e440528ec9ac46d99e775a902ddf397b226cf7e4d601c69aebbd84e02372a8",
+    "tools/chemistry-audit/source-fleets/filtration-evaporation.json": "4f625f115e1ca4da4c694f9c71a893ac804f852ffe69773883686c984dd26425",
+    "tools/chemistry-audit/source-fleets/gas-boundaries.json": "234c3832e6b93efb3fb09e3541055ab8b4e0c755a53612f0501d700a764fdebd",
+    "tools/chemistry-audit/source-fleets/mixing-transfer.json": "b53b4c53194e433c3d55a9294138c347ee331f5be7c3af108504b2fa870b9b41",
+    "tools/chemistry-audit/source-fleets/observables-negative-controls.json": "1a680f54f29b45fc961f4d939c278fdb35ae72888c8543fb4d9d398b6223f31c",
+    "tools/chemistry-audit/source-fleets/organic-equilibria.json": "11407f204b8c70b5cd1c4682fa3a326648b3f32fcebf0664fc8f4a0a954a505d",
+    "tools/chemistry-audit/source-fleets/solubility-precipitation.json": "b334f28d4a3b9c55faac0885ded5b316bdb27bb048253b45bc44c643a34842da",
+    "tools/chemistry-audit/source-fleets/thermal-phase-paths.json": "04cf68a4350e13008bc60ebaa76b4b2333d8f30153171d07641aefa34ebc388a",
+    "tools/chemistry-audit/source_fleets.py": "a04f6905692b2783a9fd4e0a4e2c3581be5768a1b2bacd47cdbf76617bd57f5b",
+    "tools/chemistry-audit/source_fleets_2.py": "641285a057c870f3f698d486791ca368435ceefa8f5ae89dec0627078e47b45f",
+    "tools/chemistry-audit/source_fleets_3.py": "c84c8ffa381a6300487334ba394316d830564753f7c0f74119ff8a5be07c119c",
+    "tools/chemistry-audit/third_batch.py": "1e17fa8e5b2552c755ee6507e72e227ea7eff1b2458eaa46cc7bd77e42f996d9",
+    "crates/kerotakis-core/src/family.rs": "fbb694241845fee4e52b6063fc3f2e1ad37cf3eefa0b3c76772c192c6d19aaea",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/src/solve.rs": "653d655cefd81e2100033d037779cf02def5fd566c44d8e866bec699505a8e20",
+    "crates/kerotakis-core/src/nonaqueous.rs": "98786c00ff545f2a4b10157fd57e2c29c96722c9cfb3bab3b0de2ff18c8026af",
+    "crates/kerotakis-core/src/render.rs": "db361021d5aae01b6915fcf3ba4c9b080d6ac5f630fec17bfbc3cb63af06f036",
+    "crates/kerotakis-core/tests/composed_locale.rs": "d3827b2c40b95dee9298a19951341558559eca59f4045a2e331d267569eb78f7",
+    "crates/kerotakis-core/tests/nonaqueous_routing.rs": "063e09c8c45a91cd906d57ad2bc63f27f57ebd8a06d99bfc0ed5633e7d09246c",
+    "crates/kerotakis-phreeqc/tests/diagnostic_freshness.rs": "8d94f016bf468c98f92f3e9f74ecdcc2879e5304d865c19fefc4298d35eb1a29",
+    "crates/kerotakis-phreeqc/tests/peroxide_medium.rs": "8bb2d234153291c4c73519cf9ac275d8e8292560e42842aa30b6c3a64b4b75b9",
+    "tools/engine-locale-lint.py": "1cb2e8f5e7e61ecf24482a269c6e5b12954b4ed15bf6be761fff4958aeaa2883",
+    "crates/kerotakis-cli/src/coverage.rs": "490522c16f5f035d0c9b3713e5191c507ff26f13af0457c8fb0ab319a0403442",
+    "tests/coverage/curiosity-v1/baseline.toml": "b1adbd4308891ef69c25fc8cbb31a778191fa0ca21fbee3cd044cc872b38048a",
+    "tests/coverage/curiosity-v1/manifest.toml": "12bcd49ac7cc19b5227be9a2ba79044fa91062f028ffda59920026635af8b43a",
+    "tests/coverage/curiosity-v1/aqueous-household.toml": "274c5e2d05727842387c0dee440425fcdc67960fe2ccf681443080b41eab30d6",
+    "tests/coverage/curiosity-v1/thermal-fire.toml": "6a76e6476caac5f6ee7d379b4e43880dcfba67f02e2423de592ccdcaf33efce9",
+    "tests/coverage/curiosity-v1/food-organic-bio.toml": "a53f1afab07e37b7cb6ad81e9321285ce166fb5ae0d49e3f9f3f65add613b5f7",
+    "tests/coverage/curiosity-v1/materials-handling.toml": "4c3094b0d6be1d98c0369c6e96c4fb0d271801869a940f88e195b28a502e3c43",
+    "crates/kerotakis-core/tests/golden/lessons.json": "a5aff680831290aef2350c6314585ba83272b54a66818e9aadd9f757538d2249",
+    "crates/kerotakis-core/tests/layer_admission.rs": "c51a5e3f1a297082532f61e722d9927e0e2a80ea2472ec3c767363bb746a9cd1",
+    "crates/kerotakis-core/tests/liquid_partition_refusals.rs": "39fb4b748ec493c8cd9dba0ec8567605a8294bc136af26197c9022a5a07b1052",
+    "crates/kerotakis-core/tests/partition_consumer_admission.rs": "2541ea01d55e4e349e6c81d78c69b3d71b46228cce25bff940b1baaa36ffdf4e",
+    "crates/kerotakis-thermo/src/lle.rs": "ac509f80ad98b9b609ad54ae30af8c446d2436f0633ff446f2349d260f465a1c",
+    "crates/kerotakis-thermo/src/unifac.rs": "e82aeb9e751cdda2349e36b1fb338e4ab5ee6642900fea7041fa35d5952881cb",
+    "crates/kerotakis-thermo/tests/lle_checked_admission.rs": "fa927140087a6437f781e9c219aaa3da7957af4b9721025f403c504eee30bba1",
+    "crates/kerotakis-thermo/tests/unifac_admission.rs": "0632572054020cb0a3a84bf05db909ebb867f39e0ff24638af68585b9c8d66a8",
+    "crates/kerotakis-thermo/tests/unifac_checked_refusals.rs": "6ee31d09904c9246a21aea85f7cb885ec1d1fab71a4519a02eb79132e6d9cd4c"
+  },
+  "primary_event_diagnostics": [],
+  "workflow_sha256": "f27783836bc5b2869a32128d857efb0af8a75d2a18902320b9121b225f14b7d3",
+  "jobs": [
+    {
+      "key": "build-cli",
+      "name": "Build audited CLI once",
+      "family": null,
+      "steps": [
+        {
+          "index": 3,
+          "name": "cargo build --release -p kerotakis-cli",
+          "run": "cargo build --release -p kerotakis-cli"
+        },
+        {
+          "index": 4,
+          "name": "sha256sum target/release/kero > binary-sha256.txt",
+          "run": "sha256sum target/release/kero > binary-sha256.txt\ngit submodule status > submodules.txt\n"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {
+            "submodules": "recursive"
+          }
+        },
+        {
+          "uses": "dtolnay/rust-toolchain@stable",
+          "with": {}
+        },
+        {
+          "uses": "Swatinem/rust-cache@v2",
+          "with": {}
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "target/release/kero\nCargo.lock\nbinary-sha256.txt\nsubmodules.txt\n",
+            "retention-days": "7"
+          }
+        }
+      ]
+    },
+    {
+      "key": "sixth-fleet",
+      "name": "Frozen fleet 195-218",
+      "family": null,
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Prepare the evidence envelope",
+          "run": "mkdir -p audit-evidence\nprintf '%s\\n' \"${GITHUB_SHA}\" > audit-evidence/revision.txt\n"
+        },
+        {
+          "index": 4,
+          "name": "Verify the frozen analyzer rejects missing evidence",
+          "run": "python3 tools/chemistry-audit/analyse_sixth.py --self-test"
+        },
+        {
+          "index": 5,
+          "name": "Record all 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/sixth_batch.py --binary target/release/kero --out audit-evidence/sixth-195-218"
+        },
+        {
+          "index": 6,
+          "name": "Bind the frozen contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/sixth_batch.py \\\n  tools/chemistry-audit/analyse_sixth.py \\\n  tools/chemistry-audit/SIXTH-BATCH.md \\\n  > audit-evidence/sixth-195-218/preflight-sha256.txt\n"
+        },
+        {
+          "index": 7,
+          "name": "Apply independent laws and matched controls",
+          "run": "python3 tools/chemistry-audit/analyse_sixth.py audit-evidence/sixth-195-218 --out audit-evidence/sixth-195-218/law-checks.json"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {
+            "submodules": "recursive"
+          }
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-sixth-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "seventh-fleet",
+      "name": "Frozen fleet 459-488",
+      "family": null,
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Prepare the evidence envelope",
+          "run": "mkdir -p audit-evidence\nprintf '%s\\n' \"${GITHUB_SHA}\" > audit-evidence/revision.txt\n"
+        },
+        {
+          "index": 4,
+          "name": "Verify the analyzer rejects missing evidence",
+          "run": "python3 tools/chemistry-audit/analyse_seventh.py --self-test"
+        },
+        {
+          "index": 5,
+          "name": "Record all 30 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/seventh_batch.py --binary target/release/kero --out audit-evidence/seventh-459-488"
+        },
+        {
+          "index": 6,
+          "name": "Bind the frozen contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/seventh_batch.py \\\n  tools/chemistry-audit/analyse_seventh.py \\\n  tools/chemistry-audit/SEVENTH-BATCH.md \\\n  > audit-evidence/seventh-459-488/preflight-sha256.txt\n"
+        },
+        {
+          "index": 7,
+          "name": "Apply independent laws and matched controls",
+          "run": "python3 tools/chemistry-audit/analyse_seventh.py audit-evidence/seventh-459-488 --out audit-evidence/seventh-459-488/law-checks.json"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {
+            "submodules": "recursive"
+          }
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-seventh-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet acid-base-buffers",
+      "family": "acid-base-buffers",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'acid-base-buffers' --binary target/release/kero --out 'audit-evidence/acid-base-buffers'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/acid-base-buffers' --family 'acid-base-buffers' --out 'audit-evidence/acid-base-buffers/acid-base-buffers-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-acid-base-buffers-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet solubility-precipitation",
+      "family": "solubility-precipitation",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'solubility-precipitation' --binary target/release/kero --out 'audit-evidence/solubility-precipitation'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/solubility-precipitation' --family 'solubility-precipitation' --out 'audit-evidence/solubility-precipitation/solubility-precipitation-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-solubility-precipitation-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet gas-boundaries",
+      "family": "gas-boundaries",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'gas-boundaries' --binary target/release/kero --out 'audit-evidence/gas-boundaries'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/gas-boundaries' --family 'gas-boundaries' --out 'audit-evidence/gas-boundaries/gas-boundaries-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-gas-boundaries-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet electrochemistry",
+      "family": "electrochemistry",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'electrochemistry' --binary target/release/kero --out 'audit-evidence/electrochemistry'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/electrochemistry' --family 'electrochemistry' --out 'audit-evidence/electrochemistry/electrochemistry-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-electrochemistry-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet mixing-transfer",
+      "family": "mixing-transfer",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'mixing-transfer' --binary target/release/kero --out 'audit-evidence/mixing-transfer'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/mixing-transfer' --family 'mixing-transfer' --out 'audit-evidence/mixing-transfer/mixing-transfer-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-mixing-transfer-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet filtration-evaporation",
+      "family": "filtration-evaporation",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'filtration-evaporation' --binary target/release/kero --out 'audit-evidence/filtration-evaporation'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/filtration-evaporation' --family 'filtration-evaporation' --out 'audit-evidence/filtration-evaporation/filtration-evaporation-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-filtration-evaporation-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet distillation",
+      "family": "distillation",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'distillation' --binary target/release/kero --out 'audit-evidence/distillation'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/distillation' --family 'distillation' --out 'audit-evidence/distillation/distillation-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-distillation-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet thermal-phase-paths",
+      "family": "thermal-phase-paths",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'thermal-phase-paths' --binary target/release/kero --out 'audit-evidence/thermal-phase-paths'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/thermal-phase-paths' --family 'thermal-phase-paths' --out 'audit-evidence/thermal-phase-paths/thermal-phase-paths-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-thermal-phase-paths-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet organic-equilibria",
+      "family": "organic-equilibria",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'organic-equilibria' --binary target/release/kero --out 'audit-evidence/organic-equilibria'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/organic-equilibria' --family 'organic-equilibria' --out 'audit-evidence/organic-equilibria/organic-equilibria-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-organic-equilibria-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "name": "Source fleet observables-negative-controls",
+      "family": "observables-negative-controls",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'observables-negative-controls' --binary target/release/kero --out 'audit-evidence/observables-negative-controls'"
+        },
+        {
+          "index": 5,
+          "name": "Apply frozen named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/observables-negative-controls' --family 'observables-negative-controls' --out 'audit-evidence/observables-negative-controls/observables-negative-controls-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-audit-observables-negative-controls-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleet-aggregate",
+      "name": "All 240 source-informed cases",
+      "family": null,
+      "steps": [
+        {
+          "index": 2,
+          "name": "python3 tools/chemistry-audit/aggregate_source_fleets.py downloaded-evidence",
+          "run": "python3 tools/chemistry-audit/aggregate_source_fleets.py downloaded-evidence"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "pattern": "chemistry-audit-*-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "downloaded-evidence"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 quantitative-solutions",
+      "family": "quantitative-solutions",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'quantitative-solutions' --binary target/release/kero --out 'audit-evidence-v2/quantitative-solutions'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/quantitative-solutions.json \\\n  > 'audit-evidence-v2/quantitative-solutions/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/quantitative-solutions' --family 'quantitative-solutions' --out 'audit-evidence-v2/quantitative-solutions/quantitative-solutions-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-quantitative-solutions-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "family": "polyprotic-carbonate",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'polyprotic-carbonate' --binary target/release/kero --out 'audit-evidence-v2/polyprotic-carbonate'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/polyprotic-carbonate.json \\\n  > 'audit-evidence-v2/polyprotic-carbonate/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/polyprotic-carbonate' --family 'polyprotic-carbonate' --out 'audit-evidence-v2/polyprotic-carbonate/polyprotic-carbonate-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-polyprotic-carbonate-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 redox-cells",
+      "family": "redox-cells",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'redox-cells' --binary target/release/kero --out 'audit-evidence-v2/redox-cells'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/redox-cells.json \\\n  > 'audit-evidence-v2/redox-cells/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/redox-cells' --family 'redox-cells' --out 'audit-evidence-v2/redox-cells/redox-cells-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-redox-cells-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 gas-production-transfer",
+      "family": "gas-production-transfer",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'gas-production-transfer' --binary target/release/kero --out 'audit-evidence-v2/gas-production-transfer'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/gas-production-transfer.json \\\n  > 'audit-evidence-v2/gas-production-transfer/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/gas-production-transfer' --family 'gas-production-transfer' --out 'audit-evidence-v2/gas-production-transfer/gas-production-transfer-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-gas-production-transfer-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 phase-colligative",
+      "family": "phase-colligative",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'phase-colligative' --binary target/release/kero --out 'audit-evidence-v2/phase-colligative'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/phase-colligative.json \\\n  > 'audit-evidence-v2/phase-colligative/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/phase-colligative' --family 'phase-colligative' --out 'audit-evidence-v2/phase-colligative/phase-colligative-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-phase-colligative-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "family": "crystallisation-boundaries",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'crystallisation-boundaries' --binary target/release/kero --out 'audit-evidence-v2/crystallisation-boundaries'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/crystallisation-boundaries.json \\\n  > 'audit-evidence-v2/crystallisation-boundaries/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/crystallisation-boundaries' --family 'crystallisation-boundaries' --out 'audit-evidence-v2/crystallisation-boundaries/crystallisation-boundaries-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-crystallisation-boundaries-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 separation-trains",
+      "family": "separation-trains",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'separation-trains' --binary target/release/kero --out 'audit-evidence-v2/separation-trains'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/separation-trains.json \\\n  > 'audit-evidence-v2/separation-trains/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/separation-trains' --family 'separation-trains' --out 'audit-evidence-v2/separation-trains/separation-trains-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-separation-trains-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 kinetics-boundaries",
+      "family": "kinetics-boundaries",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'kinetics-boundaries' --binary target/release/kero --out 'audit-evidence-v2/kinetics-boundaries'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/kinetics-boundaries.json \\\n  > 'audit-evidence-v2/kinetics-boundaries/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/kinetics-boundaries' --family 'kinetics-boundaries' --out 'audit-evidence-v2/kinetics-boundaries/kinetics-boundaries-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-kinetics-boundaries-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 household-biochemistry",
+      "family": "household-biochemistry",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'household-biochemistry' --binary target/release/kero --out 'audit-evidence-v2/household-biochemistry'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/household-biochemistry.json \\\n  > 'audit-evidence-v2/household-biochemistry/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/household-biochemistry' --family 'household-biochemistry' --out 'audit-evidence-v2/household-biochemistry/household-biochemistry-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-household-biochemistry-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 materials-transport",
+      "family": "materials-transport",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'materials-transport' --binary target/release/kero --out 'audit-evidence-v2/materials-transport'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/materials-transport.json \\\n  > 'audit-evidence-v2/materials-transport/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/materials-transport' --family 'materials-transport' --out 'audit-evidence-v2/materials-transport/materials-transport-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-materials-transport-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 analytical-observables",
+      "family": "analytical-observables",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'analytical-observables' --binary target/release/kero --out 'audit-evidence-v2/analytical-observables'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/analytical-observables.json \\\n  > 'audit-evidence-v2/analytical-observables/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/analytical-observables' --family 'analytical-observables' --out 'audit-evidence-v2/analytical-observables/analytical-observables-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-analytical-observables-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "name": "Source fleet v2 thermochemical-paths",
+      "family": "thermochemical-paths",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v2 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'thermochemical-paths' --binary target/release/kero --out 'audit-evidence-v2/thermochemical-paths'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/thermochemical-paths.json \\\n  > 'audit-evidence-v2/thermochemical-paths/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v2 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/thermochemical-paths' --family 'thermochemical-paths' --out 'audit-evidence-v2/thermochemical-paths/thermochemical-paths-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v2-thermochemical-paths-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v2",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleet-v2-aggregate",
+      "name": "All 288 source-informed v2 cases",
+      "family": null,
+      "steps": [
+        {
+          "index": 2,
+          "name": "python3 tools/chemistry-audit/aggregate_source_fleets_2.py downloaded-evidence-v2",
+          "run": "python3 tools/chemistry-audit/aggregate_source_fleets_2.py downloaded-evidence-v2"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "pattern": "chemistry-source-v2-*-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "downloaded-evidence-v2"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "name": "Source fleet v3 water-energy",
+      "family": "water-energy",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v3 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'water-energy' --binary target/release/kero --out 'audit-evidence-v3/water-energy'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/water-energy.json \\\n  > 'audit-evidence-v3/water-energy/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v3 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/water-energy' --family 'water-energy' --out 'audit-evidence-v3/water-energy/water-energy-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v3-water-energy-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v3",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "name": "Source fleet v3 aqueous-selectivity",
+      "family": "aqueous-selectivity",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v3 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'aqueous-selectivity' --binary target/release/kero --out 'audit-evidence-v3/aqueous-selectivity'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/aqueous-selectivity.json \\\n  > 'audit-evidence-v3/aqueous-selectivity/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v3 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/aqueous-selectivity' --family 'aqueous-selectivity' --out 'audit-evidence-v3/aqueous-selectivity/aqueous-selectivity-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v3-aqueous-selectivity-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v3",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "name": "Source fleet v3 ionic-conductivity",
+      "family": "ionic-conductivity",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v3 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'ionic-conductivity' --binary target/release/kero --out 'audit-evidence-v3/ionic-conductivity'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/ionic-conductivity.json \\\n  > 'audit-evidence-v3/ionic-conductivity/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v3 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/ionic-conductivity' --family 'ionic-conductivity' --out 'audit-evidence-v3/ionic-conductivity/ionic-conductivity-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v3-ionic-conductivity-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v3",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "name": "Source fleet v3 metal-ligand",
+      "family": "metal-ligand",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v3 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'metal-ligand' --binary target/release/kero --out 'audit-evidence-v3/metal-ligand'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/metal-ligand.json \\\n  > 'audit-evidence-v3/metal-ligand/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v3 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/metal-ligand' --family 'metal-ligand' --out 'audit-evidence-v3/metal-ligand/metal-ligand-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v3-metal-ligand-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v3",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "name": "Source fleet v3 organic-equilibrium",
+      "family": "organic-equilibrium",
+      "steps": [
+        {
+          "index": 2,
+          "name": "chmod +x target/release/kero",
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "name": "Record 24 process-isolated v3 experiments",
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'organic-equilibrium' --binary target/release/kero --out 'audit-evidence-v3/organic-equilibrium'"
+        },
+        {
+          "index": 5,
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/organic-equilibrium.json \\\n  > 'audit-evidence-v3/organic-equilibrium/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "name": "Apply frozen v3 named relations",
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/organic-equilibrium' --family 'organic-equilibrium' --out 'audit-evidence-v3/organic-equilibrium/organic-equilibrium-law-checks.json'"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "name": "chemistry-audit-cli-74544b440db9b9b370720bbc3db064182f89529a"
+          }
+        },
+        {
+          "uses": "actions/upload-artifact@v6",
+          "with": {
+            "name": "chemistry-source-v3-organic-equilibrium-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "audit-evidence-v3",
+            "if-no-files-found": "error",
+            "retention-days": "30"
+          }
+        }
+      ]
+    },
+    {
+      "key": "source-fleet-v3-aggregate",
+      "name": "All 120 source-informed v3 cases",
+      "family": null,
+      "steps": [
+        {
+          "index": 2,
+          "name": "python3 tools/chemistry-audit/aggregate_source_fleets_3.py downloaded-evidence-v3",
+          "run": "python3 tools/chemistry-audit/aggregate_source_fleets_3.py downloaded-evidence-v3"
+        }
+      ],
+      "timeout_seconds": 3600,
+      "actions": [
+        {
+          "uses": "actions/checkout@v6",
+          "with": {}
+        },
+        {
+          "uses": "actions/download-artifact@v7",
+          "with": {
+            "pattern": "chemistry-source-v3-*-74544b440db9b9b370720bbc3db064182f89529a",
+            "path": "downloaded-evidence-v3"
+          }
+        }
+      ]
+    }
+  ],
+  "tree": "71c61d256b0e6ebb4d1bbeaabba06685cf92c1b1",
+  "reviewed_head": "74544b440db9b9b370720bbc3db064182f89529a",
+  "focused_native_commands": [
+    [
+      "python3",
+      "tools/engine-locale-lint.py",
+      "--check"
+    ],
+    [
+      "cargo",
+      "clippy",
+      "-p",
+      "kerotakis-core",
+      "-p",
+      "kerotakis-thermo",
+      "-p",
+      "kerotakis-cea",
+      "-p",
+      "kerotakis-phreeqc",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "-p",
+      "kerotakis-cea",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-core",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "--no-default-features",
+      "--test",
+      "peroxide_medium",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-thermo",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ]
+  ],
+  "expected_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "frozen_utc": "2026-10-19T12:26:45.348614+00:00",
+  "original_logical_job_total": 33,
+  "assertions_and_original_commands_unchanged": true,
+  "scientific_catalog_additions": 0,
+  "source_prerequisite": "Delivered peroxide main0b579699, actual11 API/37browser/5targeted controls accepted",
+  "no_protected_GitHub_context_replacement": true,
+  "reused_liquid_baseline_and_first_failure_sha256": {
+    "baseline.stdout": "4ca7531958f58262727d52d1210465227c488be480a35b3a8405187d626db016",
+    "baseline.stderr": "084afb3e932bef87327b5273de6075182392e8eadd99d143635b309bdab2bbe9",
+    "baseline.json": "dd774e2f7c669a298a902b9e2c30e2c915c140911c3780955daa77a46cbc1c1d",
+    "BASELINE-REPRODUCED.json": "f3d8bc91934d95de80228a5fd6bfbeaf424d31bccf5d81d63be4964983554a3b",
+    "fixed-2.stdout": "4d41fdffcbc98f353efaefd8c4ff478a1d8df06f07a55e7b9c567371a2dcaac6",
+    "fixed-2.stderr": "d851b98c4b731143293c3c88945eceabb9c302254111e5de70b835ab217dcc16",
+    "fixed-2.json": "b5cee962650e031c265ed8ee93eaaa794cca15f5acb2765664ae0c97f215d29a",
+    "STOPPED.json": "3d4eb57e8ee3c87c1f87bdc2c06406b1e52c156354814e5270cffed4398d8aef"
+  },
+  "reused_liquid_baseline_source": "7e18b221246df777c2e26d505fb444ee825d609f",
+  "reused_failed_liquid_source": "5cdf8a6b2d22277ffb9d55bacf85392c7dbc33f6",
+  "baseline_fixture": "crates/kerotakis-core/tests/liquid_partition_refusals.rs",
+  "baseline_fixture_sha256": "39fb4b748ec493c8cd9dba0ec8567605a8294bc136af26197c9022a5a07b1052",
+  "no_baseline_or_three_passive_trace_reexecution": true,
+  "uploaded_worker_sha256": "31feb3a6b01dca2b1a1177cbc67f673175dfb8ffb9f6f1be27cd3e7497aa0c2d"
+}

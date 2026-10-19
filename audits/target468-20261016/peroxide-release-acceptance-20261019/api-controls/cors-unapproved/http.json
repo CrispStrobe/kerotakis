@@ -1,0 +1,14 @@
+{
+  "id": "cors-unapproved",
+  "http_status": 400,
+  "elapsed_seconds": 0.19395864382386208,
+  "response_sha256": "f80399859bbd7b2cb1cac34d88e0f01461619f351b476926e2465eea789098d4",
+  "response_headers": {
+    "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type",
+    "access-control-allow-methods": "POST, GET",
+    "cache-control": "no-store",
+    "content-type": "text/plain; charset=utf-8",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

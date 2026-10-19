@@ -1,0 +1,11 @@
+Warning: you are leaving 1 commit behind, not connected to
+any of your branches:
+
+  ff5dc39 test(core): correct locale setup on the unchanged partition consumer baseline
+
+If you want to keep it by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> ff5dc39
+
+HEAD is now at e83f6d7 test: align two lesson methanol readouts with verified subgroup model

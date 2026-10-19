@@ -1,0 +1,8 @@
+{
+  "kernel_id": 139598092,
+  "actual_issued_provider_version": 1,
+  "actual_source": "5cdf8a6b2d22277ffb9d55bacf85392c7dbc33f6",
+  "worker_sha256": "58106a46f81c312e2e48e1cdd73f358db1da8386a0c35399a3926135516cc3b3",
+  "observer_metadata_version_2_is_a_retained_literal_error": true,
+  "actual_source_and_worker_not_inferred_from_that_field": true
+}

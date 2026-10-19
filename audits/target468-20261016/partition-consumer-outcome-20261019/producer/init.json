@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/kerotakis-partition-consumers/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "56e00985b2fc80a8b9a5041a856229274107233cf385115dc6ec4002d56fc582",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}
