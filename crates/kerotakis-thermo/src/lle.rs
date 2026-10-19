@@ -44,13 +44,24 @@ pub fn lle_binary<F>(z1: f64, gammas_fn: &mut F) -> LleResult
 where
     F: FnMut(f64) -> (f64, f64),
 {
+    match try_lle_binary(z1, &mut |x| Ok::<_, std::convert::Infallible>(gammas_fn(x))) {
+        Ok(result) => result,
+        Err(never) => match never {},
+    }
+}
+
+/// The same scan and bisections, stopping immediately on a model evaluation refusal.
+pub fn try_lle_binary<F, E>(z1: f64, gammas_fn: &mut F) -> Result<LleResult, E>
+where
+    F: FnMut(f64) -> Result<(f64, f64), E>,
+{
     if z1 <= 0.0 || z1 >= 1.0 {
-        return LleResult::SinglePhase;
+        return Ok(LleResult::SinglePhase);
     }
 
-    let g_mix = |x1: f64, gammas: &mut F| -> f64 {
+    let g_mix = |x1: f64, gammas: &mut F| -> Result<f64, E> {
         let x2 = 1.0 - x1;
-        let (g1, g2) = gammas(x1);
+        let (g1, g2) = gammas(x1)?;
         let t1 = if x1 > 1e-15 {
             x1 * (x1 * g1).max(1e-30).ln()
         } else {
@@ -61,18 +72,18 @@ where
         } else {
             0.0
         };
-        t1 + t2
+        Ok(t1 + t2)
     };
 
     // Spinodal interval from the concavity scan.
     let n = 400usize;
     let dx = 1.0 / n as f64;
     let (mut s_lo, mut s_hi) = (None, None);
-    let mut g_prev = g_mix(dx, gammas_fn);
-    let mut g_curr = g_mix(2.0 * dx, gammas_fn);
+    let mut g_prev = g_mix(dx, gammas_fn)?;
+    let mut g_curr = g_mix(2.0 * dx, gammas_fn)?;
     for i in 3..n {
         let x = i as f64 * dx;
-        let g_next = g_mix(x, gammas_fn);
+        let g_next = g_mix(x, gammas_fn)?;
         let d2g = (g_next - 2.0 * g_curr + g_prev) / (dx * dx);
         if d2g < -1e-10 {
             if s_lo.is_none() {
@@ -87,17 +98,17 @@ where
         eprintln!("  lle: spinodal {s_lo:?}..{s_hi:?}");
     }
     let (Some(s_lo), Some(s_hi)) = (s_lo, s_hi) else {
-        return LleResult::SinglePhase;
+        return Ok(LleResult::SinglePhase);
     };
 
     // Log-activities, for conditioning where γ spans decades.
-    let ln_a1 = |x: f64, g: &mut F| -> f64 {
-        let (g1, _) = g(x);
-        (x * g1).max(1e-300).ln()
+    let ln_a1 = |x: f64, g: &mut F| -> Result<f64, E> {
+        let (g1, _) = g(x)?;
+        Ok((x * g1).max(1e-300).ln())
     };
-    let ln_a2 = |x: f64, g: &mut F| -> f64 {
-        let (_, g2) = g(x);
-        ((1.0 - x) * g2).max(1e-300).ln()
+    let ln_a2 = |x: f64, g: &mut F| -> Result<f64, E> {
+        let (_, g2) = g(x)?;
+        Ok(((1.0 - x) * g2).max(1e-300).ln())
     };
 
     const EPS: f64 = 1e-9;
@@ -105,53 +116,55 @@ where
     // branch with matching component-1 activity (ln a₁ rises with x on a
     // stable branch, so this bisection is well-posed); None when the
     // right branch never reaches that activity.
-    let beta_for = |x_alpha: f64, g: &mut F| -> Option<f64> {
-        let target = ln_a1(x_alpha, g);
+    let beta_for = |x_alpha: f64, g: &mut F| -> Result<Option<f64>, E> {
+        let target = ln_a1(x_alpha, g)?;
         let (mut lo, mut hi) = (s_hi, 1.0 - EPS);
-        let f_lo = ln_a1(lo, g) - target;
-        let f_hi = ln_a1(hi, g) - target;
+        let f_lo = ln_a1(lo, g)? - target;
+        let f_hi = ln_a1(hi, g)? - target;
         // Endpoint tolerance: for a violently asymmetric pair the
         // feasible window is microns wide and its edges land on the
         // branch ends to within float noise — a target that matches an
         // endpoint to 1e-9 in log-activity *is* that endpoint.
         if f_lo.abs() <= 1e-9 {
-            return Some(lo);
+            return Ok(Some(lo));
         }
         if f_hi.abs() <= 1e-9 {
-            return Some(hi);
+            return Ok(Some(hi));
         }
         if f_lo.signum() == f_hi.signum() {
-            return None;
+            return Ok(None);
         }
         for _ in 0..80 {
             let mid = 0.5 * (lo + hi);
-            if (ln_a1(mid, g) - target).signum() == f_lo.signum() {
+            if (ln_a1(mid, g)? - target).signum() == f_lo.signum() {
                 lo = mid;
             } else {
                 hi = mid;
             }
         }
-        Some(0.5 * (lo + hi))
+        Ok(Some(0.5 * (lo + hi)))
     };
 
     // Component 2's mismatch along the x_α axis; drive it to zero.
-    let residual = |x_alpha: f64, g: &mut F| -> Option<f64> {
-        let x_beta = beta_for(x_alpha, g)?;
-        Some(ln_a2(x_alpha, g) - ln_a2(x_beta, g))
+    let residual = |x_alpha: f64, g: &mut F| -> Result<Option<f64>, E> {
+        let Some(x_beta) = beta_for(x_alpha, g)? else {
+            return Ok(None);
+        };
+        Ok(Some(ln_a2(x_alpha, g)? - ln_a2(x_beta, g)?))
     };
 
     // The x_α bracket starts where the left branch's component-1
     // activity first reaches the right branch's minimum — below that
     // point no tie line exists to test, and the bisection would be
     // asked for a β that is not there.
-    let a1_floor = ln_a1(s_hi, gammas_fn);
-    let x_min = if ln_a1(EPS, gammas_fn) >= a1_floor {
+    let a1_floor = ln_a1(s_hi, gammas_fn)?;
+    let x_min = if ln_a1(EPS, gammas_fn)? >= a1_floor {
         EPS
     } else {
         let (mut l, mut h) = (EPS, s_lo);
         for _ in 0..80 {
             let m = 0.5 * (l + h);
-            if ln_a1(m, gammas_fn) < a1_floor {
+            if ln_a1(m, gammas_fn)? < a1_floor {
                 l = m;
             } else {
                 h = m;
@@ -162,14 +175,14 @@ where
     // And it ends where the left branch's activity exceeds the right
     // branch's ceiling — near the spinodal the metastable branch
     // overshoots anything a β phase can match.
-    let a1_ceil = ln_a1(1.0 - EPS, gammas_fn);
-    let x_max = if ln_a1(s_lo, gammas_fn) <= a1_ceil {
+    let a1_ceil = ln_a1(1.0 - EPS, gammas_fn)?;
+    let x_max = if ln_a1(s_lo, gammas_fn)? <= a1_ceil {
         s_lo
     } else {
         let (mut l, mut h) = (x_min, s_lo);
         for _ in 0..80 {
             let m = 0.5 * (l + h);
-            if ln_a1(m, gammas_fn) > a1_ceil {
+            if ln_a1(m, gammas_fn)? > a1_ceil {
                 h = m;
             } else {
                 l = m;
@@ -178,20 +191,20 @@ where
         l
     };
     let (mut lo, mut hi) = (x_min, x_max);
-    let (r_lo_opt, r_hi_opt) = (residual(lo, gammas_fn), residual(hi, gammas_fn));
+    let (r_lo_opt, r_hi_opt) = (residual(lo, gammas_fn)?, residual(hi, gammas_fn)?);
     if std::env::var("KERO_LLE").is_ok() {
         eprintln!("  lle: x_min={x_min:.6} x_max={x_max:.6} r_lo={r_lo_opt:?} r_hi={r_hi_opt:?}");
     }
     let (Some(r_lo), Some(r_hi)) = (r_lo_opt, r_hi_opt) else {
-        return LleResult::SinglePhase;
+        return Ok(LleResult::SinglePhase);
     };
     if r_lo.signum() == r_hi.signum() {
-        return LleResult::SinglePhase;
+        return Ok(LleResult::SinglePhase);
     }
     for _ in 0..80 {
         let mid = 0.5 * (lo + hi);
-        let Some(r_mid) = residual(mid, gammas_fn) else {
-            return LleResult::SinglePhase;
+        let Some(r_mid) = residual(mid, gammas_fn)? else {
+            return Ok(LleResult::SinglePhase);
         };
         if r_mid.signum() == r_lo.signum() {
             lo = mid;
@@ -200,26 +213,26 @@ where
         }
     }
     let x_alpha = 0.5 * (lo + hi);
-    let Some(x_beta) = beta_for(x_alpha, gammas_fn) else {
-        return LleResult::SinglePhase;
+    let Some(x_beta) = beta_for(x_alpha, gammas_fn)? else {
+        return Ok(LleResult::SinglePhase);
     };
 
     // A feed outside the tie line is a stable single phase.
     if z1 <= x_alpha || z1 >= x_beta {
-        return LleResult::SinglePhase;
+        return Ok(LleResult::SinglePhase);
     }
     let denom = x_beta - x_alpha;
     let phase_fraction = if denom.abs() > 1e-10 {
         ((x_beta - z1) / denom).clamp(0.0, 1.0)
     } else {
-        return LleResult::SinglePhase;
+        return Ok(LleResult::SinglePhase);
     };
 
-    LleResult::TwoPhase {
+    Ok(LleResult::TwoPhase {
         x1_alpha: x_alpha,
         x1_beta: x_beta,
         phase_fraction_alpha: phase_fraction,
-    }
+    })
 }
 
 // ── CAP-20: LLE from UNIFAC, reaching for the bench ────────────────
@@ -233,14 +246,31 @@ pub fn binary_lle_unifac(
     z1: f64,
     t_kelvin: f64,
 ) -> LleResult {
+    try_binary_lle_unifac(groups_a, groups_b, z1, t_kelvin)
+        .unwrap_or_else(|error| panic!("UNIFAC binary LLE refused: {error}"))
+}
+
+/// Checked UNIFAC phase stability. Invalid feed coordinates and every scanned
+/// coefficient propagate their original refusal; no fallback phase is invented.
+pub fn try_binary_lle_unifac(
+    groups_a: &crate::unifac::GroupDecomposition,
+    groups_b: &crate::unifac::GroupDecomposition,
+    z1: f64,
+    t_kelvin: f64,
+) -> Result<LleResult, crate::unifac::UnifacError> {
     let table = crate::unifac::approved_table();
-    lle_binary(z1, &mut |x1| {
-        let g = crate::unifac::activity_coefficients(
+    crate::unifac::try_activity_coefficients(
+        &table,
+        &[(groups_a.clone(), z1), (groups_b.clone(), 1.0 - z1)],
+        t_kelvin,
+    )?;
+    try_lle_binary(z1, &mut |x1| {
+        let g = crate::unifac::try_activity_coefficients(
             &table,
             &[(groups_a.clone(), x1), (groups_b.clone(), 1.0 - x1)],
             t_kelvin,
-        );
-        (g[0], g[1])
+        )?;
+        Ok((g[0], g[1]))
     })
 }
 
@@ -254,12 +284,21 @@ pub fn binary_lle_unifac(
 /// itself, and which layer is which, are robust; the trace
 /// concentrations are not quantitative claims.
 pub fn water_hexane_lle(z_hexane: f64, t_kelvin: f64) -> LleResult {
+    try_water_hexane_lle(z_hexane, t_kelvin)
+        .unwrap_or_else(|error| panic!("UNIFAC water/hexane LLE refused: {error}"))
+}
+
+/// Checked water/hexane stability for operational and read-only app consumers.
+pub fn try_water_hexane_lle(
+    z_hexane: f64,
+    t_kelvin: f64,
+) -> Result<LleResult, crate::unifac::UnifacError> {
     let mut hexane = crate::unifac::GroupDecomposition::new();
     hexane.insert(1, 2); // CH3 × 2
     hexane.insert(2, 4); // CH2 × 4
     let mut water = crate::unifac::GroupDecomposition::new();
     water.insert(16, 1); // H2O
-    binary_lle_unifac(&hexane, &water, z_hexane, t_kelvin)
+    try_binary_lle_unifac(&hexane, &water, z_hexane, t_kelvin)
 }
 
 /// Ethanol–water for the negative control: miscible in all proportions,

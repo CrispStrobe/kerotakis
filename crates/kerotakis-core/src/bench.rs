@@ -3507,7 +3507,24 @@ impl Bench {
                     return Err(BenchError::SelfTransfer);
                 }
                 let source = self.vessel(*from)?.clone();
-                let Some((_upper, lower)) = crate::solve::layered_pair(&source) else {
+                self.validate_numeric_state()?;
+                let pair = match crate::solve::try_layered_pair(&source) {
+                    Ok(pair) => pair,
+                    Err(error) => {
+                        events.push(Event::not_modeled(
+                            *from,
+                            crate::ops::NotModelledCause::ModelBoundary,
+                            liquid_partition_refusal(
+                                &SpeciesId::new("hexane"),
+                                source.temperature.0,
+                                error,
+                            ),
+                        ));
+                        *disposition = ApplyDisposition::Unchanged;
+                        return Ok(events);
+                    }
+                };
+                let Some((_upper, lower)) = pair else {
                     *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::not_modeled(
                         *from,
@@ -3692,7 +3709,24 @@ impl Bench {
 
                 let water = SpeciesId::new("water");
                 let source = self.vessel(*from)?.clone();
-                if crate::solve::layered_pair(&source).is_some() {
+                self.validate_numeric_state()?;
+                let pair = match crate::solve::try_layered_pair(&source) {
+                    Ok(pair) => pair,
+                    Err(error) => {
+                        events.push(Event::not_modeled(
+                            *from,
+                            crate::ops::NotModelledCause::ModelBoundary,
+                            liquid_partition_refusal(
+                                &SpeciesId::new("hexane"),
+                                source.temperature.0,
+                                error,
+                            ),
+                        ));
+                        *disposition = ApplyDisposition::Unchanged;
+                        return Ok(events);
+                    }
+                };
+                if pair.is_some() {
                     *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::not_modeled(
                                     *from,
@@ -7036,7 +7070,7 @@ pub(crate) fn partition_k(
         .flatten()
 }
 
-fn liquid_partition_refusal(
+pub(crate) fn liquid_partition_refusal(
     solute: &SpeciesId,
     temperature: f64,
     error: kerotakis_thermo::unifac::UnifacError,
