@@ -217,7 +217,7 @@ pub struct Declined {
     pub family: String,
     pub version: u32,
     pub gate: String,
-    /// The gate's own reason, looked up by VALUE under `[family-gate]`.
+    /// Legacy English rendering of the gate's structured explanation.
     pub reason: String,
     /// …unless it has a hole in it, in which case the recipe is here and
     /// a by-value lookup could never have reached it (I18N-10). The same
@@ -594,12 +594,12 @@ impl<O: StructureOracle> FamilyRouter<O> {
         substrates: &[String],
     ) -> Result<Vec<String>, Declined> {
         let g = &record.gates;
-        let declined = |gate: &str, reason: String| Declined {
-            detail: None,
+        let declined = |gate: &str, reason: Phrase| Declined {
+            detail: Some(Box::new(reason.clone())),
             family: record.id.clone(),
             version: record.version,
             gate: gate.to_string(),
-            reason,
+            reason: reason.render(crate::i18n::Locale::EN),
         };
         let mut passed = Vec::new();
         if let Some(medium) = &g.medium {
@@ -610,10 +610,16 @@ impl<O: StructureOracle> FamilyRouter<O> {
             if !w.admits(vessel.temperature.0) {
                 return Err(declined(
                     "temperature_k",
-                    format!(
-                        "the vessel stands at {:.1} K and the family needs {} K",
-                        vessel.temperature.0,
-                        describe_window(w.min, w.max)
+                    Phrase::new(
+                        "family-gate.temperature",
+                        "the vessel stands at {actual} K and the family needs {window} K",
+                        vec![
+                            (
+                                "actual".into(),
+                                Slot::number(format!("{:.1}", vessel.temperature.0)),
+                            ),
+                            ("window".into(), Slot::phrase(describe_window(w.min, w.max))),
+                        ],
                     ),
                 ));
             }
@@ -624,16 +630,24 @@ impl<O: StructureOracle> FamilyRouter<O> {
                 None => {
                     return Err(declined(
                         "ph",
-                        "no characterised aqueous solution to read a pH from — the gate declines \
-                         rather than assuming neutrality"
-                            .to_string(),
+                        Phrase::bare(
+                            "family-gate.ph-uncharacterised",
+                            "no characterised aqueous solution to read a pH from — the gate declines rather than assuming neutrality",
+                        ),
                     ))
                 }
                 Some(ph) => {
                     if !(w.min.is_none_or(|m| ph >= m) && w.max.is_none_or(|m| ph <= m)) {
                         return Err(declined(
                             "ph",
-                            format!("pH {ph:.2} is outside {}", describe_window(w.min, w.max)),
+                            Phrase::new(
+                                "family-gate.ph-outside",
+                                "pH {actual} is outside {window}",
+                                vec![
+                                    ("actual".into(), Slot::number(format!("{ph:.2}"))),
+                                    ("window".into(), Slot::phrase(describe_window(w.min, w.max))),
+                                ],
+                            ),
                         ));
                     }
                 }
@@ -652,15 +666,21 @@ impl<O: StructureOracle> FamilyRouter<O> {
                 }
             };
             let (ok, wanted) = match c {
-                CatalystGate::Species { key } => (present(key), key.clone()),
+                CatalystGate::Species { key } => {
+                    (present(key), Slot::term("family-species", key.clone()))
+                }
                 CatalystGate::AnyOf { keys } => {
-                    (keys.iter().any(|k| present(k)), keys.join(" or "))
+                    (keys.iter().any(|k| present(k)), catalyst_alternatives(keys))
                 }
             };
             if !ok {
                 return Err(declined(
                     "catalyst",
-                    format!("no {wanted} in the vessel — the family needs its catalyst present"),
+                    Phrase::new(
+                        "family-gate.catalyst-missing",
+                        "no {wanted} in the vessel — the family needs its catalyst present",
+                        vec![("wanted".into(), wanted)],
+                    ),
                 ));
             }
             passed.push("catalyst".to_string());
@@ -668,9 +688,10 @@ impl<O: StructureOracle> FamilyRouter<O> {
         if g.light.is_some() {
             return Err(declined(
                 "light",
-                "irradiation reaches the bench as a typed event, not as a state the vessel keeps \
-                 (BRD-076); a light gate cannot yet be read, so it declines"
-                    .to_string(),
+                Phrase::bare(
+                    "family-gate.light-unreadable",
+                    "irradiation reaches the bench as a typed event, not as a state the vessel keeps (BRD-076); a light gate cannot yet be read, so it declines",
+                ),
             ));
         }
         if !g.required_groups.is_empty() {
@@ -681,7 +702,11 @@ impl<O: StructureOracle> FamilyRouter<O> {
                     None => {
                         return Err(declined(
                             "required_groups",
-                            format!("{key} has no curated structure, so its groups cannot be seen"),
+                            Phrase::new(
+                                "family-gate.structure-missing",
+                                "{species} has no curated structure, so its groups cannot be seen",
+                                vec![("species".into(), Slot::term("family-species", key.clone()))],
+                            ),
                         ))
                     }
                 }
@@ -689,7 +714,11 @@ impl<O: StructureOracle> FamilyRouter<O> {
             if let Some(missing) = g.required_groups.iter().find(|r| !seen.contains(r)) {
                 return Err(declined(
                     "required_groups",
-                    format!("no substrate carries a {missing} group"),
+                    Phrase::new(
+                        "family-gate.required-group-missing",
+                        "no substrate carries a {group} group",
+                        vec![("group".into(), Slot::term("family-group", missing.clone()))],
+                    ),
                 ));
             }
             passed.push("required_groups".to_string());
@@ -700,9 +729,13 @@ impl<O: StructureOracle> FamilyRouter<O> {
                     if let Some(f) = g.forbidden_groups.iter().find(|f| groups.contains(f)) {
                         return Err(declined(
                             "forbidden_groups",
-                            format!(
-                                "{} carries a {f} group, which this family refuses to run beside",
-                                p.species.0
+                            Phrase::new(
+                                "family-gate.forbidden-group-present",
+                                "{species} carries a {group} group, which this family refuses to run beside",
+                                vec![
+                                    ("species".into(), Slot::term("family-species", p.species.0.clone())),
+                                    ("group".into(), Slot::term("family-group", f.clone())),
+                                ],
                             ),
                         ));
                     }
@@ -766,7 +799,7 @@ impl<O: StructureOracle> FamilyRouter<O> {
     }
 }
 
-fn medium_admits(medium: &MediumGate, vessel: &Vessel) -> Result<(), String> {
+fn medium_admits(medium: &MediumGate, vessel: &Vessel) -> Result<(), Phrase> {
     let liquid = |p: &crate::vessel::Portion| {
         matches!(p.phase, Phase::Liquid | Phase::Aqueous) && p.moles.0 > TRACE
     };
@@ -786,34 +819,52 @@ fn medium_admits(medium: &MediumGate, vessel: &Vessel) -> Result<(), String> {
             if watery {
                 Ok(())
             } else {
-                Err(
-                    "the family runs in water, and this vessel holds no water-majority liquid"
-                        .to_string(),
-                )
+                Err(Phrase::bare(
+                    "family-gate.medium-water",
+                    "the family runs in water, and this vessel holds no water-majority liquid",
+                ))
             }
         }
         MediumGate::OrganicSolvent { solvent } => {
             match crate::nonaqueous::single_organic_solvent(vessel) {
                 Some(s) if s == solvent => Ok(()),
-                Some(s) => Err(format!(
-                    "the liquid is {s}, and the family runs in {solvent}"
+                Some(s) => Err(Phrase::new(
+                    "family-gate.medium-other-solvent",
+                    "the liquid is {actual}, and the family runs in {wanted}",
+                    vec![
+                        ("actual".into(), Slot::term("family-species", s.to_string())),
+                        (
+                            "wanted".into(),
+                            Slot::term("family-species", solvent.clone()),
+                        ),
+                    ],
                 )),
-                None => Err(format!("no single water-free {solvent} phase to run in")),
+                None => Err(Phrase::new(
+                    "family-gate.medium-no-solvent",
+                    "no single water-free {wanted} phase to run in",
+                    vec![(
+                        "wanted".into(),
+                        Slot::term("family-species", solvent.clone()),
+                    )],
+                )),
             }
         }
         MediumGate::Anhydrous => {
             if vessel.moles_of(&SpeciesId::new("water")).0 > TRACE {
-                Err("water is present, and this family needs it absent".to_string())
+                Err(Phrase::bare(
+                    "family-gate.medium-water-present",
+                    "water is present, and this family needs it absent",
+                ))
             } else {
                 Ok(())
             }
         }
         MediumGate::Dry => {
             if any_liquid {
-                Err(
-                    "a liquid is present, and this family runs between dry solids and gases"
-                        .to_string(),
-                )
+                Err(Phrase::bare(
+                    "family-gate.medium-liquid-present",
+                    "a liquid is present, and this family runs between dry solids and gases",
+                ))
             } else {
                 Ok(())
             }
@@ -821,13 +872,45 @@ fn medium_admits(medium: &MediumGate, vessel: &Vessel) -> Result<(), String> {
     }
 }
 
-fn describe_window(min: Option<f64>, max: Option<f64>) -> String {
+fn describe_window(min: Option<f64>, max: Option<f64>) -> Phrase {
     match (min, max) {
-        (Some(a), Some(b)) => format!("between {a:.1} and {b:.1}"),
-        (Some(a), None) => format!("at least {a:.1}"),
-        (None, Some(b)) => format!("at most {b:.1}"),
-        (None, None) => "any".to_string(),
+        (Some(a), Some(b)) => Phrase::new(
+            "family-gate.window-between",
+            "between {min} and {max}",
+            vec![
+                ("min".into(), Slot::number(format!("{a:.1}"))),
+                ("max".into(), Slot::number(format!("{b:.1}"))),
+            ],
+        ),
+        (Some(a), None) => Phrase::new(
+            "family-gate.window-min",
+            "at least {min}",
+            vec![("min".into(), Slot::number(format!("{a:.1}")))],
+        ),
+        (None, Some(b)) => Phrase::new(
+            "family-gate.window-max",
+            "at most {max}",
+            vec![("max".into(), Slot::number(format!("{b:.1}")))],
+        ),
+        (None, None) => Phrase::bare("family-gate.window-any", "any"),
     }
+}
+
+fn catalyst_alternatives(keys: &[String]) -> Slot {
+    let mut choices = keys.iter().rev();
+    let Some(last) = choices.next() else {
+        return Slot::text("");
+    };
+    choices.fold(Slot::term("family-species", last.clone()), |rest, first| {
+        Slot::phrase(Phrase::new(
+            "family-gate.alternative",
+            "{first} or {rest}",
+            vec![
+                ("first".into(), Slot::term("family-species", first.clone())),
+                ("rest".into(), rest),
+            ],
+        ))
+    })
 }
 
 /// One side of a record as (registry key, coefficient) pairs.
@@ -1169,16 +1252,15 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
 
     fn time_boundaries(&self, vessel: &Vessel) -> Vec<Event> {
         self.evaluate(vessel).declined.into_iter().map(|d| {
-            // The gate's own reason is data, and a `Term` lets a catalogue
-            // translate it by value the day one is written — which a
-            // finished sentence could never have allowed.
+            // Owned gates retain their structured recipe; old/external
+            // declines without one keep the honest by-value fallback.
             let reason = Phrase::new(
                 "not-modeled.family-declined-at-gate",
                 "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
                 vec![
                     ("family".to_string(), Slot::text(d.family.clone())),
                     ("version".to_string(), Slot::text(d.version.to_string())),
-                    ("gate".to_string(), Slot::text(d.gate.clone())),
+                    ("gate".to_string(), Slot::term("family-gate-label", d.gate.clone())),
                     (
                         "why".to_string(),
                         match &d.detail {
