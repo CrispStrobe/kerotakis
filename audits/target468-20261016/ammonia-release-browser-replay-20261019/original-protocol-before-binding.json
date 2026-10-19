@@ -1,0 +1,44 @@
+{
+  "cases": [
+    {
+      "id": "new120:gs-005",
+      "script": "# GS-005: An acid trap captures ammonia as ammonium\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 NH3 0.001mol\ninspect v1\nnew\nadd v2 water 100mL\nadd v2 HCl 0.002mol\nseal v2 500mL\nadd v2 NH3 0.001mol\ninspect v2\n",
+      "script_sha256": "f99aa854cfcd70f6790dde48ca1d78e415e3ff612867a21957e410a458ba3330",
+      "original_forecast": "Protonation stores ammonia as ammonium and reduces the uncharged ammonia fraction available to the headspace.",
+      "original_criteria": [
+        {
+          "id": "GS-005-C1",
+          "criterion": "The acid trap has a larger ammonium fraction and a smaller gas-phase NH3 fraction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-005-C2",
+          "criterion": "All added nitrogen is accounted for in each vessel; the acidified solution need not become neutral.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "baseline_stdout_sha256": "bba14dbd3df562f9f5cab90578a0b3f1dc2c5bf68bff2e1ba6959d7bd1b6219a",
+      "baseline_engine": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "changed_source_expectations": {
+        "represented_material_charge_resolution_mol_or_eq": 1e-08,
+        "acid_gas_NH3_relative_to_neutral_maximum": 0.0001,
+        "acid_NH4_fraction_larger_than_neutral": true,
+        "all_added_and_trapped_air_nitrogen_accounted_separately": true,
+        "temperatures_and_actual_database_recorded": true,
+        "solver_failed_events": 0,
+        "qualification": "Original qualitative criteria plus prospective robust trapping/conservation prerequisites; no rate or empirical calibration claim."
+      }
+    }
+  ],
+  "requests_planned": 1,
+  "original_protocol_unchanged": true,
+  "status": "Frozen before source binding and single issue; API and actual browser acceptance required first",
+  "bound_to_authenticated_accepted_artifact": false
+}

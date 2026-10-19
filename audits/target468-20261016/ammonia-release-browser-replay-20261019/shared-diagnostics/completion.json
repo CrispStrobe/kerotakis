@@ -1,0 +1,14 @@
+{
+  "cases": [
+    {
+      "id": "new120:gs-005",
+      "http_status": 200,
+      "elapsed_seconds": 4.678910220041871,
+      "response_sha256": "06e7d4a3ea4eaf5d73b907e077796de7f6492358e7310a5a6d51dee0572d380d",
+      "attempts": 1
+    }
+  ],
+  "physical_assessment": "pending independent owned material and phase/energy review",
+  "catalog_additions": 0,
+  "no_retries": true
+}

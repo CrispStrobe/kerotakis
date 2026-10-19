@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-19T05:23:08.196902+00:00",
+  "original_id": "new120:gs-005",
+  "selected_catalog_id": "new120-ammonia-repaired:gs-005",
+  "previous_catalog_sha256": "f4a8baa9342029bca0b08949f08aa573015d0a7bafb7f26ee459e818b325c5cf",
+  "new_catalog_sha256": "51323ac9c02c830f71c6ce16dcc5f1f70fad32e650a09b3effa9b41e5cb75e06",
+  "previous237_entries_preserved_exactly": true,
+  "new_count": 238,
+  "fixed468_selected_before": 233,
+  "fixed468_selected_after": 234,
+  "additional_qualified_cases_to401": 167,
+  "actual_source": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+  "actual_replay_requests": 1,
+  "additional_requests_by_review": 0,
+  "source_censoring_limit_recorded": true
+}

@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-18T22:11:26.239284+00:00",
+  "pr": 837,
+  "reviewed_head": "841593be782872ea7be54d1ab71a4771f7ceb432",
+  "actual_merge": "5a234a5ba36bbbb5c21fff058952f9f34f76cb09",
+  "parents": [
+    "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+    "841593be782872ea7be54d1ab71a4771f7ceb432"
+  ],
+  "reconstructed_tree": "145d0c151065c8bb9d13098fd789e18ec1c5bc47",
+  "actual_tree": "145d0c151065c8bb9d13098fd789e18ec1c5bc47",
+  "changed_paths_from_merge_base": [
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/saved64-review-lanes-20261018.md"
+  ],
+  "required_contexts": [
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39165690069/job/117788045375",
+      "name": "The demo page, in a real browser",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39165690069/job/117788045472",
+      "name": "The bench in WebAssembly",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39165690069/job/117788045323",
+      "name": "Full preflight gate",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39165690069/job/117788045317",
+      "name": "Test (native) (ubuntu-latest)",
+      "state": "SUCCESS"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/CrispStrobe/kerotakis/actions/runs/39165690069/job/117788045249",
+      "name": "Test (native) (macos-latest)",
+      "state": "SUCCESS"
+    }
+  ],
+  "normal_auto_merge": true,
+  "runtime_changed_by_this_pr": false,
+  "source_evidence_commit": "e83413d3645ea97492d55db3df42dbe0fbc003c6",
+  "no_admin_or_force": true
+}

@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+633-sand-brine-scale-1 exit= 0 steps= 7
+634-sand-brine-scale-2 exit= 0 steps= 7
+635-sand-brine-scale-3 exit= 0 steps= 7
+636-sand-brine-scale-4 exit= 0 steps= 7
+637-brine-path-1 exit= 0 steps= 4
+638-brine-path-2 exit= 0 steps= 5
+639-brine-path-3 exit= 0 steps= 5
+640-brine-path-4 exit= 0 steps= 5
+641-still-route-1 exit= 0 steps= 5
+642-still-route-2 exit= 0 steps= 5
+643-still-route-3 exit= 0 steps= 5
+644-still-route-4 exit= 0 steps= 5
+645-filter-decant-0.2 exit= 0 steps= 9
+646-filter-decant-0.4 exit= 0 steps= 9
+647-filter-decant-0.6 exit= 0 steps= 9
+648-filter-decant-0.8 exit= 0 steps= 9
+649-filter-salt-0.001 exit= 0 steps= 7
+650-filter-salt-0.002 exit= 0 steps= 7
+651-filter-salt-0.004 exit= 0 steps= 7
+652-filter-salt-0.008 exit= 0 steps= 7
+653-dry-filtrate-200 exit= 0 steps= 8
+654-dry-filtrate-300 exit= 0 steps= 8
+655-dry-filtrate-400 exit= 0 steps= 8
+656-dry-filtrate-500 exit= 0 steps= 8

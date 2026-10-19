@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_2.py --family 'separation-trains' --binary target/release/kero --out 'audit-evidence-v2/separation-trains'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "49051e50fbd6195ff5c59b10abe280af7ff51de8a96b2633db96c4f51737f047",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

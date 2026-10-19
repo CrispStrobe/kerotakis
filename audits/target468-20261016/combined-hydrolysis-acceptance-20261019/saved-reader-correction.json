@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-19T05:19:28.514197+00:00",
+  "first_reader_sha256": "371b366307d5ba1da433e927b80b252e0e5e40f8203b1c6ed060d302e6f5d2a1",
+  "corrected_reader_sha256": "3e783c8fc13048b1db811ae24c4d847458d993e7b1d5531e82d2c095e36f111e",
+  "first_failure": "Reader expected integration-test file basename named_alkaline in stdout; Cargo prints the executable path on stderr and prints bare function names on stdout.",
+  "correction": "Require all nine exact original core test names with actual ok outcomes; all source/count/hash/law/lock checks unchanged.",
+  "new_engine_or_provider_executions": 0
+}

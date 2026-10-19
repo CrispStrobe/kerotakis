@@ -1,0 +1,12 @@
+{
+  "id": "duration-aggregate-refusal",
+  "http_status": 422,
+  "elapsed_seconds": 0.16174918413162231,
+  "response_sha256": "fe46872464929096c00669feba197f72b7073d23cc70ff48e46a73274fdedfdc",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

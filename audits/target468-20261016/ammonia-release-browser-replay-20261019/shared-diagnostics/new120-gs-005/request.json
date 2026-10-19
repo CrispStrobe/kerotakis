@@ -1,0 +1,1 @@
+{"script": "# GS-005: An acid trap captures ammonia as ammonium\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 100mL\nseal v1 500mL\nadd v1 NH3 0.001mol\ninspect v1\nnew\nadd v2 water 100mL\nadd v2 HCl 0.002mol\nseal v2 500mL\nadd v2 NH3 0.001mol\ninspect v2\n"}

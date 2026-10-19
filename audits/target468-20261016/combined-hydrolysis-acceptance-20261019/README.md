@@ -1,0 +1,7 @@
+# Combined hydrolysis and ammonia: accepted source regression
+
+Exact head `0c37523e`, tree `d1be78e1`, passes all-target Clippy,2137 core tests and613 PHREEQC/CEA tests, with zero failed or ignored tests. All33 original logical fleet jobs/142 unchanged steps,29 named-law reports and three original aggregates pass. Actual binary/producer lock, every raw output and archived artifact-member hash are bound in [acceptance](acceptance.json). Independent nine-arm hydrolysis and12-group/24-acid-arm ammonia reviews close atom/charge inventories to6.61e-12 and1.66e-12mol/eq respectively; no empirical calibration is inferred.
+
+The first saved reader stopped because it expected a test executable’s filename in stdout. Cargo prints that path on stderr and bare test names on stdout. The correction requires all nine exact core test names with actual ok outcomes; all source/count/lock/law checks remain. [Correction receipt](saved-reader-correction.json) retains both full reader hashes, and the original reader/logs remain preserved. No source, assertions or engine execution changed.
+
+This exact source then integrated normally in PR836 as `8c584e20` after25 CI checks and both actual native-platform log reviews; actual parents/reconstructed tree are in [integration evidence](../accepted-pr-integration/pr836-integration.json). Actual deployment/API/browser and original OR006 replay remain separate acceptance. No hydrolysis scientific catalog selection follows from engineering tests.

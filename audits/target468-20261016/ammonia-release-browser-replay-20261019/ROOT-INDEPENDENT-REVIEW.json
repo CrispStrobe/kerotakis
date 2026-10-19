@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-19T05:20:52.170957+00:00",
+  "source": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+  "engine": {
+    "source_head": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+    "binary_sha256": "26a1e8b8df8afc5fd0f12f9dbd5124355e28df1840a969986eadb5206894955a",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "actual_browser_checks_passed": 37,
+  "browser_evidence_files_authenticated": 45,
+  "same_original_check_names": true,
+  "browser_report_sha256": "e8fcbc1d8be2880db218c298d17b7f868676c1b2b730eed36847405414cf9691",
+  "original_script_sha256": "f99aa854cfcd70f6790dde48ca1d78e415e3ff612867a21957e410a458ba3330",
+  "original_criteria_passed": 2,
+  "actual_original_response_sha256": "06e7d4a3ea4eaf5d73b907e077796de7f6492358e7310a5a6d51dee0572d380d",
+  "whole_atom_charge_residual_maximum_mol_or_eq": "7.27198535368730E-13",
+  "source_aqueous_sha256": "090ee656666153e0d19cf0a4c68ce6b463073c80a3705b074d6b8e07eb04c634",
+  "NH3_gas_persistence_threshold_mol": "1e-12",
+  "acid_headspace_NH3_interpretation": "Absent owned gas means below native persistence threshold, not physically zero ammonia pressure.",
+  "acid_to_neutral_gas_ratio_conservative_upper_bound": "3.01940761113766133765106281644861504781396485E-7",
+  "actual_arm_temperatures_K": [
+    "298.2430954477055",
+    "300.14994605996355"
+  ],
+  "original_failure_preserved": true,
+  "no_new_engine_or_API_requests": true,
+  "scientific_selection_not_yet_assigned": true
+}

@@ -1,0 +1,300 @@
+{
+  "design_sha256": "015864269aa4aaae48bcdf833242684a93f68acaa207531a043921834081b405",
+  "engine": {
+    "source_head": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+    "binary_sha256": "26a1e8b8df8afc5fd0f12f9dbd5124355e28df1840a969986eadb5206894955a",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "cases": [
+    {
+      "id": "water-baseline",
+      "script_sha256": "4a1a51c276252f5f738f3a257666a992a091ef4c4410f3d7caceaa03c466ffe3",
+      "response_sha256": "2b3fb636b9523eb0fd7ee42d424104116527bd082a3280c497b0b54b21f51d1a",
+      "criteria": {
+        "http_status": true,
+        "execution_status": true,
+        "all_owned_amounts_finite_nonnegative": true,
+        "finite_water_dose": true,
+        "temperature": true
+      },
+      "metrics": {
+        "water_mol": 5.534276991396059,
+        "temperature_K": 298.15
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "complete-stock-001",
+      "script_sha256": "a4e2a4c3f27aa790a4843e644b4ba647ff71d5515a945bf7fe6304bb8925b1c1",
+      "response_sha256": "6cf6f79d290af3cbffc31445fc8060c79424ac60587a405143663f54e0d11e11",
+      "criteria": {
+        "http_status": true,
+        "execution_status": true,
+        "all_owned_amounts_finite_nonnegative": true,
+        "acid_ph": true,
+        "neutral_ph": true,
+        "wait_ph_stable": true,
+        "heat_response": true,
+        "sodium": true,
+        "chloride": true,
+        "stoichiometric_water": true
+      },
+      "metrics": {
+        "acid_ph": 2.038105470481,
+        "neutral_ph": 6.992693453276,
+        "wait_ph": 6.992709843471,
+        "temperature_gain_K": 0.2407310109252876,
+        "sodium_mol": 0.001,
+        "chloride_mol": 0.001,
+        "water_increment_mol": 0.001000000000000334
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "finite-phase-wait-cycle",
+      "script_sha256": "b00995ccf47640260e729883fb07de817fe38cea692ece09682295910bab0adc",
+      "response_sha256": "0815d0565128b56aa71ef1fa304779b760133b81bd759fa4f193bd642e78242c",
+      "criteria": {
+        "http_status": true,
+        "execution_status": true,
+        "all_owned_amounts_finite_nonnegative": true,
+        "retained_solid": true,
+        "solid_invariance": true,
+        "ph_invariance": true,
+        "represented_iron": true,
+        "no_artificial_ferric": true,
+        "same_dataset_comparison": true,
+        "no_solver_failure": true,
+        "wait_timepoints": true
+      },
+      "metrics": {
+        "FeOH2_mol": [
+          0.009998638585798,
+          0.0099986385858,
+          0.0099986385858
+        ],
+        "ph": [
+          9.332569356644,
+          9.332569356644,
+          9.332569356644
+        ],
+        "represented_iron_mol": [
+          0.0099999999999996,
+          0.009999999999999157,
+          0.009999999999999157
+        ],
+        "ferric_mol": [
+          0,
+          0,
+          0
+        ],
+        "same_dataset_ph_residual": [
+          0.0004306433560010703,
+          0.0004306433560010703
+        ],
+        "solver_failed_events": 0,
+        "elapsed_seconds": [
+          0.0,
+          1.0,
+          2.0
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "finite-mix-target",
+      "script_sha256": "164d5e93412ebab9992c5fe6167c12f72b1f9d855b0974b986a71eb86c14699f",
+      "response_sha256": "248184a7c8c4f13d6d08f65b89c1294b5df1dac259d76efdb10de9cd5db73c19",
+      "criteria": {
+        "http_status": true,
+        "execution_status": true,
+        "all_owned_amounts_finite_nonnegative": true,
+        "positive_target_precondition": true,
+        "sodium_conserved": true,
+        "chloride_conserved": true,
+        "solid_retained": true,
+        "O2_retained": true,
+        "finite_ph": true,
+        "sealed_headspace": true,
+        "no_solver_failure": true
+      },
+      "metrics": {
+        "solid_NaCl_mol": [
+          2.390414110316,
+          1.172077995362
+        ],
+        "sodium_mol": [
+          2.9999999999992477,
+          2.9999999999998384
+        ],
+        "chloride_mol": [
+          2.999999999999048,
+          2.9999999999992397
+        ],
+        "gas_O2_mol": [
+          0.018691320759387123,
+          0.018691320759387123
+        ],
+        "final_headspace": {
+          "boundary": "sealed",
+          "volume": 1.0
+        },
+        "ph": 4.944933658519,
+        "solver_failed_events": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "comment-and-spaced-wait",
+      "script_sha256": "712000de9717841ee6333dff21d66bf0d6d21773f4cf171ebb1b7eb36d83a732",
+      "response_sha256": "938502a195d752beea1355fa64141764ed27682e8e854308ad41f5541270cac4",
+      "criteria": {
+        "http_status": true,
+        "execution_status": true,
+        "all_owned_amounts_finite_nonnegative": true,
+        "spaced_minutes": true,
+        "comment_dose_not_executed": true,
+        "water": true
+      },
+      "metrics": {
+        "elapsed_seconds": 120.0,
+        "species": [
+          "water"
+        ],
+        "water_mol": 5.534276991396059
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "trailing-heat-refusal",
+      "script_sha256": "d09aa6c0de07108a0404ad652fb7a86c029db4d4098381fd7cf6ea8c633f200e",
+      "response_sha256": "7ea5b73965697cb77a292d568a7c419bfcb706d4195d3fe9dd8daa072deb45f5",
+      "criteria": {
+        "http_status": true,
+        "execution_status": true,
+        "all_owned_amounts_finite_nonnegative": true,
+        "nonzero_exit": true,
+        "no_heat_operator": true,
+        "no_energy_transfer": true,
+        "unchanged_temperature": true
+      },
+      "metrics": {
+        "exit_status": 1,
+        "operators": [
+          "add"
+        ],
+        "diagnostics": "kero: <script>:2: unknown heat source \"ignored\": try burner, candle or hotplate\n"
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "nonfinite-energy-refusal",
+      "script_sha256": "65807624f687cd161e7b968ca0204136b34bb65d11e93233de23fcf07b0a02e6",
+      "response_sha256": "c4aa7ac302a49e35de0a662784dba27626f405585a135118c58e2bc00f3ed29c",
+      "criteria": {
+        "http_status": true,
+        "execution_status": true,
+        "all_owned_amounts_finite_nonnegative": true,
+        "nonzero_exit": true,
+        "no_heat_operator": true,
+        "no_energy_transfer": true,
+        "unchanged_temperature": true
+      },
+      "metrics": {
+        "exit_status": 1,
+        "operators": [
+          "add"
+        ],
+        "diagnostics": "kero: <script>:2: energy must be a finite number \u2014 'inf' cannot be written to the operator log the bench saves itself with\n"
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "duration-command-refusal",
+      "script_sha256": "c527cf144f49bf8b17fbbb76ab15edef831d035402f111776a7169c0acafb5b2",
+      "response_sha256": "44e4b8b1e20ee4a5e550f625676127140e105de35bf0ff8522adc29f78ed179c",
+      "criteria": {
+        "http_status": true,
+        "no_engine_output_supplied": true
+      },
+      "metrics": {
+        "response": {
+          "detail": "Duration outside API limit"
+        },
+        "qualification": "Observed policy refusal plus accepted source prevalidation; absence of a response field alone is not independent VM execution telemetry."
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "duration-aggregate-refusal",
+      "script_sha256": "73308b0feab1e1da5cc2404b324d2072babf1efd8ab0825d50788e6e598117f3",
+      "response_sha256": "fe46872464929096c00669feba197f72b7073d23cc70ff48e46a73274fdedfdc",
+      "criteria": {
+        "http_status": true,
+        "no_engine_output_supplied": true
+      },
+      "metrics": {
+        "response": {
+          "detail": "Aggregate simulated duration exceeds API limit"
+        },
+        "qualification": "Observed policy refusal plus accepted source prevalidation; absence of a response field alone is not independent VM execution telemetry."
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "session-subset-refusal",
+      "script_sha256": "41ae84877dd3ce346a7d97fc7f493c8e9dcacfa67ce6974ace56baecee9a8411",
+      "response_sha256": "cff20b9b465b30f436322ee668d120d5ddc18022fd5fea6f48ddc8a52c203620",
+      "criteria": {
+        "http_status": true,
+        "no_engine_output_supplied": true
+      },
+      "metrics": {
+        "response": {
+          "detail": "Command 1 is unavailable in batch JSON execution"
+        },
+        "qualification": "Observed policy refusal plus accepted source prevalidation; absence of a response field alone is not independent VM execution telemetry."
+      },
+      "status": "PASS"
+    },
+    {
+      "id": "uncached-native-browser-reference",
+      "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
+      "response_sha256": "75d15b0c9bb332f40bb1d8ae7fb107c44ef5ef9282b192dc78298feb29a3f5c2",
+      "criteria": {
+        "http_status": true,
+        "execution_status": true,
+        "all_owned_amounts_finite_nonnegative": true,
+        "neutral_ph": true,
+        "sodium": true,
+        "chloride": true,
+        "no_solver_failure": true
+      },
+      "metrics": {
+        "ph": 6.975165409667,
+        "ionic_strength": 0.2708857843468,
+        "sodium_mol": 0.037,
+        "chloride_mol": 0.037,
+        "solver_failed_events": 0
+      },
+      "status": "PASS"
+    }
+  ],
+  "native_browser_reference": {
+    "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
+    "response_sha256": "75d15b0c9bb332f40bb1d8ae7fb107c44ef5ef9282b192dc78298feb29a3f5c2",
+    "engine": {
+      "source_head": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+      "binary_sha256": "26a1e8b8df8afc5fd0f12f9dbd5124355e28df1840a969986eadb5206894955a",
+      "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+    },
+    "solution": {
+      "ph": 6.975165409667,
+      "ionic_strength": 0.2708857843468
+    }
+  },
+  "all_script_controls_pass": true,
+  "qualification": "Bounded changed-source release regression acceptance only; browser/native parity requires the separate actual deployed-browser report. No empirical chemistry calibration, full H/O/energy validation, corpus-wide pass count or catalog selection.",
+  "catalog_additions": 0,
+  "new_requests_by_assessor": 0
+}

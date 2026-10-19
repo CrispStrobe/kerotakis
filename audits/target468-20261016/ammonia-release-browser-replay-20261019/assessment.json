@@ -1,0 +1,466 @@
+{
+  "source": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+  "engine": {
+    "source_head": "c19b6e94ae3a1b3171c31fece6f0388c03399a54",
+    "binary_sha256": "26a1e8b8df8afc5fd0f12f9dbd5124355e28df1840a969986eadb5206894955a",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+  },
+  "case": "new120:gs-005",
+  "script_sha256": "f99aa854cfcd70f6790dde48ca1d78e415e3ff612867a21957e410a458ba3330",
+  "raw_response_sha256": "06e7d4a3ea4eaf5d73b907e077796de7f6492358e7310a5a6d51dee0572d380d",
+  "design_sha256": "256bc7b8a9013ff8f303abd4d9eac7894212f4d4d92e15167fef20f418065330",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "air_source_sha256": "106868d86980f15f87fc9e804393b167f861f4165baf6b21d9510acb86beb97e",
+  "decimal_precision": 45,
+  "arms": [
+    {
+      "vessel": 0,
+      "temperature_K": "298.2430954477055",
+      "pH": "10.53874871443",
+      "NH3_gas_mol": "0.000003311907926281",
+      "NH3_nongas_mol": "0.000947619982746356",
+      "NH4_mol": "0.00004906810932745003",
+      "reduced_nitrogen_mol": "0.00100000000000008703",
+      "ammonium_fraction": "0.0490681093274457596024452323955417991914246160",
+      "gas_NH3_fraction": "0.00331190792628071176465317578965512223411102631",
+      "trapped_air_mol": "0.020437022262164723",
+      "total_owned_nitrogen_atoms_mol": "0.033294582578672783030"
+    },
+    {
+      "vessel": 1,
+      "temperature_K": "300.14994605996355",
+      "pH": "2.049775970809",
+      "NH3_gas_mol": "0",
+      "NH3_nongas_mol": "6.39826843139587E-11",
+      "NH4_mol": "0.0009999999357751667",
+      "reduced_nitrogen_mol": "0.0009999999997578510139587",
+      "ammonium_fraction": "0.999999936017315670547957865422613198676440907",
+      "gas_NH3_fraction": "0E+25",
+      "trapped_air_mol": "0.02043702216998929",
+      "total_owned_nitrogen_atoms_mol": "0.03329458243277492701395870"
+    }
+  ],
+  "acid_to_neutral_gas_NH3_ratio": "0E+18",
+  "per_step_per_vessel_residuals": [
+    {
+      "row": 0,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "H": "0E-16",
+        "charge": "0E-16",
+        "O": "0E-16"
+      }
+    },
+    {
+      "row": 1,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "-2.1611650900E-18",
+        "H": "-1.105531240E-15",
+        "O": "-5.529779123650E-16",
+        "N": "7.1540E-19",
+        "C": "-1.779374550E-19"
+      }
+    },
+    {
+      "row": 2,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "-2.54321000000E-16",
+        "H": "-1.077870E-16",
+        "O": "-5.6626754580E-17",
+        "N": "8.774540E-17",
+        "C": "7.94122710E-19"
+      }
+    },
+    {
+      "row": 3,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "-2.54321000000E-16",
+        "H": "-1.077870E-16",
+        "O": "-5.6626754580E-17",
+        "N": "8.774540E-17",
+        "C": "7.94122710E-19"
+      }
+    },
+    {
+      "row": 4,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "-2.54321000000E-16",
+        "H": "-1.077870E-16",
+        "O": "-5.6626754580E-17",
+        "N": "8.774540E-17",
+        "C": "7.94122710E-19"
+      }
+    },
+    {
+      "row": 4,
+      "vessel": 1,
+      "material_charge_residual_mol_or_eq": {}
+    },
+    {
+      "row": 5,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "-2.54321000000E-16",
+        "H": "-1.077870E-16",
+        "O": "-5.6626754580E-17",
+        "N": "8.774540E-17",
+        "C": "7.94122710E-19"
+      }
+    },
+    {
+      "row": 5,
+      "vessel": 1,
+      "material_charge_residual_mol_or_eq": {
+        "H": "0E-16",
+        "charge": "0E-16",
+        "O": "0E-16"
+      }
+    },
+    {
+      "row": 6,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "-2.54321000000E-16",
+        "H": "-1.077870E-16",
+        "O": "-5.6626754580E-17",
+        "N": "8.774540E-17",
+        "C": "7.94122710E-19"
+      }
+    },
+    {
+      "row": 6,
+      "vessel": 1,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "0E-16",
+        "H": "0E-16",
+        "O": "0E-16",
+        "Cl": "0.0000"
+      }
+    },
+    {
+      "row": 7,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "-2.54321000000E-16",
+        "H": "-1.077870E-16",
+        "O": "-5.6626754580E-17",
+        "N": "8.774540E-17",
+        "C": "7.94122710E-19"
+      }
+    },
+    {
+      "row": 7,
+      "vessel": 1,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "5.5836470220E-16",
+        "C": "1.5479780E-19",
+        "H": "9.763529780E-17",
+        "O": "4.743489340E-17",
+        "N": "-5.80E-20",
+        "Cl": "-5.580E-16"
+      }
+    },
+    {
+      "row": 8,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "-2.54321000000E-16",
+        "H": "-1.077870E-16",
+        "O": "-5.6626754580E-17",
+        "N": "8.774540E-17",
+        "C": "7.94122710E-19"
+      }
+    },
+    {
+      "row": 8,
+      "vessel": 1,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "7.27198535368730E-13",
+        "C": "2.71631270E-19",
+        "H": "-6.03293492630E-16",
+        "O": "-3.02202106190E-16",
+        "N": "-2.4214904404130E-13",
+        "Cl": "-7.5240E-16"
+      }
+    },
+    {
+      "row": 9,
+      "vessel": 0,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "-2.54321000000E-16",
+        "H": "-1.077870E-16",
+        "O": "-5.6626754580E-17",
+        "N": "8.774540E-17",
+        "C": "7.94122710E-19"
+      }
+    },
+    {
+      "row": 9,
+      "vessel": 1,
+      "material_charge_residual_mol_or_eq": {
+        "charge": "7.27198535368730E-13",
+        "C": "2.71631270E-19",
+        "H": "-6.03293492630E-16",
+        "O": "-3.02202106190E-16",
+        "N": "-2.4214904404130E-13",
+        "Cl": "-7.5240E-16"
+      }
+    }
+  ],
+  "maximum_atom_charge_residual_mol_or_eq": "7.27198535368730E-13",
+  "actual_route_events": [
+    {
+      "event": "solution_routed",
+      "provenance": {
+        "dataset": "vendored USGS phreeqc.dat",
+        "dataset_phrase": {
+          "en": "vendored USGS {file}",
+          "key": "provenance.dataset.vendored-usgs",
+          "slots": [
+            [
+              "file",
+              {
+                "text": {
+                  "text": "phreeqc.dat"
+                }
+              }
+            ]
+          ]
+        },
+        "dataset_sources": [
+          "USGS PHREEQC thermodynamic database"
+        ],
+        "engine": "Kerotakis analytic equilibrium evaluator",
+        "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+        "model_phrase": {
+          "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+          "key": "provenance.model.water-autoionisation",
+          "slots": [
+            [
+              "engine",
+              {
+                "text": {
+                  "text": "PHREEQC"
+                }
+              }
+            ]
+          ]
+        },
+        "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+        "routing_phrase": {
+          "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+          "key": "routing.solvent-relation-only"
+        }
+      },
+      "vessel": 0
+    },
+    {
+      "event": "solution_routed",
+      "provenance": {
+        "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+        "dataset_phrase": {
+          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+          "key": "provenance.dataset.with-gas-uptake-slice",
+          "slots": [
+            [
+              "file",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                    "key": "provenance.dataset.plus-reference-complexes",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "wateq4f.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "dataset_sources": [
+          "WATEQ4F, Alpers and others, 1989",
+          "log K from llnl.dat  Aug 23, 2005",
+          "Dzombak and Morel, 1990",
+          "usbm-ic9429-complexes-25c",
+          "sander-2023-hbr-reference"
+        ],
+        "engine": "PHREEQC (IPhreeqc, USGS)",
+        "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+        "model_phrase": {
+          "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+          "key": "provenance.model.wateq-debye-huckel",
+          "slots": [
+            [
+              "name",
+              {
+                "text": {
+                  "text": "WATEQ Debye-H\u00fcckel"
+                }
+              }
+            ],
+            [
+              "ionic_strength",
+              {
+                "number": {
+                  "text": "1"
+                }
+              }
+            ]
+          ]
+        },
+        "routing": "the default inorganic aqueous dataset",
+        "routing_phrase": {
+          "en": "the default inorganic aqueous dataset",
+          "key": "routing.default-inorganic"
+        }
+      },
+      "vessel": 0
+    },
+    {
+      "event": "solution_routed",
+      "provenance": {
+        "dataset": "vendored USGS phreeqc.dat",
+        "dataset_phrase": {
+          "en": "vendored USGS {file}",
+          "key": "provenance.dataset.vendored-usgs",
+          "slots": [
+            [
+              "file",
+              {
+                "text": {
+                  "text": "phreeqc.dat"
+                }
+              }
+            ]
+          ]
+        },
+        "dataset_sources": [
+          "USGS PHREEQC thermodynamic database"
+        ],
+        "engine": "Kerotakis analytic equilibrium evaluator",
+        "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+        "model_phrase": {
+          "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+          "key": "provenance.model.water-autoionisation",
+          "slots": [
+            [
+              "engine",
+              {
+                "text": {
+                  "text": "PHREEQC"
+                }
+              }
+            ]
+          ]
+        },
+        "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+        "routing_phrase": {
+          "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+          "key": "routing.solvent-relation-only"
+        }
+      },
+      "vessel": 1
+    },
+    {
+      "event": "solution_routed",
+      "provenance": {
+        "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+        "dataset_phrase": {
+          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+          "key": "provenance.dataset.with-gas-uptake-slice",
+          "slots": [
+            [
+              "file",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                    "key": "provenance.dataset.plus-reference-complexes",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "wateq4f.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "dataset_sources": [
+          "WATEQ4F, Alpers and others, 1989",
+          "log K from llnl.dat  Aug 23, 2005",
+          "Dzombak and Morel, 1990",
+          "usbm-ic9429-complexes-25c",
+          "sander-2023-hbr-reference"
+        ],
+        "engine": "PHREEQC (IPhreeqc, USGS)",
+        "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+        "model_phrase": {
+          "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+          "key": "provenance.model.wateq-debye-huckel",
+          "slots": [
+            [
+              "name",
+              {
+                "text": {
+                  "text": "WATEQ Debye-H\u00fcckel"
+                }
+              }
+            ],
+            [
+              "ionic_strength",
+              {
+                "number": {
+                  "text": "1"
+                }
+              }
+            ]
+          ]
+        },
+        "routing": "the default inorganic aqueous dataset",
+        "routing_phrase": {
+          "en": "the default inorganic aqueous dataset",
+          "key": "routing.default-inorganic"
+        }
+      },
+      "vessel": 1
+    }
+  ],
+  "original_criteria_review": [
+    {
+      "id": "GS-005-C1",
+      "criterion": "The acid trap has a larger ammonium fraction and a smaller gas-phase NH3 fraction.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": "PASS",
+      "reason": "Actual acidified inventory has higher ammonium fraction and robustly lower finite headspace NH3; both phase fractions, temperatures and pH are retained."
+    },
+    {
+      "id": "GS-005-C2",
+      "criterion": "All added nitrogen is accounted for in each vessel; the acidified solution need not become neutral.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": "PASS",
+      "reason": "Each original1mmol reduced-nitrogen addition closes separately; trapped-air N2 is counted in total owned nitrogen. All operation snapshots independently close represented atoms/charge, with explicit boundary accounting."
+    }
+  ],
+  "new_engine_or_api_requests": 0,
+  "catalog_additions": 0,
+  "qualification": "Saved actual changed-source original-protocol review. No empirical Henry/activity/rate calibration, general ligand ownership or isothermal matched-arm claim. Root raw/source/criterion review and an explicit separate selection remain required."
+}

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_3.py --family 'metal-ligand' --binary target/release/kero --out 'audit-evidence-v3/metal-ligand'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "18305ce1a33fca01e0b1196e40e5a8b8aaad2924422e6d6ab23471638ee048b5",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

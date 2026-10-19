@@ -1,0 +1,12 @@
+{
+  "id": "trailing-heat-refusal",
+  "http_status": 200,
+  "elapsed_seconds": 3.1747023314237595,
+  "response_sha256": "7ea5b73965697cb77a292d568a7c419bfcb706d4195d3fe9dd8daa072deb45f5",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

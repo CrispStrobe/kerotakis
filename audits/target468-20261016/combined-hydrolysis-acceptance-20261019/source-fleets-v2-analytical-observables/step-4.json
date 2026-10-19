@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_2.py --family 'analytical-observables' --binary target/release/kero --out 'audit-evidence-v2/analytical-observables'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "0934729baa80ecdf1ac2364446d8ae0340209f6967963af67eb50ea069dcc61b",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

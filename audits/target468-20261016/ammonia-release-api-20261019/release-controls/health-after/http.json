@@ -1,0 +1,12 @@
+{
+  "id": "health-after",
+  "http_status": 200,
+  "elapsed_seconds": 0.16516164131462574,
+  "response_sha256": "6475fa8c13844b37ae192686b7f665fa3570310d972da138faa92fe66a2db70f",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+315-water-mix-hot-first exit= 0 steps= 7
+316-water-mix-cold-first exit= 0 steps= 7
+317-water-mix-halves exit= 0 steps= 7
+318-water-mix-extensive exit= 0 steps= 7
+319-water-mix-hot-fraction-0.2 exit= 0 steps= 7
+320-water-mix-hot-fraction-0.4 exit= 0 steps= 7
+321-water-mix-hot-fraction-0.6 exit= 0 steps= 7
+322-water-mix-hot-fraction-0.8 exit= 0 steps= 7
+323-salt-transfer-whole exit= 0 steps= 6
+324-salt-transfer-two-halves exit= 0 steps= 7
+325-salt-transfer-split-solute exit= 0 steps= 7
+326-salt-transfer-solute-first exit= 0 steps= 6
+327-mix-salt-left exit= 0 steps= 8
+328-mix-salt-right exit= 0 steps= 8
+329-mix-salt-split exit= 0 steps= 9
+330-mix-salt-portioned exit= 0 steps= 9
+331-mix-conductivity-0 exit= 0 steps= 7
+332-mix-conductivity-0.001 exit= 0 steps= 8
+333-mix-conductivity-0.002 exit= 0 steps= 8
+334-mix-conductivity-0.004 exit= 0 steps= 8
+335-mix-extensive-1 exit= 0 steps= 7
+336-mix-extensive-2 exit= 0 steps= 7
+337-mix-extensive-3 exit= 0 steps= 7
+338-mix-extensive-4 exit= 0 steps= 7

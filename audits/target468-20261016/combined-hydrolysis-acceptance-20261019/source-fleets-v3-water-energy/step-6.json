@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/water-energy' --family 'water-energy' --out 'audit-evidence-v3/water-energy/water-energy-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "297411a1ca112099e91d8af27726156a143a20656a5af5e702396a57e9c6b00a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

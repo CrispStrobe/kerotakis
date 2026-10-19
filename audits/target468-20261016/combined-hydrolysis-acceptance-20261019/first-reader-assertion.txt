@@ -1,0 +1,2 @@
+assert 'named_alkaline' in core
+AssertionError

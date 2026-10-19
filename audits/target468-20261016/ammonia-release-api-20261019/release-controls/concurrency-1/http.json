@@ -1,0 +1,13 @@
+{
+  "id": "concurrency-1",
+  "http_status": 429,
+  "elapsed_seconds": 1.624410567805171,
+  "response_sha256": "4de64c47b93e681257587cb52c79273e268a2e9f40ad0a390894a6dbca8f5333",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "retry-after": "60",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

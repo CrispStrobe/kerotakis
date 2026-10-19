@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/polyprotic-carbonate' --family 'polyprotic-carbonate' --out 'audit-evidence-v2/polyprotic-carbonate/polyprotic-carbonate-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "a2ad9186db07ca5159e6d13a540e6ce081b09c95db5f2105b6e3811c0e249326",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

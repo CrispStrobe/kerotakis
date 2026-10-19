@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-19T05:20:07.580790+00:00",
+  "source": "0c37523e26af37d15e635c2905c2a4356c0ecadf",
+  "tree": "d1be78e1e4f1de25ae5baf2186b45bb61acbb057",
+  "engine": {
+    "source": "0c37523e26af37d15e635c2905c2a4356c0ecadf",
+    "tree": "d1be78e1e4f1de25ae5baf2186b45bb61acbb057",
+    "binary_sha256": "ba4473c3e726a59bc859d5f75100494678b2856b72535b2312a66f574d4424aa",
+    "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "runtime_libraries": {
+      "libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+      "libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+      "libm.so.6": "fce00b6f25f459cf4ae0b7fae4257909a1a8a86f9149e7c029a5d617baf1ccd0",
+      "libc.so.6": "3a15d66867d83762c7f2f1e37359cb8f6c5743edb369c65285cb0b1c4f7498bf",
+      "ld-linux-x86-64.so.2": "c20a2dc8917c755f02b94049356320fe1f62ac7d9f8994731f807d9df39302da"
+    }
+  },
+  "acceptance_sha256": "b95b64e8453a8b674bcaeab508a39a08000ee7e11e14e2d3c9b50ebf7cd12a97",
+  "hydrolysis_review_sha256": "c2f556362969d8226aa473095962940286f5f80dee32f2c85f81eb538f7041b3",
+  "ammonia_review_sha256": "e80ca89ef861955f21d511f673f4cbfa325b55f1b3f6742700608b8d8f5a3cf5",
+  "combined_native_core_full33_and_both_chemical_readers_accepted": true,
+  "core_tests_passed": 2137,
+  "native_tests_passed": 613,
+  "original_fleet_jobs": 33,
+  "original_run_steps": 142,
+  "named_law_reports": 29,
+  "all_aggregate_unmet_families_empty": true,
+  "original_core_control_names_present": 9,
+  "first_reader_failure_preserved": true,
+  "new_engine_or_api_requests_by_review": 0,
+  "catalog_additions": 0
+}
