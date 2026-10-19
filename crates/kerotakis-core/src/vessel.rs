@@ -1656,6 +1656,17 @@ impl Vessel {
             .filter(|activity| activity.is_finite() && *activity > 0.0)
     }
 
+    /// Withdraw derived aqueous diagnostics without changing owned matter,
+    /// phase state, analytical charge, or the operator's heat-ledger snapshot.
+    /// A failed aqueous owner cannot restore an older successful reading as
+    /// the answer for the current state.
+    pub fn invalidate_aqueous_diagnostics(&mut self) {
+        self.solution = None;
+        self.free_proton = 0.0;
+        self.free_hydroxide = 0.0;
+        self.resolved.invalidate();
+    }
+
     /// Add matter, merging with an existing portion of the same species and
     /// phase.
     pub fn deposit(&mut self, species: SpeciesId, moles: Moles, phase: Phase) {

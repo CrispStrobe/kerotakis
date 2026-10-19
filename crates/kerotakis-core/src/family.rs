@@ -781,7 +781,9 @@ fn medium_admits(medium: &MediumGate, vessel: &Vessel) -> Result<(), String> {
             let watery = water_liquid
                 && crate::nonaqueous::water_fraction_among_solvents(vessel)
                     .is_none_or(|f| f >= crate::nonaqueous::AQUEOUS_WATER_FRACTION_FLOOR);
-            if watery || vessel.solution.is_some() {
+            // A cached solution describes an earlier question; it cannot
+            // override the current liquid inventory's medium admission.
+            if watery {
                 Ok(())
             } else {
                 Err(
