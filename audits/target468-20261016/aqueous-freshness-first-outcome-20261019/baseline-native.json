@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "--test",
+    "diagnostic_freshness",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "stdout_sha256": "4433cf055ba4946accb45f4ff09bb204fee01341300dac6128f67b3adb922896",
+  "stderr_sha256": "bcbb07c5eccdfbfb910218e6ea778a828bc3bd58fad647742f2b784e927a3869"
+}

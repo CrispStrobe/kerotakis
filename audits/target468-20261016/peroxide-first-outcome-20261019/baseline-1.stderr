@@ -1,0 +1,74 @@
+ Downloading crates ...
+  Downloaded embedded-io v0.6.1
+  Downloaded embedded-io v0.4.0
+  Downloaded hash32 v0.2.1
+  Downloaded cobs v0.3.0
+  Downloaded cmake v0.1.58
+  Downloaded stable_deref_trait v1.2.1
+  Downloaded postcard v1.1.3
+  Downloaded rustc-hash v2.1.3
+  Downloaded rustc_version v0.4.1
+  Downloaded spin v0.9.9
+  Downloaded heapless v0.7.17
+  Downloaded semver v1.0.28
+   Compiling bitflags v2.13.2
+   Compiling chematic-core v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-core-0.18.0)
+   Compiling raw-cpuid v11.6.0
+   Compiling rustc-hash v2.1.3
+   Compiling chematic-perception v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-perception-0.18.0)
+   Compiling pulp v0.22.3
+   Compiling private-gemm-x86 v0.1.22
+   Compiling gemm-common v0.19.0
+   Compiling gemm-f32 v0.19.0
+   Compiling gemm-c32 v0.19.0
+   Compiling gemm-c64 v0.19.0
+   Compiling gemm-f64 v0.19.0
+   Compiling qd v0.8.0
+   Compiling faer-traits v0.24.0
+   Compiling gemm v0.19.0
+   Compiling chematic-smarts v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-smarts-0.18.0)
+   Compiling chematic-smiles v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-smiles-0.18.0)
+   Compiling faer v0.24.4
+   Compiling chematic-rxn v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-rxn-0.18.0)
+   Compiling semver v1.0.28
+   Compiling rustc_version v0.4.1
+   Compiling heapless v0.7.17
+   Compiling chematic-fp v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-fp-0.18.0)
+   Compiling chematic-cip v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-cip-0.18.0)
+   Compiling chematic-iupac v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-iupac-0.18.0)
+   Compiling chematic-inchi v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-inchi-0.18.0)
+   Compiling chematic-chem v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-chem-0.18.0)
+   Compiling spin v0.9.9
+   Compiling hash32 v0.2.1
+   Compiling cmake v0.1.58
+   Compiling stable_deref_trait v1.2.1
+   Compiling kerotakis-phreeqc v0.0.1 (/kaggle/temp/kerotakis-peroxide-medium/source/crates/kerotakis-phreeqc)
+   Compiling chematic-mol v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-mol-0.18.0)
+   Compiling cobs v0.3.0
+   Compiling regex-syntax v0.8.11
+   Compiling regex-automata v0.4.18
+   Compiling postcard v1.1.3
+   Compiling chematic v0.18.0 (/kaggle/temp/kerotakis-peroxide-medium/source/vendor/chematic-0.18/chematic-0.18.0)
+   Compiling diffsol-la v0.1.1
+   Compiling diffsol-nl v0.1.1
+   Compiling diffsol v0.16.2
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/kerotakis-peroxide-medium/source/crates/kerotakis-core)
+   Compiling kerotakis-cea v0.0.1 (/kaggle/temp/kerotakis-peroxide-medium/source/crates/kerotakis-cea)
+   Compiling kerotakis-org v0.0.1 (/kaggle/temp/kerotakis-peroxide-medium/source/crates/kerotakis-org)
+   Compiling regex v1.13.1
+   Compiling criterion v0.5.1
+   Compiling kerotakis-stack v0.0.1 (/kaggle/temp/kerotakis-peroxide-medium/source/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/kaggle/temp/kerotakis-peroxide-medium/source/crates/kerotakis-safety)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 58s
+     Running tests/peroxide_medium.rs (target/debug/deps/peroxide_medium-141eb31660aacfbc)
+
+thread 'external_browser_hook_is_not_asked_to_solve_peroxide_matrix' (4043) panicked at crates/kerotakis-phreeqc/tests/peroxide_medium.rs:76:41:
+domain refusal: NotConverged { solver: "phreeqc-aqueous", detail: "PHREEQC: ERROR:                    E solution phase boundary has not converged. \tResidual: 8.803455e+01\n\nERROR:                 H(1) Charge balance has not converged. \tResidual: 6.792527e-14\n\nERROR:         Hypochlorite has not converged. Total: 1.904613e-02\tCalculated: 0.000000e+00\tResidual: 1.904613e-02\n\nERROR:                   Mu Ionic strength has not converged. \tResidual: 9.479309e-03\n\nERROR: Model failed to converge for initial solution  1.\n" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'direct_solver_declines_peroxide_rich_medium_without_calling_engine' (4042) panicked at crates/kerotakis-phreeqc/tests/peroxide_medium.rs:31:14:
+explicit domain refusal, not convergence failure: NotConverged { solver: "phreeqc-aqueous", detail: "PHREEQC: ERROR:                    E solution phase boundary has not converged. \tResidual: 8.803455e+01\n\nERROR:                 H(1) Charge balance has not converged. \tResidual: 6.792527e-14\n\nERROR:         Hypochlorite has not converged. Total: 1.904613e-02\tCalculated: 0.000000e+00\tResidual: 1.904613e-02\n\nERROR:                   Mu Ionic strength has not converged. \tResidual: 9.479309e-03\n\nERROR: Model failed to converge for initial solution  1.\n" }
+
+thread 'water_rich_peroxide_still_solves_and_stale_complete_reading_is_withdrawn' (4044) panicked at crates/kerotakis-phreeqc/tests/peroxide_medium.rs:63:5:
+assertion failed: v.solution.is_none()
+error: test failed, to rerun pass `-p kerotakis-phreeqc --test peroxide_medium`

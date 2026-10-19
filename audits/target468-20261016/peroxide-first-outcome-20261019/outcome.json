@@ -1,0 +1,50 @@
+{
+  "source": "80a81d6a7c0337dffdc57d0382ebc49c562c6a9c",
+  "kernel_id": 139550847,
+  "version": 1,
+  "provider_status": "ERROR",
+  "original_baseline_failure_commands": 3,
+  "clippy_exit": 0,
+  "native_tests": {
+    "passed": 616,
+    "failed": 0,
+    "ignored": 0
+  },
+  "core_tests": {
+    "passed": 2139,
+    "failed": 1,
+    "ignored": 0
+  },
+  "failed_target": "composed_locale::every_composed_key_is_translated",
+  "failure_cause": "Expanded Rust scanner mistook the production constant UNNAMEABLE_PRODUCT for a literal key and consumed the English as its key. No chemistry assertion failed in the candidate native suite.",
+  "all33_original_product_jobs_executed": false,
+  "full_source_acceptance": false,
+  "scientific_catalog_additions": 0,
+  "raw_files_sha256": {
+    "STARTED.json": "ee454632742a5eb4f0ab830da5ac9cb1dd3f23dc30fc49fbd57e788bbd4d89a9",
+    "BASELINE-REPRODUCED.json": "8aa9a95edac7a257510ba38c4265530f909ca180c4eff1d7a8ad9e0ad0bc5335",
+    "STOPPED.json": "efd4917ccee0596dae80258606070b217ac76a77d4ec7af45ec209ce654f720f",
+    "baseline-0.json": "cd1d875642d8b979475c9850e07521a9b006a4448ebc289c4e1e93ba32d82277",
+    "baseline-0.stdout": "ca12320a6ec23ffbdb846f7f96b6540dcbd92c91448115ed5487b17919cdd577",
+    "baseline-0.stderr": "84a1f4152bad743141fe5cab58e1691e24e6f2d346a07dac25079e2b961b0d70",
+    "baseline-1.json": "5854f33642bbbcb05edeb918bd138268157c235a68f14af6e940804e860b6fc3",
+    "baseline-1.stdout": "abd3753e060ed791eef8a2483cdbd449acd12172fb6f10fd688f92171c9e3a52",
+    "baseline-1.stderr": "11a78703028b69651a6cbcbbee927fa89522a59e7b487f389ac76450949819a6",
+    "baseline-2.json": "edc4d1c8006f4e8613768495626b4d0becedf836afc46708e04f31c904950eb2",
+    "baseline-2.stdout": "2f8e1cc74822d4780d0ce4f16e7bf0d7344cec458dd5adaba6b0d1afe5a0e272",
+    "baseline-2.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "combined-native-0.json": "7ae4a0d9935e5592b02ce49934307f0f39307fa04a7853bb5ca340ee1b52089d",
+    "combined-native-0.stdout": "fde283bb5935dfadc07aab5db2d23c9795c7895b4eea194bddb175b89bf1ecea",
+    "combined-native-0.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "combined-native-1.json": "9d526a135000e10b530c40f3a11a03ec52cdb545dfa51c353309ab68ffe4e4a9",
+    "combined-native-1.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "combined-native-1.stderr": "7ae84748323fe7107ed37f79e26d3b696cb733cadc5a8c8811ac0e305b5f71cc",
+    "combined-native-2.json": "14fd1a8a27ef671038e7ba59f7ebd7e9728887fcd61aedbf80ca8e17b2bfd63d",
+    "combined-native-2.stdout": "3bf4f1848e65a233274ba09eb901b42a15a9d3484511140134f7ea94f7547a11",
+    "combined-native-2.stderr": "9d26f29deabb9e743a6d72fc27b7109be06b2054abf4ce13cea850e2b784bb38",
+    "combined-native-3.json": "a99eeb4d3fb4cec450fd19a84928d80fa3315f435fcf1c4ba554cb7fd4d1f6a0",
+    "combined-native-3.stdout": "7c8ee9d181671cd7ae3bea0f192fe005a242da00725918872fc6c8c675d524f6",
+    "combined-native-3.stderr": "973fce94837094341e4cf97b95e6800c7690fc91510bbb20118a961f46cb4552"
+  },
+  "original_first_failures_retained": true
+}

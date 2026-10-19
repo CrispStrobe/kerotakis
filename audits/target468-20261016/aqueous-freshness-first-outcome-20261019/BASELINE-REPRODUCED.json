@@ -1,0 +1,9 @@
+{
+  "source": "6c4a6d304a9688794d603ef4d8f53befd083080e",
+  "same_tests_sha256": {
+    "crates/kerotakis-phreeqc/tests/diagnostic_freshness.rs": "8d94f016bf468c98f92f3e9f74ecdcc2879e5304d865c19fefc4298d35eb1a29"
+  },
+  "actual_failing_commands": 1,
+  "failure_fixture": "Explicit transaction fault after real native warm-up, plus real family router",
+  "no_compiler_failure": true
+}

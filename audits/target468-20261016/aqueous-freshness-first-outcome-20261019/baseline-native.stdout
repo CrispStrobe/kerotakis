@@ -1,0 +1,17 @@
+
+running 4 tests
+test a_real_cached_solution_cannot_override_the_current_family_medium ... FAILED
+test an_unrelated_failed_solver_does_not_withdraw_valid_aqueous_output ... FAILED
+test failed_aqueous_phase_coupling_rolls_back_matter_and_withdraws_owned_readings ... FAILED
+test failed_aqueous_stack_rolls_back_matter_and_withdraws_owned_readings ... FAILED
+
+failures:
+
+failures:
+    a_real_cached_solution_cannot_override_the_current_family_medium
+    an_unrelated_failed_solver_does_not_withdraw_valid_aqueous_output
+    failed_aqueous_phase_coupling_rolls_back_matter_and_withdraws_owned_readings
+    failed_aqueous_stack_rolls_back_matter_and_withdraws_owned_readings
+
+test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.66s
+

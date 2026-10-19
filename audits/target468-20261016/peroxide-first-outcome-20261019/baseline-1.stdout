@@ -1,0 +1,15 @@
+
+running 3 tests
+test direct_solver_declines_peroxide_rich_medium_without_calling_engine ... FAILED
+test external_browser_hook_is_not_asked_to_solve_peroxide_matrix ... FAILED
+test water_rich_peroxide_still_solves_and_stale_complete_reading_is_withdrawn ... FAILED
+
+failures:
+
+failures:
+    direct_solver_declines_peroxide_rich_medium_without_calling_engine
+    external_browser_hook_is_not_asked_to_solve_peroxide_matrix
+    water_rich_peroxide_still_solves_and_stale_complete_reading_is_withdrawn
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.62s
+

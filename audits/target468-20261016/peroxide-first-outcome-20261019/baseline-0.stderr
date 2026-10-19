@@ -1,0 +1,474 @@
+    Updating crates.io index
+     Locking 327 packages to highest compatible versions
+      Adding criterion v0.5.1 (available: v0.8.2)
+      Adding diffsol v0.16.2 (available: v0.17.1)
+      Adding generic-array v0.14.7 (available: v0.14.9)
+      Adding getrandom v0.3.4 (available: v0.4.3)
+      Adding js-sys v0.3.104 (available: v0.3.106)
+      Adding psm v0.1.24 (available: v0.1.32)
+      Adding rand v0.9.5 (available: v0.10.3)
+      Adding rand_chacha v0.9.0 (available: v0.10.0)
+      Adding rand_distr v0.5.1 (available: v0.6.0)
+      Adding rapier2d v0.35.3 (available: v0.36.1)
+      Adding sha2 v0.10.9 (available: v0.11.1)
+      Adding talc v4.4.3 (available: v5.1.1)
+      Adding toml v0.8.23 (available: v1.1.8+spec-1.1.0)
+      Adding wasm-bindgen v0.2.127 (available: v0.2.129)
+      Adding wasm-bindgen-macro v0.2.127 (available: v0.2.129)
+      Adding wasm-bindgen-macro-support v0.2.127 (available: v0.2.129)
+      Adding wasm-bindgen-shared v0.2.127 (available: v0.2.129)
+      Adding web-sys v0.3.104 (available: v0.3.106)
+ Downloading crates ...
+  Downloaded addr2line v0.25.1
+  Downloaded block-buffer v0.10.4
+  Downloaded zerocopy-derive v0.8.63
+  Downloaded adler2 v2.0.1
+  Downloaded cfg_aliases v0.2.2
+  Downloaded zmij v1.0.23
+  Downloaded cfg-if v1.0.5
+  Downloaded cast v0.3.0
+  Downloaded ciborium-io v0.2.2
+  Downloaded fnv v1.0.7
+  Downloaded gemm-f64 v0.19.0
+  Downloaded faer-traits v0.24.0
+  Downloaded atomic-wait v1.1.0
+  Downloaded toml_edit v0.22.27
+  Downloaded gemm-f16 v0.19.0
+  Downloaded toml_write v0.1.2
+  Downloaded byteorder v1.5.0
+  Downloaded equator-macro v0.2.1
+  Downloaded gemm-c64 v0.19.0
+  Downloaded generic-array v0.14.7
+  Downloaded generativity v1.2.1
+  Downloaded toml_parser v1.1.5+spec-1.1.0
+  Downloaded ciborium-ll v0.2.2
+  Downloaded cpufeatures v0.3.1
+  Downloaded crossbeam v0.8.5
+  Downloaded equator v0.4.2
+  Downloaded equivalent v1.0.3
+  Downloaded gemm-c32 v0.19.0
+  Downloaded interpol v0.2.1
+  Downloaded crypto-common v0.1.7
+  Downloaded defer v0.2.1
+  Downloaded dyn-stack-macros v0.1.3
+  Downloaded equator v0.2.2
+  Downloaded errno v0.3.14
+  Downloaded is-terminal v0.4.17
+  Downloaded itoa v1.0.18
+  Downloaded clap_lex v1.1.1
+  Downloaded cpufeatures v0.2.17
+  Downloaded equator-macro v0.6.0
+  Downloaded equator v0.6.0
+  Downloaded equator-macro v0.4.2
+  Downloaded gemm-f32 v0.19.0
+  Downloaded lazy_static v1.5.1
+  Downloaded anes v0.1.6
+  Downloaded anstyle v1.0.14
+  Downloaded bit-set v0.11.1
+  Downloaded fastrand v2.5.0
+  Downloaded foldhash v0.1.5
+  Downloaded plotters-backend v0.3.7
+  Downloaded toml_edit v0.25.17+spec-1.1.0
+  Downloaded bit-vec v0.10.1
+  Downloaded bytemuck_derive v1.12.1
+  Downloaded lasso v0.7.3
+  Downloaded approx v0.5.1
+  Downloaded chacha20 v0.10.2
+  Downloaded criterion-plot v0.5.0
+  Downloaded dashmap v6.2.1
+  Downloaded dhat v0.3.3
+  Downloaded digest v0.10.7
+  Downloaded dyn-stack v0.13.2
+  Downloaded either v1.19.0
+  Downloaded find-msvc-tools v0.1.14
+  Downloaded gemm-common v0.19.0
+  Downloaded autocfg v1.5.1
+  Downloaded borsh-derive v1.8.1
+  Downloaded core_detect v1.0.0
+  Downloaded crossbeam-deque v0.8.8
+  Downloaded crossbeam-queue v0.3.14
+  Downloaded diffsol-nl v0.1.1
+  Downloaded fixedbitset v0.5.7
+  Downloaded gemm v0.19.0
+  Downloaded num_cpus v1.17.0
+  Downloaded stacker v0.1.25
+  Downloaded tinytemplate v1.2.1
+  Downloaded ahash v0.8.12
+  Downloaded wait-timeout v0.2.1
+  Downloaded ciborium v0.2.2
+  Downloaded crossbeam-epoch v0.9.21
+  Downloaded crossbeam-utils v0.8.23
+  Downloaded nano-gemm-core v0.2.1
+  Downloaded allocator-api2 v0.2.21
+  Downloaded bitflags v2.13.2
+  Downloaded bytemuck v1.25.2
+  Downloaded nano-gemm-codegen v0.2.1
+  Downloaded shlex v2.0.1
+  Downloaded slab v0.4.12
+  Downloaded getrandom v0.4.3
+  Downloaded miniz_oxide v0.8.9
+  Downloaded mintex v0.1.4
+  Downloaded nano-gemm-f32 v0.2.1
+  Downloaded simba v0.10.2
+  Downloaded spindle v0.2.6
+  Downloaded tempfile v3.27.0
+  Downloaded version_check v0.9.5
+  Downloaded backtrace v0.3.76
+  Downloaded bumpalo v3.20.3
+  Downloaded bytes v1.12.1
+  Downloaded diffsol-la v0.1.1
+  Downloaded geo-types v0.7.20
+  Downloaded getrandom v0.3.4
+  Downloaded half v2.7.1
+  Downloaded nano-gemm-c32 v0.2.1
+  Downloaded nano-gemm-f64 v0.2.1
+  Downloaded smallvec v1.16.3
+  Downloaded toml v0.8.23
+  Downloaded borsh v1.8.1
+  Downloaded clap v4.6.7
+  Downloaded crossbeam-channel v0.5.17
+  Downloaded itertools v0.10.5
+  Downloaded thiserror v2.0.21
+  Downloaded thiserror-impl v2.0.21
+  Downloaded toml_datetime v1.1.2+spec-1.1.0
+  Downloaded cc v1.8.0
+  Downloaded criterion v0.5.1
+  Downloaded indexmap v2.14.2
+  Downloaded plotters-svg v0.3.7
+  Downloaded hashbrown v0.14.5
+  Downloaded hashbrown v0.15.5
+  Downloaded pulp-wasm-simd-flag v0.1.1
+  Downloaded seq-macro v0.3.6
+  Downloaded unarray v0.1.4
+  Downloaded hashbrown v0.17.1
+  Downloaded nano-gemm-c64 v0.2.1
+  Downloaded qd v0.8.0
+  Downloaded quick-error v1.2.3
+  Downloaded serde_spanned v0.6.9
+  Downloaded aho-corasick v1.1.5
+  Downloaded clap_builder v4.6.7
+  Downloaded contour v0.13.1
+  Downloaded rawpointer v0.2.1
+  Downloaded reborrow v0.5.5
+  Downloaded same-file v1.0.6
+  Downloaded num-integer v0.1.47
+  Downloaded paste v1.0.15
+  Downloaded scopeguard v1.2.0
+  Downloaded oorandom v11.1.5
+  Downloaded rand_xorshift v0.5.0
+  Downloaded rustc-hash v1.1.0
+  Downloaded toml_datetime v0.6.11
+  Downloaded walkdir v2.5.0
+  Downloaded gimli v0.32.3
+  Downloaded syn v1.0.109
+  Downloaded num-complex v0.4.6
+  Downloaded diffsol v0.16.2
+  Downloaded zerocopy v0.8.63
+  Downloaded syn v2.0.119
+  Downloaded syn v3.0.9
+  Downloaded num-rational v0.4.2
+  Downloaded psm v0.1.24
+  Downloaded rand_chacha v0.9.0
+  Downloaded pest_generator v2.9.4
+  Downloaded proc-macro-crate v3.5.0
+  Downloaded py_literal v0.4.0
+  Downloaded sha2 v0.10.9
+  Downloaded lock_api v0.4.14
+  Downloaded nalgebra-macros v0.3.0
+  Downloaded nano-gemm v0.2.2
+  Downloaded rand_core v0.6.4
+  Downloaded rand_core v0.9.5
+  Downloaded rand_core v0.10.1
+  Downloaded rusty-fork v0.3.1
+  Downloaded parking_lot v0.12.5
+  Downloaded pest_derive v2.9.4
+  Downloaded ppv-lite86 v0.2.21
+  Downloaded quote v1.0.47
+  Downloaded rustc-demangle v0.1.28
+  Downloaded thousands v0.2.0
+  Downloaded ucd-trie v0.1.7
+  Downloaded unicode-ident v1.0.27
+  Downloaded once_cell v1.21.4
+  Downloaded parking_lot_core v0.9.12
+  Downloaded num-traits v0.2.19
+  Downloaded pest_meta v2.9.4
+  Downloaded ryu v1.0.23
+  Downloaded log v0.4.34
+  Downloaded matrixmultiply v0.3.11
+  Downloaded private-gemm-x86 v0.1.22
+  Downloaded proc-macro2 v1.0.107
+  Downloaded serde_core v1.0.229
+  Downloaded yaml_serde v0.10.7
+  Downloaded libyaml-rs v0.3.0
+  Downloaded rand_distr v0.5.1
+  Downloaded serde_derive v1.0.229
+  Downloaded rayon-core v1.13.0
+  Downloaded glam v0.32.1
+  Downloaded rand v0.8.8
+  Downloaded npyz v0.8.4
+  Downloaded serde v1.0.229
+  Downloaded glam v0.30.10
+  Downloaded safe_arch v1.2.0
+  Downloaded libm v0.2.16
+  Downloaded memchr v2.8.3
+  Downloaded num-bigint v0.4.8
+  Downloaded rand v0.9.5
+  Downloaded raw-cpuid v11.6.0
+  Downloaded typenum v1.20.1
+  Downloaded rand v0.10.3
+  Downloaded glam v0.31.1
+  Downloaded glam v0.33.12
+  Downloaded pest v2.9.4
+  Downloaded pulp v0.22.3
+  Downloaded plotters v0.3.7
+  Downloaded regex v1.13.1
+  Downloaded serde_json v1.0.154
+  Downloaded rayon v1.12.0
+  Downloaded winnow v0.7.15
+  Downloaded winnow v1.0.4
+  Downloaded proptest v1.12.0
+  Downloaded wide v1.7.1
+  Downloaded faer v0.24.4
+  Downloaded object v0.37.3
+  Downloaded regex-syntax v0.8.11
+  Downloaded nalgebra v0.35.0
+  Downloaded rustix v1.1.5
+  Downloaded regex-automata v0.4.18
+  Downloaded petgraph v0.8.3
+  Downloaded libc v0.2.191
+  Downloaded linux-raw-sys v0.12.1
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.27
+   Compiling quote v1.0.47
+   Compiling cfg-if v1.0.5
+   Compiling autocfg v1.5.1
+   Compiling libc v0.2.191
+   Compiling libm v0.2.16
+   Compiling num-traits v0.2.19
+   Compiling version_check v0.9.5
+   Compiling syn v3.0.9
+   Compiling syn v2.0.119
+   Compiling bytemuck v1.25.2
+   Compiling crossbeam-utils v0.8.23
+   Compiling rand_core v0.6.4
+   Compiling rand v0.8.8
+   Compiling memchr v2.8.3
+   Compiling num-complex v0.4.6
+   Compiling bitflags v2.13.2
+   Compiling crossbeam-epoch v0.9.21
+   Compiling zerocopy v0.8.63
+   Compiling crossbeam-deque v0.8.8
+   Compiling once_cell v1.21.4
+   Compiling zerocopy-derive v0.8.63
+   Compiling serde_derive v1.0.229
+   Compiling find-msvc-tools v0.1.14
+   Compiling nano-gemm-codegen v0.2.1
+   Compiling shlex v2.0.1
+   Compiling cc v1.8.0
+   Compiling either v1.19.0
+   Compiling rayon-core v1.13.0
+   Compiling serde_core v1.0.229
+   Compiling paste v1.0.15
+   Compiling raw-cpuid v11.6.0
+   Compiling pulp v0.22.3
+   Compiling serde v1.0.229
+   Compiling rayon v1.12.0
+   Compiling psm v0.1.24
+   Compiling reborrow v0.5.5
+   Compiling pulp-wasm-simd-flag v0.1.1
+   Compiling typenum v1.20.1
+   Compiling stacker v0.1.25
+   Compiling dyn-stack-macros v0.1.3
+   Compiling zmij v1.0.23
+   Compiling dyn-stack v0.13.2
+   Compiling itoa v1.0.18
+   Compiling serde_json v1.0.154
+   Compiling generic-array v0.14.7
+   Compiling seq-macro v0.3.6
+   Compiling getrandom v0.3.4
+   Compiling syn v1.0.109
+   Compiling ucd-trie v0.1.7
+   Compiling pest v2.9.4
+   Compiling gemm-common v0.19.0
+   Compiling num-integer v0.1.47
+   Compiling nano-gemm-core v0.2.1
+   Compiling num-bigint v0.4.8
+   Compiling pest_meta v2.9.4
+   Compiling thiserror v2.0.21
+   Compiling rand_core v0.9.5
+   Compiling pest_generator v2.9.4
+   Compiling ppv-lite86 v0.2.21
+   Compiling nano-gemm-f64 v0.2.1
+   Compiling nano-gemm-c64 v0.2.1
+   Compiling nano-gemm-f32 v0.2.1
+   Compiling nano-gemm-c32 v0.2.1
+   Compiling equator-macro v0.4.2
+   Compiling crossbeam-channel v0.5.17
+   Compiling crossbeam-queue v0.3.14
+   Compiling thiserror-impl v2.0.21
+   Compiling interpol v0.2.1
+   Compiling defer v0.2.1
+   Compiling private-gemm-x86 v0.1.22
+   Compiling crossbeam v0.8.5
+   Compiling equator v0.4.2
+   Compiling rand_chacha v0.9.0
+   Compiling pest_derive v2.9.4
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling equator-macro v0.2.1
+   Compiling safe_arch v1.2.0
+   Compiling atomic-wait v1.1.0
+   Compiling matrixmultiply v0.3.11
+   Compiling hashbrown v0.17.1
+   Compiling rand_core v0.10.1
+   Compiling parking_lot_core v0.9.12
+   Compiling equivalent v1.0.3
+   Compiling indexmap v2.14.2
+   Compiling spindle v0.2.6
+   Compiling wide v1.7.1
+   Compiling equator v0.2.2
+   Compiling digest v0.10.7
+   Compiling py_literal v0.4.0
+   Compiling rand v0.9.5
+   Compiling gemm-c64 v0.19.0
+   Compiling gemm-f32 v0.19.0
+   Compiling gemm-c32 v0.19.0
+   Compiling gemm-f64 v0.19.0
+   Compiling qd v0.8.0
+   Compiling approx v0.5.1
+   Compiling ahash v0.8.12
+   Compiling num_cpus v1.17.0
+   Compiling rawpointer v0.2.1
+   Compiling smallvec v1.16.3
+   Compiling equator-macro v0.6.0
+   Compiling generativity v1.2.1
+   Compiling byteorder v1.5.0
+   Compiling getrandom v0.4.3
+   Compiling scopeguard v1.2.0
+   Compiling cpufeatures v0.2.17
+   Compiling sha2 v0.10.9
+   Compiling lock_api v0.4.14
+   Compiling npyz v0.8.4
+   Compiling equator v0.6.0
+   Compiling faer-traits v0.24.0
+   Compiling simba v0.10.2
+   Compiling gemm v0.19.0
+   Compiling nano-gemm v0.2.2
+   Compiling rand_distr v0.5.1
+   Compiling num-rational v0.4.2
+   Compiling nalgebra-macros v0.3.0
+   Compiling rustix v1.1.5
+   Compiling diffsol-la v0.1.1
+   Compiling nalgebra v0.35.0
+   Compiling faer v0.24.4
+   Compiling allocator-api2 v0.2.21
+   Compiling regex-syntax v0.8.11
+   Compiling object v0.37.3
+   Compiling rustc-hash v1.1.0
+   Compiling linux-raw-sys v0.12.1
+   Compiling lazy_static v1.5.1
+   Compiling foldhash v0.1.5
+   Compiling hashbrown v0.15.5
+   Compiling hashbrown v0.14.5
+   Compiling kerotakis-data v0.0.1 (/kaggle/temp/kerotakis-peroxide-medium/source/crates/kerotakis-data)
+   Compiling geo-types v0.7.20
+   Compiling toml_datetime v0.6.11
+   Compiling serde_spanned v0.6.9
+   Compiling half v2.7.1
+   Compiling anstyle v1.0.14
+   Compiling fastrand v2.5.0
+   Compiling log v0.4.34
+   Compiling clap_lex v1.1.1
+   Compiling gimli v0.32.3
+   Compiling winnow v0.7.15
+   Compiling ciborium-io v0.2.2
+   Compiling fixedbitset v0.5.7
+   Compiling toml_write v0.1.2
+   Compiling plotters-backend v0.3.7
+   Compiling adler2 v2.0.1
+   Compiling diffsol v0.16.2
+   Compiling slab v0.4.12
+   Compiling plotters-svg v0.3.7
+   Compiling contour v0.13.1
+   Compiling miniz_oxide v0.8.9
+   Compiling toml_edit v0.22.27
+   Compiling addr2line v0.25.1
+   Compiling petgraph v0.8.3
+   Compiling ciborium-ll v0.2.2
+   Compiling clap_builder v4.6.7
+   Compiling tempfile v3.27.0
+   Compiling diffsol-nl v0.1.1
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/kerotakis-peroxide-medium/source/crates/kerotakis-core)
+   Compiling dashmap v6.2.1
+   Compiling regex-automata v0.4.18
+   Compiling itertools v0.10.5
+   Compiling wait-timeout v0.2.1
+   Compiling cpufeatures v0.3.1
+   Compiling same-file v1.0.6
+   Compiling quick-error v1.2.3
+   Compiling ryu v1.0.23
+   Compiling cast v0.3.0
+   Compiling bit-vec v0.10.1
+   Compiling fnv v1.0.7
+   Compiling libyaml-rs v0.3.0
+   Compiling rustc-demangle v0.1.28
+   Compiling backtrace v0.3.76
+   Compiling yaml_serde v0.10.7
+   Compiling rusty-fork v0.3.1
+   Compiling criterion-plot v0.5.0
+   Compiling bit-set v0.11.1
+   Compiling walkdir v2.5.0
+   Compiling chacha20 v0.10.2
+   Compiling regex v1.13.1
+   Compiling lasso v0.7.3
+   Compiling clap v4.6.7
+   Compiling ciborium v0.2.2
+   Compiling toml v0.8.23
+   Compiling kerotakis-thermo v0.0.1 (/kaggle/temp/kerotakis-peroxide-medium/source/crates/kerotakis-thermo)
+   Compiling plotters v0.3.7
+   Compiling rand v0.10.3
+   Compiling parking_lot v0.12.5
+   Compiling tinytemplate v1.2.1
+   Compiling rand_xorshift v0.5.0
+   Compiling is-terminal v0.4.17
+   Compiling unarray v0.1.4
+   Compiling oorandom v11.1.5
+   Compiling mintex v0.1.4
+   Compiling thousands v0.2.0
+   Compiling bumpalo v3.20.3
+   Compiling core_detect v1.0.0
+   Compiling anes v0.1.6
+   Compiling criterion v0.5.1
+   Compiling proptest v1.12.0
+   Compiling dhat v0.3.3
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 44s
+     Running tests/composed_locale.rs (target/debug/deps/composed_locale-efca51dd639a8d31)
+
+thread 'every_composed_key_is_translated' (2843) panicked at crates/kerotakis-core/tests/composed_locale.rs:266:9:
+5 of 211 sentences the engine composes have no de translation.
+These are not missing strings in a catalogue — they are the lines
+the engine writes itself, and a reader of de sees them in English
+inside an otherwise translated lesson.
+
+  not-modeled.silver-ammine-ligand-inventory  (kerotakis-phreeqc/aqueous.rs)  = "Silver-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution"
+  not-modeled.analytical-component-charge  (kerotakis-phreeqc/aqueous.rs)  = "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+  not-modeled.bare-acid-base-basis  (kerotakis-phreeqc/aqueous.rs)  = "this solvent-only inventory contains explicit acid/base equivalents. Their neutralisation, water balance and reaction heat are not implemented by the solvent autoionisation path. The inventory is retained and no solution reading is assigned; use complete acid/base reagents for a supported neutralisation experiment"
+  routing.silver-ammine  (kerotakis-phreeqc/aqueous.rs)  = "chosen because silver and reduced nitrogen require the silver-ammonia complexes present in minteq.v4.dat (NIST46.4 entries 204901 and 204902); elemental coverage in the default dataset does not include these ligand species"
+  family {family} produced a structure the registry cannot name ({smiles}); the pool of the nameable is the boundary, and widening it is a registry task, not a silent drop  (kerotakis-org/family_oracle.rs)  = "family"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'kinetic_catalyst_names_are_localized_in_every_register' (2848) panicked at crates/kerotakis-core/tests/composed_locale.rs:866:13:
+de level 1: In v1 lässt potassium iodide es viel schneller ablaufen — nach 1 Sekunde(n) hat sich schon viel verändert!
+
+thread 'kinetic_reaction_display_names_cover_the_registry_and_render_heat' (2849) panicked at crates/kerotakis-core/tests/composed_locale.rs:883:36:
+de missing kinetic-reaction.thiosulfate-acid
+error: test failed, to rerun pass `-p kerotakis-core --test composed_locale`
+     Running tests/nonaqueous_routing.rs (target/debug/deps/nonaqueous_routing-f61b5d58398f523f)
+
+thread 'decomposition_water_does_not_make_bulk_peroxide_an_aqueous_medium' (2856) panicked at crates/kerotakis-core/tests/nonaqueous_routing.rs:64:59:
+peroxide is a liquid matrix
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p kerotakis-core --test nonaqueous_routing`
+error: 2 targets failed:
+    `-p kerotakis-core --test composed_locale`
+    `-p kerotakis-core --test nonaqueous_routing`

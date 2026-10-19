@@ -1,0 +1,35 @@
+{
+  "source": "76f62539c0ef4e56eeebf30a56333f705c775114",
+  "kernel_id": 139553235,
+  "version": 1,
+  "provider_status": "ERROR",
+  "actual_original_baseline_fault_tests_failed": 4,
+  "clippy_exit": 0,
+  "native_tests": {
+    "passed": 616,
+    "failed": 1,
+    "ignored": 0
+  },
+  "new_native_warmup_regressions_passed": 4,
+  "failed_existing_contract": "aqueous::solid_solution_raw_readback_contracts_refusal_atomicity::stack_records_failed_native_route_and_preserves_complete_vessel",
+  "failure_cause": "The unchanged fixture has no assigned solution/resolved characterization, but supplies free-proton/hydroxide hints. Unconditional withdrawal erased those inputs after rejected overdraw. Complete-state comparison must remain intact.",
+  "prepared_one_file_correction": "4fe2c947d9fa7edc2305d359bedc9f44fcacbea3",
+  "correction_validated": false,
+  "existing_frozen_tests_modified": false,
+  "all33_product_jobs_executed": false,
+  "full_source_acceptance": false,
+  "raw_files_sha256": {
+    "STARTED.json": "2cd850140dc94134564f7da40674f2186bb69a15943c31e7f7ad5f24c8636359",
+    "BASELINE-REPRODUCED.json": "f2021f9638d06db7798c3c3efa8bd30032dd84da7606c501bd31788b96227d36",
+    "STOPPED.json": "5f14d1a55c49e4fcab0c2d9ae99ab23fcab74d8474d0d728afc1ced3555024c6",
+    "baseline-native.json": "560cec41a619d2c8bd4bde5adcc27db42bae1da135c7789cbad4e8c76fc7cb9c",
+    "baseline-native.stdout": "4433cf055ba4946accb45f4ff09bb204fee01341300dac6128f67b3adb922896",
+    "baseline-native.stderr": "bcbb07c5eccdfbfb910218e6ea778a828bc3bd58fad647742f2b784e927a3869",
+    "combined-native-0.json": "c1fde29dec153ff11a2378bfa2da3f57957028a69c2f48f3f92cb524c3b392f2",
+    "combined-native-0.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "combined-native-0.stderr": "e97829f95722a5ade5c8d0a5e9c5765b0a712680b586149a37d9b96028ee9dba",
+    "combined-native-1.json": "a80097f55060be6a920b55ede056005b89a1c105d861f2abe8d8a6b07883d3d5",
+    "combined-native-1.stdout": "9f111875053f1e981392c3936b07276e0ffb2613dc538cfa9bd90da1550c0d4e",
+    "combined-native-1.stderr": "57a88bbdf80b71aba6f790bda2c2e9cc1de56ac91574d7d9d44d40bb5e53d81c"
+  }
+}

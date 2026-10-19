@@ -1,0 +1,7 @@
+{
+  "error_type": "AssertionError",
+  "error": "combined-native-3",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 45, in <module>\n    for n,command in enumerate(PLAN['focused_native_commands']):run('combined-native-'+str(n),command,cwd=base,env=env,timeout=1800)\n                                                                ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/kaggle/src/script.py\", line 15, in run\n    if required:assert p.returncode==0,name\n                       ^^^^^^^^^^^^^^^\nAssertionError: combined-native-3\n",
+  "logical_jobs_completed": [],
+  "no_auto_retry": true
+}

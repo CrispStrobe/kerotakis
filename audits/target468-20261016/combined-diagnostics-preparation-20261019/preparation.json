@@ -1,0 +1,102 @@
+{
+  "reviewed_head": "20ea572cc323e0402633c3842c6cf0f4be8e1ef4",
+  "tree": "e92215ef230e7cd01a177afce3b97da9c5baa338",
+  "baseline_tests_only_head": "342bfa7568dee10b516f3afc99ed2c2480c612e0",
+  "baseline_parent": "8c584e205aa12cf20c1d6b2b046478d353a9521e",
+  "frozen_utc": "2026-10-19T06:20:43.466923+00:00",
+  "unchanged_regression_files_sha256": {
+    "crates/kerotakis-core/tests/composed_locale.rs": "d3827b2c40b95dee9298a19951341558559eca59f4045a2e331d267569eb78f7",
+    "crates/kerotakis-core/tests/nonaqueous_routing.rs": "063e09c8c45a91cd906d57ad2bc63f27f57ebd8a06d99bfc0ed5633e7d09246c",
+    "crates/kerotakis-phreeqc/tests/peroxide_medium.rs": "8bb2d234153291c4c73519cf9ac275d8e8292560e42842aa30b6c3a64b4b75b9",
+    "tools/engine-locale-lint.py": "1cb2e8f5e7e61ecf24482a269c6e5b12954b4ed15bf6be761fff4958aeaa2883"
+  },
+  "freshness_test_source_binding": {
+    "tests_only_baseline": "6c4a6d304a9688794d603ef4d8f53befd083080e",
+    "test_sha256": "8d94f016bf468c98f92f3e9f74ecdcc2879e5304d865c19fefc4298d35eb1a29"
+  },
+  "prior_actual_native_baseline_preserved": {
+    "head": "6ec2f11a83b59340c941cbd1a46cb9bedf878794",
+    "kernel_id": 139550847,
+    "version": 1,
+    "native_test_sha256": "8bb2d234153291c4c73519cf9ac275d8e8292560e42842aa30b6c3a64b4b75b9",
+    "new_native_baseline_execution": false
+  },
+  "workflow_sha256": "f27783836bc5b2869a32128d857efb0af8a75d2a18902320b9121b225f14b7d3",
+  "expected_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "focused_native_commands": [
+    [
+      "python3",
+      "tools/engine-locale-lint.py",
+      "--check"
+    ],
+    [
+      "cargo",
+      "clippy",
+      "-p",
+      "kerotakis-core",
+      "-p",
+      "kerotakis-cea",
+      "-p",
+      "kerotakis-phreeqc",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "-p",
+      "kerotakis-cea",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-core",
+      "--lib",
+      "--tests",
+      "--no-fail-fast",
+      "--",
+      "--nocapture"
+    ],
+    [
+      "cargo",
+      "test",
+      "-p",
+      "kerotakis-phreeqc",
+      "--no-default-features",
+      "--test",
+      "peroxide_medium",
+      "--",
+      "--nocapture"
+    ]
+  ],
+  "uploaded_worker_sha256": "f17656211a0262aa562a6c6122bf07a2f7bda563ba5bcae7818347a47a12a0df",
+  "metadata_sha256": "1f36c8e52dc21d681df8e4a3c0322b056f3b2beda7f95d28f1b869d6ca6cb362",
+  "pr": 839,
+  "combines_candidate": 840,
+  "normal_merge_parents": [
+    "80a81d6a7c0337dffdc57d0382ebc49c562c6a9c",
+    "76f62539c0ef4e56eeebf30a56333f705c775114"
+  ],
+  "bounded_cpu": {
+    "kernel_id": 139555003,
+    "version": 1,
+    "cpu_limit": 2,
+    "gpu": false,
+    "datasets": [],
+    "owner_credentials_uploaded": false,
+    "maximum_seconds": 7200
+  },
+  "acceptance": "Pending actual corrected-gate baseline and combined native/core/Clippy/external-profile/full33-job results, source/platform/protected review and actual integration.",
+  "original_first_failed_source": "80a81d6a7c0337dffdc57d0382ebc49c562c6a9c",
+  "scientific_catalog_additions": 0
+}

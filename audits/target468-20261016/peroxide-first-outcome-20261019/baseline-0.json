@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "nonaqueous_routing",
+    "--test",
+    "composed_locale",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "stdout_sha256": "ca12320a6ec23ffbdb846f7f96b6540dcbd92c91448115ed5487b17919cdd577",
+  "stderr_sha256": "84a1f4152bad743141fe5cab58e1691e24e6f2d346a07dac25079e2b961b0d70"
+}

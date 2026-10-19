@@ -1,0 +1,27 @@
+engine prose in render.rs         
+   reachable by a catalogue :  680 keys
+   still inside a bare format!:    0 literals
+bench refusals in bench.rs        
+   reachable by a catalogue :   64 keys
+sentences the engine composes     
+   reachable by a catalogue :  232 keys
+   (acid_endpoint.rs, appearance.rs, aqueous_continuation.rs, displacement.rs, solve.rs, nonaqueous.rs, scene.rs, selectivity.rs, gas_tests.rs, clock.rs, family.rs, bench.rs, corrosion.rs, chart.rs, states.rs, volatility.rs, aqueous.rs, phase_diagnostics.rs, family_oracle.rs, kinetics.rs, combustion.rs, thermal.rs, dbindex.rs, particles.rs, main.rs, phrase.rs)
+refusals in NotYetModeled.what    
+   carrying a Phrase        :   92 sites
+   still a finished sentence:    0 sites
+
+language     translated   of  reachable   coverage
+   MISSING: de.toml has no translation for 'not-modeled.analytical-component-charge'
+   MISSING: de.toml has no translation for 'not-modeled.bare-acid-base-basis'
+   MISSING: de.toml has no translation for 'not-modeled.silver-ammine-ligand-inventory'
+   MISSING: de.toml has no translation for 'routing.silver-ammine'
+de                  740    /        744    99.5%   (+644 looked up by value, +22 chosen by a match arm)
+   MISSING: fr.toml has no translation for 'error.invalid-state'
+   MISSING: fr.toml has no translation for 'not-modeled.analytical-component-charge'
+   MISSING: fr.toml has no translation for 'not-modeled.bare-acid-base-basis'
+   MISSING: fr.toml has no translation for 'not-modeled.cea-open-atmosphere-required'
+   MISSING: fr.toml has no translation for 'not-modeled.silver-ammine-ligand-inventory'
+   MISSING: fr.toml has no translation for 'routing.silver-ammine'
+fr                  738    /        744    99.2%   (+664 looked up by value, +22 chosen by a match arm)
+
+10 problem(s)

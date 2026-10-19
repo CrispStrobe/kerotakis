@@ -1,0 +1,5 @@
+# Diagnostic freshness first outcome
+
+Source `76f62539` reproduced all four baseline failures, passed Clippy and all four new real-native warm-up/explicit transaction-fault regressions. Its full native run reported616 passes/one failure in an existing complete-state atomicity contract. The rejected input has no assigned solution reading but carries proton/hydroxide hints; unconditional diagnostic cleanup erased those inputs. [Raw outcome/hashes](outcome.json) preserve the failed assertion unchanged. No full-source acceptance or scientific selection is claimed.
+
+Signed one-file correction `4fe2c947` is prepared separately: only withdraw an assigned aqueous characterization; retain unclassified input when neither current nor resolved solution is present. No test was weakened or edited. Do not merge the validation branch. After active combined source `20ea572c` finishes, inspect its result and cherry-pick this correction into the narrow implementation branch, freeze the successor source and complete actual acceptance before integration. No successor job has been issued.
