@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "composed_locale",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "40185591dd7a20be74f01f4dbfae5a24ee5d383067968b34340d4bb4cc16e756",
+  "stderr_sha256": "59cb7d44b61f2db6bce86c5985c3d4f59f86411f2398f5b29be8dc95787ba36a"
+}

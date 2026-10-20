@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-browser-contract-full/source",
+    "/kaggle/temp/kerotakis-browser-contract-full/source-fleets-electrochemistry"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "669e048290fbcea5d1ec499669e18f5e901631c386d026c0e4ec86839b8425c7"
+}

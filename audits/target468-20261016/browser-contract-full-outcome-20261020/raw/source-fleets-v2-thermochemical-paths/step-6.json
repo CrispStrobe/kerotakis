@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/thermochemical-paths' --family 'thermochemical-paths' --out 'audit-evidence-v2/thermochemical-paths/thermochemical-paths-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "eb0de9010e0e2e22d74a43f83b0a20b972d8ca3e1e449cef33bebe477f84b8fd",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-browser-contract-full/source",
+    "/kaggle/temp/kerotakis-browser-contract-full/source-fleets-observables-negative-controls"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "a31ea7fa19513a4b34e07b4d6266639063fb820628892bf9f1dfbacdff9e86bc"
+}

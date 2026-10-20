@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-browser-contract-full/source",
+    "/kaggle/temp/kerotakis-browser-contract-full/source-fleets-v3-aqueous-selectivity"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "091be6e500bc3ac06b202cbe5d16a82709bb497c9597a5eb9acb98c1cacc5956"
+}

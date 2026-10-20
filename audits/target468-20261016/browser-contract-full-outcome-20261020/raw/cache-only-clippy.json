@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "cargo",
+    "clippy",
+    "-p",
+    "kerotakis-wasm",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "fe31adcb1d4c4ae3ea7a95a44d1b1592975e33b04712f9f8aed63031a4e46d77"
+}

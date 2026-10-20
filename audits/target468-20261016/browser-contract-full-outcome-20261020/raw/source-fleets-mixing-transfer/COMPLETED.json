@@ -1,0 +1,8 @@
+{
+  "name": "Source fleet mixing-transfer",
+  "key": "source-fleets",
+  "family": "mixing-transfer",
+  "all_original_run_steps_passed": true,
+  "original_run_steps_executed": 4,
+  "expected_original_run_steps": 4
+}

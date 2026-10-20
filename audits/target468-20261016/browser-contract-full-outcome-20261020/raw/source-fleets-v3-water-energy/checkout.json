@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-browser-contract-full/source",
+    "/kaggle/temp/kerotakis-browser-contract-full/source-fleets-v3-water-energy"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "61195e55704e69f4ae378b08ac4ef718fd8621a627b3342d7caeb8a17c3def11"
+}

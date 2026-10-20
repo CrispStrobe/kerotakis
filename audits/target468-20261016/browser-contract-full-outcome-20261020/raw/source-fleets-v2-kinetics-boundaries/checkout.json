@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-browser-contract-full/source",
+    "/kaggle/temp/kerotakis-browser-contract-full/source-fleets-v2-kinetics-boundaries"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "1db9a2c3dc8b927cc8483415f47ddaa5ae8697572ed6cad4b57a7f8e5ed85ad8"
+}

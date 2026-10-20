@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-20T14:26:13.638610+00:00",
+  "head": "32c5c96b2685b08ddea048861006ec486357c7a8",
+  "native_logs": [
+    {
+      "job": 118618957261,
+      "bytes": 912036,
+      "sha256": "b24a16ef954dbdaba3592210128b6b0fcefa6c3e2fbf25e7eebf4c57ed9ddecf",
+      "all55_named_controls_present": true
+    },
+    {
+      "job": 118618957294,
+      "bytes": 877662,
+      "sha256": "aec89baf03c2fc29b147c2c073a6c0e998938e4a6480c29f4435bc90b6f225af",
+      "all55_named_controls_present": true
+    }
+  ],
+  "no_CPU_acceptance_substitution": true
+}

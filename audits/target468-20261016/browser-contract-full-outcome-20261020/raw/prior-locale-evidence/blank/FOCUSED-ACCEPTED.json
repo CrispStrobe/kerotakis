@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-19T15:14:48.850952+00:00",
+  "source": "b703b695d6fea2efdf0f0ac6ff7fd172e8b49cc1",
+  "baseline_head": "7595b3e1be2576e0ec72900d42bdac84ad2f9477",
+  "tree": "13a8af79080f6712d771a4dfe9ae87a46db39638",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "worker_sha256": "772f9cd4dd5a8cb7f82b1f2d1ed04126fd7f98f0ce189fadd9da56c332da2a6c",
+  "two_real_locale_baseline_failures_and_two_positive_passes": true,
+  "four_fixed_controls_and_locale_composed_clippy_pass": true,
+  "authenticated_output_files": 53,
+  "full_source_acceptance": false,
+  "integration_or_production_acceptance": false,
+  "scientific_selections": 0
+}

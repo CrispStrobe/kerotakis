@@ -1,0 +1,31 @@
+{
+  "worker_reissued": false,
+  "test_or_engine_reexecuted_for_collection_or_reader_corrections": false,
+  "stops": [
+    {
+      "stage": "initial SDK buffered collection",
+      "cause": "OSError: Cannot allocate memory",
+      "record_sha256": "a66cf474a6736dac8d579a01d917e223ba20b60fb45710101e548a1447fe931e"
+    },
+    {
+      "stage": "first bounded streaming continuation",
+      "cause": "OSError: Invalid cross-device link while preserving existing partial",
+      "record_sha256": "a6264840ea84c30f3a964bbf8952868859b29b204f5e22cbcfc4ccd017fa1e42"
+    },
+    {
+      "stage": "streaming helper static extraction review",
+      "cause": "Review namespace supplied Path class instead of pathlib module; scripts themselves imported pathlib correctly",
+      "record_sha256": "c31e30a9b152961dafa2db94a5d4a373bc74679d5963e7dfae5c0bf0fcf7a8ed"
+    },
+    {
+      "stage": "first full saved reader",
+      "cause": "NameError: name 'base64' is not defined",
+      "original_stderr_sha256": "7c65990080be2b5100c8b8aeba649b85902f9e78be971b80d3db500484cbe9ac",
+      "first_reader_sha256": "2e7641d94952004c9c9171e9538c742e08286b1b88e7a430afcdfffeec42974b",
+      "corrected_reader_sha256": "94ddf5488a625081bef5b0158b666548f1870f51765206fc817280d548ae747f",
+      "only_reader_change": "prepend import base64; all assertions unchanged"
+    }
+  ],
+  "completed_collection_utc": "2026-10-20T13:21:59.874477+00:00",
+  "note": "Original error records with private host coordinates retained privately; this is an explicit safe projection, not altered original evidence."
+}

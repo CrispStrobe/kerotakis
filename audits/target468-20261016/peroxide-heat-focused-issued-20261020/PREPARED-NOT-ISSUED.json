@@ -1,0 +1,13 @@
+{
+  "status": "PREPARED_NOT_ISSUED",
+  "python_ast_parse_only": true,
+  "worker_or_reader_executed": false,
+  "no_build_api_job_or_launch": true,
+  "files_sha256": {
+    "worker.body.py": "041b038f47196d8850c60d1ff2c7ca7fab6d450aa547ac6876b784ab6f946e9d",
+    "upload/worker.py": "8eb7fc92df045a11df27313dd535bffe784a4bebd4dbcb70fadc053873b891a2",
+    "review_saved.py": "1e46659d544aea5ce14fe11569b6180810b23703e2e391cf224c203002d044f2"
+  },
+  "issue_authorization": null,
+  "required_parent_action": "Inspect source/worker/reader, bind actual source-specific authorization and full32 priority release, regenerate embedded plan and freeze final hashes before one bounded issue."
+}

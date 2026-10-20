@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+513-phosphoric-dose-0.0003 exit= 0 steps= 4
+514-phosphoric-dose-0.0006 exit= 0 steps= 4
+515-phosphoric-dose-0.0012 exit= 0 steps= 4
+516-phosphoric-dose-0.0024 exit= 0 steps= 4
+517-phosphoric-dilution-100 exit= 0 steps= 4
+518-phosphoric-dilution-200 exit= 0 steps= 4
+519-phosphoric-dilution-400 exit= 0 steps= 4
+520-phosphoric-dilution-800 exit= 0 steps= 4
+521-bicarbonate-dose-0.0005 exit= 0 steps= 4
+522-bicarbonate-dose-0.001 exit= 0 steps= 4
+523-bicarbonate-dose-0.002 exit= 0 steps= 4
+524-bicarbonate-dose-0.004 exit= 0 steps= 4
+525-carbonate-dose-0.00025 exit= 0 steps= 4
+526-carbonate-dose-0.0005 exit= 0 steps= 4
+527-carbonate-dose-0.001 exit= 0 steps= 4
+528-carbonate-dose-0.002 exit= 0 steps= 4
+529-carbonate-acid-0.0002 exit= 0 steps= 5
+530-carbonate-acid-0.0005 exit= 0 steps= 5
+531-carbonate-acid-0.001 exit= 0 steps= 5
+532-carbonate-acid-0.002 exit= 0 steps= 5
+533-carbonate-scale-1 exit= 0 steps= 4
+534-carbonate-scale-2 exit= 0 steps= 4
+535-carbonate-scale-3 exit= 0 steps= 4
+536-carbonate-scale-4 exit= 0 steps= 4

@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-20T14:31:46.518536+00:00",
+  "source_heads": {
+    "baseline": "877b9e2e39e50d985e234837ba423af7b98b07f4",
+    "fixed": "4a30c91081b571f88f74b26f9b43a519ff0b391f"
+  },
+  "files_sha256": {
+    "frozen-plan.json": "8801daaff1b9ca1fd894b056f2fffa876c067f728b85c87916cffa8554ee5d81",
+    "upload/worker.py": "8a01a1c1b0b898902018fcf889921a43c97a37cadaa5e9fb04d74053e193a80a",
+    "upload/kernel-metadata.json": "1fb2a4928e08ffc2960e5b8af265e5be20a33b83bfc0a9a374995d2021245d06",
+    "review_saved.py": "1e46659d544aea5ce14fe11569b6180810b23703e2e391cf224c203002d044f2",
+    "monitor_streaming.py": "610aed7d7ca023d34c636797483a9fbca50a2882cda8f191e60c7d0452f5ec9b"
+  },
+  "parent_reviewed_final_program_and_resource_budget": true
+}

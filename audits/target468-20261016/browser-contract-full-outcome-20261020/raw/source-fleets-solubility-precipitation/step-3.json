@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "eaeda31fe541250ad6e3a17ae618f4b406f4aab5d5b8b4ddf7fc777c687a16cd",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

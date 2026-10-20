@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+435-conductivity-nitrate-once exit= 0 steps= 4
+436-conductivity-nitrate-repeat exit= 0 steps= 5
+437-ph-acid-once exit= 0 steps= 4
+438-ph-acid-repeat exit= 0 steps= 5
+439-temperature-water-once exit= 0 steps= 4
+440-temperature-water-repeat exit= 0 steps= 5
+441-pressure-nitrogen-once exit= 0 steps= 4
+442-pressure-nitrogen-repeat exit= 0 steps= 5
+443-balance-water-once exit= 0 steps= 3
+444-balance-water-repeat exit= 0 steps= 4
+445-conductivity-water-blank exit= 0 steps= 3
+446-conductivity-glucose-control exit= 0 steps= 4
+447-look-water-before-wait exit= 0 steps= 3
+448-look-water-after-wait exit= 0 steps= 4
+449-filter-glucose-before exit= 0 steps= 5
+450-filter-glucose-after-wait exit= 0 steps= 6
+451-inert-potassium-before-ignite exit= 0 steps= 4
+452-inert-potassium-after-ignite exit= 0 steps= 5
+453-dry-nitrogen-before-wait exit= 0 steps= 4
+454-dry-nitrogen-after-wait exit= 0 steps= 5
+455-water-balance-before-filter exit= 0 steps= 5
+456-water-balance-after-filter exit= 0 steps= 5
+457-glucose-ph-before-wait exit= 0 steps= 4
+458-glucose-ph-after-wait exit= 0 steps= 5

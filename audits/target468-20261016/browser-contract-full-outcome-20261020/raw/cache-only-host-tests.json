@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-wasm",
+    "--lib",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "57b0294df9fdf72732a9a3b638837addbaa383fbda92040dbc8f22e45198c416",
+  "stderr_sha256": "447228143b8bf89d3b74ae5f3ac92f6c27a762307bdc9967cf2690d424cdbc5a"
+}

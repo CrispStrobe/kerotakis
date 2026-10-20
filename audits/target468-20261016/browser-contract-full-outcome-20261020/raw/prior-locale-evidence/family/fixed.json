@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "family_gate_locale",
+    "--test",
+    "family_gate_registry_locale",
+    "--test",
+    "family_gate_legacy",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "112218560c4e65e93bda1fa88c05ef26bdb166fa0daf8764605cc79768eb621b",
+  "stderr_sha256": "ffb55ed912547005d83a2cbd744a89726df39d5a12394068ae02aa3f8b118a98"
+}

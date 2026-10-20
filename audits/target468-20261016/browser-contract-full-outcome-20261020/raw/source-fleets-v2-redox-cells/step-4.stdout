@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+537-copper-activity-0.0005 exit= 0 steps= 9
+538-copper-activity-0.001 exit= 0 steps= 9
+539-copper-activity-0.004 exit= 0 steps= 9
+540-copper-activity-0.008 exit= 0 steps= 9
+541-zinc-activity-0.0005 exit= 0 steps= 9
+542-zinc-activity-0.001 exit= 0 steps= 9
+543-zinc-activity-0.004 exit= 0 steps= 9
+544-zinc-activity-0.008 exit= 0 steps= 9
+545-zinc-copper-salt-first exit= 0 steps= 5
+546-zinc-copper-metal-first exit= 0 steps= 5
+547-zinc-copper-split-salt exit= 0 steps= 6
+548-zinc-copper-split-metal exit= 0 steps= 6
+549-iron-copper-salt-first exit= 0 steps= 5
+550-iron-copper-metal-first exit= 0 steps= 5
+551-iron-copper-split-salt exit= 0 steps= 6
+552-iron-copper-split-metal exit= 0 steps= 6
+553-copper-silver-salt-first exit= 0 steps= 5
+554-copper-silver-metal-first exit= 0 steps= 5
+555-copper-silver-split-salt exit= 0 steps= 6
+556-copper-silver-split-metal exit= 0 steps= 6
+557-magnesium-copper-salt-first exit= 0 steps= 5
+558-magnesium-copper-metal-first exit= 0 steps= 5
+559-magnesium-copper-split-salt exit= 0 steps= 6
+560-magnesium-copper-split-metal exit= 0 steps= 6

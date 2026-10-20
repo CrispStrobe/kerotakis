@@ -1,0 +1,40 @@
+   Compiling num-traits v0.2.19
+   Compiling serde_core v1.0.229
+   Compiling serde v1.0.229
+   Compiling geo-types v0.7.20
+   Compiling contour v0.13.1
+   Compiling memchr v2.8.3
+   Compiling serde_json v1.0.154
+   Compiling kerotakis-thermo v0.0.1 (/kaggle/temp/kerotakis-browser-contract-full/source/crates/kerotakis-thermo)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.34s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_thermo-d5cc13fc1f7f42bb)
+
+thread 'unifac::tests::compatibility_entry_point_also_fails_closed' (16472) panicked at crates/kerotakis-thermo/src/unifac.rs:438:33:
+UNIFAC calculation refused: UNIFAC parameter table is missing directional interaction a_1_7
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+E110 legacy first failed x=[0.48518157582744614, 0.5148184241725539]; switch pressures=101.32061837170411,101.32635060233795 kPa
+E110 with joined correlation: Err(UnrepresentableCondensate)
+     Running tests/distillation_completion.rs (target/debug/deps/distillation_completion-5cdbbc8ab1b524cb)
+     Running tests/flash_gamma.rs (target/debug/deps/flash_gamma-4de77c20cffc5872)
+     Running tests/ideal_still_diagnostics.rs (target/debug/deps/ideal_still_diagnostics-0c2ef0b9c40f445f)
+     Running tests/ideal_still_precision.rs (target/debug/deps/ideal_still_precision-0f775056a177eac1)
+     Running tests/lle_checked_admission.rs (target/debug/deps/lle_checked_admission-f2514a01f6cfb7b7)
+     Running tests/lle_unifac.rs (target/debug/deps/lle_unifac-d0da795ccea56bef)
+     Running tests/overlap_continuity.rs (target/debug/deps/overlap_continuity-3b59231239e193a1)
+     Running tests/paired_binary_still.rs (target/debug/deps/paired_binary_still-148cefad335bde5e)
+     Running tests/pure_binary_still.rs (target/debug/deps/pure_binary_still-fa0089678164e263)
+     Running tests/pure_ideal_still.rs (target/debug/deps/pure_ideal_still-37f2beb69bf94990)
+     Running tests/still.rs (target/debug/deps/still-68bbf8dfeefb1a93)
+     Running tests/still_diagnostics.rs (target/debug/deps/still_diagnostics-931d80aa86893416)
+     Running tests/thermo_oracle.rs (target/debug/deps/thermo_oracle-4a49ca0e94e2dd39)
+hmix: 85 rows, worst gap 0.006130 J/mol
+gammainf: 16 rows
+gamma: 254 rows over 17 binaries
+bubble: 27 rows compared, 8 refused as out of range
+     Running tests/trace_phase_convergence.rs (target/debug/deps/trace_phase_convergence-18466754186f4a05)
+     Running tests/trace_phase_representation.rs (target/debug/deps/trace_phase_representation-de5fe240ae76c673)
+     Running tests/unifac_admission.rs (target/debug/deps/unifac_admission-97de2c8716459c83)
+     Running tests/unifac_checked_refusals.rs (target/debug/deps/unifac_checked_refusals-243c8fedf1b04047)
+     Running tests/unifac_factor_range.rs (target/debug/deps/unifac_factor_range-29771b2875a075f9)
+     Running tests/unifac_factor_reason.rs (target/debug/deps/unifac_factor_reason-48ebe0b4b2c70b3e)
+     Running tests/vle.rs (target/debug/deps/vle-c98f59a7b047d382)

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets.py --family 'acid-base-buffers' --binary target/release/kero --out 'audit-evidence/acid-base-buffers'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "67bf3ea583c4e551835ea6ca1afd2ae382ead683f44c799b0f4531af213e76b1",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

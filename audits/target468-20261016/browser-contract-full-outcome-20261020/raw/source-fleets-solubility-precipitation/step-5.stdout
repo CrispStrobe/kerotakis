@@ -1,0 +1,433 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "243-silver-chloride-salt-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "244-silver-chloride-silver-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "245-silver-chloride-split-salt: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "246-silver-chloride-split-silver: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "247-silver-chloride-scale-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "248-silver-chloride-scale-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "249-silver-chloride-scale-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "250-silver-chloride-scale-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "251-silver-limited-chloride-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "252-silver-limited-chloride-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "253-silver-limited-chloride-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "254-silver-limited-chloride-0.008: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "255-chloride-limited-silver-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "256-chloride-limited-silver-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "257-chloride-limited-silver-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "258-chloride-limited-silver-0.008: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "259-carbonate-calcium-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "260-carbonate-carbonate-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "261-carbonate-split-calcium: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "262-carbonate-split-carbonate: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "263-filter-agcl-reference: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "264-filter-agcl-split-feed: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "265-filter-agcl-reverse-feed: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "266-filter-agcl-split-silver: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "solubility-precipitation:sol-agcl-path-independence",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "check": "solubility-precipitation:sol-agcl-extensive-elements",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "247-silver-chloride-scale-1": [
+          {
+            "Ag": 0.0009999999999997788,
+            "Cl": 0.0009999999999997788,
+            "Na": 0.0009999999999995685,
+            "N": 0.0009999999999995685
+          },
+          {
+            "Ag": 0.0009999999999997788,
+            "Cl": 0.0009999999999997788,
+            "Na": 0.0009999999999995685,
+            "N": 0.0009999999999995685
+          }
+        ],
+        "248-silver-chloride-scale-2": [
+          {
+            "Ag": 0.0019999999999997576,
+            "Cl": 0.0019999999999997576,
+            "Na": 0.001999999999999137,
+            "N": 0.001999999999999137
+          },
+          {
+            "Ag": 0.0019999999999997576,
+            "Cl": 0.0019999999999997576,
+            "Na": 0.001999999999999137,
+            "N": 0.001999999999999137
+          }
+        ],
+        "249-silver-chloride-scale-3": [
+          {
+            "Ag": 0.0029999999999991375,
+            "Cl": 0.0029999999999991375,
+            "Na": 0.002999999999999207,
+            "N": 0.002999999999999207
+          },
+          {
+            "Ag": 0.0029999999999991375,
+            "Cl": 0.0029999999999991375,
+            "Na": 0.002999999999999207,
+            "N": 0.002999999999999207
+          }
+        ],
+        "250-silver-chloride-scale-4": [
+          {
+            "Ag": 0.003999999999999515,
+            "Cl": 0.003999999999999515,
+            "Na": 0.003999999999998274,
+            "N": 0.003999999999998274
+          },
+          {
+            "Ag": 0.003999999999999515,
+            "Cl": 0.003999999999999515,
+            "Na": 0.003999999999998274,
+            "N": 0.003999999999998274
+          }
+        ]
+      }
+    },
+    {
+      "check": "solubility-precipitation:sol-agcl-precipitation",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "check": "solubility-precipitation:sol-silver-limited-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "251-silver-limited-chloride-0.001": [
+          {
+            "Ag": 0.002299999999999985,
+            "Cl": 0.0010000000000000252,
+            "Na": 0.0009999999999999855,
+            "N": 0.0023000000000000663
+          },
+          {
+            "Ag": 0.002299999999999985,
+            "Cl": 0.0010000000000000252,
+            "Na": 0.0009999999999999855,
+            "N": 0.0023000000000000663
+          }
+        ],
+        "252-silver-limited-chloride-0.002": [
+          {
+            "Ag": 0.002300000000000324,
+            "Cl": 0.001999999999999563,
+            "Na": 0.0019999999999999307,
+            "N": 0.0022999999999998204
+          },
+          {
+            "Ag": 0.002300000000000324,
+            "Cl": 0.001999999999999563,
+            "Na": 0.0019999999999999307,
+            "N": 0.0022999999999998204
+          }
+        ],
+        "253-silver-limited-chloride-0.004": [
+          {
+            "Ag": 0.0023000000000002996,
+            "Cl": 0.004000000000000725,
+            "Na": 0.004000000000000444,
+            "N": 0.00230000000000038
+          },
+          {
+            "Ag": 0.0023000000000002996,
+            "Cl": 0.004000000000000725,
+            "Na": 0.004000000000000444,
+            "N": 0.00230000000000038
+          }
+        ],
+        "254-silver-limited-chloride-0.008": [
+          {
+            "Ag": 0.002300000000000347,
+            "Cl": 0.008000000000001336,
+            "Na": 0.008000000000001624,
+            "N": 0.002299999999999906
+          },
+          {
+            "Ag": 0.002300000000000347,
+            "Cl": 0.008000000000001336,
+            "Na": 0.008000000000001624,
+            "N": 0.002299999999999906
+          }
+        ]
+      }
+    },
+    {
+      "check": "solubility-precipitation:sol-chloride-limited-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "255-chloride-limited-silver-0.001": [
+          {
+            "Ag": 0.001000000000000032,
+            "Cl": 0.002700000000000475,
+            "Na": 0.00270000000000083,
+            "N": 0.0009999999999999014
+          },
+          {
+            "Ag": 0.001000000000000032,
+            "Cl": 0.002700000000000475,
+            "Na": 0.00270000000000083,
+            "N": 0.0009999999999999014
+          }
+        ],
+        "256-chloride-limited-silver-0.002": [
+          {
+            "Ag": 0.0020000000000005005,
+            "Cl": 0.0027000000000011464,
+            "Na": 0.0027000000000012743,
+            "N": 0.0020000000000000573
+          },
+          {
+            "Ag": 0.0020000000000005005,
+            "Cl": 0.0027000000000011464,
+            "Na": 0.0027000000000012743,
+            "N": 0.0020000000000000573
+          }
+        ],
+        "257-chloride-limited-silver-0.004": [
+          {
+            "Ag": 0.004000000000000222,
+            "Cl": 0.0027000000000009378,
+            "Na": 0.0027000000000005167,
+            "N": 0.003999999999999289
+          },
+          {
+            "Ag": 0.004000000000000222,
+            "Cl": 0.0027000000000009378,
+            "Na": 0.0027000000000005167,
+            "N": 0.003999999999999289
+          }
+        ],
+        "258-chloride-limited-silver-0.008": [
+          {
+            "Ag": 0.008000000000001417,
+            "Cl": 0.002700000000001017,
+            "Na": 0.0027000000000011455,
+            "N": 0.00800000000000081
+          },
+          {
+            "Ag": 0.008000000000001417,
+            "Cl": 0.002700000000001017,
+            "Na": 0.0027000000000011455,
+            "N": 0.00800000000000081
+          }
+        ]
+      }
+    },
+    {
+      "check": "solubility-precipitation:sol-caco3-path-independence",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "check": "solubility-precipitation:sol-filter-system-equality",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Ag": 0.002999999999999832,
+          "Cl": 0.00299999999999981,
+          "Na": 0.0030000000000003847,
+          "N": 0.0030000000000003847,
+          "H": 22.137107965584235,
+          "O": 11.077553982792118
+        },
+        {
+          "Ag": 0.002999999999999832,
+          "Cl": 0.00299999999999981,
+          "Na": 0.0030000000000003847,
+          "N": 0.0030000000000003847,
+          "H": 22.137107965584235,
+          "O": 11.077553982792118
+        },
+        {
+          "Ag": 0.002999999999999832,
+          "Cl": 0.00299999999999981,
+          "Na": 0.0030000000000003847,
+          "N": 0.0030000000000003847,
+          "H": 22.137107965584235,
+          "O": 11.077553982792118
+        },
+        {
+          "Ag": 0.0030000000000006185,
+          "Cl": 0.0030000000000006046,
+          "Na": 0.0030000000000001015,
+          "N": 0.003000000000000101,
+          "H": 22.137107965584235,
+          "O": 11.077553982792118
+        }
+      ]
+    },
+    {
+      "check": "solubility-precipitation:sol-filter-event",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "passed": 32,
+  "unmet": 0
+}

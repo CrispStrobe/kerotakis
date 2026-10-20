@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-20T12:13:42.358157+00:00",
+  "source": "32c5c96b2685b08ddea048861006ec486357c7a8",
+  "version": 1,
+  "worker_sha256": "18b6bb4d320740184bd7e3c28b1eb3b8d8fcf58d29e4710519f3eb63b3abc4d5",
+  "reader_sha256": "2e7641d94952004c9c9171e9538c742e08286b1b88e7a430afcdfffeec42974b",
+  "private_provider_identity_omitted": true,
+  "original_record_sha256": "e4863981d3260a5202a10172fa53845b895a168657d29e61817960093618a7ff"
+}

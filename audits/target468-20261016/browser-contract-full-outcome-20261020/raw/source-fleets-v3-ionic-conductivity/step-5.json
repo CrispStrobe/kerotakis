@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/ionic-conductivity.json \\\n  > 'audit-evidence-v3/ionic-conductivity/preflight-sha256.txt'\n"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

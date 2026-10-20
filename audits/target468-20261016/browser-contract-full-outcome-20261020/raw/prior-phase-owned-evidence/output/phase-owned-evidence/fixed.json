@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "phase_owned_transfers",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "6b8f397109af1391784eb047f03c547567c67c4ec4e6e3933cbe035b42e74a12",
+  "stderr_sha256": "d88d58e49d390f20342fda38c8488a4d893063590b7fb9f038cef012db2e87b1"
+}

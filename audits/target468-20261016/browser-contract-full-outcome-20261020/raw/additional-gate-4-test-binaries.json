@@ -1,0 +1,21 @@
+{
+  "source": "32c5c96b2685b08ddea048861006ec486357c7a8",
+  "tree": "6fa99b9e7f9c37d2b12774b123cb3e909ff61c17",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": [
+    {
+      "executed_path": "target/debug/deps/acid_permanganate_cache_only-f38de42dae505a4f",
+      "sha256": "c1bff61ea763dbf25f868f8f7352f28339e516200bc543d212b225d18e5b96f1",
+      "bytes": 53214328,
+      "gzip": "actual-test-executables/c1bff61ea763dbf25f868f8f7352f28339e516200bc543d212b225d18e5b96f1.gz",
+      "gzip_sha256": "b6fe8879ae2a684a633f29e1de466b4e0c01e92330b4dcf5a81da61fff4d2a69"
+    },
+    {
+      "executed_path": "target/debug/deps/aqueous_continuation_cache_only-8ad76ac9f7169cc2",
+      "sha256": "bae0c203f33ddfaf5304fab45e4007bf6841c8e3f1127ae384888c702c836f49",
+      "bytes": 52542576,
+      "gzip": "actual-test-executables/bae0c203f33ddfaf5304fab45e4007bf6841c8e3f1127ae384888c702c836f49.gz",
+      "gzip_sha256": "cd6111a01cb033bb70484fbda7beb45729d5ee6280cfe968a9113d7b25e88834"
+    }
+  ]
+}

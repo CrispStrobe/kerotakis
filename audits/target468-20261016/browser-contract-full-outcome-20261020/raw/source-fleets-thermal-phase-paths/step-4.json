@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets.py --family 'thermal-phase-paths' --binary target/release/kero --out 'audit-evidence/thermal-phase-paths'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e13e3a58709df939f1ab8bdadb72d725034aa7ff88b5228196f87da857145da8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

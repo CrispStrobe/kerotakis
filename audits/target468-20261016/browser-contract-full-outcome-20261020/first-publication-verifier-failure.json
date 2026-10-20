@@ -1,0 +1,8 @@
+{
+  "stage": "Additional public small-output verification",
+  "error": "AssertionError: solver_contract_tests::real_lab_fischer_wait_forwards_two_actual_cold_temperature_gates",
+  "cause": "The publication verifier looked for browser-only controls in core/native stdout; actual browser-only names are in the separately authenticated cache-only host output.",
+  "correction": "Search unchanged native AND actual host stdout for the union of 55 names; retain exact 18-host names/count check.",
+  "source_or_producer_or_original_assertions_changed": false,
+  "new_engine_or_job_execution": false
+}

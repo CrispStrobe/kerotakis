@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-20T14:19:50.296260+00:00",
+  "first_reader_sha256": "2e7641d94952004c9c9171e9538c742e08286b1b88e7a430afcdfffeec42974b",
+  "successor_reader_sha256": "94ddf5488a625081bef5b0158b666548f1870f51765206fc817280d548ae747f",
+  "only_change": "Add missing standard-library base64 import. All predicates, frozen plan, raw evidence, source and output receipts unchanged.",
+  "first_failure": "streamed-saved-review.stderr",
+  "new_engine_or_job_execution": false
+}

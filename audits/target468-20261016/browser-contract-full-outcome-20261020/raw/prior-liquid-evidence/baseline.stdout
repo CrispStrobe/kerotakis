@@ -1,0 +1,16 @@
+
+running 4 tests
+test globally_invalid_transfer_state_keeps_error_and_rollback_contract ... FAILED
+test refused_drain_creates_no_receiver_and_moves_no_material ... FAILED
+test refused_extraction_preserves_the_numerical_reason_and_inventory ... FAILED
+test ordinary_supported_drain_retains_both_solute_shares_and_total ... ok
+
+failures:
+
+failures:
+    globally_invalid_transfer_state_keeps_error_and_rollback_contract
+    refused_drain_creates_no_receiver_and_moves_no_material
+    refused_extraction_preserves_the_numerical_reason_and_inventory
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+

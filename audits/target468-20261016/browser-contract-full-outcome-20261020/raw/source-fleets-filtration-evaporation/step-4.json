@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets.py --family 'filtration-evaporation' --binary target/release/kero --out 'audit-evidence/filtration-evaporation'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "911538d225a65ceef28bff80a26a773e38df81fdb68d89ace363a53e34689355",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
