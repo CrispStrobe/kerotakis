@@ -1,0 +1,6 @@
+{
+  "exit_status": 0,
+  "only_command_AST_changes": true,
+  "worker_sha256": "7101e9c5024347eff903f0f5cc108d753058245f26dde7ac29bff548a9ff31c1",
+  "actual_producer_executed": false
+}

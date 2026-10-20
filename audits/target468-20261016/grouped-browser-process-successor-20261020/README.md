@@ -1,0 +1,20 @@
+# Browser orchestration successor — 2026-10-20
+
+This source-only successor fixes an owned process-tree timeout leak in the prepared grouped browser worker. A child that ignores TERM could survive when its leader exited during cleanup. The worker now always sends KILL to its owned process group after bounded TERM grace, then reaps the leader. A real fork/ready-handshake control fails on the preserved original implementation and passes on this successor. Only the worker command function changes; all six browser modules and their original scientific assertions remain byte-identical.
+
+The offline binder creates a sparse evidence commit containing exactly two public files, with the actual runtime commit as its sole parent. It validates actual release/API receipts before mutation and checks that binding changes only the worker configuration. A first draft incorrectly passed a Path to the AST parser; the parent rejected its reported success after reading the failing raw test log. Corrected tests require the intended exception and exercise actual temporary Git indexes, including the initial index population needed to avoid staging source deletions. The rejected source and first failure remain in the private operating archive.
+
+The saved-results runner authenticates the collected inputs, invokes the original 37, 7, 18 and heat2 readers twice in separate directories, records actual arguments, exit statuses and stream hashes, and then invokes the agreement checker. Nested original-reader invocations remain mandatory. Process-tree controls include TERM-ignoring children and leaders that have already exited. No synthetic metadata or copied result can substitute for those future actual reader invocations.
+
+Parent validation: 13 worker controls, 12 binder controls and 9 saved-command controls pass. These use synthetic orchestration files, real temporary Git repositories and real harmless Python process trees. They do not run a browser, chemistry engine, provider or production experiment. Saved raw results accompany the source. A separately reviewed conditional observer waits for the already-issued production run and its unchanged 11 API/security/concurrency controls, then performs offline binding once and stops for parent review. It does not authorize a browser issue.
+
+`static-closure-projection.json` preserves aliases, sizes and SHA256 values for 41 reviewed static files (298681 bytes); 12 actual release inputs must be added only after API acceptance. Private full original readers and operating paths are intentionally absent. The projection is not an executable admission receipt. The exact frozen predecessors remain in the [initial preparation](../grouped-browser-preparation-20261020/README.md) and [source-chain preparation](../grouped-browser-chain-preparation-20261020/README.md).
+
+## Remaining delivery lanes
+
+1. Collect and authenticate the existing runtime production run; continue its collection separately if transfer fails. Never redispatch it or replay accepted API requests to repair a reader.
+2. Review the actual bound worker, its configuration and all 53 input bytes against actual native, producer lock, frontend, REST and original API receipts. Only then authorize one private grouped browser issue. The evidence branch must never merge into main.
+3. Collect the exact producer version with bounded streaming and independent archival readback. Preserve first failures and partial groups. Run the saved-results runner and independently review actual invocation provenance and all 64 results before release acceptance. A failed group does not authorize replay of earlier groups.
+4. Resume the frozen eight phase controls and TC008 stage trace only after release acceptance. Resolve the measured 128.316712 J residual from actual source-stage evidence. Then examine disjoint remaining-original cohorts using unchanged forecasts.
+
+Qualified coverage is unchanged at 332/468. Prepared tooling and source tests are not scientific selections, runtime browser acceptance or calibrated kinetics.

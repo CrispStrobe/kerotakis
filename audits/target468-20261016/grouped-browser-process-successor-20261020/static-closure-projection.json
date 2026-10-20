@@ -1,0 +1,174 @@
+{
+  "purpose": "Static source closure projection; actual release inputs and browser acceptance pending",
+  "private_original_sha256": "2801667463304c6532357881f680bd118c19b45801a3c88705270a99739a0107",
+  "files": {
+    "forecasts/NIST-table4-4-1-saved-text.txt": {
+      "sha256": "c588d420e2813623d7eb2b8e696b8530c92d0284f662e51e7987567b5963e0e3",
+      "bytes": 4150
+    },
+    "forecasts/grouped-affected-file-map.json": {
+      "sha256": "02b900bfb78bf60e24c4ed457309df43b387988def7ac757fe1cdee79c8779b1",
+      "bytes": 3378
+    },
+    "forecasts/grouped-execution-admission-contract.json": {
+      "sha256": "176d5e6b4c0d1695a551a15ec8a0ece9824b63c07dc1215e44c0ee2aa352c428",
+      "bytes": 7486
+    },
+    "forecasts/heat2-actual-empty-water-schema.json": {
+      "sha256": "c72b5fdaf07defa43c18b1f253c96528df97a50e11eddefe91e529836fe1f600",
+      "bytes": 2853
+    },
+    "forecasts/heat2-original-design.json": {
+      "sha256": "9b5146a47dc129b028b9380adbd9951059e9e64bd89c2ae5e11a556e45f157b7",
+      "bytes": 5733
+    },
+    "forecasts/heat2-original-scope.md": {
+      "sha256": "4ff09dd7a517022e1faaddc027fd86e2786090a8d8b4b54ef0990684520228f6",
+      "bytes": 7402
+    },
+    "forecasts/locale18-original-coordinates.json": {
+      "sha256": "12d4c0e6ef8cbcd9162ec5c27c19f576e6a51439b7da90a8c99835c03bf46356",
+      "bytes": 6218
+    },
+    "forecasts/locale18-original-scope.md": {
+      "sha256": "f47da7dc7498c2ea8370d46d2bc375cbea0360ebdcdf02e0d8ab59a1fc328320",
+      "bytes": 12265
+    },
+    "forecasts/methanol-reference.json": {
+      "sha256": "2bc0e03765230ffddc5ef45fbe80dceba5663f8acac2e66d6a57290d2f12ea4f",
+      "bytes": 633
+    },
+    "forecasts/postcollection18-context-proposal.json": {
+      "sha256": "180e22e6bd93e071e4f3ed42d0abd234a5b5743d045747c6f803ea1309de369d",
+      "bytes": 2159
+    },
+    "forecasts/thermo_oracle.tsv": {
+      "sha256": "8e75e54cdbdac960b2c725e772904bc54ca7518968146370f3ebf7d718f6ec80",
+      "bytes": 25441
+    },
+    "heat-controls.mjs": {
+      "sha256": "cf19825bd6a273115eb686feab0b3242dfebb5533e571fed4765b8f49c371d6f",
+      "bytes": 4167
+    },
+    "live-client.mjs": {
+      "sha256": "1f0ddea0b8a9e16d78cb15cfaaa319abbe2e6cd817999d7075c4e9c235a903a0",
+      "bytes": 16578
+    },
+    "locale-controls.mjs": {
+      "sha256": "7290327a0d59d981bcc8bc0e35b5d0941c3559d14067ecdf488ae4f24c0f8819",
+      "bytes": 11397
+    },
+    "run-heat.mjs": {
+      "sha256": "316980a04ba85c94a54665f1ad5418a310f8485892afe97b85c9ba97daa6d592",
+      "bytes": 1605
+    },
+    "run-locale18.mjs": {
+      "sha256": "8456b089e8389c2995fd1c58bcd316c64fffcfcad4db002927f336fa58a8bd21",
+      "bytes": 1910
+    },
+    "saved-readers/AST-EQUALITY-PROOF.json": {
+      "sha256": "71d02d65417b60737a5a6af71112e7b30c260c93811eac3488d78dfccc53c596",
+      "bytes": 1861
+    },
+    "saved-readers/aggregate_saved.py": {
+      "sha256": "6ebc3427d6979fe99663c2204c8413033fb4cb9f92e8d1acb73a0fc0f39cffe8",
+      "bytes": 15489
+    },
+    "saved-readers/bind_stage.py": {
+      "sha256": "e514474794c9582981dcffd7dd147d6a119257e5febef89ceef2e9fae7ae3749",
+      "bytes": 12881
+    },
+    "saved-readers/build_locale_context.py": {
+      "sha256": "18913cef5f83475b13efc0e7df3eb2ae9058d45529b7494ea738f062930e2813",
+      "bytes": 5494
+    },
+    "saved-readers/collect_once.py": {
+      "sha256": "ca2a19ccac12115bf27e088ede01ff4d481bf0eef646ea2cd5f20232effb86fb",
+      "bytes": 9526
+    },
+    "saved-readers/fast_spool.py": {
+      "sha256": "e5882090a323d4ebaebe4d6a2e935047f799b592bea3c70adb6418bfedccac25",
+      "bytes": 2933
+    },
+    "saved-readers/final_common.py": {
+      "sha256": "700fec14967e1519a0c004558cd2cd8cf895cfb67d0a46649a0343432b3fe868",
+      "bytes": 5886
+    },
+    "saved-readers/group37_predicates.py": {
+      "sha256": "2f7d23773e98068068a5d730983821a65095c90a62d6b472e2ef55e98105d944",
+      "bytes": 1383
+    },
+    "saved-readers/group7_predicates.py": {
+      "sha256": "81206e7ac27de50244effe2912469a345c1fba5bb50b1f3d0a2d52e6769d1216",
+      "bytes": 4767
+    },
+    "saved-readers/grouped_browser_template.py": {
+      "sha256": "7101e9c5024347eff903f0f5cc108d753058245f26dde7ac29bff548a9ff31c1",
+      "bytes": 18252
+    },
+    "saved-readers/heat_saved_predicates.py": {
+      "sha256": "705915e2fdb218c754c69c7408d135f1432bd521343336383f9aeadee0ae9264",
+      "bytes": 7999
+    },
+    "saved-readers/host_common.py": {
+      "sha256": "d1de3aba090c2bf91ecfce2285712cbb07abc068c5b035118e0be0a98a986104",
+      "bytes": 3870
+    },
+    "saved-readers/issue_once.py": {
+      "sha256": "25bb7fcaadee718eebe611c036ea2e1f3930f2e3b992449dfbe94bcc1331cce1",
+      "bytes": 4098
+    },
+    "saved-readers/locale18_saved_predicates.py": {
+      "sha256": "4b66938c88db0da8863d44a10a7e4a34e72aa578891133e72ac1818d7dd4e063",
+      "bytes": 4277
+    },
+    "saved-readers/original-heat2-reader.py": {
+      "sha256": "817d9fdf9106d5581919a5b7696658074033e6737154c1336b5cbc0f3d516252",
+      "bytes": 1360
+    },
+    "saved-readers/original-locale18-reader.py": {
+      "sha256": "84fe50ca53fb67a27bdda1d40869df70a56948b31c01daa1ad79b8c1597cec6a",
+      "bytes": 7756
+    },
+    "saved-readers/original37-full-private.py": {
+      "sha256": "bcf1978a46cd059a5a0fbf967fa3361cadacff5f9e61131cdb20b7a477a56b3e",
+      "bytes": 7940
+    },
+    "saved-readers/original7-full-private.py": {
+      "sha256": "a638e13525b9690b2675530885cfb35e2abc634a313fca43b07f9db17346340c",
+      "bytes": 7855
+    },
+    "saved-readers/pack_admission.py": {
+      "sha256": "15a80959f1a2216cf656016c6bc755c10a657c24384b8b63f050a193aefc39f7",
+      "bytes": 9691
+    },
+    "saved-readers/read_group.py": {
+      "sha256": "327ee4aba48ab59806a971489096365ff9c6e5841a1ecd12015a78289b40a16e",
+      "bytes": 5260
+    },
+    "saved-readers/release_binding.py": {
+      "sha256": "ce1056bedda46b926d0edf86e5567028b1790ca796735f314e6edd557f405d25",
+      "bytes": 10457
+    },
+    "saved-readers/review_heat_group.py": {
+      "sha256": "b17fd2a6fc05df1d83fc9f3b8b5f03d33b54adf9042ddeacdcccd825a442574b",
+      "bytes": 5336
+    },
+    "saved-readers/review_twice.py": {
+      "sha256": "9ea812d8a9e477b06eef99b273e0a672af79da2413fa2eb708a2dc3c3929e404",
+      "bytes": 13409
+    },
+    "saved-readers/saved_envelope.py": {
+      "sha256": "e3228a3b68ba1d3745f645d036eb2631921961894acd680a6f588a58f2459c2f",
+      "bytes": 10500
+    },
+    "targeted.mjs": {
+      "sha256": "f17c5c7fe143d9930efeeafa8cf9c14c1a873ba10ea4927ca5fc30fa91cba4f9",
+      "bytes": 7026
+    }
+  },
+  "files_count": 41,
+  "raw_bytes": 298681,
+  "late_release_input_count": 12,
+  "actual_browser_issued": false
+}

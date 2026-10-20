@@ -1,0 +1,24 @@
+test_exact_two_added_paths_actual_parent_and_signoff (test_bind_stage.LocalGit.test_exact_two_added_paths_actual_parent_and_signoff) ... Preparing worktree (new branch 'audit/synthetic')
+ok
+test_extra_file_rejected (test_bind_stage.LocalGit.test_extra_file_rejected) ... Preparing worktree (new branch 'audit/synthetic')
+ok
+test_local_used_branch_rejected (test_bind_stage.LocalGit.test_local_used_branch_rejected) ... Preparing worktree (new branch 'audit/synthetic')
+ok
+test_non_audit_branch_rejected (test_bind_stage.LocalGit.test_non_audit_branch_rejected) ... ok
+test_remote_used_branch_rejected (test_bind_stage.LocalGit.test_remote_used_branch_rejected) ... To /tmp/tmpa66cxhp3/remote.git
+ * [new branch]      HEAD -> audit/remote-used
+ok
+test_sparse_checkout_omits_unrelated_source (test_bind_stage.LocalGit.test_sparse_checkout_omits_unrelated_source) ... Preparing worktree (new branch 'audit/synthetic')
+ok
+test_wrong_parent_rejected (test_bind_stage.LocalGit.test_wrong_parent_rejected) ... Preparing worktree (new branch 'audit/synthetic')
+ok
+test_actual_worker_AST_boundary_with_explicit_schema_only_assignment (test_bind_stage.OfflineGuards.test_actual_worker_AST_boundary_with_explicit_schema_only_assignment) ... ok
+test_ast_change_outside_assignments_rejected_before_import (test_bind_stage.OfflineGuards.test_ast_change_outside_assignments_rejected_before_import) ... ok
+test_bound_assignment_must_equal_admission (test_bind_stage.OfflineGuards.test_bound_assignment_must_equal_admission) ... ok
+test_matching_unknown_template_is_never_imported (test_bind_stage.OfflineGuards.test_matching_unknown_template_is_never_imported) ... ok
+test_missing_production_receipt_creates_nothing (test_bind_stage.OfflineGuards.test_missing_production_receipt_creates_nothing) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 1.119s
+
+OK

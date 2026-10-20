@@ -1,0 +1,6 @@
+{
+  "exit_status": 0,
+  "only_WORKER_AST_pin_changes": true,
+  "binder_sha256": "e514474794c9582981dcffd7dd147d6a119257e5febef89ceef2e9fae7ae3749",
+  "actual_binding_stage_executed": false
+}
