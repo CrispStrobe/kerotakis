@@ -1,0 +1,13 @@
+{
+  "source": "101ea2787048787d7b1dc021f3098317c9314ec4",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": {
+    "composed_locale": {
+      "path": "target/debug/deps/composed_locale-efca51dd639a8d31",
+      "sha256": "8d9ffc78adee965507e2a1c95982489bc42a40e5ac7f98a600847a1663f1f904",
+      "bytes": 49038096,
+      "gzip": "composed_locale.gz",
+      "gzip_sha256": "a1129a5af78caf9d969817305ee9bc7a7da42b3b166a4d131ca03fd030d4dd0c"
+    }
+  }
+}

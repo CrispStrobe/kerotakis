@@ -1,0 +1,60 @@
+{
+  "reviewed_utc": "2026-10-20T10:27:44.023048+00:00",
+  "review_kind": "independent_static_source_and_yaml_review_only",
+  "source": "0d348142dda92f5d2ce7b0efe9fc480c6c6387ca",
+  "parent_source": "101ea2787048787d7b1dc021f3098317c9314ec4",
+  "workflow_path": ".github/workflows/ci.yml",
+  "workflow_sha256": "769e9574354599adb402c92fc57aac9bbf31bc7472b06a822feb5f638a7bc129",
+  "source_diff_scope": {
+    "files_changed": [
+      ".github/workflows/ci.yml"
+    ],
+    "lines_added": 6,
+    "existing_job_count": 19,
+    "jobs_added": 0,
+    "all_prior_parsed_yaml_unchanged_after_removing_two_added_steps": true
+  },
+  "guard_job": "wasm-lab",
+  "guard_position": "After checkout/toolchain/cache/Node setup and before wasm-bindgen installation, Wasm build and native prewarm",
+  "added_commands": [
+    "cargo clippy -p kerotakis-wasm --all-targets -- -D warnings",
+    "cargo test -p kerotakis-wasm --lib"
+  ],
+  "dependency_review": {
+    "workspace_resolver": "2",
+    "selected_package": "kerotakis-wasm",
+    "normal_and_build_path_manifests_inspected": 10,
+    "only_reachable_phreeqc_dependency": {
+      "from": "kerotakis-wasm",
+      "default_features": false,
+      "features": []
+    },
+    "selected_crate_dev_dependencies": [],
+    "cache_only_in_separate_invocations": true,
+    "explanation": "Each command selects only the browser crate and its dependency graph. No reachable selected normal/build dependency enables the PHREEQC engine feature. A prior native compilation or shared artifact cache does not persist enabled Cargo features into a new separately selected invocation. The later native prewarm may enable its own engine feature without changing these earlier guards."
+  },
+  "host_unit_tests": {
+    "new_solver_contract": 12,
+    "existing_worker_protocol": 6,
+    "total": 18,
+    "command_has_no_name_filter": true
+  },
+  "warning_policy": {
+    "deny_warnings_retained": true,
+    "allow_or_expect_waivers_added": false,
+    "continue_on_error_added": false,
+    "old_steps_removed_or_weakened": false
+  },
+  "blocking_static_findings": [],
+  "acceptance_limits": {
+    "workflow_executed_by_this_review": false,
+    "builds_or_provider_jobs_issued_by_this_review": false,
+    "active_hosted_producer_source_remains": "101ea2787048787d7b1dc021f3098317c9314ec4",
+    "active_hosted_producer_mutated": false,
+    "full_workflow_head_acceptance": false,
+    "full_source_or_platform_acceptance": false,
+    "production_acceptance": false,
+    "scientific_selections": 0,
+    "remaining": "Actual combined full-source and applicable platform/protected acceptance must be evaluated on the exact reviewed workflow head. The active source-pinned producer cannot certify newly added workflow execution."
+  }
+}

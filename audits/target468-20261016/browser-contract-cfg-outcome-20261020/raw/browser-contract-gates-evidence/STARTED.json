@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-20T10:18:21.394958+00:00",
+  "worker_sha256": "14d05dbc2e17c232bb00213ec3b85463a5faed79e9b6c26634f945a7a8ee7727",
+  "source": "101ea2787048787d7b1dc021f3098317c9314ec4",
+  "no_original_experiments": true,
+  "no_prior_baseline_reexecution": true,
+  "twelve_fixed_controls_rerun_on_changed_cfg_source": true
+}

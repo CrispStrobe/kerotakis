@@ -1,0 +1,20 @@
+{
+  "source": "101ea2787048787d7b1dc021f3098317c9314ec4",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": {
+    "borrowed_solver_routes": {
+      "path": "target/debug/deps/borrowed_solver_routes-be639429db70a5e2",
+      "sha256": "1ffde9ae05f39c9d95199fa2bc92401baeea5945a5b75dfdb4d15655b5762990",
+      "bytes": 42721552,
+      "gzip": "borrowed_solver_routes.gz",
+      "gzip_sha256": "246f58ab7abfdfdc0be291abea35e87edb3274a041c8fd76f77f4572df1ffaeb"
+    },
+    "solver_transactions": {
+      "path": "target/debug/deps/solver_transactions-76dedfa0e628e773",
+      "sha256": "adf9a3ac6dc3db6fb2637397e8c148adef5be29a885833e366f558e4ea906067",
+      "bytes": 58708712,
+      "gzip": "solver_transactions.gz",
+      "gzip_sha256": "8a7a5ff8ccefde9693a3bfde2d4e4c6687ba94f3783e0016d89939fdc5a8f361"
+    }
+  }
+}

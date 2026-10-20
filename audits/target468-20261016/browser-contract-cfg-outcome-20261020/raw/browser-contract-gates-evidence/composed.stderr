@@ -1,0 +1,7 @@
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/browser-contract-gates/source/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.91s
+     Running tests/composed_locale.rs (target/debug/deps/composed_locale-efca51dd639a8d31)
+
+thread 'an_unresolved_static_phrase_key_fails_closed' (7829) panicked at crates/kerotakis-core/tests/composed_locale.rs:181:18:
+unresolved static Phrase key: UNREGISTERED_KEY
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

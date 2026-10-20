@@ -1,0 +1,53 @@
+{
+  "utc": "2026-10-20T10:28:33.343466+00:00",
+  "source": "101ea2787048787d7b1dc021f3098317c9314ec4",
+  "tree": "7358f09ffa830bb5cab586923a3b128403ac26b4",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "worker_sha256": "14d05dbc2e17c232bb00213ec3b85463a5faed79e9b6c26634f945a7a8ee7727",
+  "prerequisites_sha256": {
+    "phase_full_prerequisite": "0da542894254065fe0672c7b35c7a56ff1d81ee9d6f177b94c7e5ed02b5940e6",
+    "focused_controls_prerequisite": "0f828cd8a07210fc58317113606c718f089655212539be183181e3b1666fe261"
+  },
+  "reused_prior_nine_baseline_failures_three_positives_twelve_fixed_controls": true,
+  "canonical_format_and_39_transactions_18_composed_locale_clippy_wasm_gates_pass": true,
+  "new_test_executable_bytes_independently_rehashed": true,
+  "new_baseline_executions": 0,
+  "twelve_current_source_fixed_controls_pass": true,
+  "full_source_acceptance": false,
+  "production_or_original_experiment_acceptance": false,
+  "scientific_selections": 0,
+  "test_binaries": {
+    "source": "101ea2787048787d7b1dc021f3098317c9314ec4",
+    "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "binaries": {
+      "kerotakis_wasm": {
+        "path": "target/debug/deps/kerotakis_wasm-0791f3d501657475",
+        "sha256": "7a232bf3d29d17432b76d548bc1c250bad9bc8985f3e6fb769d1078985a34e82",
+        "bytes": 82843728,
+        "gzip": "kerotakis_wasm.gz",
+        "gzip_sha256": "df40105c48b6114b2476fae8dfa0460de90aca47147d692c158e15fcfbfb1e26"
+      },
+      "borrowed_solver_routes": {
+        "path": "target/debug/deps/borrowed_solver_routes-be639429db70a5e2",
+        "sha256": "1ffde9ae05f39c9d95199fa2bc92401baeea5945a5b75dfdb4d15655b5762990",
+        "bytes": 42721552,
+        "gzip": "borrowed_solver_routes.gz",
+        "gzip_sha256": "246f58ab7abfdfdc0be291abea35e87edb3274a041c8fd76f77f4572df1ffaeb"
+      },
+      "solver_transactions": {
+        "path": "target/debug/deps/solver_transactions-76dedfa0e628e773",
+        "sha256": "adf9a3ac6dc3db6fb2637397e8c148adef5be29a885833e366f558e4ea906067",
+        "bytes": 58708712,
+        "gzip": "solver_transactions.gz",
+        "gzip_sha256": "8a7a5ff8ccefde9693a3bfde2d4e4c6687ba94f3783e0016d89939fdc5a8f361"
+      },
+      "composed_locale": {
+        "path": "target/debug/deps/composed_locale-efca51dd639a8d31",
+        "sha256": "8d9ffc78adee965507e2a1c95982489bc42a40e5ac7f98a600847a1663f1f904",
+        "bytes": 49038096,
+        "gzip": "composed_locale.gz",
+        "gzip_sha256": "a1129a5af78caf9d969817305ee9bc7a7da42b3b166a4d131ca03fd030d4dd0c"
+      }
+    }
+  }
+}

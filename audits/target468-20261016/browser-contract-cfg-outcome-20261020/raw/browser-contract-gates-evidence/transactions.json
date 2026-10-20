@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "borrowed_solver_routes",
+    "--test",
+    "solver_transactions",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "bd769025a114a8a13593d469f5421b795cefa2b807be2db95b9cd00272a56a93",
+  "stderr_sha256": "626bc787f892c5476210d4f50e052e4b8ff20538c2af84ad062f74977e855a7f"
+}

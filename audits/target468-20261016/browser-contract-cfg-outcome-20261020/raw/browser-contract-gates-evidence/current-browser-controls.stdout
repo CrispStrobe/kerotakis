@@ -1,0 +1,17 @@
+
+running 12 tests
+test solver_contract_tests::combined_invalid_finite_temperature_rolls_back_like_native_stack ... ok
+test solver_contract_tests::combined_installed_routes_preserve_required_material_conservation_policy ... ok
+test solver_contract_tests::combined_invalid_outward_gas_event_is_rejected_like_native_stack ... ok
+test solver_contract_tests::combined_mutating_error_rolls_back_before_later_route_like_native_stack ... ok
+test solver_contract_tests::combined_refuses_ambiguous_real_aqueous_authorities ... ok
+test solver_contract_tests::combined_successful_outward_gas_is_booked_before_later_route_like_native_stack ... ok
+test solver_contract_tests::combined_real_analytic_adapter_characterizes_current_water_like_concrete_adapter ... ok
+test solver_contract_tests::real_lab_fischer_warm_wait_forwards_real_missing_catalyst_gate ... ok
+test solver_contract_tests::real_lab_successful_pressure_reading_retains_direct_model_route ... ok
+test solver_contract_tests::real_lab_fischer_wait_forwards_two_actual_cold_temperature_gates ... ok
+test solver_contract_tests::untrusted_wrapper_cannot_get_receipt_from_existing_solution ... ok
+test solver_contract_tests::real_lab_unmatched_wait_keeps_clock_and_inventory_without_fischer_gate ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.76s
+
