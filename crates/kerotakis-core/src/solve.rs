@@ -1384,15 +1384,12 @@ pub struct StateEquilibrator;
 /// The solvent. Every transition here is water's; a non-aqueous solvent is
 /// a separate problem and says so rather than borrowing water's constants.
 const SOLVENT: &str = "water";
-/// Resolution of the aqueous/ice common-temperature fixed point, K.
+/// Diagnostic tolerance for labeling a settled aqueous/ice boundary, K.
 ///
-/// PHREEQC's own temperature/enthalpy fixed point settles to 0.05 K. Once
-/// liquid and ice coexist, asking the outer phase loop for a tighter common
-/// temperature creates a two-point oscillation that additional passes cannot
-/// resolve. A converged state is projected onto the computed liquidus before
-/// it is exposed, so callers still receive a phase-consistent temperature.
-/// This tolerance is only a coupled-solver stop; an initially supercooled
-/// single liquid phase still undergoes its physical transfer.
+/// This matches the aqueous temperature iteration's resolution. It does not
+/// authorize a temperature projection or skip a real water-phase transfer:
+/// the phase pass must spend that energy, and chemistry must characterize
+/// the resulting inventory before the coupled loop can finish.
 pub const PHASE_COUPLED_TEMPERATURE_TOLERANCE_K: f64 = 0.05;
 
 /// Where the vessel lands once a phase change has finished and there is
@@ -2229,56 +2226,6 @@ pub fn equilibrate_phase_coupled(
             }
         }
 
-        let has_liquid_water = vessel
-            .contents
-            .iter()
-            .any(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Liquid);
-        let has_ice = vessel
-            .contents
-            .iter()
-            .any(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Solid);
-        if has_liquid_water && has_ice {
-            // The vessel's OWN liquidus, activity and all — the same call
-            // `StateEquilibrator` makes. Recomputing it from the molality
-            // alone would compare the coupled solve's answer against a
-            // different model's and call the difference numerical residue.
-            let liquidus = vessel_transitions(vessel).0.freezing_k;
-            if (vessel.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K {
-                // The chemistry/enthalpy fixed point is only resolvable to
-                // the tolerance above.  Do not leak that numerical residue
-                // as physically impossible supercooled liquid beside ice:
-                // coexistence defines the final temperature exactly.
-                vessel.temperature = Kelvin(liquidus);
-                // Earlier passes report the provisional liquidus that
-                // triggered their water transfer.  Once the coupled solve
-                // settles, make the last phase event describe the final
-                // coexistence boundary rather than leaking an obsolete
-                // intermediate value to renderers and invariant checks.
-                if let Some(Event::StateChanged { at, shifted_by, .. }) =
-                    events.iter_mut().rev().find(|event| {
-                        matches!(
-                            event,
-                            Event::StateChanged {
-                                species,
-                                from: Phase::Liquid,
-                                to: Phase::Solid,
-                                ..
-                            } | Event::StateChanged {
-                                species,
-                                from: Phase::Solid,
-                                to: Phase::Liquid,
-                                ..
-                            } if species.0 == SOLVENT
-                        )
-                    })
-                {
-                    *at = Kelvin(liquidus);
-                    *shifted_by = liquidus - crate::states::WATER_FREEZING_K;
-                }
-                return Ok(events);
-            }
-        }
-
         let liquid_before: f64 = vessel
             .contents
             .iter()
@@ -2311,6 +2258,56 @@ pub fn equilibrate_phase_coupled(
         });
         events.append(&mut phase_events);
         if !transferred_water {
+            // A real chemistry answer remains current only when this phase
+            // pass did not change its solvent inventory. Near-liquidus
+            // thermal residue is spent by the same enthalpy root as every
+            // other transfer, never by a temperature-only snap.
+            let has_liquid_water = vessel
+                .contents
+                .iter()
+                .any(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Liquid);
+            let has_ice = vessel
+                .contents
+                .iter()
+                .any(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Solid);
+            if has_liquid_water && has_ice {
+                // The vessel's OWN liquidus, activity and all — the same call
+                // `StateEquilibrator` makes. Recomputing it from the molality
+                // alone would compare the coupled solve's answer against a
+                // different model's and call the difference numerical residue.
+                let liquidus = vessel_transitions(vessel).0.freezing_k;
+                if (vessel.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K
+                {
+                    // Only event presentation follows the recomputed boundary.
+                    // Never change temperature without a priced phase transfer.
+                    // Earlier passes report the provisional liquidus that
+                    // triggered their water transfer.  Once the coupled solve
+                    // settles, make the last phase event describe the final
+                    // coexistence boundary rather than leaking an obsolete
+                    // intermediate value to renderers and invariant checks.
+                    if let Some(Event::StateChanged { at, shifted_by, .. }) =
+                        events.iter_mut().rev().find(|event| {
+                            matches!(
+                                event,
+                                Event::StateChanged {
+                                    species,
+                                    from: Phase::Liquid,
+                                    to: Phase::Solid,
+                                    ..
+                                } | Event::StateChanged {
+                                    species,
+                                    from: Phase::Solid,
+                                    to: Phase::Liquid,
+                                    ..
+                                } if species.0 == SOLVENT
+                            )
+                        })
+                    {
+                        *at = Kelvin(liquidus);
+                        *shifted_by = liquidus - crate::states::WATER_FREEZING_K;
+                    }
+                }
+            }
             return Ok(events);
         }
         if pass + 1 == MAX_PASSES {
