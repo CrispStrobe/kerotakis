@@ -1,0 +1,15 @@
+# Remaining139: nine-case readiness, no new selections
+
+The remaining queue comprises38batch2,71batch3 and30first120 originals. Eight prior batch2 criterion-budget review units cover82 unique cases;27 overlap remaining38. Separate completed AB031/MO011 original reviews exclude another two. The nine listed cases have no further completed criterion outcome in the bounded searched public records. This is not a complete139-case scientific audit or proof that private reviews do not exist. Captured search scope and original exclusions are explicit in the map.
+
+The parent independently authenticates the existing historical ZIP, all nine exact original script/stdout/stderr member hashes and original public scripts. Ten current source blobs are authenticated identically at5a2cac0b and86df84aa. Historical sourcec446/tree/binary bindings remain separate; its82f lock is producer-reported because this archive omits actual lock bytes. No new scientific pass, source change or execution is assigned.
+
+Next saved-only reviews, in order:
+
+1. **MO001:** independently reconstruct every captured command's atoms/charge/carrier water, equivalent endpoint/base/protonation corrections and actual model ownership. The endpoint difference0.6666015625mmol is near pre-workup ester0.6666666667mmol; that alone is not a pass. Prove unchanged ester across dilution/titration and no hidden time. No new API request is needed.
+2. **PQ002:** the original expressly permits complex concentrations instead of spectra. Adjudicate dominant1:1 versus both represented complexes and the soluble/metastable phase domain, then close Fe/SCN/spectator/carrier/charge ledgers. The native interior maximum can support a bounded model comparison only if the original domain is met. Missing UVvis never becomes an optical pass.
+3. **PQ003:** close the complete per-step Fe/P/SCN/charge/half-decant carrier budgets and native-slice normalization. Explain actual unequal pH and unregistered Goethite supersaturation; do not infer causal ligand competition from colour or invent a pH-matched arm. Hold if the original requires more than actual pool accounting.
+
+Six remaining cases are source/data/protocol leads. SE001/KI011 need a generic atom/charge/counterion-owned iodine/thiosulfate sink and competing acid decomposition; KI011 also exposes zero-absorbance honesty for an unparameterized iodine chromophore. SE012/MO004 need defensible family-specific neutral partition authority and correct phase/carrier admission. MO003 requires carbonate-aware stoichiometric alkaline reserve while preserving the current legitimate refusal. TC004 needs independent freeze/filter/melt energy and missing conductivity/unequal-temperature adjudication; first determine whether the historical problem persists on current source. Use the existing brine controls, not guessed heat.
+
+The map preserves exact original criteria, limitations, source seams and separately hashed beneficiary scripts. Beneficiaries share prerequisites; no repair is promised to make all of them pass. Finish the running PR850 acceptance/integration before new model extensions. Qualified count remains329/468.

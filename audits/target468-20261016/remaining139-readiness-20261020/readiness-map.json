@@ -1,0 +1,3124 @@
+{
+  "scope": "Nine-case readiness/intake only, not full remaining139 audit or scientific pass qualification",
+  "queue": "audits/target468-20261016/selection-phase-owned-SE009-20261020/remaining139.json",
+  "queue_sha256": "5ecaad3d6a5a14952fe602fd0c512e5e454278314bfd103bf5e4922353444f59",
+  "queue_count": 139,
+  "queue_batch_counts": {
+    "batch2-101": 38,
+    "batch3-100": 71,
+    "first120": 30
+  },
+  "prior_eight_batch2_units_unique_ids": 82,
+  "prior_unit_assessments": [
+    "audits/target468-20261016/batch2-selection-review-20261020/assessment.json",
+    "audits/target468-20261016/batch2-selection-review-second-20261020/assessment.json",
+    "audits/target468-20261016/batch2-selection-review-third-20261020/assessment.json",
+    "audits/target468-20261016/batch2-selection-review-seventh-20261020/assessment.json",
+    "audits/target468-20261016/batch2-selection-review-eighth-20261020/assessment.json",
+    "audits/target468-20261016/batch2-selection-review-sixth-20261020/assessment.json",
+    "audits/target468-20261016/batch2-selection-review-fifth-20261020/assessment.json",
+    "audits/target468-20261016/batch2-selection-review-fourth-20261020/assessment.json"
+  ],
+  "excluded_already_reviewed": [
+    {
+      "id": "batch2:ab-031",
+      "prior_full_review": "audits/target468-20261016/ammonia-sweep-original-20261019/assessment.json",
+      "sha256": "6cbe057718cd32d76ee347bbf057fe6a3b6cfe4c21a2bc3170af20a22406210a"
+    },
+    {
+      "id": "batch2:mo-011",
+      "prior_full_review": "audits/target468-20261016/hydrolysis-beneficiaries-outcome-20261019/assessment.json",
+      "sha256": "f1631dc6ee3ff3272c94b14ed313e74933eed61400158b31e20df7d91e010943"
+    }
+  ],
+  "search_scope": "Actual public repository audits case-ID substrings in assessmentJSON/reviewPython/outcomeMarkdown/selectionJSON; absence is not a claim about private notes or all139 cases. Additional broad target468 JSON/MD/Python search screened matching intake/API/outcome records.",
+  "global_review_search_results": [
+    "audits/new-experiments-201-20261016/native-screen-results/assessment.json"
+  ],
+  "native_screen_is_not_final_criterion_qualification": true,
+  "all139_reviewed": false,
+  "cohort_count": 9,
+  "old_engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "old_lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "raw_archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "current_actual_main_for_source_review": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+  "candidate86_relevant_source_blobs_exact": [
+    "crates/kerotakis-phreeqc/src/aqueous.rs",
+    "crates/kerotakis-core/src/bench.rs",
+    "crates/kerotakis-core/src/apparatus.rs",
+    "crates/kerotakis-core/src/named_alkaline.rs",
+    "crates/kerotakis-core/src/curated.rs",
+    "crates/kerotakis-core/src/kinetics.rs",
+    "crates/kerotakis-core/src/solution_optics.rs",
+    "crates/kerotakis-core/src/instrument.rs",
+    "crates/kerotakis-core/src/starch_iodine.rs",
+    "data/registry/registry-source-v1.json"
+  ],
+  "current_source_blobs_sha256": {
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "8d4ad7084722c2fec27008aa73931ec2e75267ee5d9b9d26ac03d5fa4b7f73bb",
+    "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a",
+    "crates/kerotakis-core/src/apparatus.rs": "d391b4d0f24db9a7303563df6d59c4d51a4f077662533627315c4c5586235a4f",
+    "crates/kerotakis-core/src/named_alkaline.rs": "5d0260e78827f5dc6d47693db31624e3a78666a51e06f8ef62de1c11c6005099",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-core/src/solution_optics.rs": "b37b8bd710378e28cfe81ec984e1f4dc7e6ef70c5b5089358fa65490b779d763",
+    "crates/kerotakis-core/src/instrument.rs": "ac74514b8dab1a8db0908ad6e5e5bf20556d46d9f0e876bc6abe4d312adcd861",
+    "crates/kerotakis-core/src/starch_iodine.rs": "ba12f7eadfd9d4b0257680c2d6698890183aeb0f693c2a5ff6c32839c0cd6b7a",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "source_registry_composition_ids_missing": [
+    "I-",
+    "I3-",
+    "S4O6-2",
+    "Fe(SCN)+2",
+    "Fe(SCN)2+"
+  ],
+  "cases": [
+    {
+      "original_id": "batch2:se-001",
+      "original_source_record": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_se-001.json",
+      "intake_pointer": "/experiments/74",
+      "original_forecast": "Reduction should convert extractable iodine into more water-favouring iodide, enabling reactive back-extraction into the newly added aqueous phase.",
+      "original_criteria": [
+        {
+          "id": "SE-001-C1",
+          "criterion": "Track iodine atoms across original raffinate, organic extract and stripping water.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "SE-001-C2",
+          "criterion": "Require iodide formation rather than attributing every colour loss to phase transfer.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Interfacial reaction and repartitioning may be incompletely coupled; missing phase transfer is a model limitation."
+      ],
+      "original_script": "audits/new-experiments-201-20261016/scripts/SE-001.lab",
+      "script_sha256": "c5b41051999f00c6672771507e4bfa726f3dda4e20fccbdf46e4d99db84ab513",
+      "stdout_sha256": "90eee683b57354fd0510af9e3c480d3ee62482136efcac6eba16a99c5cdcaaa7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_members": [
+        "batch2_se-001/experiment.lab",
+        "batch2_se-001/stdout.jsonl",
+        "batch2_se-001/stderr.txt"
+      ],
+      "rows": 10,
+      "named_limits": {},
+      "metrics": {
+        "allphase_I2_mol_by_vessel": {
+          "0": 2.7777777777777847e-06,
+          "1": 4.587301587301587e-05,
+          "2": 1.349206349206349e-06
+        },
+        "allphase_I_atom_total_mol": 0.00010000000000000002,
+        "S2O3_mol_by_vessel": {
+          "0": 0,
+          "1": 0,
+          "2": 0.0002
+        },
+        "registered_current_iodide_or_tetrathionate": false
+      },
+      "actual_relevant_events": [
+        {
+          "row": 3,
+          "event": "extracted",
+          "from": 0,
+          "solutes": [
+            {
+              "extracted": 4.722222222222222e-05,
+              "model": "ideal equilibrium stages; fresh equal solvent portions; constant dilute-solution distribution coefficient",
+              "partition_k": 85.0,
+              "provenance": "K = 85: Edexcel A-level Chemistry, Equilibrium II question 2, I2(aq) <=> I2(hexane); aqueous solubility 0.3393 g/L at 25 \u00b0C: Hartley & Campbell, J. Chem. Soc. Trans. 93 (1908) 741-745, doi:10.1039/CT9089300741; neither source gives a temperature model",
+              "remaining": 2.777777777777778e-06,
+              "single_stage_efficiency": 0.9444444444444444,
+              "species": "I2",
+              "staged_efficiency": 0.9444444444444444
+            }
+          ],
+          "solvent": "hexane",
+          "stages": 1,
+          "to": 1,
+          "total_solvent": 0.15331058970967068
+        },
+        {
+          "row": 8,
+          "event": "drained",
+          "from": 1,
+          "moles": 2.7671384956980294,
+          "solvent": "water",
+          "to": 2
+        }
+      ],
+      "readiness_assessment": {
+        "readiness": "SOURCE-BLOCKED historical reduction criterion fails",
+        "criterion_map": [
+          "C1 whole iodine across three fractions is available for future full ledger; no atom-closure pass assigned here",
+          "C2 historical thiosulfate stays0.2mmol and no iodide product exists; partition redistribution is not reduction"
+        ],
+        "next": "Freeze general I2/thiosulfate redox ownership with I-/I3-/S4O6 identities, phases, counterions and 2thiosulfate:1I2 stoichiometry; preserve acid decomposition as competing route. Existing source has no such registered products/route; do not alias KI to iodide.",
+        "beneficiaries": [
+          "batch2:se-001",
+          "batch2:ki-011",
+          "batch2:qa-007",
+          "batch2:qa-008"
+        ],
+        "source_coordinates": [
+          "crates/kerotakis-core/src/kinetics.rs",
+          "crates/kerotakis-core/src/starch_iodine.rs",
+          "data/registry/registry-source-v1.json"
+        ],
+        "beneficiary_evidence": [
+          {
+            "original_id": "batch2:se-001",
+            "original_script": "audits/new-experiments-201-20261016/scripts/SE-001.lab",
+            "script_sha256": "c5b41051999f00c6672771507e4bfa726f3dda4e20fccbdf46e4d99db84ab513",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:ki-011",
+            "original_script": "audits/new-experiments-201-20261016/scripts/KI-011.lab",
+            "script_sha256": "8ee57b2e0bca4ecd54eba3bc8c7a622b89ab7c329a932b9be933f3fc5f61467c",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:qa-007",
+            "original_script": "audits/new-experiments-201-20261016/scripts/QA-007.lab",
+            "script_sha256": "8b2675342e8cb2570692230a2c179f322c59c3045b78aa58d9d2f919d92a2c49",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:qa-008",
+            "original_script": "audits/new-experiments-201-20261016/scripts/QA-008.lab",
+            "script_sha256": "62caed3f11ba746c0cb26e58c353b7003191f9ce68c8255dc621002560e6a5fa",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          }
+        ]
+      },
+      "scientific_verdict": "NOT_ASSIGNED_FULL_INDEPENDENT_LEDGER_REQUIRED",
+      "selected": false
+    },
+    {
+      "original_id": "batch2:se-012",
+      "original_source_record": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_se-012.json",
+      "intake_pointer": "/experiments/78",
+      "original_forecast": "At matched composition and phase-volume ratio, an ideal dilute partition model predicts similar fractional naphthalene recovery despite a twofold batch scale.",
+      "original_criteria": [
+        {
+          "id": "SE-012-C1",
+          "criterion": "Compare extracted fraction of each initial naphthalene dose, not equal extracted moles.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "SE-012-C2",
+          "criterion": "Verify both feeds are below aqueous saturation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Real interfacial area, equilibration time and transfer losses are not established by an equilibrium extraction command."
+      ],
+      "original_script": "audits/new-experiments-201-20261016/scripts/SE-012.lab",
+      "script_sha256": "48a8c7ba9345e665ee96d43420ddf9b33e516a347a190bc58c2a79a06e5cb1b0",
+      "stdout_sha256": "3a9d58030df78fcb077353c4de793f7ab6d452ad5a21c88027630142edf6311a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_members": [
+        "batch2_se-012/experiment.lab",
+        "batch2_se-012/stdout.jsonl",
+        "batch2_se-012/stderr.txt"
+      ],
+      "rows": 10,
+      "named_limits": {
+        "not-modeled.no-distribution-coefficient": {
+          "first_observation_index": 7,
+          "first_operator": {
+            "from": 0,
+            "op": "extract",
+            "solvent": "hexane",
+            "stages": 1,
+            "to": 2,
+            "total_solvent": 0.07665529485483534
+          },
+          "event": {
+            "cause": "not-parameterised",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "no reviewed {solvent}/water distribution coefficient for {solutes}",
+              "key": "not-modeled.no-distribution-coefficient",
+              "slots": [
+                [
+                  "solvent",
+                  {
+                    "text": {
+                      "text": "hexane"
+                    }
+                  }
+                ],
+                [
+                  "solutes",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "text": {
+                            "text": "naphthalene"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "no reviewed hexane/water distribution coefficient for naphthalene"
+          },
+          "occurrences": 2
+        }
+      },
+      "metrics": {
+        "feeds_mol_per_L": [
+          3.9999999999999996e-05,
+          3.9999999999999996e-05
+        ],
+        "declared_solubility_g_per_L": 0.03,
+        "feed_mass_g_per_L": 0.005126960000000001,
+        "receiver_contents": [
+          [],
+          []
+        ]
+      },
+      "actual_relevant_events": [],
+      "readiness_assessment": {
+        "readiness": "SOURCE-DATA-BLOCKED unchanged extraction refuses",
+        "criterion_map": [
+          "C1 neither organic receiver has material; no recovery comparison possible",
+          "C2 each feed4e-5mol/L, below declared registry saturation; bounded capacity check only, no calibrated solubility claim"
+        ],
+        "next": "Obtain compatible reviewed naphthalene/hexane/water partition or defensible UNIFAC decomposition+directional parameter coverage with temperature domain; preserve capacity admission and mole-fraction-to-concentration conversion. Do not invent K.",
+        "beneficiaries": [
+          "batch2:se-012",
+          "batch2:mo-004",
+          "batch2:se-002"
+        ],
+        "source_coordinates": [
+          "crates/kerotakis-core/src/bench.rs:6975",
+          "crates/kerotakis-core/src/bench.rs:7091",
+          "crates/kerotakis-core/src/apparatus.rs:339"
+        ],
+        "beneficiary_evidence": [
+          {
+            "original_id": "batch2:se-012",
+            "original_script": "audits/new-experiments-201-20261016/scripts/SE-012.lab",
+            "script_sha256": "48a8c7ba9345e665ee96d43420ddf9b33e516a347a190bc58c2a79a06e5cb1b0",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:mo-004",
+            "original_script": "audits/new-experiments-201-20261016/scripts/MO-004.lab",
+            "script_sha256": "820b3e975f7a221eb73b5ef2cff087150aaf451348a09cbf2e37d3e5f1fac258",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:se-002",
+            "original_script": "audits/new-experiments-201-20261016/scripts/SE-002.lab",
+            "script_sha256": "52721ccf45f4c2e80b12430d21cec0217debf7b2cd3a5e7c0b8eb0bea6052a8b",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          }
+        ]
+      },
+      "scientific_verdict": "NOT_ASSIGNED_FULL_INDEPENDENT_LEDGER_REQUIRED",
+      "selected": false
+    },
+    {
+      "original_id": "batch2:tc-004",
+      "original_source_record": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_tc-004.json",
+      "intake_pointer": "/experiments/81",
+      "original_forecast": "An ice-excluding salt model predicts enriched brine in the filtrate and a lower-salt melt from the retained ice. Compare concentrations after accounting for different water masses.",
+      "original_criteria": [
+        {
+          "id": "TC-004-C1",
+          "criterion": "Verify that ice is actually present and that filtration separates the intended solid and liquid pools.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TC-004-C2",
+          "criterion": "Reconcile sodium and chloride across both vessels; compare salinity at matched temperature or with a temperature correction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Ice filtration and solute exclusion require coupled phase/separation support; unsupported ice handling is inconclusive rather than proof that freezing cannot desalinate."
+      ],
+      "original_script": "audits/new-experiments-201-20261016/scripts/TC-004.lab",
+      "script_sha256": "731d23b565ff33fadd79dc8857cfde45f3f291ec34b736861133fc6ccb3152fa",
+      "stdout_sha256": "ef889763eb0086552da77e2d132cd729943f102f6cfd54af8f716beb5eed6130",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_members": [
+        "batch2_tc-004/experiment.lab",
+        "batch2_tc-004/stdout.jsonl",
+        "batch2_tc-004/stderr.txt"
+      ],
+      "rows": 13,
+      "named_limits": {
+        "not-modeled.conductivity-has-no-solution": {
+          "first_observation_index": 10,
+          "first_operator": {
+            "instrument": "conductivity_meter",
+            "op": "measure",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "no-solution",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the conductivity meter reads nothing \u2014 no aqueous solution has been characterised",
+              "key": "not-modeled.conductivity-has-no-solution"
+            },
+            "vessel": 0,
+            "what": "the conductivity meter reads nothing \u2014 no aqueous solution has been characterised"
+          },
+          "occurrences": 1
+        }
+      },
+      "metrics": {
+        "final_vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 1.2717221107898644,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 5.550929780738273,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.01711068904744794,
+                "particle_size_um": null,
+                "phase": "aqueous",
+                "source": "reagent bottle",
+                "species": "NaCl",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 297.3233114029787,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.01711068904744794,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.01711068904744794,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 4.279207669948409,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 3.3250055521960947e-09,
+            "free_proton": 3.325005553089567e-09,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": {
+              "ionic_strength": 0.2219575659445,
+              "pe": null,
+              "ph": 7.46243408079,
+              "provenance": {
+                "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "wateq4f.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "WATEQ4F, Alpers and others, 1989",
+                  "log K from llnl.dat  Aug 23, 2005",
+                  "Dzombak and Morel, 1990",
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+                "routing_phrase": {
+                  "en": "{routing}; the solvent's activity is NOT from this dataset \u2014 it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model \u2014 but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                  "key": "routing.second-speciation-for-solvent",
+                  "slots": [
+                    [
+                      "routing",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "the default inorganic aqueous dataset",
+                            "key": "routing.default-inorganic"
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "dataset",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                            "key": "provenance.dataset.with-gas-uptake-slice",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "pitzer.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    [
+                      "model",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                            "key": "provenance.model.ion-interaction",
+                            "slots": [
+                              [
+                                "name",
+                                {
+                                  "text": {
+                                    "text": "Pitzer"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              },
+              "redox": [],
+              "solvent_activity": {
+                "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "text": {
+                          "text": "pitzer.dat"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "ionic_strength": 0.2219575660875,
+                "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+                "model_phrase": {
+                  "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                  "key": "provenance.model.ion-interaction",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "Pitzer"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "particle_molality": 0.44400008654000006,
+                "water_activity": 0.9927
+              },
+              "solvent_kg": 0.077089926,
+              "species": [
+                {
+                  "activity": 0.9924,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.1582,
+                  "molality": 0.222,
+                  "name": "Cl-"
+                },
+                {
+                  "activity": 0.1658,
+                  "molality": 0.222,
+                  "name": "Na+"
+                },
+                {
+                  "activity": 0.0004682,
+                  "molality": 0.0004448,
+                  "name": "O2"
+                },
+                {
+                  "activity": 3.448e-08,
+                  "molality": 4.313e-08,
+                  "name": "H+"
+                },
+                {
+                  "activity": 3.05e-08,
+                  "molality": 4.313e-08,
+                  "name": "OH-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 272.3950678961792,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "actual_relevant_events": [
+        {
+          "row": 2,
+          "event": "measured",
+          "instrument": "conductivity_meter",
+          "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion\u2013ion drag is corrected by an empirical factor (0.83\u00d7 the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "note_reason": {
+            "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+            "key": "measured.conductivity-past-the-dilute-limit",
+            "slots": [
+              [
+                "limit",
+                {
+                  "number": {
+                    "text": "0.10"
+                  }
+                }
+              ],
+              [
+                "where_it_stands",
+                {
+                  "phrase": {
+                    "phrase": {
+                      "en": "the ion\u2013ion drag is corrected by an empirical factor ({factor}\u00d7 the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                      "key": "measured.conductivity-fitted-correction",
+                      "slots": [
+                        [
+                          "factor",
+                          {
+                            "number": {
+                              "text": "0.83"
+                            }
+                          }
+                        ],
+                        [
+                          "limit",
+                          {
+                            "number": {
+                              "text": "2"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "unit": "\u00b5S/cm",
+          "value": 17874.79255889096,
+          "vessel": 0
+        },
+        {
+          "row": 4,
+          "event": "measured",
+          "instrument": "thermometer",
+          "unit": "\u00b0C",
+          "value": -0.7549321038207495,
+          "vessel": 0
+        },
+        {
+          "row": 7,
+          "event": "filtered",
+          "from": 0,
+          "to": 1
+        },
+        {
+          "row": 11,
+          "event": "measured",
+          "instrument": "conductivity_meter",
+          "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion\u2013ion drag is corrected by an empirical factor (0.81\u00d7 the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "note_reason": {
+            "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+            "key": "measured.conductivity-past-the-dilute-limit",
+            "slots": [
+              [
+                "limit",
+                {
+                  "number": {
+                    "text": "0.10"
+                  }
+                }
+              ],
+              [
+                "where_it_stands",
+                {
+                  "phrase": {
+                    "phrase": {
+                      "en": "the ion\u2013ion drag is corrected by an empirical factor ({factor}\u00d7 the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                      "key": "measured.conductivity-fitted-correction",
+                      "slots": [
+                        [
+                          "factor",
+                          {
+                            "number": {
+                              "text": "0.81"
+                            }
+                          }
+                        ],
+                        [
+                          "limit",
+                          {
+                            "number": {
+                              "text": "2"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "unit": "\u00b5S/cm",
+          "value": 22676.711326705867,
+          "vessel": 1
+        }
+      ],
+      "readiness_assessment": {
+        "readiness": "FULL-LEDGER/INSTRUMENT/PROTOCOL adjudication required",
+        "criterion_map": [
+          "C1 actual1.2717221107898644mol ice retained, brine4.279207669948409mol water+17.110689mmol Na/Cl transferred",
+          "C2 ions segregate, but hot melt297.323311K vs cold brine272.395068K; melt conductivity refuses. Original requests matched temperature or correction; neither actual two-reading comparison nor a correction is supplied"
+        ],
+        "next": "First budget the saved freeze/filter/melt source independently; inspect current analytic pure-water characterization before alleging current missing conductivity. Existing corrected brine-energy controls are unexecuted and must not be bypassed or equated to this case. A new temperature-controlled demonstration would be separate protocol, not an original pass.",
+        "beneficiaries": [
+          "batch2:tc-004",
+          "batch2:tc-008"
+        ],
+        "source_coordinates": [
+          "crates/kerotakis-core/src/instrument.rs",
+          "crates/kerotakis-core/src/bench.rs",
+          "crates/kerotakis-phreeqc/src/aqueous.rs"
+        ],
+        "beneficiary_evidence": [
+          {
+            "original_id": "batch2:tc-004",
+            "original_script": "audits/new-experiments-201-20261016/scripts/TC-004.lab",
+            "script_sha256": "731d23b565ff33fadd79dc8857cfde45f3f291ec34b736861133fc6ccb3152fa",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:tc-008",
+            "original_script": "audits/new-experiments-201-20261016/scripts/TC-008.lab",
+            "script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          }
+        ]
+      },
+      "scientific_verdict": "NOT_ASSIGNED_FULL_INDEPENDENT_LEDGER_REQUIRED",
+      "selected": false
+    },
+    {
+      "original_id": "batch2:mo-001",
+      "original_source_record": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_mo-001.json",
+      "intake_pointer": "/experiments/85",
+      "original_forecast": "If only the requested first arm esterifies, its remaining acid demand should be lower than the unactivated feed control. The titration-derived difference should be checked against the pre-workup ester inventory.",
+      "original_criteria": [
+        {
+          "id": "MO-001-C1",
+          "criterion": "Compare delivered hydroxide equivalents and separately inspect the acid and ester pools before dilution.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-001-C2",
+          "criterion": "Check whether dilution or titration causes further hydrolysis; do not interpret that extra reaction as original conversion.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "The named transformation is a teaching model; aqueous speciation ownership and base-induced ester hydrolysis can compromise a simple endpoint assay."
+      ],
+      "original_script": "audits/new-experiments-201-20261016/scripts/MO-001.lab",
+      "script_sha256": "b3c43532238898de9ef4f8bd97baccf00448d1fa8f856a15b0a37bd4318018ba",
+      "stdout_sha256": "842337eda81ba02d5af02a617e6d6d3b439fbf784eecfbbdd03e500bdc5bbe6f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_members": [
+        "batch2_mo-001/experiment.lab",
+        "batch2_mo-001/stdout.jsonl",
+        "batch2_mo-001/stderr.txt"
+      ],
+      "rows": 13,
+      "named_limits": {
+        "not-modeled.mostly-organic-solvent": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "op": "react",
+            "reaction": "esterification",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+              "key": "not-modeled.mostly-organic-solvent",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "33"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+          },
+          "occurrences": 1
+        }
+      },
+      "metrics": {
+        "sample_blank_delivered_OH_mol": [
+          0.00033362792968749986,
+          0.0010002294921874996
+        ],
+        "blank_minus_sample_mol": 0.0006666015624999997,
+        "preworkup_ester_mol": 0.0006666666666666663,
+        "final_ester_mol": 0.0006666666666666663,
+        "nominal_increment_mol": 1e-05,
+        "both_actual_endpoints_reached": true
+      },
+      "actual_relevant_events": [
+        {
+          "row": 2,
+          "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": 0.0006666666666666663,
+          "name": "esterification",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "concentration": 0.1,
+          "curve": [
+            [
+              0.0,
+              3.632422228381
+            ],
+            [
+              0.1,
+              3.728108061427
+            ],
+            [
+              0.2,
+              3.82213650827
+            ],
+            [
+              0.30000000000000004,
+              3.911917684355
+            ],
+            [
+              0.4,
+              3.996144980798
+            ],
+            [
+              0.5,
+              4.074574717079
+            ],
+            [
+              0.6000000000000001,
+              4.147582532998
+            ],
+            [
+              0.7000000000000001,
+              4.215808575187
+            ],
+            [
+              0.8000000000000002,
+              4.279954090507
+            ],
+            [
+              0.9000000000000002,
+              4.340687641651
+            ],
+            [
+              1.0000000000000002,
+              4.398611880396
+            ],
+            [
+              1.1000000000000003,
+              4.454258784885
+            ],
+            [
+              1.2000000000000004,
+              4.508097008641
+            ],
+            [
+              1.3000000000000003,
+              4.560543305315
+            ],
+            [
+              1.4000000000000004,
+              4.611974500725
+            ],
+            [
+              1.5000000000000004,
+              4.662739341538
+            ],
+            [
+              1.6000000000000005,
+              4.713169429236
+            ],
+            [
+              1.7000000000000006,
+              4.763590169412
+            ],
+            [
+              1.8000000000000007,
+              4.814331654494
+            ],
+            [
+              1.9000000000000006,
+              4.865740859603
+            ],
+            [
+              2.0000000000000004,
+              4.918195685905
+            ],
+            [
+              2.1,
+              4.972122680405
+            ],
+            [
+              2.2,
+              5.028020460309
+            ],
+            [
+              2.3,
+              5.086492773171
+            ],
+            [
+              2.4,
+              5.148296926501
+            ],
+            [
+              2.4999999999999996,
+              5.214418794851
+            ],
+            [
+              2.5999999999999996,
+              5.286194968123
+            ],
+            [
+              2.6999999999999993,
+              5.365524071369
+            ],
+            [
+              2.799999999999999,
+              5.455260281248
+            ],
+            [
+              2.899999999999999,
+              5.560019145665
+            ],
+            [
+              2.9999999999999987,
+              5.688057326228
+            ],
+            [
+              3.0999999999999988,
+              5.856594068877
+            ],
+            [
+              3.1999999999999984,
+              6.112814991478
+            ],
+            [
+              3.299999999999998,
+              6.726959206647
+            ],
+            [
+              3.336279296874998,
+              8.500095120185
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 8.500095120185,
+          "steps": 34,
+          "titrant": "NaOH",
+          "total_volume": 0.0033362792968749983,
+          "vessel": 0
+        },
+        {
+          "row": 11,
+          "concentration": 0.1,
+          "curve": [
+            [
+              0.0,
+              3.387131770465
+            ],
+            [
+              0.1,
+              3.440334519986
+            ],
+            [
+              0.2,
+              3.493067956054
+            ],
+            [
+              0.30000000000000004,
+              3.544721716798
+            ],
+            [
+              0.4,
+              3.594814114039
+            ],
+            [
+              0.5,
+              3.643015091829
+            ],
+            [
+              0.6000000000000001,
+              3.689139106278
+            ],
+            [
+              0.7000000000000001,
+              3.733119549084
+            ],
+            [
+              0.8000000000000002,
+              3.774977108983
+            ],
+            [
+              0.9000000000000002,
+              3.8147902621
+            ],
+            [
+              1.0000000000000002,
+              3.852671709036
+            ],
+            [
+              1.1000000000000003,
+              3.88875111232
+            ],
+            [
+              1.2000000000000004,
+              3.923163605085
+            ],
+            [
+              1.3000000000000003,
+              3.956042583582
+            ],
+            [
+              1.4000000000000004,
+              3.987515334197
+            ],
+            [
+              1.5000000000000004,
+              4.017700965245
+            ],
+            [
+              1.6000000000000005,
+              4.046709328729
+            ],
+            [
+              1.7000000000000006,
+              4.074641036324
+            ],
+            [
+              1.8000000000000007,
+              4.101587630355
+            ],
+            [
+              1.9000000000000006,
+              4.127632285376
+            ],
+            [
+              2.0000000000000004,
+              4.15285041351
+            ],
+            [
+              2.1,
+              4.177310415974
+            ],
+            [
+              2.2,
+              4.201074307152
+            ],
+            [
+              2.3,
+              4.224198487458
+            ],
+            [
+              2.4,
+              4.246734275754
+            ],
+            [
+              2.4999999999999996,
+              4.268728479918
+            ],
+            [
+              2.5999999999999996,
+              4.29022389266
+            ],
+            [
+              2.6999999999999993,
+              4.311259734353
+            ],
+            [
+              2.799999999999999,
+              4.331872047004
+            ],
+            [
+              2.899999999999999,
+              4.352094025754
+            ],
+            [
+              2.9999999999999987,
+              4.371956402276
+            ],
+            [
+              3.0999999999999988,
+              4.391487610212
+            ],
+            [
+              3.1999999999999984,
+              4.410714102868
+            ],
+            [
+              3.299999999999998,
+              4.429660534282
+            ],
+            [
+              3.399999999999998,
+              4.448350024786
+            ],
+            [
+              3.499999999999998,
+              4.466804208305
+            ],
+            [
+              3.599999999999998,
+              4.485043530659
+            ],
+            [
+              3.6999999999999975,
+              4.503087246274
+            ],
+            [
+              3.7999999999999976,
+              4.520953685947
+            ],
+            [
+              3.8999999999999972,
+              4.538660229414
+            ],
+            [
+              3.9999999999999973,
+              4.556223549827
+            ],
+            [
+              4.099999999999998,
+              4.573659568583
+            ],
+            [
+              4.199999999999998,
+              4.590983664926
+            ],
+            [
+              4.299999999999998,
+              4.608210687048
+            ],
+            [
+              4.399999999999999,
+              4.62535504502
+            ],
+            [
+              4.499999999999999,
+              4.642430798686
+            ],
+            [
+              4.599999999999999,
+              4.659451656725
+            ],
+            [
+              4.699999999999999,
+              4.676431143072
+            ],
+            [
+              4.8,
+              4.693382590553
+            ],
+            [
+              4.8999999999999995,
+              4.710319218246
+            ],
+            [
+              5.0,
+              4.727254190792
+            ],
+            [
+              5.1000000000000005,
+              4.744200660836
+            ],
+            [
+              5.200000000000001,
+              4.761171894599
+            ],
+            [
+              5.300000000000001,
+              4.778181232606
+            ],
+            [
+              5.400000000000001,
+              4.795242217998
+            ],
+            [
+              5.500000000000002,
+              4.812368644132
+            ],
+            [
+              5.600000000000001,
+              4.829574605735
+            ],
+            [
+              5.700000000000002,
+              4.846874635008
+            ],
+            [
+              5.8000000000000025,
+              4.864283664417
+            ],
+            [
+              5.900000000000002,
+              4.881817237996
+            ],
+            [
+              6.000000000000003,
+              4.899491487824
+            ],
+            [
+              6.100000000000003,
+              4.917323280282
+            ],
+            [
+              6.200000000000003,
+              4.935330355337
+            ],
+            [
+              6.300000000000003,
+              4.953531414158
+            ],
+            [
+              6.400000000000004,
+              4.971946206031
+            ],
+            [
+              6.500000000000004,
+              4.990595773236
+            ],
+            [
+              6.600000000000004,
+              5.009502573846
+            ],
+            [
+              6.700000000000005,
+              5.028690629267
+            ],
+            [
+              6.800000000000005,
+              5.048185839232
+            ],
+            [
+              6.900000000000005,
+              5.068016175002
+            ],
+            [
+              7.000000000000005,
+              5.088211990557
+            ],
+            [
+              7.100000000000006,
+              5.108806366837
+            ],
+            [
+              7.2000000000000055,
+              5.129835514936
+            ],
+            [
+              7.300000000000006,
+              5.15133925126
+            ],
+            [
+              7.400000000000007,
+              5.173361561058
+            ],
+            [
+              7.500000000000007,
+              5.195951271242
+            ],
+            [
+              7.600000000000007,
+              5.219162859379
+            ],
+            [
+              7.700000000000007,
+              5.243057433747
+            ],
+            [
+              7.800000000000008,
+              5.267703930424
+            ],
+            [
+              7.9000000000000075,
+              5.293180587517
+            ],
+            [
+              8.000000000000007,
+              5.319576763991
+            ],
+            [
+              8.100000000000007,
+              5.346995300993
+            ],
+            [
+              8.200000000000006,
+              5.37555535923
+            ],
+            [
+              8.300000000000006,
+              5.40539622409
+            ],
+            [
+              8.400000000000004,
+              5.436682250142
+            ],
+            [
+              8.500000000000004,
+              5.469609244697
+            ],
+            [
+              8.600000000000003,
+              5.504413306729
+            ],
+            [
+              8.700000000000003,
+              5.541382673928
+            ],
+            [
+              8.800000000000002,
+              5.580874594543
+            ],
+            [
+              8.900000000000002,
+              5.623339279407
+            ],
+            [
+              9.000000000000002,
+              5.669355567353
+            ],
+            [
+              9.1,
+              5.719685249681
+            ],
+            [
+              9.2,
+              5.775359548268
+            ],
+            [
+              9.299999999999999,
+              5.837823788856
+            ],
+            [
+              9.399999999999999,
+              5.909194132163
+            ],
+            [
+              9.499999999999998,
+              5.992750586433
+            ],
+            [
+              9.599999999999998,
+              6.093986905969
+            ],
+            [
+              9.699999999999998,
+              6.223199607677
+            ],
+            [
+              9.799999999999995,
+              6.403495567359
+            ],
+            [
+              9.899999999999995,
+              6.708517160931
+            ],
+            [
+              9.999999999999995,
+              8.309415478841
+            ],
+            [
+              10.002294921874995,
+              8.500062948011
+            ]
+          ],
+          "endpoint_reached": true,
+          "event": "titrated",
+          "final_ph": 8.500062948011,
+          "steps": 101,
+          "titrant": "NaOH",
+          "total_volume": 0.010002294921874995,
+          "vessel": 1
+        }
+      ],
+      "readiness_assessment": {
+        "readiness": "PRIORITY SAVED full criterion/budget review candidate; NOT selected",
+        "criterion_map": [
+          "C1 observed endpoint-dose difference closely tracks pre-workup2/3mmol ester; independently correct endpoints/base and acid forms",
+          "C2 inspect actual ester conservation across dilution/titration; no observed extra hydrolysis must remain a model-specific observation, not an empirical stability claim"
+        ],
+        "next": "Run a saved-only Decimal per-command/per-vessel all-reservoir atom/charge/carrier-water ledger, original equivalent endpoint reconstruction with both acid protonation and residual-base corrections, explicit requested-only ester model authority and actual no-hidden-time proof. No new API needed for this review.",
+        "beneficiaries": [
+          "batch2:mo-001"
+        ],
+        "source_coordinates": [
+          "crates/kerotakis-core/src/curated.rs:607",
+          "crates/kerotakis-core/src/bench.rs"
+        ],
+        "beneficiary_evidence": [
+          {
+            "original_id": "batch2:mo-001",
+            "original_script": "audits/new-experiments-201-20261016/scripts/MO-001.lab",
+            "script_sha256": "b3c43532238898de9ef4f8bd97baccf00448d1fa8f856a15b0a37bd4318018ba",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          }
+        ]
+      },
+      "scientific_verdict": "NOT_ASSIGNED_FULL_INDEPENDENT_LEDGER_REQUIRED",
+      "selected": false
+    },
+    {
+      "original_id": "batch2:pq-002",
+      "original_source_record": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_pq-002.json",
+      "intake_pointer": "/experiments/92",
+      "original_forecast": "Under a dominant 1:1 FeSCN model, the complex-specific response should peak near the equal-mole mixture, not at the largest iron input.",
+      "original_criteria": [
+        {
+          "id": "PQ-002-C1",
+          "criterion": "Compare complex-specific concentrations or baseline-corrected spectral features, not total colour intensity.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PQ-002-C2",
+          "criterion": "The sum of analytical Fe and SCN is constant across all three samples.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Three points only bracket a maximum; multiple complexes, hydrolysis and unequal free-ion spectra can invalidate a simple Job interpretation."
+      ],
+      "original_script": "audits/new-experiments-201-20261016/scripts/PQ-002.lab",
+      "script_sha256": "03fd4e39282f63d890e3b6b585d7b68f2409521a05c5b5290c561ef47c412256",
+      "stdout_sha256": "da8db6332c8f832bcf94160b35e7786d94712b814bea3c3e3da207c7d91cfb80",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_members": [
+        "batch2_pq-002/experiment.lab",
+        "batch2_pq-002/stdout.jsonl",
+        "batch2_pq-002/stderr.txt"
+      ],
+      "rows": 18,
+      "named_limits": {
+        "not-modeled.supersaturated-no-registry-solid": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": 2.5e-05,
+            "op": "add",
+            "species": "FeCl3",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Goethite (SI +2.9)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Goethite (SI +2.9). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          "occurrences": 6
+        },
+        "not-modeled.supersaturated-solid-not-offered": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": 2.5e-05,
+            "op": "add",
+            "species": "FeCl3",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Hematite (SI +7.8)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Hematite (SI +7.8). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          "occurrences": 6
+        },
+        "not-modeled.saturation-index-unclassified": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": 2.5e-05,
+            "op": "add",
+            "species": "FeCl3",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+              "key": "not-modeled.saturation-index-unclassified",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Fe(OH)2.7Cl.3 (SI +3.7)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Fe(OH)2.7Cl.3 (SI +3.7) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+          },
+          "occurrences": 6
+        },
+        "look.sentence-join": {
+          "first_observation_index": 3,
+          "first_operator": {
+            "moles": 7.5e-05,
+            "op": "add",
+            "species": "KSCN",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{first} {second}",
+              "key": "look.sentence-join",
+              "slots": [
+                [
+                  "first",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Copper\u2013ammine / iron\u2013thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 \u00b0C and zero ionic strength, with the selected database's activity corrections. {temperature} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.",
+                        "key": "not-modeled.usbm-reference-complexes",
+                        "slots": [
+                          [
+                            "temperature",
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants.",
+                                  "key": "not-modeled.away-from-the-reference-temperature"
+                                }
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "second",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model.",
+                        "key": "not-modeled.thiocyanate-slice"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Copper\u2013ammine / iron\u2013thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 \u00b0C and zero ionic strength, with the selected database's activity corrections. At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants. Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter. Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model."
+          },
+          "occurrences": 3
+        },
+        "not-modeled.incomplete-absorbance": {
+          "first_observation_index": 14,
+          "first_operator": {
+            "instrument": "spectrophotometer",
+            "op": "measure",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+              "key": "not-modeled.incomplete-absorbance",
+              "slots": [
+                [
+                  "species",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "term": {
+                            "en": "Fe+3",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "FeOH+2",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "Fe(SCN)+2",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "FeCl+2",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "Fe(OH)2+",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "FeCl2+",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "Fe2(OH)2+4",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "Fe(SCN)2+",
+                            "section": "species"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "complete absorbance is unavailable: no absorption spectrum for Fe+3, FeOH+2, Fe(SCN)+2, FeCl+2, Fe(OH)2+, FeCl2+, Fe2(OH)2+4 and Fe(SCN)2+"
+          },
+          "occurrences": 3
+        }
+      },
+      "metrics": {
+        "native_distributions": [
+          {
+            "vessel": 0,
+            "pH": 2.038505637305,
+            "solvent_kg": 0.0997,
+            "native_complexes": [
+              {
+                "activity": 0.000631,
+                "molality": 0.0007055,
+                "name": "SCN-"
+              },
+              {
+                "activity": 2.981e-05,
+                "molality": 4.659e-05,
+                "name": "Fe(SCN)+2"
+              },
+              {
+                "activity": 7.49e-08,
+                "molality": 8.374e-08,
+                "name": "Fe(SCN)2+"
+              }
+            ]
+          },
+          {
+            "vessel": 1,
+            "pH": 2.037180469255,
+            "solvent_kg": 0.0997,
+            "native_complexes": [
+              {
+                "activity": 0.0003921,
+                "molality": 0.0004402,
+                "name": "SCN-"
+              },
+              {
+                "activity": 3.856e-05,
+                "molality": 6.121e-05,
+                "name": "Fe(SCN)+2"
+              },
+              {
+                "activity": 6.019e-08,
+                "molality": 6.756e-08,
+                "name": "Fe(SCN)2+"
+              }
+            ]
+          },
+          {
+            "vessel": 2,
+            "pH": 2.0356187841,
+            "solvent_kg": 0.0997,
+            "native_complexes": [
+              {
+                "activity": 0.0001826,
+                "molality": 0.0002058,
+                "name": "SCN-"
+              },
+              {
+                "activity": 2.783e-05,
+                "molality": 4.489e-05,
+                "name": "Fe(SCN)+2"
+              },
+              {
+                "activity": 2.023e-08,
+                "molality": 2.28e-08,
+                "name": "Fe(SCN)2+"
+              }
+            ]
+          }
+        ],
+        "actual_measured_UVvis_count": 0
+      },
+      "actual_relevant_events": [],
+      "readiness_assessment": {
+        "readiness": "PRIORITY SAVED domain+full-budget review candidate; NOT optical pass",
+        "criterion_map": [
+          "C1 explicitly permits complex-specific concentrations OR spectral features; nativeFeSCN1:1 distribution has interior maximum; UVvis refuses and cannot qualify measured spectrum",
+          "C2 analyticalFe+SCN each0.1mmol; all spectator/carrier/charge/native normalization still need independent ledger"
+        ],
+        "next": "Read exact original 1:1-model forecast/limits and adjudicate reported native soluble/metastable distribution with unregistered Goethite supersaturation; quantify two SCN complexes separately and all Fe hydrolysis. Do not transfer free Fe spectrum or call missing UVvis passed.",
+        "beneficiaries": [
+          "batch2:pq-002",
+          "batch2:pq-001",
+          "batch2:pq-003"
+        ],
+        "source_coordinates": [
+          "crates/kerotakis-core/src/solution_optics.rs:63",
+          "data/registry/registry-source-v1.json",
+          "crates/kerotakis-phreeqc/src/aqueous.rs:242"
+        ],
+        "beneficiary_evidence": [
+          {
+            "original_id": "batch2:pq-002",
+            "original_script": "audits/new-experiments-201-20261016/scripts/PQ-002.lab",
+            "script_sha256": "03fd4e39282f63d890e3b6b585d7b68f2409521a05c5b5290c561ef47c412256",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:pq-001",
+            "original_script": "audits/new-experiments-201-20261016/scripts/PQ-001.lab",
+            "script_sha256": "eafc5af6addd59514f738c459f4055494ecd4e9d7c3a477f4dca95d8aa2a234f",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:pq-003",
+            "original_script": "audits/new-experiments-201-20261016/scripts/PQ-003.lab",
+            "script_sha256": "52e0eb8c781da1785ed6f252f7bd2229675876755d89758b032e48c89a4c7359",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          }
+        ]
+      },
+      "scientific_verdict": "NOT_ASSIGNED_FULL_INDEPENDENT_LEDGER_REQUIRED",
+      "selected": false
+    },
+    {
+      "original_id": "batch2:pq-003",
+      "original_source_record": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_pq-003.json",
+      "intake_pointer": "/experiments/93",
+      "original_forecast": "Phosphate may decrease the Fe\u2013SCN fraction through competing aqueous or solid species; the extra-acid arm helps reveal whether acidity alone explains the response.",
+      "original_criteria": [
+        {
+          "id": "PQ-003-C1",
+          "criterion": "Identify where iron goes when the Fe\u2013SCN response changes.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "PQ-003-C2",
+          "criterion": "Do not claim ligand competition solely from unequal pH or a weaker colour.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "The acid arm is not automatically pH-matched; interpretation requires solved pH and species. Fe\u2013SCN support remains uncertain."
+      ],
+      "original_script": "audits/new-experiments-201-20261016/scripts/PQ-003.lab",
+      "script_sha256": "52e0eb8c781da1785ed6f252f7bd2229675876755d89758b032e48c89a4c7359",
+      "stdout_sha256": "a73644ec7829352b387d64835fd515dd9452ae3f532f2c7aca2764dbd827fe1e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_members": [
+        "batch2_pq-003/experiment.lab",
+        "batch2_pq-003/stdout.jsonl",
+        "batch2_pq-003/stderr.txt"
+      ],
+      "rows": 13,
+      "named_limits": {
+        "not-modeled.supersaturated-no-registry-solid": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": 0.0001,
+            "op": "add",
+            "species": "FeCl3",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Goethite (SI +3.4)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Goethite (SI +3.4). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          "occurrences": 6
+        },
+        "not-modeled.supersaturated-solid-not-offered": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": 0.0001,
+            "op": "add",
+            "species": "FeCl3",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Hematite (SI +8.8)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Hematite (SI +8.8). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          "occurrences": 6
+        },
+        "not-modeled.saturation-index-unclassified": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": 0.0001,
+            "op": "add",
+            "species": "FeCl3",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+              "key": "not-modeled.saturation-index-unclassified",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Fe(OH)2.7Cl.3 (SI +4.3)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Fe(OH)2.7Cl.3 (SI +4.3) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+          },
+          "occurrences": 6
+        },
+        "look.sentence-join": {
+          "first_observation_index": 3,
+          "first_operator": {
+            "moles": 0.0005,
+            "op": "add",
+            "species": "KSCN",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{first} {second}",
+              "key": "look.sentence-join",
+              "slots": [
+                [
+                  "first",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Copper\u2013ammine / iron\u2013thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 \u00b0C and zero ionic strength, with the selected database's activity corrections. {temperature} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.",
+                        "key": "not-modeled.usbm-reference-complexes",
+                        "slots": [
+                          [
+                            "temperature",
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants.",
+                                  "key": "not-modeled.away-from-the-reference-temperature"
+                                }
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "second",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model.",
+                        "key": "not-modeled.thiocyanate-slice"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Copper\u2013ammine / iron\u2013thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 \u00b0C and zero ionic strength, with the selected database's activity corrections. At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants. Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter. Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model."
+          },
+          "occurrences": 5
+        },
+        "not-modeled.incomplete-absorbance": {
+          "first_observation_index": 10,
+          "first_operator": {
+            "instrument": "spectrophotometer",
+            "op": "measure",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+              "key": "not-modeled.incomplete-absorbance",
+              "slots": [
+                [
+                  "species",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "term": {
+                            "en": "FeHPO4+",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "FeH2PO4+2",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "Fe(SCN)+2",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "Fe+3",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "FeOH+2",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "FeCl+2",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "Fe(OH)2+",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "Fe(SCN)2+",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "FeCl2+",
+                            "section": "species"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "complete absorbance is unavailable: no absorption spectrum for FeHPO4+, FeH2PO4+2, Fe(SCN)+2, Fe+3, FeOH+2, FeCl+2, Fe(OH)2+, Fe(SCN)2+ and FeCl2+"
+          },
+          "occurrences": 2
+        }
+      },
+      "metrics": {
+        "native_distributions": [
+          {
+            "vessel": 0,
+            "pH": 1.807773095493,
+            "solvent_kg": 0.04985,
+            "native_complexes": [
+              {
+                "activity": 0.004292,
+                "molality": 0.004996,
+                "name": "SCN-"
+              },
+              {
+                "activity": 0.0004485,
+                "molality": 0.0005186,
+                "name": "FeHPO4+"
+              },
+              {
+                "activity": 0.0002533,
+                "molality": 0.0004531,
+                "name": "FeH2PO4+2"
+              },
+              {
+                "activity": 1.003e-05,
+                "molality": 1.842e-05,
+                "name": "Fe(SCN)+2"
+              },
+              {
+                "activity": 1.715e-07,
+                "molality": 1.996e-07,
+                "name": "Fe(SCN)2+"
+              }
+            ]
+          },
+          {
+            "vessel": 1,
+            "pH": 1.584744918662,
+            "solvent_kg": 0.04985,
+            "native_complexes": [
+              {
+                "activity": 0.003754,
+                "molality": 0.004495,
+                "name": "SCN-"
+              },
+              {
+                "activity": 0.0002487,
+                "molality": 0.0005113,
+                "name": "Fe(SCN)+2"
+              },
+              {
+                "activity": 3.717e-06,
+                "molality": 4.451e-06,
+                "name": "Fe(SCN)2+"
+              }
+            ]
+          }
+        ],
+        "actual_measured_UVvis_count": 0
+      },
+      "actual_relevant_events": [
+        {
+          "row": 8,
+          "event": "measured",
+          "instrument": "ph_meter",
+          "unit": "pH",
+          "value": 1.807773095493,
+          "vessel": 0
+        },
+        {
+          "row": 9,
+          "event": "measured",
+          "instrument": "ph_meter",
+          "unit": "pH",
+          "value": 1.584744918662,
+          "vessel": 1
+        }
+      ],
+      "readiness_assessment": {
+        "readiness": "PRIORITY SAVED domain+full-budget review candidate; NOT causal pH-matched optics",
+        "criterion_map": [
+          "C1 nativeFeHPO4/FeH2PO4 vsFeSCN distributions available, no optical readings",
+          "C2 actualpH1.807773 vs1.584745; original expressly warns not to infer ligand competition solely from acid/colour. Requires full solved Fe allocation and admitted-domain explanation, not invented matching"
+        ],
+        "next": "Full per-step/vessel Fe/P/SCN/charge/half-decant carrier accounting, native speciation normalization and admitted metastable phase domain. State causal design limits; if original requires more than native pool accounting, HOLD.",
+        "beneficiaries": [
+          "batch2:pq-003",
+          "batch2:pq-001",
+          "batch2:pq-002"
+        ],
+        "source_coordinates": [
+          "crates/kerotakis-core/src/solution_optics.rs",
+          "crates/kerotakis-phreeqc/src/aqueous.rs:242"
+        ],
+        "beneficiary_evidence": [
+          {
+            "original_id": "batch2:pq-003",
+            "original_script": "audits/new-experiments-201-20261016/scripts/PQ-003.lab",
+            "script_sha256": "52e0eb8c781da1785ed6f252f7bd2229675876755d89758b032e48c89a4c7359",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:pq-001",
+            "original_script": "audits/new-experiments-201-20261016/scripts/PQ-001.lab",
+            "script_sha256": "eafc5af6addd59514f738c459f4055494ecd4e9d7c3a477f4dca95d8aa2a234f",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:pq-002",
+            "original_script": "audits/new-experiments-201-20261016/scripts/PQ-002.lab",
+            "script_sha256": "03fd4e39282f63d890e3b6b585d7b68f2409521a05c5b5290c561ef47c412256",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          }
+        ]
+      },
+      "scientific_verdict": "NOT_ASSIGNED_FULL_INDEPENDENT_LEDGER_REQUIRED",
+      "selected": false
+    },
+    {
+      "original_id": "batch2:ki-011",
+      "original_source_record": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_ki-011.json",
+      "intake_pointer": "/experiments/97",
+      "original_forecast": "A larger thiosulfate sink can delay iodine accumulation even if the underlying iodine-production kinetics are similar.",
+      "original_criteria": [
+        {
+          "id": "KI-011-C1",
+          "criterion": "Distinguish gross iodine production from surviving iodine inventory.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KI-011-C2",
+          "criterion": "Compare sink exhaustion and precursor consumption, not colour onset alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Acidic thiosulfate decomposition and KI speciation are competing routes; they can prevent a simple twofold-delay interpretation."
+      ],
+      "original_script": "audits/new-experiments-201-20261016/scripts/KI-011.lab",
+      "script_sha256": "8ee57b2e0bca4ecd54eba3bc8c7a622b89ab7c329a932b9be933f3fc5f61467c",
+      "stdout_sha256": "6a317765664ff5988a1f9d24894b0ba3d619307d8d81ae0fc782688752e94b56",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_members": [
+        "batch2_ki-011/experiment.lab",
+        "batch2_ki-011/stdout.jsonl",
+        "batch2_ki-011/stderr.txt"
+      ],
+      "rows": 21,
+      "named_limits": {
+        "not-modeled.no-component-mapping": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": 0.002,
+            "op": "add",
+            "species": "KI",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "not-speciated",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+              "key": "not-modeled.no-component-mapping",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "KI",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+          },
+          "occurrences": 12
+        },
+        "not-modeled.finite-acid-inventory": {
+          "first_observation_index": 11,
+          "first_operator": {
+            "op": "wait",
+            "seconds": 10.0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+              "key": "not-modeled.finite-acid-inventory",
+              "slots": [
+                [
+                  "reaction",
+                  {
+                    "text": {
+                      "text": "thiosulfate-acid"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+          },
+          "occurrences": 6
+        }
+      },
+      "metrics": {
+        "per_vessel": [
+          {
+            "vessel": 0,
+            "elapsed_s": 100.0,
+            "gross_I2_source_mol": 2.2806196096899523e-05,
+            "surviving_I2_mol": 2.280619609689952e-05,
+            "inferred_I2_sink_mol": 3.3881317890172014e-21,
+            "acid_thiosulfate_extent_mol": 3.634105244889292e-05,
+            "remaining_thiosulfate_mol": 6.365894755110708e-05
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 100.0,
+            "gross_I2_source_mol": 2.2259941370565143e-05,
+            "surviving_I2_mol": 2.2259941370565143e-05,
+            "inferred_I2_sink_mol": 0.0,
+            "acid_thiosulfate_extent_mol": 7.115159725220552e-05,
+            "remaining_thiosulfate_mol": 0.0001288484027477945
+          }
+        ]
+      },
+      "actual_relevant_events": [
+        {
+          "row": 12,
+          "event": "measured",
+          "instrument": "spectrophotometer",
+          "unit": "absorbance at 405 nm",
+          "value": 0.0,
+          "vessel": 0
+        },
+        {
+          "row": 13,
+          "event": "measured",
+          "instrument": "spectrophotometer",
+          "unit": "absorbance at 405 nm",
+          "value": 0.0,
+          "vessel": 1
+        },
+        {
+          "row": 16,
+          "event": "measured",
+          "instrument": "spectrophotometer",
+          "unit": "absorbance at 405 nm",
+          "value": 0.0,
+          "vessel": 0
+        },
+        {
+          "row": 17,
+          "event": "measured",
+          "instrument": "spectrophotometer",
+          "unit": "absorbance at 405 nm",
+          "value": 0.0,
+          "vessel": 1
+        }
+      ],
+      "readiness_assessment": {
+        "readiness": "SOURCE-BLOCKED missing actual iodine sink, competing acid loss",
+        "criterion_map": [
+          "C1 surviving I2 equals summed gross iodide-peroxide-clock extents; no reduction sink is demonstrated; UVvis0 is not evidence iodine absent",
+          "C2 thiosulfate consumption follows thiosulfate-acid S/SO2 route, not2:1iodine reduction; sink not exhausted, no induction-time support"
+        ],
+        "next": "Same general iodine/thiosulfate component+kinetics authority as SE001, independently budget acid reserve and competing peroxide decomposition at actual clocks. Current neutralI2 lacks spectrum; spectral-gap guard only covers native known-element chromophores, so zero absorbance requires separate honesty/data audit, not invented epsilon. New heat source changes future temperatures/rates; historical source remainsc446.",
+        "beneficiaries": [
+          "batch2:ki-011",
+          "batch2:se-001",
+          "batch2:qa-007",
+          "batch2:qa-008"
+        ],
+        "source_coordinates": [
+          "crates/kerotakis-core/src/kinetics.rs",
+          "crates/kerotakis-core/src/solution_optics.rs:63",
+          "crates/kerotakis-core/src/instrument.rs:295"
+        ],
+        "beneficiary_evidence": [
+          {
+            "original_id": "batch2:ki-011",
+            "original_script": "audits/new-experiments-201-20261016/scripts/KI-011.lab",
+            "script_sha256": "8ee57b2e0bca4ecd54eba3bc8c7a622b89ab7c329a932b9be933f3fc5f61467c",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:se-001",
+            "original_script": "audits/new-experiments-201-20261016/scripts/SE-001.lab",
+            "script_sha256": "c5b41051999f00c6672771507e4bfa726f3dda4e20fccbdf46e4d99db84ab513",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:qa-007",
+            "original_script": "audits/new-experiments-201-20261016/scripts/QA-007.lab",
+            "script_sha256": "8b2675342e8cb2570692230a2c179f322c59c3045b78aa58d9d2f919d92a2c49",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:qa-008",
+            "original_script": "audits/new-experiments-201-20261016/scripts/QA-008.lab",
+            "script_sha256": "62caed3f11ba746c0cb26e58c353b7003191f9ce68c8255dc621002560e6a5fa",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          }
+        ]
+      },
+      "scientific_verdict": "NOT_ASSIGNED_FULL_INDEPENDENT_LEDGER_REQUIRED",
+      "selected": false
+    },
+    {
+      "original_id": "batch2:mo-003",
+      "original_source_record": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_mo-003.json",
+      "intake_pointer": "/experiments/98",
+      "original_forecast": "Successful sequential transformations first yield acetate and ethanol, then convert the ethanol fraction into another acetate/acetic-acid family pool. Carbon accounting should retain four carbons per initial ester molecule.",
+      "original_criteria": [
+        {
+          "id": "MO-003-C1",
+          "criterion": "Verify ethanol appears after hydrolysis and decreases only after the requested oxidation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-003-C2",
+          "criterion": "Sum carbon across molecular and ionic pools without double-counting mirrored aqueous representations.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Each stage may expose a molecular-versus-aqueous ownership boundary; available oxygen includes the headspace.",
+        "Formal product acid/acetate proportions depend on the actual proton balance."
+      ],
+      "original_script": "audits/new-experiments-201-20261016/scripts/MO-003.lab",
+      "script_sha256": "6875ff952a63527b64167b44dd008fcbfdba5a59aebba05edaef99e5719efc45",
+      "stdout_sha256": "a3a96a90bcb583a0c133d1a4aa8f22b47bfeb7c9cddd4ec8029a50096a83e523",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_members": [
+        "batch2_mo-003/experiment.lab",
+        "batch2_mo-003/stdout.jsonl",
+        "batch2_mo-003/stderr.txt"
+      ],
+      "rows": 10,
+      "named_limits": {
+        "not-modeled.no-limiting-reactant": {
+          "first_observation_index": 4,
+          "first_operator": {
+            "op": "react",
+            "reaction": "saponification",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "nothing-to-act-on",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "No to-completion conversion for {reaction}: a limiting reactant is absent, depleted, or its capacity is within the 1e-12 mol no-conversion tolerance",
+              "key": "not-modeled.no-limiting-reactant",
+              "slots": [
+                [
+                  "reaction",
+                  {
+                    "text": {
+                      "text": "saponification"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "No to-completion conversion for saponification: a limiting reactant is absent, depleted, or its capacity is within the 1e-12 mol no-conversion tolerance"
+          },
+          "occurrences": 2
+        }
+      },
+      "metrics": {
+        "before_original_saponification_contents": [
+          {
+            "moles": 0.008073645644668174,
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": 0.0021407780819617545,
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.001,
+            "phase": "liquid",
+            "species": "ethyl_acetate"
+          },
+          {
+            "moles": 0.0009999999999996917,
+            "phase": "aqueous",
+            "species": "Na+"
+          },
+          {
+            "moles": 7.134424212004098e-08,
+            "phase": "aqueous",
+            "species": "HCO3-"
+          },
+          {
+            "moles": 4.016059608212591e-06,
+            "phase": "aqueous",
+            "species": "CO3-2"
+          },
+          {
+            "moles": 5.534281007454463,
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": 0.0009918965389498543,
+            "phase": "aqueous",
+            "species": "base_equivalents"
+          }
+        ],
+        "current_admitted_alkaline_species_excludes_carbonate_and_CO2": true,
+        "after_remaining_ester_mol": 0.001,
+        "after_ethanol_mol": 0
+      },
+      "actual_relevant_events": [
+        {
+          "row": 8,
+          "event": "measured",
+          "instrument": "ph_meter",
+          "unit": "pH",
+          "value": 11.94803387235,
+          "vessel": 0
+        }
+      ],
+      "readiness_assessment": {
+        "readiness": "HISTORICAL source failure; current named-base domain still refuses carbonate-bearing reservoir",
+        "criterion_map": [
+          "C1 old saponification and subsequent oxidation produce no ethanol/acid because no limiting literalNaOH remains",
+          "C2 old source carbon includes introduced ester and real trapped-air CO2; full carbon/charge accounting needed, no absent gas assumption"
+        ],
+        "next": "Current named_alkaline fixes simple Na/K/halide/acetate basis ownership, but deliberately rejects CO2/HCO3/CO3 and pendingCO2. This original seals real air before base addition, giving a carbonate reserve. Scope generic proven carbonate/strong-base capacity with all counterions/H/O conservation and weak-acid exhaustion; do not remove guard or infer freeOH equals stoichiometric reserve. No new unchanged API call until accepted changed source can address this actual admission.",
+        "beneficiaries": [
+          "batch2:mo-003"
+        ],
+        "source_coordinates": [
+          "crates/kerotakis-core/src/named_alkaline.rs:65",
+          "crates/kerotakis-core/src/bench.rs:5410"
+        ],
+        "beneficiary_evidence": [
+          {
+            "original_id": "batch2:mo-003",
+            "original_script": "audits/new-experiments-201-20261016/scripts/MO-003.lab",
+            "script_sha256": "6875ff952a63527b64167b44dd008fcbfdba5a59aebba05edaef99e5719efc45",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          }
+        ]
+      },
+      "scientific_verdict": "NOT_ASSIGNED_FULL_INDEPENDENT_LEDGER_REQUIRED",
+      "selected": false
+    },
+    {
+      "original_id": "batch2:mo-004",
+      "original_source_record": "audits/new-experiments-201-20261016/native-screen-results/cases/batch2_mo-004.json",
+      "intake_pointer": "/experiments/99",
+      "original_forecast": "If partition data and molecular-pool coupling are present, ester, acid and ethanol should have distinguishable extraction fractions. Each component must be reconciled across both vessels.",
+      "original_criteria": [
+        {
+          "id": "MO-004-C1",
+          "criterion": "Calculate a separate recovery fraction for each feed-derived molecular family.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-004-C2",
+          "criterion": "Do not assume extraction shifts reaction equilibrium automatically; check whether additional chemical conversion actually occurs.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Partition coefficients and aqueous ownership for this mixture may be incomplete.",
+        "Chromatogram peak areas are not calibrated mole fractions without an explicit response model."
+      ],
+      "original_script": "audits/new-experiments-201-20261016/scripts/MO-004.lab",
+      "script_sha256": "820b3e975f7a221eb73b5ef2cff087150aaf451348a09cbf2e37d3e5f1fac258",
+      "stdout_sha256": "da220d7076747e2c2bfd909f0ad5310760d1584b75cee39d42bdcfac6f4a1e39",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "archive_members": [
+        "batch2_mo-004/experiment.lab",
+        "batch2_mo-004/stdout.jsonl",
+        "batch2_mo-004/stderr.txt"
+      ],
+      "rows": 10,
+      "named_limits": {
+        "not-modeled.mostly-organic-solvent": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "op": "react",
+            "reaction": "esterification",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+              "key": "not-modeled.mostly-organic-solvent",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "33"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+          },
+          "occurrences": 1
+        },
+        "not-modeled.no-distribution-coefficient": {
+          "first_observation_index": 6,
+          "first_operator": {
+            "from": 0,
+            "op": "extract",
+            "solvent": "hexane",
+            "stages": 1,
+            "to": 1,
+            "total_solvent": 0.15331058970967068
+          },
+          "event": {
+            "cause": "not-parameterised",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "no reviewed {solvent}/water distribution coefficient for {solutes}",
+              "key": "not-modeled.no-distribution-coefficient",
+              "slots": [
+                [
+                  "solvent",
+                  {
+                    "text": {
+                      "text": "hexane"
+                    }
+                  }
+                ],
+                [
+                  "solutes",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "text": {
+                            "text": "CH3COO-"
+                          }
+                        },
+                        {
+                          "text": {
+                            "text": "CH3COOH"
+                          }
+                        },
+                        {
+                          "text": {
+                            "text": "H+"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "no reviewed hexane/water distribution coefficient for CH3COO-, CH3COOH and H+"
+          },
+          "occurrences": 1
+        },
+        "not-modeled.chromatography-needs-an-aqueous-sample": {
+          "first_observation_index": 9,
+          "first_operator": {
+            "instrument": "chromatograph",
+            "op": "measure",
+            "vessel": 1
+          },
+          "event": {
+            "cause": "no-solution",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "chromatography needs an aqueous sample \u2014 the column's mobile phase is water",
+              "key": "not-modeled.chromatography-needs-an-aqueous-sample"
+            },
+            "vessel": 1,
+            "what": "chromatography needs an aqueous sample \u2014 the column's mobile phase is water"
+          },
+          "occurrences": 1
+        }
+      },
+      "metrics": {
+        "final_vessels": [
+          {
+            "co2_partial_pressure_atm": 0.0,
+            "contents": [
+              {
+                "moles": 0.0003333333333333337,
+                "phase": "liquid",
+                "species": "ethanol"
+              },
+              {
+                "moles": 0.0006666666666666663,
+                "phase": "liquid",
+                "species": "ethyl_acetate"
+              },
+              {
+                "moles": 0.00030967270923933646,
+                "phase": "aqueous",
+                "species": "CH3COOH"
+              },
+              {
+                "moles": 2.3660624093997253e-05,
+                "phase": "aqueous",
+                "species": "CH3COO-"
+              },
+              {
+                "moles": 5.534943658062725,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.3660624093997835e-05,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 4.383905215101013e-12,
+            "free_proton": 2.366062847790248e-05,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 0,
+            "label": "beaker",
+            "lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "CH3COOH",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 0.001,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "ethanol",
+                "suspended_fraction": null
+              },
+              {
+                "added_at": 0.0,
+                "moles": 5.534276991396059,
+                "particle_size_um": null,
+                "phase": "liquid",
+                "source": "reagent bottle",
+                "species": "water",
+                "suspended_fraction": null
+              }
+            ],
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": -2.3660624093997253e-05,
+            "solution": {
+              "ionic_strength": 0.0002372896552572,
+              "pe": null,
+              "ph": 3.632422228381,
+              "provenance": {
+                "dataset": "minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+                "dataset_phrase": {
+                  "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                  "key": "provenance.dataset.with-gas-uptake-slice",
+                  "slots": [
+                    [
+                      "file",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "{file} plus reviewed lactate and USBM IC 9429 reference-temperature complexes",
+                            "key": "provenance.dataset.plus-lactate-and-reference-complexes",
+                            "slots": [
+                              [
+                                "file",
+                                {
+                                  "text": {
+                                    "text": "minteq.v4.dat"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "dataset_sources": [
+                  "usbm-ic9429-complexes-25c",
+                  "sander-2023-hbr-reference"
+                ],
+                "engine": "PHREEQC (IPhreeqc, USGS)",
+                "model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+                "model_phrase": {
+                  "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+                  "key": "provenance.model.wateq-debye-huckel",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "text": {
+                          "text": "WATEQ Debye-H\u00fcckel"
+                        }
+                      }
+                    ],
+                    [
+                      "ionic_strength",
+                      {
+                        "number": {
+                          "text": "1"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "routing": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                "routing_phrase": {
+                  "en": "chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)",
+                  "key": "routing.extended-chemistry"
+                }
+              },
+              "redox": [],
+              "solvent_kg": 0.09971201,
+              "species": [
+                {
+                  "activity": 0.9999,
+                  "molality": 55.51,
+                  "name": "H2O"
+                },
+                {
+                  "activity": 0.003106,
+                  "molality": 0.003106,
+                  "name": "H(Acetate)"
+                },
+                {
+                  "activity": 0.0002596,
+                  "molality": 0.0002596,
+                  "name": "O2"
+                },
+                {
+                  "activity": 0.0002331,
+                  "molality": 0.0002373,
+                  "name": "H+"
+                },
+                {
+                  "activity": 0.0002331,
+                  "molality": 0.0002373,
+                  "name": "Acetate-"
+                }
+              ]
+            },
+            "surfaces": [],
+            "temperature": 298.1500232489159,
+            "thermal_mode": "adiabatic"
+          },
+          {
+            "co2_partial_pressure_atm": null,
+            "contents": [],
+            "elapsed_seconds": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "foam": {
+              "peak_volume_liters": 0.0,
+              "trapped_gas_liters": 0.0,
+              "volume_liters": 0.0
+            },
+            "free_hydroxide": 0.0,
+            "free_proton": 0.0,
+            "headspace": {
+              "boundary": "open"
+            },
+            "id": 1,
+            "label": "beaker",
+            "nuclides": {
+              "inventory": {}
+            },
+            "pending_co2_transfer_mol": 0.0,
+            "pressure": 101325.0,
+            "resolved": {
+              "solution": null,
+              "valid": false
+            },
+            "solute_charge": 0.0,
+            "solution": null,
+            "surfaces": [],
+            "temperature": 298.15,
+            "thermal_mode": "adiabatic"
+          }
+        ]
+      },
+      "actual_relevant_events": [
+        {
+          "row": 2,
+          "boundary": "Ideal-mixture equilibrium with K \u2248 4 for acetic acid and ethanol, solved from all reactant and product amounts including water; this explicit request assumes equilibration, not a reaction rate. Catalyst, activity corrections, temperature dependence and reaction heat are not modelled",
+          "equation": "CH3COOH + C2H5OH \u21cc CH3COOC2H5 + H2O",
+          "event": "org_reacted",
+          "extent": 0.0006666666666666663,
+          "name": "esterification",
+          "vessel": 0
+        },
+        {
+          "row": 8,
+          "event": "chromatographed",
+          "outside_method": [
+            "CH3COO-",
+            "H+"
+          ],
+          "peaks": [
+            {
+              "partition_k": 0.2751110792645871,
+              "relative_area": 1.0,
+              "retention_time_s": 68.25333237793761,
+              "rf": 0.21575459874700156,
+              "species": "ethanol",
+              "width_s": 2.7301332951175046
+            }
+          ],
+          "plates": 10000,
+          "vessel": 0,
+          "void_time_s": 60.0
+        }
+      ],
+      "readiness_assessment": {
+        "readiness": "SOURCE/DATA-BLOCKED refused product extraction + incomplete chromatographic coverage",
+        "criterion_map": [
+          "C1 empty receiver; no family recovery comparison",
+          "C2 no extra conversion on extraction refusal is observable, but does not establish coupled extraction equilibrium or calibrated chromatographic mole ratios"
+        ],
+        "next": "Generic neutral family phase ownership+partition data and molecular/ionic acid identity. Current extract inventory collects aqueous/solid solutes, while ethanol/ester remain liquid; group table omits ester/acetic acid/naphthalene. Fix admission coherently with reviewed coefficients and all-component family balances, not a single molecule patch. Complete retention response/data separately.",
+        "beneficiaries": [
+          "batch2:mo-004",
+          "batch2:se-012",
+          "batch2:se-002"
+        ],
+        "source_coordinates": [
+          "crates/kerotakis-core/src/bench.rs:3775",
+          "crates/kerotakis-core/src/bench.rs:6975",
+          "crates/kerotakis-core/src/instrument.rs"
+        ],
+        "beneficiary_evidence": [
+          {
+            "original_id": "batch2:mo-004",
+            "original_script": "audits/new-experiments-201-20261016/scripts/MO-004.lab",
+            "script_sha256": "820b3e975f7a221eb73b5ef2cff087150aaf451348a09cbf2e37d3e5f1fac258",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:se-012",
+            "original_script": "audits/new-experiments-201-20261016/scripts/SE-012.lab",
+            "script_sha256": "48a8c7ba9345e665ee96d43420ddf9b33e516a347a190bc58c2a79a06e5cb1b0",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          },
+          {
+            "original_id": "batch2:se-002",
+            "original_script": "audits/new-experiments-201-20261016/scripts/SE-002.lab",
+            "script_sha256": "52721ccf45f4c2e80b12430d21cec0217debf7b2cd3a5e7c0b8eb0bea6052a8b",
+            "relationship": "Source/data prerequisite shared; no earned pass or complete-fix guarantee"
+          }
+        ]
+      },
+      "scientific_verdict": "NOT_ASSIGNED_FULL_INDEPENDENT_LEDGER_REQUIRED",
+      "selected": false
+    }
+  ],
+  "recommended_order": [
+    "Finish already-issued source86/full/platform/protected integration and changed release; no duplicate execution",
+    "Saved-only full original MO001 ledger/equivalent endpoint review first",
+    "Saved-only PQ002/PQ003 native soluble/metastable distribution domain adjudication and full ledgers next; UVvis remains unsupported",
+    "Freeze generic iodine/thiosulfate sink+ionic inventory/neutral-optical honesty controls; source/data gate before runtime",
+    "Neutral partition family ownership and compatible data/decomposition coverage; do not invent coefficients",
+    "Keep MO003 carbonate-base admission and TC004 instrument/temperature/thermal prerequisites separate; existing prepared brine fixtures retain priority"
+  ],
+  "new_engine_browser_API_provider_build_calls": 0,
+  "catalog_edits_or_selections": 0,
+  "broad_public_case_id_search": {
+    "path": "global-public-case-id-search-paths.json",
+    "sha256": "b2957a47c135041cda8c051a31f47f73b1bfdfd7d7157399704df4bc5ad9e628",
+    "matched_files": 40,
+    "full139_review_claim": false
+  },
+  "prior_eight_units_overlap_remaining_batch2": 27,
+  "separate_completed_review_exclusions": 2,
+  "remaining_batch2_without_found_completed_public_criterion_review": 9
+}
