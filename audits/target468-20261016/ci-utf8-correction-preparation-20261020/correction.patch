@@ -1,0 +1,46 @@
+diff --git a/tools/test_ci_changes.py b/tools/test_ci_changes.py
+index d0ceb1d6..02e51cc1 100644
+--- a/tools/test_ci_changes.py
++++ b/tools/test_ci_changes.py
+@@ -28,7 +28,7 @@ class ChangesTest(unittest.TestCase):
+         self.base = self.commit()
+ 
+     def git(self, *args):
+-        return subprocess.check_output(['git', *args], cwd=self.repo, stderr=subprocess.PIPE).decode().strip()
++        return subprocess.check_output(['git', *args], cwd=self.repo, stderr=subprocess.PIPE).decode('utf-8', errors='strict').strip()
+ 
+     def write(self, name, data):
+         p = self.repo / name
+@@ -117,7 +117,7 @@ class ChangesTest(unittest.TestCase):
+ 
+     def test_actual_required_gate_rejects_classifier_and_build_failures(self):
+         workflow=pathlib.Path(__file__).resolve().parents[1]/'.github/workflows/ci.yml'
+-        text=workflow.read_text()
++        text=workflow.read_text(encoding='utf-8')
+         script=re.search(r'          test "\$CHANGES_RESULT" = success\n(?:          .*\n)+?          esac', text).group()
+         for classification in ['success','failure','cancelled','skipped']:
+             for mode in ['docs','full','', 'unknown']:
+@@ -129,7 +129,7 @@ class ChangesTest(unittest.TestCase):
+ 
+     def test_native_matrix_preserves_protected_names_and_guards_every_heavy_step(self):
+         workflow=pathlib.Path(__file__).resolve().parents[1]/'.github/workflows/ci.yml'
+-        native=workflow.read_text().split('  test:\n',1)[1].split('  my-basic-preview:',1)[0]
++        native=workflow.read_text(encoding='utf-8').split('  test:\n',1)[1].split('  my-basic-preview:',1)[0]
+         self.assertIn('    if: ${{ always() }}',native)
+         self.assertIn('    name: Test (native)',native)
+         self.assertIn('os: [ubuntu-latest, macos-latest]',native)
+@@ -144,12 +144,12 @@ class ChangesTest(unittest.TestCase):
+         self.assertIn('always() &&',artifact)
+ 
+     def test_cli_bad_event_json_outputs_full(self):
+-        event=self.repo/'event.json';event.write_text('{')
++        event=self.repo/'event.json';event.write_text('{', encoding='utf-8')
+         output=self.repo/'output'
+         result=subprocess.check_output(['python3',str(pathlib.Path(CI.__file__).resolve()),
+             '--repo',str(self.repo),'--event-name','push','--event-path',str(event),'--output',str(output)])
+         self.assertEqual(json.loads(result)['mode'],'full')
+-        self.assertEqual(output.read_text(),'mode=full\n')
++        self.assertEqual(output.read_text(encoding='utf-8'),'mode=full\n')
+ 
+ 
+ if __name__ == '__main__':

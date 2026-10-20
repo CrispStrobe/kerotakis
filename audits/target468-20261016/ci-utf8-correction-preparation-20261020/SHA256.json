@@ -1,0 +1,11 @@
+{
+  "classifier.stderr": "5f905885cc2c90419a14e5e18bd62b64ac8521013fb7117b4135a74b77213b86",
+  "encoding-lint.stdout": "ea4cc9b766a393205f3df1cadc77c4f3c9339d6ff41782aa8f26d979cb3ef754",
+  "classifier.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "preparation.safe.json": "d17df2c69359152a23fa9f7f6223f7999b862f945b7d38a91f7fd10d0dbc735d",
+  "PARENT18-SOURCE-REVIEW.json": "a3de3cd806ef734eb173b7192194d3d55dd0f2c68042f454db271a5847c04ba5",
+  "README.md": "0448adb7a11b52887afbeb125fcdb2684e93c6f26b1b9c6758fd7a6efb3a2842",
+  "encoding-lint.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "correction.patch": "ab8fca1ef2c2602e64c788c3bfee88459ce439204d5fcfd341027fcf27694785",
+  "first-preflight-encoding-failure.excerpt.log": "61434b26fa2848ecb96704ceca9c1e82daaad06858f84c4529e08ff7162dca8c"
+}

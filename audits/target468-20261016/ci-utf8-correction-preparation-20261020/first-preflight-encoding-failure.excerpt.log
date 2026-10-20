@@ -1,0 +1,8 @@
+2026-10-20T17:11:50.3833811Z [1m== py encoding[0m
+2026-10-20T17:11:50.9090560Z ##[error]text I/O without an explicit encoding breaks on Windows (cp1252). Pass encoding="utf-8".
+2026-10-20T17:11:50.9122743Z tools/test_ci_changes.py:120: read_text() without encoding=
+2026-10-20T17:11:50.9123211Z tools/test_ci_changes.py:147: write_text() without encoding=
+2026-10-20T17:11:50.9123630Z tools/test_ci_changes.py:152: read_text() without encoding=
+2026-10-20T17:11:50.9124038Z tools/test_ci_changes.py:132: read_text() without encoding=
+2026-10-20T17:11:50.9124418Z python-encoding-lint: 139 files, 4 offence(s)
+2026-10-20T17:11:50.9205770Z ##[error]Process completed with exit code 1.

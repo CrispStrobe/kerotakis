@@ -1,0 +1,38 @@
+{
+  "source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "tree": "f77a9e82941f30a6433583e1bd417939118d13c6",
+  "state": "PARENT_REVIEWED_QUEUED_NOT_ISSUED",
+  "worker_bytes": 915620,
+  "worker_sha256": "7978a919f373e2a4014367dc84d16e12a0509f2e04ac0681235b9ba66c0590e2",
+  "reader_sha256": "cd38d50fe4695600b3f309d32d48d031afa7e945c727d378b86ce35e04e88471",
+  "plan_sha256": "a90adaafbc1baacaa2875f7170f06b029748f54725a52a5a8fd1e40523773d13",
+  "encoding_lint_command": [
+    "python3",
+    "tools/python-encoding-lint.py",
+    "--check",
+    "tools",
+    ".github"
+  ],
+  "encoding_lint_expected_stdout": "python-encoding-lint: 139 files, 0 offence(s)\n",
+  "first86_workflow_run": 39458899354,
+  "first86_failed_job": 118755222052,
+  "original_full_job_log_sha256": "9872eab2083227e0c16b7bdb68bd36bf70f081802f25bdd46d9c6689c74a0d80",
+  "original_full_log_retained_privately": true,
+  "prior86_must_complete_and_have_equal_independent_full_receipts_before_new_issue": true,
+  "all_original_scientific_controls_retained": {
+    "core": 2177,
+    "thermo": 184,
+    "native": 620,
+    "external_hooks": 2,
+    "cache_only_host": 18,
+    "classifier": 11,
+    "coverage_requirements": 500,
+    "product_groups": 33,
+    "original_steps": 142,
+    "law_reports": 29,
+    "platform_named_controls": 59
+  },
+  "new_engine_execution_already_issued": false,
+  "original_experiment_replays": 0,
+  "prior_focused_reexecutions": 0
+}
