@@ -1,0 +1,22 @@
+{
+  "schema": "kerotakis.parent-scientific-adjudication.v1",
+  "utc": "2026-10-20T10:29:20.090957+00:00",
+  "reader_sha256": "b6eaddaaddce62ff3515227cf0ea0565deba4ec99bf9c43d92c566befeba8090",
+  "assessment_sha256": "00f09413fe89f7dff8fcadd7f3999406a14d4d0059705233aab8160d3565beb5",
+  "parent_assessment_sha256": "3efec5289e8e6b168e7303b4b2dbf0586b140b1f92e00ee1ddb87652850dd7f0",
+  "evidence_manifest_sha256": "649d10471ca54bf3655fb6a7a222fd77bb72ba981b9561fd47b8cd5cbabd073e",
+  "parent_reproduced_full_saved_reader_output_exactly": true,
+  "parent_inspected_original_C1_C2_nonvisual_scope_all_gases_filter_states_and_wait_budgets": true,
+  "accepted_originals": [
+    "batch2:ki-010"
+  ],
+  "held_originals": [],
+  "accepted_scope": [
+    "Original precursor/acid retention and fresh sulfur contrast only, with complete phase/gas/atom/charge ownership. The old solid remains in donor, old aqueous S is separately transferred, and new receiver solid matches actual precursor loss.",
+    "First-order thiosulfate/proton activity with locally frozen activity coefficient and finite consumed analytical acid; actual times, pH and temperatures recorded. No continuously coupled buffering, isothermal or calibrated absolute-rate claim.",
+    "Below-threshold pending atmospheric CO2 credits are separately reported unapplied external transfer claims, not canonical owned carbon or measured uptake. No such credit is silently discarded or booked as additional molecules.",
+    "Retained canonical SO2 gas establishes phase/material bookkeeping only, not validated physical open-vessel mass transfer, venting or gas-release rate."
+  ],
+  "first_scene_KeyError_and_mechanical_all_limits_HOLD_preserved": true,
+  "new_engine_or_API_executions": 0
+}

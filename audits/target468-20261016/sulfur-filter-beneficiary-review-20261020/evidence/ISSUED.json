@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-20T10:24:33.964136+00:00",
+  "source": "dacf76513328c2226e2f5133a79fb9af84343431",
+  "design_sha256": "0ae4d2662a7481020dc8871b762a3ced69285482de117407511cd2e94e444b19",
+  "runner_sha256": "ce6da653aadcf3624aa80b6621478f5d03f0e79a29ac626641e872267c291163",
+  "actual_production_acceptance_sha256": "ff312bbe6f5e7c850857f320768ca8e51c43d13f7d64ef572e2c9a7464245194",
+  "once_only_original_followups": 1,
+  "automatic_retries": false,
+  "scientific_selection_automatic": false
+}

@@ -1,0 +1,705 @@
+{
+  "schema": "kerotakis.sulfur-filter.saved-production-review.v1",
+  "engine": {
+    "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
+    "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "design_sha256": "0ae4d2662a7481020dc8871b762a3ced69285482de117407511cd2e94e444b19",
+  "artifact_receipt_sha256": "36a6c9796fd403e96b19ac2ac94b2967dd409dd160bb79a1fe9db24bd95ba8ba",
+  "production_receipt_sha256": "ff312bbe6f5e7c850857f320768ca8e51c43d13f7d64ef572e2c9a7464245194",
+  "runner_sha256": "ce6da653aadcf3624aa80b6621478f5d03f0e79a29ac626641e872267c291163",
+  "issued_receipt_sha256": "efd7e5a7eb970ed4ab2b346f18296fd6c5fe701907a053cc2c9d8a3e49a31d39",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "thermal_fixture_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "5c4f5dcdaa779607340f237645b7cd4fd0bdcebd17f15a8b354375b7cb871957",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/src/solve.rs": "653d655cefd81e2100033d037779cf02def5fd566c44d8e866bec699505a8e20",
+    "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+    "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47",
+    "crates/kerotakis-core/src/clock.rs": "a7e64dac6135a6150f6c241beeb63e52e114de84ec217f1b694ac90b0476d80c",
+    "crates/kerotakis-core/src/lib.rs": "cc0022bb26e09b9edb86f0ff8809f7238831059f1fca6c177c6b34c692ab1334",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "faf5a9cca1f76a11b94171a0367db809d4cba7762672074cbcf2e45bc9b49ab5"
+  },
+  "cases": [
+    {
+      "id": "batch2:ki-010",
+      "status": "PASS",
+      "engine": {
+        "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
+        "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+        "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+      },
+      "script_sha256": "0096be318c38594d6729e08419b18ea3ede6079b243878854e6e9c7cb21ca70f",
+      "response_sha256": "535afd11147e0b3d6e5de1f4450270fcdbea72d0ef485eefa76df1a144cca335",
+      "original_forecast": "If acid and thiosulfate remain in the filtrate, fresh sulfur can form there after the original solid is retained in the first vessel.",
+      "original_checks": [
+        {
+          "id": "KI-010-C1",
+          "criterion": "Verify residual acid/thiosulfate in v2 immediately after filtration.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KI-010-C2",
+          "criterion": "New solid in v2 must be distinguished from transferred old sulfur.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "If the initial interval exhausts the acid or a filter transfers colloidal sulfur, the intended contrast is inconclusive."
+      ],
+      "common_checks": {
+        "complete_atoms_charge": true,
+        "filter_phase_ownership": true,
+        "no_unresolved_or_noncontents_reservoirs": true,
+        "no_solver_or_relevant_model_limit": true
+      },
+      "criteria": {
+        "KI-010-C1": true,
+        "KI-010-C2": true
+      },
+      "metrics": {
+        "old_donor_solid_S_mol": "0.00009556973487799406",
+        "old_donor_SO2_gas_mol": "0.0000958816554410182",
+        "filtered_donor_solid_S_mol": "0.00009556973487799406",
+        "filtered_donor_SO2_gas_mol": "0.0000958816554410182",
+        "immediate_receiver_acid_mol": "0.0018082366891179636",
+        "immediate_receiver_thiosulfate_mol": "0.0019041183445589818",
+        "immediate_receiver_old_S_aqueous_mol": "3.1192056302414026E-7",
+        "immediate_receiver_old_S_solid_mol": "0",
+        "final_receiver_new_S_solid_mol": "0.00021963928826953678",
+        "final_receiver_old_S_aqueous_mol": "3.1192056302414026E-7",
+        "actual_wait_intervals": [
+          {
+            "vessel": 0,
+            "seconds": "10.0",
+            "initial_T_K": "298.1500017359957",
+            "final_T_K": "298.1500017359957",
+            "initial_pH": "1.829095257692",
+            "final_pH": "1.870805132867",
+            "precursor_loss_mol": "0.0000958816554410182",
+            "all_phase_elemental_S_gain_mol": "0.00009588165544101820026",
+            "solid_S_gain_mol": "0.00009556973487799406",
+            "SO2_gain_mol": "0.0000958816554410182",
+            "analytical_acid_consumed_mol": "0.0001917633108820364",
+            "water_produced_mol": "0.000095881655441",
+            "independent_stoichiometric_residuals": {
+              "allphase_S_minus_precursor_loss": "2.6E-22",
+              "SO2_minus_precursor_loss": "0E-19",
+              "acid_minus_twice_precursor_loss": "0E-19",
+              "water_minus_precursor_loss": "-1.82E-17"
+            }
+          },
+          {
+            "vessel": 0,
+            "seconds": "30.0",
+            "initial_T_K": "298.1500017359957",
+            "final_T_K": "298.1500017359957",
+            "initial_pH": null,
+            "final_pH": null,
+            "precursor_loss_mol": "0",
+            "all_phase_elemental_S_gain_mol": "0E-20",
+            "solid_S_gain_mol": "0E-20",
+            "SO2_gain_mol": "0E-19",
+            "analytical_acid_consumed_mol": "0",
+            "water_produced_mol": "0",
+            "independent_stoichiometric_residuals": {
+              "allphase_S_minus_precursor_loss": "0E-20",
+              "SO2_minus_precursor_loss": "0E-19",
+              "acid_minus_twice_precursor_loss": "0",
+              "water_minus_precursor_loss": "0"
+            }
+          },
+          {
+            "vessel": 1,
+            "seconds": "30.0",
+            "initial_T_K": "298.1500017359957",
+            "final_T_K": "298.1500017359957",
+            "initial_pH": "1.870805132867",
+            "final_pH": "1.986674722096",
+            "precursor_loss_mol": "0.0002196392882695367",
+            "all_phase_elemental_S_gain_mol": "0.00021963928826953678000",
+            "solid_S_gain_mol": "0.00021963928826953678",
+            "SO2_gain_mol": "0.00021963928826953678",
+            "analytical_acid_consumed_mol": "0.0004392785765390730",
+            "water_produced_mol": "0.00021963928827",
+            "independent_stoichiometric_residuals": {
+              "allphase_S_minus_precursor_loss": "8.000E-20",
+              "SO2_minus_precursor_loss": "8E-20",
+              "acid_minus_twice_precursor_loss": "-4E-19",
+              "water_minus_precursor_loss": "4.633E-16"
+            }
+          }
+        ],
+        "actual_clocks_temperature_pH": [
+          {
+            "row": 0,
+            "vessel": 0,
+            "op": "add",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0",
+            "T_K": "298.15",
+            "pH": "6.997375771104036"
+          },
+          {
+            "row": 1,
+            "vessel": 0,
+            "op": "add",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.15",
+            "pH": "7.014145726752"
+          },
+          {
+            "row": 2,
+            "vessel": 0,
+            "op": "add",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1500017359957",
+            "pH": "1.829095257692"
+          },
+          {
+            "row": 3,
+            "vessel": 0,
+            "op": "wait",
+            "actual_seconds": "10.0",
+            "delta_seconds": "10.0",
+            "T_K": "298.1500017359957",
+            "pH": "1.870805132867"
+          },
+          {
+            "row": 4,
+            "vessel": 0,
+            "op": "new_vessel",
+            "actual_seconds": "10.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1500017359957",
+            "pH": "1.870805132867"
+          },
+          {
+            "row": 4,
+            "vessel": 1,
+            "op": "new_vessel",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0",
+            "T_K": "298.15",
+            "pH": null
+          },
+          {
+            "row": 5,
+            "vessel": 0,
+            "op": "filter",
+            "actual_seconds": "10.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1500017359957",
+            "pH": null
+          },
+          {
+            "row": 5,
+            "vessel": 1,
+            "op": "filter",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1500017359957",
+            "pH": "1.870805132867"
+          },
+          {
+            "row": 6,
+            "vessel": 0,
+            "op": "inspect",
+            "actual_seconds": "10.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1500017359957",
+            "pH": null
+          },
+          {
+            "row": 6,
+            "vessel": 1,
+            "op": "inspect",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1500017359957",
+            "pH": "1.870805132867"
+          },
+          {
+            "row": 7,
+            "vessel": 0,
+            "op": "wait",
+            "actual_seconds": "40.0",
+            "delta_seconds": "30.0",
+            "T_K": "298.1500017359957",
+            "pH": null
+          },
+          {
+            "row": 7,
+            "vessel": 1,
+            "op": "wait",
+            "actual_seconds": "30.0",
+            "delta_seconds": "30.0",
+            "T_K": "298.1500017359957",
+            "pH": "1.986674722096"
+          },
+          {
+            "row": 8,
+            "vessel": 0,
+            "op": "inspect",
+            "actual_seconds": "40.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1500017359957",
+            "pH": null
+          },
+          {
+            "row": 8,
+            "vessel": 1,
+            "op": "inspect",
+            "actual_seconds": "30.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1500017359957",
+            "pH": "1.986674722096"
+          }
+        ],
+        "unapplied_external_CO2_credits": [
+          {
+            "row": 0,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 1,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 2,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 3,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "2.937245210818659E-9"
+          },
+          {
+            "row": 4,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "2.937245210818659E-9"
+          },
+          {
+            "row": 4,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 5,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "2.937245210818659E-9"
+          },
+          {
+            "row": 5,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 6,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "2.937245210818659E-9"
+          },
+          {
+            "row": 6,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 7,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "2.937245210818659E-9"
+          },
+          {
+            "row": 7,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "8.792273960024828E-9"
+          },
+          {
+            "row": 8,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "2.937245210818659E-9"
+          },
+          {
+            "row": 8,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "8.792273960024828E-9"
+          }
+        ],
+        "final_canonical_contents": {
+          "0": [
+            {
+              "moles": "0.00009556973487799406",
+              "phase": "solid",
+              "species": "S"
+            },
+            {
+              "moles": "0.0000958816554410182",
+              "phase": "gas",
+              "species": "SO2"
+            }
+          ],
+          "1": [
+            {
+              "moles": "3.1192056302414026E-7",
+              "phase": "aqueous",
+              "species": "S"
+            },
+            {
+              "moles": "0.00021963928826953678",
+              "phase": "solid",
+              "species": "S"
+            },
+            {
+              "moles": "0.00021963928826953678",
+              "phase": "gas",
+              "species": "SO2"
+            },
+            {
+              "moles": "0.002",
+              "phase": "aqueous",
+              "species": "Cl-"
+            },
+            {
+              "moles": "0.004",
+              "phase": "aqueous",
+              "species": "Na+"
+            },
+            {
+              "moles": "0.0016844790562894451",
+              "phase": "aqueous",
+              "species": "S2O3-2"
+            },
+            {
+              "moles": "5.53459251233977",
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": "0.0013689581125788906",
+              "phase": "aqueous",
+              "species": "H+"
+            }
+          ]
+        },
+        "filter_ownership": [
+          {
+            "row": 5,
+            "donor": 0,
+            "receiver": 1,
+            "owned_donor_gases": [
+              {
+                "moles": "0.0000958816554410182",
+                "phase": "gas",
+                "species": "SO2"
+              }
+            ],
+            "all_original_donor_gases_retained": true
+          }
+        ],
+        "actual_API_observation_keys": [
+          [
+            "bench",
+            "events",
+            "operator",
+            "output_sequence",
+            "scene",
+            "step"
+          ],
+          [
+            "bench",
+            "events",
+            "operator",
+            "output_sequence",
+            "scene",
+            "step"
+          ],
+          [
+            "bench",
+            "events",
+            "operator",
+            "output_sequence",
+            "scene",
+            "step"
+          ],
+          [
+            "bench",
+            "events",
+            "operator",
+            "output_sequence",
+            "scene",
+            "step"
+          ],
+          [
+            "bench",
+            "events",
+            "operator",
+            "output_sequence",
+            "scene",
+            "step"
+          ],
+          [
+            "bench",
+            "events",
+            "operator",
+            "output_sequence",
+            "scene",
+            "step"
+          ],
+          [
+            "bench",
+            "events",
+            "operator",
+            "output_sequence",
+            "step"
+          ],
+          [
+            "bench",
+            "events",
+            "operator",
+            "output_sequence",
+            "scene",
+            "step"
+          ],
+          [
+            "bench",
+            "events",
+            "operator",
+            "output_sequence",
+            "step"
+          ]
+        ],
+        "scene_domain": "Actual authenticated API projection has no scene field. No rendered appearance is inferred; original phase/precursor criteria are checked against canonical bench inventories."
+      },
+      "qualified_scope": [
+        "Original precursor/acid retention and fresh sulfur contrast only, with complete phase/gas/atom/charge ownership. The old solid remains in donor, old aqueous S is separately transferred, and new receiver solid matches actual precursor loss.",
+        "First-order thiosulfate/proton activity with locally frozen activity coefficient and finite consumed analytical acid; actual times, pH and temperatures recorded. No continuously coupled buffering, isothermal or calibrated absolute-rate claim.",
+        "Below-threshold pending atmospheric CO2 credits are separately reported unapplied external transfer claims, not canonical owned carbon or measured uptake. No such credit is silently discarded or booked as additional molecules."
+      ],
+      "actual_limits_or_failures": [
+        {
+          "row": 3,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        },
+        {
+          "row": 7,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{reaction} consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law.",
+            "key": "not-modeled.finite-acid-inventory",
+            "slots": [
+              [
+                "reaction",
+                {
+                  "text": {
+                    "text": "thiosulfate-acid"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "thiosulfate-acid consumes a finite acid inventory. Within this integration interval the activity coefficient is held at its starting value while proton concentration depletes; acid/base equilibrium is re-solved between intervals, not continuously coupled to this rate law."
+        }
+      ],
+      "per_step_vessel_atom_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "H": "0E-16",
+            "charge": "0E-16",
+            "O": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "S": "0.0000",
+            "charge": "0E-16",
+            "H": "0E-16",
+            "O": "0E-16",
+            "Na": "0.0000"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "S": "0.0000",
+            "charge": "0E-16",
+            "H": "0E-16",
+            "O": "0E-16",
+            "Na": "0.0000",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "S": "2.60E-22",
+            "charge": "0E-24",
+            "H": "-3.640E-17",
+            "O": "-1.820E-17",
+            "Na": "0.0000",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "S": "2.60E-22",
+            "charge": "0E-24",
+            "H": "-3.640E-17",
+            "O": "-1.820E-17",
+            "Na": "0.0000",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.0000",
+            "S": "2.60E-22",
+            "charge": "0E-24",
+            "H": "-3.640E-17",
+            "O": "-1.820E-17",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "residuals": {
+            "S": "0E-24",
+            "charge": "0E-24",
+            "H": "0E-20",
+            "O": "0E-20",
+            "Na": "0.0000",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.0000",
+            "S": "2.60E-22",
+            "charge": "0E-24",
+            "H": "-3.640E-17",
+            "O": "-1.820E-17",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "residuals": {
+            "S": "0E-24",
+            "charge": "0E-24",
+            "H": "0E-20",
+            "O": "0E-20",
+            "Na": "0.0000",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.0000",
+            "S": "2.60E-22",
+            "charge": "0E-24",
+            "H": "-3.640E-17",
+            "O": "-1.820E-17",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "residuals": {
+            "S": "1.60000E-19",
+            "charge": "4.00000E-19",
+            "H": "9.2700E-16",
+            "O": "4.63460E-16",
+            "Na": "0.0000",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.0000",
+            "S": "2.60E-22",
+            "charge": "0E-24",
+            "H": "-3.640E-17",
+            "O": "-1.820E-17",
+            "Cl": "0.0000"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "residuals": {
+            "S": "1.60000E-19",
+            "charge": "4.00000E-19",
+            "H": "9.2700E-16",
+            "O": "4.63460E-16",
+            "Na": "0.0000",
+            "Cl": "0.0000"
+          }
+        }
+      ],
+      "maximum_material_residuals": {
+        "H": "9.2700E-16",
+        "charge": "4.00000E-19",
+        "O": "4.63460E-16",
+        "S": "1.60000E-19",
+        "Na": "0",
+        "Cl": "0"
+      },
+      "boundary_exports": [],
+      "noncontents_reservoir_snapshot_checks": 14
+    }
+  ],
+  "new_engine_or_API_executions": 0,
+  "catalog_selection_assigned": false
+}

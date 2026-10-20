@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-20T10:29:20.090957+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 322,
+  "source_qualified_selected_in_target": 318,
+  "additional_selections_needed_for_401": 83,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261020-reviewed-sulfur-filter.json",
+  "catalog_sha256": "e9a41fd1edb8d037505876401dd71be58436fc67539983cf8afd9414a0ae5adc",
+  "selection_receipt": "audits/target468-20261016/selection-sulfur-filter-beneficiary-20261020/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard-20261020-reviewed-batch2-sixth.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "One unchanged original KI010 independently reproduced and accepted from already-issued actual Dacf production observations; all321 preceding entries exact. Canonical gas bookkeeping, not physical open-vessel venting prediction. No uniform current-release or empirical claim."
+}

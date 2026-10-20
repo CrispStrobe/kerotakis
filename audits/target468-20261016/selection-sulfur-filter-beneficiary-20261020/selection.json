@@ -1,0 +1,22 @@
+{
+  "schema": "kerotakis.scientific-selection-expansion.v1",
+  "utc": "2026-10-20T10:29:20.090957+00:00",
+  "previous_catalog": "audits/working-experiments-20261020-reviewed-batch2-sixth.json",
+  "previous_catalog_sha256": "0fda72ac74b180d6be7af38b9e32e495f0860f9122dc678a48fdaa3b427f1d3e",
+  "new_catalog": "audits/working-experiments-20261020-reviewed-sulfur-filter.json",
+  "new_catalog_sha256": "e9a41fd1edb8d037505876401dd71be58436fc67539983cf8afd9414a0ae5adc",
+  "all321_previous_entries_preserved_exactly": true,
+  "new_selected_originals": [
+    "batch2:ki-010"
+  ],
+  "new_scientific_selections": 1,
+  "unique_fixed468_before": 317,
+  "unique_fixed468_after": 318,
+  "catalog_entries": 322,
+  "additional_to401": 83,
+  "remaining_unselected_originals": 150,
+  "parent_adjudication": "audits/target468-20261016/sulfur-filter-beneficiary-review-20261020/parent-adjudication.json",
+  "counts_by_group_recomputed_from_actual_entries": true,
+  "new_engine_or_API_executions": 0,
+  "uniform_current_release_revalidation_claim": false
+}

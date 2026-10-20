@@ -1,0 +1,5 @@
+{
+  "error": "KeyError: 'new_engine_or_API_executions'",
+  "cause": "Inherited verifier used respiration manifest field; sulfur manifest explicitly names new_engine_or_API_executions_by_this_review. Correct schema field, no material or selection change.",
+  "physical_failure_claim": false
+}

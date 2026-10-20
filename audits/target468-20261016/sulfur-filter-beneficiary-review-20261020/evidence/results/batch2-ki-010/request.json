@@ -1,0 +1,1 @@
+{"script": "# KI-010: Removing the visible sulfur does not remove all unreacted precursor\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 Na2S2O3 0.002mol\nadd v1 HCl 0.002mol\nwait 10s\nnew\nfilter v1 v2\ninspect\nwait 30s\ninspect\n"}

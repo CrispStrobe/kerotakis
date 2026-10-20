@@ -1,0 +1,7 @@
+{
+  "stage": "first actual saved API review",
+  "error": "KeyError: 'scene'",
+  "cause": "Reader assumed full CLI scene field, but actual authenticated API observations omit scene. Canonical bench phase/gas material data is present. Original KI010 criteria require precursor and solid ownership, not a rendered scene.",
+  "physical_failure_claim": false,
+  "new_request_required": false
+}

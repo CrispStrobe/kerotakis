@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.saved-production-evidence-manifest.v1",
+  "files_sha256": {
+    "ISSUED.json": "efd7e5a7eb970ed4ab2b346f18296fd6c5fe701907a053cc2c9d8a3e49a31d39",
+    "design.json": "0ae4d2662a7481020dc8871b762a3ced69285482de117407511cd2e94e444b19",
+    "independent-assessment-bounded.json": "00f09413fe89f7dff8fcadd7f3999406a14d4d0059705233aab8160d3565beb5",
+    "independent-assessment.json": "d8a7189627bdea1cf7c593a7500032ab37fe04191d4f4539105f9cf49eed4060",
+    "results/STARTED.json": "3cc60a1d92b88bd18e3741ef35e6587e7e90b3a9fd41a34e059d3aa1832b5ca8",
+    "results/batch2-ki-010/http.json": "79758b9caa515c6478f040ee0f688ccb1286a9230204c7a6de24c3c3f5668f6d",
+    "results/batch2-ki-010/issued.json": "ceb74229d4bccf45f76fe565f7c080c6ee7380088ab7ffc28d4f8af7f9212e5d",
+    "results/batch2-ki-010/request.json": "8afbd5f39787f3adc037c04e517171a5fa3264b01e7c047c16e0c54c747ce5d9",
+    "results/batch2-ki-010/response.body": "535afd11147e0b3d6e5de1f4450270fcdbea72d0ef485eefa76df1a144cca335",
+    "results/completion.json": "aca514ee6cc4e22b70f1118d650fb05bd1d4564467aceb2e8b53c69009f008a3",
+    "results/design.json": "0ae4d2662a7481020dc8871b762a3ced69285482de117407511cd2e94e444b19",
+    "run_once.py": "ce6da653aadcf3624aa80b6621478f5d03f0e79a29ac626641e872267c291163"
+  },
+  "saved_reader_sha256": "b6eaddaaddce62ff3515227cf0ea0565deba4ec99bf9c43d92c566befeba8090",
+  "privacy": "Bounded text files checked for private host paths and credential values; no owner credential file included.",
+  "new_engine_or_API_executions_by_this_review": 0,
+  "scientific_selection_assigned": false
+}
