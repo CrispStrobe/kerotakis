@@ -1,6 +1,6 @@
 # Seventh bounded saved review: eight unchanged originals
 
-Three proposals await independent parent adjudication: AB-032, PQ-005 and MO-009. Five originals remain held. These are authenticated historical observations at source `c44692053a94c59dcf62e7fb67549f84c7d18f83`, not current runtime results or new executions. Original forecasts, scripts and criteria are unchanged; no catalog membership is assigned.
+The parent independently reproduced and accepted three bounded cases: AB-032, PQ-005 and MO-009. Five originals remain held. These are authenticated historical observations at source `c44692053a94c59dcf62e7fb67549f84c7d18f83`, not current runtime results or new executions. Original forecasts, scripts and criteria are unchanged; no catalog membership is assigned.
 
 ```sh
 python3 audits/target468-20261016/batch2-selection-review-seventh-20261020/review_saved.py --repo . > NEW_ASSESSMENT.json
@@ -32,3 +32,5 @@ Historical failures are not automatically current bugs. `source-capability-curre
 5. **Iodide/iron redox:** EC-008 shares the iodine-family molecular/anion ownership gap. Repair the generic Fe(III)/iodide reaction only with explicit electron balance, iodide/I2/I3 domain, counterions and full every-step Fe/I/S/Cl/H/O/charge ledgers. Compare acid/counterion/oxygen controls; no visual proxy or unearned open-vessel oxygen exclusion.
 
 No engine/API requests, builds, jobs, source changes, automatic selections or commits occur in this review.
+
+Parent acceptance and independent analytic Cp antiderivative are recorded in `parent-adjudication.json`. The failed first numerical-method agreement assumption remains in `parent-quadrature-crosscheck-first-assumption.json`; its0.000231J discrepancy does not change the existing0.1J physical energy tolerance or any original criterion. The successor selection preserves all322 predecessor catalog entries exactly.
