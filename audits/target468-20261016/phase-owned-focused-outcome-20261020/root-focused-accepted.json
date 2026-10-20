@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-20T08:47:06.358454+00:00",
+  "source": "b4daecf742be080577e9fda57fc1ef55aefef3d3",
+  "tree": "6386c89af31f33948d9d6a88f2da8151497f0dbf",
+  "baseline_head": "23958fb63972ed41352d326c3cb408ce39a81c60",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "worker_sha256": "1f054a3e1ebce77f51760c249ebf5ade6e6bb702a7138d77d8133c8908d73c34",
+  "six_real_baseline_failures_and_two_positive_controls": true,
+  "eight_fixed_controls_and_locale_composed_clippy_pass": true,
+  "full_source_acceptance": false,
+  "production_or_original_experiment_acceptance": false,
+  "scientific_selections": 0,
+  "test_binary_binding_hashes": {
+    "baseline": "053adc6b72fa343a297d64c332e2e974a8a6f29d69e31c590ee14c60adf5c574",
+    "fixed": "1337c7364188985d2ae504ad880918d17a563e57ae1550d39cb804bbfedd6817"
+  }
+}

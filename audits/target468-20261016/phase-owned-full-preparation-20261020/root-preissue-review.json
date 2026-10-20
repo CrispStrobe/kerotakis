@@ -1,0 +1,10 @@
+{
+  "worker_sha256": "e234d15353a5fe40bff8e819c5f8fe624cc8d4151a2a0a8e6542ea46f195680a",
+  "plan_sha256": "d3a54bc72987f33cd82ed5de17543b7bd806ad26c890e6527f3b949498caeea7",
+  "exact_focused_source": "b4daecf742be080577e9fda57fc1ef55aefef3d3",
+  "root_focus_sha256": "8866cce63b0f262ff4a0ebfcbd3360dbde235523266ba1e27d71d43246c4e0d3",
+  "all33_jobs_142_steps_preserved": true,
+  "all42_platform_names_required": true,
+  "full_validation_not_yet_accepted": true,
+  "no_scientific_selection": true
+}

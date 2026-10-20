@@ -1,0 +1,10 @@
+{
+  "source": "23958fb63972ed41352d326c3cb408ce39a81c60",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": {
+    "target/debug/deps/phase_owned_transfers-2548257587fcc78c": {
+      "sha256": "d95639272344170f7040adb7d34a703b5802f68bc66703d7850e6adec134a9b9",
+      "bytes": 54360312
+    }
+  }
+}

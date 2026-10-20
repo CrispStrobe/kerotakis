@@ -1,0 +1,9 @@
+# Full phase-owned source validation issued —2026-10-20
+
+Exact PR846 source `b4daecf7`/tree `6386c89a` is under a single bounded two-CPU hosted validation. Actual [accepted focused baseline/fixed evidence](../phase-owned-focused-outcome-20261020/README.md) is authenticated and embedded; no baseline or original experiment is repeated. Final worker SHA256 is `e234d15353a5fe40bff8e819c5f8fe624cc8d4151a2a0a8e6542ea46f195680a`, actual supplied lock is `66886813`. Earlier prepared pre-focus drafts remain separate and were never issued.
+
+Acceptance requires2172 core/184 thermo/620 native/two hooks,500 original coverage requirements without drift, all33 original product jobs/142 steps/29 laws, all eight new named controls and all34 prior platform names. The saved reader independently checks actual source/workflow/commands/raw artifacts and counters; a producer completion assertion alone is insufficient. It accepts `--repo REPOSITORY --run-dir COLLECTED_RUN_DIRECTORY`.
+
+The same-source duplicate GitHub chemistry fleet had exactly one queued job, runner0 and zero steps when transferred to this already-issued full producer. Protected CI and active jobs were untouched. The full CPU result is not yet accepted; it cannot replace protected CI or both actual native-platform logs. Preserve any first failure and repair its actual cause on a separately bound successor.
+
+After all applicable checks and exact-source review, mark PR846 ready and enable normal exact-head auto-merge. Verify actual merged parents/tree, then changed-source artifact/API/unchanged37-browser plus targeted controls. Execute unchanged original SE009 only after actual delivery, independently checking all original criteria and physical fraction ownership. Nothing in this preparation adds a scientific catalog selection.

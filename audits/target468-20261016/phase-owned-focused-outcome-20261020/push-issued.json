@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-20T08:39:38.519946+00:00",
+  "source": "b4daecf742be080577e9fda57fc1ef55aefef3d3",
+  "worker_sha256": "1f054a3e1ebce77f51760c249ebf5ade6e6bb702a7138d77d8133c8908d73c34",
+  "cpu_only": true,
+  "original_experiments": 0,
+  "memory_mib": 4333,
+  "load1": 1.07470703125,
+  "independent_static_review": "phase fixture API and phase inventory review; validated delta guard included"
+}

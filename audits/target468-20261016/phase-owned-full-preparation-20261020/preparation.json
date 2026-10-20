@@ -1,0 +1,33 @@
+{
+  "utc": "2026-10-20T08:47:08.102220+00:00",
+  "source": "b4daecf742be080577e9fda57fc1ef55aefef3d3",
+  "tree": "6386c89af31f33948d9d6a88f2da8151497f0dbf",
+  "worker_sha256": "e234d15353a5fe40bff8e819c5f8fe624cc8d4151a2a0a8e6542ea46f195680a",
+  "source_main_prerequisite": "ed012116b065434047c6e90300d9d7b23aefab77",
+  "focus_source": "b4daecf742be080577e9fda57fc1ef55aefef3d3",
+  "focus_baseline": "23958fb63972ed41352d326c3cb408ce39a81c60",
+  "phase_owned_prerequisite_embedded": true,
+  "state": "PREPARED_NOT_ISSUED",
+  "provider_requests": 0,
+  "expected_core_tests": 2172,
+  "expected_native_tests": 620,
+  "expected_thermo_tests": 184,
+  "expected_external_hooks": 2,
+  "logical_jobs": 33,
+  "original_steps": 142,
+  "law_reports": 29,
+  "coverage_requirements": 500,
+  "exact_new_controls": [
+    "drain_preserves_solid_before_aqueous_of_same_species",
+    "drain_preserves_gas_before_aqueous_of_same_species",
+    "catalyst_promotion_debits_only_solid_inventory",
+    "saturation_events_match_actual_phase_changes",
+    "saturation_direct_and_delta_agree_on_owned_phases",
+    "iodide_assisted_iodine_debits_solid_not_existing_solution",
+    "drain_ordinary_aqueous_first_keeps_both_inventories",
+    "aqueous_capacity_uses_liquid_water_even_in_minority_layer"
+  ],
+  "prior_platform_controls": 34,
+  "total_platform_controls": 42,
+  "expected_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+}
