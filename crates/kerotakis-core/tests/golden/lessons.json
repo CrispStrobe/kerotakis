@@ -2259,10 +2259,10 @@
       "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
       "v1: 0.044546 mol O2 produced (4.455e-3 mol/s)",
       "v1: foam 1.029 L, 36.8 cm high, overflow 0.907 L",
-      "v1: peroxide-decomposition released 4374.39 J",
-      "v1: 26.6 °C → 34.7 °C",
+      "v1: peroxide-decomposition released 8748.78 J",
+      "v1: 26.6 °C → 42.9 °C",
       "v1: 0.0445 mol reacted in 10 s, sped up by catalase  —  2 H₂O₂ → 2 H₂O + O₂↑",
-      "v1: 34.7 °C → 34.7 °C",
+      "v1: 42.9 °C → 42.8 °C",
       "v2: 25.0 °C → 26.7 °C",
       "v2: +1.1069 mol water — 6.5451 mol now in vessel",
       "v2: +1.000 g dry yeast (1 known ingredient(s))",
@@ -2295,7 +2295,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 307.2908
+        "temperature_k": 314.969
       },
       {
         "contents": [
@@ -2322,12 +2322,12 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 307.878
+        "temperature_k": 316.0497
       }
     ]
   },
   "elephant-toothpaste-catalyst-dose": {
-    "event_count": 19,
+    "event_count": 20,
     "events_sample": [
       "v1: +101.000 g 3% hydrogen peroxide (2 known ingredient(s))",
       "v1: +10.300 g dish soap (1 known ingredient(s))",
@@ -2340,14 +2340,15 @@
       "v2: 6.02 mmol potassium iodide dissolved",
       "v1: 0.002076 mol O2 produced (2.076e-4 mol/s)",
       "v1: foam 0.048 L, 1.7 cm high, overflow 0.000 L",
-      "v1: peroxide-decomposition released 203.91 J",
-      "v1: 25.0 °C → 25.4 °C",
+      "v1: peroxide-decomposition released 407.81 J",
+      "v1: 25.0 °C → 25.9 °C",
       "v1: 2.08 mmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
       "v2: 0.007743 mol O2 produced (7.743e-4 mol/s)",
       "v2: foam 0.179 L, 6.4 cm high, overflow 0.038 L",
-      "v2: peroxide-decomposition released 760.35 J",
-      "v2: 25.0 °C → 26.7 °C",
-      "v2: 7.74 mmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑"
+      "v2: peroxide-decomposition released 1520.70 J",
+      "v2: 25.0 °C → 28.4 °C",
+      "v2: 7.74 mmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v2: 28.4 °C → 28.3 °C"
     ],
     "lesson": "elephant-toothpaste-catalyst-dose.lab",
     "vessels": [
@@ -2376,7 +2377,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 298.5991
+        "temperature_k": 299.0483
       },
       {
         "contents": [
@@ -2403,7 +2404,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 299.8238
+        "temperature_k": 301.4976
       }
     ]
   },
@@ -4971,22 +4972,22 @@
       "v1: +11.0686 mol water",
       "v1: +0.0100 mol hydrogen peroxide",
       "v1: 0.000001 mol O2 produced (4.062e-8 mol/s)",
-      "v1: peroxide-decomposition released 0.12 J",
+      "v1: peroxide-decomposition released 0.24 J",
       "v1: 1.22 µmol reacted in 30 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
       "v2: new vessel",
       "v2: +11.0686 mol water",
       "v2: +0.0100 mol hydrogen peroxide",
       "v1: 0.000002 mol O2 produced (4.060e-8 mol/s)",
-      "v1: peroxide-decomposition released 0.24 J",
+      "v1: peroxide-decomposition released 0.48 J",
       "v1: 2.44 µmol reacted in 60 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
       "v2: 0.000002 mol O2 produced (4.061e-8 mol/s)",
-      "v2: peroxide-decomposition released 0.24 J",
+      "v2: peroxide-decomposition released 0.48 J",
       "v2: 2.44 µmol reacted in 60 s  —  2 H₂O₂ → 2 H₂O + O₂↑",
       "v3: new vessel",
       "v3: +11.0686 mol water",
       "v3: +0.0100 mol hydrogen peroxide",
-      "v1: 0.000005 mol O2 produced (4.057e-8 mol/s)",
-      "v1: peroxide-decomposition released 0.48 J",
+      "v1: 0.000005 mol O2 produced (4.058e-8 mol/s)",
+      "v1: peroxide-decomposition released 0.96 J",
       "v1: 4.87 µmol reacted in 120 s  —  2 H₂O₂ → 2 H₂O + O₂↑"
     ],
     "lesson": "longer-waits-advance-peroxide-kinetics.lab",
@@ -5011,7 +5012,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 298.1521
+        "temperature_k": 298.1543
       },
       {
         "contents": [
@@ -5033,7 +5034,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 298.152
+        "temperature_k": 298.154
       },
       {
         "contents": [
@@ -5055,7 +5056,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 298.1517
+        "temperature_k": 298.1534
       },
       {
         "contents": [
@@ -5077,7 +5078,7 @@
         ],
         "headspace": "Open",
         "label": "beaker",
-        "temperature_k": 298.1511
+        "temperature_k": 298.1523
       }
     ]
   },
@@ -5102,8 +5103,8 @@
       "v1: water froze at 0.0 °C",
       "v1: -70.9 °C → 0.0 °C",
       "v2: 0.000719 mol O2 produced (2.398e-5 mol/s)",
-      "v2: peroxide-decomposition released 70.65 J",
-      "v2: 121.4 °C → 124.7 °C"
+      "v2: peroxide-decomposition released 141.30 J",
+      "v2: 121.4 °C → 128.1 °C"
     ],
     "lesson": "luminol-temperature.lab",
     "vessels": [
@@ -5142,7 +5143,7 @@
             "species": "O2"
           },
           {
-            "moles": 0.27060178,
+            "moles": 0.26928144,
             "phase": "Liquid",
             "species": "water"
           }
