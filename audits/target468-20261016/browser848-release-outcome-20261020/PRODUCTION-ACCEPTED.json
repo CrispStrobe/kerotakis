@@ -1,0 +1,100 @@
+{
+  "source": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+  "engine": {
+    "source_head": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+    "binary_sha256": "4989a70cf89cb69642be4df07220686efe661fa18cd9942afef6acd8b708511e",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "API_controls": 11,
+  "unchanged_browser_controls": 37,
+  "prior_targeted_browser_controls": 7,
+  "supplemental_locale_browser_controls": 18,
+  "all62_browser_checks_accepted": true,
+  "independently_rechecked_family_dynamic_locale_cases": [
+    {
+      "case": "de-family-cold15",
+      "actual_temperature_k": 289.75,
+      "retained_acid_mol": 0.009999999999999998,
+      "retained_ethanol_mol": 0.01,
+      "structured_gate": "temperature_k",
+      "localized_rendered": "v1: T 298,150 K \u2192 288,150 K (\u0394T = -10,000 K)\nv1: +0,010000 mol Essigs\u00e4ure (CH3COOH, M = 60,052 g/mol)\nv1: Essigs\u00e4ure Liquid \u2192 Solid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: Essigs\u00e4ure Liquid \u2192 Solid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: Essigs\u00e4ure Liquid \u2192 Solid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: Essigs\u00e4ure Liquid \u2192 Solid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: T 288,150 K \u2192 294,550 K (\u0394T = +6,400 K)\nv1: Essigs\u00e4ure Solid \u2192 Liquid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: T 294,550 K \u2192 289,750 K (\u0394T = -4,800 K)\nv1: NICHT MODELLIERT: Essigs\u00e4ure ist mit einer Fl\u00fcssigkeit in Kontakt; kein angebundener L\u00f6ser modelliert diese Aufl\u00f6sung oder Reaktion\nv1: T 289,750 K \u2192 288,987 K (\u0394T = -0,763 K)\nv1: +0,010000 mol Ethanol (C2H5OH, M = 46,069 g/mol)\nv1: Essigs\u00e4ure Liquid \u2192 Solid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: Essigs\u00e4ure Liquid \u2192 Solid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: Essigs\u00e4ure Liquid \u2192 Solid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: Essigs\u00e4ure Liquid \u2192 Solid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: T 288,987 K \u2192 292,040 K (\u0394T = +3,053 K)\nv1: Essigs\u00e4ure Solid \u2192 Liquid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: T 292,040 K \u2192 289,750 K (\u0394T = -2,290 K)\nv1: Essigs\u00e4ure Solid \u2192 Liquid bei 289,75 K (16,60 \u00b0C), um +0,000 K durch gel\u00f6ste Teilchen verschoben\nv1: NICHT MODELLIERT: fischer-esterification v1 passte, wurde aber an Temperatur abgelehnt: das Gef\u00e4\u00df steht bei 289,8 K und die Familie ben\u00f6tigt mindestens 333,1 K. Warten liefert keine fehlende Reaktionsgeschwindigkeit und erf\u00fcllt auch kein Bedingungstor"
+    },
+    {
+      "case": "de-family-cold25",
+      "actual_temperature_k": 298.15,
+      "retained_acid_mol": 0.01,
+      "retained_ethanol_mol": 0.01,
+      "structured_gate": "temperature_k",
+      "localized_rendered": "v1: +0,010000 mol Essigs\u00e4ure (CH3COOH, M = 60,052 g/mol)\nv1: +0,010000 mol Ethanol (C2H5OH, M = 46,069 g/mol)\nv1: NICHT MODELLIERT: fischer-esterification v1 passte, wurde aber an Temperatur abgelehnt: das Gef\u00e4\u00df steht bei 298,1 K und die Familie ben\u00f6tigt mindestens 333,1 K. Warten liefert keine fehlende Reaktionsgeschwindigkeit und erf\u00fcllt auch kein Bedingungstor"
+    },
+    {
+      "case": "de-family-warm65",
+      "actual_temperature_k": 335.3128993591462,
+      "retained_acid_mol": 0.01,
+      "retained_ethanol_mol": 0.01,
+      "structured_gate": "catalyst",
+      "localized_rendered": "v1: T 298,150 K \u2192 338,150 K (\u0394T = +40,000 K)\nv1: +0,010000 mol Essigs\u00e4ure (CH3COOH, M = 60,052 g/mol)\nv1: +0,010000 mol Ethanol (C2H5OH, M = 46,069 g/mol)\nv1: T 338,150 K \u2192 335,313 K (\u0394T = -2,837 K)\nv1: NICHT MODELLIERT: fischer-esterification v1 passte, wurde aber an Katalysator abgelehnt: kein Schwefels\u00e4ure oder Wasserstoffionen im Gef\u00e4\u00df \u2014 die Familie ben\u00f6tigt einen vorhandenen Katalysator. Warten liefert keine fehlende Reaktionsgeschwindigkeit und erf\u00fcllt auch kein Bedingungstor"
+    },
+    {
+      "case": "fr-family-cold15",
+      "actual_temperature_k": 289.75,
+      "retained_acid_mol": 0.009999999999999998,
+      "retained_ethanol_mol": 0.01,
+      "structured_gate": "temperature_k",
+      "localized_rendered": "v1 : T 298,150 K \u2192 288,150 K (\u0394T = -10,000 K)\nv1 : +0,010000 mol acide ac\u00e9tique (CH3COOH, M = 60,052 g/mol)\nv1 : acide ac\u00e9tique Liquid \u2192 Solid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : acide ac\u00e9tique Liquid \u2192 Solid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : acide ac\u00e9tique Liquid \u2192 Solid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : acide ac\u00e9tique Liquid \u2192 Solid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : T 288,150 K \u2192 294,550 K (\u0394T = +6,400 K)\nv1 : acide ac\u00e9tique Solid \u2192 Liquid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : T 294,550 K \u2192 289,750 K (\u0394T = -4,800 K)\nv1 : NON MOD\u00c9LIS\u00c9 : acide ac\u00e9tique au contact du liquide : aucun solveur c\u00e2bl\u00e9 ne mod\u00e9lise cette dissolution ou cette r\u00e9action\nv1 : T 289,750 K \u2192 288,987 K (\u0394T = -0,763 K)\nv1 : +0,010000 mol \u00e9thanol (C2H5OH, M = 46,069 g/mol)\nv1 : acide ac\u00e9tique Liquid \u2192 Solid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : acide ac\u00e9tique Liquid \u2192 Solid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : acide ac\u00e9tique Liquid \u2192 Solid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : acide ac\u00e9tique Liquid \u2192 Solid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : T 288,987 K \u2192 292,040 K (\u0394T = +3,053 K)\nv1 : acide ac\u00e9tique Solid \u2192 Liquid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : T 292,040 K \u2192 289,750 K (\u0394T = -2,290 K)\nv1 : acide ac\u00e9tique Solid \u2192 Liquid \u00e0 289,75 K (16,60 \u00b0C), d\u00e9cal\u00e9 de +0,000 K par les particules dissoutes\nv1 : NON MOD\u00c9LIS\u00c9 : fischer-esterification v1 a correspondu, mais a \u00e9t\u00e9 refus\u00e9e au verrou temp\u00e9rature : le r\u00e9cipient est \u00e0 289,8 K et la famille n\u00e9cessite au moins 333,1 K. Attendre ne fournit pas une vitesse de r\u00e9action manquante et ne satisfait pas le verrou de condition"
+    },
+    {
+      "case": "fr-family-cold25",
+      "actual_temperature_k": 298.15,
+      "retained_acid_mol": 0.01,
+      "retained_ethanol_mol": 0.01,
+      "structured_gate": "temperature_k",
+      "localized_rendered": "v1 : +0,010000 mol acide ac\u00e9tique (CH3COOH, M = 60,052 g/mol)\nv1 : +0,010000 mol \u00e9thanol (C2H5OH, M = 46,069 g/mol)\nv1 : NON MOD\u00c9LIS\u00c9 : fischer-esterification v1 a correspondu, mais a \u00e9t\u00e9 refus\u00e9e au verrou temp\u00e9rature : le r\u00e9cipient est \u00e0 298,1 K et la famille n\u00e9cessite au moins 333,1 K. Attendre ne fournit pas une vitesse de r\u00e9action manquante et ne satisfait pas le verrou de condition"
+    },
+    {
+      "case": "fr-family-warm65",
+      "actual_temperature_k": 335.3128993591462,
+      "retained_acid_mol": 0.01,
+      "retained_ethanol_mol": 0.01,
+      "structured_gate": "catalyst",
+      "localized_rendered": "v1 : T 298,150 K \u2192 338,150 K (\u0394T = +40,000 K)\nv1 : +0,010000 mol acide ac\u00e9tique (CH3COOH, M = 60,052 g/mol)\nv1 : +0,010000 mol \u00e9thanol (C2H5OH, M = 46,069 g/mol)\nv1 : T 338,150 K \u2192 335,313 K (\u0394T = -2,837 K)\nv1 : NON MOD\u00c9LIS\u00c9 : fischer-esterification v1 a correspondu, mais a \u00e9t\u00e9 refus\u00e9e au verrou catalyseur : aucun acide sulfurique ou ions hydrog\u00e8ne dans le r\u00e9cipient \u2014 la famille n\u00e9cessite la pr\u00e9sence de son catalyseur. Attendre ne fournit pas une vitesse de r\u00e9action manquante et ne satisfait pas le verrou de condition"
+    }
+  ],
+  "actual_assets": {
+    "kerotakis_wasm.js": {
+      "status": 200,
+      "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "bytes": 41630
+    },
+    "kerotakis_wasm_bg.wasm": {
+      "status": 200,
+      "sha256": "af0a77afbe513633e1d5a4eabeb734400a99cf080186c950483bb8368bd713ac",
+      "bytes": 11450012
+    },
+    "iphreeqc.mjs": {
+      "status": 200,
+      "sha256": "c56475cd941a3514c05a62ff449ae3ba86a61e5944a11c6b9654f80fc9202ef2",
+      "bytes": 30111
+    },
+    "kerotakis.mjs": {
+      "status": 200,
+      "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "bytes": 8205
+    },
+    "iphreeqc.wasm": {
+      "status": 200,
+      "sha256": "aca79c747b5825dcf919980f5e8055acc8567647ba42902453f7543e6d751d8c",
+      "bytes": 1952581
+    }
+  },
+  "locale_report_sha256": "2078e4c92ad363726901d0daf61e03ff3863489dc5872ad3fd6aba6e2456f3af",
+  "prior44_receipt_sha256": "45d3ada34dfaccf6cff6a49df8af1cd1644c33530cdb90299760f2b0ff2be21c",
+  "manifest_sha256": "836470082423d13746396ea2afb720471b153eeb8493e69c4b270351f308f3f0",
+  "catalog_additions": 0,
+  "all_i18n_complete_claim": false,
+  "scientific_yield_claim": false,
+  "utc": "2026-10-20T16:59:01.926955+00:00",
+  "both_independent_saved_reviews_equal": true,
+  "original_receipt_sha256": "ad4b7bbcdf7cefe6d00e1ec1d4f2afd4b488ba67a3e796cc65bbf406ee5a77c7",
+  "parent_receipt_sha256": "ad4b7bbcdf7cefe6d00e1ec1d4f2afd4b488ba67a3e796cc65bbf406ee5a77c7"
+}

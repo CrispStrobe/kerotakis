@@ -1,0 +1,11 @@
+# Browser848 production release accepted
+
+Integrated/deployed source5a2cac0b78c4546dae0a8900cbc797fe40b37a55 is accepted on actual native4989a70c and actual production lock41bbdc74. The [artifact/API evidence](../browser848-delivery-reviewed-issued-20261020/README.md) retains actual binary/library/asset bindings,11 original API controls and concurrency[200,429]. The once-issued browser chain now independently accepts all62 controls:37 unchanged, seven prior targeted and18 new German/French blank/family cases. No original scientific protocol or prior API control was replayed.
+
+Original producer manifests, source/unchanged-source records, actual raw browser reports and stage receipts are retained separately for each execution. The parent manually invoked the archived18 saved reader a third time; its result equals both earlier independently invoked saved reviews exactly. The final receipt binds all prior API/37/7 source, actual native binary/producer lock, served client and five actual assets before claiming62 controls. Six dynamic family cases are recomputed from raw structured numeric/temperature-window/nested catalyst reasons, localized strings, owned inventories and clocks. Browser Chromium security remained enabled.
+
+This replaces000ca572 as the latest fully browser-accepted production. Previous329 selections retain their original source-specific bindings; no old experiment is relabeled as rerun on5a. Qualified coverage remains329/468. Source acceptance and actual release delivery do not themselves add scientific selections or establish complete runtime i18n, empirical kinetics, activities, retention or photon yield.
+
+The separate [peroxide snapshot successor86df84aa](../peroxide-snapshot-full-issued-20261020/README.md) remains under full CPU/platform validation in draft PR850. Preserve that running head and all first failures; normal exact-head auto-merge follows actual acceptance, then changed production delivery. Next source controls and remaining139 criterion tasks are scoped in maintained handoffs.
+
+Only the named small raw subset is published here. Producer manifests retain hashes for other preserved outputs; absence of those large/auxiliary bytes in this directory is not an assertion that they were independently republished. All published raw members match their corresponding original producer-manifest hashes.

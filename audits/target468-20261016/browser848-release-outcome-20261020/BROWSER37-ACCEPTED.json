@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-20T16:53:54.835182+00:00",
+  "source": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+  "engine": {
+    "source_head": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+    "binary_sha256": "4989a70cf89cb69642be4df07220686efe661fa18cd9942afef6acd8b708511e",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "browser_report_sha256": "ddf7207050d02d68e2ebe1c9efbbd38266805d750d842108232bad9439fab9e1",
+  "manifest_sha256": "ea23f956e23aa23d36b8ad0d3bfc6e5391582a0583651a8991962d164a6158f6",
+  "unchanged_checks": 37,
+  "owner_credentials_supplied": false,
+  "targeted_partition_delivery_still_pending": true,
+  "catalog_additions": 0
+}
