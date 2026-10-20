@@ -1,0 +1,17 @@
+{
+  "source_head": "101ea2787048787d7b1dc021f3098317c9314ec4",
+  "source_tree": "7358f09ffa830bb5cab586923a3b128403ac26b4",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/derived.rs": "d5d2436439578f6fbad78dc320582b32769c2ea5cdc4070fa74a97b5820122c5",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "registered_relevant_compositions": [
+    "I2",
+    "KI"
+  ],
+  "curated_and_kinetic_writers_have_no_S4O6": true,
+  "derived_S4O6_mentions_are_explicit_thiosulfate_exclusions": true,
+  "scope": "Read-only source review of parent-designated integrated source101ea278; no current execution or independent scientific current pass/failure claim. Historical immutable raw c446 failures remain separate."
+}

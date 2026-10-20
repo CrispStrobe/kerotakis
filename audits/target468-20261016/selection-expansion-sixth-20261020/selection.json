@@ -1,0 +1,24 @@
+{
+  "schema": "kerotakis.scientific-selection-expansion.v1",
+  "utc": "2026-10-20T10:23:42.425382+00:00",
+  "previous_catalog": "audits/working-experiments-20261020-reviewed-respiration.json",
+  "previous_catalog_sha256": "36665929eb9fe18d834d2e88a58615516812702efbd28f0ade07588223f2bd38",
+  "previous_catalog_entries": 318,
+  "new_catalog": "audits/working-experiments-20261020-reviewed-batch2-sixth.json",
+  "new_catalog_sha256": "0fda72ac74b180d6be7af38b9e32e495f0860f9122dc678a48fdaa3b427f1d3e",
+  "all318_previous_entries_preserved_exactly": true,
+  "new_selected_originals": [
+    "batch2:gs-011",
+    "batch2:se-010",
+    "batch2:ki-009"
+  ],
+  "new_scientific_selections": 3,
+  "unique_fixed468_before": 314,
+  "unique_fixed468_after": 317,
+  "catalog_entries": 321,
+  "additional_to401": 84,
+  "remaining_unselected_originals": 151,
+  "parent_adjudication": "audits/target468-20261016/batch2-selection-review-sixth-20261020/parent-adjudication.json",
+  "new_engine_or_API_executions": 0,
+  "uniform_current_release_revalidation_claim": false
+}

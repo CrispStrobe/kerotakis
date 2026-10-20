@@ -1,0 +1,38 @@
+{
+  "schema": "kerotakis.parent-scientific-adjudication.v1",
+  "utc": "2026-10-20T10:23:42.425382+00:00",
+  "assessment_sha256": "4743419985b9c434a00545b02aeedcea3b9e81ef3d21221b6386a48963843b01",
+  "reader_sha256": "73cd240aeea303746afe63b1a372b36eceb289998016d8de2a8a40cbfa982e6c",
+  "source_addenda_sha256": {
+    "current-iodine-source-review.json": "9c7633ded42bc18eac2417aad49125b37f08be4e0360f25d108ea0f4dd0b4db2",
+    "pending-credit-source-addendum.json": "5c7d881d2fa1e214e856abb07c79944f20305c15e60b22b22bdadee54f71c982"
+  },
+  "parent_independently_reproduced_actual_CLI_JSON": true,
+  "parent_independently_reproduced_both_source_blob_addenda": true,
+  "parent_inspected_all_three_original_forecasts_criteria_named_limits_phase_clock_and_pending_CO2_ownership": true,
+  "accepted_originals": [
+    "batch2:gs-011",
+    "batch2:se-010",
+    "batch2:ki-009"
+  ],
+  "held_originals": [
+    "batch2:mo-012",
+    "batch2:qa-007",
+    "batch2:qa-008",
+    "batch2:ki-005",
+    "batch2:ki-010"
+  ],
+  "accepted_scopes": {
+    "batch2:gs-011": [
+      "Boundary-budget demonstration only: open-dose equilibrium and subsequent explicit reservoir update, not calibrated60s mass-transfer or degassing kinetics. Actual clocks differ120s/60s; no equal-aged rate comparison. No lost carbon is restored by sealing, apart from explicitly added baseline air."
+    ],
+    "batch2:se-010": [
+      "Selectivity of explicit magnetic-solid operation on the actual metallic/dissolved inputs only. Ordinary bulk extraction is distinguished from nonzero ionic susceptibility. Slow metal corrosion and unoffered metastable iron-oxide/hydroxide formation remain unpredicted; no stable-phase precipitation or long-term corrosion claim."
+    ],
+    "batch2:ki-009": [
+      "Bounded qualitative stop/restart or separation ownership demonstration. No continuously coupled equilibrium, buffered-acid reserve, isothermal/calibrated-rate or universal acid-kinetics claim. Sulfur is all-phase inventory; tiny aqueous dissolution is distinguished from new elemental production. SO2 remains a separately owned canonical gas unless an explicit boundary event exports it."
+    ]
+  },
+  "candidate101_is_not_integrated_main_wording_correction_preserved": true,
+  "new_engine_or_API_executions": 0
+}

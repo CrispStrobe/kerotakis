@@ -1,0 +1,16 @@
+{
+  "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/lib.rs": "5aa894e5b54d3bae5611e2980533b1bd0a637b50c0d59da433032bf0f2751d98",
+    "crates/kerotakis-core/src/clock.rs": "a7e64dac6135a6150f6c241beeb63e52e114de84ec217f1b694ac90b0476d80c",
+    "crates/kerotakis-core/src/vessel.rs": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "eb75a5ddea5818a929d7e37468fddf320f9336ece01d1119ee7962db88b2785d"
+  },
+  "pending_transfer_ownership": "Source clock computes desired atmospheric exchange and accumulates pending_co2_transfer_mol; aqueous adapter applies only above CO2_TRANSFER_FLOOR_MOL=OBSERVABLE_MOLES=1e-6mol, otherwise retains pending credit, with no actual GasAbsorbed event or canonical carbon inventory. Applied transfer resets credit and emits exactly one boundary event. Pending credits are separate unapplied external claims, not additional molecules already in contents.",
+  "maximum_saved_pending_credit_mol": {
+    "batch2:ki-009": "2.0439475641341972e-8",
+    "batch2:ki-010": "8.792273960024828e-9"
+  },
+  "reader_zero_pending_assumption_rejected": true,
+  "no_measured_atmospheric_uptake_or_continuously_coupled_gas_rate_claim": true
+}

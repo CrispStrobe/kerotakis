@@ -1,0 +1,6 @@
+{
+  "stage": "first saved-reader execution",
+  "error": "AssertionError in asserted zero pending_co2_transfer_mol",
+  "actual_counterexample": "KI009 has pending transfer from2.9372453230441287e-9 to2.0439475641341972e-8mol; KI010 also has pending amounts. Must inspect exact clock and aqueous source before classifying pending credit versus material ownership.",
+  "physical_failure_claim": false
+}
