@@ -1,0 +1,1881 @@
+{
+  "schema": "kerotakis.MO001.original.saved-review.v1",
+  "status": "PASS_PROPOSAL_PENDING_PARENT_REVIEW",
+  "original_id": "batch2:mo-001",
+  "original_forecast": "If only the requested first arm esterifies, its remaining acid demand should be lower than the unactivated feed control. The titration-derived difference should be checked against the pre-workup ester inventory.",
+  "original_criteria": [
+    {
+      "id": "MO-001-C1",
+      "criterion": "Compare delivered hydroxide equivalents and separately inspect the acid and ester pools before dilution.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "MO-001-C2",
+      "criterion": "Check whether dilution or titration causes further hydrolysis; do not interpret that extra reaction as original conversion.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "original_limitations": [
+    "The named transformation is a teaching model; aqueous speciation ownership and base-induced ester hydrolysis can compromise a simple endpoint assay."
+  ],
+  "criteria": {
+    "MO-001-C1": true,
+    "MO-001-C2": true,
+    "every_captured_command_per_vessel_atoms_charge": true,
+    "all_owned_auxiliary_reservoirs_accounted": true,
+    "carrier_water_independently_reconciled": true,
+    "actual_phase_ownership_retained": true,
+    "no_hidden_elapsed_time": true,
+    "only_explicit_requested_ester_transformation": true,
+    "declared_model_domain": true
+  },
+  "raw_binding": {
+    "source": {
+      "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+      "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+      "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+      "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+    },
+    "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+    "binary_qualification": "Authenticated archived producer manifest identifies binary670; this run artifact does not contain executable bytes, so this reader cannot independently rehash the old executable. No stronger binary claim is made.",
+    "archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+    "original_script_path": "audits/new-experiments-201-20261016/scripts/MO-001.lab",
+    "script_sha256": "b3c43532238898de9ef4f8bd97baccf00448d1fa8f856a15b0a37bd4318018ba",
+    "stdout_sha256": "842337eda81ba02d5af02a617e6d6d3b439fbf784eecfbbdd03e500bdc5bbe6f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "members": [
+      "batch2_mo-001/experiment.lab",
+      "batch2_mo-001/stdout.jsonl",
+      "batch2_mo-001/stderr.txt"
+    ],
+    "captured_rows": 13
+  },
+  "source_blobs_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/vessel.rs": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd",
+    "crates/kerotakis-core/src/bench.rs": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80",
+    "crates/kerotakis-core/src/curated.rs": "20db49d2b0679fb77e1df7205f6a4ae8878f8becccf7c30cebb1c9796bcd27a5",
+    "crates/kerotakis-core/src/family.rs": "a834c820896aea806e66ef0a2989f42f0cbcedc53eaa7135cd50b6c68ccc3fae",
+    "crates/kerotakis-core/src/species.rs": "2f7cf2e683c3bb1f0718e5e8e9d75f3cad58621df256f115686fc279be17850f",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "eb75a5ddea5818a929d7e37468fddf320f9336ece01d1119ee7962db88b2785d"
+  },
+  "metrics": {
+    "independent_ideal_K4_extent_mol": "0.000666666666666666666666666666666666666666666667",
+    "actual_requested_extent_mol": "0.0006666666666666663",
+    "pre_workup_reaction_quotient": "3.99999999999998680000000000002540999999999996",
+    "endpoint_sample_blank": [
+      {
+        "row": 5,
+        "vessel": 0,
+        "delivered_OH_mol": "0.00033362792968749983",
+        "owned_sodium_increment_mol": "0.00033362792968750035",
+        "protonated_acid_mol": "5.659594040068456E-8",
+        "residual_owned_base_coordinate_mol": "3.511922945838991E-7",
+        "owned_proton_coordinate_mol": "0",
+        "acetate_family_mol": "0.00033333333333333348456",
+        "independent_acid_from_endpoint_mol": "0.00033333333333331661546",
+        "pH": "8.500095120185",
+        "temperature_K": "298.2278922128047",
+        "curve_points": 35,
+        "coarse_step_count": 34,
+        "actual_total_volume_L": "0.0033362792968749983",
+        "last_two_curve_points": [
+          [
+            "3.299999999999998",
+            "6.726959206647"
+          ],
+          [
+            "3.336279296874998",
+            "8.500095120185"
+          ]
+        ]
+      },
+      {
+        "row": 11,
+        "vessel": 1,
+        "delivered_OH_mol": "0.0010002294921874995",
+        "owned_sodium_increment_mol": "0.0010002294921875022",
+        "protonated_acid_mol": "1.6365638248424472E-7",
+        "residual_owned_base_coordinate_mol": "3.931485700308518E-7",
+        "owned_proton_coordinate_mol": "0",
+        "acetate_family_mol": "0.00100000000000000004472",
+        "independent_acid_from_endpoint_mol": "0.00099999999999995289292",
+        "pH": "8.500062948011",
+        "temperature_K": "298.36947842993993",
+        "curve_points": 102,
+        "coarse_step_count": 101,
+        "actual_total_volume_L": "0.010002294921874995",
+        "last_two_curve_points": [
+          [
+            "9.999999999999995",
+            "8.309415478841"
+          ],
+          [
+            "10.002294921874995",
+            "8.500062948011"
+          ]
+        ]
+      }
+    ],
+    "raw_blank_minus_sample_base_mol": "0.00066660156249999967",
+    "nominal_dosing_resolution_mol": "0.00001",
+    "acid_protonation_correction_mol": "1.0706044208356016E-7",
+    "subtract_residual_base_difference_mol": "4.19562754469527E-8",
+    "add_owned_proton_difference_mol": "0",
+    "corrected_extent_mol": "0.00066666666666663627746",
+    "corrected_minus_original_ester_mol": "-3.002254E-17",
+    "carrier_mol_per_L": "55.3427699139605883985567582570080488481820705",
+    "titrant_carrier_and_neutralisation_water": [
+      {
+        "row": 5,
+        "vessel": 0,
+        "actual_water_gain_mol": "0.184972214233041",
+        "independent_carrier_water_mol": "0.184638937495663242026089369969469886205939495",
+        "independent_NaOH_neutralisation_water_mol": "0.0003332767373929159309",
+        "residual_mol": "-1.5157956989369969469886205939495E-14"
+      },
+      {
+        "row": 11,
+        "vessel": 1,
+        "actual_water_gain_mol": "0.5545545428164755",
+        "independent_carrier_water_mol": "0.553554706472904247293921731890091590341382182",
+        "independent_NaOH_neutralisation_water_mol": "0.0009998363436174686482",
+        "residual_mol": "-4.6215942121731890091590341382182E-14"
+      }
+    ],
+    "maximum_cumulative_atom_charge_residuals": {
+      "C": "4.30880E-19",
+      "H": "9.24788571634637801831806827644E-14",
+      "O": "4.621585268173189009159034138218E-14",
+      "charge": "4.44518000000000000000000000000E-17",
+      "Na": "2.70E-18"
+    }
+  },
+  "per_command_per_vessel": [
+    {
+      "row": 0,
+      "vessel": 0,
+      "operator": "add",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0020",
+        "H": "0.0040",
+        "O": "0.0020",
+        "charge": "0.0000"
+      },
+      "owned_atoms_charge": {
+        "C": "0.0020",
+        "H": "0.0040",
+        "O": "0.0020",
+        "charge": "0.0000"
+      },
+      "residuals": {
+        "C": "0.0000",
+        "H": "0.0000",
+        "O": "0.0000",
+        "charge": "0.0000"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.001",
+          "phase": "liquid",
+          "species": "CH3COOH"
+        }
+      ],
+      "external_input_this_command": {
+        "vessel": 0,
+        "species": "CH3COOH",
+        "moles": "0.001"
+      }
+    },
+    {
+      "row": 1,
+      "vessel": 0,
+      "operator": "add",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "0.0100",
+        "O": "0.0030",
+        "charge": "0.0000"
+      },
+      "owned_atoms_charge": {
+        "C": "0.0040",
+        "H": "0.0100",
+        "O": "0.0030",
+        "charge": "0.0000"
+      },
+      "residuals": {
+        "C": "0.0000",
+        "H": "0.0000",
+        "O": "0.0000",
+        "charge": "0.0000"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.001",
+          "phase": "liquid",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.001",
+          "phase": "liquid",
+          "species": "ethanol"
+        }
+      ],
+      "external_input_this_command": {
+        "vessel": 0,
+        "species": "ethanol",
+        "moles": "0.001"
+      }
+    },
+    {
+      "row": 2,
+      "vessel": 0,
+      "operator": "react",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "0.0100",
+        "O": "0.0030",
+        "charge": "0.0000"
+      },
+      "owned_atoms_charge": {
+        "C": "0.00400000000000000000",
+        "H": "0.01000000000000000000",
+        "O": "0.00300000000000000000",
+        "charge": "0E-20"
+      },
+      "residuals": {
+        "C": "0E-20",
+        "H": "0E-20",
+        "O": "0E-20",
+        "charge": "0E-20"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "water"
+        }
+      ],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 3,
+      "vessel": 0,
+      "operator": "inspect",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "0.0100",
+        "O": "0.0030",
+        "charge": "0.0000"
+      },
+      "owned_atoms_charge": {
+        "C": "0.00400000000000000000",
+        "H": "0.01000000000000000000",
+        "O": "0.00300000000000000000",
+        "charge": "0E-20"
+      },
+      "residuals": {
+        "C": "0E-20",
+        "H": "0E-20",
+        "O": "0E-20",
+        "charge": "0E-20"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "water"
+        }
+      ],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 4,
+      "vessel": 0,
+      "operator": "add",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.0785539827921180",
+        "O": "5.5372769913960590",
+        "charge": "0E-16"
+      },
+      "owned_atoms_charge": {
+        "C": "0.0040000000000000000260",
+        "H": "11.0785539827921166680340",
+        "O": "5.5372769913960583337260",
+        "charge": "5.820E-19"
+      },
+      "residuals": {
+        "C": "2.60E-20",
+        "H": "-1.3319660E-15",
+        "O": "-6.662740E-16",
+        "charge": "5.820E-19"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "0.00030967270923933646",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.000023660624093997253",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "5.534943658062725",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "0.000023660624093997835",
+          "phase": "aqueous",
+          "species": "H+"
+        }
+      ],
+      "external_input_this_command": {
+        "vessel": 0,
+        "species": "water",
+        "moles": "5.534276991396059"
+      }
+    },
+    {
+      "row": 5,
+      "vessel": 0,
+      "operator": "titrate",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.4481654857131319838821787399389397724118790",
+        "Na": "0.000333627929687499830",
+        "O": "5.72224955682140974185608936996946988620593950",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.003999999999999999569120",
+        "H": "11.448165485713100317637340",
+        "Na": "0.000333627929687500350",
+        "O": "5.722249556821393917168220",
+        "charge": "-1.6349100E-17"
+      },
+      "residuals": {
+        "C": "-4.30880E-19",
+        "H": "-3.16662448387399389397724118790E-14",
+        "Na": "5.20E-19",
+        "O": "-1.582468786936996946988620593950E-14",
+        "charge": "-1.63491000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "5.659594040068456E-8",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003332767373929328",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.00033362792968750035",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "5.719915872295766",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.511922945838991E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {
+        "vessel": 0,
+        "NaOH_mol": "0.00033362792968749983",
+        "water_mol": "0.184638937495663242026089369969469886205939495",
+        "water_per_L": "55.3427699139605883985567582570080488481820705",
+        "volume_L": "0.0033362792968749983"
+      }
+    },
+    {
+      "row": 6,
+      "vessel": 0,
+      "operator": "inspect",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.4481654857131319838821787399389397724118790",
+        "Na": "0.000333627929687499830",
+        "O": "5.72224955682140974185608936996946988620593950",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.003999999999999999569120",
+        "H": "11.448165485713100317637340",
+        "Na": "0.000333627929687500350",
+        "O": "5.722249556821393917168220",
+        "charge": "-1.6349100E-17"
+      },
+      "residuals": {
+        "C": "-4.30880E-19",
+        "H": "-3.16662448387399389397724118790E-14",
+        "Na": "5.20E-19",
+        "O": "-1.582468786936996946988620593950E-14",
+        "charge": "-1.63491000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "5.659594040068456E-8",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003332767373929328",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.00033362792968750035",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "5.719915872295766",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.511922945838991E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 7,
+      "vessel": 0,
+      "operator": "new_vessel",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.4481654857131319838821787399389397724118790",
+        "Na": "0.000333627929687499830",
+        "O": "5.72224955682140974185608936996946988620593950",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.003999999999999999569120",
+        "H": "11.448165485713100317637340",
+        "Na": "0.000333627929687500350",
+        "O": "5.722249556821393917168220",
+        "charge": "-1.6349100E-17"
+      },
+      "residuals": {
+        "C": "-4.30880E-19",
+        "H": "-3.16662448387399389397724118790E-14",
+        "Na": "5.20E-19",
+        "O": "-1.582468786936996946988620593950E-14",
+        "charge": "-1.63491000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "5.659594040068456E-8",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003332767373929328",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.00033362792968750035",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "5.719915872295766",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.511922945838991E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 7,
+      "vessel": 1,
+      "operator": "new_vessel",
+      "cumulative_external_atom_charge_budget": {},
+      "owned_atoms_charge": {},
+      "residuals": {},
+      "actual_parts": [],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 8,
+      "vessel": 0,
+      "operator": "add",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.4481654857131319838821787399389397724118790",
+        "Na": "0.000333627929687499830",
+        "O": "5.72224955682140974185608936996946988620593950",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.003999999999999999569120",
+        "H": "11.448165485713100317637340",
+        "Na": "0.000333627929687500350",
+        "O": "5.722249556821393917168220",
+        "charge": "-1.6349100E-17"
+      },
+      "residuals": {
+        "C": "-4.30880E-19",
+        "H": "-3.16662448387399389397724118790E-14",
+        "Na": "5.20E-19",
+        "O": "-1.582468786936996946988620593950E-14",
+        "charge": "-1.63491000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "5.659594040068456E-8",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003332767373929328",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.00033362792968750035",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "5.719915872295766",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.511922945838991E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 8,
+      "vessel": 1,
+      "operator": "add",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0020",
+        "H": "0.0040",
+        "O": "0.0020",
+        "charge": "0.0000"
+      },
+      "owned_atoms_charge": {
+        "C": "0.0020",
+        "H": "0.0040",
+        "O": "0.0020",
+        "charge": "0.0000"
+      },
+      "residuals": {
+        "C": "0.0000",
+        "H": "0.0000",
+        "O": "0.0000",
+        "charge": "0.0000"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.001",
+          "phase": "liquid",
+          "species": "CH3COOH"
+        }
+      ],
+      "external_input_this_command": {
+        "vessel": 1,
+        "species": "CH3COOH",
+        "moles": "0.001"
+      }
+    },
+    {
+      "row": 9,
+      "vessel": 0,
+      "operator": "add",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.4481654857131319838821787399389397724118790",
+        "Na": "0.000333627929687499830",
+        "O": "5.72224955682140974185608936996946988620593950",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.003999999999999999569120",
+        "H": "11.448165485713100317637340",
+        "Na": "0.000333627929687500350",
+        "O": "5.722249556821393917168220",
+        "charge": "-1.6349100E-17"
+      },
+      "residuals": {
+        "C": "-4.30880E-19",
+        "H": "-3.16662448387399389397724118790E-14",
+        "Na": "5.20E-19",
+        "O": "-1.582468786936996946988620593950E-14",
+        "charge": "-1.63491000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "5.659594040068456E-8",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003332767373929328",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.00033362792968750035",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "5.719915872295766",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.511922945838991E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 9,
+      "vessel": 1,
+      "operator": "add",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "0.0100",
+        "O": "0.0030",
+        "charge": "0.0000"
+      },
+      "owned_atoms_charge": {
+        "C": "0.0040",
+        "H": "0.0100",
+        "O": "0.0030",
+        "charge": "0.0000"
+      },
+      "residuals": {
+        "C": "0.0000",
+        "H": "0.0000",
+        "O": "0.0000",
+        "charge": "0.0000"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.001",
+          "phase": "liquid",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.001",
+          "phase": "liquid",
+          "species": "ethanol"
+        }
+      ],
+      "external_input_this_command": {
+        "vessel": 1,
+        "species": "ethanol",
+        "moles": "0.001"
+      }
+    },
+    {
+      "row": 10,
+      "vessel": 0,
+      "operator": "add",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.4481654857131319838821787399389397724118790",
+        "Na": "0.000333627929687499830",
+        "O": "5.72224955682140974185608936996946988620593950",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.003999999999999999569120",
+        "H": "11.448165485713100317637340",
+        "Na": "0.000333627929687500350",
+        "O": "5.722249556821393917168220",
+        "charge": "-1.6349100E-17"
+      },
+      "residuals": {
+        "C": "-4.30880E-19",
+        "H": "-3.16662448387399389397724118790E-14",
+        "Na": "5.20E-19",
+        "O": "-1.582468786936996946988620593950E-14",
+        "charge": "-1.63491000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "5.659594040068456E-8",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003332767373929328",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.00033362792968750035",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "5.719915872295766",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.511922945838991E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 10,
+      "vessel": 1,
+      "operator": "add",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.0785539827921180",
+        "O": "5.5372769913960590",
+        "charge": "0E-16"
+      },
+      "owned_atoms_charge": {
+        "C": "0.004000000000000000140",
+        "H": "11.0785539827921180014540",
+        "O": "5.537276991396059000140",
+        "charge": "1.1740E-18"
+      },
+      "residuals": {
+        "C": "1.40E-19",
+        "H": "1.4540E-18",
+        "O": "1.40E-19",
+        "charge": "1.1740E-18"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.001",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0009581457804860907",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.00004185421951390937",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "5.534276991396059",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "0.000041854219513910544",
+          "phase": "aqueous",
+          "species": "H+"
+        }
+      ],
+      "external_input_this_command": {
+        "vessel": 1,
+        "species": "water",
+        "moles": "5.534276991396059"
+      }
+    },
+    {
+      "row": 11,
+      "vessel": 0,
+      "operator": "titrate",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.4481654857131319838821787399389397724118790",
+        "Na": "0.000333627929687499830",
+        "O": "5.72224955682140974185608936996946988620593950",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.003999999999999999569120",
+        "H": "11.448165485713100317637340",
+        "Na": "0.000333627929687500350",
+        "O": "5.722249556821393917168220",
+        "charge": "-1.6349100E-17"
+      },
+      "residuals": {
+        "C": "-4.30880E-19",
+        "H": "-3.16662448387399389397724118790E-14",
+        "Na": "5.20E-19",
+        "O": "-1.582468786936996946988620593950E-14",
+        "charge": "-1.63491000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "5.659594040068456E-8",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003332767373929328",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.00033362792968750035",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "5.719915872295766",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.511922945838991E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 11,
+      "vessel": 1,
+      "operator": "titrate",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "12.1866636252301139940878434637801831806827644",
+        "Na": "0.00100022949218749950",
+        "O": "6.09183192736115074679392173189009159034138218",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.004000000000000000089440",
+        "H": "12.186663625230021515230680",
+        "Na": "0.00100022949218750220",
+        "O": "6.091831927361104530941240",
+        "charge": "-4.4451800E-17"
+      },
+      "residuals": {
+        "C": "8.9440E-20",
+        "H": "-9.24788571634637801831806827644E-14",
+        "Na": "2.70E-18",
+        "O": "-4.621585268173189009159034138218E-14",
+        "charge": "-4.44518000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.001",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "1.6365638248424472E-7",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0009998363436175158",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.0010002294921875022",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "6.0888315342125345",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.931485700308518E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {
+        "vessel": 1,
+        "NaOH_mol": "0.0010002294921874995",
+        "water_mol": "0.553554706472904247293921731890091590341382182",
+        "water_per_L": "55.3427699139605883985567582570080488481820705",
+        "volume_L": "0.010002294921874995"
+      }
+    },
+    {
+      "row": 12,
+      "vessel": 0,
+      "operator": "inspect",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "11.4481654857131319838821787399389397724118790",
+        "Na": "0.000333627929687499830",
+        "O": "5.72224955682140974185608936996946988620593950",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.003999999999999999569120",
+        "H": "11.448165485713100317637340",
+        "Na": "0.000333627929687500350",
+        "O": "5.722249556821393917168220",
+        "charge": "-1.6349100E-17"
+      },
+      "residuals": {
+        "C": "-4.30880E-19",
+        "H": "-3.16662448387399389397724118790E-14",
+        "Na": "5.20E-19",
+        "O": "-1.582468786936996946988620593950E-14",
+        "charge": "-1.63491000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.0003333333333333337",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "0.0006666666666666663",
+          "phase": "liquid",
+          "species": "ethyl_acetate"
+        },
+        {
+          "moles": "5.659594040068456E-8",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0003332767373929328",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.00033362792968750035",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "5.719915872295766",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.511922945838991E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {}
+    },
+    {
+      "row": 12,
+      "vessel": 1,
+      "operator": "inspect",
+      "cumulative_external_atom_charge_budget": {
+        "C": "0.0040",
+        "H": "12.1866636252301139940878434637801831806827644",
+        "Na": "0.00100022949218749950",
+        "O": "6.09183192736115074679392173189009159034138218",
+        "charge": "0E-46"
+      },
+      "owned_atoms_charge": {
+        "C": "0.004000000000000000089440",
+        "H": "12.186663625230021515230680",
+        "Na": "0.00100022949218750220",
+        "O": "6.091831927361104530941240",
+        "charge": "-4.4451800E-17"
+      },
+      "residuals": {
+        "C": "8.9440E-20",
+        "H": "-9.24788571634637801831806827644E-14",
+        "Na": "2.70E-18",
+        "O": "-4.621585268173189009159034138218E-14",
+        "charge": "-4.44518000000000000000000000000E-17"
+      },
+      "actual_parts": [
+        {
+          "moles": "0.001",
+          "phase": "liquid",
+          "species": "ethanol"
+        },
+        {
+          "moles": "1.6365638248424472E-7",
+          "phase": "aqueous",
+          "species": "CH3COOH"
+        },
+        {
+          "moles": "0.0009998363436175158",
+          "phase": "aqueous",
+          "species": "CH3COO-"
+        },
+        {
+          "moles": "0.0010002294921875022",
+          "phase": "aqueous",
+          "species": "Na+"
+        },
+        {
+          "moles": "6.0888315342125345",
+          "phase": "liquid",
+          "species": "water"
+        },
+        {
+          "moles": "3.931485700308518E-7",
+          "phase": "aqueous",
+          "species": "base_equivalents"
+        }
+      ],
+      "external_input_this_command": {}
+    }
+  ],
+  "noncontents_reservoir_checks": [
+    {
+      "row": 0,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 1,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 2,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 3,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 4,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 5,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 6,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 7,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 7,
+      "vessel": 1,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 8,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 8,
+      "vessel": 1,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 9,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 9,
+      "vessel": 1,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 10,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 10,
+      "vessel": 1,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 11,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 11,
+      "vessel": 1,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 12,
+      "vessel": 0,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    },
+    {
+      "row": 12,
+      "vessel": 1,
+      "all_optional_material_reservoirs_empty": true,
+      "nuclides_empty": true,
+      "foam_zero": true,
+      "pending_external_CO2_credit_mol": "0.0",
+      "source_derived_solution_and_lots_not_double_counted": true
+    }
+  ],
+  "actual_clocks_temperatures_pH": [
+    {
+      "row": 0,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.15",
+      "pH": null
+    },
+    {
+      "row": 1,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.15",
+      "pH": null
+    },
+    {
+      "row": 2,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.15",
+      "pH": null
+    },
+    {
+      "row": 3,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.15",
+      "pH": null
+    },
+    {
+      "row": 4,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.1500232489159",
+      "pH": "3.632422228381"
+    },
+    {
+      "row": 5,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.2278922128047",
+      "pH": "8.500095120185"
+    },
+    {
+      "row": 6,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.2278922128047",
+      "pH": "8.500095120185"
+    },
+    {
+      "row": 7,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.2278922128047",
+      "pH": "8.500095120185"
+    },
+    {
+      "row": 7,
+      "vessel": 1,
+      "seconds": "0.0",
+      "temperature_K": "298.15",
+      "pH": null
+    },
+    {
+      "row": 8,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.2278922128047",
+      "pH": "8.500095120185"
+    },
+    {
+      "row": 8,
+      "vessel": 1,
+      "seconds": "0.0",
+      "temperature_K": "298.15",
+      "pH": null
+    },
+    {
+      "row": 9,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.2278922128047",
+      "pH": "8.500095120185"
+    },
+    {
+      "row": 9,
+      "vessel": 1,
+      "seconds": "0.0",
+      "temperature_K": "298.15",
+      "pH": null
+    },
+    {
+      "row": 10,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.2278922128047",
+      "pH": "8.500095120185"
+    },
+    {
+      "row": 10,
+      "vessel": 1,
+      "seconds": "0.0",
+      "temperature_K": "298.1500411275158",
+      "pH": "3.387131770465"
+    },
+    {
+      "row": 11,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.2278922128047",
+      "pH": "8.500095120185"
+    },
+    {
+      "row": 11,
+      "vessel": 1,
+      "seconds": "0.0",
+      "temperature_K": "298.36947842993993",
+      "pH": "8.500062948011"
+    },
+    {
+      "row": 12,
+      "vessel": 0,
+      "seconds": "0.0",
+      "temperature_K": "298.2278922128047",
+      "pH": "8.500095120185"
+    },
+    {
+      "row": 12,
+      "vessel": 1,
+      "seconds": "0.0",
+      "temperature_K": "298.36947842993993",
+      "pH": "8.500062948011"
+    }
+  ],
+  "phase_water_ester": [
+    {
+      "row": 0,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 1,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 2,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 3,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 4,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "5.534943658062725",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 5,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "5.719915872295766",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 6,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "5.719915872295766",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 7,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "5.719915872295766",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 7,
+      "vessel": 1,
+      "water_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 8,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "5.719915872295766",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 8,
+      "vessel": 1,
+      "water_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 9,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "5.719915872295766",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 9,
+      "vessel": 1,
+      "water_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 10,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "5.719915872295766",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 10,
+      "vessel": 1,
+      "water_by_phase": {
+        "liquid": "5.534276991396059",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 11,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "5.719915872295766",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 11,
+      "vessel": 1,
+      "water_by_phase": {
+        "liquid": "6.0888315342125345",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 12,
+      "vessel": 0,
+      "water_by_phase": {
+        "liquid": "5.719915872295766",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0.0006666666666666663",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    },
+    {
+      "row": 12,
+      "vessel": 1,
+      "water_by_phase": {
+        "liquid": "6.0888315342125345",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      },
+      "ester_by_phase": {
+        "liquid": "0",
+        "aqueous": "0",
+        "solid": "0",
+        "gas": "0"
+      }
+    }
+  ],
+  "ester_workup_trace": [
+    {
+      "row": 2,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.0003333333333333337",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 3,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.0003333333333333337",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 4,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.000333333333333333713",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 5,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.00033333333333333348456",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 6,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.00033333333333333348456",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 7,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.00033333333333333348456",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 8,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.00033333333333333348456",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 9,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.00033333333333333348456",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 10,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.00033333333333333348456",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 11,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.00033333333333333348456",
+      "elapsed_s": "0.0"
+    },
+    {
+      "row": 12,
+      "ester_mol": "0.0006666666666666663",
+      "ethanol_mol": "0.0003333333333333337",
+      "acetate_family_mol": "0.00033333333333333348456",
+      "elapsed_s": "0.0"
+    }
+  ],
+  "named_model_boundaries": [
+    {
+      "row": 2,
+      "vessel": 0,
+      "cause": "model-boundary",
+      "what": "a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+      "reason_key": "not-modeled.mostly-organic-solvent"
+    }
+  ],
+  "scope": [
+    "Original conditional requested ideal-mixture teaching model only; K4 and no reaction heat/temperature/activity dependence remain explicit. No claim about actual esterification rate, catalyst sufficiency, true thermodynamic equilibrium or empirical assay calibration.",
+    "Pure-organic initial request yields uncharacterised ionic state honestly; original assay occurs only after100mLwater addition with actual solved pH. The one mostly-organic warning does not establish failed original chemistry or authority for physical mixed-solvent acid/base values.",
+    "No extra ester hydrolysis is observed across saved dilution/titration commands, and source dose closure advances no time. This is a requested-only model observation, not proof of chemical inertness during a real time-consuming titration.",
+    "Native solution speciation/free-ion caches and MaterialLots are source-declared mirrors/provenance, not extra owned atoms. Every actual captured vessel is balanced from cumulative external original additions plus actual titrant/carrier.",
+    "Titration curve contains every committed coarse reading plus refined endpoint, but not every internal trial state; source clones each pre-increment trial and commits one dose. This review does not claim saved intermediate trial inventories exist.",
+    "No optical/calorimetry/mass-transfer or continuously coupled kinetic qualification is inferred. Actual assay temperatures are retained and may differ."
+  ],
+  "scientific_catalog_selection_assigned": false,
+  "new_engine_API_provider_build_calls": 0,
+  "material_tolerance_mol": "1E-10",
+  "endpoint_reconstruction_tolerance_mol": "1E-12"
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "kerotakis.scientific-selection-expansion.v1",
+  "utc": "2026-10-20T17:22:37.944469+00:00",
+  "previous_catalog": "audits/working-experiments-20261020-reviewed-phase-owned-SE009.json",
+  "previous_catalog_sha256": "082a04bb6ad3ada3ff92d8de35d11e83d753d61c721fb82f8538e1542ae7c3fe",
+  "new_catalog": "audits/working-experiments-20261020-reviewed-MO001.json",
+  "new_catalog_sha256": "7a99acf9f5bf899fba8df0d703a68eda1731ba528df5fd50f6fb41ceebdbeaeb",
+  "all333_previous_entries_preserved_exactly": true,
+  "new_selected_originals": [
+    "batch2:mo-001"
+  ],
+  "new_scientific_selections": 1,
+  "unique_fixed468_before": 329,
+  "unique_fixed468_after": 330,
+  "catalog_entries": 334,
+  "additional_to401": 71,
+  "remaining_unselected_originals": 138,
+  "parent_adjudication": "audits/target468-20261016/MO001-saved-original-outcome-20261020/parent-adjudication.json",
+  "parent_adjudication_sha256": "025d57d14d003b4fdd63a932befef3ec973a238c69a0a6ff0e5b51831df70cae",
+  "counts_by_group_recomputed_from_actual_entries": true,
+  "new_engine_or_API_executions": 0,
+  "historical_source": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "binary_or_Cargo_lock_bytes_independently_rehashed": false,
+  "uniform_current_release_revalidation_claim": false
+}

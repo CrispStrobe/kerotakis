@@ -1,0 +1,23 @@
+{
+  "reviewed_utc": "2026-10-20T17:21:01.957588+00:00",
+  "accepted_originals": [
+    "batch2:mo-001"
+  ],
+  "parent_reproduced_full_saved_reader_exactly": true,
+  "parent_inspected_both_original_criteria_and_named_model_domain": true,
+  "complete_13_commands_19_owned_vessel_ledgers": true,
+  "parent_inspected_actual_counterion_basis_carrier_phase_empty_auxiliary_reservoir_and_clock_contracts": true,
+  "requested_only_teaching_model_not_physical_hydrolysis_calibration": true,
+  "binary_and_lock_only_producer_identified_not_independently_rehashed": true,
+  "old_engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "reader_sha256": "d6d470371268ff3f33ab33f364d716a91ebaee75eb5a8524121fffc5e500b1fe",
+  "assessment_sha256": "a73a22f20803284a6e80e333ae6ff9055db3d0b3cf9a57ccf40d4b9e61a037c6",
+  "parent_assessment_sha256": "a73a22f20803284a6e80e333ae6ff9055db3d0b3cf9a57ccf40d4b9e61a037c6",
+  "scientific_catalog_selection_assigned": false,
+  "qualification": "Earns both original conditional requested teaching-assay criteria; retain exact raw/provenance/unsupported-organic initial-state and zero-time model limitations. No newer production rerun, empirical rate/stability/calorimetry or old executable/lock byte rehash inferred."
+}

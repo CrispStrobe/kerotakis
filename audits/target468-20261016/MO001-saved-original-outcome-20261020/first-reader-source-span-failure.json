@@ -1,0 +1,8 @@
+{
+  "stage": "Pinned-source no-hidden-clock proof",
+  "error": "AssertionError on clock::advance absence",
+  "cause": "String slice continued beyond titrate_loop method into later free clock helper because next method marker was not present. This was a reader source-span error, not an experiment or timing failure.",
+  "correction": "Bound actual four-space-indented Rust method through its matching four-space closing brace; retain every no-clock assertion.",
+  "first_reader_sha256": "e4e845901cc4fffa6af7e129037bc7f706793b935193f37f3df308a4b1df62be",
+  "new_engine_or_source_execution": false
+}

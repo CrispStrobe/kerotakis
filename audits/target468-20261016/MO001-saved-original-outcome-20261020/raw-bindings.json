@@ -1,0 +1,18 @@
+{
+  "archive_reference": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+  "archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "exact_copied_members": {
+    "raw/experiment.lab": "batch2_mo-001/experiment.lab",
+    "raw/stdout.jsonl": "batch2_mo-001/stdout.jsonl",
+    "raw/stderr.txt": "batch2_mo-001/stderr.txt"
+  },
+  "exact_common_archive_bindings": {
+    "raw/binding.json": "binding.json",
+    "raw/producer-manifest.json": "producer-manifest.json",
+    "raw/execution.json": "execution.json"
+  },
+  "raw_binary_supplied": false,
+  "raw_Cargo_lock_supplied": false,
+  "binary_qualification": "Authenticated archived producer manifest identifies binary670; this run artifact does not contain executable bytes, so this reader cannot independently rehash the old executable. No stronger binary claim is made.",
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes."
+}

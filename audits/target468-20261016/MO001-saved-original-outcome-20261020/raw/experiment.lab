@@ -1,0 +1,16 @@
+# MO-001: Assay residual acid after a requested esterification
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 CH3COOH 0.001mol
+add v1 ethanol 0.001mol
+react v1 esterification
+inspect v1
+add v1 water 100mL
+titrate v1 NaOH 0.1M 0.1mL until ph 8.5 max 150
+inspect v1
+new
+add v2 CH3COOH 0.001mol
+add v2 ethanol 0.001mol
+add v2 water 100mL
+titrate v2 NaOH 0.1M 0.1mL until ph 8.5 max 150
+inspect
