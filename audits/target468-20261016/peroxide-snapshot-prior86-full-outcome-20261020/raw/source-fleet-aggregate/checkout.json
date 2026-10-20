@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/source",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/source-fleet-aggregate"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "16e5547a89e0c37a1a05315415d8c6a02db8da3cc30374c1b9f2ae59d8ae8b11"
+}

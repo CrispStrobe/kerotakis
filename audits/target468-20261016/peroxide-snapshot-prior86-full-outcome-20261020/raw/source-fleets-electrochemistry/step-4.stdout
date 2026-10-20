@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+291-daniell-copper-0.0005 exit= 0 steps= 9
+292-daniell-copper-0.001 exit= 0 steps= 9
+293-daniell-copper-0.005 exit= 0 steps= 9
+294-daniell-copper-0.01 exit= 0 steps= 9
+295-daniell-zinc-0.0005 exit= 0 steps= 9
+296-daniell-zinc-0.001 exit= 0 steps= 9
+297-daniell-zinc-0.005 exit= 0 steps= 9
+298-daniell-zinc-0.01 exit= 0 steps= 9
+299-electrolysis-charge-fast exit= 0 steps= 5
+300-electrolysis-charge-slow exit= 0 steps= 5
+301-electrolysis-charge-split exit= 0 steps= 6
+302-electrolysis-charge-unequal exit= 0 steps= 6
+303-electrolysis-time-15 exit= 0 steps= 5
+304-electrolysis-time-30 exit= 0 steps= 5
+305-electrolysis-time-60 exit= 0 steps= 5
+306-electrolysis-time-120 exit= 0 steps= 5
+307-electrolysis-current-0.05 exit= 0 steps= 5
+308-electrolysis-current-0.1 exit= 0 steps= 5
+309-electrolysis-current-0.2 exit= 0 steps= 5
+310-electrolysis-current-0.4 exit= 0 steps= 5
+311-electrolysis-extensive-1 exit= 0 steps= 5
+312-electrolysis-extensive-2 exit= 0 steps= 5
+313-electrolysis-extensive-3 exit= 0 steps= 5
+314-electrolysis-extensive-4 exit= 0 steps= 5

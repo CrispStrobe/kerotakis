@@ -1,0 +1,16 @@
+{
+  "collection_stop": {
+    "utc": "2026-10-20T17:38:11.437849+00:00",
+    "reason": "Memory/load collection gate closed",
+    "original_record_sha256": "eb9478c178f8c14001e8f03946a7c6cd15b010af84224f908d8c0b1d232927e1",
+    "same_complete_producer_resume_collected_all1370": true
+  },
+  "first_saved_reader_failure": {
+    "stderr_sha256": "25170a498c0720884e21b1b7627298837dc0807decefb4e683201f6901858c20",
+    "reason": "Pinned historical macOS log absent at unchanged reader line128; no source/engine failure",
+    "exact_pinned_log_sha256": "c9af2c0ed8ff38090f2a85c2275210af6ee7773dda30d48478bb3bfb0bbfee42",
+    "source_reader_assertions_unchanged": true,
+    "exact_original_input_restored_before_successful_reviews": true
+  },
+  "no_engine_or_worker_reexecution": true
+}

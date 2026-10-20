@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/source",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/source-fleets-v2-polyprotic-carbonate"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "9892452b7afbf3ff98d0cb19b65a7d216103486f5bf25e4fbf1ff8ff5f29d49e"
+}

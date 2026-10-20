@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/source",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/source-fleets-v2-household-biochemistry"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "713f481daad7920c683102d2074acea2917f1e881e0a76cd824aebd0f0c6a87f"
+}

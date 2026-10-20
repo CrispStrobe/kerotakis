@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/source",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/source-fleets-v2-redox-cells"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "06fc93f5bdb0e9414368a1954e19d21071cb295236a098aba0bb365d3a3c79fe"
+}

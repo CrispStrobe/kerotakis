@@ -1,0 +1,289 @@
+
+running 86 tests
+test batch::batch_diagnostic_contracts::an_exhausted_integration_limit_is_distinct_from_phase_failure ... ok
+test batch::tests::finite_inventory_cannot_return_overflowed_heat ... ok
+test batch::tests::inactive_domains_and_large_representable_cuts_remain_supported ... ok
+test batch::tests::pure_cut_uses_one_bubble_solve_and_mixtures_keep_integrating ... ok
+test batch::tests::constant_relative_volatility_obeys_independent_rayleigh_identity ... ok
+test batch::tests::zero_inventory_cannot_hide_invalid_component_properties ... ok
+test eos::tests::compressibility_decreases_with_pressure ... ok
+test eos::tests::fugacity_approaches_unity_at_low_pressure ... ok
+test eos::tests::ideal_gas_limit ... ok
+test eos::tests::molar_volume_positive ... ok
+test excess::tests::endpoints_are_zero ... ok
+test excess::tests::the_allowlist_verification_holds ... ok
+test excess::tests::the_curve_is_smooth_and_vanishes_smoothly ... ok
+test fluid::tests::ideal_fluid_delegates_to_vle ... ok
+test fluid::tests::ideal_solution_returns_unity_gammas ... ok
+test fluid::tests::unsupported_operation_is_a_named_refusal_through_trait_object ... ok
+test lle::tests::highly_nonideal_mixture_splits ... ok
+test lle::tests::ideal_mixture_no_split ... ok
+test lle::tests::weakly_nonideal_no_split ... ok
+test pack::tests::a_fluid_with_no_cleared_correlation_refuses_a_boiling_point ... ok
+test pack::tests::a_permanent_gas_refuses_saturation_pressure_by_name ... ok
+test pack::tests::a_pressure_outside_the_cleared_window_is_refused_in_pressure ... ok
+test pack::tests::a_row_is_found_by_its_key_and_never_by_its_name ... ok
+test pack::tests::boiling_rises_with_pressure_for_every_cleared_fluid ... ok
+test pack::tests::every_cleared_row_names_the_model_that_speaks_for_it ... ok
+test pack::tests::inverse_covers_joined_gap_and_refuses_a_legacy_false_root ... ok
+test pack::tests::no_row_claims_a_residual_equation_of_state_or_a_density ... ok
+test pack::tests::one_atmosphere_reproduces_the_substance_normal_boiling_point ... ok
+test pack::tests::outside_the_fitted_interval_is_a_refusal_and_not_an_extrapolation ... ok
+test pack::tests::rows_are_unique_and_ordered_by_inchikey ... ok
+test pack::tests::the_ethanol_row_keeps_one_provenance_per_segment ... ok
+test pack::tests::the_inversion_is_the_correlation_read_backwards ... ok
+test pack::tests::the_lint_refuses_a_row_with_no_source ... ok
+test pack::tests::the_shipped_pack_passes_its_own_lint ... ok
+test phase_diagram::tests::txy_envelope_generates_curves ... ok
+test unifac::tests::acetic_acid_ethanol_gamma_inf ... ok
+test unifac::tests::acetic_acid_water_gamma_inf ... ok
+test unifac::tests::approved_table_has_provenance ... ok
+test unifac::tests::compatibility_entry_point_also_fails_closed - should panic ... ok
+test unifac::tests::dilute_ethanol_higher_gamma ... ok
+test unifac::tests::ethanol_water_activity_coefficients ... ok
+test unifac::tests::infinite_dilution_is_continuous_through_trace_and_absent_components ... ok
+test unifac::tests::methanol_propanone_gamma_inf ... ok
+test unifac::tests::methanol_water_gamma_inf ... ok
+test unifac::tests::missing_forward_interaction_is_a_named_refusal ... ok
+test unifac::tests::propanone_water_gamma_inf ... ok
+test unifac::tests::pure_component_gamma_is_unity ... ok
+test unifac::tests::reverse_interaction_does_not_stand_in_for_missing_direction ... ok
+test unifac::tests::self_interaction_is_defined_without_a_table_row ... ok
+test unifac::tests::table_covers_six_main_groups ... ok
+test batch::tests::pure_limit_scale_permutation_energy_and_conservation ... ok
+test vle::overlap_tests::legacy_e110_phase_failure_is_inside_the_ethanol_switch_gap ... ok
+test vle::overlap_tests::overlap_join_matches_independent_formula_and_solver_evaluator ... ok
+test vle::overlap_tests::overlap_join_refuses_nonmonotone_interior_disagreement_and_invalid_domains ... ok
+test vle::pure_still_cost::every_positive_second_component_keeps_the_integration_path ... ok
+test vle::pure_still_cost::paired_cascade_refuses_lost_components_at_every_stage ... ok
+test vle::pure_still_cost::paired_cascade_retains_water_when_ethanol_rounds_to_one ... ok
+test vle::pure_still_cost::pure_binary_cuts_require_one_phase_answer_regardless_of_stage_count ... ok
+test vle::pure_still_cost::rounded_partial_requests_never_become_complete_inventory_transfers ... ok
+test vle::still_failure_tests::a_deliberately_exhausted_iteration_budget_is_not_a_phase_failure ... ok
+test vle::still_failure_tests::excessive_stage_counts_refuse_before_any_phase_work ... ok
+test vle::still_failure_tests::independent_rayleigh_matrix_separates_supported_cuts_from_condensate_precision ... ok
+test vle::still_failure_tests::phase_and_coordinate_failures_have_distinct_owners_at_each_stage ... ok
+test vle::still_failure_tests::request_residue_and_energy_boundaries_are_distinct ... ok
+test vle::tests::antoine_range_endpoints_are_inclusive_and_nonfinite_is_refused ... ok
+test vle::tests::bubble_below_dew_for_binary ... ok
+test vle::tests::ethanol_high_fit_agrees_with_independent_published_observations ... ok
+test vle::tests::ethanol_piecewise_range_is_continuous_inclusive_and_bounded ... ok
+test vle::tests::flash_compositions_sum_to_one ... ok
+test vle::tests::hp_flash_finds_temperature ... ok
+test vle::tests::hp_flash_latent_heat_plateau ... ok
+test vle::tests::malformed_piecewise_correlations_refuse_without_zero_fraction_panics ... ok
+test vle::tests::pure_ethanoic_acid_bubble_point ... ok
+test vle::tests::pure_isopropanol_boils_at_the_reviewed_temperature ... ok
+test vle::tests::pure_methanol_bubble_point ... ok
+test vle::tests::pure_propanone_bubble_point ... ok
+test vle::tests::pure_water_bubble_point ... ok
+test vle::tests::pure_water_dew_point ... ok
+test vle::tests::solvers_refuse_non_overlapping_antoine_ranges ... ok
+test vle::tests::solvers_refuse_nonfinite_inputs_and_activity_coefficients ... ok
+test vle::tests::tp_flash_refuses_temperature_outside_any_component_fit ... ok
+test vle::tests::tp_flash_subcooled_liquid ... ok
+test vle::tests::tp_flash_superheated_vapour ... ok
+test vle::tests::tp_flash_two_phase ... ok
+test vle::tests::water_rich_atmospheric_distillation_uses_high_ethanol_segment ... ok
+test vle::overlap_tests::ordinary_binary_cuts_cross_overlap_but_real_domain_exit_still_refuses ... ok
+
+test result: ok. 86 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 18.18s
+
+
+running 13 tests
+test absolute_resolution_cannot_hide_large_relative_enrichment_of_a_trace_component ... ok
+test a_supported_pure_water_cut_reaches_the_requested_fraction ... ok
+test an_intermediate_model_boundary_cannot_be_a_successful_partial_fraction_cut ... ok
+test invalid_stocks_energy_and_overflowing_total_are_refused ... ok
+test positive_tiny_binary_fraction_is_not_a_successful_zero_cut ... ok
+test positive_unrepresentable_requests_refuse_while_zero_requests_succeed ... ok
+test pure_and_dilute_endpoints_are_not_azeotropes ... ok
+test pure_water_fraction_cuts_preserve_requested_amount_across_inventory_scales ... ok
+test finite_stages_cannot_publish_exact_component_exhaustion_in_a_partial_cut ... ok
+test rounded_experimental_azeotrope_is_recognized_with_bounded_component_changes ... ok
+test reported_end_temperature_matches_the_represented_residue_for_both_cut_controls ... ok
+test supported_small_binary_cuts_complete_and_additional_stages_enrich_ethanol ... ok
+test small_staged_cuts_preserve_components_and_scale_without_fitted_outputs ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 43.61s
+
+
+running 3 tests
+test flash_splits_between_bubble_and_dew ... ok
+test the_azeotrope_is_a_fixed_point_of_dew ... ok
+test bubble_and_dew_are_inverse_questions ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+
+running 3 tests
+test independent_precision_and_model_boundaries_have_specific_categories ... ok
+test invalid_inputs_are_distinct_from_representability_and_phase_failures ... ok
+test checked_and_legacy_apis_preserve_analytic_pure_and_mixture_acceptance ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s
+
+
+running 6 tests
+test excess_energy_exhausts_inventory_instead_of_claiming_the_supplied_heat ... ok
+test partial_endpoint_temperature_is_the_final_residual_bubble_point ... ok
+test positive_fraction_is_completed_at_the_request_scale ... ok
+test underflowed_positive_requests_refuse_without_mutating_inputs ... ok
+test zero_and_microscopic_energy_are_not_absolute_tolerance_successes ... ok
+test mixed_full_take_has_exact_overhead_and_inventory_latent_heat ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+
+running 2 tests
+test phase_scan_stops_at_the_first_failed_evaluation ... ok
+test checked_binary_lle_preserves_invalid_coordinate_and_group_errors ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test water_and_ethanol_stay_one_phase_everywhere ... ok
+test water_and_hexane_demix_at_room_temperature ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+
+running 3 tests
+test ethanol_overlap_endpoints_have_no_pressure_jump ... ok
+test ideal_binary_bubble_root_covers_the_old_switch_gap ... ok
+test pure_ethanol_bubble_and_dew_roots_cover_the_old_switch_gap ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test paired_bubble_retains_scalar_compatibility_and_refuses_true_underflow ... ok
+test water_trace_survives_even_when_ethanol_fraction_rounds_to_one ... ok
+test trace_cuts_follow_an_independent_rayleigh_limit_in_both_orientations ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 32.14s
+
+
+running 5 tests
+test overflowing_full_latent_heat_still_allows_finite_partial_energy ... ok
+test pure_full_and_excess_energy_cuts_publish_exact_inventory_and_latent_demand ... ok
+test energy_rounding_never_claims_more_heat_than_supplied ... ok
+test zero_or_analytic_take_never_bypasses_the_phase_domain ... ok
+test pure_water_and_ethanol_match_analytic_fraction_and_energy_at_all_scales ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.44s
+
+
+running 6 tests
+test invalid_inventory_and_take_do_not_enter_the_pure_shortcut ... ok
+test excess_energy_reports_only_the_inventory_heat_and_exact_full_amount ... ok
+test nonrepresentable_positive_requests_and_outputs_refuse_without_mutating_inputs ... ok
+test pure_boiling_pressure_is_independently_inverted_and_domain_checked ... ok
+test zero_take_still_requires_valid_pressure_stage_and_inactive_model ... ok
+test pure_fraction_and_energy_match_analytic_amount_at_every_position_and_scale ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 4 tests
+test rayleigh_drift_depletes_the_pot_and_raises_the_boil ... ok
+test the_energy_budget_is_a_real_meter ... ok
+test water_rich_ethanol_charge_uses_the_licensed_high_range_fit ... ok
+test stages_climb_to_the_azeotrope_and_stop ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 43.08s
+
+
+running 2 tests
+test invalid_inputs_and_numerical_limits_are_not_all_phase_failures ... ok
+test checked_and_option_apis_publish_identical_cuts_and_refusals ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 24.51s
+
+
+running 6 tests
+test excess_enthalpies_agree_with_the_analytic_derivative ... ok
+test infinite_dilution_gammas_agree_with_the_independent_implementation ... ok
+test the_gamma_grid_reaches_every_curated_parameter ... ok
+test the_two_methanol_assignments_are_pinned_apart ... ok
+test unifac_gammas_agree_with_the_independent_implementation ... ok
+test bubble_points_agree_with_the_independent_solve ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+
+running 9 tests
+test dew_checks_activity_at_the_composition_it_returns ... ok
+test later_all_liquid_classification_rechecks_the_feed_activity ... ok
+test dew_trace_reaches_its_independent_activity_fixed_point ... ok
+test oscillating_vapor_flash_trace_refuses_despite_absolute_smallness ... ok
+test two_phase_flash_checks_activity_at_the_composition_it_returns ... ok
+test oscillating_dew_trace_refuses_despite_absolute_smallness ... ok
+test two_phase_flash_trace_reaches_its_independent_fixed_point ... ok
+test vapor_flash_checks_activity_at_the_composition_it_returns ... ok
+test vapor_only_flash_trace_reaches_its_independent_fixed_point ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 11 tests
+test dew_and_flash_refuse_lost_feed_coordinates ... ok
+test dew_and_flash_keep_representable_traces_in_both_orientations ... ok
+test ideal_inventory_normalization_cannot_silently_drop_a_trace ... ok
+test independent_trace_fractions_remain_positive_in_bubble_results ... ok
+test overflowing_or_underflowing_bubble_composition_refuses ... ok
+test partial_pressure_and_final_vapor_underflow_are_separate_refusals ... ok
+test positive_activity_weight_that_underflows_refuses ... ok
+test equal_volatility_traces_follow_an_independent_linear_cut_law ... ok
+test unrepresentable_binary_composition_refuses_instead_of_claiming_purity ... ok
+test unrepresentable_flash_coefficients_refuse_instead_of_publishing_nan ... ok
+test representable_binary_trace_still_transfers_both_components ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.81s
+
+
+running 7 tests
+test empty_or_zero_count_molecular_decompositions_are_refused ... ok
+test invalid_mole_fractions_are_refused_before_evaluation ... ok
+test nonfinite_group_and_interaction_parameters_are_refused ... ok
+test nonpositive_and_nonfinite_temperatures_are_refused ... ok
+test numerical_overflow_is_a_refusal_not_a_successful_vector ... ok
+test pure_water_and_absent_probe_limits_remain_admitted ... ok
+test unknown_subgroup_cannot_be_silently_dropped_from_a_molecule ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test checked_refusals_keep_the_invalid_coordinate_typed ... ok
+test checked_infinite_dilution_propagates_a_missing_group_without_mutation ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test underflowed_directional_weights_refuse_even_if_final_gammas_look_finite ... ok
+test underflowed_weights_cannot_supply_a_phase_verdict ... ok
+test ordinary_directional_weights_keep_the_existing_two_phase_control ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+
+running 1 test
+test nonrepresentable_interaction_factor_keeps_its_direction ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 7 tests
+test ethanol_boils_where_the_thermometer_says ... ok
+test extrapolation_is_refused_rather_than_returned ... ok
+test lower_pressure_boils_water_cooler ... ok
+test the_more_volatile_component_comes_over_first ... ok
+test an_ideal_mixture_separates_all_the_way ... ok
+test water_boils_where_the_thermometer_says ... ok
+test unifac_finds_the_ethanol_water_azeotrope ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.56s
+

@@ -1,0 +1,14 @@
+{
+  "source": "86df84aa702b049ace43cd576793cd62bbc8f582",
+  "tree": "47cb936d6ce2380e57bd2de5b30b7a6818ddb377",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": [
+    {
+      "executed_path": "target/debug/deps/peroxide_medium-c2aeaeaa007e59e2",
+      "sha256": "fd41e7aac7be9bd18c6836c9cf4920cb385ea1a42a48c49bf1fc4d40d128f156",
+      "bytes": 52255440,
+      "gzip": "actual-test-executables/fd41e7aac7be9bd18c6836c9cf4920cb385ea1a42a48c49bf1fc4d40d128f156.gz",
+      "gzip_sha256": "3420739ca577689255f372ce4b6dfc5e1289a404ff2b59c08d359cc23a5fd8ae"
+    }
+  ]
+}

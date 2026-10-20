@@ -1,0 +1,20 @@
+{
+  "files_sha256": {
+    "README.md": "d46a8e9a89f60baeefe30b87e93f53edb991299848558cf29c16d9edd562cf31",
+    "collection-and-reader-first-stops.json": "0732654968d35867f1a7333271cc9f6b2fba3c43e17992a96b8d85ce3c2c9a03",
+    "control-plan.safe.json": "1fcf3c9b2bbae5db9547ccbaa42de820734ee9f9f6e8843d7278ddd32fabece3",
+    "first-issuance-only-plan.safe.json": "d54262ac82912782ce05323fd56d7a4743700c377e143a35ee6c3fb2d1b68d61",
+    "first-native-only-publication-name-pool.py": "4aef620580dae37b7b8166fee4a02d33904ce116c1ec04ed8cfe47c77940d87a",
+    "first-publication-verifier-failure.json": "8009e3ec897ce67bdf4da59930130d8f82d88e21d20ffcfaf6f7572f5cc26603",
+    "first-publication-verifier-syntax-assumption.py": "d80d982984f9ec22a49e52781af59a1a9d18dbe418e7a4d567cc333daf5b2a39",
+    "parent-reproduced.json": "76038751316688d3b409afc9cb20c0ad4dfb06b7280bd6bce524588a598c9270",
+    "publication.json": "902c2cee44a33c4d537a075c243c37ad7e08455aa6aa53a8b9e484df98e902b2",
+    "readers/parent_review_saved.py": "eeedd2e5f2bad88a29bdbcb6a08a45c068ddb17229ee15f3b9f0fc0881142cdb",
+    "readers/review_saved.py": "196f8d07f8e8c66aab4fbba979000854398cd19491591d5b260596d10c3445d7",
+    "root-accepted.json": "dbef14af427fb4386de61cb6d80f5ebaf6449f3adfa270708927a0b0545d139d",
+    "root-parent-accepted.json": "ba51e9711bcf613724f4ee66c14da9db713cb4dd9f0f58b3e2faa5b77ba0bf84",
+    "second-publication-verifier-input-closure-failure.json": "2af886a38b40a574e871abbd3a4706bd86817dd50cbf785dfacf0cfa8b4a50e0",
+    "third-publication-verifier-pool-assumption-failure.json": "d570a695afc0ba3413881500431b2585334f69f06e3f993d374cb502c71d15a0",
+    "verify_publication.py": "3e8233ad18ced00bd0004c50d996d031f52929f448feb8470c1e6e5ab21cdc7c"
+  }
+}

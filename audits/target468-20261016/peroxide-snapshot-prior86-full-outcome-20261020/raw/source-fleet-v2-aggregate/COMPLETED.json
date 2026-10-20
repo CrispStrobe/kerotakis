@@ -1,0 +1,8 @@
+{
+  "name": "All 288 source-informed v2 cases",
+  "key": "source-fleet-v2-aggregate",
+  "family": null,
+  "all_original_run_steps_passed": true,
+  "original_run_steps_executed": 1,
+  "expected_original_run_steps": 1
+}

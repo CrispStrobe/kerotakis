@@ -1,0 +1,25 @@
+codex ok: 131 entries, 185 concepts, 28 models (8 progressions) — every claim replayed through the solvers
+  equations: 67 balanced (atoms and charge); 68 entries describe something that is not a reaction
+  prose: 485 number(s) in register text that this replay does not account for —
+    · strong-base: 14 pH — "…es [OH⁻] = 10⁻³, pOH 3, and pH 14 − 3 = 11. Natriumhydroxi…"
+    · strong-base: 1 mol — "…iiert vollständig, sodass 0,001 mol in einem Liter [OH⁻] =…"
+    · strong-base: 1 mol — "…complètement, si bien que 0,001 mol dans un litre donne [O…"
+    · strong-base: 3 pH — "…litre (`strong-acid`) reads pH 3.0 on this bench. Swap the…"
+    · lye-warms-the-beaker: 10 °C — "…, that is a rise of roughly 10 °C, and the resulting 1 mol…"
+    · lye-warms-the-beaker: 1 mol — "…the arithmetic promises. 0,1 mol NaOH in 100 mL setzen et…"
+    · lye-warms-the-beaker: 10 °C — "…das einen Anstieg von etwa 10 °C, und die entstehende 1-m…"
+    · lye-warms-the-beaker: 1 mol — "…die Rechnung verspricht. 0,1 mol de NaOH dans 100 mL libè…"
+    · lye-warms-the-beaker: 10 °C — "…donne une hausse d'environ 10 °C, et la solution résultan…"
+    · lye-warms-the-beaker: 7 °C — "…as Becherglas selbst auf 35,7 °C erwärmt, und K_w ist star…"
+    · lye-warms-the-beaker: 7 °C — "…est lui-même réchauffé à 35,7 °C, et K_w dépend fortement…"
+    · neutralisation: 1 mol — "…ionen explizit weiter: Je 0,01 mol Na⁺ und Cl⁻ bleiben im…"
+    · neutralisation: 1 mol — "…nt les ions spectateurs : 0,01 mol chacun de Na⁺ et Cl⁻ re…"
+    · past-the-equivalence-point: 1 mol — "…Base den pH-Wert direkt: 0,001 mol übrig gebliebenes NaOH…"
+    · past-the-equivalence-point: 1 mol — "…fixe directement le pH : 0,001 mol de NaOH restant dans u…"
+    · phosphate-buffer: 1.5 mol — "…aire de partenaires. Adding 1.5 mol of base per mole of H₃…"
+    · phosphate-buffer: 5 mol — "…ound pKa₂. Die Zugabe von 1,5 mol Base pro Mol H₃PO₄ wande…"
+    · phosphate-buffer: 5 mol — "…nd um pKa₂ herum. Ajouter 1,5 mol de base par mole de H₃PO…"
+    · half-neutralised-vinegar: 4 pH — "…d die Flüssigkeit liegt bei pH 4,7 — und bleibt hartnäckig…"
+    · half-neutralised-vinegar: 4 pH — "…t le liquide se stabilise à pH 4,7 — et il y restera obsti…"
+    · … and 465 more
+  predictions: 114 questions, 222/222 wrong answers say what believing them reveals

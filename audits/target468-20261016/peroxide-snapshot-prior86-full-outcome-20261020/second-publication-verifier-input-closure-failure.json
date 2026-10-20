@@ -1,0 +1,7 @@
+{
+  "kind": "publication-projection-missing-command-input-not-producer-or-engine-failure",
+  "missing_key": "jobs",
+  "first_safe_projection_sha256": "d54262ac82912782ce05323fd56d7a4743700c377e143a35ee6c3fb2d1b68d61",
+  "correction": "Add exact frozen33jobs and native/cache/classifier commands to explicitly safe projection; no scientific assertion or original command changed.",
+  "new_engine_or_job_calls": 0
+}

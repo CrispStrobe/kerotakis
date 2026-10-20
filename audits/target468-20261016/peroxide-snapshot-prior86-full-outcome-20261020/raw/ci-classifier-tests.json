@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "python3",
+    "tools/test_ci_changes.py",
+    "-v"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "47a5d1ed0f5ac2d4c02b1742502fdd2ed59a1d2591c5af2f107478589f240689"
+}

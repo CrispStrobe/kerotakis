@@ -1,0 +1,11 @@
+# Prior86 full-source acceptance — superseded candidate
+
+Source86df84aa/tree47cb936d passes its independent full saved review:2177 core,184 thermo,620 native, two external hooks,18 separate cache-only controls,11 classifier tests,500 requirements with no drift, and all33 original logical groups/142 steps/29 laws. Both raw-reader outputs agree exactly after independent actual executable/archive/lock hashing. The actual producer lock is66886813. This establishes the corrected four-lesson snapshots on this source; the first624 lesson failure remains separate.
+
+**This is the superseded candidate, not current PR850/head18 acceptance, integration or deployment.** Source86's separate preflight encoding failure remains genuine. The current18 correction has its own once-issued validation and must pass its own exact139-file encoding gate, full results and actual protected/platform acceptance.
+
+All1370 files from this single COMPLETE producer were collected. Its first resource-threshold collection stop remains preserved; only missing artifacts were resumed from the same run. The first unchanged reader then stopped because the pinned historical macOS log was absent from the review preparation. Restoring the exact hash-bound original input allowed the unchanged original/parent readers to complete. No engine, focused baseline or original corpus was rerun to repair collection/review setup.
+
+This publication includes current small command records and stdout/stderr, producer manifest, actual lock, engine bindings, both receipts, exact saved readers and a safe plan projection. Duplicated historical records and large archives/executables remain hash-enumerated and retained separately. The raw PLAN contains private historical metadata and is withheld; control-plan.safe.json is explicitly a projection. The full saved readers require the retained original run directory and large outputs. The portable verify_publication.py checks this public subset and current-source commands/counts only; it does not pretend absent archive bytes are embedded.
+
+The [current PR](https://github.com/CrispStrobe/kerotakis/pull/850) remains separate. No new scientific selection or thermochemical/rate calibration is claimed; coverage remains332/468. Preserve accepted5a production and all62 browser controls until changed-source delivery earns its own acceptance.

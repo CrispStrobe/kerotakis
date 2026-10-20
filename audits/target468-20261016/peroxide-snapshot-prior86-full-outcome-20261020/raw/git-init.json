@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "1fe16c33cde304adc564956f446243ad008922579dcb950493268758bead01dc",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

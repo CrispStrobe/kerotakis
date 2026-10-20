@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_seventh.py --self-test"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "943fc362c26d99c4475b0485e5258c1f5afe4cb83c2e8f1587489a3baf752c7c",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

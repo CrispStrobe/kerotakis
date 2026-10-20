@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/kinetics-boundaries' --family 'kinetics-boundaries' --out 'audit-evidence-v2/kinetics-boundaries/kinetics-boundaries-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "078214e7b16df4630e5e14672836ffe9155c54c212b2976b776d8353ac4734e2",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

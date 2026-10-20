@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_3.py --family 'water-energy' --binary target/release/kero --out 'audit-evidence-v3/water-energy'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "71bfe41c18406c574b56003861d03d4c38797d9af7c4700946b903e4121ea585",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

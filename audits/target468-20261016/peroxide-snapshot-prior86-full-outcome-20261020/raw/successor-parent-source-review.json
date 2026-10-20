@@ -1,0 +1,25 @@
+{
+  "source": "86df84aa702b049ace43cd576793cd62bbc8f582",
+  "tree": "47cb936d6ce2380e57bd2de5b30b7a6818ddb377",
+  "base": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+  "first_failed_source": "624ad076af3db39f583adcbfe6c07281ba219f48",
+  "successor_paths": [
+    "crates/kerotakis-core/tests/golden/lessons.json",
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/peroxide-medium-and-i18n-20261019.md",
+    "docs/post-hydrolysis-gap-lanes-20261019.md",
+    "docs/scientific-coverage-expansion-20261020.md",
+    "docs/unifac-input-admission-20261019.md",
+    "docs/wrap-up-and-open-lanes-20261019.md"
+  ],
+  "golden_matches_both_authenticated_platform_artifacts": true,
+  "clock_and_four_control_fixture_match_accepted_focus": true,
+  "ci_runtime_commands_unchanged_from_independently_reviewed_first_head": true,
+  "eleven_classifier_tests_rechecked": true,
+  "combined_diff_reviewed": true,
+  "phase_debits_preserved": true,
+  "no_test_or_original_criterion_weakened": true,
+  "remaining_acceptance": "Own source full/platform/production; no prior full success assigned"
+}

@@ -1,0 +1,227 @@
+{
+  "schema": "kerotakis-source-analysis-v3",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "777-water-energy-100-125: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "778-water-energy-100-250: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "779-water-energy-100-500: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "780-water-energy-100-1000: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "781-water-energy-175-125: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "782-water-energy-175-250: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "783-water-energy-175-500: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "784-water-energy-175-1000: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "785-water-energy-250-125: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "786-water-energy-250-250: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "787-water-energy-250-500: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "788-water-energy-250-1000: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "789-water-energy-400-125: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "790-water-energy-400-250: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "791-water-energy-400-500: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "792-water-energy-400-1000: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "793-water-energy-600-125: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "794-water-energy-600-250: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "795-water-energy-600-500: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "796-water-energy-600-1000: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "797-water-energy-900-125: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "798-water-energy-900-250: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "799-water-energy-900-500: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "800-water-energy-900-1000: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "water-energy:v3-water-energy-1",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        25.299750874237816,
+        25.599498827520506,
+        26.198986642583577,
+        27.39793499057464
+      ]
+    },
+    {
+      "check": "water-energy:v3-water-energy-2",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        24.828712413761764,
+        24.657423794179522,
+        24.314843348321688,
+        23.62966894927297
+      ]
+    },
+    {
+      "check": "water-energy:v3-water-energy-3",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        25.11990071048308,
+        25.2398009382307,
+        25.47959998628494,
+        25.95919274996527
+      ]
+    },
+    {
+      "check": "water-energy:v3-water-energy-4",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        24.925061806399526,
+        24.850123417988016,
+        24.700246047442192,
+        24.400488868648836
+      ]
+    },
+    {
+      "check": "water-energy:v3-water-energy-5",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        25.049958688673996,
+        25.09991729252897,
+        25.1998342486645,
+        25.399667175190757
+      ]
+    },
+    {
+      "check": "water-energy:v3-water-energy-6",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        24.96669416007751,
+        24.933388281932594,
+        24.86677641014637,
+        24.733552198872644
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "86df84aa702b049ace43cd576793cd62bbc8f582",
+  "binary_sha256": "43afa33244545daf34c78936f5e12c1afdb22b811ecec917ab979aa53178f798"
+}

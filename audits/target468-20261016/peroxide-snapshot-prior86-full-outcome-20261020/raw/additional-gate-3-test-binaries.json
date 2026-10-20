@@ -1,0 +1,14 @@
+{
+  "source": "86df84aa702b049ace43cd576793cd62bbc8f582",
+  "tree": "47cb936d6ce2380e57bd2de5b30b7a6818ddb377",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": [
+    {
+      "executed_path": "target/debug/deps/curiosity-fd5c7dca91a16b7b",
+      "sha256": "2ec39957e58d49dfa55ff9c678e5fdf8d8734d3ae0acc71588dd37ad1983c671",
+      "bytes": 8671248,
+      "gzip": "actual-test-executables/2ec39957e58d49dfa55ff9c678e5fdf8d8734d3ae0acc71588dd37ad1983c671.gz",
+      "gzip_sha256": "4f41c8470becdb0bad6f038db8120d1c0fd280cd3af722462690bc773efe8395"
+    }
+  ]
+}

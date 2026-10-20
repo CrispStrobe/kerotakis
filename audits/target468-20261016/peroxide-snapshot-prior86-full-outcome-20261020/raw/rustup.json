@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "sh",
+    "/kaggle/temp/kerotakis-peroxide-snapshot-full/rustup-init.sh",
+    "-y",
+    "--profile",
+    "minimal",
+    "--default-toolchain",
+    "1.99.1",
+    "--no-modify-path"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "08ad7fe39c4d32efce25bee52fb2ff6321938e9535afe976defa8b54b5663228",
+  "stderr_sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2"
+}

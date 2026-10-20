@@ -1,0 +1,8 @@
+{
+  "source": "5bdc4eafb35912ecb231581e93e1f9d3fdf8fbfc",
+  "genuine_failures": [
+    "underflowed_directional_weights_refuse_even_if_final_gammas_look_finite",
+    "underflowed_weights_cannot_supply_a_phase_verdict"
+  ],
+  "positive_control_passed": true
+}

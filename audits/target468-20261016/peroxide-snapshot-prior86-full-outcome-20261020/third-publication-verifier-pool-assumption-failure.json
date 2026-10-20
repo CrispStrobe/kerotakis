@@ -1,0 +1,8 @@
+{
+  "kind": "publication-verifier-assumed-all-required-names-in-default-native-logs",
+  "first_reader_sha256": "4aef620580dae37b7b8166fee4a02d33904ce116c1ec04ed8cfe47c77940d87a",
+  "actual_control_location": "raw/cache-only-host-tests.stdout",
+  "exact_required_control": "solver_contract_tests::real_lab_fischer_wait_forwards_two_actual_cold_temperature_gates",
+  "correction": "Include the separately required real cache-only host command stdout in actual-name search; keep all59 names and the separate18 exact-host-controls checks.",
+  "new_engine_or_job_calls": 0
+}

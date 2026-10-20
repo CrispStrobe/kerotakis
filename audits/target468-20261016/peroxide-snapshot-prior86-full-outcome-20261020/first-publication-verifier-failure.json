@@ -1,0 +1,6 @@
+{
+  "kind": "local-publication-verifier-syntax-error-not-producer-or-engine-failure",
+  "first_reader_sha256": "d80d982984f9ec22a49e52781af59a1a9d18dbe418e7a4d567cc333daf5b2a39",
+  "correction": "Restore missing whitespace in two generator-comprehension in tokens; no assertion changed.",
+  "new_engine_or_job_calls": 0
+}

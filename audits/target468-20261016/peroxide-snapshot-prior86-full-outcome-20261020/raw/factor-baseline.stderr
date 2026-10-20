@@ -1,0 +1,56 @@
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded geo-types v0.7.20
+  Downloaded autocfg v1.5.1
+  Downloaded itoa v1.0.18
+  Downloaded approx v0.5.1
+  Downloaded rustc-hash v1.1.0
+  Downloaded lazy_static v1.5.1
+  Downloaded slab v0.4.12
+  Downloaded serde v1.0.229
+  Downloaded quote v1.0.47
+  Downloaded thiserror v2.0.21
+  Downloaded thiserror-impl v2.0.21
+  Downloaded zmij v1.0.23
+  Downloaded unicode-ident v1.0.27
+  Downloaded serde_core v1.0.229
+  Downloaded num-traits v0.2.19
+  Downloaded serde_derive v1.0.229
+  Downloaded contour v0.13.1
+  Downloaded memchr v2.8.3
+  Downloaded proc-macro2 v1.0.107
+  Downloaded serde_json v1.0.154
+  Downloaded libm v0.2.16
+  Downloaded syn v3.0.9
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.1
+   Compiling syn v3.0.9
+   Compiling num-traits v0.2.19
+   Compiling serde_core v1.0.229
+   Compiling thiserror v2.0.21
+   Compiling thiserror-impl v2.0.21
+   Compiling serde v1.0.229
+   Compiling zmij v1.0.23
+   Compiling geo-types v0.7.20
+   Compiling serde_derive v1.0.229
+   Compiling rustc-hash v1.1.0
+   Compiling slab v0.4.12
+   Compiling serde_json v1.0.154
+   Compiling lazy_static v1.5.1
+   Compiling contour v0.13.1
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling kerotakis-thermo v0.0.1 (/kaggle/temp/kerotakis-partition-factor/source/crates/kerotakis-thermo)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 16.05s
+     Running tests/unifac_factor_range.rs (target/debug/deps/unifac_factor_range-29771b2875a075f9)
+
+thread 'underflowed_directional_weights_refuse_even_if_final_gammas_look_finite' (639) panicked at crates/kerotakis-thermo/tests/unifac_factor_range.rs:16:5:
+a weight rounded to zero must not silently contribute a finite coefficient: Ok([3.3028740108491057, 7.7449558120269115])
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'underflowed_weights_cannot_supply_a_phase_verdict' (640) panicked at crates/kerotakis-thermo/tests/unifac_factor_range.rs:24:5:
+phase detection must preserve the interaction-range refusal: Ok(SinglePhase)
+error: test failed, to rerun pass `-p kerotakis-thermo --test unifac_factor_range`

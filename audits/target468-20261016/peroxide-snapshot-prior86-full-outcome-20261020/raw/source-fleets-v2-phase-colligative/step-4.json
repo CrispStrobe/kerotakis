@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_2.py --family 'phase-colligative' --binary target/release/kero --out 'audit-evidence-v2/phase-colligative'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "4d7e85f5a2838232593f8d3cfe20ad18697ad4b11b03269e9f94ef4c421615f0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
