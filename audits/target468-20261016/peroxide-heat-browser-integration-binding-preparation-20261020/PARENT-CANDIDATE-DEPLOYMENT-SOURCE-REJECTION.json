@@ -1,0 +1,10 @@
+{
+  "state": "PARENT_REJECTED_BEFORE_EXECUTION",
+  "reason": "Reviewed PRhead18f2 is not actual normal integration merge/buildsource; original exact18 deployment binding would reject the genuine merge build",
+  "preserved_preparation": "../first-parent-rejected-candidate-as-deployment",
+  "reviewed_candidate_source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "actual_integrated_source": null,
+  "producer_executions": 0,
+  "original_protocol_forecasts_and_prior25_tests_preserved": true,
+  "initial_preparation_probe_failure": "exec process could not start because requested v2 workdir had not yet been created; no code ran, retried from existing parent directory"
+}

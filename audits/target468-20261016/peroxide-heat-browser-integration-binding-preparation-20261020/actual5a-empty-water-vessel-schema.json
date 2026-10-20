@@ -1,0 +1,109 @@
+{
+  "elapsed_seconds": 0,
+  "nuclides": {
+    "inventory": {}
+  },
+  "excess_enthalpy_j": 0,
+  "id": 0,
+  "label": "beaker",
+  "contents": [
+    {
+      "species": "water",
+      "moles": 2,
+      "phase": "liquid"
+    }
+  ],
+  "foam": {
+    "trapped_gas_liters": 0,
+    "volume_liters": 0,
+    "peak_volume_liters": 0
+  },
+  "temperature": 298.15,
+  "pressure": 101325,
+  "thermal_mode": "adiabatic",
+  "headspace": {
+    "boundary": "open"
+  },
+  "surfaces": [],
+  "solute_charge": 0,
+  "free_hydroxide": 3.6248370736711533e-09,
+  "free_proton": 3.6248370736711533e-09,
+  "co2_partial_pressure_atm": null,
+  "pending_co2_transfer_mol": 0,
+  "solution": {
+    "scope": "solvent_only",
+    "solvent_kg": 0.03603,
+    "pe": null,
+    "redox": [],
+    "ph": 6.997375771104036,
+    "ionic_strength": 1.006060803128269e-07,
+    "species": [
+      {
+        "name": "H+",
+        "molality": 1.006060803128269e-07,
+        "activity": 1.006060803128269e-07
+      },
+      {
+        "name": "OH-",
+        "molality": 1.006060803128269e-07,
+        "activity": 1.006060803128269e-07
+      }
+    ],
+    "provenance": {
+      "engine": "Kerotakis analytic equilibrium evaluator",
+      "dataset": "vendored USGS phreeqc.dat",
+      "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+      "dataset_sources": [
+        "USGS PHREEQC thermodynamic database"
+      ],
+      "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+      "routing_phrase": {
+        "key": "routing.solvent-relation-only",
+        "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory"
+      },
+      "dataset_phrase": {
+        "key": "provenance.dataset.vendored-usgs",
+        "en": "vendored USGS {file}",
+        "slots": [
+          [
+            "file",
+            {
+              "text": {
+                "text": "phreeqc.dat"
+              }
+            }
+          ]
+        ]
+      },
+      "model_phrase": {
+        "key": "provenance.model.water-autoionisation",
+        "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+        "slots": [
+          [
+            "engine",
+            {
+              "text": {
+                "text": "PHREEQC"
+              }
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "lots": [
+    {
+      "species": "water",
+      "moles": 2,
+      "phase": "liquid",
+      "added_at": 0,
+      "source": "reagent bottle",
+      "particle_size_um": null,
+      "suspended_fraction": null
+    }
+  ],
+  "resolved": {
+    "valid": false,
+    "solution": null
+  }
+}

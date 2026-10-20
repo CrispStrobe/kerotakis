@@ -1,0 +1,20 @@
+{
+  "state": "PREPARATION_ONLY_NO_ACTUAL_BROWSER_EXECUTION",
+  "files_sha256": {
+    "PARENT-CANDIDATE-DEPLOYMENT-SOURCE-REJECTION.json": "f199cf9a74845f48dfe34dd3d1d0c91c98793dde51dcb966461a66b4fcba8c15",
+    "PARENT-REVIEW.json": "98204f3817642e225067875b8812f6cdb100c97cc59582f9ae4a7f3818e6915d",
+    "PARENT-tests.stderr": "c05b8ad551f7edc7ba1e23711b46056514a21a4d5a6b7e18e9ea44fd8e08e46a",
+    "PARENT-tests.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "README.md": "dd26541c8b39c4f62483d4a5e22a2ad51d081de489f3be4350497322d066c2fb",
+    "STATIC-PREPARATION-REVIEW.json": "c4eed529eafd3c74c5ad5cf531077ef2309314a47bbeb6ca1e11f0e27f26b899",
+    "actual5a-empty-water-vessel-schema.json": "c72b5fdaf07defa43c18b1f253c96528df97a50e11eddefe91e529836fe1f600",
+    "frozen-design.json": "9b5146a47dc129b028b9380adbd9951059e9e64bd89c2ae5e11a556e45f157b7",
+    "heat-controls.mjs": "cf19825bd6a273115eb686feab0b3242dfebb5533e571fed4765b8f49c371d6f",
+    "heat_saved_predicates.py": "705915e2fdb218c754c69c7408d135f1432bd521343336383f9aeadee0ae9264",
+    "review_saved.py": "817d9fdf9106d5581919a5b7696658074033e6737154c1336b5cbc0f3d516252",
+    "run-heat.mjs": "316980a04ba85c94a54665f1ad5418a310f8485892afe97b85c9ba97daa6d592",
+    "synthetic-tests-v2.stderr": "b67aaf163d3d752717e302ea454bf420a7d7507e8d0bff0a29e1bb3b74307b82",
+    "synthetic-tests-v2.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_saved_predicates.py": "262d68dfc5ad30c18cc4ed17547edd7bf74b67677a022f7104cc4c40e7187ceb"
+  }
+}
