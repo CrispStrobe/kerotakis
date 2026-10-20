@@ -1,0 +1,10 @@
+{
+  "source": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+  "actual_API_receipt_sha256": "2fac0091f3b066597d21d4fc8123c2cf10c41c159157c6032d31587e26d11815",
+  "actual_browser37_dispatched": true,
+  "unchanged37_required": true,
+  "prior7_not_issued_at_publication": true,
+  "supplemental18_not_issued_at_publication": true,
+  "no_duplicate_original_API_or_scientific_protocol_requests": true,
+  "browser_acceptance_assigned": false
+}

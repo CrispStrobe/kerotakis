@@ -1,0 +1,27 @@
+{
+  "utc": "2026-10-20T16:51:32.545921+00:00",
+  "source": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+  "actual_script_hashes": {
+    "launch-browser-contract-848-production-20261020.py": "611d7c75c51644fc00eac0b6456b2a0ed03d2ec5b260d20a9fdbbeb9a798f920",
+    "verify-release-artifact.py": "43f157a3ff19edc86c352a6d1aac4707d4a403b3f65e523e1bc0f55d2fb8dd46",
+    "prepare-browser-contract-848-browser-20261020.py": "5b4e058af99640e5ee4a693f94bf2edfaf7481bad406b8ca9b516f7261951a8f",
+    "watch-browser-contract-848-browser-20261020.py": "bcf1978a46cd059a5a0fbf967fa3361cadacff5f9e61131cdb20b7a477a56b3e",
+    "review-browser-contract-848-targeted-20261020.py": "a638e13525b9690b2675530885cfb35e2abc634a313fca43b07f9db17346340c",
+    "prepare-locale18-848.py": "21c0bf8d79fd257ff8fb945685b4dfd8430eef1ec3348d51acff4f26d6c92c64",
+    "run-locale18.mjs": "8456b089e8389c2995fd1c58bcd316c64fffcfcad4db002927f336fa58a8bd21",
+    "review-locale18-848.py": "84fe50ca53fb67a27bdda1d40869df70a56948b31c01daa1ad79b8c1597cec6a",
+    "locale18_saved_predicates.py": "4b66938c88db0da8863d44a10a7e4a34e72aa578891133e72ac1818d7dd4e063",
+    "test_locale18_saved_predicates.py": "9f8588682fbe6bac8541f4000a75dfe9bd53292a86720a784f033ce801696dc9",
+    "streaming-monitor.py": "38991a924ca35b18c0ba0c5cce046a2c32ce88c4f59efcdad289e2f48d029210",
+    "watch-locale18-848.py": "9acc7e165f95151631a8b1ab5ef3ce10ab10554af01850435c26f8ce170224d9",
+    "DEPENDENCIES.json": "a6f6ef68d90b48aded425892f356538bb713fa757ba71b01460b20e2fb39df90",
+    "delivery-design.json": "3cc07d31014f64ae1b98a6f5c55c43163f63e24c7dd217ef3deea57b15ad75bd"
+  },
+  "original37_7_18_module_bytes_preserved": true,
+  "parent_raw_family_predicates_read_and19_synthetic_controls_reproduced": true,
+  "saved_reader_prior_API_37_7_source_binary_lock_assets_chain_reviewed": true,
+  "owned_remote_existing_or_incomplete_search_stops_every_issuer": true,
+  "no_browser_acceptance_assigned_before_actual_runs": true,
+  "all62_required_not_PRIOR44_only": true,
+  "qualification": "Parent source review before actual37 dispatch; does not assign browser acceptance"
+}
