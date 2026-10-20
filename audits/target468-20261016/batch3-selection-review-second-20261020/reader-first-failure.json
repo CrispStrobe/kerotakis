@@ -1,0 +1,6 @@
+{
+  "reader_sha256": "ceaefd4f6867d6b87dec411746cee3da08f52fbecc750607e4485f7406bdb485",
+  "failure": "source-binding publication attempted nonexistent magnet.rs after all8saved assessments passed",
+  "cause": "Magnetic operator is implemented inside bench.rs, not a standalone module.",
+  "correction": "Retain actual bench.rs source digest; remove nonexistent source path. No engine run or criterion change."
+}

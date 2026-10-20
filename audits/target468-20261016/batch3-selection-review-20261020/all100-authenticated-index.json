@@ -1,0 +1,4211 @@
+[
+  {
+    "original_id": "batch3-diverse:en-001",
+    "original_script_sha256": "163f2787c2b766f4c23771de118f33b5e204d5321f39aa71948c348eb378627b",
+    "executed_script_sha256": "163f2787c2b766f4c23771de118f33b5e204d5321f39aa71948c348eb378627b",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-001",
+    "raw_sha256": {
+      "experiment.lab": "163f2787c2b766f4c23771de118f33b5e204d5321f39aa71948c348eb378627b",
+      "stdout.jsonl": "f6cd6006ce7f2cf9bf853dba4c696f6def9cead9e4bd13698467d977a120246f",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-dissolution-solver": {
+        "first_observation_index": 8,
+        "first_operator": {
+          "moles": 0.0005842879137123609,
+          "op": "add",
+          "species": "maltose",
+          "vessel": 2
+        },
+        "event": {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "maltose",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 2,
+          "what": "maltose in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        "occurrences": 1
+      },
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 10,
+        "first_operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "KI",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 6
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:en-002",
+    "original_script_sha256": "c855e08c99512dcb8a580bca1be542a037d89237eb0fdda2ce61692fdbdfc8d7",
+    "executed_script_sha256": "c855e08c99512dcb8a580bca1be542a037d89237eb0fdda2ce61692fdbdfc8d7",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-002",
+    "raw_sha256": {
+      "experiment.lab": "c855e08c99512dcb8a580bca1be542a037d89237eb0fdda2ce61692fdbdfc8d7",
+      "stdout.jsonl": "840dd376a004cca5cfc68de434dd9d37202672162ae1824b67a781bb131ca8f8",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.supersaturated-below-formation-temperature": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 40.0,
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hydroxylapatite (SI +6.8)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hydroxylapatite (SI +6.8), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        "occurrences": 5
+      },
+      "not-modeled.analytical-component-charge": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 40.0,
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+            "key": "not-modeled.analytical-component-charge"
+          },
+          "vessel": 0,
+          "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+        },
+        "occurrences": 5
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:en-003",
+    "original_script_sha256": "972f3c8d1ce659bd9295a3a350e5defc87bd700aa13c896e59474b4398c9e7bd",
+    "executed_script_sha256": "972f3c8d1ce659bd9295a3a350e5defc87bd700aa13c896e59474b4398c9e7bd",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-003",
+    "raw_sha256": {
+      "experiment.lab": "972f3c8d1ce659bd9295a3a350e5defc87bd700aa13c896e59474b4398c9e7bd",
+      "stdout.jsonl": "be59c1a6e09661f0b479e67e97075e32ddacb1650a0fe6bbd10d2909e4805700",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fe-001",
+    "original_script_sha256": "373f24917d6011882501694fa6ee5bbdbd3981b6aade7927933aa08707a30f38",
+    "executed_script_sha256": "373f24917d6011882501694fa6ee5bbdbd3981b6aade7927933aa08707a30f38",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fe-001",
+    "raw_sha256": {
+      "experiment.lab": "373f24917d6011882501694fa6ee5bbdbd3981b6aade7927933aa08707a30f38",
+      "stdout.jsonl": "5f4a208b7421b1e0d53854ae2e47c4a197b3b6c8c555cb8f43f05c04e33e2537",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.family-declined-at-gate": {
+        "first_observation_index": 13,
+        "first_operator": {
+          "op": "wait",
+          "seconds": 28800.0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+            "key": "not-modeled.family-declined-at-gate",
+            "slots": [
+              [
+                "family",
+                {
+                  "text": {
+                    "text": "fischer-esterification"
+                  }
+                }
+              ],
+              [
+                "version",
+                {
+                  "text": {
+                    "text": "1"
+                  }
+                }
+              ],
+              [
+                "gate",
+                {
+                  "text": {
+                    "text": "temperature_k"
+                  }
+                }
+              ],
+              [
+                "why",
+                {
+                  "term": {
+                    "en": "the vessel stands at 298.2 K and the family needs at least 333.1 K",
+                    "section": "family-gate"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fe-005",
+    "original_script_sha256": "6a99c75fa46c0de473e908ff050943127bc72be47648e3a1d60d8de3dc18cfac",
+    "executed_script_sha256": "6a99c75fa46c0de473e908ff050943127bc72be47648e3a1d60d8de3dc18cfac",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fe-005",
+    "raw_sha256": {
+      "experiment.lab": "6a99c75fa46c0de473e908ff050943127bc72be47648e3a1d60d8de3dc18cfac",
+      "stdout.jsonl": "6de70fb71e6cdcd5aaf352f9cbae78bd989ba8d63565c7c1ade0f2e0741fbb70",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.family-declined-at-gate": {
+        "first_observation_index": 9,
+        "first_operator": {
+          "op": "wait",
+          "seconds": 14400.0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+            "key": "not-modeled.family-declined-at-gate",
+            "slots": [
+              [
+                "family",
+                {
+                  "text": {
+                    "text": "fischer-esterification"
+                  }
+                }
+              ],
+              [
+                "version",
+                {
+                  "text": {
+                    "text": "1"
+                  }
+                }
+              ],
+              [
+                "gate",
+                {
+                  "text": {
+                    "text": "temperature_k"
+                  }
+                }
+              ],
+              [
+                "why",
+                {
+                  "term": {
+                    "en": "the vessel stands at 298.2 K and the family needs at least 333.1 K",
+                    "section": "family-gate"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-001",
+    "original_script_sha256": "57112262be409752a7d3fcc2e57770cf816a53faae99302fadf5715e0fd21004",
+    "executed_script_sha256": "57112262be409752a7d3fcc2e57770cf816a53faae99302fadf5715e0fd21004",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-001",
+    "raw_sha256": {
+      "experiment.lab": "57112262be409752a7d3fcc2e57770cf816a53faae99302fadf5715e0fd21004",
+      "stdout.jsonl": "b360b163f911c53150754468bfa2fb33e4bb82d3f358b5c6c14096e5fbe927b1",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-003",
+    "original_script_sha256": "934af89b795df2c4dfcc93ef49eaae719e40368eb34b9b9624503363458d4620",
+    "executed_script_sha256": "934af89b795df2c4dfcc93ef49eaae719e40368eb34b9b9624503363458d4620",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-003",
+    "raw_sha256": {
+      "experiment.lab": "934af89b795df2c4dfcc93ef49eaae719e40368eb34b9b9624503363458d4620",
+      "stdout.jsonl": "7e92068e475bf93e77375aa495ea6fc2fcdfd38fcceecacf54d1dfcebf3f75dd",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.dissolves-unspeciated": {
+        "first_observation_index": 3,
+        "first_operator": {
+          "moles": 0.02269992963021815,
+          "op": "add",
+          "species": "PVA",
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+            "key": "not-modeled.dissolves-unspeciated",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "poly(vinyl alcohol)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        "occurrences": 2
+      },
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 4,
+        "first_operator": {
+          "moles": 0.00014909128859600732,
+          "op": "add",
+          "species": "Na2B4O7",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "Na2B4O7",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Na2B4O7 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 4
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-005",
+    "original_script_sha256": "3cbf5bf3712b1c826d42df6d6b657d4c8dd569d7bd1b45e94944bd98de46b50a",
+    "executed_script_sha256": "3cbf5bf3712b1c826d42df6d6b657d4c8dd569d7bd1b45e94944bd98de46b50a",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-005",
+    "raw_sha256": {
+      "experiment.lab": "3cbf5bf3712b1c826d42df6d6b657d4c8dd569d7bd1b45e94944bd98de46b50a",
+      "stdout.jsonl": "2315b693b1c94c16be7fd9dbb015f7954c6a4e68f0550495364681a250da8b6f",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-006",
+    "original_script_sha256": "2265f73b9789925deb191a2dbfa00cf12cc5c1a5b3a471c7e4130d995fce714e",
+    "executed_script_sha256": "2265f73b9789925deb191a2dbfa00cf12cc5c1a5b3a471c7e4130d995fce714e",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-006",
+    "raw_sha256": {
+      "experiment.lab": "2265f73b9789925deb191a2dbfa00cf12cc5c1a5b3a471c7e4130d995fce714e",
+      "stdout.jsonl": "c6ea459fb1b31edcad5bf5c17deab5f69a375f6b3d1c073d05274ebfd14771d8",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-007",
+    "original_script_sha256": "9b17e81c347424a71377f0c3f83177137094a954b38aca267bd544996ee6a31f",
+    "executed_script_sha256": "9b17e81c347424a71377f0c3f83177137094a954b38aca267bd544996ee6a31f",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-007",
+    "raw_sha256": {
+      "experiment.lab": "9b17e81c347424a71377f0c3f83177137094a954b38aca267bd544996ee6a31f",
+      "stdout.jsonl": "0541515b3f80ef3e6ab533f0ed9a8e970f29bcc4db721db1e678f6a4c24b0830",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-dissolution-solver": {
+        "first_observation_index": 5,
+        "first_operator": {
+          "moles": 0.0012334943043400498,
+          "op": "add",
+          "species": "cellulose",
+          "vessel": 1
+        },
+        "event": {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "cellulose (anhydroglucose unit)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        "occurrences": 1
+      },
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 10,
+        "first_operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "KI",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 4
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:co-001",
+    "original_script_sha256": "ce1806166c7d20ae79f82bf6efd430946528bdb3ce7eca9f4e193fab186b7988",
+    "executed_script_sha256": "ce1806166c7d20ae79f82bf6efd430946528bdb3ce7eca9f4e193fab186b7988",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_co-001",
+    "raw_sha256": {
+      "experiment.lab": "ce1806166c7d20ae79f82bf6efd430946528bdb3ce7eca9f4e193fab186b7988",
+      "stdout.jsonl": "2205b3897c0d666a8abcbd3eb6704c0b9747a178ce962d42e944e3bb432dec02",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:co-002",
+    "original_script_sha256": "1f33cb36c3783a47febd1953b017cb3d7d94969d7ec606868e8265b50c4f855b",
+    "executed_script_sha256": "1f33cb36c3783a47febd1953b017cb3d7d94969d7ec606868e8265b50c4f855b",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_co-002",
+    "raw_sha256": {
+      "experiment.lab": "1f33cb36c3783a47febd1953b017cb3d7d94969d7ec606868e8265b50c4f855b",
+      "stdout.jsonl": "b5de5d3b75f8d1b2a92ae0bddd8532a2f80ad8ef9251355803b05ed2be82d061",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:co-003",
+    "original_script_sha256": "17d85572a741afb112406f301ed5299cf39ef13188e428d0d213a29e5c935959",
+    "executed_script_sha256": "17d85572a741afb112406f301ed5299cf39ef13188e428d0d213a29e5c935959",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_co-003",
+    "raw_sha256": {
+      "experiment.lab": "17d85572a741afb112406f301ed5299cf39ef13188e428d0d213a29e5c935959",
+      "stdout.jsonl": "781a0cecf287dbbd459b6ed8d17c4b5a843ccd9f7debefd7b57d3be599180a3d",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:co-004",
+    "original_script_sha256": "3a884fbaf99274fb5676344aaae621976a4403edb89b482776bd807d889875e1",
+    "executed_script_sha256": "3a884fbaf99274fb5676344aaae621976a4403edb89b482776bd807d889875e1",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_co-004",
+    "raw_sha256": {
+      "experiment.lab": "3a884fbaf99274fb5676344aaae621976a4403edb89b482776bd807d889875e1",
+      "stdout.jsonl": "abc771e4f9bb1bc536cdf9998d487c83302f2c5cc26fdc063e1d3e103b20c6ca",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.supersaturated-below-formation-temperature": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 30.0,
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hydroxylapatite (SI +6.8)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hydroxylapatite (SI +6.8), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        "occurrences": 4
+      },
+      "not-modeled.analytical-component-charge": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 30.0,
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+            "key": "not-modeled.analytical-component-charge"
+          },
+          "vessel": 0,
+          "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+        },
+        "occurrences": 5
+      },
+      "not-modeled.milk-casein-buffer-residual": {
+        "first_observation_index": 3,
+        "first_operator": {
+          "moles": 0.003,
+          "op": "add",
+          "species": "CH3COOH",
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "no-reviewed-datum",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this milk has been acidified to pH {ph}, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. {assumption} (the recipe's full assumption is in `explain material whole_milk`)",
+            "key": "not-modeled.milk-casein-buffer-residual",
+            "slots": [
+              [
+                "ph",
+                {
+                  "number": {
+                    "text": "4.30"
+                  }
+                }
+              ],
+              [
+                "assumption",
+                {
+                  "phrase": {
+                    "phrase": {
+                      "en": "CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT",
+                      "key": "material-assumption.whole_milk-casein"
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "this milk has been acidified to pH 4.30, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT (the recipe's full assumption is in `explain material whole_milk`)"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:co-006",
+    "original_script_sha256": "db76b99fa8d052880492587e34d3abc0762e0bc441cdee9fac97c3f6eec288e4",
+    "executed_script_sha256": "db76b99fa8d052880492587e34d3abc0762e0bc441cdee9fac97c3f6eec288e4",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_co-006",
+    "raw_sha256": {
+      "experiment.lab": "db76b99fa8d052880492587e34d3abc0762e0bc441cdee9fac97c3f6eec288e4",
+      "stdout.jsonl": "93807b7e37506c9a1d00c3ae16f1dae39071eabab316ec950d03f583a8e5ff5c",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.family-declined-at-gate": {
+        "first_observation_index": 10,
+        "first_operator": {
+          "op": "wait",
+          "seconds": 60.0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+            "key": "not-modeled.family-declined-at-gate",
+            "slots": [
+              [
+                "family",
+                {
+                  "text": {
+                    "text": "fischer-esterification"
+                  }
+                }
+              ],
+              [
+                "version",
+                {
+                  "text": {
+                    "text": "1"
+                  }
+                }
+              ],
+              [
+                "gate",
+                {
+                  "text": {
+                    "text": "temperature_k"
+                  }
+                }
+              ],
+              [
+                "why",
+                {
+                  "term": {
+                    "en": "the vessel stands at 298.1 K and the family needs at least 333.1 K",
+                    "section": "family-gate"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.1 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        },
+        "occurrences": 4
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:co-007",
+    "original_script_sha256": "a2435ab5fb2b5913d07c398aacca2c3ba94dda1165a8b911cb8d8fa8f3577fff",
+    "executed_script_sha256": "a2435ab5fb2b5913d07c398aacca2c3ba94dda1165a8b911cb8d8fa8f3577fff",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_co-007",
+    "raw_sha256": {
+      "experiment.lab": "a2435ab5fb2b5913d07c398aacca2c3ba94dda1165a8b911cb8d8fa8f3577fff",
+      "stdout.jsonl": "76f0f3bcbce368abf8d611f5b9f8ac2c1b32972f235dd254a4538bc2ff0bfcd0",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:li-001",
+    "original_script_sha256": "3e8ef3bfa90344606db8bc302b33dae0576c7daf91ea663b2363f4879046dd67",
+    "executed_script_sha256": "3e8ef3bfa90344606db8bc302b33dae0576c7daf91ea663b2363f4879046dd67",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_li-001",
+    "raw_sha256": {
+      "experiment.lab": "3e8ef3bfa90344606db8bc302b33dae0576c7daf91ea663b2363f4879046dd67",
+      "stdout.jsonl": "95abd7152322f523355b9b70f551ec17ea9358b760f57bd9d1a953ea0404d54f",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:li-002",
+    "original_script_sha256": "9a3a9d99099c8f2cc803249593eedba892f3b68cc4ff1a0664a5974168fa96d3",
+    "executed_script_sha256": "9a3a9d99099c8f2cc803249593eedba892f3b68cc4ff1a0664a5974168fa96d3",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_li-002",
+    "raw_sha256": {
+      "experiment.lab": "9a3a9d99099c8f2cc803249593eedba892f3b68cc4ff1a0664a5974168fa96d3",
+      "stdout.jsonl": "dfbc875fca6c0f79ae43454cbd6722f32b86b1d12264e820849b1ea2bab827f7",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:li-004",
+    "original_script_sha256": "a3d04c4449b9f1e16c8839ec467f698ae0a2f30f1502c91d71e09f8643c1a2ba",
+    "executed_script_sha256": "a3d04c4449b9f1e16c8839ec467f698ae0a2f30f1502c91d71e09f8643c1a2ba",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_li-004",
+    "raw_sha256": {
+      "experiment.lab": "a3d04c4449b9f1e16c8839ec467f698ae0a2f30f1502c91d71e09f8643c1a2ba",
+      "stdout.jsonl": "9c0f836662be09ba674fb47d5bcb70feb1bfd59bb9172583c2cff1fafb939031",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:li-005",
+    "original_script_sha256": "670ac53687911bbe52716463ab15f48bcbaaa67cdd20589641e4a7ae19b3eee2",
+    "executed_script_sha256": "670ac53687911bbe52716463ab15f48bcbaaa67cdd20589641e4a7ae19b3eee2",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_li-005",
+    "raw_sha256": {
+      "experiment.lab": "670ac53687911bbe52716463ab15f48bcbaaa67cdd20589641e4a7ae19b3eee2",
+      "stdout.jsonl": "11df6cd32bf80c0b2ad855e02aee1350c0cb16a9964e08949928aeb1bf7ac414",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:li-008",
+    "original_script_sha256": "0bbc184bf27a1c60809afc8d76b1cc42e138030a530be7fe55a78effaae40b84",
+    "executed_script_sha256": "0bbc184bf27a1c60809afc8d76b1cc42e138030a530be7fe55a78effaae40b84",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_li-008",
+    "raw_sha256": {
+      "experiment.lab": "0bbc184bf27a1c60809afc8d76b1cc42e138030a530be7fe55a78effaae40b84",
+      "stdout.jsonl": "1e7667447d280de1bc639796809d259f5a65ac0f65f8176ae7cb61556b372234",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:ad-001",
+    "original_script_sha256": "0c633f6a2d35942a1e406e7bfbd7b6be5d04efabad6328c60fb82357f0d6764e",
+    "executed_script_sha256": "0c633f6a2d35942a1e406e7bfbd7b6be5d04efabad6328c60fb82357f0d6764e",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_ad-001",
+    "raw_sha256": {
+      "experiment.lab": "0c633f6a2d35942a1e406e7bfbd7b6be5d04efabad6328c60fb82357f0d6764e",
+      "stdout.jsonl": "f43b16c9b62926f466b4b5ed9160a9dd7c6999f34155fe47be00bb331ad1e4b8",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 4,
+        "first_operator": {
+          "moles": 1.527491797369048e-05,
+          "op": "add",
+          "species": "methyl_orange",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "methyl_orange",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 5
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:ad-005",
+    "original_script_sha256": "32240cedce7067ff789a346ccb86b6e225fe6895562171cc1c9af05bd80e5101",
+    "executed_script_sha256": "32240cedce7067ff789a346ccb86b6e225fe6895562171cc1c9af05bd80e5101",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_ad-005",
+    "raw_sha256": {
+      "experiment.lab": "32240cedce7067ff789a346ccb86b6e225fe6895562171cc1c9af05bd80e5101",
+      "stdout.jsonl": "420f9633608b79bc8d596e655d1405a425db5a2fef04e7eaa13b38d5c73ca93c",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 3,
+        "first_operator": {
+          "moles": 1.527491797369048e-05,
+          "op": "add",
+          "species": "methyl_orange",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "methyl_orange",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 4
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:mi-001",
+    "original_script_sha256": "92720a0107a166db1233dd4385115b3e857f9be30acad0ac08a4e3599a6520e0",
+    "executed_script_sha256": "92720a0107a166db1233dd4385115b3e857f9be30acad0ac08a4e3599a6520e0",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_mi-001",
+    "raw_sha256": {
+      "experiment.lab": "92720a0107a166db1233dd4385115b3e857f9be30acad0ac08a4e3599a6520e0",
+      "stdout.jsonl": "23dea4cca68beae757ecc6293dab531e11e2bfdddbba97cba128122db700790b",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:mi-002",
+    "original_script_sha256": "26e4ac26ae0c82688f40e8c82ebae5e88045449bf2a14ee8d614df806a9f0ecb",
+    "executed_script_sha256": "26e4ac26ae0c82688f40e8c82ebae5e88045449bf2a14ee8d614df806a9f0ecb",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_mi-002",
+    "raw_sha256": {
+      "experiment.lab": "26e4ac26ae0c82688f40e8c82ebae5e88045449bf2a14ee8d614df806a9f0ecb",
+      "stdout.jsonl": "02d0793aaf5e1a33fadd0a2ed3e76ffa1829332e0d14dbee1304c3f1e7f66ae5",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:mi-005",
+    "original_script_sha256": "adafd246f3347ffce89af3c1753bfe2a3eb014ba69600f2f25510651c75cfd9b",
+    "executed_script_sha256": "adafd246f3347ffce89af3c1753bfe2a3eb014ba69600f2f25510651c75cfd9b",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_mi-005",
+    "raw_sha256": {
+      "experiment.lab": "adafd246f3347ffce89af3c1753bfe2a3eb014ba69600f2f25510651c75cfd9b",
+      "stdout.jsonl": "8a78e1c224c0d8f5836fd3f9afc1c81cd0895f7fba15050a52df1325a0ac7cf7",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:mi-006",
+    "original_script_sha256": "e4a0ce70fdab40861ee0f2cea7c411dbb4a603940026f95a0e3c8c0b30d5bee5",
+    "executed_script_sha256": "e4a0ce70fdab40861ee0f2cea7c411dbb4a603940026f95a0e3c8c0b30d5bee5",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_mi-006",
+    "raw_sha256": {
+      "experiment.lab": "e4a0ce70fdab40861ee0f2cea7c411dbb4a603940026f95a0e3c8c0b30d5bee5",
+      "stdout.jsonl": "5a42ded73373a428962de8a6eddf84949f06981f288cd2977accf9a6942d8f37",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:an-001",
+    "original_script_sha256": "d7291d7db9f7c63488129f44bb88cada6499ce3925d65da82589b8eba4767379",
+    "executed_script_sha256": "d7291d7db9f7c63488129f44bb88cada6499ce3925d65da82589b8eba4767379",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_an-001",
+    "raw_sha256": {
+      "experiment.lab": "d7291d7db9f7c63488129f44bb88cada6499ce3925d65da82589b8eba4767379",
+      "stdout.jsonl": "db68d202d75b1bc7581778138c10e002a1d2394b537daaef124e20aed90a16d2",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": [
+      {
+        "observation_index": 6,
+        "output_sequence": 6,
+        "operator": {
+          "op": "ignite",
+          "vessel": 1
+        },
+        "event": {
+          "detail": "cea-thermal could not solve this state: equilibrium did not converge after 1 iterations",
+          "event": "solver_failed",
+          "solver": "cea-thermal",
+          "vessel": 1
+        }
+      }
+    ]
+  },
+  {
+    "original_id": "batch3-diverse:an-002",
+    "original_script_sha256": "333c2fad5c9703e224f655bbb19d5618fbceab7d4b00b4602e61649cf2932bfd",
+    "executed_script_sha256": "333c2fad5c9703e224f655bbb19d5618fbceab7d4b00b4602e61649cf2932bfd",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_an-002",
+    "raw_sha256": {
+      "experiment.lab": "333c2fad5c9703e224f655bbb19d5618fbceab7d4b00b4602e61649cf2932bfd",
+      "stdout.jsonl": "f1c50881ab3d5c11b6d14abf84d31283c030c471976c5863d48aba4684f76405",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-dissolution-solver": {
+        "first_observation_index": 8,
+        "first_operator": {
+          "op": "ignite",
+          "vessel": 2
+        },
+        "event": {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "sodium chloride",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 2,
+          "what": "sodium chloride in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:an-003",
+    "original_script_sha256": "da0c623cc6079b91f3e5425e9bbaac8a864b6ed2d6c4cf4ba58c8ced8747fd91",
+    "executed_script_sha256": "da0c623cc6079b91f3e5425e9bbaac8a864b6ed2d6c4cf4ba58c8ced8747fd91",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_an-003",
+    "raw_sha256": {
+      "experiment.lab": "da0c623cc6079b91f3e5425e9bbaac8a864b6ed2d6c4cf4ba58c8ced8747fd91",
+      "stdout.jsonl": "258f3a8555030284419ec184ff4eb3f8020d04d97cc3c33323c3af1285bbc69b",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 8,
+        "first_operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "KI",
+          "vessel": 2
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 2,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 2
+      },
+      "not-modeled.supersaturated-no-registry-solid": {
+        "first_observation_index": 11,
+        "first_operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "AgNO3",
+          "vessel": 1
+        },
+        "event": {
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Bromyrite (SI +5.4)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "the solution is supersaturated against Bromyrite (SI +5.4). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:an-004",
+    "original_script_sha256": "e793f722fc8f177924c1e93972bd3f99207a40b593a759b3c5d8e02dab087c81",
+    "executed_script_sha256": "e793f722fc8f177924c1e93972bd3f99207a40b593a759b3c5d8e02dab087c81",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_an-004",
+    "raw_sha256": {
+      "experiment.lab": "e793f722fc8f177924c1e93972bd3f99207a40b593a759b3c5d8e02dab087c81",
+      "stdout.jsonl": "da477166f7b96834729709b4c6732fd8f4d8de7c5ca910a46983746f9061d7d4",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-dissolution-solver": {
+        "first_observation_index": 4,
+        "first_operator": {
+          "moles": 3e-05,
+          "op": "add",
+          "species": "ascorbic_acid",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "ascorbic acid (vitamin C)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "ascorbic acid (vitamin C) in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        "occurrences": 2
+      },
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 9,
+        "first_operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "KI",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 7
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:an-007",
+    "original_script_sha256": "1287300ae87314ede3d8cd07ec0b748fcae951f78689e34cb75e47b268929be7",
+    "executed_script_sha256": "1287300ae87314ede3d8cd07ec0b748fcae951f78689e34cb75e47b268929be7",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_an-007",
+    "raw_sha256": {
+      "experiment.lab": "1287300ae87314ede3d8cd07ec0b748fcae951f78689e34cb75e47b268929be7",
+      "stdout.jsonl": "11f5e560a56e958c14f92c612be938aab8f86dd9974c91656d29e16f9747aadc",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:an-008",
+    "original_script_sha256": "0bbd2cb245d7caef424b507c596cf6a9b4bd5149329cea4aad07ef917fde7127",
+    "executed_script_sha256": "0bbd2cb245d7caef424b507c596cf6a9b4bd5149329cea4aad07ef917fde7127",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_an-008",
+    "raw_sha256": {
+      "experiment.lab": "0bbd2cb245d7caef424b507c596cf6a9b4bd5149329cea4aad07ef917fde7127",
+      "stdout.jsonl": "9d2ad08f7ba8c1b8a23673bb377cbbc5b910688481d5e7f66e9532e323df14d8",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:su-001",
+    "original_script_sha256": "31efc23429c3d1f01455261eff2dddbed0b857f9bbb0e04c098ffcc68f2df76e",
+    "executed_script_sha256": "31efc23429c3d1f01455261eff2dddbed0b857f9bbb0e04c098ffcc68f2df76e",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_su-001",
+    "raw_sha256": {
+      "experiment.lab": "31efc23429c3d1f01455261eff2dddbed0b857f9bbb0e04c098ffcc68f2df76e",
+      "stdout.jsonl": "914ab9181aef69fa8d105e40e6ea47c071c3902490e5aaedf59271018f034c07",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.stays-as-the-metal": {
+        "first_observation_index": 4,
+        "first_operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "Fe",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        "occurrences": 8
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:su-005",
+    "original_script_sha256": "7844f999b60651bf71cec0617a34a67636931abbaccf9251f2bfe19d99df47a2",
+    "executed_script_sha256": "7844f999b60651bf71cec0617a34a67636931abbaccf9251f2bfe19d99df47a2",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_su-005",
+    "raw_sha256": {
+      "experiment.lab": "7844f999b60651bf71cec0617a34a67636931abbaccf9251f2bfe19d99df47a2",
+      "stdout.jsonl": "9ade0392dcf57efa820abeb55194ec4bce3088d18ac703ab9c450d32df657b87",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.conductivity-on-a-dry-solid": {
+        "first_observation_index": 8,
+        "first_operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 1
+        },
+        "event": {
+          "cause": "no-reviewed-datum",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess",
+            "key": "not-modeled.conductivity-on-a-dry-solid"
+          },
+          "vessel": 1,
+          "what": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess"
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:th-002",
+    "original_script_sha256": "aa78a987eb922362323be773d7ef9293324c8de4a9bc7536d88a1d21e979b85d",
+    "executed_script_sha256": "aa78a987eb922362323be773d7ef9293324c8de4a9bc7536d88a1d21e979b85d",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_th-002",
+    "raw_sha256": {
+      "experiment.lab": "aa78a987eb922362323be773d7ef9293324c8de4a9bc7536d88a1d21e979b85d",
+      "stdout.jsonl": "4c6440643cfa3bba2ee0d20120d384fecc0045b3965c6fee0865820f1a6c3054",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:th-003",
+    "original_script_sha256": "e58beb4e5ebfb3b28f3e922710de5a8f70bbff17a106f29b75f4b079ec242a95",
+    "executed_script_sha256": "e58beb4e5ebfb3b28f3e922710de5a8f70bbff17a106f29b75f4b079ec242a95",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_th-003",
+    "raw_sha256": {
+      "experiment.lab": "e58beb4e5ebfb3b28f3e922710de5a8f70bbff17a106f29b75f4b079ec242a95",
+      "stdout.jsonl": "70869f2202a41f328ea6e923ec62503141ae505ed1abb32db86ce72d68f2e907",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fo-001",
+    "original_script_sha256": "52058654334be3a79245c170a87afab9b23c2f5156f13dfda1b67f11e7288757",
+    "executed_script_sha256": "52058654334be3a79245c170a87afab9b23c2f5156f13dfda1b67f11e7288757",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fo-001",
+    "raw_sha256": {
+      "experiment.lab": "52058654334be3a79245c170a87afab9b23c2f5156f13dfda1b67f11e7288757",
+      "stdout.jsonl": "da91c1e4fab3b307fa77bb4cd76634490eccce07e33776c72ad8a2b4da7cdbb3",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fo-002",
+    "original_script_sha256": "848f6b958524d7a6a69fc991950a5a42cbfa40e823e0f39380d3a0d90226d532",
+    "executed_script_sha256": "848f6b958524d7a6a69fc991950a5a42cbfa40e823e0f39380d3a0d90226d532",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fo-002",
+    "raw_sha256": {
+      "experiment.lab": "848f6b958524d7a6a69fc991950a5a42cbfa40e823e0f39380d3a0d90226d532",
+      "stdout.jsonl": "f2cc0b25222d23d972b7d02e4bef9aabd82ec94f183965c2fd8c5fa1a24b8633",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fo-003",
+    "original_script_sha256": "b8fdb963c926c376a06acd76d6a8eeccf147f9d9c75f5a0f61121147c99145d8",
+    "executed_script_sha256": "b8fdb963c926c376a06acd76d6a8eeccf147f9d9c75f5a0f61121147c99145d8",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fo-003",
+    "raw_sha256": {
+      "experiment.lab": "b8fdb963c926c376a06acd76d6a8eeccf147f9d9c75f5a0f61121147c99145d8",
+      "stdout.jsonl": "728abd867cc3aa6c3915419e47988687225e7ba33aab64bf1875581c3d71bf2a",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 5,
+        "first_operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "KI",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 4
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fo-004",
+    "original_script_sha256": "7dcec740108e33469ba8753a2ed0edd4a831050e6fda74370c8184df9c1f9728",
+    "executed_script_sha256": "7dcec740108e33469ba8753a2ed0edd4a831050e6fda74370c8184df9c1f9728",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fo-004",
+    "raw_sha256": {
+      "experiment.lab": "7dcec740108e33469ba8753a2ed0edd4a831050e6fda74370c8184df9c1f9728",
+      "stdout.jsonl": "6f31d382015cc39bc15432347e881dd00a79a8d46a0cc89b5e5978eb4b9424ad",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "watercolour_blue",
+          "op": "add_material",
+          "recipe_id": "school/watercolor-blue-indigo-carmine",
+          "recipe_version": 2,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "indigo_carmine",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "indigo_carmine is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 3
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:en-004",
+    "original_script_sha256": "816abd1d7ba8eb3582b73abbc7273dd6c1ff4a44537fa973c69c358ecc1e3c63",
+    "executed_script_sha256": "816abd1d7ba8eb3582b73abbc7273dd6c1ff4a44537fa973c69c358ecc1e3c63",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-004",
+    "raw_sha256": {
+      "experiment.lab": "816abd1d7ba8eb3582b73abbc7273dd6c1ff4a44537fa973c69c358ecc1e3c63",
+      "stdout.jsonl": "3c74f08080e3cad9a7e4638e189e37ab3645be288440217412e35953832a53b3",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:en-005",
+    "original_script_sha256": "ef265a8b5513c82b4b5e442112120b0d10d9e934256195ad90b2252749ceb865",
+    "executed_script_sha256": "ef265a8b5513c82b4b5e442112120b0d10d9e934256195ad90b2252749ceb865",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-005",
+    "raw_sha256": {
+      "experiment.lab": "ef265a8b5513c82b4b5e442112120b0d10d9e934256195ad90b2252749ceb865",
+      "stdout.jsonl": "c883e6f7978922ec945a7f2008461e60ed6a858ee43bf7bd977b1ffa35670c9f",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:en-006",
+    "original_script_sha256": "af769533c312acdaac701326ff0aa3240ade0afaa01ee8337f6e6ba6d6a49d56",
+    "executed_script_sha256": "af769533c312acdaac701326ff0aa3240ade0afaa01ee8337f6e6ba6d6a49d56",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-006",
+    "raw_sha256": {
+      "experiment.lab": "af769533c312acdaac701326ff0aa3240ade0afaa01ee8337f6e6ba6d6a49d56",
+      "stdout.jsonl": "9041f67ff026a86b089acba5f8ba209bab714e6d16519527a83198b704fac166",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-dissolution-solver": {
+        "first_observation_index": 6,
+        "first_operator": {
+          "moles": 0.006167471521700249,
+          "op": "add",
+          "species": "cellulose",
+          "vessel": 1
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "cellulose (anhydroglucose unit)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:en-007",
+    "original_script_sha256": "abeb8c9f008bc4c645f3e85d83909c23ff4e21648001b6b8064b9c6ba6364a0c",
+    "executed_script_sha256": "abeb8c9f008bc4c645f3e85d83909c23ff4e21648001b6b8064b9c6ba6364a0c",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-007",
+    "raw_sha256": {
+      "experiment.lab": "abeb8c9f008bc4c645f3e85d83909c23ff4e21648001b6b8064b9c6ba6364a0c",
+      "stdout.jsonl": "027db1ab915574d96e6712543e71b5de41108173b2c785045c63ffa61f2e23e7",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:en-008",
+    "original_script_sha256": "5aa503b87787b23eee4b60c6048b159ecc2bae11094f9f50bbf058a39baf1922",
+    "executed_script_sha256": "5aa503b87787b23eee4b60c6048b159ecc2bae11094f9f50bbf058a39baf1922",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-008",
+    "raw_sha256": {
+      "experiment.lab": "5aa503b87787b23eee4b60c6048b159ecc2bae11094f9f50bbf058a39baf1922",
+      "stdout.jsonl": "93bf569e14ba003c14f8699537b10bc4c32f9c36bae4a86222d25a59bfa1d116",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.supersaturated-below-formation-temperature": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 30.0,
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hydroxylapatite (SI +6.8)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hydroxylapatite (SI +6.8), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        "occurrences": 13
+      },
+      "not-modeled.analytical-component-charge": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 30.0,
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+            "key": "not-modeled.analytical-component-charge"
+          },
+          "vessel": 0,
+          "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+        },
+        "occurrences": 13
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:en-009",
+    "original_script_sha256": "3b76c39e6e1d6151cb9f0bc1d6351ef2f277c4aae1a0001d11d368e26bf4fb16",
+    "executed_script_sha256": "3b76c39e6e1d6151cb9f0bc1d6351ef2f277c4aae1a0001d11d368e26bf4fb16",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-009",
+    "raw_sha256": {
+      "experiment.lab": "3b76c39e6e1d6151cb9f0bc1d6351ef2f277c4aae1a0001d11d368e26bf4fb16",
+      "stdout.jsonl": "00e1183ac4ae40c1513ada32d574aa497d1acd3d1a617c8400fbf7146ab1fc68",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fe-002",
+    "original_script_sha256": "54e52d5ad65d284a50940b26a9f14b1e184d5ff29d693ce9715f82be63cee752",
+    "executed_script_sha256": "54e52d5ad65d284a50940b26a9f14b1e184d5ff29d693ce9715f82be63cee752",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fe-002",
+    "raw_sha256": {
+      "experiment.lab": "54e52d5ad65d284a50940b26a9f14b1e184d5ff29d693ce9715f82be63cee752",
+      "stdout.jsonl": "8909f4dd28532b6919e55adc0fba5c52148bf60d996f6ad8f9e68acd878f13b0",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.dissolves-unspeciated": {
+        "first_observation_index": 3,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "sourdough_starter",
+          "op": "add_material",
+          "recipe_id": "food/sourdough-starter",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 5.0,
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+            "key": "not-modeled.dissolves-unspeciated",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "sucrose",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "sucrose dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        "occurrences": 1
+      },
+      "not-modeled.family-declined-at-gate": {
+        "first_observation_index": 8,
+        "first_operator": {
+          "op": "wait",
+          "seconds": 43200.0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+            "key": "not-modeled.family-declined-at-gate",
+            "slots": [
+              [
+                "family",
+                {
+                  "text": {
+                    "text": "fischer-esterification"
+                  }
+                }
+              ],
+              [
+                "version",
+                {
+                  "text": {
+                    "text": "1"
+                  }
+                }
+              ],
+              [
+                "gate",
+                {
+                  "text": {
+                    "text": "temperature_k"
+                  }
+                }
+              ],
+              [
+                "why",
+                {
+                  "term": {
+                    "en": "the vessel stands at 298.1 K and the family needs at least 333.1 K",
+                    "section": "family-gate"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.1 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fe-003",
+    "original_script_sha256": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee",
+    "executed_script_sha256": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fe-003",
+    "raw_sha256": {
+      "experiment.lab": "bdbc26af0b823b7fd5169787561758a6760f464a7f325d26ed6f45917513c7ee",
+      "stdout.jsonl": "0bde1a13b73bd18691a86760f4d98a9cc731337ad1275f642bc1c41b2ea4a9ed",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.finite-gas-dose": {
+        "first_observation_index": 11,
+        "first_operator": {
+          "op": "wait",
+          "seconds": 300.0
+        },
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{species} finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing",
+            "key": "not-modeled.finite-gas-dose",
+            "slots": [
+              [
+                "species",
+                {
+                  "term": {
+                    "en": "CO2",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "CO2 finite gas dose: uptake is an instantaneous equilibrium calculation, not a mass-transfer rate. After the dose, only explicitly configured atmospheric species exchange with an external reservoir; no new reservoir is inferred from the dose. Waiting time does not parameterise degassing"
+        },
+        "occurrences": 6
+      },
+      "not-modeled.family-declined-at-gate": {
+        "first_observation_index": 13,
+        "first_operator": {
+          "op": "wait",
+          "seconds": 3300.0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+            "key": "not-modeled.family-declined-at-gate",
+            "slots": [
+              [
+                "family",
+                {
+                  "text": {
+                    "text": "fischer-esterification"
+                  }
+                }
+              ],
+              [
+                "version",
+                {
+                  "text": {
+                    "text": "1"
+                  }
+                }
+              ],
+              [
+                "gate",
+                {
+                  "text": {
+                    "text": "temperature_k"
+                  }
+                }
+              ],
+              [
+                "why",
+                {
+                  "term": {
+                    "en": "the vessel stands at 298.4 K and the family needs at least 333.1 K",
+                    "section": "family-gate"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.4 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        },
+        "occurrences": 3
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fe-006",
+    "original_script_sha256": "f52518caf0b2ed33a0fe5cb6cba18ccb3e59b11fd944d5df14372069295cdda5",
+    "executed_script_sha256": "f52518caf0b2ed33a0fe5cb6cba18ccb3e59b11fd944d5df14372069295cdda5",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fe-006",
+    "raw_sha256": {
+      "experiment.lab": "f52518caf0b2ed33a0fe5cb6cba18ccb3e59b11fd944d5df14372069295cdda5",
+      "stdout.jsonl": "1324304d445b4eff3324880e9431fab5e02220f8416bc5e478918b1a03cdd25d",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.supersaturated-below-formation-temperature": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "at": 313.15,
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 50.0,
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hydroxylapatite (SI +6.6)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "40"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hydroxylapatite (SI +6.6), deliberately withheld below the registry's formation-temperature threshold at 40 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        "occurrences": 5
+      },
+      "not-modeled.analytical-component-charge": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "at": 313.15,
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 50.0,
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+            "key": "not-modeled.analytical-component-charge"
+          },
+          "vessel": 0,
+          "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+        },
+        "occurrences": 5
+      },
+      "not-modeled.milk-casein-buffer-residual": {
+        "first_observation_index": 10,
+        "first_operator": {
+          "op": "wait",
+          "seconds": 28800.0
+        },
+        "event": {
+          "cause": "no-reviewed-datum",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "this milk has been acidified to pH {ph}, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. {assumption} (the recipe's full assumption is in `explain material whole_milk`)",
+            "key": "not-modeled.milk-casein-buffer-residual",
+            "slots": [
+              [
+                "ph",
+                {
+                  "number": {
+                    "text": "4.62"
+                  }
+                }
+              ],
+              [
+                "assumption",
+                {
+                  "phrase": {
+                    "phrase": {
+                      "en": "CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT",
+                      "key": "material-assumption.whole_milk-casein"
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "this milk has been acidified to pH 4.62, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT (the recipe's full assumption is in `explain material whole_milk`)"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fe-008",
+    "original_script_sha256": "aadf6abc05c8eed536d972077c32bc18ef72f8e66d57a718c7feab30b7a784a5",
+    "executed_script_sha256": "aadf6abc05c8eed536d972077c32bc18ef72f8e66d57a718c7feab30b7a784a5",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fe-008",
+    "raw_sha256": {
+      "experiment.lab": "aadf6abc05c8eed536d972077c32bc18ef72f8e66d57a718c7feab30b7a784a5",
+      "stdout.jsonl": "76e50fc02e6ac75c1ef38348e4d223db200d3c181e2b3091a62f8ba6e6f9a614",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-002",
+    "original_script_sha256": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0",
+    "executed_script_sha256": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-002",
+    "raw_sha256": {
+      "experiment.lab": "e54dce875e64a5386efcb1c469ab6c7d1b7bb2104dd33144597ba1608f4a66d0",
+      "stdout.jsonl": "0a3a6da01d716fd5a4d114397582d56cf671737102d3bee6a70b3081bc9eea5e",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.density-of-the-dissolved-ions": {
+        "first_observation_index": 9,
+        "first_operator": {
+          "instrument": "densitometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "event": {
+          "cause": "no-reviewed-datum",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing",
+            "key": "not-modeled.density-of-the-dissolved-ions"
+          },
+          "vessel": 1,
+          "what": "the dissolved ions' share of this density: every ion in the registry carries water's density as a structural default rather than a measured one, so a salt solution reads as the water it was made from. The solvent's figure is right and the solutes' is missing"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-004",
+    "original_script_sha256": "88ef752f84ada1449688a7c898db1d4a01430e0860696bee25f00d5d95ee4e65",
+    "executed_script_sha256": "88ef752f84ada1449688a7c898db1d4a01430e0860696bee25f00d5d95ee4e65",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-004",
+    "raw_sha256": {
+      "experiment.lab": "88ef752f84ada1449688a7c898db1d4a01430e0860696bee25f00d5d95ee4e65",
+      "stdout.jsonl": "65b4e4fc9cbb9f4e18e7b616825d2e62a53265e8fa1503c6b63f991297b42c52",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.dissolves-unspeciated": {
+        "first_observation_index": 1,
+        "first_operator": {
+          "moles": 0.011349964815109075,
+          "op": "add",
+          "species": "PVA",
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+            "key": "not-modeled.dissolves-unspeciated",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "poly(vinyl alcohol)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        "occurrences": 2
+      },
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "moles": 9.939419239733823e-05,
+          "op": "add",
+          "species": "Na2B4O7",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "Na2B4O7",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "Na2B4O7 is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 4
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-008",
+    "original_script_sha256": "dda5f0529650bbee30ed31a6ceec726028add3e8892e77106311d118974554d7",
+    "executed_script_sha256": "dda5f0529650bbee30ed31a6ceec726028add3e8892e77106311d118974554d7",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-008",
+    "raw_sha256": {
+      "experiment.lab": "dda5f0529650bbee30ed31a6ceec726028add3e8892e77106311d118974554d7",
+      "stdout.jsonl": "1aaf08bc50189265ec0c6dccdc42547fe1cd7bc1c69c5f186fb19dd407c9b0b0",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-dissolution-solver": {
+        "first_observation_index": 3,
+        "first_operator": {
+          "moles": 0.0022092612230470133,
+          "op": "add",
+          "species": "nylon",
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "nylon 6,6 (repeat unit)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "nylon 6,6 (repeat unit) in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        "occurrences": 1
+      },
+      "not-modeled.dissolves-unspeciated": {
+        "first_observation_index": 5,
+        "first_operator": {
+          "moles": 0.011349964815109075,
+          "op": "add",
+          "species": "PVA",
+          "vessel": 1
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+            "key": "not-modeled.dissolves-unspeciated",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "poly(vinyl alcohol)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "poly(vinyl alcohol) dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:co-008",
+    "original_script_sha256": "250ae2b976c4442f77e91edf9a64ded4e88b3e4b924ecc410be7ca7f9d36a344",
+    "executed_script_sha256": "250ae2b976c4442f77e91edf9a64ded4e88b3e4b924ecc410be7ca7f9d36a344",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_co-008",
+    "raw_sha256": {
+      "experiment.lab": "250ae2b976c4442f77e91edf9a64ded4e88b3e4b924ecc410be7ca7f9d36a344",
+      "stdout.jsonl": "4cda6604a21fa0d9367fac103c156a97ec93914c0a6bdfede0275a5d59305a8f",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:li-003",
+    "original_script_sha256": "84305e79214996147f20e19c0d60b9c6ee24a290b2c219c7d61398b792029167",
+    "executed_script_sha256": "84305e79214996147f20e19c0d60b9c6ee24a290b2c219c7d61398b792029167",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_li-003",
+    "raw_sha256": {
+      "experiment.lab": "84305e79214996147f20e19c0d60b9c6ee24a290b2c219c7d61398b792029167",
+      "stdout.jsonl": "da82312f642d8a6663147ff5d87da0b6f5ff9e4056a534818feca15e4532302a",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:li-006",
+    "original_script_sha256": "84ab2ce09fe6ee2d09f6e999b7bd2bd92aa2b7fca6234e941480bb9f3347f7a0",
+    "executed_script_sha256": "84ab2ce09fe6ee2d09f6e999b7bd2bd92aa2b7fca6234e941480bb9f3347f7a0",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_li-006",
+    "raw_sha256": {
+      "experiment.lab": "84ab2ce09fe6ee2d09f6e999b7bd2bd92aa2b7fca6234e941480bb9f3347f7a0",
+      "stdout.jsonl": "a1ef89045abf3516a5e632ef3429810051c1c7cf03ea187d5729d9d44578eb9a",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:li-007",
+    "original_script_sha256": "ddb9d30e7055b167f088c343eea1802e31251af3d3dc1d9ec12045865c2931ac",
+    "executed_script_sha256": "ddb9d30e7055b167f088c343eea1802e31251af3d3dc1d9ec12045865c2931ac",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_li-007",
+    "raw_sha256": {
+      "experiment.lab": "ddb9d30e7055b167f088c343eea1802e31251af3d3dc1d9ec12045865c2931ac",
+      "stdout.jsonl": "3ceb02fbfbabfb7467b658c2e6b4f0178b2fbd4983edd5de3844a5681e8c89a9",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:ad-002",
+    "original_script_sha256": "75990fe26a302455803f3551f60cb44de6cc968a81b108448b1a689c954383ce",
+    "executed_script_sha256": "75990fe26a302455803f3551f60cb44de6cc968a81b108448b1a689c954383ce",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_ad-002",
+    "raw_sha256": {
+      "experiment.lab": "75990fe26a302455803f3551f60cb44de6cc968a81b108448b1a689c954383ce",
+      "stdout.jsonl": "dfcc7289425b826a3e9c31b6a276a28142ae6dde871a2401e4747ba6cc9aade5",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "moles": 1.527491797369048e-05,
+          "op": "add",
+          "species": "methyl_orange",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "methyl_orange",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 3
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:ad-006",
+    "original_script_sha256": "6d2af83f83f312154f85d1216164bdb40fd9fe3bf4d4cea52ed32de2e89a8e23",
+    "executed_script_sha256": "6d2af83f83f312154f85d1216164bdb40fd9fe3bf4d4cea52ed32de2e89a8e23",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_ad-006",
+    "raw_sha256": {
+      "experiment.lab": "6d2af83f83f312154f85d1216164bdb40fd9fe3bf4d4cea52ed32de2e89a8e23",
+      "stdout.jsonl": "28bb385b0896876d9acd51f6d903ea7bd5c914835fb8cdf678a616bf6eb9385e",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 5,
+        "first_operator": {
+          "moles": 1.527491797369048e-05,
+          "op": "add",
+          "species": "methyl_orange",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "methyl_orange",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 5
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:mi-003",
+    "original_script_sha256": "b5139dec8e5ebeb8e9a64945e0af9f37d3e79011a9337e9b846bc9ce255de974",
+    "executed_script_sha256": "b5139dec8e5ebeb8e9a64945e0af9f37d3e79011a9337e9b846bc9ce255de974",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_mi-003",
+    "raw_sha256": {
+      "experiment.lab": "b5139dec8e5ebeb8e9a64945e0af9f37d3e79011a9337e9b846bc9ce255de974",
+      "stdout.jsonl": "c4d5547b64480c6b859e91fd303d9b39e94fba2d54430f7ea358d477f684fd15",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:mi-008",
+    "original_script_sha256": "7b691923a107947a7260cd0c2bf30b241b49060f09bfcd69916c55d6c2d43c37",
+    "executed_script_sha256": "7b691923a107947a7260cd0c2bf30b241b49060f09bfcd69916c55d6c2d43c37",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_mi-008",
+    "raw_sha256": {
+      "experiment.lab": "7b691923a107947a7260cd0c2bf30b241b49060f09bfcd69916c55d6c2d43c37",
+      "stdout.jsonl": "0afecf845b919290429381f2b658db5b51bb47cc75f0e66994d975417c9849fe",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.stays-as-the-metal": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "moles": 0.0005,
+          "op": "add",
+          "species": "Fe",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        "occurrences": 1
+      },
+      "not-modeled.no-dissolution-solver": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "moles": 0.0005,
+          "op": "add",
+          "species": "Fe",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:so-006",
+    "original_script_sha256": "0fa78f3fd69adb165f28df61a23b128d98bb19052ee4af5c8b3d720e0edfa043",
+    "executed_script_sha256": "0fa78f3fd69adb165f28df61a23b128d98bb19052ee4af5c8b3d720e0edfa043",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_so-006",
+    "raw_sha256": {
+      "experiment.lab": "0fa78f3fd69adb165f28df61a23b128d98bb19052ee4af5c8b3d720e0edfa043",
+      "stdout.jsonl": "7d3c6e4623212c21d0b2f0341ad7ab7c9fd5d4d9dea60d6980aa8326dc60ea03",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.dissolves-unspeciated": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "moles": 0.0003,
+          "op": "add",
+          "species": "I2",
+          "vessel": 0
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+            "key": "not-modeled.dissolves-unspeciated",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iodine",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iodine dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+        },
+        "occurrences": 2
+      },
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 3,
+        "first_operator": {
+          "moles": 0.003,
+          "op": "add",
+          "species": "KI",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:su-002",
+    "original_script_sha256": "b4c35f1144d7f991c4499b7ecabe22a0be233901499d5031d3bd5c036797c563",
+    "executed_script_sha256": "b4c35f1144d7f991c4499b7ecabe22a0be233901499d5031d3bd5c036797c563",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_su-002",
+    "raw_sha256": {
+      "experiment.lab": "b4c35f1144d7f991c4499b7ecabe22a0be233901499d5031d3bd5c036797c563",
+      "stdout.jsonl": "fdc0a3e92130451ccbecf3d5b20d92f48f5712fd20e04185d157a838a51570a6",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.stays-as-the-metal": {
+        "first_observation_index": 3,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "painted_iron",
+          "op": "add_material",
+          "recipe_id": "metal/painted-iron",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 0
+        },
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        "occurrences": 5
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:su-003",
+    "original_script_sha256": "7404ec9e90b245375311dd12577f701cc39eb1155735d5e020806619723e3427",
+    "executed_script_sha256": "7404ec9e90b245375311dd12577f701cc39eb1155735d5e020806619723e3427",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_su-003",
+    "raw_sha256": {
+      "experiment.lab": "7404ec9e90b245375311dd12577f701cc39eb1155735d5e020806619723e3427",
+      "stdout.jsonl": "1ed0b166cc9f540a6a63c05bf9667bd880902b8109442e0197f30e9642afb643",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.stays-as-the-metal": {
+        "first_observation_index": 3,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "stainless_steel",
+          "op": "add_material",
+          "recipe_id": "metal/stainless-steel",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 0
+        },
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        "occurrences": 5
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:th-001",
+    "original_script_sha256": "ece18440d1ea0e9f39488ac8b3861d555654a8f59498a4143e2048f0a1afc0bb",
+    "executed_script_sha256": "ece18440d1ea0e9f39488ac8b3861d555654a8f59498a4143e2048f0a1afc0bb",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_th-001",
+    "raw_sha256": {
+      "experiment.lab": "ece18440d1ea0e9f39488ac8b3861d555654a8f59498a4143e2048f0a1afc0bb",
+      "stdout.jsonl": "1553ae7816490a1e1c59d4be46ea7a3a093ecaf8ae0893187b3e99b5d7c534c7",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:th-006",
+    "original_script_sha256": "a0a22a304929a889c11e769719b4766c680c28809061cd7bcd80d7ea33dfcfcd",
+    "executed_script_sha256": "a0a22a304929a889c11e769719b4766c680c28809061cd7bcd80d7ea33dfcfcd",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_th-006",
+    "raw_sha256": {
+      "experiment.lab": "a0a22a304929a889c11e769719b4766c680c28809061cd7bcd80d7ea33dfcfcd",
+      "stdout.jsonl": "8b09613cf4dc1a3520f12df8c1c07ba71a7c3ce0567bc8c531fea955fc9aa345",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:en-010",
+    "original_script_sha256": "b952078b5e852226ebfefabf2ae6ec46c2c5fb901c9ad9930e92e1a37c048882",
+    "executed_script_sha256": "b952078b5e852226ebfefabf2ae6ec46c2c5fb901c9ad9930e92e1a37c048882",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_en-010",
+    "raw_sha256": {
+      "experiment.lab": "b952078b5e852226ebfefabf2ae6ec46c2c5fb901c9ad9930e92e1a37c048882",
+      "stdout.jsonl": "7c5bab6c84b0c6f7d1c72343baf76d95e0bd91afd4d5b814abc941cd393e673c",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.supersaturated-below-formation-temperature": {
+        "first_observation_index": 4,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 40.0,
+          "vessel": 1
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hydroxylapatite (SI +6.8)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "the solution is supersaturated against Hydroxylapatite (SI +6.8), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        "occurrences": 3
+      },
+      "not-modeled.analytical-component-charge": {
+        "first_observation_index": 4,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 40.0,
+          "vessel": 1
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+            "key": "not-modeled.analytical-component-charge"
+          },
+          "vessel": 1,
+          "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+        },
+        "occurrences": 3
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fe-004",
+    "original_script_sha256": "e4d51c8a263f2368370695f63c140d34e1606dc2ca26fd119974a902936c09bc",
+    "executed_script_sha256": "e4d51c8a263f2368370695f63c140d34e1606dc2ca26fd119974a902936c09bc",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fe-004",
+    "raw_sha256": {
+      "experiment.lab": "e4d51c8a263f2368370695f63c140d34e1606dc2ca26fd119974a902936c09bc",
+      "stdout.jsonl": "1a4ff04ece6ff8bd6af63f85b4b73ef275dd70214371990a07729ff74e0064fd",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.family-declined-at-gate": {
+        "first_observation_index": 4,
+        "first_operator": {
+          "op": "wait",
+          "seconds": 28800.0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+            "key": "not-modeled.family-declined-at-gate",
+            "slots": [
+              [
+                "family",
+                {
+                  "text": {
+                    "text": "fischer-esterification"
+                  }
+                }
+              ],
+              [
+                "version",
+                {
+                  "text": {
+                    "text": "1"
+                  }
+                }
+              ],
+              [
+                "gate",
+                {
+                  "text": {
+                    "text": "temperature_k"
+                  }
+                }
+              ],
+              [
+                "why",
+                {
+                  "term": {
+                    "en": "the vessel stands at 298.2 K and the family needs at least 333.1 K",
+                    "section": "family-gate"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.2 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:fe-007",
+    "original_script_sha256": "02e7e5043641099c89a5b92a2051e36c4f74914385e4c092d0c016d3a97672cc",
+    "executed_script_sha256": "02e7e5043641099c89a5b92a2051e36c4f74914385e4c092d0c016d3a97672cc",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_fe-007",
+    "raw_sha256": {
+      "experiment.lab": "02e7e5043641099c89a5b92a2051e36c4f74914385e4c092d0c016d3a97672cc",
+      "stdout.jsonl": "ccc28fe65f5a8a5f3a1cc5589a2d6909722ecd88bfa8ed5872d1edc29bf09ad0",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.family-declined-at-gate": {
+        "first_observation_index": 5,
+        "first_operator": {
+          "op": "wait",
+          "seconds": 172800.0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{family} v{version} matched, but declined at {gate}: {why}. Waiting does not supply a missing reaction rate or satisfy the condition gate",
+            "key": "not-modeled.family-declined-at-gate",
+            "slots": [
+              [
+                "family",
+                {
+                  "text": {
+                    "text": "fischer-esterification"
+                  }
+                }
+              ],
+              [
+                "version",
+                {
+                  "text": {
+                    "text": "1"
+                  }
+                }
+              ],
+              [
+                "gate",
+                {
+                  "text": {
+                    "text": "temperature_k"
+                  }
+                }
+              ],
+              [
+                "why",
+                {
+                  "term": {
+                    "en": "the vessel stands at 298.1 K and the family needs at least 333.1 K",
+                    "section": "family-gate"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "fischer-esterification v1 matched, but declined at temperature_k: the vessel stands at 298.1 K and the family needs at least 333.1 K. Waiting does not supply a missing reaction rate or satisfy the condition gate"
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-009",
+    "original_script_sha256": "e23e80310a4868921ec7836822e2502d489a106385afc4dbbd570717cdb49d0c",
+    "executed_script_sha256": "e23e80310a4868921ec7836822e2502d489a106385afc4dbbd570717cdb49d0c",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-009",
+    "raw_sha256": {
+      "experiment.lab": "e23e80310a4868921ec7836822e2502d489a106385afc4dbbd570717cdb49d0c",
+      "stdout.jsonl": "c930e27fb4c55b7eb93530c65f13d792fd7977e00495bec824633b13173a4680",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:po-010",
+    "original_script_sha256": "07bd979638cecd8b75b604ce82791eefaa0fdd83a2fe8d6e7f201b227217debb",
+    "executed_script_sha256": "07bd979638cecd8b75b604ce82791eefaa0fdd83a2fe8d6e7f201b227217debb",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_po-010",
+    "raw_sha256": {
+      "experiment.lab": "07bd979638cecd8b75b604ce82791eefaa0fdd83a2fe8d6e7f201b227217debb",
+      "stdout.jsonl": "f2ff27e0a610b2cb16401bfdb6d878c9c116c0d77ff15a5d8f3cc07959faf0e0",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:co-005",
+    "original_script_sha256": "fd2f3f8976204e22b419b730a2299aa177b03d0f1f26337bfca9f874fb76dcd2",
+    "executed_script_sha256": "fd2f3f8976204e22b419b730a2299aa177b03d0f1f26337bfca9f874fb76dcd2",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_co-005",
+    "raw_sha256": {
+      "experiment.lab": "fd2f3f8976204e22b419b730a2299aa177b03d0f1f26337bfca9f874fb76dcd2",
+      "stdout.jsonl": "c687bfb8e20868b3e2637e63c1a1aa70daefefab057e26385029a5778fdd810d",
+      "stderr.txt": "d66f0101a4b3937b59a590a37a4a6b87ad95526cc386d20a6c6261b49f6550c0"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.supersaturated-below-formation-temperature": {
+        "first_observation_index": 4,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 10.0,
+          "vessel": 1
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hydroxylapatite (SI +6.8)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "the solution is supersaturated against Hydroxylapatite (SI +6.8), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        "occurrences": 5
+      },
+      "not-modeled.analytical-component-charge": {
+        "first_observation_index": 4,
+        "first_operator": {
+          "basis": "mass_fraction",
+          "material": "whole_milk",
+          "op": "add_material",
+          "recipe_id": "household/whole-milk-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 10.0,
+          "vessel": 1
+        },
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+            "key": "not-modeled.analytical-component-charge"
+          },
+          "vessel": 1,
+          "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+        },
+        "occurrences": 5
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:ad-003",
+    "original_script_sha256": "5e3f3f5933890fc59d62b1e3492435a763eb6739907733fd74b9ca2e6d011c56",
+    "executed_script_sha256": "5e3f3f5933890fc59d62b1e3492435a763eb6739907733fd74b9ca2e6d011c56",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_ad-003",
+    "raw_sha256": {
+      "experiment.lab": "5e3f3f5933890fc59d62b1e3492435a763eb6739907733fd74b9ca2e6d011c56",
+      "stdout.jsonl": "2635d15cd176df78652d2bbf4f46d74d59e981d79fbd78b4595033aa48fdbc13",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 3,
+        "first_operator": {
+          "moles": 3.054983594738096e-05,
+          "op": "add",
+          "species": "methyl_orange",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "methyl_orange",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 5
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:ad-004",
+    "original_script_sha256": "e8cff6cedef242bdb28f72ff705eba599724e9958f16fd5434ac49a7cf9f5594",
+    "executed_script_sha256": "e8cff6cedef242bdb28f72ff705eba599724e9958f16fd5434ac49a7cf9f5594",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_ad-004",
+    "raw_sha256": {
+      "experiment.lab": "e8cff6cedef242bdb28f72ff705eba599724e9958f16fd5434ac49a7cf9f5594",
+      "stdout.jsonl": "e8efa626044c4365d34f6a4237184ac99c44bc6256e2d4787270781b3197115f",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 5,
+        "first_operator": {
+          "moles": 6.109967189476192e-05,
+          "op": "add",
+          "species": "methyl_orange",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "methyl_orange",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 8
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:tr-001",
+    "original_script_sha256": "290a9d6fc8806108ce5bea24bce360ec0e783f2a9ddb0e6c65a3420d9ef80ebf",
+    "executed_script_sha256": "290a9d6fc8806108ce5bea24bce360ec0e783f2a9ddb0e6c65a3420d9ef80ebf",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_tr-001",
+    "raw_sha256": {
+      "experiment.lab": "290a9d6fc8806108ce5bea24bce360ec0e783f2a9ddb0e6c65a3420d9ef80ebf",
+      "stdout.jsonl": "de9473010a2b79bfebe873aa218d6b0c7b1b9e576be3a8bd1ee395201ccc7b2c",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:tr-002",
+    "original_script_sha256": "b679161f308073c31d0737d9d93db182eb55a25629a87e0ea777eebd6c0c8562",
+    "executed_script_sha256": "b679161f308073c31d0737d9d93db182eb55a25629a87e0ea777eebd6c0c8562",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_tr-002",
+    "raw_sha256": {
+      "experiment.lab": "b679161f308073c31d0737d9d93db182eb55a25629a87e0ea777eebd6c0c8562",
+      "stdout.jsonl": "f1b4e53416f4a3a2301dad4893c6abf691ff43083fe7508a52d540b2025da8d1",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:tr-003",
+    "original_script_sha256": "58002e00d05637fe298e6e24005fb8cbab8e511bf754e140611fc39438d4fcff",
+    "executed_script_sha256": "58002e00d05637fe298e6e24005fb8cbab8e511bf754e140611fc39438d4fcff",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_tr-003",
+    "raw_sha256": {
+      "experiment.lab": "58002e00d05637fe298e6e24005fb8cbab8e511bf754e140611fc39438d4fcff",
+      "stdout.jsonl": "178f4ae3ebf4989ca1e29717b2099dd1ed8a4c45cb78618e5a927d62a3f38c63",
+      "stderr.txt": "e4b618ac6bf7e72f3282bd51b8ba0957c155778e1cf6f62bd465f544764c0dba"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:tr-004",
+    "original_script_sha256": "c21b8d5f5be840008721acc700430d56c84ffdf600f421a79fd9bd488a41f419",
+    "executed_script_sha256": "c21b8d5f5be840008721acc700430d56c84ffdf600f421a79fd9bd488a41f419",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_tr-004",
+    "raw_sha256": {
+      "experiment.lab": "c21b8d5f5be840008721acc700430d56c84ffdf600f421a79fd9bd488a41f419",
+      "stdout.jsonl": "92349d0884011f36b6291d88ee66c6e4fc72bf7660d52926c16b3701c4cb3a89",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:tr-005",
+    "original_script_sha256": "50ab7b792c9a8a73e76272a08cfdb155f3c26a2bbf0f7442c04dfa08a327ab52",
+    "executed_script_sha256": "50ab7b792c9a8a73e76272a08cfdb155f3c26a2bbf0f7442c04dfa08a327ab52",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_tr-005",
+    "raw_sha256": {
+      "experiment.lab": "50ab7b792c9a8a73e76272a08cfdb155f3c26a2bbf0f7442c04dfa08a327ab52",
+      "stdout.jsonl": "6151220037d386771b5f30673b2448aaf6dd9453c9cf89431404101653851e44",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:tr-006",
+    "original_script_sha256": "87c41b714794b8e99ba9ccceb6c309560118364137ec59132e61dff5a84429c4",
+    "executed_script_sha256": "87c41b714794b8e99ba9ccceb6c309560118364137ec59132e61dff5a84429c4",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_tr-006",
+    "raw_sha256": {
+      "experiment.lab": "87c41b714794b8e99ba9ccceb6c309560118364137ec59132e61dff5a84429c4",
+      "stdout.jsonl": "b16234bb3c29333c10cdd737e69b97b74a3eef0f64469b13b25c7be028560b30",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-component-mapping": {
+        "first_observation_index": 10,
+        "first_operator": {
+          "moles": 3.0549835947380964e-06,
+          "op": "add",
+          "species": "methyl_orange",
+          "vessel": 3
+        },
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "methyl_orange",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 3,
+          "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        },
+        "occurrences": 8
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:tr-007",
+    "original_script_sha256": "9a7af89a2802a7c5b6b75042603d5e9eb711599233034714ef7478695b213282",
+    "executed_script_sha256": "9a7af89a2802a7c5b6b75042603d5e9eb711599233034714ef7478695b213282",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_tr-007",
+    "raw_sha256": {
+      "experiment.lab": "9a7af89a2802a7c5b6b75042603d5e9eb711599233034714ef7478695b213282",
+      "stdout.jsonl": "1bd41bc842228f273a80d8a74e797b1ad71b02e5e5b749df07365ce20ddb4f20",
+      "stderr.txt": "261bc4bc9936da026ebaf90c132baffccdccc6ac9ac7ffe0ac5459738d4b7a91"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:tr-008",
+    "original_script_sha256": "f86ee31e7cb215569256175bbee19813381b6005b6424e352e8f5a7cce0a71e7",
+    "executed_script_sha256": "f86ee31e7cb215569256175bbee19813381b6005b6424e352e8f5a7cce0a71e7",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_tr-008",
+    "raw_sha256": {
+      "experiment.lab": "f86ee31e7cb215569256175bbee19813381b6005b6424e352e8f5a7cce0a71e7",
+      "stdout.jsonl": "9267ade62d7b6747601cbf8cbf5d9d325c57e5e0e4e1c26a71755083d818c637",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.stays-as-the-metal": {
+        "first_observation_index": 5,
+        "first_operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "Fe",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        "occurrences": 1
+      },
+      "not-modeled.no-dissolution-solver": {
+        "first_observation_index": 5,
+        "first_operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "Fe",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron in contact with liquid: no wired solver models this dissolution/reaction"
+        },
+        "occurrences": 1
+      },
+      "not-modeled.supersaturated-no-registry-solid": {
+        "first_observation_index": 12,
+        "first_operator": {
+          "chain": [
+            0,
+            1,
+            2
+          ],
+          "courant": 0.5,
+          "inlet": 3,
+          "op": "transport",
+          "receiver": 4,
+          "steps": 6
+        },
+        "event": {
+          "cause": "phase-not-in-registry",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+            "key": "not-modeled.supersaturated-no-registry-solid",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "CuprousFerrite (SI +8.0), Magnetite (SI +7.5), Goethite (SI +3.2)"
+                  }
+                }
+              ],
+              [
+                "database",
+                {
+                  "text": {
+                    "text": "wateq4f"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against CuprousFerrite (SI +8.0), Magnetite (SI +7.5), Goethite (SI +3.2). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+        },
+        "occurrences": 4
+      },
+      "not-modeled.supersaturated-solid-not-offered": {
+        "first_observation_index": 12,
+        "first_operator": {
+          "chain": [
+            0,
+            1,
+            2
+          ],
+          "courant": 0.5,
+          "inlet": 3,
+          "op": "transport",
+          "receiver": 4,
+          "steps": 6
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+            "key": "not-modeled.supersaturated-solid-not-offered",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Hematite (SI +8.3)"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Hematite (SI +8.3). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+        },
+        "occurrences": 4
+      },
+      "not-modeled.incomplete-absorbance": {
+        "first_observation_index": 14,
+        "first_operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 4
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+            "key": "not-modeled.incomplete-absorbance",
+            "slots": [
+              [
+                "species",
+                {
+                  "list": {
+                    "items": [
+                      {
+                        "term": {
+                          "en": "CuSO4",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeSO4",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "CuOH+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Fe(OH)2+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Cu+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Cu2(OH)2+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Cu(OH)2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeOH+2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeOH+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Fe(OH)3",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "FeHSO4+",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 4,
+          "what": "complete absorbance is unavailable: no absorption spectrum for CuSO4, FeSO4, CuOH+, Fe(OH)2+, Cu+, Cu2(OH)2+2, Cu(OH)2, FeOH+2, FeOH+, Fe(OH)3 and FeHSO4+"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:mi-004",
+    "original_script_sha256": "c0fcae433eac68716476e1f8975727b86ae627ebefa1278b748931898b42c663",
+    "executed_script_sha256": "c0fcae433eac68716476e1f8975727b86ae627ebefa1278b748931898b42c663",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_mi-004",
+    "raw_sha256": {
+      "experiment.lab": "c0fcae433eac68716476e1f8975727b86ae627ebefa1278b748931898b42c663",
+      "stdout.jsonl": "f0bc6c582eb27db5653ca8e9c03ac67a7f5639be8f8111eae8be58e5d31e7b42",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.supersaturated-below-formation-temperature": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "moles": 0.0003,
+          "op": "add",
+          "species": "atacamite",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Tenorite (SI +1.0)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        "occurrences": 1
+      },
+      "not-modeled.incomplete-absorbance": {
+        "first_observation_index": 9,
+        "first_operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "complete absorbance is unavailable: no absorption spectrum for {species}",
+            "key": "not-modeled.incomplete-absorbance",
+            "slots": [
+              [
+                "species",
+                {
+                  "list": {
+                    "items": [
+                      {
+                        "term": {
+                          "en": "CuCl+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "CuCl2",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "CuOH+",
+                          "section": "species"
+                        }
+                      },
+                      {
+                        "term": {
+                          "en": "Cu2(OH)2+2",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "complete absorbance is unavailable: no absorption spectrum for CuCl+, CuCl2, CuOH+ and Cu2(OH)2+2"
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:mi-007",
+    "original_script_sha256": "0751004ac8b2dcd9f1d6ff17c9870038732848ed4b8934b04ed1a981afe89e56",
+    "executed_script_sha256": "0751004ac8b2dcd9f1d6ff17c9870038732848ed4b8934b04ed1a981afe89e56",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_mi-007",
+    "raw_sha256": {
+      "experiment.lab": "0751004ac8b2dcd9f1d6ff17c9870038732848ed4b8934b04ed1a981afe89e56",
+      "stdout.jsonl": "d5aec8c95e5c760c6c44ab73ce6173bf30cf5516ee84515f208a30e61b26711e",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.supersaturated-below-formation-temperature": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "moles": 0.0002,
+          "op": "add",
+          "species": "langite",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+            "key": "not-modeled.supersaturated-below-formation-temperature",
+            "slots": [
+              [
+                "phases",
+                {
+                  "text": {
+                    "text": "Tenorite (SI +1.0)"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:so-001",
+    "original_script_sha256": "244e2a02ec5db7293a614cc69573144bb3dea65d778dacdca3894a723f73cc6c",
+    "executed_script_sha256": "cc9f17f4146e7d4289a5bb99e46092e298010944505e549416c07661d64310c4",
+    "unchanged_original_script": false,
+    "raw_member_prefix": "batch3-diverse_so-001",
+    "raw_sha256": {
+      "experiment.lab": "cc9f17f4146e7d4289a5bb99e46092e298010944505e549416c07661d64310c4",
+      "stdout.jsonl": "7e3181749d072fefb226af9c393e1c0717fc7e33a1fe738169a1da16451d4b8f",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-selectivity-rule": {
+        "first_observation_index": 9,
+        "first_operator": {
+          "op": "react",
+          "reaction": "haloalkane",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-parameterised",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "no selectivity rule for {substrate} substrate + {nucleophile} nucleophile at {temperature}°C — outside the curated table",
+            "key": "not-modeled.no-selectivity-rule",
+            "slots": [
+              [
+                "substrate",
+                {
+                  "term": {
+                    "en": "primary",
+                    "section": "substrate-class"
+                  }
+                }
+              ],
+              [
+                "nucleophile",
+                {
+                  "term": {
+                    "en": "weak",
+                    "section": "nucleophile-class"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "no selectivity rule for primary substrate + weak nucleophile at 25°C — outside the curated table"
+        },
+        "occurrences": 2
+      },
+      "not-modeled.no-group-decomposition": {
+        "first_observation_index": 15,
+        "first_operator": {
+          "instrument": "chromatograph",
+          "op": "measure",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-parameterised",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the column has no curated group decomposition for {species} — a real column would separate these, so this is a gap in the model rather than a result",
+            "key": "not-modeled.no-group-decomposition",
+            "slots": [
+              [
+                "species",
+                {
+                  "list": {
+                    "items": [
+                      {
+                        "text": {
+                          "text": "base_equivalents"
+                        }
+                      },
+                      {
+                        "text": {
+                          "text": "bromoethane"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the column has no curated group decomposition for base_equivalents and bromoethane — a real column would separate these, so this is a gap in the model rather than a result"
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:so-002",
+    "original_script_sha256": "384b6af81abe73232bb2eab869b818facb56bb323f5f9d3b89c943d276bfcd41",
+    "executed_script_sha256": "4519e3309ba8ad56e7c9457df2c4a48907b1a52dc0c9a3592799a3b9737f3326",
+    "unchanged_original_script": false,
+    "raw_member_prefix": "batch3-diverse_so-002",
+    "raw_sha256": {
+      "experiment.lab": "4519e3309ba8ad56e7c9457df2c4a48907b1a52dc0c9a3592799a3b9737f3326",
+      "stdout.jsonl": "1ae7e432da0e17a5458f75fe0c05effa08dfc92f7ad2bcefe0104216406416cc",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-group-decomposition": {
+        "first_observation_index": 9,
+        "first_operator": {
+          "instrument": "chromatograph",
+          "op": "measure",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-parameterised",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the column has no curated group decomposition for {species} — a real column would separate these, so this is a gap in the model rather than a result",
+            "key": "not-modeled.no-group-decomposition",
+            "slots": [
+              [
+                "species",
+                {
+                  "list": {
+                    "items": [
+                      {
+                        "text": {
+                          "text": "tert_butanol"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "the column has no curated group decomposition for tert_butanol — a real column would separate these, so this is a gap in the model rather than a result"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:so-003",
+    "original_script_sha256": "f3fc3301492333fcb468a031dfc3a70be73e9e7c7b9f366bee1d8a417b3df22f",
+    "executed_script_sha256": "5b393fd75f270a4ae2cc434bb779209cdabae92b78bed4ecdb80bf9d950b3a0a",
+    "unchanged_original_script": false,
+    "raw_member_prefix": "batch3-diverse_so-003",
+    "raw_sha256": {
+      "experiment.lab": "5b393fd75f270a4ae2cc434bb779209cdabae92b78bed4ecdb80bf9d950b3a0a",
+      "stdout.jsonl": "136e7ca72193cdb4c16d74ee9d48ad8daee19aa38116955731489ca4344ee28a",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-selectivity-rule": {
+        "first_observation_index": 9,
+        "first_operator": {
+          "op": "react",
+          "reaction": "haloalkane",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "not-parameterised",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "no selectivity rule for {substrate} substrate + {nucleophile} nucleophile at {temperature}°C — outside the curated table",
+            "key": "not-modeled.no-selectivity-rule",
+            "slots": [
+              [
+                "substrate",
+                {
+                  "term": {
+                    "en": "primary",
+                    "section": "substrate-class"
+                  }
+                }
+              ],
+              [
+                "nucleophile",
+                {
+                  "term": {
+                    "en": "weak",
+                    "section": "nucleophile-class"
+                  }
+                }
+              ],
+              [
+                "temperature",
+                {
+                  "number": {
+                    "text": "25"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "no selectivity rule for primary substrate + weak nucleophile at 25°C — outside the curated table"
+        },
+        "occurrences": 1
+      },
+      "not-modeled.hbr-gas-uptake": {
+        "first_observation_index": 10,
+        "first_operator": {
+          "op": "react",
+          "reaction": "haloalkane",
+          "vessel": 1
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model.",
+            "key": "not-modeled.hbr-gas-uptake",
+            "slots": [
+              [
+                "temperature",
+                {
+                  "phrase": {
+                    "phrase": {
+                      "en": "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation.",
+                      "key": "not-modeled.hbr-away-from-the-reference-temperature"
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation. Gas transfer is an equilibrium boundary, not a time-dependent absorption model."
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:so-004",
+    "original_script_sha256": "cbc2f7a212128a6033a34903b5f9337effc793ed02f04bd995bbd52e7336e4c0",
+    "executed_script_sha256": "44d1610991a0413606d52a90f3bafee230066a8c8c70236cba480c277f06c26c",
+    "unchanged_original_script": false,
+    "raw_member_prefix": "batch3-diverse_so-004",
+    "raw_sha256": {
+      "experiment.lab": "44d1610991a0413606d52a90f3bafee230066a8c8c70236cba480c277f06c26c",
+      "stdout.jsonl": "433958f45487b48c5c407cd09cbc32bbe7a74eff3570e4d60dd451b11db1c202",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.hbr-gas-uptake": {
+        "first_observation_index": 7,
+        "first_operator": {
+          "op": "react",
+          "reaction": "haloalkane",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "model-boundary",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. {temperature} Gas transfer is an equilibrium boundary, not a time-dependent absorption model.",
+            "key": "not-modeled.hbr-gas-uptake",
+            "slots": [
+              [
+                "temperature",
+                {
+                  "phrase": {
+                    "phrase": {
+                      "en": "Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation.",
+                      "key": "not-modeled.hbr-away-from-the-reference-temperature"
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "HBr gas uptake uses the dissociative Henry constant from the CC-BY Sander compilation, converted from concentration to the dilute molal standard state. The reaction enthalpy is derived from its local temperature slope and solvent-density correction, not an independent calorimetric measurement. Away from 25 °C this uses a local constant-enthalpy van't Hoff approximation, not a validated broad-temperature correlation. Gas transfer is an equilibrium boundary, not a time-dependent absorption model."
+        },
+        "occurrences": 2
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:so-005",
+    "original_script_sha256": "7ec3ba1c7d0bf0ee2cd3442acb91615fcf0d3d9f10fb5e4e061c303eb6db36c7",
+    "executed_script_sha256": "7ec3ba1c7d0bf0ee2cd3442acb91615fcf0d3d9f10fb5e4e061c303eb6db36c7",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_so-005",
+    "raw_sha256": {
+      "experiment.lab": "7ec3ba1c7d0bf0ee2cd3442acb91615fcf0d3d9f10fb5e4e061c303eb6db36c7",
+      "stdout.jsonl": "bc27b432c1a62e5f1405f11fe7c330c707d93d5ad7635be31eef2e3a20927750",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:an-005",
+    "original_script_sha256": "71fc9de95c4d0a8171decbfbae53f07462cd1d8d22a43f047e872370d3cba22f",
+    "executed_script_sha256": "71fc9de95c4d0a8171decbfbae53f07462cd1d8d22a43f047e872370d3cba22f",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_an-005",
+    "raw_sha256": {
+      "experiment.lab": "71fc9de95c4d0a8171decbfbae53f07462cd1d8d22a43f047e872370d3cba22f",
+      "stdout.jsonl": "e8c77b9ab222893b304c1eebd62fe4b4f28c1555f3f4eba93368312df61440e7",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.no-group-decomposition": {
+        "first_observation_index": 15,
+        "first_operator": {
+          "instrument": "chromatograph",
+          "op": "measure",
+          "vessel": 2
+        },
+        "event": {
+          "cause": "not-parameterised",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the column has no curated group decomposition for {species} — a real column would separate these, so this is a gap in the model rather than a result",
+            "key": "not-modeled.no-group-decomposition",
+            "slots": [
+              [
+                "species",
+                {
+                  "list": {
+                    "items": [
+                      {
+                        "text": {
+                          "text": "ethyl_acetate"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 2,
+          "what": "the column has no curated group decomposition for ethyl_acetate — a real column would separate these, so this is a gap in the model rather than a result"
+        },
+        "occurrences": 1
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:an-006",
+    "original_script_sha256": "8e34c98798cf280e755b170eb8d15ff68c0d436d062d72d25e523b243a0d218f",
+    "executed_script_sha256": "8e34c98798cf280e755b170eb8d15ff68c0d436d062d72d25e523b243a0d218f",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_an-006",
+    "raw_sha256": {
+      "experiment.lab": "8e34c98798cf280e755b170eb8d15ff68c0d436d062d72d25e523b243a0d218f",
+      "stdout.jsonl": "cf79bdfc5a00d916a9cd562d0d66a8e82907e8c1a1407210ab1153f8c928dd9f",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:su-004",
+    "original_script_sha256": "8b890a95abafef6e96f9498a544c92816fd008e67a10fb931acbfda040e06555",
+    "executed_script_sha256": "8b890a95abafef6e96f9498a544c92816fd008e67a10fb931acbfda040e06555",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_su-004",
+    "raw_sha256": {
+      "experiment.lab": "8b890a95abafef6e96f9498a544c92816fd008e67a10fb931acbfda040e06555",
+      "stdout.jsonl": "3700e04664c1d912f03b0bca6b18cb8a4b7712dd0675d04ea29b4f78e16ad13b",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {
+      "not-modeled.stays-as-the-metal": {
+        "first_observation_index": 2,
+        "first_operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "Fe",
+          "vessel": 0
+        },
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        "occurrences": 5
+      }
+    },
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:su-006",
+    "original_script_sha256": "cfb3e5fb2c81a4a7ea7243540a26f3ddcadf462098c6574f2266b495ea0489c0",
+    "executed_script_sha256": "cfb3e5fb2c81a4a7ea7243540a26f3ddcadf462098c6574f2266b495ea0489c0",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_su-006",
+    "raw_sha256": {
+      "experiment.lab": "cfb3e5fb2c81a4a7ea7243540a26f3ddcadf462098c6574f2266b495ea0489c0",
+      "stdout.jsonl": "68897a6618bfc221e9e23a6bb6fc224c1ec36322c385f6edd7ffb56e6ec0d5dd",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:th-004",
+    "original_script_sha256": "0252eb0b500c7839b2d30db6e71d875638d1352ba289d1177cbbf0a9d21a1d07",
+    "executed_script_sha256": "0252eb0b500c7839b2d30db6e71d875638d1352ba289d1177cbbf0a9d21a1d07",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_th-004",
+    "raw_sha256": {
+      "experiment.lab": "0252eb0b500c7839b2d30db6e71d875638d1352ba289d1177cbbf0a9d21a1d07",
+      "stdout.jsonl": "627993ed59809b1d7113167b11df32f1d8b365ac6e0a8386c9d3cdb451ecfd9a",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:th-005",
+    "original_script_sha256": "7cce9ff424133db8c510cfed564336ddae5dc564de34d70a52375189cb4576ee",
+    "executed_script_sha256": "7cce9ff424133db8c510cfed564336ddae5dc564de34d70a52375189cb4576ee",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_th-005",
+    "raw_sha256": {
+      "experiment.lab": "7cce9ff424133db8c510cfed564336ddae5dc564de34d70a52375189cb4576ee",
+      "stdout.jsonl": "673d6e4db04462b7a5936e0de2e508a9a2924c51aa4dfd544eed23ffbe0e8c60",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:bd-001",
+    "original_script_sha256": "313733d79d6f8bcfe4deae88b549291a435b2a254f8ed2238002f6570572dfda",
+    "executed_script_sha256": "313733d79d6f8bcfe4deae88b549291a435b2a254f8ed2238002f6570572dfda",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_bd-001",
+    "raw_sha256": {
+      "experiment.lab": "313733d79d6f8bcfe4deae88b549291a435b2a254f8ed2238002f6570572dfda",
+      "stdout.jsonl": "6a5986d63bf3e99619be19c643a222bad612b87a058c076122b498cf0650cec6",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:bd-002",
+    "original_script_sha256": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+    "executed_script_sha256": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_bd-002",
+    "raw_sha256": {
+      "experiment.lab": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+      "stdout.jsonl": "04159f927a96e2dfe39db699c8f50f0940a9af32668e4ea03edc95ec0e2c9be4",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:bd-003",
+    "original_script_sha256": "44d5bd3ae868a1f5791a72447d65c9a12bd51f9b53d83148925defc162c5719d",
+    "executed_script_sha256": "44d5bd3ae868a1f5791a72447d65c9a12bd51f9b53d83148925defc162c5719d",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_bd-003",
+    "raw_sha256": {
+      "experiment.lab": "44d5bd3ae868a1f5791a72447d65c9a12bd51f9b53d83148925defc162c5719d",
+      "stdout.jsonl": "c7b4d65ca37ea09e85bc564489de59dcc976bf5e1934756c2170ec9760a16b85",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": true,
+    "model_limits": {},
+    "solver_failures": []
+  },
+  {
+    "original_id": "batch3-diverse:bd-004",
+    "original_script_sha256": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+    "executed_script_sha256": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+    "unchanged_original_script": true,
+    "raw_member_prefix": "batch3-diverse_bd-004",
+    "raw_sha256": {
+      "experiment.lab": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+      "stdout.jsonl": "1e95286eff981b00745cf875d5c49dec08942d21fc76de87258cefb071134fcc",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "screen_only_not_scientific_pass": false,
+    "model_limits": {},
+    "solver_failures": []
+  }
+]

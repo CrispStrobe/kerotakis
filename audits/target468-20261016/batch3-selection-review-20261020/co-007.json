@@ -1,0 +1,771 @@
+{
+  "original_id": "batch3-diverse:co-007",
+  "original_script_sha256": "a2435ab5fb2b5913d07c398aacca2c3ba94dda1165a8b911cb8d8fa8f3577fff",
+  "executed_script_sha256": "a2435ab5fb2b5913d07c398aacca2c3ba94dda1165a8b911cb8d8fa8f3577fff",
+  "unchanged_original_script": true,
+  "raw_member_prefix": "batch3-diverse_co-007",
+  "raw_sha256": {
+    "experiment.lab": "a2435ab5fb2b5913d07c398aacca2c3ba94dda1165a8b911cb8d8fa8f3577fff",
+    "stdout.jsonl": "76f0f3bcbce368abf8d611f5b9f8ac2c1b32972f235dd254a4538bc2ff0bfcd0",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "screen_only_not_scientific_pass": false,
+  "model_limits": {},
+  "solver_failures": [],
+  "title": "Surface motion need not be a reaction of the floating solid",
+  "original_forecast": "Compare the bounded surface-spread response with a water-addition control; no pepper-reaction product should be invented to explain physical redistribution.",
+  "original_limitations": [
+    "The model is a surface-state response, not hydrodynamic trajectories, velocities or microbial killing."
+  ],
+  "original_checks": [
+    {
+      "id": "question",
+      "criterion": "Does a surfactant change the surface state of pepper without consuming pepper?",
+      "review_instruction": "Compare the bounded surface-spread response with a water-addition control; no pepper-reaction product should be invented to explain physical redistribution.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: water sham addition",
+      "result": null
+    }
+  ],
+  "verdict": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review",
+  "interpretation": "Detergent creates a bounded surface-clearing state; equal-mass water control leaves cleared fraction zero. Pepper stays unresolved, no chemical reaction or particle velocity inferred.",
+  "per_criterion": {
+    "question": {
+      "original_criterion": "Does a surfactant change the surface state of pepper without consuming pepper?",
+      "original_review_instruction": "Compare the bounded surface-spread response with a water-addition control; no pepper-reaction product should be invented to explain physical redistribution.",
+      "assessment": "Detergent creates a bounded surface-clearing state; equal-mass water control leaves cleared fraction zero. Pepper stays unresolved, no chemical reaction or particle velocity inferred.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "All rows independently audited against explicit doses and pinned recipe components; retained unresolved masses separately conserved. See inventory_trace. No gas, transfer, sink or resolved reaction accepted.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Limited exactly to original model question and original limitations; editorial/aggregate descriptions are not empirical calibration or molecular products.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_review_instruction": "v2: water sham addition",
+      "assessment": "Detergent creates a bounded surface-clearing state; equal-mass water control leaves cleared fraction zero. Pepper stays unresolved, no chemical reaction or particle velocity inferred.",
+      "result": "candidate_met_pending_independent_parent_review"
+    }
+  },
+  "raw_coordinates": [
+    {
+      "row": 7,
+      "raw_jsonl_line": 8,
+      "step": 7,
+      "event": {
+        "coverage_fraction": 0.625,
+        "event": "surface_spread",
+        "from_cleared_fraction": 0.0,
+        "material": "ground black pepper",
+        "to_cleared_fraction": 0.08999999999999998,
+        "vessel": 0
+      }
+    }
+  ],
+  "inventory_trace": {
+    "method": "independent per-row operator/component/unresolved ledger with recipe fractions and molecular masses independently rederived from pinned registry;  no resolved reactions, transfers, gas or hidden export admitted",
+    "max_resolved_residual_mol": 0.0,
+    "max_unresolved_residual_g": 0.0,
+    "all_operator_clocks_checked": true,
+    "trace": [
+      {
+        "row": 0,
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 1,
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 2,
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "ground_black_pepper",
+          "op": "add_material",
+          "recipe_id": "household/ground-black-pepper-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.05,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 3,
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 4,
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "ground_black_pepper",
+          "op": "add_material",
+          "recipe_id": "household/ground-black-pepper-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.05,
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "row": 5,
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "row": 6,
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "row": 7,
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "dish_soap",
+          "op": "add_material",
+          "recipe_id": "household/dish-soap-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.05,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.769358867610325
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.009999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "row": 8,
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "moles": 0.002775464890369137,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.769358867610325
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.009999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7699139605883984
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "row": 9,
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.769358867610325
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.009999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7699139605883984
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "row": 10,
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.769358867610325
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.009999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7699139605883984
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "row": 11,
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.769358867610325
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.009999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7699139605883984
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "row": 12,
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.769358867610325
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.009999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7699139605883984
+            },
+            "unresolved_g": {
+              "household/ground-black-pepper-surrogate|1|mass_fraction": 0.05
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "final_scene_evidence": {
+    "raw_jsonl_line": 12,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "grains of {material} float on the surface",
+              "key": "look.surface-grains",
+              "slots": [
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "ground black pepper",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05004982909894734
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.05004982909894734
+          },
+          "mass_g": 49.900000000000006,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "surface_particles": {
+            "cleared_fraction": 0.08999999999999998,
+            "coverage_fraction": 0.625,
+            "material": "ground black pepper"
+          },
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear, grains of ground black pepper float on the surface."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "grains of {material} float on the surface",
+              "key": "look.surface-grains",
+              "slots": [
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "ground black pepper",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05005015045135407
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.05005015045135407
+          },
+          "mass_g": 49.9,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "surface_particles": {
+            "cleared_fraction": 0.0,
+            "coverage_fraction": 0.625,
+            "material": "ground black pepper"
+          },
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear, grains of ground black pepper float on the surface."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1455 @@
+{
+  "original_id": "batch3-diverse:th-005",
+  "title": "Equal molar gas amounts need not have equal heat capacity",
+  "original_forecast": "Interpret temperature changes using the whole reported gas inventory and its thermal model. Equal added moles do not guarantee equal total heat capacity, especially if pre-existing headspace gas is present.",
+  "original_limitations": [
+    "Sealed headspaces are not assumed evacuated. Heat-capacity and gas-energy support must be inspected; no temperature ratio is imposed without knowing all gas and vessel thermal contributions."
+  ],
+  "original_script_sha256": "7cce9ff424133db8c510cfed564336ddae5dc564de34d70a52375189cb4576ee",
+  "raw_member_prefix": "batch3-diverse_th-005",
+  "raw_sha256": {
+    "experiment.lab": "7cce9ff424133db8c510cfed564336ddae5dc564de34d70a52375189cb4576ee",
+    "stdout.jsonl": "673d6e4db04462b7a5936e0de2e508a9a2924c51aa4dfd544eed23ffbe0e8c60",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Can a monatomic and a diatomic gas show different temperature responses after equal energy input?",
+      "original_instruction": "Interpret temperature changes using the whole reported gas inventory and its thermal model. Equal added moles do not guarantee equal total heat capacity, especially if pre-existing headspace gas is present.",
+      "assessment": "Each vessel contains sealed dry air plus5 mmol extra gas. Full owned inventory and independent integralCv reproduce each1 J increment; helium arm warms more than nitrogen. Pressure reconstructs from totalnRT/V. No evacuated headspace or naive pure-gas temperature ratio assumed.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Each vessel contains sealed dry air plus5 mmol extra gas. Full owned inventory and independent integralCv reproduce each1 J increment; helium arm warms more than nitrogen. Pressure reconstructs from totalnRT/V. No evacuated headspace or naive pure-gas temperature ratio assumed.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "headspace_volume": 0.5,
+          "op": "seal",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "headspace_volume": 0.5,
+          "op": "seal",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 0.005,
+          "op": "add",
+          "species": "helium",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 0.005,
+          "op": "add",
+          "species": "N2",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 7,
+        "operator": {
+          "energy": 1.0,
+          "op": "heat",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.1954127258798,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 8,
+        "operator": {
+          "energy": 1.0,
+          "op": "heat",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.1954127258798,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.0349445034707,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 9,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.1954127258798,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.0349445034707,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 10,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.1954127258798,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.0349445034707,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 11,
+        "operator": {
+          "instrument": "pressure_gauge",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.1954127258798,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.0349445034707,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 12,
+        "operator": {
+          "instrument": "pressure_gauge",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.1954127258798,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.0349445034707,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 13,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.1954127258798,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06,
+              "He": 0.005
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.03229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06,
+              "He": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "gas",
+                "species": "helium"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.0349445034707,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.0422945825786727,
+              "charge": 0.0,
+              "O": 0.008579461945656749,
+              "C": 8.174808904865889e-06
+            },
+            "expected_explicit_input_totals": {
+              "N": 0.04229458257807749,
+              "charge": 0.0,
+              "O": 0.008579461945498627,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.02114729128933635,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.174808904865889e-06,
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 5.952044412893542e-13,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "Each vessel contains sealed dry air plus5 mmol extra gas. Full owned inventory and independent integralCv reproduce each1 J increment; helium arm warms more than nitrogen. Pressure reconstructs from totalnRT/V. No evacuated headspace or naive pure-gas temperature ratio assumed.",
+  "independent_calculations": {
+    "integrated_Cv_energy_J": [
+      0.9999999999999992,
+      1.0000000000000073
+    ],
+    "integration": "Pinned NASA9 polynomials forN2/O2/CO2, tabulated heliumCp, subtractR for rigid sealed gas; every species and trapped dry air counted."
+  },
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 9,
+      "event": {
+        "capped": false,
+        "ceiling_k": 1773.15,
+        "delivered_j": 1.0,
+        "event": "energy_transferred",
+        "heating": true,
+        "passes": 1,
+        "requested_j": 1.0,
+        "sensible_j": 0.9999999999999996,
+        "source": "Bunsen burner",
+        "time_coupled": false,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 10,
+      "event": {
+        "capped": false,
+        "ceiling_k": 1773.15,
+        "delivered_j": 1.0,
+        "event": "energy_transferred",
+        "heating": true,
+        "passes": 1,
+        "requested_j": 1.0,
+        "sensible_j": 1.000000000000009,
+        "source": "Bunsen burner",
+        "time_coupled": false,
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 6,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.0,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 7,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.0,
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 11,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 27.045412725879828,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 12,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 26.884944503470706,
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 13,
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 126.97976012283993,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 14,
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 126.9118836146554,
+        "vessel": 1
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 14,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [],
+          "boundary": "sealed",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is nothing to see in the beaker",
+              "key": "look.nothing-visible"
+            }
+          ],
+          "elapsed_s": 0.0,
+          "headspace_moles": 0.025437022262164724,
+          "headspace_volume_l": 0.5,
+          "id": 0,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 0.609724217477787,
+          "pressure_pa": 126979.76012283993,
+          "solids": [],
+          "temperature_k": 300.1954127258798,
+          "volume": 0.5,
+          "words": "There is nothing to see in the beaker."
+        },
+        {
+          "badges": [],
+          "boundary": "sealed",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is nothing to see in the beaker",
+              "key": "look.nothing-visible"
+            }
+          ],
+          "elapsed_s": 0.0,
+          "headspace_moles": 0.025437022262164724,
+          "headspace_volume_l": 0.5,
+          "id": 1,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 0.7297812174777872,
+          "pressure_pa": 126911.8836146554,
+          "solids": [],
+          "temperature_k": 300.0349445034707,
+          "volume": 0.5,
+          "words": "There is nothing to see in the beaker."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema_key_stop": "Older original147/first120 rows use script_sha256; batch2/batch3 use original_intake_script_sha256.",
+  "first_binding_assertion_stop": "SO001\u2013004 are documented corrected haloalkane scripts; preserve original and executed SHA separately, not an unchanged-original claim.",
+  "affected_ids": [
+    "batch3-diverse:so-001",
+    "batch3-diverse:so-002",
+    "batch3-diverse:so-003",
+    "batch3-diverse:so-004"
+  ],
+  "producer_reexecutions": 0,
+  "baseline_bytes_changed": false
+}

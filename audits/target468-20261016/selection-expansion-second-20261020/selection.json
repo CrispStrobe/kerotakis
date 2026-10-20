@@ -1,0 +1,47 @@
+{
+  "schema": "kerotakis.scientific-selection-expansion.v1",
+  "utc": "2026-10-20T07:56:08.738532+00:00",
+  "previous_catalog": "audits/working-experiments-20261020-reviewed-batch23.json",
+  "previous_catalog_sha256": "9a05705582636ab55d3cd056430df891f37768ecf6f2cbeb24c630775c802423",
+  "new_catalog": "audits/working-experiments-20261020-reviewed-expansion.json",
+  "new_catalog_sha256": "46a6a89d53b38086ae0f47c4c9eae1198d1041fe3cd0014be29c8d1ab25fd44f",
+  "all268_previous_entries_preserved_exactly": true,
+  "new_selected_originals": [
+    "batch2:tc-007",
+    "batch2:ab-025",
+    "batch2:ab-030",
+    "batch2:ab-036",
+    "batch2:pq-008",
+    "batch2:ki-004",
+    "batch2:ki-007",
+    "batch3-diverse:co-003",
+    "batch3-diverse:en-004",
+    "batch3-diverse:en-009",
+    "batch3-diverse:li-002",
+    "batch3-diverse:li-008",
+    "batch3-diverse:mi-001",
+    "batch3-diverse:mi-006",
+    "batch3-diverse:th-005"
+  ],
+  "new_scientific_selections": 15,
+  "continuation_total_new_selections": 35,
+  "unique_fixed468_before": 264,
+  "unique_fixed468_after": 279,
+  "catalog_entries": 283,
+  "additional_to401": 122,
+  "primary_review": "Original questions/limitations/source contracts inspected, both second-batch saved readers independently reproduced, including source-pinned heat-capacity and pigment spectral arithmetic; no engine replays.",
+  "boundary_demonstrations_not_scientific_selections": [
+    "batch3-diverse:bd-001",
+    "batch3-diverse:bd-002",
+    "batch3-diverse:bd-004"
+  ],
+  "newly_confirmed_not_selected": [
+    "batch2:tc-002",
+    "batch2:ki-003",
+    "batch2:ab-035",
+    "batch2:gs-013",
+    "batch2:qa-004"
+  ],
+  "new_engine_or_API_executions": 0,
+  "uniform_current_release_revalidation_claim": false
+}

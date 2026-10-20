@@ -1,0 +1,3406 @@
+{
+  "schema": "kerotakis.batch2.second-saved-review.v1",
+  "cases": [
+    {
+      "id": "batch2:tc-002",
+      "proposed_candidate": false,
+      "original_forecast": "Both mixtures can neutralise approximately 0.0005 mol of hydroxide, so the neutralisation contribution should be similar rather than doubled. The second mixture retains more excess acid.",
+      "criteria": [
+        {
+          "id": "TC-002-C1",
+          "criterion": "Calculate temperature changes against each pair of measured pre-mixing temperatures and heat capacities.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        },
+        {
+          "id": "TC-002-C2",
+          "criterion": "Confirm the same hydroxide consumption but different residual acidity.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "mixes": [
+          {
+            "vessel": 0,
+            "mixing_corrected_sensible_energy_J": -0.002010068526454134,
+            "final_acid_basis_mol": 0.0005,
+            "final_hydroxide_basis_mol": 0
+          },
+          {
+            "vessel": 1,
+            "mixing_corrected_sensible_energy_J": -0.002010068456572256,
+            "final_acid_basis_mol": 0.0015,
+            "final_hydroxide_basis_mol": 0
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 1.6696713456276768e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 2,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 6,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 7,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 8,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 8,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 9,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 9,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 10,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 10,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 11,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 11,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 12,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 12,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 13,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 13,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 13,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 14,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 14,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 14,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 14,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 15,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 15,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 15,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 15,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 16,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 16,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 16,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 16,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 17,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 17,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 17,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 17,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 18,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 18,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 18,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 18,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 19,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 19,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 19,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 19,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 20,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 20,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 20,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 20,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 21,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 21,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 21,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 21,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 22,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 22,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 22,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 22,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 23,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 23,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 23,
+          "vessel": 2,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        },
+        {
+          "row": 23,
+          "vessel": 3,
+          "maximum_absolute_residual_mol": 2.7712207528729493e-16
+        }
+      ],
+      "clock_checks": [],
+      "boundary_exports": [],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Same missing mixing-neutralisation energy as originalTC009. Correct limiting-base material budget does not prove its thermal forecast."
+      ],
+      "shared_gap": "transfer-neutralisation-enthalpy",
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "0ff9a164517d2b50a0d017de533a89275be78b4c6095e49dcde6867a313fcf9b",
+      "stdout_sha256": "3c902fd417af63439dc16f1792dafe3dfce043a7a170fbf465e2e8936cea52d4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_tc-002/experiment.lab",
+        "batch2_tc-002/stdout.jsonl",
+        "batch2_tc-002/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:tc-007",
+      "proposed_candidate": true,
+      "original_forecast": "Both portions can remain near the melting temperature while the more strongly cooled portion contains more ice and a lower retained enthalpy.",
+      "criteria": [
+        {
+          "id": "TC-007-C1",
+          "criterion": "Confirm coexistence of ice and liquid before comparing equal temperatures.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "TC-007-C2",
+          "criterion": "Use the different phase fractions and known cooling inputs to explain why temperature alone does not determine stored energy.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "coexisting_phases": [
+          {
+            "vessel": 0,
+            "ice_mol": 0.831946755407655,
+            "liquid_mol": 4.718983025330618,
+            "temperature_K": 273.15,
+            "energy_removed_J": 5000,
+            "inferred_fusion_J_mol": 6009.999999999993
+          },
+          {
+            "vessel": 1,
+            "ice_mol": 3.3277870216306162,
+            "liquid_mol": 2.223142759107657,
+            "temperature_K": 273.15,
+            "energy_removed_J": 20000,
+            "inferred_fusion_J_mol": 6009.999999999999
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 2,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        }
+      ],
+      "clock_checks": [],
+      "boundary_exports": [],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "The energy convention is phase-latent retained energy at the shared melting temperature, not solely thermometer or sensible heat."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "ed8f735001bff045672d1b9f71fc26dba657d9a5abe9cb7671acafc0367e675b",
+      "stdout_sha256": "a71da4fa610f7a651a5da1d4b867461101e86d579974bba4fa4b9d32189b9dea",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_tc-007/experiment.lab",
+        "batch2_tc-007/stdout.jsonl",
+        "batch2_tc-007/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ab-025",
+      "proposed_candidate": true,
+      "original_forecast": "The weak/weak system changes pH more gradually across equal formal equivalents than the strong/strong control, although proton transfer occurs in both.",
+      "criteria": [
+        {
+          "id": "AB-025-C1",
+          "criterion": "Compare the pH span from 80% to 120% equivalents for the two systems.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "AB-025-C2",
+          "criterion": "Both weak-acid and weak-base analytical pools remain accounted for after neutralisation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "actual_pH": {
+          "0": [
+            5.319780319529,
+            6.971651662688,
+            8.530857511489
+          ],
+          "1": [
+            2.737148243562,
+            6.992693453276,
+            11.24366383111
+          ]
+        },
+        "pH_span_80_to_120_percent": {
+          "0": 3.2110771919599994,
+          "1": 8.506515587548
+        },
+        "acetate_mol": 0.0010000000000000002,
+        "reduced_N_mol": 0.0012000000000000001,
+        "actual_temperatures_K": {
+          "0": 300.15284292812055,
+          "1": 298.4120721673829
+        }
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 4.336808689942018e-19,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "Mn": 0.0,
+        "N": 2.168404344971009e-19,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 6.505213034913027e-19
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 3.049318610115481e-19
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 3.2526065174565133e-19
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 3.2526065174565133e-19
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 13,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 14,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 14,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 15,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 15,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 16,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 16,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 17,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.505213034913027e-19
+        },
+        {
+          "row": 17,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        }
+      ],
+      "clock_checks": [],
+      "boundary_exports": [],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Different actual thermal histories retained; bounded broad-endpoint comparison, not calibrated pKa or equal-temperature titration curves."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "26848d736d16423165c25dbb54102f1b3d1851a48d40841c099343afaad72bc5",
+      "stdout_sha256": "73d1ed172ca5906249a912bba7f8652f32a9fecbc7965eb71977c7b30e5a72bd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ab-025/experiment.lab",
+        "batch2_ab-025/stdout.jsonl",
+        "batch2_ab-025/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ab-030",
+      "proposed_candidate": true,
+      "original_forecast": "Acid additions consume carbonate and release inorganic carbon before a strong-acid excess appears. The final 2.5 mmol total acid exceeds the 2 mmol ideal solid capacity.",
+      "criteria": [
+        {
+          "id": "AB-030-C1",
+          "criterion": "Track solid consumption and carbon transfer through the sequence.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "AB-030-C2",
+          "criterion": "The final state reflects exhausted carbonate and an acid-equivalent excess, rather than indefinite buffering.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "carbonate_solid_mol_after_acid_pulses": [
+          0.0007229526164487,
+          0.0004781609730328,
+          0.0002305794640797,
+          0
+        ],
+        "actual_pH": [
+          7.898080971054,
+          7.78457475292,
+          7.717661166522,
+          2.361295965146
+        ],
+        "final_acid_basis_mol": 0.0005000001586911621,
+        "retained_C_mol": 1.3163638825007429e-06,
+        "exported_CO2_mol": 0.0009986836358307
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 3.210966648820035e-13,
+        "Ca": 1.6954857656736877e-12,
+        "Cl": 6.652636991635874e-12,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 8.881784197001252e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 1.9772778582245726e-12
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.8815667340160713e-12
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.8815667340160713e-12
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.8815667340160713e-12
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 3.390602252087427e-12
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 3.390602252087427e-12
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 3.390602252087427e-12
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.652636991635874e-12
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.652636991635874e-12
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.652636991635874e-12
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 5.016291635545622e-12
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 5.016291635545622e-12
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 5.016291635545622e-12
+        }
+      ],
+      "clock_checks": [],
+      "boundary_exports": [
+        {
+          "row": 2,
+          "event": "gas_evolved",
+          "moles": 0.0002225191239769,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 0.0002551080835719,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 8,
+          "event": "gas_evolved",
+          "moles": 0.0002523779765578,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 11,
+          "event": "gas_evolved",
+          "moles": 0.0002686784517241,
+          "species": "CO2",
+          "vessel": 0
+        }
+      ],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Open-boundary carbon exports are counted explicitly; carbonate does not buffer indefinitely."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "ab12b6c314fae9ade45015efc83b7180dfcf1e727ebf876ec3e91bf50ab57e9f",
+      "stdout_sha256": "5b235255a1d3b6b9176739b47789dcb9650c2e54d89cfd6f7a9ac8335cd59252",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ab-030/experiment.lab",
+        "batch2_ab-030/stdout.jsonl",
+        "batch2_ab-030/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ab-035",
+      "proposed_candidate": false,
+      "original_forecast": "Acid favours CO2/carbonic-acid forms, whereas base favours carbonate. The same initial bicarbonate pool therefore displays both sides of amphiprotic behaviour.",
+      "criteria": [
+        {
+          "id": "AB-035-C1",
+          "criterion": "Compare carbon species distributions as well as pH.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "AB-035-C2",
+          "criterion": "The acid arm has a different gas-phase carbon allocation while both closed total carbon budgets remain 1 mmol.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        }
+      ],
+      "observed": {
+        "final_arms": [
+          {
+            "vessel": 0,
+            "final_C_mol": 0.0009243585842567643,
+            "CO2_gas_mol": 0.0002320562757801,
+            "aqueous_CO2_mol": 0.00019311518225612276,
+            "carbonate_mol": 1.6561916996757505e-07,
+            "pH": 6.720213329673
+          },
+          {
+            "vessel": 1,
+            "final_C_mol": 0.0009243585842566661,
+            "CO2_gas_mol": 4.668813860451e-08,
+            "aqueous_CO2_mol": 4.208989026887336e-08,
+            "carbonate_mol": 0.0005226059192379347,
+            "pH": 10.27294198046
+          }
+        ],
+        "original_reagent_C_mol": 0.001,
+        "trapped_air": [
+          {
+            "row": 2,
+            "vessel": 0,
+            "air_mol": 0.004088017514917828,
+            "air_C_mol": 1.6352070059671313e-06
+          },
+          {
+            "row": 6,
+            "vessel": 1,
+            "air_mol": 0.004088017514917828,
+            "air_C_mol": 1.6352070059671313e-06
+          }
+        ],
+        "prior_exports": [
+          {
+            "row": 1,
+            "event": "gas_evolved",
+            "moles": 7.727662274915e-05,
+            "species": "CO2",
+            "vessel": 0
+          },
+          {
+            "row": 5,
+            "event": "gas_evolved",
+            "moles": 7.727662274915e-05,
+            "species": "CO2",
+            "vessel": 1
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 1.5092094240998222e-16,
+        "Ca": 0.0,
+        "Cl": 1.334652874329656e-16,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 4.733626685071712e-16,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 1.0186621511587557e-15
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.358303640541241e-16
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 6.358303640541241e-16
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 13,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        }
+      ],
+      "clock_checks": [],
+      "boundary_exports": [
+        {
+          "row": 1,
+          "event": "gas_evolved",
+          "moles": 7.727662274915e-05,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 7.727662274915e-05,
+          "species": "CO2",
+          "vessel": 1
+        }
+      ],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Direction of acid/base or earlygas response holds, but bicarbonate loses substantial carbon before seal. Original1mmol-per-closed-vessel forecast fails; cannot replace it with a post-loss inventory criterion."
+      ],
+      "shared_gap": "original-open-before-seal-carbon-budget",
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "c6a16e833573de8f68eee0e6e194981e0967e8d7e02c8d56280ac00a464b611a",
+      "stdout_sha256": "d08478b1a2af59d74fc404ae2541629d8f1aaa6050f2ffff7d36b950ace5655e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ab-035/experiment.lab",
+        "batch2_ab-035/stdout.jsonl",
+        "batch2_ab-035/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ab-036",
+      "proposed_candidate": true,
+      "original_forecast": "Both calcium compounds have an ideal capacity of 1 mmol H+ at this loading, but only carbonate supplies 0.5 mmol inorganic carbon and the associated CO2 response.",
+      "criteria": [
+        {
+          "id": "AB-036-C1",
+          "criterion": "Calcium and residual acid-equivalent budgets are compared independently of gas production.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "AB-036-C2",
+          "criterion": "The oxide arm must not acquire carbon or emit an invented carbonate gas.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "arms": [
+          {
+            "vessel": 0,
+            "total_Ca_mol": 0.000500000000000069,
+            "acid_basis_mol": 0.00020000020815384668,
+            "total_C_mol": 1.6349617409625893e-06,
+            "trapped_air_C_mol": 1.6349617809731778e-06,
+            "reagent_derived_C_mol": -4.00105884804569e-14,
+            "CO2_gas_mol": 8.947049199524e-07
+          },
+          {
+            "vessel": 1,
+            "total_Ca_mol": 0.0005000000000000817,
+            "acid_basis_mol": 0.00020006390709995277,
+            "total_C_mol": 0.0005016349617785574,
+            "trapped_air_C_mol": 1.6349617809731778e-06,
+            "reagent_derived_C_mol": 0.0004999999999975843,
+            "CO2_gas_mol": 0.0002744894613367
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 4.0010588268698665e-14,
+        "Ca": 9.660241356845845e-17,
+        "Cl": 5.921912266115825e-16,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 1.599798852419676e-13
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.599798852419676e-13
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.599798852419676e-13
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.599798852419676e-13
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.599798852419676e-13
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.599798852419676e-13
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 5.452935534209537e-16
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.5931198959866222e-13
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 5.452935534209537e-16
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.5931198959866222e-13
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 9.097160958565498e-15
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.5931198959866222e-13
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 9.097160958565498e-15
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.5931198959866222e-13
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 9.097160958565498e-15
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.5931198959866222e-13
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 9.097160958565498e-15
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.5931198959866222e-13
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 9.097160958565498e-15
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.5931198959866222e-13
+        },
+        {
+          "row": 13,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 9.097160958565498e-15
+        }
+      ],
+      "clock_checks": [],
+      "boundary_exports": [],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Oxide arm contains small legitimate trapped-air carbon. Subtract that explicit carbon before comparing reagent-derived gas; no invented carbonate source."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "6df126fda276d54ae45ad0be9a03972aa3848ebb6b10c0721ad04bd129dd6046",
+      "stdout_sha256": "d70d73c5e557380c8a6d59d0c81d967e114ae422d2efc75b941d5b55b4c4d60a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ab-036/experiment.lab",
+        "batch2_ab-036/stdout.jsonl",
+        "batch2_ab-036/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:pq-008",
+      "proposed_candidate": true,
+      "original_forecast": "Initially, added water dissolves excess halite and the solution remains near saturation. After the solid reservoir is exhausted, further dilution lowers concentration more directly.",
+      "criteria": [
+        {
+          "id": "PQ-008-C1",
+          "criterion": "Track decreasing solid NaCl before expecting large concentration dilution.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "PQ-008-C2",
+          "criterion": "Distinguish saturated activity/concentration from nonlinearly responding conductivity.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "dilution_series": [
+          {
+            "solid_NaCl_mol": 0.2444365017341,
+            "aqueous_Na_mol": 0.6110979506383835,
+            "molality_mol_kgw": 6.110979506383835,
+            "conductivity_uS_cm": 397193.6123710475,
+            "temperature_K": 292.6432060031161,
+            "Na_activity": 9.997,
+            "Cl_activity": 3.703
+          },
+          {
+            "solid_NaCl_mol": 0.122612243689,
+            "aqueous_Na_mol": 0.7329222086837938,
+            "molality_mol_kgw": 6.110740442586241,
+            "conductivity_uS_cm": 397195.90178479184,
+            "temperature_K": 292.54995442869404,
+            "Na_activity": 9.994,
+            "Cl_activity": 3.702
+          },
+          {
+            "solid_NaCl_mol": 0.0007885051781757,
+            "aqueous_Na_mol": 0.8547459471948768,
+            "molality_mol_kgw": 6.110565822096633,
+            "conductivity_uS_cm": 397197.57413442055,
+            "temperature_K": 292.48132818496697,
+            "Na_activity": 9.992,
+            "Cl_activity": 3.701
+          },
+          {
+            "solid_NaCl_mol": 0,
+            "aqueous_Na_mol": 0.8555344523730526,
+            "molality_mol_kgw": 2.521617697397585,
+            "conductivity_uS_cm": 188376.97622858494,
+            "temperature_K": 295.8107410442842,
+            "Na_activity": 2.093,
+            "Cl_activity": 1.431
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 3.7569947153315297e-13,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 7.105427357601002e-15,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 6.554756737386924e-13,
+        "O": 3.552713678800501e-15,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 2.7977620220553945e-13
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.000310945187266e-13
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.000310945187266e-13
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.000310945187266e-13
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 3.9668268669856843e-13
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 3.9668268669856843e-13
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 3.9668268669856843e-13
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.554756737386924e-13
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.554756737386924e-13
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.554756737386924e-13
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.554756737386924e-13
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.554756737386924e-13
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.554756737386924e-13
+        }
+      ],
+      "clock_checks": [],
+      "boundary_exports": [],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Saturated Pitzer activities and actualtemperature retained; conductivity is separately reported, not equated to molarity."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "1584e9bc2fe1c9594e85542a6004122d051f68a4fb2674039be506a930d31c8f",
+      "stdout_sha256": "dc7660414da447a905824c5baa1311e69eafda64e563935f7a9257aeb419503b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_pq-008/experiment.lab",
+        "batch2_pq-008/stdout.jsonl",
+        "batch2_pq-008/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ki-003",
+      "proposed_candidate": false,
+      "original_forecast": "For the same material and spherical-particle approximation, mass/diameter is matched, so the two nominal surface-controlled responses should be similar.",
+      "criteria": [
+        {
+          "id": "KI-003-C1",
+          "criterion": "Compare fractional substrate consumption at the same elapsed times.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        },
+        {
+          "id": "KI-003-C2",
+          "criterion": "Confirm that catalyst activity uses the stated diameters rather than defaults.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "rates": [
+          {
+            "row": 9,
+            "vessel": 0,
+            "actual_start_T_K": 298.15,
+            "actual_end_T_K": 298.1510137869234,
+            "initial_H2O2_mol": 0.001,
+            "remaining_H2O2_mol": 0.0009913879607344113,
+            "fraction_lost": 0.008612039265588683,
+            "apparent_first_order_k_s-1": 0.0008649337170819829,
+            "MnO2_mol": 1.1502185415228894e-05,
+            "solid_lots": [
+              {
+                "added_at": 0.0,
+                "moles": 1.1502185415228894e-05,
+                "particle_size_um": 10.0,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "MnO2",
+                "suspended_fraction": 0.9383004394764993
+              }
+            ],
+            "initial_area": [
+              {
+                "diameter_um": 10.0,
+                "geometric_sphere_area_m2": 0.00011928429423459245,
+                "suspended_fraction": 1.0,
+                "declared_model_contact_fraction": 1,
+                "accessible_area_m2": 0.00011928429423459245
+              }
+            ],
+            "final_area": [
+              {
+                "diameter_um": 10.0,
+                "geometric_sphere_area_m2": 0.00011928429423459245,
+                "suspended_fraction": 0.9383004394764993,
+                "declared_model_contact_fraction": 0.9383004394764993,
+                "accessible_area_m2": 0.00011192450570296215
+              }
+            ]
+          },
+          {
+            "row": 9,
+            "vessel": 1,
+            "actual_start_T_K": 298.15,
+            "actual_end_T_K": 298.15037917824577,
+            "initial_H2O2_mol": 0.001,
+            "remaining_H2O2_mol": 0.0009967788677907473,
+            "fraction_lost": 0.0032211322092527434,
+            "apparent_first_order_k_s-1": 0.00032263312230834906,
+            "MnO2_mol": 0.00011502185415228895,
+            "solid_lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.00011502185415228895,
+                "particle_size_um": 100.0,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "MnO2",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "initial_area": [
+              {
+                "diameter_um": 100.0,
+                "geometric_sphere_area_m2": 0.00011928429423459244,
+                "suspended_fraction": 1.0,
+                "declared_model_contact_fraction": 1,
+                "accessible_area_m2": 0.00011928429423459244
+              }
+            ],
+            "final_area": [
+              {
+                "diameter_um": 100.0,
+                "geometric_sphere_area_m2": 0.00011928429423459244,
+                "suspended_fraction": 0.0,
+                "declared_model_contact_fraction": 0.35,
+                "accessible_area_m2": 4.174950298210735e-05
+              }
+            ]
+          },
+          {
+            "row": 11,
+            "vessel": 0,
+            "actual_start_T_K": 298.1510137869234,
+            "actual_end_T_K": 298.1527702670087,
+            "initial_H2O2_mol": 0.0009913879607344113,
+            "remaining_H2O2_mol": 0.0009764668009309444,
+            "fraction_lost": 0.015050777691927412,
+            "apparent_first_order_k_s-1": 0.0007582595047557938,
+            "MnO2_mol": 1.1502185415228894e-05,
+            "solid_lots": [
+              {
+                "added_at": 0.0,
+                "moles": 1.1502185415228894e-05,
+                "particle_size_um": 10.0,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "MnO2",
+                "suspended_fraction": 0.8225123055504745
+              }
+            ],
+            "initial_area": [
+              {
+                "diameter_um": 10.0,
+                "geometric_sphere_area_m2": 0.00011928429423459245,
+                "suspended_fraction": 0.9383004394764993,
+                "declared_model_contact_fraction": 0.9383004394764993,
+                "accessible_area_m2": 0.00011192450570296215
+              }
+            ],
+            "final_area": [
+              {
+                "diameter_um": 10.0,
+                "geometric_sphere_area_m2": 0.00011928429423459245,
+                "suspended_fraction": 0.8225123055504745,
+                "declared_model_contact_fraction": 0.8225123055504745,
+                "accessible_area_m2": 9.811279986685581e-05
+              }
+            ]
+          },
+          {
+            "row": 11,
+            "vessel": 1,
+            "actual_start_T_K": 298.15037917824577,
+            "actual_end_T_K": 298.1511338968826,
+            "initial_H2O2_mol": 0.0009967788677907473,
+            "remaining_H2O2_mol": 0.0009903675068567948,
+            "fraction_lost": 0.006432079512442437,
+            "apparent_first_order_k_s-1": 0.0003226427233946986,
+            "MnO2_mol": 0.00011502185415228895,
+            "solid_lots": [
+              {
+                "added_at": 0.0,
+                "moles": 0.00011502185415228895,
+                "particle_size_um": 100.0,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "MnO2",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "initial_area": [
+              {
+                "diameter_um": 100.0,
+                "geometric_sphere_area_m2": 0.00011928429423459244,
+                "suspended_fraction": 0.0,
+                "declared_model_contact_fraction": 0.35,
+                "accessible_area_m2": 4.174950298210735e-05
+              }
+            ],
+            "final_area": [
+              {
+                "diameter_um": 100.0,
+                "geometric_sphere_area_m2": 0.00011928429423459244,
+                "suspended_fraction": 0.0,
+                "declared_model_contact_fraction": 0.35,
+                "accessible_area_m2": 4.174950298210735e-05
+              }
+            ]
+          }
+        ],
+        "source_clock_order": "GravityClock before CuratedKineticsClock; effective contact uses the post-settling solid lots"
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 8.881784197001252e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 8.881784197001252e-16
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 8.881784197001252e-16
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 8.881784197001252e-16
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 8.881784197001252e-16
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        }
+      ],
+      "clock_checks": [
+        {
+          "row": 9,
+          "vessel": 0,
+          "from_seconds": 0.0,
+          "to_seconds": 10.0
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "from_seconds": 0.0,
+          "to_seconds": 10.0
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "from_seconds": 10.0,
+          "to_seconds": 30.0
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "from_seconds": 10.0,
+          "to_seconds": 30.0
+        }
+      ],
+      "boundary_exports": [],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Nominalmass/diameter equality does not survive different gravity-settling histories; observed matched-time fractional losses differ substantially. Preserve original rather than ignore availability."
+      ],
+      "shared_gap": "protocol-confound-surface-availability-versus-nominal-area",
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "5ac1eccd4fd31ab27d92a228c2ea707c7913bb2b273aaafb47d6bda9ec68a468",
+      "stdout_sha256": "f7fbc82b5248abbac4d172884f808a3115762af07892c020739fe5c9240ba57e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ki-003/experiment.lab",
+        "batch2_ki-003/stdout.jsonl",
+        "batch2_ki-003/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ki-004",
+      "proposed_candidate": true,
+      "original_forecast": "Reducing particle size should increase subsequent surface-mediated consumption. The grind command itself must not retrospectively generate the previous interval\u2019s extra products.",
+      "criteria": [
+        {
+          "id": "KI-004-C1",
+          "criterion": "Compare the snapshot immediately before and after grinding.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "KI-004-C2",
+          "criterion": "Interpret later rates using the remaining peroxide and unchanged catalyst mass.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "rates": [
+          {
+            "row": 4,
+            "vessel": 0,
+            "actual_start_T_K": 298.15,
+            "actual_end_T_K": 298.1500379733508,
+            "initial_H2O2_mol": 0.001,
+            "remaining_H2O2_mol": 0.000999677418936068,
+            "fraction_lost": 0.000322581063932079,
+            "apparent_first_order_k_s-1": 2.1508873626356164e-05,
+            "MnO2_mol": 2.3004370830457787e-05,
+            "solid_lots": [
+              {
+                "added_at": 0.0,
+                "moles": 2.3004370830457787e-05,
+                "particle_size_um": 300.0,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "MnO2",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "initial_area": [
+              {
+                "diameter_um": 300.0,
+                "geometric_sphere_area_m2": 7.952286282306163e-06,
+                "suspended_fraction": 1.0,
+                "declared_model_contact_fraction": 1,
+                "accessible_area_m2": 7.952286282306163e-06
+              }
+            ],
+            "final_area": [
+              {
+                "diameter_um": 300.0,
+                "geometric_sphere_area_m2": 7.952286282306163e-06,
+                "suspended_fraction": 0.0,
+                "declared_model_contact_fraction": 0.35,
+                "accessible_area_m2": 2.783300198807157e-06
+              }
+            ]
+          },
+          {
+            "row": 8,
+            "vessel": 0,
+            "actual_start_T_K": 298.1500379733508,
+            "actual_end_T_K": 298.15041703493034,
+            "initial_H2O2_mol": 0.000999677418936068,
+            "remaining_H2O2_mol": 0.0009964573162359646,
+            "fraction_lost": 0.0032211417794456615,
+            "apparent_first_order_k_s-1": 0.00021508938828019146,
+            "MnO2_mol": 2.3004370830457787e-05,
+            "solid_lots": [
+              {
+                "added_at": 0.0,
+                "moles": 2.3004370830457787e-05,
+                "particle_size_um": 30.0,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "MnO2",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "initial_area": [
+              {
+                "diameter_um": 30.0,
+                "geometric_sphere_area_m2": 7.952286282306163e-05,
+                "suspended_fraction": 0.0,
+                "declared_model_contact_fraction": 0.35,
+                "accessible_area_m2": 2.783300198807157e-05
+              }
+            ],
+            "final_area": [
+              {
+                "diameter_um": 30.0,
+                "geometric_sphere_area_m2": 7.952286282306163e-05,
+                "suspended_fraction": 0.0,
+                "declared_model_contact_fraction": 0.35,
+                "accessible_area_m2": 2.783300198807157e-05
+              }
+            ]
+          }
+        ],
+        "source_clock_order": "GravityClock before CuratedKineticsClock; effective contact uses the post-settling solid lots",
+        "grind_inventory_unchanged": true
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 8.881784197001252e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 8.881784197001252e-16
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 8.881784197001252e-16
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 8.881784197001252e-16
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 8.881784197001252e-16
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        }
+      ],
+      "clock_checks": [
+        {
+          "row": 4,
+          "vessel": 0,
+          "from_seconds": 0.0,
+          "to_seconds": 15.0
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "from_seconds": 15.0,
+          "to_seconds": 30.0
+        }
+      ],
+      "boundary_exports": [],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Actualremaining substrate and fullMnO2mass retained; grinding changes subsequent availability, never retrospectively changes product."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "a5eb2ae08591de767e36944427e8ca4a103710e94a82fc8b5b36473fef570e51",
+      "stdout_sha256": "90c7484e49075ebfa363aae959dfabe6fe5a0a5165dec789f6606bc443345843",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ki-004/experiment.lab",
+        "batch2_ki-004/stdout.jsonl",
+        "batch2_ki-004/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ki-007",
+      "proposed_candidate": true,
+      "original_forecast": "Cooling should lower the rate coefficient of the ongoing MnO2/peroxide model, separate from the decline caused by substrate depletion.",
+      "criteria": [
+        {
+          "id": "KI-007-C1",
+          "criterion": "Use measured temperatures and remaining substrate to compare apparent rate coefficients.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "KI-007-C2",
+          "criterion": "Catalyst mass remains constant.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "rates": [
+          {
+            "row": 3,
+            "vessel": 0,
+            "actual_start_T_K": 308.1478488823301,
+            "actual_end_T_K": 308.0858960136841,
+            "initial_H2O2_mol": 0.001,
+            "remaining_H2O2_mol": 0.0009989666336852705,
+            "fraction_lost": 0.001033366314729528,
+            "apparent_first_order_k_s-1": 6.892670705402401e-05,
+            "MnO2_mol": 1.1502185415228894e-05,
+            "solid_lots": [
+              {
+                "added_at": 0.0,
+                "moles": 1.1502185415228894e-05,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "MnO2",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "initial_area": [
+              {
+                "diameter_um": 100.0,
+                "geometric_sphere_area_m2": 1.1928429423459245e-05,
+                "suspended_fraction": 1.0,
+                "declared_model_contact_fraction": 1,
+                "accessible_area_m2": 1.1928429423459245e-05
+              }
+            ],
+            "final_area": [
+              {
+                "diameter_um": 100.0,
+                "geometric_sphere_area_m2": 1.1928429423459245e-05,
+                "suspended_fraction": 0.0,
+                "declared_model_contact_fraction": 0.35,
+                "accessible_area_m2": 4.174950298210736e-06
+              }
+            ]
+          },
+          {
+            "row": 8,
+            "vessel": 0,
+            "actual_start_T_K": 298.49642165835746,
+            "actual_end_T_K": 298.4943289705554,
+            "initial_H2O2_mol": 0.0009989666336852705,
+            "remaining_H2O2_mol": 0.0009984700004281259,
+            "fraction_lost": 0.0004971469920997471,
+            "apparent_first_order_k_s-1": 3.315137404256175e-05,
+            "MnO2_mol": 1.1502185415228894e-05,
+            "solid_lots": [
+              {
+                "added_at": 0.0,
+                "moles": 1.1502185415228894e-05,
+                "particle_size_um": null,
+                "phase": "solid",
+                "source": "reagent bottle",
+                "species": "MnO2",
+                "suspended_fraction": 0.0
+              }
+            ],
+            "initial_area": [
+              {
+                "diameter_um": 100.0,
+                "geometric_sphere_area_m2": 1.1928429423459245e-05,
+                "suspended_fraction": 0.0,
+                "declared_model_contact_fraction": 0.35,
+                "accessible_area_m2": 4.174950298210736e-06
+              }
+            ],
+            "final_area": [
+              {
+                "diameter_um": 100.0,
+                "geometric_sphere_area_m2": 1.1928429423459245e-05,
+                "suspended_fraction": 0.0,
+                "declared_model_contact_fraction": 0.35,
+                "accessible_area_m2": 4.174950298210736e-06
+              }
+            ]
+          }
+        ],
+        "source_clock_order": "GravityClock before CuratedKineticsClock; effective contact uses the post-settling solid lots",
+        "source_Ea_only_expected_cool_over_warm_direction": 0.4809655918140975
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 8.881784197001252e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        }
+      ],
+      "clock_checks": [
+        {
+          "row": 3,
+          "vessel": 0,
+          "from_seconds": 0.0,
+          "to_seconds": 15.0
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "from_seconds": 15.0,
+          "to_seconds": 30.0
+        }
+      ],
+      "boundary_exports": [],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Apparentcoefficient calculated from separateactualinventoryintervals, not eventthresholds or absoluteconsumption. Cooling and gravity availability histories retained; no calibratedrateclaim."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "e512e6556de4cd198541a17db7ee897db65daefd09fc5bed4749c60506272c66",
+      "stdout_sha256": "b8b6f9581e57f30a382f8a29469b380b1e4989f234040b113d9cbdc09ece8bb4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ki-007/experiment.lab",
+        "batch2_ki-007/stdout.jsonl",
+        "batch2_ki-007/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:qa-004",
+      "proposed_candidate": false,
+      "original_forecast": "The first endpoint requires roughly 0.3 mmol acid and cumulative acid near the second roughly 1.0 mmol. Ideal reconstruction gives n(carbonate)=P and n(bicarbonate)=T\u22122P.",
+      "criteria": [
+        {
+          "id": "QA-004-C1",
+          "criterion": "Save first-stage and additional second-stage doses separately; cumulative T includes both.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "QA-004-C2",
+          "criterion": "The reconstructed amounts are nonnegative and approximate the 0.3/0.4 mmol inputs.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        }
+      ],
+      "observed": {
+        "first_stage_acid_mol": 0.0008545312500000005,
+        "additional_second_stage_acid_mol": 0.00014923339843750003,
+        "cumulative_acid_mol": 0.0010037646484375006,
+        "inferred_carbonate_mol": 0.0008545312500000005,
+        "inferred_bicarbonate_mol": -0.0007052978515625003
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 8.266664499168139e-12,
+        "Ca": 0.0,
+        "Cl": 1.47149253502607e-11,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 2.6645352591003757e-14,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 2.5321433535022142e-11,
+        "O": 9.769962616701378e-15,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 4.3826553267046174e-11
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 6.131163285405528e-17
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 5.465747212468619e-13
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 4.308536744830534e-11
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 4.308536744830534e-11
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 4.3826553267046174e-11
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 4.3826553267046174e-11
+        }
+      ],
+      "clock_checks": [],
+      "boundary_exports": [
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 4.176999102601e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.877959937444e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.890010909378e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.902118408278e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.914426678091e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.926510729589e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.93879974462e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.951151010789e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.963564973831e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.976042534906e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 8.988583947652e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.001190554873e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.013862800374e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.026601479173e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.039407487104e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.052389451214e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.065222188145e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.078235165401e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.091318732178e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.104473853796e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.117701578599e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.131002550785e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.144377695691e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.15782804164e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.171354583141e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.184958030012e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.198639711372e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.212400503804e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.226241444041e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.240163368924e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.25416762495e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.26825519182e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.282427155032e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.29668448362e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.311028550904e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.325460356365e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.339981086633e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.354592037518e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.369294474457e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.384089511105e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.398978513063e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.413962711458e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.429043385033e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.444222010397e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.45949994111e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.474878489905e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.490359081192e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.505943257398e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.521632500859e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.537428215875e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.553331974349e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.569345483541e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.585470148541e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.601685803137e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.618061090194e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.634529164924e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.651115058631e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.667820575525e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.684647389119e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 9.701597182157e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 3,
+          "event": "gas_evolved",
+          "moles": 4.401645798626e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.726453275052e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.743709041353e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.761096576012e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.778604611518e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.796263632659e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.814043906424e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.831955344388e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.849995194363e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.868156692857e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.886417505231e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.904749855351e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.923001175283e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.940595938001e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 9.951644003535e-06,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 5.44836585304e-06,
+          "species": "CO2",
+          "vessel": 0
+        }
+      ],
+      "titrant_carrier_checks": [
+        {
+          "row": 3,
+          "vessel": 0,
+          "solute_mol": 0.0008545312500000005,
+          "carrier_water_mol": 0.47292126353039154,
+          "endpoint_pH": 8.299925813254
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "solute_mol": 0.00014923339843750003,
+          "carrier_water_mol": 0.08258989633204969,
+          "endpoint_pH": 4.499974212179
+        }
+      ],
+      "named_model_limits": {},
+      "limitations": [
+        "Separateactualdoses andcumulativeT correctlyrecorded; originalnonnegative0.3/0.4mmolreconstructionfails. Do not hide openCO2 exports or replace original0.3mmolPforecast."
+      ],
+      "shared_gap": "open-carbonate-two-endpoint-protocol",
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "4bfa372dd30a109deade24a8d9a1ce7289d22eb7aaac6365ac37a100daecbb06",
+      "stdout_sha256": "ac545f153de8b7eeda31653ee870ae65b93264907f64f357a5205c86d083a103",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_qa-004/experiment.lab",
+        "batch2_qa-004/stdout.jsonl",
+        "batch2_qa-004/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:gs-013",
+      "proposed_candidate": false,
+      "original_forecast": "The initial acid dose can convert carbonate mainly toward bicarbonate while already liberating more CO2 from the bicarbonate arm. With excess acid, both contain the same original carbon budget.",
+      "criteria": [
+        {
+          "id": "GS-013-C1",
+          "criterion": "Compare initial CO2 allocation rather than total pressure alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "GS-013-C2",
+          "criterion": "Final retained carbon across phases remains 1 mmol per closed vessel.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        }
+      ],
+      "observed": {
+        "final_arms": [
+          {
+            "vessel": 0,
+            "final_C_mol": 0.0010016349617809764,
+            "CO2_gas_mol": 0.0005488534106087,
+            "aqueous_CO2_mol": 0.0004527285787203556,
+            "carbonate_mol": 0,
+            "pH": 2.354770203028
+          },
+          {
+            "vessel": 1,
+            "final_C_mol": 0.0009243585842566888,
+            "CO2_gas_mol": 0.0005060289244286,
+            "aqueous_CO2_mol": 0.00041831335973382044,
+            "carbonate_mol": 0,
+            "pH": 1.87768284817
+          }
+        ],
+        "original_reagent_C_mol": 0.001,
+        "trapped_air": [
+          {
+            "row": 2,
+            "vessel": 0,
+            "air_mol": 0.004087404452432945,
+            "air_C_mol": 1.6349617809731778e-06
+          },
+          {
+            "row": 6,
+            "vessel": 1,
+            "air_mol": 0.004088017514917828,
+            "air_C_mol": 1.6352070059671313e-06
+          }
+        ],
+        "prior_exports": [
+          {
+            "row": 5,
+            "event": "gas_evolved",
+            "moles": 7.727662274915e-05,
+            "species": "CO2",
+            "vessel": 1
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 3.5800355735471356e-16,
+        "Ca": 0.0,
+        "Cl": 2.697495005143935e-16,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 8.270294171719428e-16,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 2.1024848528838902e-15
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 7.381248390281314e-16
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 7.381248390281314e-16
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 7.381248390281314e-16
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 0.0
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 7.381248390281314e-16
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 6.358303640541241e-16
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 7.381248390281314e-16
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 2.1024848528838902e-15
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 2.1024848528838902e-15
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 2.1024848528838902e-15
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 2.1024848528838902e-15
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 2.1024848528838902e-15
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 13,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 14,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 14,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 15,
+          "vessel": 0,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        },
+        {
+          "row": 15,
+          "vessel": 1,
+          "maximum_absolute_residual_mol": 1.7763568394002505e-15
+        }
+      ],
+      "clock_checks": [],
+      "boundary_exports": [
+        {
+          "row": 5,
+          "event": "gas_evolved",
+          "moles": 7.727662274915e-05,
+          "species": "CO2",
+          "vessel": 1
+        }
+      ],
+      "titrant_carrier_checks": [],
+      "named_model_limits": {},
+      "limitations": [
+        "Direction of acid/base or earlygas response holds, but bicarbonate loses substantial carbon before seal. Original1mmol-per-closed-vessel forecast fails; cannot replace it with a post-loss inventory criterion."
+      ],
+      "shared_gap": "original-open-before-seal-carbon-budget",
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "231ecab0af72467c4f6e8c21b7cc204d4b9a80ff511885cad2fca66b932d62ae",
+      "stdout_sha256": "50fa861686bea9ef904a15c9d0543b458e56a32a0ae1168bbb853ee27f818b35",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_gs-013/experiment.lab",
+        "batch2_gs-013/stdout.jsonl",
+        "batch2_gs-013/stderr.txt"
+      ]
+    }
+  ],
+  "raw_artifact_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "source_registry_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "saved_helper_sha256": "8430e6069074541715e1459d53a1ccd510d20d5dbfd0dadc1d7d51874eb011b5",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+    "crates/kerotakis-core/src/clock.rs": "a7e64dac6135a6150f6c241beeb63e52e114de84ec217f1b694ac90b0476d80c",
+    "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4"
+  },
+  "new_engine_executions": 0,
+  "selection_performed": false,
+  "tolerance_mol": 1e-08,
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes."
+}

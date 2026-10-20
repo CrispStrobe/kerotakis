@@ -1,0 +1,55 @@
+{
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "raw_archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "intake_sha256": "522be43f6f0d92e79fe2e0d2865e293f433f4a46d9ab0fa1395de2ad49bc7fac",
+  "raw_Cargo_lock_not_available": true,
+  "source_blobs": [
+    {
+      "path": "crates/kerotakis-core/src/enzyme_activity.rs",
+      "sha256": "6a37b9880b7877a0676352e4271b71d995a6e10a852ffa9921d287985df151af"
+    },
+    {
+      "path": "crates/kerotakis-core/src/emulsion.rs",
+      "sha256": "8a68e6a1f406e293e2c170dc10d756a6ca201cf74876bfe186f5f477a1b70506"
+    },
+    {
+      "path": "crates/kerotakis-core/src/swelling.rs",
+      "sha256": "455a8d03ce1316b90a47acd8359f9f852d38dfde16921941c176639429a1cfcf"
+    },
+    {
+      "path": "crates/kerotakis-core/src/surface_spread.rs",
+      "sha256": "cc4cb364cee28665d48cb23faf47ce4bc125049a18d4395c0fb8fbf192485be6"
+    },
+    {
+      "path": "crates/kerotakis-core/src/plastics.rs",
+      "sha256": "3f7f4e3d7d2ff59c6eb7e53267f1db6bb15fd8774bd45cbfa73a912017d828c3"
+    },
+    {
+      "path": "crates/kerotakis-core/src/conductivity.rs",
+      "sha256": "fa46bc6b7aa8712f541f264b75c210bfd46c4b0bf3ee3e1d7b7d69db81ee621e"
+    },
+    {
+      "path": "crates/kerotakis-core/src/vessel.rs",
+      "sha256": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd"
+    },
+    {
+      "path": "crates/kerotakis-core/src/bench.rs",
+      "sha256": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80"
+    },
+    {
+      "path": "crates/kerotakis-core/src/material.rs",
+      "sha256": "657dbd8fa6d1b1b82862d81331d100a0955330e0b7c5abca8abf537d52ed6f2b"
+    },
+    {
+      "path": "data/registry/registry-source-v1.json",
+      "sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+    }
+  ],
+  "no_engine_execution": true,
+  "no_catalog_selection": true
+}

@@ -1,0 +1,2289 @@
+{
+  "original_id": "batch3-diverse:en-004",
+  "title": "Pepsin activity in acidic and neutral protein suspensions",
+  "original_forecast": "The acid enzyme-containing vessel should show more modelled protein hydrolysis than the neutral enzyme vessel. The acid-only control separates the enzyme state from acidity alone.",
+  "original_limitations": [
+    "Use the reported pH, not the nominal HCl dose. Protein buffering, detailed peptide products and digestive physiology are not represented."
+  ],
+  "original_script_sha256": "816abd1d7ba8eb3582b73abbc7273dd6c1ff4a44537fa973c69c358ecc1e3c63",
+  "raw_member_prefix": "batch3-diverse_en-004",
+  "raw_sha256": {
+    "experiment.lab": "816abd1d7ba8eb3582b73abbc7273dd6c1ff4a44537fa973c69c358ecc1e3c63",
+    "stdout.jsonl": "3c74f08080e3cad9a7e4638e189e37ab3645be288440217412e35953832a53b3",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Does a digestive enzyme respond to acidity rather than simply to the presence of protein?",
+      "original_instruction": "The acid enzyme-containing vessel should show more modelled protein hydrolysis than the neutral enzyme vessel. The acid-only control separates the enzyme state from acidity alone.",
+      "assessment": "Acid pepsin vessel converts far more retained albumin than neutral pepsin; acid-only blank remains unconverted. Measured pH2.039/6.810 and actual temperature histories replace nominal acidity. Protein buffering, peptide products and physiological or empirical-rate claims remain excluded.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Acid pepsin vessel converts far more retained albumin than neutral pepsin; acid-only blank remains unconverted. Measured pH2.039/6.810 and actual temperature histories replace nominal acidity. Protein buffering, peptide products and physiological or empirical-rate claims remain excluded.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_instruction": "v2: neutral enzyme condition; v3: acid without pepsin",
+      "assessment": "Acid pepsin vessel converts far more retained albumin than neutral pepsin; acid-only blank remains unconverted. Measured pH2.039/6.810 and actual temperature histories replace nominal acidity. Protein buffering, peptide products and physiological or empirical-rate claims remain excluded.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "at": 310.15,
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.068553982792118,
+              "O": 5.534276991396059,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.068553982792118,
+              "O": 5.534276991396059,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 5.534276991396059,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "albumin",
+          "op": "add_material",
+          "recipe_id": "food/albumin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.1463898085418,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "HCl",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 1.4492753623188406e-06,
+          "op": "add",
+          "species": "pepsin",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "at": 310.15,
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.068553982792118,
+              "O": 5.534276991396059,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.068553982792118,
+              "O": 5.534276991396059,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 5.534276991396059,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "albumin",
+          "op": "add_material",
+          "recipe_id": "food/albumin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.1463898085418,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "moles": 1.4492753623188406e-06,
+          "op": "add",
+          "species": "pepsin",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.1463898085418,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "at": 310.15,
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.1463898085418,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 310.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.068553982792118,
+              "O": 5.534276991396059,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.068553982792118,
+              "O": 5.534276991396059,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 5.534276991396059,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "albumin",
+          "op": "add_material",
+          "recipe_id": "food/albumin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.1463898085418,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 310.1463898085418,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "HCl",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.1463898085418,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "ph_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.1463898085418,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "instrument": "ph_meter",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.1463898085418,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 310.14639187792466,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "op": "wait",
+          "seconds": 1800.0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 303.8321012165181,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 15,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 303.8321012165181,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "step": 16,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 303.8321012165181,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 18,
+        "step": 17,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 303.8321012165181,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 19,
+        "step": 18,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 303.8321012165181,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07188454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 303.8321021964822,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.07288454066056,
+              "O": 5.53594227033028
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.07288454066056,
+              "O": 5.53594227033028,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/albumin": 0.47
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.53594227033028,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 0,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "Acid pepsin vessel converts far more retained albumin than neutral pepsin; acid-only blank remains unconverted. Measured pH2.039/6.810 and actual temperature histories replace nominal acidity. Protein buffering, peptide products and physiological or empirical-rate claims remain excluded.",
+  "independent_calculations": {},
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 15,
+      "event": {
+        "converted_fraction": 0.846993863310286,
+        "event": "enzyme_hydrolysed",
+        "family": "pepsin",
+        "hydrolysed_mass_g": 0.3980871157558344,
+        "material": "albumin (dried protein)",
+        "seconds": 1800.0,
+        "substrate": "albumin protein",
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 15,
+      "event": {
+        "converted_fraction": 0.00031388505214247076,
+        "event": "enzyme_hydrolysed",
+        "family": "pepsin",
+        "hydrolysed_mass_g": 0.00014752597450696126,
+        "material": "albumin (dried protein)",
+        "seconds": 1800.0,
+        "substrate": "albumin protein",
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 13,
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.039035620985,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 14,
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.810194382004091,
+        "vessel": 1
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 18,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 2.038601118106
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.01002707309921
+            }
+          ],
+          "boiling_point_k": 373.16042337416303,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 1800.0,
+          "enzyme_hydrolysis": [
+            {
+              "converted_fraction": 0.846993863310286,
+              "family": "pepsin",
+              "material": "albumin (dried protein)",
+              "substrate": "albumin protein"
+            }
+          ],
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.10003009027081243
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.10003009027081243
+          },
+          "mass_g": 99.816461,
+          "melting_point_k": 273.112229065126,
+          "notes": [
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "85"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "albumin protein",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "albumin (dried protein)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 303.8321021964822,
+          "words": "The liquid is colourless and clear. The bounded enzyme model reports 85% conversion of albumin protein in albumin (dried protein)."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.9059235380745605
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.2418709322540343e-07
+            }
+          ],
+          "boiling_point_k": 373.15000758332866,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 1800.0,
+          "enzyme_hydrolysis": [
+            {
+              "converted_fraction": 0.00031388505214247076,
+              "family": "pepsin",
+              "material": "albumin (dried protein)",
+              "substrate": "albumin protein"
+            }
+          ],
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.10003009027081243
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.10003009027081243
+          },
+          "mass_g": 99.78,
+          "melting_point_k": 273.14997251590614,
+          "notes": [
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "0"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "albumin protein",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "albumin (dried protein)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 303.8321012165181,
+          "words": "The liquid is colourless and clear. The bounded enzyme model reports 0% conversion of albumin protein in albumin (dried protein)."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 2.038601118106
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.01002707309921
+            }
+          ],
+          "boiling_point_k": 373.1604159205773,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 1800.0,
+          "id": 2,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.10003009027081243
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.10003009027081243
+          },
+          "mass_g": 99.766461,
+          "melting_point_k": 273.1122560700227,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 303.8321021964822,
+          "words": "The liquid is colourless and clear."
+        }
+      ]
+    }
+  }
+}

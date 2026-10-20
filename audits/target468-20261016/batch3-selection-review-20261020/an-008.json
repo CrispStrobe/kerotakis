@@ -1,0 +1,1037 @@
+{
+  "original_id": "batch3-diverse:an-008",
+  "original_script_sha256": "0bbd2cb245d7caef424b507c596cf6a9b4bd5149329cea4aad07ef917fde7127",
+  "executed_script_sha256": "0bbd2cb245d7caef424b507c596cf6a9b4bd5149329cea4aad07ef917fde7127",
+  "unchanged_original_script": true,
+  "raw_member_prefix": "batch3-diverse_an-008",
+  "raw_sha256": {
+    "experiment.lab": "0bbd2cb245d7caef424b507c596cf6a9b4bd5149329cea4aad07ef917fde7127",
+    "stdout.jsonl": "9d2ad08f7ba8c1b8a23673bb377cbbc5b910688481d5e7f66e9532e323df14d8",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "screen_only_not_scientific_pass": false,
+  "model_limits": {},
+  "solver_failures": [],
+  "title": "Conductivity can detect an electrolyte without identifying its anion",
+  "original_forecast": "Both halide solutions are electrolyte candidates while sucrose is a nonelectrolyte reference. A similar or colourless response is not proof that chloride and bromide are the same species.",
+  "original_limitations": [
+    "Ion-specific mobilities can create quantitative differences, but this is not a calibrated inverse-identification model or a unique compositional assay."
+  ],
+  "original_checks": [
+    {
+      "id": "question",
+      "criterion": "Can clear sodium chloride and sodium bromide solutions be uniquely identified by conductivity and visible absorption alone?",
+      "review_instruction": "Both halide solutions are electrolyte candidates while sucrose is a nonelectrolyte reference. A similar or colourless response is not proof that chloride and bromide are the same species.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v3: molecular nonelectrolyte",
+      "result": null
+    }
+  ],
+  "verdict": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review",
+  "interpretation": "Both halide controls conduct far above sucrose and all405 nm absorbances arezero; Cl andBr inventories stay distinct. Actual298.131/298.150 K temperatures retained, no inverse identification/calibration claim.",
+  "per_criterion": {
+    "question": {
+      "original_criterion": "Can clear sodium chloride and sodium bromide solutions be uniquely identified by conductivity and visible absorption alone?",
+      "original_review_instruction": "Both halide solutions are electrolyte candidates while sucrose is a nonelectrolyte reference. A similar or colourless response is not proof that chloride and bromide are the same species.",
+      "assessment": "Both halide controls conduct far above sucrose and all405 nm absorbances arezero; Cl andBr inventories stay distinct. Actual298.131/298.150 K temperatures retained, no inverse identification/calibration claim.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "All rows independently audited against explicit doses and pinned recipe components; retained unresolved masses separately conserved. See inventory_trace. No gas, transfer, sink or resolved reaction accepted.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Limited exactly to original model question and original limitations; editorial/aggregate descriptions are not empirical calibration or molecular products.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_review_instruction": "v3: molecular nonelectrolyte",
+      "assessment": "Both halide controls conduct far above sucrose and all405 nm absorbances arezero; Cl andBr inventories stay distinct. Actual298.131/298.150 K temperatures retained, no inverse identification/calibration claim.",
+      "result": "candidate_met_pending_independent_parent_review"
+    }
+  },
+  "raw_coordinates": [
+    {
+      "row": 8,
+      "raw_jsonl_line": 9,
+      "step": 8,
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 2360.3403959473176,
+        "vessel": 0
+      }
+    },
+    {
+      "row": 9,
+      "raw_jsonl_line": 10,
+      "step": 9,
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 2393.7679761219606,
+        "vessel": 1
+      }
+    },
+    {
+      "row": 10,
+      "raw_jsonl_line": 11,
+      "step": 10,
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 0.05508761762446267,
+        "vessel": 2
+      }
+    },
+    {
+      "row": 11,
+      "raw_jsonl_line": 12,
+      "step": 11,
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 0
+      }
+    },
+    {
+      "row": 12,
+      "raw_jsonl_line": 13,
+      "step": 12,
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 1
+      }
+    },
+    {
+      "row": 13,
+      "raw_jsonl_line": 14,
+      "step": 13,
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 405 nm",
+        "value": 0.0,
+        "vessel": 2
+      }
+    }
+  ],
+  "inventory_trace": {
+    "method": "independent per-row operator/component/unresolved ledger with recipe fractions and molecular masses independently rederived from pinned registry;  no resolved reactions, transfers, gas or hidden export admitted",
+    "max_resolved_residual_mol": 0.0,
+    "max_unresolved_residual_g": 0.0,
+    "all_operator_clocks_checked": true,
+    "trace": [
+      {
+        "row": 0,
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 1,
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 2,
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 3,
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "NaCl",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 4,
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 5,
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "NaBr",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 6,
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 7,
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "sucrose",
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "sucrose": 0.001
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 8,
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "sucrose": 0.001
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 9,
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "sucrose": 0.001
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 10,
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "sucrose": 0.001
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 11,
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "sucrose": 0.001
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 12,
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "sucrose": 0.001
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 13,
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "sucrose": 0.001
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 14,
+        "raw_jsonl_line": 17,
+        "step": 14,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.13139118784443,
+            "resolved_moles": {
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "Br-": 0.001,
+              "Na+": 0.001,
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "sucrose": 0.001
+            },
+            "unresolved_g": {}
+          }
+        ]
+      }
+    ]
+  },
+  "final_scene_evidence": {
+    "raw_jsonl_line": 14,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.994617963521
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.02006029438224
+            }
+          ],
+          "boiling_point_k": 373.1707147466383,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.05
+          },
+          "mass_g": 49.908443,
+          "melting_point_k": 273.07494877778714,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.13139118784443,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.994312222426
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.0200602944628
+            }
+          ],
+          "boiling_point_k": 373.1707147467409,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.05
+          },
+          "mass_g": 49.952894,
+          "melting_point_k": 273.0749487774157,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.16029076122135,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 2,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.05
+          },
+          "mass_g": 50.192296500000005,
+          "melting_point_k": 273.11270953265745,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        }
+      ]
+    }
+  }
+}

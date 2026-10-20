@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-20T07:51:28.503252+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 268,
+  "source_qualified_selected_in_target": 264,
+  "additional_selections_needed_for_401": 137,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261020-reviewed-batch23.json",
+  "catalog_sha256": "9a05705582636ab55d3cd056430df891f37768ecf6f2cbeb24c630775c802423",
+  "selection_receipt": "audits/target468-20261016/selection-expansion-20261020/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard-20261019-back-titration.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "All original criteria reviewed inside each declared supported model domain; unsupported-boundary demonstrations excluded; source bindings historical/per entry, not uniform current-release or empirical calibration."
+}

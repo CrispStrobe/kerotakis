@@ -1,0 +1,58 @@
+# Scientific coverage:279 of468 and the route beyond —2026-10-20
+
+This is the goal-focused handoff. Current qualified originals are **279/468**, up35 from244. The complete [283-entry catalog](../audits/working-experiments-20261020-reviewed-expansion.json) contains four additional out-of-target protocols; those four do not advance the target. **122 further earned selections are needed for401.** Every selected entry has historical source-qualified evidence, not a claim that all279 were rerun on one current release or empirically calibrated.
+
+## Start here: reproduce the earned count
+
+Read [first20 selections](../audits/target468-20261016/selection-expansion-20261020/README.md), [next15](../audits/target468-20261016/selection-expansion-second-20261020/README.md) and [current membership](../audits/target468-20261016/selection-expansion-second-20261020/catalog-membership.json). Reproduce both metadata verifiers and inspect the four independent saved readers before adding entries:
+
+```console
+python3 audits/target468-20261016/selection-expansion-20261020/verify_catalog.py
+python3 audits/target468-20261016/selection-expansion-second-20261020/verify_catalog.py
+python3 audits/target468-20261016/batch2-selection-review-20261020/review_saved.py
+python3 audits/target468-20261016/batch2-selection-review-second-20261020/review_saved.py
+python3 audits/target468-20261016/batch3-selection-review-20261020/review_saved.py
+python3 audits/target468-20261016/batch3-selection-review-second-20261020/review_saved.py
+```
+
+These readers consume saved evidence and pinned Git objects; none invokes an engine. Check resources before archive hashing/decoding. The primary reviewer reproduced all four, read every selected original criterion/limitation and sent the first batch3 review back for missing control criteria, historical archive authentication, persistent state/scene observations, independent energy arithmetic and fail-closed event admission. First reader failures remain published. All248 original catalog entries, then all268 checkpoint entries, are preserved exactly in their successors.
+
+New selections comprise16 batch2 originals,18 batch3 originals and KN012 from first120. Independent arithmetic covers Faraday charge/gas increments, Nernst potential differences, NASA heat-capacity integrals, Stokes settling, salt washing, every-step material/charge ownership, actual clocks, enzyme-owned conversion, hydration water, opaque spectral mixing and sealed-gasCv including trapped air. Editorial/aggregate/material models qualify only their explicitly declared observable. Unsupported BD001/002/004 demonstrations are verified separately and excluded from scientific selections.
+
+## Work allocation and next acceptance unit
+
+[Remaining189 exact records](../audits/target468-20261016/selection-expansion-second-20261020/remaining189.json) is the current queue:77 batch2,82 batch3,30 first120. It references the immutable [initial224 intake](../audits/target468-20261016/selection-expansion-intake-20261020/README.md), original script/forecast/criteria, historical execution hashes and separate corrected SO001–004 bindings. Historical screen states are not scientific verdicts.
+
+Use two bounded reviewers only while resource gates allow. ReviewerA owns remaining batch2; reviewerB owns remaining batch3. The primary owns first120, source repairs and independent acceptance of every proposal. No reviewer edits the catalog, original experiment, older reader or another lane. Freeze each additional8–12-case review in a new directory; preserve baseline/first failures and submit exact criterion-level evidence. No engine/build/browser jobs merely to review saved outputs. Helpers may be reused only with exact source/hash binding; atomless enzyme carriers and unresolved mass require explicit separate ownership, never invented formulas.
+
+Start with promising, not-yet-qualified saved records: batch3 MI005 carbonate/sulfate gas contrast, LI005/006 chemical-light inventory histories, CO008 soap/calcium exchange, and remaining enzyme/light/transport records; first120 SP004 retains an unresolved energy criterion. None is a pass yet. Remaining historical clean-screen cases include known failures and diagnostic-only cases; do not describe them all as easy wins. Broader source repairs are necessary to reach401; this session's increase does not establish that all remaining cases can qualify unchanged.
+
+## Highest-priority demonstrated historical gap: transfer heat
+
+**Evidence:** original batch2 TC002 and TC009 independently consume the expected acid/base budgets but show essentially zero sensible heat above the actual premixing baseline. The earlier calorimeter reading carries NaOH dissolution heat. [First review](../audits/target468-20261016/batch2-selection-review-20261020/README.md) and [corroborating second review](../audits/target468-20261016/batch2-selection-review-second-20261020/README.md) preserve this distinction. These are failures on historical `c4469205`, not proof that current main still has the same bug.
+
+**Next task:** refresh actual main and first inspect `Operator::Decant`, `AqueousTransferSnapshot`, `adiabatic_mix_into` in `crates/kerotakis-core/src/bench.rs`, and native neutralisation detection/enthalpy ownership in `crates/kerotakis-phreeqc/src/aqueous.rs`. Later source changes already affect these seams. After actual changed-source delivery acceptance, freeze one separately bound original TC002/TC009 follow-up; do not rerun unchanged historical source. If still failing, reproduce with direct addition versus prepared-solution transfer using identical complete acid/base budgets and matched actual initial temperatures. Record/reset initial energy ledgers explicitly, integrate actual species heat capacities, close reaction-water ownership and independently subtract mixing/dissolution contributions.
+
+**Done:** source-generic heat ownership survives direct addition, decant/pour/mix and titrant consumers without double-counting prior dissolution heat. Weak/buffered reserve, unsupported mixtures, unequal thermal masses and phase transitions retain honest limits. No hardcoded57.3J or temperature increment to fit these cases. Require focused failures/positives, applicable full product/native/platform checks, exact-head normal integration and changed artifact/API/browser acceptance before original selection.
+
+## Distinguish source gaps from failed original designs
+
+- **KI003:** equal nominal catalyst area does not give equal available area after different settling histories. Actual10/100µm solids suspend differently. Do not remove gravity or force equal rates; this is a demonstrated confound, not a proven source defect.
+- **AB035/GS013:** bicarbonate loses about77.28µmolCO2 before sealing. Trapped-air carbon is separately positive. Original equal1mmol closed-carbon forecasts fail; do not rewrite those budgets after seeing the result. A separately corrected protocol can be useful but is not an unchanged-original selection.
+- **QA004:** original endpoint doses reconstruct negative bicarbonate. Preserve actual openCO2 export, cumulative-dose semantics and first outcome; trace current source and endpoint assumptions before deciding whether the setup, model or both need repair. Do not select a cosmetically positive calculation.
+- **TH002/003 and AN007:** missing requested melting readouts prevent full original phase/fingerprint questions from qualifying. Trace actual pure-stock/phase/instrument admission and property domain before adding a descriptor or relaxing a question.
+- **LI001/003:** missing chlorophyll response or unparameterized mixed-solvent curcumin acid/base spectra are coverage gaps. Zero/invariant signal is not proof of absent physical absorption or chemistry.
+- **SU005:** refused diamond/PE conductivity is absent measurement, not zero. It needs justified descriptor/method coverage.
+- **TH001:** open cryogen additions vent; cooling-relatedpH is not retainedCO2 acidification. Model identity, gas uptake, exports and energy ownership together.
+
+For shared neutral partition/ester, sweptNH3/free-versus-bound ligand, carbonate reserve and unresolved-material domains, use the detailed [seven-lane contracts](wrap-up-and-open-lanes-20261019.md) and [post-hydrolysis source scope](post-hydrolysis-gap-lanes-20261019.md). Rank a repair by independently established affected original criteria and supported physics; aliases, warning suppression and catalog grading changes are not scientific repairs.
+
+## Delivery debt: finish existing work once
+
+Documentation PR844 is merged as `e78890f7`. PR843 remains exact source `78a91bd4`: [full CPU acceptance](../audits/target468-20261016/combined-locale-full-outcome-20261020/README.md) and CI39279318029 pass. Both actual platform logs and exact source/protection review remain before normal integration; actual changed-source delivery is separate. The original CPU observer timed out; the same completed version1 was collected/reviewed without producer reissue.
+
+Partition workflow39275725643 succeeded, but old artifact/API/browser observers stopped before acceptance. Inspect their preserved stops and issued markers and resume authentication of that actual completed delivery; do not deploy again merely to repair an observer. Fully accepted production remains `0b579699` until actual new artifact/API/browser acceptance. Private operating handoff records process/evidence locations. Do not count these software checks as experiment selections or let optional new source work cancel valid runs.
+
+## Pasteable fresh-agent contract
+
+> Increase scientifically qualified fixed468 originals beyond279 toward401, using the current283-entry catalog and exact remaining189 queue above. Preserve all prior entries, scripts, forecasts, failures and source bindings. Read this handoff, STATUS and PR-WORKFLOW first; refresh actual main and private resource/observer prerequisites. Finish already-issued acceptance once, without duplicate deployments or unchanged-corpus replay. Use up to two resource-gated, disjoint saved-evidence reviewers; independently review all proposed original criteria before publishing new catalog membership. Start with saved remaining evidence and corroborated transfer-heat beneficiary controls, then prioritize generic source repairs by demonstrated original-case benefit. Unsupported chemistry and verified missing-physics demonstrations are not scientific passes. A contradictory original design remains failed even if a corrected variant would work. Bound every model claim, close actual per-vessel/per-step inventories/energy/clocks, and retain exact raw/source/binary/producer-lock bindings. Use narrow signed-off branches from actual main, full applicable acceptance and exact-head normal auto-merge; never merge the broad audit branch or bypass protection. Update current count, scoped blockers and next tasks after each independently accepted batch.

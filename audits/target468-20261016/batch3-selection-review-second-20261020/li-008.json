@@ -1,0 +1,1341 @@
+{
+  "original_id": "batch3-diverse:li-008",
+  "title": "Opaque pigment mixing is not averaging two RGB colours",
+  "original_forecast": "The mixture should use the installed pigment absorption/scattering model rather than a naïve arithmetic colour average. All pigment material remains present after mixing.",
+  "original_limitations": [
+    "The paint model assumes an optically thick layer. Substrate, film thickness, drying, binder curing, gloss and a uniquely defined microscopic pigment composition are not claimed."
+  ],
+  "original_script_sha256": "0bbc184bf27a1c60809afc8d76b1cc42e138030a530be7fe55a78effaae40b84",
+  "raw_member_prefix": "batch3-diverse_li-008",
+  "raw_sha256": {
+    "experiment.lab": "0bbc184bf27a1c60809afc8d76b1cc42e138030a530be7fe55a78effaae40b84",
+    "stdout.jsonl": "1e7667447d280de1bc639796809d259f5a65ac0f65f8176ae7cb61556b372234",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "How does a mixed opaque-paint state differ from two separate paint references?",
+      "original_instruction": "The mixture should use the installed pigment absorption/scattering model rather than a naïve arithmetic colour average. All pigment material remains present after mixing.",
+      "assessment": "All3 actual paint colours match independently reconstructed pinned16-band absorption/scattering plus CIE/sRGB computation; mixed colour differs from arithmeticRGB. Equal original pigment masses remain. Optically thick teaching film only; no curing, substrate, thickness or proprietary formulation prediction. Balance omits unresolved binder/pigment and is not treated as total physical mass.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "All3 actual paint colours match independently reconstructed pinned16-band absorption/scattering plus CIE/sRGB computation; mixed colour differs from arithmeticRGB. Equal original pigment masses remain. Optically thick teaching film only; no curing, substrate, thickness or proprietary formulation prediction. Balance omits unresolved binder/pigment and is not treated as total physical mass.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_instruction": "v1 and v2: unmixed pigment references",
+      "assessment": "All3 actual paint colours match independently reconstructed pinned16-band absorption/scattering plus CIE/sRGB computation; mixed colour differs from arithmeticRGB. Equal original pigment masses remain. Optically thick teaching film only; no curing, substrate, thickness or proprietary formulation prediction. Balance omits unresolved binder/pigment and is not treated as total physical mass.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "acrylic_red",
+          "op": "add_material",
+          "recipe_id": "school/acrylic-red-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 2.0,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "acrylic_blue",
+          "op": "add_material",
+          "recipe_id": "school/acrylic-blue-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 2.0,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "acrylic_red",
+          "op": "add_material",
+          "recipe_id": "school/acrylic-red-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.04995836802664446,
+              "O": 0.02497918401332223,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.04995836802664446,
+              "O": 0.02497918401332223,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 0.55
+            },
+            "contents": [
+              {
+                "moles": 0.02497918401332223,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "acrylic_blue",
+          "op": "add_material",
+          "recipe_id": "school/acrylic-blue-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 0.55,
+              "school/acrylic-blue-surrogate": 0.55
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 0.55,
+              "school/acrylic-blue-surrogate": 0.55
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 0.55,
+              "school/acrylic-blue-surrogate": 0.55
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 0.55,
+              "school/acrylic-blue-surrogate": 0.55
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "op": "stir",
+          "rpm": 200.0,
+          "seconds": 10.0,
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 0.55,
+              "school/acrylic-blue-surrogate": 0.55
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 0.55,
+              "school/acrylic-blue-surrogate": 0.55
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 0.55,
+              "school/acrylic-blue-surrogate": 0.55
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 1.1
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.09991673605328892,
+              "O": 0.04995836802664446,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-red-surrogate": 0.55,
+              "school/acrylic-blue-surrogate": 0.55
+            },
+            "contents": [
+              {
+                "moles": 0.04995836802664446,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 0,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "All3 actual paint colours match independently reconstructed pinned16-band absorption/scattering plus CIE/sRGB computation; mixed colour differs from arithmeticRGB. Equal original pigment masses remain. Optically thick teaching film only; no curing, substrate, thickness or proprietary formulation prediction. Balance omits unresolved binder/pigment and is not treated as total physical mass.",
+  "independent_calculations": {
+    "independent_pinned_Kubelka_Munk_and_CIE_srgb": [
+      [
+        165,
+        90,
+        93
+      ],
+      [
+        15,
+        140,
+        232
+      ],
+      [
+        113,
+        107,
+        121
+      ]
+    ],
+    "arithmetic_rgb_average": [
+      90.0,
+      115.0,
+      162.5
+    ]
+  },
+  "event_evidence": [],
+  "final_scene": {
+    "raw_jsonl_line": 12,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "pink",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and so cloudy you cannot see through it",
+                        "key": "look.clarity-opaque"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "pink",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                165,
+                90,
+                93
+              ],
+              "volume_l": 0.0009027081243731194
+            }
+          ],
+          "liquid": {
+            "cloudiness": 1.0,
+            "colour_word": "pink",
+            "path_length_cm": 4.0,
+            "srgb": [
+              165,
+              90,
+              93
+            ],
+            "volume_l": 0.0009027081243731194
+          },
+          "mass_g": 0.9,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is pink and so cloudy you cannot see through it."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "blue",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and so cloudy you cannot see through it",
+                        "key": "look.clarity-opaque"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "blue",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                15,
+                140,
+                232
+              ],
+              "volume_l": 0.0009027081243731194
+            }
+          ],
+          "liquid": {
+            "cloudiness": 1.0,
+            "colour_word": "blue",
+            "path_length_cm": 4.0,
+            "srgb": [
+              15,
+              140,
+              232
+            ],
+            "volume_l": 0.0009027081243731194
+          },
+          "mass_g": 0.9,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is blue and so cloudy you cannot see through it."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "pink",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and so cloudy you cannot see through it",
+                        "key": "look.clarity-opaque"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 10.0,
+          "id": 2,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "pink",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                113,
+                107,
+                121
+              ],
+              "volume_l": 0.0009027081243731194
+            }
+          ],
+          "liquid": {
+            "cloudiness": 1.0,
+            "colour_word": "pink",
+            "path_length_cm": 4.0,
+            "srgb": [
+              113,
+              107,
+              121
+            ],
+            "volume_l": 0.0009027081243731194
+          },
+          "mass_g": 0.9,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is pink and so cloudy you cannot see through it."
+        }
+      ]
+    }
+  }
+}

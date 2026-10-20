@@ -1,0 +1,761 @@
+{
+  "original_id": "batch3-diverse:li-002",
+  "title": "A plant indicator can trace an acid-base round trip",
+  "original_forecast": "Correlate any pigment response with measured pH at all three points. A return in colour is evidence for an acid-base-associated state only where the pigment model actually exposes that response.",
+  "original_limitations": [
+    "Anthocyanin is a red-cabbage pigment surrogate, not one exact molecular species. Real mixtures have multiple equilibria and time-dependent degradation; no single universal pKa is supplied."
+  ],
+  "original_script_sha256": "9a3a9d99099c8f2cc803249593eedba892f3b68cc4ff1a0664a5974168fa96d3",
+  "raw_member_prefix": "batch3-diverse_li-002",
+  "raw_sha256": {
+    "experiment.lab": "9a3a9d99099c8f2cc803249593eedba892f3b68cc4ff1a0664a5974168fa96d3",
+    "stdout.jsonl": "dfbc875fca6c0f79ae43454cbd6722f32b86b1d12264e820849b1ea2bab827f7",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Does a natural-indicator colour change track measured acidity through acidification and re-neutralisation?",
+      "original_instruction": "Correlate any pigment response with measured pH at all three points. A return in colour is evidence for an acid-base-associated state only where the pigment model actually exposes that response.",
+      "assessment": "Anthocyanin surrogate band changes565→525→565 nm with measured neutral→acid→neutral pH. Equal retained pigment inventory is independently conserved; slight final dilution/heating remains in raw state. This is the installed surrogate response, not a universal molecular pKa or degradation model.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Anthocyanin surrogate band changes565→525→565 nm with measured neutral→acid→neutral pH. Equal retained pigment inventory is independently conserved; slight final dilution/heating remains in raw state. This is the installed surrogate response, not a universal molecular pKa or degradation model.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 2.230251126276819e-06,
+          "op": "add",
+          "species": "anthocyanin",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534321596418584,
+              "O": 2.7671630284604185,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534321596418584,
+              "O": 2.7671630284604185,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "instrument": "ph_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534321596418584,
+              "O": 2.7671630284604185,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534321596418584,
+              "O": 2.7671630284604185,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534321596418584,
+              "O": 2.7671630284604185,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534321596418584,
+              "O": 2.7671630284604185,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "HCl",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 1.3552527156068805e-20,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15000134464674,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 4.683527365181319e-05,
+              "H": 5.534421596418584,
+              "O": 2.7671630284604185,
+              "charge": 1.3552527156068805e-20,
+              "Cl": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534421596418584,
+              "O": 2.7671630284604185,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05,
+              "Cl": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00010000000000000002,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "instrument": "ph_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 1.3552527156068805e-20,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15000134464674,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 4.683527365181319e-05,
+              "H": 5.534421596418584,
+              "O": 2.7671630284604185,
+              "charge": 1.3552527156068805e-20,
+              "Cl": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534421596418584,
+              "O": 2.7671630284604185,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05,
+              "Cl": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00010000000000000002,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 1.3552527156068805e-20,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15000134464674,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 4.683527365181319e-05,
+              "H": 5.534421596418584,
+              "O": 2.7671630284604185,
+              "charge": 1.3552527156068805e-20,
+              "Cl": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534421596418584,
+              "O": 2.7671630284604185,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05,
+              "Cl": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00010000000000000002,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "NaOH",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.1981531938071,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 4.683527365181319e-05,
+              "H": 5.5345215964185845,
+              "O": 2.7672630284604187,
+              "charge": 0.0,
+              "Cl": 0.0001,
+              "Na": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534521596418584,
+              "O": 2.7672630284604187,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05,
+              "Cl": 0.0001,
+              "Na": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7672384956980296,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "instrument": "ph_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.1981531938071,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 4.683527365181319e-05,
+              "H": 5.5345215964185845,
+              "O": 2.7672630284604187,
+              "charge": 0.0,
+              "Cl": 0.0001,
+              "Na": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534521596418584,
+              "O": 2.7672630284604187,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05,
+              "Cl": 0.0001,
+              "Na": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7672384956980296,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.1981531938071,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 4.683527365181319e-05,
+              "H": 5.5345215964185845,
+              "O": 2.7672630284604187,
+              "charge": 0.0,
+              "Cl": 0.0001,
+              "Na": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534521596418584,
+              "O": 2.7672630284604187,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05,
+              "Cl": 0.0001,
+              "Na": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7672384956980296,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.1981531938071,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 4.683527365181319e-05,
+              "H": 5.5345215964185845,
+              "O": 2.7672630284604187,
+              "charge": 0.0,
+              "Cl": 0.0001,
+              "Na": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534521596418584,
+              "O": 2.7672630284604187,
+              "charge": 0.0,
+              "C": 4.683527365181319e-05,
+              "Cl": 0.0001,
+              "Na": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.230251126276819e-06,
+                "phase": "aqueous",
+                "species": "anthocyanin"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7672384956980296,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 8.881784197001252e-16,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "Anthocyanin surrogate band changes565→525→565 nm with measured neutral→acid→neutral pH. Equal retained pigment inventory is independently conserved; slight final dilution/heating remains in raw state. This is the installed surrogate response, not a universal molecular pKa or degradation model.",
+  "independent_calculations": {},
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 3,
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.997375771104036,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 6,
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.717837376526,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 9,
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.998213394003,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 4,
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 565 nm",
+        "value": 0.7119041335608703,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 7,
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 525 nm",
+        "value": 1.1334484367618236,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 10,
+      "event": {
+        "event": "measured",
+        "instrument": "spectrophotometer",
+        "unit": "absorbance at 565 nm",
+        "value": 0.7117992851468521,
+        "vessel": 0
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 10,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.998213394003
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.002006050749108
+            }
+          ],
+          "boiling_point_k": 373.15221861067585,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "purple",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "purple",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                29,
+                0,
+                151
+              ],
+              "volume_l": 0.05000180692076229
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "purple",
+            "path_length_cm": 4.0,
+            "srgb": [
+              29,
+              0,
+              151
+            ],
+            "volume_l": 0.05000180692076229
+          },
+          "mass_g": 49.858645800000005,
+          "melting_point_k": 273.1419594209181,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.1981531938071,
+          "words": "The liquid is purple and clear."
+        }
+      ]
+    }
+  }
+}

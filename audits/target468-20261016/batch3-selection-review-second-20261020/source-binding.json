@@ -1,0 +1,59 @@
+{
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "raw_archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "raw_Cargo_lock_not_available": true,
+  "saved_reader_sha256": "c0ee7675bf6aad038d34800c0c54b70f9c4978d83af6ec9b8e063c81160add50",
+  "first_batch_reader_sha256": "67db029dbf94ab015e380330b6fc068f15602952a2c68421b968243fca747798",
+  "source_blobs": [
+    {
+      "path": "data/registry/registry-source-v1.json",
+      "sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+    },
+    {
+      "path": "crates/kerotakis-core/src/bench.rs",
+      "sha256": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80"
+    },
+    {
+      "path": "crates/kerotakis-core/src/vessel.rs",
+      "sha256": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd"
+    },
+    {
+      "path": "crates/kerotakis-core/src/enzyme_activity.rs",
+      "sha256": "6a37b9880b7877a0676352e4271b71d995a6e10a852ffa9921d287985df151af"
+    },
+    {
+      "path": "crates/kerotakis-core/src/enzyme.rs",
+      "sha256": "95661ba277e06e2e0e980cd843d38a580b56291a00cf98c7e5464fdfa5b2f2d5"
+    },
+    {
+      "path": "crates/kerotakis-core/src/constants.rs",
+      "sha256": "397846a438ad49a748c07735657826b1df586b64b8d1029da499022a9df83be4"
+    },
+    {
+      "path": "crates/kerotakis-core/src/heat_capacity.rs",
+      "sha256": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47"
+    },
+    {
+      "path": "crates/kerotakis-core/src/pigment.rs",
+      "sha256": "9eb8499f22d91c434b0cedf4ecb46033ee83991ecacd25783d402c29b266b2a1"
+    },
+    {
+      "path": "crates/kerotakis-core/src/spectrum.rs",
+      "sha256": "4e178c621f0561f95fb8da0cbf90d9b53a7c51c4105194faa7cee432d124d0f7"
+    },
+    {
+      "path": "crates/kerotakis-core/src/appearance.rs",
+      "sha256": "df80a7e2ed557f7c9a6ee3ae84a73c66def8624912605bc5358e30ec1ba9ae91"
+    },
+    {
+      "path": "crates/kerotakis-core/src/states.rs",
+      "sha256": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3"
+    }
+  ],
+  "no_engine_execution": true
+}

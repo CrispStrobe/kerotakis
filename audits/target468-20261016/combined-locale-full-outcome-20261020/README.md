@@ -1,0 +1,7 @@
+# Combined localization: full CPU acceptance
+
+Source `78a91bd4914d7db735d71a46696783bc360e1007`, tree `22d7902fab95766e377eb012bd7274783a970158`, actual binary `5b6d5320`, actual producer lock `66886813`. [Independent saved acceptance](acceptance.json) verifies2164 core/184 thermo/620 native/two external hooks, all11 new locale controls, all500 requirements without drift and33 original logical jobs/142 steps/29 law reports. Exact original commands, archive/binary/worker and actual lock bindings remain checked by the separately published frozen reviewer.
+
+The original observer reached its deadline before collection; [first timeout](first-observer-timeout.json) remains. A new read-only provider check found the same version1 COMPLETE; [status](resumed-provider-status.json) preserves it. Collection and saved review resumed once without a new producer, source change, baseline reexecution or original experiment/API request. Existing law-report artifact filenames retain their earlier template prefix; actual new-source binary/producer bindings, original commands and payload hashes determine acceptance, not that cosmetic prefix.
+
+Protected CI39279318029 also succeeds; both actual native-platform logs, exact-head source/protection review and normal integration remain to finish before claiming an integrated repair. Actual changed-source artifact/API/browser delivery remains separate. No scientific selection is earned from software checks.

@@ -1,0 +1,846 @@
+{
+  "original_id": "batch3-diverse:mi-006",
+  "title": "Magnetic recovery does not measure all the iron in a mixture",
+  "original_forecast": "Reconcile what the magnetic operation actually moves with the metallic and oxide identities. The recovered fraction must not be reported as total elemental iron without accounting for iron remaining in hematite.",
+  "original_limitations": [
+    "Real hematite magnetism and grain-size effects are more subtle than a binary model. Use the operation's actual species selectivity; no magnetic-susceptibility calibration is assumed."
+  ],
+  "original_script_sha256": "e4a0ce70fdab40861ee0f2cea7c411dbb4a603940026f95a0e3c8c0b30d5bee5",
+  "raw_member_prefix": "batch3-diverse_mi-006",
+  "raw_sha256": {
+    "experiment.lab": "e4a0ce70fdab40861ee0f2cea7c411dbb4a603940026f95a0e3c8c0b30d5bee5",
+    "stdout.jsonl": "5a42ded73373a428962de8a6eddf84949f06981f288cd2977accf9a6942d8f37",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Does a magnet recover iron atoms equally when they are in metallic iron and hematite?",
+      "original_instruction": "Reconcile what the magnetic operation actually moves with the metallic and oxide identities. The recovered fraction must not be reported as total elemental iron without accounting for iron remaining in hematite.",
+      "assessment": "Only metallic Fe transfers; hematite retains twice its formula-unit amount ofFe atoms and silica stays behind. Per-vessel elemental ledger closes at every row, so recovered metallic mass is not misreported as total elemental iron. Binary selectivity only, no susceptibility calibration.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Only metallic Fe transfers; hematite retains twice its formula-unit amount ofFe atoms and silica stays behind. Per-vessel elemental ledger closes at every row, so recovered metallic mass is not misreported as total elemental iron. Binary selectivity only, no susceptibility calibration.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 0.0035813412122840007,
+          "op": "add",
+          "species": "Fe",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0035813412122840007,
+                "phase": "solid",
+                "species": "Fe"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 0.0012524501055189213,
+          "op": "add",
+          "species": "Fe2O3",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.006086241423321844,
+              "charge": 0.0,
+              "O": 0.003757350316556764
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.006086241423321844,
+              "charge": 0.0,
+              "O": 0.003757350316556764
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0035813412122840007,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.0012524501055189213,
+                "phase": "solid",
+                "species": "Fe2O3"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 0.003328673190866121,
+          "op": "add",
+          "species": "SiO2",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.006086241423321844,
+              "charge": 0.0,
+              "O": 0.010414696698289006,
+              "Si": 0.003328673190866121
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.006086241423321844,
+              "charge": 0.0,
+              "O": 0.010414696698289006,
+              "Si": 0.003328673190866121
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0035813412122840007,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.0012524501055189213,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.003328673190866121,
+                "phase": "solid",
+                "species": "SiO2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "from": 0,
+          "op": "magnet",
+          "to": 1
+        },
+        "max_element_or_charge_residual": 4.336808689942018e-19,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.0025049002110378426,
+              "O": 0.010414696698289006,
+              "charge": 0.0,
+              "Si": 0.003328673190866121
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.002504900211037843,
+              "charge": 0.0,
+              "O": 0.010414696698289006,
+              "Si": 0.003328673190866121
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0012524501055189213,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.003328673190866121,
+                "phase": "solid",
+                "species": "SiO2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0035813412122840007,
+                "phase": "solid",
+                "species": "Fe"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 4.336808689942018e-19,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.0025049002110378426,
+              "O": 0.010414696698289006,
+              "charge": 0.0,
+              "Si": 0.003328673190866121
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.002504900211037843,
+              "charge": 0.0,
+              "O": 0.010414696698289006,
+              "Si": 0.003328673190866121
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0012524501055189213,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.003328673190866121,
+                "phase": "solid",
+                "species": "SiO2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0035813412122840007,
+                "phase": "solid",
+                "species": "Fe"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 4.336808689942018e-19,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.0025049002110378426,
+              "O": 0.010414696698289006,
+              "charge": 0.0,
+              "Si": 0.003328673190866121
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.002504900211037843,
+              "charge": 0.0,
+              "O": 0.010414696698289006,
+              "Si": 0.003328673190866121
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0012524501055189213,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.003328673190866121,
+                "phase": "solid",
+                "species": "SiO2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0035813412122840007,
+                "phase": "solid",
+                "species": "Fe"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 7,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 4.336808689942018e-19,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.0025049002110378426,
+              "O": 0.010414696698289006,
+              "charge": 0.0,
+              "Si": 0.003328673190866121
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.002504900211037843,
+              "charge": 0.0,
+              "O": 0.010414696698289006,
+              "Si": 0.003328673190866121
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0012524501055189213,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.003328673190866121,
+                "phase": "solid",
+                "species": "SiO2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Fe": 0.0035813412122840007,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0035813412122840007,
+                "phase": "solid",
+                "species": "Fe"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 4.336808689942018e-19,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "Only metallic Fe transfers; hematite retains twice its formula-unit amount ofFe atoms and silica stays behind. Per-vessel elemental ledger closes at every row, so recovered metallic mass is not misreported as total elemental iron. Binary selectivity only, no susceptibility calibration.",
+  "independent_calculations": {
+    "recovered_Fe_mol": 0.0035813412122840007,
+    "remaining_oxide_Fe_mol": 0.0025049002110378426,
+    "fraction_of_initial_Fe_atoms_recovered": 0.5884323284581965
+  },
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 5,
+      "event": {
+        "attracted": [
+          "Fe"
+        ],
+        "event": "magnet_separated",
+        "from": 0,
+        "remained": [
+          "Fe2O3",
+          "SiO2"
+        ],
+        "to": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 6,
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 0.4,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 7,
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 0.2,
+        "vessel": 1
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 7,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "silicon dioxide (quartz)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "reddish brown",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "iron(III) oxide (hematite)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "corrosion": [
+            {
+              "corroding": false,
+              "metal": "Fe",
+              "metal_in_oxide_fraction": 1.0,
+              "metal_in_oxide_moles": 0.0025049002110378426,
+              "phrase": {
+                "en": "{percent}% of the tracked {metal} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+                "key": "scene.corrosion",
+                "slots": [
+                  [
+                    "percent",
+                    {
+                      "number": {
+                        "text": "100"
+                      }
+                    }
+                  ],
+                  [
+                    "metal",
+                    {
+                      "term": {
+                        "en": "iron",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "words": "100% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 0.4,
+          "notes": [
+            {
+              "en": "{percent}% of the tracked {metal} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+              "key": "scene.corrosion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "100"
+                    }
+                  }
+                ],
+                [
+                  "metal",
+                  {
+                    "term": {
+                      "en": "iron",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.003328673190866121,
+              "name": "silicon dioxide (quartz)",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "SiO2",
+              "srgb": [
+                220,
+                220,
+                220
+              ],
+              "volume_l": 7.547169811320755e-05
+            },
+            {
+              "colour_word": "reddish brown",
+              "metallic": false,
+              "moles": 0.0012524501055189213,
+              "name": "iron(III) oxide (hematite)",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "Fe2O3",
+              "srgb": [
+                145,
+                66,
+                54
+              ],
+              "volume_l": 3.816793893129771e-05
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "There is white silicon dioxide (quartz) and reddish brown iron(III) oxide (hematite) in the beaker. 100% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+        },
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "grey",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "iron",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "corrosion": [
+            {
+              "corroding": false,
+              "metal": "Fe",
+              "metal_in_oxide_fraction": 0.0,
+              "metal_in_oxide_moles": 0.0,
+              "phrase": {
+                "en": "{percent}% of the tracked {metal} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+                "key": "scene.corrosion",
+                "slots": [
+                  [
+                    "percent",
+                    {
+                      "number": {
+                        "text": "0"
+                      }
+                    }
+                  ],
+                  [
+                    "metal",
+                    {
+                      "term": {
+                        "en": "iron",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "words": "0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 0.2,
+          "notes": [
+            {
+              "en": "{percent}% of the tracked {metal} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+              "key": "scene.corrosion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "0"
+                    }
+                  }
+                ],
+                [
+                  "metal",
+                  {
+                    "term": {
+                      "en": "iron",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "grey",
+              "metallic": true,
+              "moles": 0.0035813412122840007,
+              "name": "iron",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "Fe",
+              "srgb": [
+                120,
+                120,
+                125
+              ],
+              "volume_l": 2.5400050800101604e-05
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "There is grey iron in the beaker. 0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+        }
+      ]
+    }
+  }
+}

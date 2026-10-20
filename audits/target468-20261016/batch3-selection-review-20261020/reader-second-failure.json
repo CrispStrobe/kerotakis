@@ -1,0 +1,6 @@
+{
+  "reader_sha256": "c1db9cab2db4535354b496412c6b962b9df3fc886c120caa92b336bcc8c897ba",
+  "failure": "Exhaustive dissolved-species whitelist omitted sucrose.",
+  "cause": "AN008 includes explicit sucrose dissolution; no chemical identity change.",
+  "correction": "Allow only additional sucrose identity-preserving dissolution; retain exact per-species owned ledger."
+}

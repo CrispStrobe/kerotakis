@@ -1,0 +1,509 @@
+{
+  "original_id": "batch3-diverse:po-006",
+  "original_script_sha256": "2265f73b9789925deb191a2dbfa00cf12cc5c1a5b3a471c7e4130d995fce714e",
+  "executed_script_sha256": "2265f73b9789925deb191a2dbfa00cf12cc5c1a5b3a471c7e4130d995fce714e",
+  "unchanged_original_script": true,
+  "raw_member_prefix": "batch3-diverse_po-006",
+  "raw_sha256": {
+    "experiment.lab": "2265f73b9789925deb191a2dbfa00cf12cc5c1a5b3a471c7e4130d995fce714e",
+    "stdout.jsonl": "c6ea459fb1b31edcad5bf5c17deab5f69a375f6b3d1c073d05274ebfd14771d8",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "screen_only_not_scientific_pass": false,
+  "model_limits": {},
+  "solver_failures": [],
+  "title": "A superabsorbent stores water without consuming it",
+  "original_forecast": "Retained water should be bounded by the installed polymer capacity; additional water beyond that capacity remains available rather than creating extra polymer or disappearing.",
+  "original_limitations": [
+    "The capacity is an editorial equilibrium descriptor, not a commercial specification. It predicts neither swelling time, gel volume nor salinity response."
+  ],
+  "original_checks": [
+    {
+      "id": "question",
+      "criterion": "How can a swelling state grow while the total water ledger remains conserved?",
+      "review_instruction": "Retained water should be bounded by the installed polymer capacity; additional water beyond that capacity remains available rather than creating extra polymer or disappearing.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "verdict": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review",
+  "interpretation": "0.2 g unresolved polymer retains10 g then capacity-limited20 g of40 g final water. Retention is a nonconsuming projection; balance excludes0.2 g unresolved polymer and is not treated as total physical mass.",
+  "per_criterion": {
+    "question": {
+      "original_criterion": "How can a swelling state grow while the total water ledger remains conserved?",
+      "original_review_instruction": "Retained water should be bounded by the installed polymer capacity; additional water beyond that capacity remains available rather than creating extra polymer or disappearing.",
+      "assessment": "0.2 g unresolved polymer retains10 g then capacity-limited20 g of40 g final water. Retention is a nonconsuming projection; balance excludes0.2 g unresolved polymer and is not treated as total physical mass.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "All rows independently audited against explicit doses and pinned recipe components; retained unresolved masses separately conserved. See inventory_trace. No gas, transfer, sink or resolved reaction accepted.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Limited exactly to original model question and original limitations; editorial/aggregate descriptions are not empirical calibration or molecular products.",
+      "result": "candidate_met_pending_independent_parent_review"
+    }
+  },
+  "raw_coordinates": [
+    {
+      "row": 1,
+      "raw_jsonl_line": 2,
+      "step": 1,
+      "event": {
+        "capacity_g_per_g": 100.0,
+        "dry_polymer_g": 0.2,
+        "event": "polymer_swelled",
+        "retained_water_g": 10.000000000000002,
+        "saturated": false,
+        "swelling_ratio_g_per_g": 50.00000000000001,
+        "vessel": 0
+      }
+    },
+    {
+      "row": 4,
+      "raw_jsonl_line": 5,
+      "step": 4,
+      "event": {
+        "capacity_g_per_g": 100.0,
+        "dry_polymer_g": 0.2,
+        "event": "polymer_swelled",
+        "retained_water_g": 20.0,
+        "saturated": true,
+        "swelling_ratio_g_per_g": 100.0,
+        "vessel": 0
+      }
+    }
+  ],
+  "inventory_trace": {
+    "method": "independent per-row operator/component/unresolved ledger with recipe fractions and molecular masses independently rederived from pinned registry;  no resolved reactions, transfers, gas or hidden export admitted",
+    "max_resolved_residual_mol": 0.0,
+    "max_unresolved_residual_g": 0.0,
+    "all_operator_clocks_checked": true,
+    "trace": [
+      {
+        "row": 0,
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "instant_snow_powder",
+          "op": "add_material",
+          "recipe_id": "school/sodium-polyacrylate-instant-snow",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.2,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      },
+      {
+        "row": 1,
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 0.5550929780738274,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 0.5550929780738274
+            },
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      },
+      {
+        "row": 2,
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 0.5550929780738274
+            },
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      },
+      {
+        "row": 3,
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 0.5550929780738274
+            },
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      },
+      {
+        "row": 4,
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 0.832639467110741,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 1.3877324451845685
+            },
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      },
+      {
+        "row": 5,
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 1.3877324451845685
+            },
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      },
+      {
+        "row": 6,
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 1.3877324451845685
+            },
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      },
+      {
+        "row": 7,
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "moles": 0.832639467110741,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2203719122953096
+            },
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      },
+      {
+        "row": 8,
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2203719122953096
+            },
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      },
+      {
+        "row": 9,
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2203719122953096
+            },
+            "unresolved_g": {
+              "school/sodium-polyacrylate-instant-snow|1|mass_fraction": 0.2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "final_scene_evidence": {
+    "raw_jsonl_line": 9,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "a piece of {what} is in the beaker",
+              "key": "look.piece-here",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{colour} {name}",
+                        "key": "look.coloured",
+                        "slots": [
+                          [
+                            "colour",
+                            {
+                              "term": {
+                                "en": "white",
+                                "section": "appearance"
+                              }
+                            }
+                          ],
+                          [
+                            "name",
+                            {
+                              "term": {
+                                "en": "superabsorbent instant-snow powder",
+                                "section": "material"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.040120361083249755
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.040120361083249755
+          },
+          "mass_g": 40.00000000000001,
+          "melting_point_k": 273.1499996258458,
+          "notes": [
+            {
+              "en": "The superabsorbent network retains {water} g of water ({ratio} times its dry mass).",
+              "key": "scene.swelling",
+              "slots": [
+                [
+                  "water",
+                  {
+                    "number": {
+                      "text": "20.0"
+                    }
+                  }
+                ],
+                [
+                  "ratio",
+                  {
+                    "number": {
+                      "text": "100.0"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "swelling": {
+            "capacity_g_per_g": 100.0,
+            "dry_polymer_g": 0.2,
+            "retained_water_g": 20.0,
+            "saturated": true,
+            "swelling_ratio_g_per_g": 100.0
+          },
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear, a piece of white superabsorbent instant-snow powder is in the beaker. The superabsorbent network retains 20.0 g of water (100.0 times its dry mass)."
+        }
+      ]
+    }
+  }
+}

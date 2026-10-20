@@ -1,0 +1,1097 @@
+{
+  "original_id": "batch3-diverse:mi-001",
+  "title": "Hydrated and anhydrous magnesium sulfate: compare formula units, not grams",
+  "original_forecast": "Both inputs carry the same number of MgSO4 formula units, but epsomite includes seven waters per unit. Final concentration and thermal behavior need not be identical with the same separately added solvent.",
+  "original_limitations": [
+    "Hydrate dissolution and water release must be taken from the actual ledger. Conductivity differences are not evidence of different magnesium stoichiometry."
+  ],
+  "original_script_sha256": "92720a0107a166db1233dd4385115b3e857f9be30acad0ac08a4e3599a6520e0",
+  "raw_member_prefix": "batch3-diverse_mi-001",
+  "raw_sha256": {
+    "experiment.lab": "92720a0107a166db1233dd4385115b3e857f9be30acad0ac08a4e3599a6520e0",
+    "stdout.jsonl": "23dea4cca68beae757ecc6293dab531e11e2bfdddbba97cba128122db700790b",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Why do equal salt formula-unit amounts have different weighed masses and water contributions?",
+      "original_instruction": "Both inputs carry the same number of MgSO4 formula units, but epsomite includes seven waters per unit. Final concentration and thermal behavior need not be identical with the same separately added solvent.",
+      "assessment": "Equal5 mmol MgSO4 formula-unit doses retain equalMg/S while epsomite contributes35 mmol additional water. Entire per-row elemental/charge inventories and balance difference agree independently. Conductivity is concentration/temperature dependent and carries its2:2 empirical-correction limitation, not differentMg stoichiometry.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Equal5 mmol MgSO4 formula-unit doses retain equalMg/S while epsomite contributes35 mmol additional water. Entire per-row elemental/charge inventories and balance difference agree independently. Conductivity is concentration/temperature dependent and carries its2:2 empirical-correction limitation, not differentMg stoichiometry.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_instruction": "v2: anhydrous salt at equal formula-unit amount",
+      "assessment": "Equal5 mmol MgSO4 formula-unit doses retain equalMg/S while epsomite contributes35 mmol additional water. Entire per-row elemental/charge inventories and balance difference agree independently. Conductivity is concentration/temperature dependent and carries its2:2 empirical-correction limitation, not differentMg stoichiometry.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2137107965584235,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2137107965584235,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 0.005,
+          "op": "add",
+          "species": "epsomite",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 9.769962616701378e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005000000000001208,
+              "charge": 0.0,
+              "O": 2.2687107965584237,
+              "S": 0.005000000000001208,
+              "H": 4.4974215931168375
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.497421593116847,
+              "O": 2.2687107965584237,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2487107965584188,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 9.769962616701378e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005000000000001208,
+              "charge": 0.0,
+              "O": 2.2687107965584237,
+              "S": 0.005000000000001208,
+              "H": 4.4974215931168375
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.497421593116847,
+              "O": 2.2687107965584237,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2487107965584188,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2137107965584235,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2137107965584235,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 0.005,
+          "op": "add",
+          "species": "MgSO4",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 9.769962616701378e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005000000000001208,
+              "charge": 0.0,
+              "O": 2.2687107965584237,
+              "S": 0.005000000000001208,
+              "H": 4.4974215931168375
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.497421593116847,
+              "O": 2.2687107965584237,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2487107965584188,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005,
+              "charge": 0.0,
+              "O": 2.2337107965584235,
+              "S": 0.005,
+              "H": 4.427421593116847
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2337107965584235,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 9.769962616701378e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005000000000001208,
+              "charge": 0.0,
+              "O": 2.2687107965584237,
+              "S": 0.005000000000001208,
+              "H": 4.4974215931168375
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.497421593116847,
+              "O": 2.2687107965584237,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2487107965584188,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005,
+              "charge": 0.0,
+              "O": 2.2337107965584235,
+              "S": 0.005,
+              "H": 4.427421593116847
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2337107965584235,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 9.769962616701378e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005000000000001208,
+              "charge": 0.0,
+              "O": 2.2687107965584237,
+              "S": 0.005000000000001208,
+              "H": 4.4974215931168375
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.497421593116847,
+              "O": 2.2687107965584237,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2487107965584188,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005,
+              "charge": 0.0,
+              "O": 2.2337107965584235,
+              "S": 0.005,
+              "H": 4.427421593116847
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2337107965584235,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 9.769962616701378e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005000000000001208,
+              "charge": 0.0,
+              "O": 2.2687107965584237,
+              "S": 0.005000000000001208,
+              "H": 4.4974215931168375
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.497421593116847,
+              "O": 2.2687107965584237,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2487107965584188,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005,
+              "charge": 0.0,
+              "O": 2.2337107965584235,
+              "S": 0.005,
+              "H": 4.427421593116847
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2337107965584235,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 9.769962616701378e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005000000000001208,
+              "charge": 0.0,
+              "O": 2.2687107965584237,
+              "S": 0.005000000000001208,
+              "H": 4.4974215931168375
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.497421593116847,
+              "O": 2.2687107965584237,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2487107965584188,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005,
+              "charge": 0.0,
+              "O": 2.2337107965584235,
+              "S": 0.005,
+              "H": 4.427421593116847
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2337107965584235,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 9,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 9.769962616701378e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005000000000001208,
+              "charge": 0.0,
+              "O": 2.2687107965584237,
+              "S": 0.005000000000001208,
+              "H": 4.4974215931168375
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.497421593116847,
+              "O": 2.2687107965584237,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005000000000001208,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2487107965584188,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Mg": 0.005,
+              "charge": 0.0,
+              "O": 2.2337107965584235,
+              "S": 0.005,
+              "H": 4.427421593116847
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2337107965584235,
+              "charge": 0.0,
+              "Mg": 0.005,
+              "S": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "Mg+2"
+              },
+              {
+                "moles": 0.005,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 9.769962616701378e-15,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "Equal5 mmol MgSO4 formula-unit doses retain equalMg/S while epsomite contributes35 mmol additional water. Entire per-row elemental/charge inventories and balance difference agree independently. Conductivity is concentration/temperature dependent and carries its2:2 empirical-correction limitation, not differentMg stoichiometry.",
+  "independent_calculations": {
+    "hydrate_released_water_mol": 0.03499999999999526,
+    "extra_water_mass_g": 0.6305250000000001
+  },
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 6,
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 41.11238000000006,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 7,
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 40.481855,
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 8,
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.81× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+        "note_reason": {
+          "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "key": "measured.conductivity-past-the-dilute-limit",
+          "slots": [
+            [
+              "limit",
+              {
+                "number": {
+                  "text": "0.10"
+                }
+              }
+            ],
+            [
+              "where_it_stands",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "the ion–ion drag is corrected by an empirical factor ({factor}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                    "key": "measured.conductivity-fitted-correction",
+                    "slots": [
+                      [
+                        "factor",
+                        {
+                          "number": {
+                            "text": "0.81"
+                          }
+                        }
+                      ],
+                      [
+                        "limit",
+                        {
+                          "number": {
+                            "text": "2"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "unit": "µS/cm",
+        "value": 12175.201273782817,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 9,
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.81× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+        "note_reason": {
+          "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "key": "measured.conductivity-past-the-dilute-limit",
+          "slots": [
+            [
+              "limit",
+              {
+                "number": {
+                  "text": "0.10"
+                }
+              }
+            ],
+            [
+              "where_it_stands",
+              {
+                "phrase": {
+                  "phrase": {
+                    "en": "the ion–ion drag is corrected by an empirical factor ({factor}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                    "key": "measured.conductivity-fitted-correction",
+                    "slots": [
+                      [
+                        "factor",
+                        {
+                          "number": {
+                            "text": "0.81"
+                          }
+                        }
+                      ],
+                      [
+                        "limit",
+                        {
+                          "number": {
+                            "text": "2"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          ]
+        },
+        "unit": "µS/cm",
+        "value": 12321.287443901077,
+        "vessel": 1
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 9,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.755675816012
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.2270124053902
+            },
+            {
+              "confidence": "computed",
+              "key": "pe",
+              "value": 13.875873539
+            }
+          ],
+          "boiling_point_k": 373.24244319304677,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04063242226680032
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.04063242226680032
+          },
+          "mass_g": 41.11238000000006,
+          "melting_point_k": 272.8154533249674,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.75489324214
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.2300183961151
+            },
+            {
+              "confidence": "computed",
+              "key": "pe",
+              "value": 13.87269413386
+            }
+          ],
+          "boiling_point_k": 373.2438245466675,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.04
+          },
+          "mass_g": 40.481855,
+          "melting_point_k": 272.81046175364116,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        }
+      ]
+    }
+  }
+}

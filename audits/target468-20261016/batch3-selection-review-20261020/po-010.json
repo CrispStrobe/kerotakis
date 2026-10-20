@@ -1,0 +1,622 @@
+{
+  "original_id": "batch3-diverse:po-010",
+  "original_script_sha256": "07bd979638cecd8b75b604ce82791eefaa0fdd83a2fe8d6e7f201b227217debb",
+  "executed_script_sha256": "07bd979638cecd8b75b604ce82791eefaa0fdd83a2fe8d6e7f201b227217debb",
+  "unchanged_original_script": true,
+  "raw_member_prefix": "batch3-diverse_po-010",
+  "raw_sha256": {
+    "experiment.lab": "07bd979638cecd8b75b604ce82791eefaa0fdd83a2fe8d6e7f201b227217debb",
+    "stdout.jsonl": "f2ff27e0a610b2cb16401bfdb6d878c9c116c0d77ff15a5d8f3cc07959faf0e0",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "screen_only_not_scientific_pass": false,
+  "model_limits": {},
+  "solver_failures": [],
+  "title": "A thermoplastic article and its repeat-unit stock are not identical objects",
+  "original_forecast": "Both inputs contain the PE chemical identity, but only the named article necessarily carries its material-role softening annotation. Do not interpret an absent annotation as proof that real bare PE cannot melt.",
+  "original_limitations": [
+    "This is an audit of available states, not a prediction that two physical PE specimens with the same grade have different intrinsic chemistry."
+  ],
+  "original_checks": [
+    {
+      "id": "question",
+      "criterion": "Does material provenance add an article-level heat-response state that a bare polymer species alone may not carry?",
+      "review_instruction": "Both inputs contain the PE chemical identity, but only the named article necessarily carries its material-role softening annotation. Do not interpret an absent annotation as proof that real bare PE cannot melt.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "verdict": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review",
+  "interpretation": "Named article and bare PE retain equal PE dose and final temperature; only named article has material-role annotation. No claim that bare real PE cannot melt.",
+  "per_criterion": {
+    "question": {
+      "original_criterion": "Does material provenance add an article-level heat-response state that a bare polymer species alone may not carry?",
+      "original_review_instruction": "Both inputs contain the PE chemical identity, but only the named article necessarily carries its material-role softening annotation. Do not interpret an absent annotation as proof that real bare PE cannot melt.",
+      "assessment": "Named article and bare PE retain equal PE dose and final temperature; only named article has material-role annotation. No claim that bare real PE cannot melt.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "All rows independently audited against explicit doses and pinned recipe components; retained unresolved masses separately conserved. See inventory_trace. No gas, transfer, sink or resolved reaction accepted.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Limited exactly to original model question and original limitations; editorial/aggregate descriptions are not empirical calibration or molecular products.",
+      "result": "candidate_met_pending_independent_parent_review"
+    }
+  },
+  "raw_coordinates": [
+    {
+      "row": 1,
+      "raw_jsonl_line": 2,
+      "step": 1,
+      "event": {
+        "cross_linked": false,
+        "event": "polymer_heated",
+        "material": "thermoplastic sheet",
+        "reversible": true,
+        "state": "rigid",
+        "temperature": 293.15,
+        "threshold": 403.15,
+        "vessel": 0
+      }
+    },
+    {
+      "row": 3,
+      "raw_jsonl_line": 4,
+      "step": 3,
+      "event": {
+        "cross_linked": false,
+        "event": "polymer_heated",
+        "material": "thermoplastic sheet",
+        "reversible": true,
+        "state": "softened",
+        "temperature": 430.6696078431372,
+        "threshold": 403.15,
+        "vessel": 0
+      }
+    },
+    {
+      "row": 5,
+      "raw_jsonl_line": 6,
+      "step": 5,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 157.51960784313724,
+        "vessel": 0
+      }
+    },
+    {
+      "row": 6,
+      "raw_jsonl_line": 7,
+      "step": 6,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 157.51960784313724,
+        "vessel": 1
+      }
+    }
+  ],
+  "inventory_trace": {
+    "method": "independent per-row operator/component/unresolved ledger with recipe fractions and molecular masses independently rederived from pinned registry;  no resolved reactions, transfers, gas or hidden export admitted",
+    "max_resolved_residual_mol": 0.0,
+    "max_unresolved_residual_g": 0.0,
+    "all_operator_clocks_checked": true,
+    "trace": [
+      {
+        "row": 0,
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 1,
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "at": 293.15,
+          "basis": "mass_fraction",
+          "material": "thermoplastic",
+          "op": "add_material",
+          "recipe_id": "polymer/thermoplastic-sheet",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 2.0,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 293.15,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {
+              "polymer/thermoplastic-sheet|1|mass_fraction": 0.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 2,
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "at": 293.15,
+          "moles": 0.07129108148570615,
+          "op": "add",
+          "species": "PE",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 293.15,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {
+              "polymer/thermoplastic-sheet|1|mass_fraction": 0.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 293.15,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 3,
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "energy": 500.0,
+          "op": "heat",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {
+              "polymer/thermoplastic-sheet|1|mass_fraction": 0.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 293.15,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 4,
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "energy": 500.0,
+          "op": "heat",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {
+              "polymer/thermoplastic-sheet|1|mass_fraction": 0.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 5,
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {
+              "polymer/thermoplastic-sheet|1|mass_fraction": 0.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 6,
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {
+              "polymer/thermoplastic-sheet|1|mass_fraction": 0.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 7,
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {
+              "polymer/thermoplastic-sheet|1|mass_fraction": 0.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 8,
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {
+              "polymer/thermoplastic-sheet|1|mass_fraction": 0.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 9,
+        "raw_jsonl_line": 12,
+        "step": 9,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {
+              "polymer/thermoplastic-sheet|1|mass_fraction": 0.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 430.6696078431372,
+            "resolved_moles": {
+              "PE": 0.07129108148570615
+            },
+            "unresolved_g": {}
+          }
+        ]
+      }
+    ]
+  },
+  "final_scene_evidence": {
+    "raw_jsonl_line": 9,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "polyethylene (HDPE)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 2.0,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.07129108148570615,
+              "name": "polyethylene (HDPE)",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "PE",
+              "srgb": [
+                240,
+                237,
+                232
+              ],
+              "volume_l": 0.002105263157894737
+            }
+          ],
+          "temperature_k": 430.6696078431372,
+          "words": "There is white polyethylene (HDPE) in the beaker."
+        },
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "polyethylene (HDPE)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 2.0,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.07129108148570615,
+              "name": "polyethylene (HDPE)",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "PE",
+              "srgb": [
+                240,
+                237,
+                232
+              ],
+              "volume_l": 0.002105263157894737
+            }
+          ],
+          "temperature_k": 430.6696078431372,
+          "words": "There is white polyethylene (HDPE) in the beaker."
+        }
+      ]
+    }
+  }
+}

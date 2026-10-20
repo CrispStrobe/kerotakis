@@ -1,0 +1,6 @@
+{
+  "reader_sha256": "4f3e8115e2a8e11bdc97ea67c42f8c2b0205e7042af394d5922c0c646891ea8e",
+  "failure": "KeyError: bench",
+  "cause": "Raw stdout also contains separate scene records. Initial reader incorrectly assumed every JSONL record owns bench/events. No engine execution or chemistry acceptance occurred.",
+  "correction": "Preserve raw 1-based JSONL line coordinates; assess only actual bench snapshot records and retain scene records independently."
+}

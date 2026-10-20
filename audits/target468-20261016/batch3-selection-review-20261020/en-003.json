@@ -1,0 +1,1050 @@
+{
+  "original_id": "batch3-diverse:en-003",
+  "original_script_sha256": "972f3c8d1ce659bd9295a3a350e5defc87bd700aa13c896e59474b4398c9e7bd",
+  "executed_script_sha256": "972f3c8d1ce659bd9295a3a350e5defc87bd700aa13c896e59474b4398c9e7bd",
+  "unchanged_original_script": true,
+  "raw_member_prefix": "batch3-diverse_en-003",
+  "raw_sha256": {
+    "experiment.lab": "972f3c8d1ce659bd9295a3a350e5defc87bd700aa13c896e59474b4398c9e7bd",
+    "stdout.jsonl": "be59c1a6e09661f0b479e67e97075e32ddacb1650a0fe6bbd10d2909e4805700",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "screen_only_not_scientific_pass": false,
+  "model_limits": {},
+  "solver_failures": [],
+  "title": "Protein versus sugar enzymes on the same gelatin sample",
+  "original_forecast": "Protease should generate a protein-hydrolysis state whereas lactase and the blank should not. This alone does not establish that a visible gelatin gel has liquefied.",
+  "original_limitations": [
+    "Gelatin proteins and fragments remain unresolved. Macroscopic gel strength is not a measured consequence of the hydrolysis fraction."
+  ],
+  "original_checks": [
+    {
+      "id": "question",
+      "criterion": "Is gelatin hydrolysis specific to a protein-cleaving enzyme rather than any material labelled enzyme?",
+      "review_instruction": "Protease should generate a protein-hydrolysis state whereas lactase and the blank should not. This alone does not establish that a visible gelatin gel has liquefied.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: mismatched enzyme; v3: no enzyme",
+      "result": null
+    }
+  ],
+  "verdict": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review",
+  "interpretation": "Protease alone updates the retained 0.9 g gelatin aggregate; lactase and blank retain no conversion state. No gel-liquefaction, peptide-product or empirical-rate claim.",
+  "per_criterion": {
+    "question": {
+      "original_criterion": "Is gelatin hydrolysis specific to a protein-cleaving enzyme rather than any material labelled enzyme?",
+      "original_review_instruction": "Protease should generate a protein-hydrolysis state whereas lactase and the blank should not. This alone does not establish that a visible gelatin gel has liquefied.",
+      "assessment": "Protease alone updates the retained 0.9 g gelatin aggregate; lactase and blank retain no conversion state. No gel-liquefaction, peptide-product or empirical-rate claim.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "All rows independently audited against explicit doses and pinned recipe components; retained unresolved masses separately conserved. See inventory_trace. No gas, transfer, sink or resolved reaction accepted.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Limited exactly to original model question and original limitations; editorial/aggregate descriptions are not empirical calibration or molecular products.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_review_instruction": "v2: mismatched enzyme; v3: no enzyme",
+      "assessment": "Protease alone updates the retained 0.9 g gelatin aggregate; lactase and blank retain no conversion state. No gel-liquefaction, peptide-product or empirical-rate claim.",
+      "result": "candidate_met_pending_independent_parent_review"
+    }
+  },
+  "raw_coordinates": [
+    {
+      "row": 10,
+      "raw_jsonl_line": 11,
+      "step": 10,
+      "event": {
+        "converted_fraction": 0.6991386178864527,
+        "event": "enzyme_hydrolysed",
+        "family": "protease",
+        "hydrolysed_mass_g": 0.6292247560978075,
+        "material": "gelatine (dry sheets)",
+        "seconds": 2700.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    }
+  ],
+  "inventory_trace": {
+    "method": "independent per-row operator/component/unresolved ledger with recipe fractions and molecular masses independently rederived from pinned registry;  no resolved reactions, transfers, gas or hidden export admitted",
+    "max_resolved_residual_mol": 0.0,
+    "max_unresolved_residual_g": 0.0,
+    "all_operator_clocks_checked": true,
+    "trace": [
+      {
+        "row": 0,
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 1,
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 2,
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 3,
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 4,
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 1.6666666666666667e-06,
+          "op": "add",
+          "species": "protease",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 5,
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 6,
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 7,
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "moles": 4.1666666666666667e-07,
+          "op": "add",
+          "species": "lactase",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "lactase": 4.1666666666666667e-07
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 8,
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "lactase": 4.1666666666666667e-07
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 9,
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "lactase": 4.1666666666666667e-07
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          }
+        ]
+      },
+      {
+        "row": 10,
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "op": "wait",
+          "seconds": 2700.0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "lactase": 4.1666666666666667e-07
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          }
+        ]
+      },
+      {
+        "row": 11,
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "lactase": 4.1666666666666667e-07
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          }
+        ]
+      },
+      {
+        "row": 12,
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "lactase": 4.1666666666666667e-07
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          }
+        ]
+      },
+      {
+        "row": 13,
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "lactase": 4.1666666666666667e-07
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          }
+        ]
+      },
+      {
+        "row": 14,
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616,
+              "lactase": 4.1666666666666667e-07
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 2700.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2192617263391616
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.9
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "final_scene_evidence": {
+    "raw_jsonl_line": 14,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.15002149174956,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 2700.0,
+          "enzyme_hydrolysis": [
+            {
+              "converted_fraction": 0.6991386178864527,
+              "family": "protease",
+              "material": "gelatine (dry sheets)",
+              "substrate": "gelatine protein"
+            }
+          ],
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04010030090270812
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.04010030090270812
+          },
+          "mass_g": 40.029999999999994,
+          "melting_point_k": 273.1499221079349,
+          "notes": [
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "70"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "gelatine protein",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "gelatine (dry sheets)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear. The bounded enzyme model reports 70% conversion of gelatine protein in gelatine (dry sheets)."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500054503653,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 2700.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04010030090270812
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.04010030090270812
+          },
+          "mass_g": 40.029999999999994,
+          "melting_point_k": 273.1499802463585,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 2700.0,
+          "id": 2,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04010030090270812
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.04010030090270812
+          },
+          "mass_g": 39.98,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "original_id": "batch3-diverse:co-003",
+    "assessment": "co-003.json"
+  },
+  {
+    "original_id": "batch3-diverse:en-004",
+    "assessment": "en-004.json"
+  },
+  {
+    "original_id": "batch3-diverse:en-009",
+    "assessment": "en-009.json"
+  },
+  {
+    "original_id": "batch3-diverse:li-002",
+    "assessment": "li-002.json"
+  },
+  {
+    "original_id": "batch3-diverse:li-008",
+    "assessment": "li-008.json"
+  },
+  {
+    "original_id": "batch3-diverse:mi-001",
+    "assessment": "mi-001.json"
+  },
+  {
+    "original_id": "batch3-diverse:mi-006",
+    "assessment": "mi-006.json"
+  },
+  {
+    "original_id": "batch3-diverse:th-005",
+    "assessment": "th-005.json"
+  }
+]

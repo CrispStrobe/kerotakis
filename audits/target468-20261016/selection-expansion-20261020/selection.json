@@ -1,0 +1,62 @@
+{
+  "schema": "kerotakis.scientific-selection-expansion.v1",
+  "utc": "2026-10-20T07:51:28.503252+00:00",
+  "previous_catalog": "audits/working-experiments-20261019-back-titration.json",
+  "previous_catalog_sha256": "4b70e54ecd313293ab78ce2026842da7546dcf56023d42d8085951c05c7c5d43",
+  "new_catalog": "audits/working-experiments-20261020-reviewed-batch23.json",
+  "new_catalog_sha256": "9a05705582636ab55d3cd056430df891f37768ecf6f2cbeb24c630775c802423",
+  "all248_previous_entries_preserved_exactly": true,
+  "new_selected_originals": [
+    "batch2:ec-011",
+    "batch2:tc-006",
+    "batch2:se-004",
+    "batch2:se-005",
+    "batch2:se-006",
+    "batch2:ab-026",
+    "batch2:ab-033",
+    "batch2:ec-001",
+    "batch2:ec-002",
+    "batch3-diverse:en-003",
+    "batch3-diverse:po-005",
+    "batch3-diverse:po-006",
+    "batch3-diverse:co-001",
+    "batch3-diverse:co-002",
+    "batch3-diverse:co-007",
+    "batch3-diverse:an-008",
+    "batch3-diverse:en-007",
+    "batch3-diverse:po-010",
+    "batch3-diverse:su-006",
+    "new120:kn-012"
+  ],
+  "new_scientific_selections": 20,
+  "unique_fixed468_before": 244,
+  "unique_fixed468_after": 264,
+  "catalog_entries": 268,
+  "additional_to401": 137,
+  "boundary_demonstrations_verified_but_not_scientific_selections": [
+    "batch3-diverse:bd-001",
+    "batch3-diverse:bd-002",
+    "batch3-diverse:bd-004"
+  ],
+  "newly_confirmed_not_selected": [
+    "batch2:tc-009"
+  ],
+  "parent_independent_saved_reader_reproductions": {
+    "batch2": {
+      "reviewed": 10,
+      "proposals_accepted": 9
+    },
+    "batch3": {
+      "raw_records_authenticated": 100,
+      "detailed_proposals_reproduced": 13,
+      "physical_bounded_selected": 10,
+      "unsupported_boundary_excluded": 3
+    },
+    "thiosulfate": {
+      "per_vessel_per_step_atoms_and_charge_checked": true,
+      "second_reviewer_original_criterion_and_domain_review": "accepted_with_frozen_activity_and_no_empirical_rate_claim"
+    }
+  },
+  "new_engine_or_API_executions": 0,
+  "current_release_scientific_revalidation_claim": false
+}

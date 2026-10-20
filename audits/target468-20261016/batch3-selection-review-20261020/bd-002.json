@@ -1,0 +1,1017 @@
+{
+  "original_id": "batch3-diverse:bd-002",
+  "original_script_sha256": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+  "executed_script_sha256": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+  "unchanged_original_script": true,
+  "raw_member_prefix": "batch3-diverse_bd-002",
+  "raw_sha256": {
+    "experiment.lab": "c2725fa0b1ebd687ad2e7dd60af9031133bb3b62f86b156c9a874e41f99b5ab3",
+    "stdout.jsonl": "04159f927a96e2dfe39db699c8f50f0940a9af32668e4ea03edc95ec0e2c9be4",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "screen_only_not_scientific_pass": false,
+  "model_limits": {},
+  "solver_failures": [],
+  "title": "Known boundary: emulsifying oil need not speed the aggregate lipase model",
+  "original_forecast": "Review emulsion and hydrolysis outputs independently. The aggregate substrate-dose model does not establish a droplet-area rate law; equal hydrolysis despite different dispersion must not be reported as a general real-lipase result.",
+  "original_limitations": [
+    "Detergent can also alter or inhibit real enzyme activity. Neither a quantitative interfacial acceleration nor detergent compatibility is supplied by these independent teaching roles."
+  ],
+  "original_checks": [
+    {
+      "id": "question",
+      "criterion": "Does the implementation couple increased oil-water interface to enzyme activity, or merely keep a separate emulsion state?",
+      "review_instruction": "Review emulsion and hydrolysis outputs independently. The aggregate substrate-dose model does not establish a droplet-area rate law; equal hydrolysis despite different dispersion must not be reported as a general real-lipase result.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: no emulsifier",
+      "result": null
+    }
+  ],
+  "verdict": "boundary_demonstration_verified_pending_parent_review_not_scientific_selection",
+  "interpretation": "Original explicitly scoped boundary:1830 s conversion is equal despite surfactant-only dispersion; own-vessel30 s stirs followed by shared1800 s wait. No interfacial rate law or detergent compatibility implied.",
+  "per_criterion": {
+    "question": {
+      "original_criterion": "Does the implementation couple increased oil-water interface to enzyme activity, or merely keep a separate emulsion state?",
+      "original_review_instruction": "Review emulsion and hydrolysis outputs independently. The aggregate substrate-dose model does not establish a droplet-area rate law; equal hydrolysis despite different dispersion must not be reported as a general real-lipase result.",
+      "assessment": "Original explicitly scoped boundary:1830 s conversion is equal despite surfactant-only dispersion; own-vessel30 s stirs followed by shared1800 s wait. No interfacial rate law or detergent compatibility implied.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "All rows independently audited against explicit doses and pinned recipe components; retained unresolved masses separately conserved. See inventory_trace. No gas, transfer, sink or resolved reaction accepted.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Limited exactly to original model question and original limitations; editorial/aggregate descriptions are not empirical calibration or molecular products.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_review_instruction": "v2: no emulsifier",
+      "assessment": "Original explicitly scoped boundary:1830 s conversion is equal despite surfactant-only dispersion; own-vessel30 s stirs followed by shared1800 s wait. No interfacial rate law or detergent compatibility implied.",
+      "result": "candidate_met_pending_independent_parent_review"
+    }
+  },
+  "raw_coordinates": [
+    {
+      "row": 8,
+      "raw_jsonl_line": 9,
+      "step": 8,
+      "event": {
+        "converted_fraction": 0.01102175664503724,
+        "event": "enzyme_hydrolysed",
+        "family": "lipase",
+        "hydrolysed_mass_g": 0.01102175664503724,
+        "material": "vegetable oil",
+        "seconds": 30.0,
+        "substrate": "triglycerides in vegetable oil",
+        "vessel": 0
+      }
+    },
+    {
+      "row": 9,
+      "raw_jsonl_line": 10,
+      "step": 9,
+      "event": {
+        "converted_fraction": 0.01102175664503724,
+        "event": "enzyme_hydrolysed",
+        "family": "lipase",
+        "hydrolysed_mass_g": 0.01102175664503724,
+        "material": "vegetable oil",
+        "seconds": 30.0,
+        "substrate": "triglycerides in vegetable oil",
+        "vessel": 1
+      }
+    },
+    {
+      "row": 10,
+      "raw_jsonl_line": 11,
+      "step": 10,
+      "event": {
+        "converted_fraction": 0.4913828569000964,
+        "event": "enzyme_hydrolysed",
+        "family": "lipase",
+        "hydrolysed_mass_g": 0.4803611002550592,
+        "material": "vegetable oil",
+        "seconds": 1800.0,
+        "substrate": "triglycerides in vegetable oil",
+        "vessel": 0
+      }
+    },
+    {
+      "row": 10,
+      "raw_jsonl_line": 11,
+      "step": 10,
+      "event": {
+        "converted_fraction": 0.4913828569000964,
+        "event": "enzyme_hydrolysed",
+        "family": "lipase",
+        "hydrolysed_mass_g": 0.4803611002550592,
+        "material": "vegetable oil",
+        "seconds": 1800.0,
+        "substrate": "triglycerides in vegetable oil",
+        "vessel": 1
+      }
+    },
+    {
+      "row": 8,
+      "raw_jsonl_line": 9,
+      "step": 8,
+      "event": {
+        "dispersed_volume_l": 0.0005999999999999998,
+        "event": "emulsion_changed",
+        "from_dispersed_fraction": 0.0,
+        "half_life_seconds": 300.0,
+        "material": "vegetable oil",
+        "to_dispersed_fraction": 0.5519999999999998,
+        "vessel": 0
+      }
+    },
+    {
+      "row": 10,
+      "raw_jsonl_line": 11,
+      "step": 10,
+      "event": {
+        "dispersed_volume_l": 9.375000000000001e-06,
+        "event": "emulsion_changed",
+        "from_dispersed_fraction": 0.5519999999999998,
+        "half_life_seconds": 300.0,
+        "material": "vegetable oil",
+        "to_dispersed_fraction": 0.008625,
+        "vessel": 0
+      }
+    }
+  ],
+  "inventory_trace": {
+    "method": "independent per-row operator/component/unresolved ledger with recipe fractions and molecular masses independently rederived from pinned registry;  no resolved reactions, transfers, gas or hidden export admitted",
+    "max_resolved_residual_mol": 0.0,
+    "max_unresolved_residual_g": 0.0,
+    "all_operator_clocks_checked": true,
+    "trace": [
+      {
+        "row": 0,
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 1,
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 2,
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "vegetable_oil",
+          "op": "add_material",
+          "recipe_id": "household/vegetable-oil-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 3,
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "dish_soap",
+          "op": "add_material",
+          "recipe_id": "household/dish-soap-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.3,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 4,
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 1.5151515151515152e-06,
+          "op": "add",
+          "species": "lipase",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 5,
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 6,
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "vegetable_oil",
+          "op": "add_material",
+          "recipe_id": "household/vegetable-oil-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "row": 7,
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "moles": 1.5151515151515152e-06,
+          "op": "add",
+          "species": "lipase",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "row": 8,
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "op": "stir",
+          "rpm": 500.0,
+          "seconds": 30.0,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "row": 9,
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "op": "stir",
+          "rpm": 500.0,
+          "seconds": 30.0,
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "row": 10,
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "op": "wait",
+          "seconds": 1800.0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 1830.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 1830.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "row": 11,
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 1830.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 1830.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "row": 12,
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 1830.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 1830.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0
+            }
+          }
+        ]
+      },
+      {
+        "row": 13,
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 1830.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.780460727171801,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.059999999999999984
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 1830.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.7671384956980294,
+              "lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 1.0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "final_scene_evidence": {
+    "raw_jsonl_line": 13,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500156228069,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 1830.0,
+          "emulsion": {
+            "dispersed_fraction": 0.008625,
+            "dispersed_volume_l": 9.375000000000001e-06,
+            "half_life_seconds": 300.0,
+            "material": "vegetable oil"
+          },
+          "enzyme_hydrolysis": [
+            {
+              "converted_fraction": 0.4913828569000964,
+              "family": "lipase",
+              "material": "vegetable oil",
+              "substrate": "triglycerides in vegetable oil"
+            }
+          ],
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05030834959368396
+            },
+            {
+              "colour_word": "pale yellow",
+              "name": "vegetable oil",
+              "species": "vegetable_oil",
+              "srgb": [
+                238,
+                218,
+                112
+              ],
+              "volume_l": 0.0010775815217391304
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.006727500000000001,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.05138593111542309
+          },
+          "mass_g": 51.199999999999996,
+          "melting_point_k": 273.14994337860645,
+          "notes": [
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "49"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "triglycerides in vegetable oil",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "Stirring has dispersed {percent}% of the {material} as cloudy droplets; the rest remains above the water.",
+              "key": "scene.emulsion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear. The bounded enzyme model reports 49% conversion of triglycerides in vegetable oil in vegetable oil. Stirring has dispersed 1% of the vegetable oil as cloudy droplets; the rest remains above the water."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.15001569752496,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 1830.0,
+          "enzyme_hydrolysis": [
+            {
+              "converted_fraction": 0.4913828569000964,
+              "family": "lipase",
+              "material": "vegetable oil",
+              "substrate": "triglycerides in vegetable oil"
+            }
+          ],
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05
+            },
+            {
+              "colour_word": "pale yellow",
+              "name": "vegetable oil",
+              "species": "vegetable_oil",
+              "srgb": [
+                238,
+                218,
+                112
+              ],
+              "volume_l": 0.0010869565217391304
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.051086956521739134
+          },
+          "mass_g": 50.9,
+          "melting_point_k": 273.1499431078075,
+          "notes": [
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "49"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "triglycerides in vegetable oil",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "{material} forms a separate {colour} layer above the water.",
+              "key": "scene.material-layer",
+              "slots": [
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ],
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "pale yellow",
+                      "section": "appearance"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear. The bounded enzyme model reports 49% conversion of triglycerides in vegetable oil in vegetable oil. vegetable oil forms a separate pale yellow layer above the water."
+        }
+      ]
+    }
+  }
+}

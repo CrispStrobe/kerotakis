@@ -1,0 +1,149 @@
+{
+  "schema": "kerotakis.saved-thiosulfate-bounded-review.v1",
+  "original_id": "new120:kn-012",
+  "original_script_sha256": "aee4d1cfe52a9c41329d9c5a0de25cb2bdfff62a5bec947d2c51a2fa10971e7c",
+  "stdout_sha256": "9553e0c76695e35fa75f7a26f928ebed9f1dd0b443c6a26858ec69e42dc6ea0f",
+  "archive_sha256": "9c33ddf3893ab32e0309dc1ef5c65b3b2c4e2967c8a3468c2808b0de1074201f",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "kinetics_source_sha256": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+  "original_forecast": "With similar acidity and substrate loading, the warmer mixture produces sulfur more rapidly over an early common interval.",
+  "original_criteria": [
+    {
+      "id": "KN-012-C1",
+      "criterion": "Compare residual thiosulfate and generated sulfur, not turbidity labels alone.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "KN-012-C2",
+      "criterion": "Check measured temperatures and pH to avoid attributing every difference to temperature alone.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "metrics": [
+    {
+      "vessel": 0,
+      "initial_temperature_K": 293.1500011060971,
+      "final_temperature_K": 293.17072630379295,
+      "initial_pH": 1.506522280728,
+      "final_pH": 1.520670632407,
+      "extent_mol": 7.229827156726091e-05,
+      "remaining_thiosulfate_mol": 0.0009277017284327391,
+      "generated_all_phase_sulfur_mol": 7.229827156726083e-05,
+      "generated_retained_SO2_mol": 7.229827156726083e-05,
+      "acid_fraction_consumed": 0.03614913578363046,
+      "remaining_acid_equivalents_mol": 0.0038554034568654776
+    },
+    {
+      "vessel": 1,
+      "initial_temperature_K": 313.1500022876895,
+      "final_temperature_K": 313.0878295389982,
+      "initial_pH": 1.509547739884,
+      "final_pH": 1.558068127468,
+      "extent_mol": 0.00023710872840726266,
+      "remaining_thiosulfate_mol": 0.0007628912715927374,
+      "generated_all_phase_sulfur_mol": 0.0002371087284072627,
+      "generated_retained_SO2_mol": 0.0002371087284072627,
+      "acid_fraction_consumed": 0.11855436420363133,
+      "remaining_acid_equivalents_mol": 0.0035257825431854748
+    }
+  ],
+  "initial_warm_over_cool_proton_activity_ratio": 0.9930578318043841,
+  "source_Ea_only_Arrhenius_direction_factor": 3.805170093005313,
+  "initial_activity_times_thermal_direction": 3.7787539622067428,
+  "per_vessel_maximum_atom_charge_residual": {
+    "0": "5.224E-16",
+    "1": "5.252E-16"
+  },
+  "per_step_ledger": [
+    {
+      "row": 0,
+      "vessel": 0,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 1,
+      "vessel": 0,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 2,
+      "vessel": 0,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 3,
+      "vessel": 0,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 3,
+      "vessel": 1,
+      "maximum_absolute_mol_or_eq_residual": "0"
+    },
+    {
+      "row": 4,
+      "vessel": 0,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 4,
+      "vessel": 1,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 5,
+      "vessel": 0,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 5,
+      "vessel": 1,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 6,
+      "vessel": 0,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 6,
+      "vessel": 1,
+      "maximum_absolute_mol_or_eq_residual": "0E-15"
+    },
+    {
+      "row": 7,
+      "vessel": 0,
+      "maximum_absolute_mol_or_eq_residual": "5.224E-16"
+    },
+    {
+      "row": 7,
+      "vessel": 1,
+      "maximum_absolute_mol_or_eq_residual": "5.252E-16"
+    },
+    {
+      "row": 8,
+      "vessel": 0,
+      "maximum_absolute_mol_or_eq_residual": "5.224E-16"
+    },
+    {
+      "row": 8,
+      "vessel": 1,
+      "maximum_absolute_mol_or_eq_residual": "5.252E-16"
+    }
+  ],
+  "criterion_review": {
+    "KN-012-C1": "At the same actual10s, warm substrate loss and retained all-phase sulfur/SO2 exceed the cool arm; every step closes per-vessel material and charge. No turbidity-only inference.",
+    "KN-012-C2": "Actual initial/final temperatures and pH are retained; initial proton activities differ by under1%, while positive source Ea gives a substantially larger temperature-direction factor. Acid depletion is explicit, bounded and stoichiometric, not held constant."
+  },
+  "qualified_scope": "Qualitative direction within the declared teaching rate law; finite-acid interval starts with frozen activity coefficient and re-solves equilibrium between intervals. No measured/calibrated rate, isothermal exposure or continuously coupled acid-equilibrium prediction.",
+  "proposed_bounded_verdict": "pass",
+  "catalog_selection_assigned": false,
+  "new_engine_or_API_executions": 0
+}

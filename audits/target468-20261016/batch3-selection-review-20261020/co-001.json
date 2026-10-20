@@ -1,0 +1,1185 @@
+{
+  "original_id": "batch3-diverse:co-001",
+  "original_script_sha256": "ce1806166c7d20ae79f82bf6efd430946528bdb3ce7eca9f4e193fab186b7988",
+  "executed_script_sha256": "ce1806166c7d20ae79f82bf6efd430946528bdb3ce7eca9f4e193fab186b7988",
+  "unchanged_original_script": true,
+  "raw_member_prefix": "batch3-diverse_co-001",
+  "raw_sha256": {
+    "experiment.lab": "ce1806166c7d20ae79f82bf6efd430946528bdb3ce7eca9f4e193fab186b7988",
+    "stdout.jsonl": "2205b3897c0d666a8abcbd3eb6704c0b9747a178ce962d42e944e3bb432dec02",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "screen_only_not_scientific_pass": false,
+  "model_limits": {},
+  "solver_failures": [],
+  "title": "Stirring and surfactant are separate emulsion requirements",
+  "original_forecast": "The supported oil-plus-surfactant system should acquire a temporary dispersed state after stirring. The no-surfactant and unstirred preparations distinguish composition from mechanical action.",
+  "original_limitations": [
+    "The model reports a bounded dispersed fraction, not droplet-size distributions, critical micelle concentration or a universal detergent specification."
+  ],
+  "original_checks": [
+    {
+      "id": "question",
+      "criterion": "Does merely adding detergent have the same result as mechanically dispersing oil with it?",
+      "review_instruction": "The supported oil-plus-surfactant system should acquire a temporary dispersed state after stirring. The no-surfactant and unstirred preparations distinguish composition from mechanical action.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: stirred, no emulsifier; v3: emulsifier, not stirred",
+      "result": null
+    }
+  ],
+  "verdict": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review",
+  "interpretation": "Only oil+surfactant+stir yields dispersion; oil-only stirring and unstirred oil+surfactant remain negative. Oil remains conserved unresolved material.",
+  "per_criterion": {
+    "question": {
+      "original_criterion": "Does merely adding detergent have the same result as mechanically dispersing oil with it?",
+      "original_review_instruction": "The supported oil-plus-surfactant system should acquire a temporary dispersed state after stirring. The no-surfactant and unstirred preparations distinguish composition from mechanical action.",
+      "assessment": "Only oil+surfactant+stir yields dispersion; oil-only stirring and unstirred oil+surfactant remain negative. Oil remains conserved unresolved material.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "All rows independently audited against explicit doses and pinned recipe components; retained unresolved masses separately conserved. See inventory_trace. No gas, transfer, sink or resolved reaction accepted.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Limited exactly to original model question and original limitations; editorial/aggregate descriptions are not empirical calibration or molecular products.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_review_instruction": "v2: stirred, no emulsifier; v3: emulsifier, not stirred",
+      "assessment": "Only oil+surfactant+stir yields dispersion; oil-only stirring and unstirred oil+surfactant remain negative. Oil remains conserved unresolved material.",
+      "result": "candidate_met_pending_independent_parent_review"
+    }
+  },
+  "raw_coordinates": [
+    {
+      "row": 10,
+      "raw_jsonl_line": 11,
+      "step": 10,
+      "event": {
+        "dispersed_volume_l": 0.003999999999999999,
+        "event": "emulsion_changed",
+        "from_dispersed_fraction": 0.0,
+        "half_life_seconds": 300.0,
+        "material": "vegetable oil",
+        "to_dispersed_fraction": 0.9199999999999998,
+        "vessel": 0
+      }
+    }
+  ],
+  "inventory_trace": {
+    "method": "independent per-row operator/component/unresolved ledger with recipe fractions and molecular masses independently rederived from pinned registry;  no resolved reactions, transfers, gas or hidden export admitted",
+    "max_resolved_residual_mol": 0.0,
+    "max_unresolved_residual_g": 0.0,
+    "all_operator_clocks_checked": true,
+    "trace": [
+      {
+        "row": 0,
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 1,
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 2,
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 3,
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "vegetable_oil",
+          "op": "add_material",
+          "recipe_id": "household/vegetable-oil-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 4.0,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 4,
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "dish_soap",
+          "op": "add_material",
+          "recipe_id": "household/dish-soap-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 5,
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 6,
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "vegetable_oil",
+          "op": "add_material",
+          "recipe_id": "household/vegetable-oil-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 4.0,
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 7,
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 8,
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "vegetable_oil",
+          "op": "add_material",
+          "recipe_id": "household/vegetable-oil-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 4.0,
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          }
+        ]
+      },
+      {
+        "row": 9,
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "dish_soap",
+          "op": "add_material",
+          "recipe_id": "household/dish-soap-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          }
+        ]
+      },
+      {
+        "row": 10,
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "op": "stir",
+          "rpm": 500.0,
+          "seconds": 30.0,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          }
+        ]
+      },
+      {
+        "row": 11,
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "op": "stir",
+          "rpm": 500.0,
+          "seconds": 30.0,
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          }
+        ]
+      },
+      {
+        "row": 12,
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          }
+        ]
+      },
+      {
+        "row": 13,
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          }
+        ]
+      },
+      {
+        "row": 14,
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          }
+        ]
+      },
+      {
+        "row": 15,
+        "raw_jsonl_line": 16,
+        "step": 15,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 30.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0
+            }
+          },
+          {
+            "vessel": 2,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2359145156813764
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate|1|mass_fraction": 4.0,
+              "household/dish-soap-surrogate|1|mass_fraction": 0.09999999999999998
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "final_scene_evidence": {
+    "raw_jsonl_line": 15,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "white",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and so cloudy you cannot see through it",
+                        "key": "look.clarity-opaque"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 30.0,
+          "emulsion": {
+            "dispersed_fraction": 0.9199999999999998,
+            "dispersed_volume_l": 0.003999999999999999,
+            "half_life_seconds": 300.0,
+            "material": "vegetable oil"
+          },
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "white",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04449829098947327
+            },
+            {
+              "colour_word": "pale yellow",
+              "name": "vegetable oil",
+              "species": "vegetable_oil",
+              "srgb": [
+                238,
+                218,
+                112
+              ],
+              "volume_l": 0.0003478260869565226
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.7175999999999999,
+            "colour_word": "white",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.0448461170764298
+          },
+          "mass_g": 44.38,
+          "melting_point_k": 273.1499996258458,
+          "notes": [
+            {
+              "en": "Stirring has dispersed {percent}% of the {material} as cloudy droplets; the rest remains above the water.",
+              "key": "scene.emulsion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "92"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is white and so cloudy you cannot see through it. Stirring has dispersed 92% of the vegetable oil as cloudy droplets; the rest remains above the water."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 30.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04
+            },
+            {
+              "colour_word": "pale yellow",
+              "name": "vegetable oil",
+              "species": "vegetable_oil",
+              "srgb": [
+                238,
+                218,
+                112
+              ],
+              "volume_l": 0.004347826086956522
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.044347826086956525
+          },
+          "mass_g": 43.88,
+          "melting_point_k": 273.1499996258458,
+          "notes": [
+            {
+              "en": "{material} forms a separate {colour} layer above the water.",
+              "key": "scene.material-layer",
+              "slots": [
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ],
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "pale yellow",
+                      "section": "appearance"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear. vegetable oil forms a separate pale yellow layer above the water."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 2,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04049829098947327
+            },
+            {
+              "colour_word": "pale yellow",
+              "name": "vegetable oil",
+              "species": "vegetable_oil",
+              "srgb": [
+                238,
+                218,
+                112
+              ],
+              "volume_l": 0.004347826086956522
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.0448461170764298
+          },
+          "mass_g": 44.38,
+          "melting_point_k": 273.1499996258458,
+          "notes": [
+            {
+              "en": "{material} forms a separate {colour} layer above the water.",
+              "key": "scene.material-layer",
+              "slots": [
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ],
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "pale yellow",
+                      "section": "appearance"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear. vegetable oil forms a separate pale yellow layer above the water."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "all12_saved_records_and_calculations_reproduced": true,
+  "proposals_independently_accepted": 7,
+  "held": 5,
+  "parent_first_comparison_stop": "Three dictionaries used integer vessel keys in Python and string keys in stored JSON; compare the exact JSON representation. No values, tolerances, assertions, source or producer changed.",
+  "raw_numeric_or_scientific_assertions_weakened": false,
+  "engine_or_API_executions": 0
+}

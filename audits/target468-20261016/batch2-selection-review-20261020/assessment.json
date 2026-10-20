@@ -1,0 +1,1026 @@
+{
+  "schema": "kerotakis.batch2.saved-independent-review.v1",
+  "cases": [
+    {
+      "id": "batch2:ec-011",
+      "proposed_candidate": true,
+      "original_forecast": "Both commands deliver 5 C. At equal modelled current efficiency their incremental hydrogen and oxygen products should agree.",
+      "criteria": [
+        {
+          "id": "EC-011-C1",
+          "criterion": "Compare generated gas increments after subtracting initial headspace inventory.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "EC-011-C2",
+          "criterion": "Use total charge and reported efficiencies; current alone is not the product prediction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "increments": [
+          {
+            "vessel": 0,
+            "charge_C": 5.0,
+            "H2_increment_mol": 2.5910674141544323e-05,
+            "O2_increment_mol": 1.295533707077216e-05,
+            "inventory_Faradaic_efficiency_H2": 1.0
+          },
+          {
+            "vessel": 1,
+            "charge_C": 5.0,
+            "H2_increment_mol": 2.5910674141544323e-05,
+            "O2_increment_mol": 1.295533707077216e-05,
+            "inventory_Faradaic_efficiency_H2": 1.0
+          }
+        ],
+        "air": [
+          {
+            "row": 2,
+            "vessel": 0,
+            "independent_air_mol": 0.004087324575534094
+          },
+          {
+            "row": 6,
+            "vessel": 1,
+            "independent_air_mol": 0.004087324575534094
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 1.0016164601282102e-19,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "N": 0.0,
+        "Na": 1.238158880978446e-15,
+        "O": 2.6645352591003757e-15,
+        "S": 8.762521958027847e-16,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 1.1201976846120232e-15
+      },
+      "snapshots": 10,
+      "partial_inspects": 0,
+      "named_model_limits": {},
+      "limitations": [
+        "Modelled water electrolysis uses unit current efficiency; no empirical electrode/overpotential validation."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "5f7ec247e89e4c9905e96a8fb66b103645872c6354432a84e1761af4e93759c2",
+      "stdout_sha256": "2d4fdd0bae82f5677fd81b5997b6c9c5bcd2c34831156a6955f4e976438b6883",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ec-011/experiment.lab",
+        "batch2_ec-011/stdout.jsonl",
+        "batch2_ec-011/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:tc-006",
+      "proposed_candidate": true,
+      "original_forecast": "Equal-mass samples have different temperature rises. For these metals near room temperature, the equal-mole comparison is expected to be closer because molar heat capacities are more similar than mass-specific values.",
+      "criteria": [
+        {
+          "id": "TC-006-C1",
+          "criterion": "Infer heat capacities using each sample mass or mole amount and observed temperature rise.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "TC-006-C2",
+          "criterion": "Treat approximate similarity of molar heat capacities as a material-dependent trend, not an exact identity.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "metal_capacity_inference": [
+          {
+            "vessel": 0,
+            "species": "Cu",
+            "moles": 0.015736631731344222,
+            "delta_K": 25.851159421868715,
+            "inferred_molar_average_Cp_J_mol_K": 24.581489349465482,
+            "independent_curve_energy_J": 10.00000000964454
+          },
+          {
+            "vessel": 1,
+            "species": "Fe",
+            "moles": 0.017906706061420002,
+            "delta_K": 22.020888326296358,
+            "inferred_molar_average_Cp_J_mol_K": 25.360012353957764,
+            "independent_curve_energy_J": 10.000000071122455
+          },
+          {
+            "vessel": 2,
+            "species": "Cu",
+            "moles": 0.01,
+            "delta_K": 40.55930099650743,
+            "inferred_molar_average_Cp_J_mol_K": 24.65525725125564,
+            "independent_curve_energy_J": 10.000000060348174
+          },
+          {
+            "vessel": 3,
+            "species": "Fe",
+            "moles": 0.01,
+            "delta_K": 39.12784810211349,
+            "inferred_molar_average_Cp_J_mol_K": 25.557244993137893,
+            "independent_curve_energy_J": 9.999999737878015
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "snapshots": 16,
+      "partial_inspects": 0,
+      "named_model_limits": {},
+      "limitations": [
+        "Interval-average heat capacities inferred from known10J and actual inventory, not an empirical calibration or assertion of identical molar curves."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "3f5949551d4dd64980d6ce4afbea040e5882e1ce04fc896c602975d6a21ada8a",
+      "stdout_sha256": "09c5b75d60fc7c12d05bb36cf9432b257f6a52fdf32281701397a7dbafb3b46a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_tc-006/experiment.lab",
+        "batch2_tc-006/stdout.jsonl",
+        "batch2_tc-006/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:tc-009",
+      "proposed_candidate": false,
+      "original_forecast": "Both arms can neutralise 0.001 mol, but the less dilute arm should show the larger mixing-corrected temperature rise because it has a smaller thermal mass.",
+      "criteria": [
+        {
+          "id": "TC-009-C1",
+          "criterion": "Compare heat-capacity-weighted pre-mixing baselines with final temperatures.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        },
+        {
+          "id": "TC-009-C2",
+          "criterion": "Distinguish approximately equal neutralisation energy from unequal temperature changes; do not demand an exact fourfold ratio.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        }
+      ],
+      "observed": {
+        "mixing": [
+          {
+            "vessel": 0,
+            "water_weighted_baseline_K": 298.36342352155674,
+            "final_K": 298.3633456392064,
+            "corrected_rise_K": -7.788235035377511e-05,
+            "independent_mixing_energy_J": -0.016395846519600354
+          },
+          {
+            "vessel": 1,
+            "water_weighted_baseline_K": 298.2033571727822,
+            "final_K": 298.20335095990924,
+            "corrected_rise_K": -6.212872960986715e-06,
+            "independent_mixing_energy_J": -0.0052220015457358215
+          }
+        ],
+        "calorimeter_existing_energy_J": [
+          44.49996030677154,
+          44.49991954766013
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 5.542441505745899e-16,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 3.3393426912553537e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "snapshots": 22,
+      "partial_inspects": 0,
+      "named_model_limits": {},
+      "limitations": [
+        "Both mixing-corrected rises are essentially zero. Existing calorimeter energy includes earlier NaOH dissolution; original neutralisation-energy forecast fails."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "26dc12049c8ac05bacc4cdf686dafebba6e897f7cf984d893c83db5dd3da56b6",
+      "stdout_sha256": "b6f54060786b677c11c9a84c8c41a847c30a330aba6326a09f6978261d6a5857",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_tc-009/experiment.lab",
+        "batch2_tc-009/stdout.jsonl",
+        "batch2_tc-009/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:se-004",
+      "proposed_candidate": true,
+      "original_forecast": "Under ideal homogeneous liquid withdrawal, three 80% decants leave about 0.2^3=0.008 of the original dissolved salt with the retained solid.",
+      "criteria": [
+        {
+          "id": "SE-004-C1",
+          "criterion": "Compare remaining sodium/chloride with the geometric reference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "SE-004-C2",
+          "criterion": "Sum salt over every wash fraction and verify silica retention.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "Na_mol_by_vessel": [
+          7.999999999999996e-06,
+          0.0008,
+          0.00015999999999999999,
+          3.199999999999999e-05
+        ],
+        "Cl_mol_by_vessel": [
+          7.999999999999996e-06,
+          0.0008,
+          0.00015999999999999999,
+          3.199999999999999e-05
+        ],
+        "SiO2_mol_by_vessel": [
+          0.016595433060382133,
+          1.5977631316157378e-05,
+          1.5977631316157378e-05,
+          1.5977631316157378e-05
+        ],
+        "remaining_salt_fraction": 0.007999999999999997
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Cl": 2.710505431213761e-20,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "N": 0.0,
+        "Na": 2.710505431213761e-20,
+        "O": 1.9984014443252818e-15,
+        "S": 0.0,
+        "Si": 3.469446951953614e-18,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "snapshots": 12,
+      "partial_inspects": 0,
+      "named_model_limits": {},
+      "limitations": [
+        "Silica has finite dissolved loss in wash fractions; retention is of the solid phase, not an assertion of exactly insoluble silica."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "820f6a8c932e66333a42afd0a32e3405ef238c36ca54418593b5e089898252b0",
+      "stdout_sha256": "116a817d5adf2be3dd65e803f024c099831aa878427a9d4a5372bbc1e7ac4353",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_se-004/experiment.lab",
+        "batch2_se-004/stdout.jsonl",
+        "batch2_se-004/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:se-005",
+      "proposed_candidate": true,
+      "original_forecast": "At equal radius, ideal centrifugal acceleration scales as rpm squared; the higher-speed arm should show greater settling if the model resolves the regime.",
+      "criteria": [
+        {
+          "id": "SE-005-C1",
+          "criterion": "Compare reported acceleration or settling fraction, not a presumed fourfold final pellet mass.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "SE-005-C2",
+          "criterion": "Total silica remains conserved in each vessel.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "centrifuge": [
+          {
+            "vessel": 0,
+            "independent_rcf": 111.8243958163237,
+            "independent_speed_m_s": 0.0028279191561771584,
+            "diameter_um": 5.0,
+            "fraction": 1.0
+          },
+          {
+            "vessel": 1,
+            "independent_rcf": 447.2975832652948,
+            "independent_speed_m_s": 0.011311676624708633,
+            "diameter_um": 5.0,
+            "fraction": 1.0
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 8.881784197001252e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "snapshots": 10,
+      "partial_inspects": 0,
+      "named_model_limits": {},
+      "limitations": [
+        "Ideal Stokes dilute-suspension model; capped settling fractions are not proportional pellet yields. BothSE005 arms reach the full-settling cap."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "75fe1f1027debd4354c4779f6448afc7cd723615f80f35d0dee399347aab2d74",
+      "stdout_sha256": "28bf0e9ca52ffbe419b6abb0784c736677bdcc05e354ea0918cbdc2b15fdf46f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_se-005/experiment.lab",
+        "batch2_se-005/stdout.jsonl",
+        "batch2_se-005/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:se-006",
+      "proposed_candidate": true,
+      "original_forecast": "Larger particles should settle more readily in a dilute Stokes-like regime; equal solid mass does not imply equal separation speed.",
+      "criteria": [
+        {
+          "id": "SE-006-C1",
+          "criterion": "Verify that particle-size metadata reaches the sedimentation calculation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "SE-006-C2",
+          "criterion": "Do not claim a universal hundredfold yield ratio from a diameter-squared velocity law.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "centrifuge": [
+          {
+            "vessel": 0,
+            "independent_rcf": 111.8243958163237,
+            "independent_speed_m_s": 0.00011311676624708638,
+            "diameter_um": 1.0,
+            "fraction": 0.028279191561771593
+          },
+          {
+            "vessel": 1,
+            "independent_rcf": 111.8243958163237,
+            "independent_speed_m_s": 0.011311676624708633,
+            "diameter_um": 10.0,
+            "fraction": 1.0
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 8.881784197001252e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "snapshots": 10,
+      "partial_inspects": 0,
+      "named_model_limits": {},
+      "limitations": [
+        "Ideal Stokes dilute-suspension model; capped settling fractions are not proportional pellet yields. BothSE005 arms reach the full-settling cap."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "59c1a811ad1baf126743509f7598eed9e2ec968fba4d262454a7b8cee82ccf35",
+      "stdout_sha256": "5dba5e5f1d06d5c4d2c895506adc35bf4b19928d43332185c72bd4475b9c69aa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_se-006/experiment.lab",
+        "batch2_se-006/stdout.jsonl",
+        "batch2_se-006/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ab-026",
+      "proposed_candidate": true,
+      "original_forecast": "Both routes target 1 mmol acetic acid, 1 mmol acetate, 2 mmol sodium and 1 mmol chloride. Their pH should be similar after accounting for temperature and small water differences.",
+      "criteria": [
+        {
+          "id": "AB-026-C1",
+          "criterion": "Compare analytical acetate, sodium and chloride budgets before comparing pH.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "AB-026-C2",
+          "criterion": "Any pH difference is assessed against temperature and reaction-water differences rather than attributed to bottle order alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "arms": [
+          {
+            "vessel": 0,
+            "acetate_mol": 0.002,
+            "Na_mol": 0.002,
+            "Cl_mol": 0.001,
+            "water_mol": 5.5352743131764335,
+            "T_K": 298.38211143951855,
+            "pH": 4.69459876961
+          },
+          {
+            "vessel": 1,
+            "acetate_mol": 0.002,
+            "Na_mol": 0.002,
+            "Cl_mol": 0.001,
+            "water_mol": 5.534274323669652,
+            "T_K": 298.231962793678,
+            "pH": 4.694582557301
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 1.734723475976807e-18
+      },
+      "snapshots": 13,
+      "partial_inspects": 0,
+      "named_model_limits": {},
+      "limitations": [
+        "Near-identical pH is assessed with actual temperatures and reaction-water amounts; not bottle-order equivalence at arbitrary concentration."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "fa720d28d6ae82a21f3677eec21e82457e127478a3ba1554ccd8a0c9fdd6e7eb",
+      "stdout_sha256": "e5851736d5c45f793c93ddc114ba9cc3c85fb1ccce2eca5fa0a84c9ecec7d77e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ab-026/experiment.lab",
+        "batch2_ab-026/stdout.jsonl",
+        "batch2_ab-026/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ab-033",
+      "proposed_candidate": true,
+      "original_forecast": "Bromothymol-blue colour should follow acid\u2013base reversals while the indicator amount is retained; neutralisation changes its environment rather than repeatedly creating dye.",
+      "criteria": [
+        {
+          "id": "AB-033-C1",
+          "criterion": "Acidic snapshots have consistent indicator response and differ from the alkaline snapshot.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "AB-033-C2",
+          "criterion": "The indicator analytical amount is conserved through all three states.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "pH": [
+          3.013464900299,
+          10.97799394462,
+          3.022785571398
+        ],
+        "appearance": [
+          {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "yellow",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 0.0,
+            "deposit": null,
+            "liquid": {
+              "b": 242,
+              "g": 254,
+              "r": 255,
+              "strength": 0.0
+            },
+            "words": "The liquid is yellow and clear."
+          },
+          {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "blue",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 0.0,
+            "deposit": null,
+            "liquid": {
+              "b": 255,
+              "g": 239,
+              "r": 213,
+              "strength": 0.0
+            },
+            "words": "The liquid is blue and clear."
+          },
+          {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "yellow",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 0.0,
+            "deposit": null,
+            "liquid": {
+              "b": 242,
+              "g": 254,
+              "r": 255,
+              "strength": 0.0
+            },
+            "words": "The liquid is yellow and clear."
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 6.776263578034403e-20
+      },
+      "snapshots": 12,
+      "partial_inspects": 0,
+      "named_model_limits": {},
+      "limitations": [
+        "Model indicator environment response and conserved trace inventory, not measured spectral calibration."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "3753c914c9bb28901f6e4b592dd09c2f7f7bd007205e8fb223cdd6b2c3a07150",
+      "stdout_sha256": "d71c96420539fa46e14725ff75bf33497f1d1373832b3915bd51c64608bb4f2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ab-033/experiment.lab",
+        "batch2_ab-033/stdout.jsonl",
+        "batch2_ab-033/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ec-001",
+      "proposed_candidate": true,
+      "original_forecast": "With solid metal present in both zinc half-cells, their equilibrium potentials should be similar despite different metal reserves.",
+      "criteria": [
+        {
+          "id": "EC-001-C1",
+          "criterion": "Compare cell voltages alongside Zn2+ activities and temperatures.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "EC-001-C2",
+          "criterion": "Reading voltage does not consume the larger or smaller electrode.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "independent_Nernst_volts": [
+          1.104111556117784,
+          1.1041115306963198
+        ],
+        "signed_cells": [
+          {
+            "anode": 0,
+            "cathode": 2,
+            "equation": "Zn + Cu+2 \u2192 Zn+2 + Cu",
+            "event": "cell_voltage",
+            "notation": "Zn | Zn+2 \u2016 Cu+2 | Cu",
+            "standard_volts": 1.1037,
+            "volts": 1.104111556117784
+          },
+          {
+            "anode": 1,
+            "cathode": 2,
+            "equation": "Zn + Cu+2 \u2192 Zn+2 + Cu",
+            "event": "cell_voltage",
+            "notation": "Zn | Zn+2 \u2016 Cu+2 | Cu",
+            "standard_volts": 1.1037,
+            "volts": 1.1041115306963198
+          }
+        ],
+        "half_cells": [
+          {
+            "vessel": 0,
+            "T_K": 298.34278961462746,
+            "Zn2_activity": 0.003758
+          },
+          {
+            "vessel": 1,
+            "T_K": 298.34268395173456,
+            "Zn2_activity": 0.003758
+          },
+          {
+            "vessel": 2,
+            "T_K": 298.32528433646644,
+            "Zn2_activity": null
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Cl": 0.0,
+        "Cu": 4.1460281388627784e-13,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 4.1595503083580176e-13,
+        "Si": 0.0,
+        "Zn": 3.3133218391157016e-16,
+        "charge": 3.3249371138299733e-12
+      },
+      "snapshots": 14,
+      "partial_inspects": 0,
+      "named_model_limits": {
+        "not-modeled.stays-as-the-metal": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": 0.001,
+            "op": "add",
+            "species": "Zn",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "rate-not-modelled",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+              "key": "not-modeled.stays-as-the-metal",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+          },
+          "occurrences": 2
+        }
+      },
+      "limitations": [
+        "Named slow metal-water corrosion limit does not invalidate instantaneous nonconsuming equilibrium potential comparison; no corrosion-timescale prediction."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "80682930ea55cf24321898a9a04381b61c2e1d3cc6a923d9b033e120e8b99709",
+      "stdout_sha256": "799b0ffb2b967d6a306c36c6f28fc064038f228a0666cb32bb65fcb79b655713",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ec-001/experiment.lab",
+        "batch2_ec-001/stdout.jsonl",
+        "batch2_ec-001/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ec-002",
+      "proposed_candidate": true,
+      "original_forecast": "Signed differences should satisfy E13\u2248E12+E23 when each reading uses the same half-cell states and convention.",
+      "criteria": [
+        {
+          "id": "EC-002-C1",
+          "criterion": "Use signed, consistently oriented voltages, not their absolute values.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "EC-002-C2",
+          "criterion": "Verify no intervening cell measurement changes inventories.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "independent_Nernst_volts": [
+          1.104111556117784,
+          0.4080888071837111,
+          1.512200363301495
+        ],
+        "signed_cells": [
+          {
+            "anode": 0,
+            "cathode": 1,
+            "equation": "Zn + Cu+2 \u2192 Zn+2 + Cu",
+            "event": "cell_voltage",
+            "notation": "Zn | Zn+2 \u2016 Cu+2 | Cu",
+            "standard_volts": 1.1037,
+            "volts": 1.104111556117784
+          },
+          {
+            "anode": 1,
+            "cathode": 2,
+            "equation": "Cu + 2 Ag+ \u2192 Cu+2 + 2 Ag",
+            "event": "cell_voltage",
+            "notation": "Cu | Cu+2 \u2016 Ag+ | Ag",
+            "standard_volts": 0.4577,
+            "volts": 0.408088807183711
+          },
+          {
+            "anode": 0,
+            "cathode": 2,
+            "equation": "Zn + 2 Ag+ \u2192 Zn+2 + 2 Ag",
+            "event": "cell_voltage",
+            "notation": "Zn | Zn+2 \u2016 Ag+ | Ag",
+            "standard_volts": 1.5614,
+            "volts": 1.512200363301495
+          }
+        ],
+        "half_cells": [
+          {
+            "vessel": 0,
+            "T_K": 298.34278961462746,
+            "Zn2_activity": 0.003758
+          },
+          {
+            "vessel": 1,
+            "T_K": 298.32528433646644,
+            "Zn2_activity": null
+          },
+          {
+            "vessel": 2,
+            "T_K": 298.09580826131764,
+            "Zn2_activity": null
+          }
+        ]
+      },
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Cl": 0.0,
+        "Cu": 4.1460281388627784e-13,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 4.1595503083580176e-13,
+        "Si": 0.0,
+        "Zn": 3.2981430087009045e-16,
+        "charge": 3.3249371138299733e-12
+      },
+      "snapshots": 15,
+      "partial_inspects": 0,
+      "named_model_limits": {
+        "not-modeled.stays-as-the-metal": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": 0.001,
+            "op": "add",
+            "species": "Zn",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "rate-not-modelled",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+              "key": "not-modeled.stays-as-the-metal",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+          },
+          "occurrences": 1
+        }
+      },
+      "limitations": [
+        "Named slow metal-water corrosion limit does not invalidate instantaneous nonconsuming equilibrium potential comparison; no corrosion-timescale prediction."
+      ],
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "ab5d43294224787aa49694144120ceb776f1eb35190bb845fdfe62b470a30146",
+      "stdout_sha256": "d2734806c2dc6bc27b166fdd4ce2a7a17a6020e8d081ac6a4740925082b0d5a9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ec-002/experiment.lab",
+        "batch2_ec-002/stdout.jsonl",
+        "batch2_ec-002/stderr.txt"
+      ]
+    }
+  ],
+  "raw_artifact_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "new_engine_executions": 0,
+  "selection_performed": false,
+  "tolerance_mol": 1e-08,
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80",
+    "crates/kerotakis-core/src/displacement.rs": "546e8bcdceca3f7d18301bbc0b8f6f2cefbded8303d435df6d06f7f403d6bfd7",
+    "crates/kerotakis-core/src/relations.rs": "b2bd6fc8fb616f79eca30bfea1c74b3e2ec9975d84c76b7f072af8dc0d447c4f",
+    "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47",
+    "crates/kerotakis-core/src/constants.rs": "397846a438ad49a748c07735657826b1df586b64b8d1029da499022a9df83be4",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4"
+  },
+  "registry_source_blob_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "producer_lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "reviewed_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83"
+}

@@ -1,0 +1,881 @@
+{
+  "original_id": "batch3-diverse:en-007",
+  "original_script_sha256": "abeb8c9f008bc4c645f3e85d83909c23ff4e21648001b6b8064b9c6ba6364a0c",
+  "executed_script_sha256": "abeb8c9f008bc4c645f3e85d83909c23ff4e21648001b6b8064b9c6ba6364a0c",
+  "unchanged_original_script": true,
+  "raw_member_prefix": "batch3-diverse_en-007",
+  "raw_sha256": {
+    "experiment.lab": "abeb8c9f008bc4c645f3e85d83909c23ff4e21648001b6b8064b9c6ba6364a0c",
+    "stdout.jsonl": "027db1ab915574d96e6712543e71b5de41108173b2c785045c63ffa61f2e23e7",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "screen_only_not_scientific_pass": false,
+  "model_limits": {},
+  "solver_failures": [],
+  "title": "Add fresh protein after a protease incubation",
+  "original_forecast": "Newly supplied protein should contribute a fresh hydrolysable pool in the enzyme vessel. Track the mass-weighted converted fraction rather than treating an apparent fraction decrease after feeding as reversal.",
+  "original_limitations": [
+    "No microbial growth or enzyme synthesis occurs. The material-state merge and rate correlation require runtime verification."
+  ],
+  "original_checks": [
+    {
+      "id": "question",
+      "criterion": "Does a later substrate addition reveal remaining catalytic capacity without supplying a second enzyme dose?",
+      "review_instruction": "Newly supplied protein should contribute a fresh hydrolysable pool in the enzyme vessel. Track the mass-weighted converted fraction rather than treating an apparent fraction decrease after feeding as reversal.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: identical feeding without enzyme",
+      "result": null
+    }
+  ],
+  "verdict": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review",
+  "interpretation": "Two distinct 0.225 g retained gelatin pools own separate conversion states. Summed incremental hydrolysed mass equals final mass-weighted conversion; fresh substrate responds, blank does not. No reversed conversion or enzyme growth.",
+  "per_criterion": {
+    "question": {
+      "original_criterion": "Does a later substrate addition reveal remaining catalytic capacity without supplying a second enzyme dose?",
+      "original_review_instruction": "Newly supplied protein should contribute a fresh hydrolysable pool in the enzyme vessel. Track the mass-weighted converted fraction rather than treating an apparent fraction decrease after feeding as reversal.",
+      "assessment": "Two distinct 0.225 g retained gelatin pools own separate conversion states. Summed incremental hydrolysed mass equals final mass-weighted conversion; fresh substrate responds, blank does not. No reversed conversion or enzyme growth.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "All rows independently audited against explicit doses and pinned recipe components; retained unresolved masses separately conserved. See inventory_trace. No gas, transfer, sink or resolved reaction accepted.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Limited exactly to original model question and original limitations; editorial/aggregate descriptions are not empirical calibration or molecular products.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_review_instruction": "v2: identical feeding without enzyme",
+      "assessment": "Two distinct 0.225 g retained gelatin pools own separate conversion states. Summed incremental hydrolysed mass equals final mass-weighted conversion; fresh substrate responds, blank does not. No reversed conversion or enzyme growth.",
+      "result": "candidate_met_pending_independent_parent_review"
+    }
+  },
+  "raw_coordinates": [
+    {
+      "row": 6,
+      "raw_jsonl_line": 7,
+      "step": 6,
+      "event": {
+        "converted_fraction": 0.9983482117210147,
+        "event": "enzyme_hydrolysed",
+        "family": "protease",
+        "hydrolysed_mass_g": 0.22462834763722833,
+        "material": "gelatine (dry sheets)",
+        "seconds": 3600.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    },
+    {
+      "row": 10,
+      "raw_jsonl_line": 11,
+      "step": 9,
+      "event": {
+        "converted_fraction": 0.9999972715954814,
+        "event": "enzyme_hydrolysed",
+        "family": "protease",
+        "hydrolysed_mass_g": 0.00037103847175498915,
+        "material": "gelatine (dry sheets)",
+        "seconds": 3600.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    },
+    {
+      "row": 10,
+      "raw_jsonl_line": 11,
+      "step": 9,
+      "event": {
+        "converted_fraction": 0.9983482117210147,
+        "event": "enzyme_hydrolysed",
+        "family": "protease",
+        "hydrolysed_mass_g": 0.22462834763722833,
+        "material": "gelatine (dry sheets)",
+        "seconds": 3600.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    }
+  ],
+  "inventory_trace": {
+    "method": "independent per-row operator/component/unresolved ledger with recipe fractions and molecular masses independently rederived from pinned registry;  no resolved reactions, transfers, gas or hidden export admitted",
+    "max_resolved_residual_mol": 0.0,
+    "max_unresolved_residual_g": 0.0,
+    "all_operator_clocks_checked": true,
+    "trace": [
+      {
+        "row": 0,
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 1,
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 2,
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.25,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 3,
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 1.6666666666666667e-06,
+          "op": "add",
+          "species": "protease",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {},
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 4,
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 5,
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.25,
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          }
+        ]
+      },
+      {
+        "row": 6,
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "op": "wait",
+          "seconds": 3600.0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 3600.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 3600.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          }
+        ]
+      },
+      {
+        "row": 7,
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 3600.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 3600.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          }
+        ]
+      },
+      {
+        "row": 8,
+        "raw_jsonl_line": 9,
+        "step": 7,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.25,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 3600.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 3600.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2150985290036083
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.225
+            }
+          }
+        ]
+      },
+      {
+        "row": 9,
+        "raw_jsonl_line": 10,
+        "step": 8,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.25,
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 3600.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 3600.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          }
+        ]
+      },
+      {
+        "row": 10,
+        "raw_jsonl_line": 11,
+        "step": 9,
+        "operator": {
+          "op": "wait",
+          "seconds": 3600.0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 7200.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 7200.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          }
+        ]
+      },
+      {
+        "row": 11,
+        "raw_jsonl_line": 12,
+        "step": 10,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 7200.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 7200.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          }
+        ]
+      },
+      {
+        "row": 12,
+        "raw_jsonl_line": 13,
+        "step": 11,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 7200.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 7200.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          }
+        ]
+      },
+      {
+        "row": 13,
+        "raw_jsonl_line": 14,
+        "step": 12,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 7200.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793,
+              "protease": 1.6666666666666667e-06
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          },
+          {
+            "vessel": 1,
+            "elapsed_s": 7200.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.216486261448793
+            },
+            "unresolved_g": {
+              "food/gelatin|1|mass_fraction": 0.45
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "final_scene_evidence": {
+    "raw_jsonl_line": 13,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.15002151853207,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 7200.0,
+          "enzyme_hydrolysis": [
+            {
+              "converted_fraction": 0.9999972715954814,
+              "family": "protease",
+              "material": "gelatine (dry sheets)",
+              "substrate": "gelatine protein"
+            },
+            {
+              "converted_fraction": 0.9983482117210147,
+              "family": "protease",
+              "material": "gelatine (dry sheets)",
+              "substrate": "gelatine protein"
+            }
+          ],
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04005015045135407
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.04005015045135407
+          },
+          "mass_g": 39.980000000000004,
+          "melting_point_k": 273.1499220108677,
+          "notes": [
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "100"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "gelatine protein",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "gelatine (dry sheets)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "100"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "gelatine protein",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "gelatine (dry sheets)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear. The bounded enzyme model reports 100% conversion of gelatine protein in gelatine (dry sheets). The bounded enzyme model reports 100% conversion of gelatine protein in gelatine (dry sheets)."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 7200.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04005015045135407
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.04005015045135407
+          },
+          "mass_g": 39.93000000000001,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,67 @@
+[
+  {
+    "original_id": "batch3-diverse:en-003",
+    "assessment": "en-003.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:po-005",
+    "assessment": "po-005.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:po-006",
+    "assessment": "po-006.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:co-001",
+    "assessment": "co-001.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:co-002",
+    "assessment": "co-002.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:co-007",
+    "assessment": "co-007.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:an-008",
+    "assessment": "an-008.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:en-007",
+    "assessment": "en-007.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:po-010",
+    "assessment": "po-010.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:su-006",
+    "assessment": "su-006.json",
+    "status": "candidate_all_original_bounded_criteria_met_pending_parent_independent_review"
+  },
+  {
+    "original_id": "batch3-diverse:bd-001",
+    "assessment": "bd-001.json",
+    "status": "boundary_demonstration_verified_pending_parent_review_not_scientific_selection"
+  },
+  {
+    "original_id": "batch3-diverse:bd-002",
+    "assessment": "bd-002.json",
+    "status": "boundary_demonstration_verified_pending_parent_review_not_scientific_selection"
+  },
+  {
+    "original_id": "batch3-diverse:bd-004",
+    "assessment": "bd-004.json",
+    "status": "boundary_demonstration_verified_pending_parent_review_not_scientific_selection"
+  }
+]

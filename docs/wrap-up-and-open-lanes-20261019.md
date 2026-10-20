@@ -1,5 +1,7 @@
 # Wrap-up and executable open lanes —2026-10-19
 
+**Scientific expansion checkpoint —2026-10-20:** [qualified fixed468 coverage is279](scientific-coverage-expansion-20261020.md), up35 from244; catalog283 includes four outside-target protocols.122 more earned selections are needed for401. [Exact remaining189 queue](../audits/target468-20261016/selection-expansion-second-20261020/remaining189.json) and the goal-focused handoff scope disjoint reviews, demonstrated historical transfer-heat failures, source repairs and contradictory original designs. Three verified unsupported-boundary demonstrations are excluded from the scientific count. Full localization CPU validation and CI now pass; PR843 exact-source/platform review and actual delivery remain open. Partition production workflow39275725643 succeeded, but artifact/API/browser acceptance remains pending after observer stops. PR844 merged as `e78890f7`. Earlier dated checkpoints below preserve historical states.
+
 The current scientific position is244 qualified fixed468 selections,248 catalog entries including four outside the target. Reaching401 needs157 further independently earned selections. Software checks and disclosed unsupported behavior do not increase that count. Read [the handoff](next-agent-handoff.md) for already-issued work and [STATUS](STATUS.md) for accepted source versus production.
 
 ## 1. Finish issued acceptance and delivery

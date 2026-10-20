@@ -1,0 +1,427 @@
+{
+  "original_id": "batch3-diverse:bd-004",
+  "original_script_sha256": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+  "executed_script_sha256": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+  "unchanged_original_script": true,
+  "raw_member_prefix": "batch3-diverse_bd-004",
+  "raw_sha256": {
+    "experiment.lab": "3bf8c92ef01ca69a3e4a5e9c41202726d369e68d0324f5f316fcb374b346b173",
+    "stdout.jsonl": "1e95286eff981b00745cf875d5c49dec08942d21fc76de87258cefb071134fcc",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "screen_only_not_scientific_pass": false,
+  "model_limits": {},
+  "solver_failures": [],
+  "title": "A missing chromatographic peak does not prove a missing ingredient",
+  "original_forecast": "Compare the peak list with the independent salt and unresolved-protein inventories. A plot that includes ethanol cannot certify absence of the other ingredients, whether or not every omission is explicitly labelled by the instrument.",
+  "original_limitations": [
+    "The neutral chromatography sampler has limited phase and identity coverage. Material aggregates may be outside its peak mechanism altogether; this is not a failure of matter conservation by itself."
+  ],
+  "original_checks": [
+    {
+      "id": "question",
+      "criterion": "What is lost when a neutral-partition chromatogram is treated as a complete analysis of a sample containing ions and unresolved protein?",
+      "review_instruction": "Compare the peak list with the independent salt and unresolved-protein inventories. A plot that includes ethanol cannot certify absence of the other ingredients, whether or not every omission is explicitly labelled by the instrument.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "verdict": "boundary_demonstration_verified_pending_parent_review_not_scientific_selection",
+  "interpretation": "Original explicitly scoped boundary: ethanol-only peak coexists with1 mmol each Na/Cl and0.188 g unresolved protein plus0.012 g recipe water. Peak omission cannot establish ingredient absence. Balance excludes unresolved protein; no total-mass certification.",
+  "per_criterion": {
+    "question": {
+      "original_criterion": "What is lost when a neutral-partition chromatogram is treated as a complete analysis of a sample containing ions and unresolved protein?",
+      "original_review_instruction": "Compare the peak list with the independent salt and unresolved-protein inventories. A plot that includes ethanol cannot certify absence of the other ingredients, whether or not every omission is explicitly labelled by the instrument.",
+      "assessment": "Original explicitly scoped boundary: ethanol-only peak coexists with1 mmol each Na/Cl and0.188 g unresolved protein plus0.012 g recipe water. Peak omission cannot establish ingredient absence. Balance excludes unresolved protein; no total-mass certification.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "All rows independently audited against explicit doses and pinned recipe components; retained unresolved masses separately conserved. See inventory_trace. No gas, transfer, sink or resolved reaction accepted.",
+      "result": "candidate_met_pending_independent_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Limited exactly to original model question and original limitations; editorial/aggregate descriptions are not empirical calibration or molecular products.",
+      "result": "candidate_met_pending_independent_parent_review"
+    }
+  },
+  "raw_coordinates": [
+    {
+      "row": 4,
+      "raw_jsonl_line": 5,
+      "step": 4,
+      "event": {
+        "event": "chromatographed",
+        "outside_method": [
+          "Cl-",
+          "Na+"
+        ],
+        "peaks": [
+          {
+            "partition_k": 0.27503896380363785,
+            "relative_area": 1.0,
+            "retention_time_s": 68.25116891410913,
+            "rf": 0.21571024228401162,
+            "species": "ethanol",
+            "width_s": 2.730046756564365
+          }
+        ],
+        "plates": 10000,
+        "vessel": 0,
+        "void_time_s": 60.0
+      }
+    },
+    {
+      "row": 5,
+      "raw_jsonl_line": 6,
+      "step": 5,
+      "event": {
+        "event": "measured",
+        "instrument": "conductivity_meter",
+        "unit": "µS/cm",
+        "value": 2926.439635445035,
+        "vessel": 0
+      }
+    },
+    {
+      "row": 6,
+      "raw_jsonl_line": 7,
+      "step": 6,
+      "event": {
+        "event": "measured",
+        "instrument": "balance",
+        "unit": "g",
+        "value": 39.996512,
+        "vessel": 0
+      }
+    }
+  ],
+  "inventory_trace": {
+    "method": "independent per-row operator/component/unresolved ledger with recipe fractions and molecular masses independently rederived from pinned registry;  no resolved reactions, transfers, gas or hidden export admitted",
+    "max_resolved_residual_mol": 0.0,
+    "max_unresolved_residual_g": 0.0,
+    "all_operator_clocks_checked": true,
+    "trace": [
+      {
+        "row": 0,
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 1,
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "ethanol",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.15,
+            "resolved_moles": {
+              "water": 2.2137107965584235,
+              "ethanol": 0.001
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 2,
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "NaCl",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.1267546592094,
+            "resolved_moles": {
+              "ethanol": 0.001,
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.2137107965584235
+            },
+            "unresolved_g": {}
+          }
+        ]
+      },
+      {
+        "row": 3,
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "albumin",
+          "op": "add_material",
+          "recipe_id": "food/albumin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.2,
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.1267616469911,
+            "resolved_moles": {
+              "ethanol": 0.001,
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.2143769081321123
+            },
+            "unresolved_g": {
+              "food/albumin|1|mass_fraction": 0.188
+            }
+          }
+        ]
+      },
+      {
+        "row": 4,
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "instrument": "chromatograph",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.1267616469911,
+            "resolved_moles": {
+              "ethanol": 0.001,
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.2143769081321123
+            },
+            "unresolved_g": {
+              "food/albumin|1|mass_fraction": 0.188
+            }
+          }
+        ]
+      },
+      {
+        "row": 5,
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.1267616469911,
+            "resolved_moles": {
+              "ethanol": 0.001,
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.2143769081321123
+            },
+            "unresolved_g": {
+              "food/albumin|1|mass_fraction": 0.188
+            }
+          }
+        ]
+      },
+      {
+        "row": 6,
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "balance",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.1267616469911,
+            "resolved_moles": {
+              "ethanol": 0.001,
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.2143769081321123
+            },
+            "unresolved_g": {
+              "food/albumin|1|mass_fraction": 0.188
+            }
+          }
+        ]
+      },
+      {
+        "row": 7,
+        "raw_jsonl_line": 9,
+        "step": 7,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_resolved_residual_mol": 0.0,
+        "max_unresolved_residual_g": 0.0,
+        "vessels": [
+          {
+            "vessel": 0,
+            "elapsed_s": 0.0,
+            "temperature_k": 298.1267616469911,
+            "resolved_moles": {
+              "ethanol": 0.001,
+              "Cl-": 0.001,
+              "Na+": 0.001,
+              "water": 2.2143769081321123
+            },
+            "unresolved_g": {
+              "food/albumin|1|mass_fraction": 0.188
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "final_scene_evidence": {
+    "raw_jsonl_line": 7,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.993677375332
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.02506779790965
+            }
+          ],
+          "boiling_point_k": 373.17578154875633,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.04007042520845172
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.04007042520845172
+          },
+          "mass_g": 39.996512,
+          "melting_point_k": 273.05659888406444,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.1267616469911,
+          "words": "The liquid is colourless and clear."
+        }
+      ]
+    }
+  }
+}

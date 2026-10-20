@@ -1,0 +1,1037 @@
+{
+  "original_id": "batch3-diverse:en-009",
+  "title": "Pause and resume the pepsin pH gate",
+  "original_forecast": "Compare incremental, not cumulative, hydrolysis across acidic, near-neutral and reacidified intervals. Activity may recover in the final interval if the pH gate is restored.",
+  "original_limitations": [
+    "This is a pH-envelope investigation. It does not model irreversible alkaline destruction of real pepsin; do not extrapolate recovery to strongly alkaline conditions."
+  ],
+  "original_script_sha256": "3b76c39e6e1d6151cb9f0bc1d6351ef2f277c4aae1a0001d11d368e26bf4fb16",
+  "raw_member_prefix": "batch3-diverse_en-009",
+  "raw_sha256": {
+    "experiment.lab": "3b76c39e6e1d6151cb9f0bc1d6351ef2f277c4aae1a0001d11d368e26bf4fb16",
+    "stdout.jsonl": "00e1183ac4ae40c1513ada32d574aa497d1acd3d1a617c8400fbf7146ab1fc68",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Can changing the solution acidity pause modelled digestion and permit renewed activity without adding more pepsin?",
+      "original_instruction": "Compare incremental, not cumulative, hydrolysis across acidic, near-neutral and reacidified intervals. Activity may recover in the final interval if the pH gate is restored.",
+      "assessment": "Incremental conversion nearly pauses near pH6.847 and resumes after reacidification to2.051. The third increment is smaller than first because less unconverted substrate remains; no irreversible high-pH destruction or activity reset is inferred.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Incremental conversion nearly pauses near pH6.847 and resumes after reacidification to2.051. The third increment is smaller than first because less unconverted substrate remains; no irreversible high-pH destruction or activity reset is inferred.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, elemental/charge ownership, exact formula-free enzyme carriers, sealed dry air and Fe-only magnetic transfer. No gas export or unknown event admitted. Free proton/hydroxide readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "at": 310.15,
+          "moles": 5.534276991396059,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.068553982792118,
+              "O": 5.534276991396059,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.068553982792118,
+              "O": 5.534276991396059,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 5.534276991396059,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.1439842209462,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 11.074104912572857,
+              "O": 5.537052456286428,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.074104912572857,
+              "O": 5.537052456286428,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 5.537052456286428,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "HCl",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.1439862901133,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "H": 11.075104912572856,
+              "O": 5.537052456286428
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.075104912572856,
+              "O": 5.537052456286428,
+              "charge": 0.0,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.537052456286428,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 1.4492753623188406e-06,
+          "op": "add",
+          "species": "pepsin",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.1439862901133,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.075104912572856,
+              "O": 5.537052456286428
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.075104912572856,
+              "O": 5.537052456286428,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.537052456286428,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "op": "wait",
+          "seconds": 600.0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 307.49973123192785,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.075104912572856,
+              "O": 5.537052456286428
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.075104912572856,
+              "O": 5.537052456286428,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.537052456286428,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 307.49973123192785,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 11.075104912572856,
+              "O": 5.537052456286428
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.075104912572856,
+              "O": 5.537052456286428,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.537052456286428,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 5,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "NaOH",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 1.7763568394002505e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 307.73865209971507,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "Na": 0.001,
+              "H": 11.076104912572857,
+              "O": 5.538052456286429
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.076104912572855,
+              "O": 5.538052456286429,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "Na": 0.001
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.538052456286429,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 6,
+        "operator": {
+          "instrument": "ph_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 1.7763568394002505e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 307.73865209971507,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "Na": 0.001,
+              "H": 11.076104912572857,
+              "O": 5.538052456286429
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.076104912572855,
+              "O": 5.538052456286429,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "Na": 0.001
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.538052456286429,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 7,
+        "operator": {
+          "op": "wait",
+          "seconds": 600.0
+        },
+        "max_element_or_charge_residual": 1.7763568394002505e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 305.6251517594241,
+            "elapsed_s": 1200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "Na": 0.001,
+              "H": 11.076104912572857,
+              "O": 5.538052456286429
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.076104912572855,
+              "O": 5.538052456286429,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "Na": 0.001
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.538052456286429,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 8,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 1.7763568394002505e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 305.6251517594241,
+            "elapsed_s": 1200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "Na": 0.001,
+              "H": 11.076104912572857,
+              "O": 5.538052456286429
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.076104912572855,
+              "O": 5.538052456286429,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "Na": 0.001
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.538052456286429,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 8,
+        "operator": {
+          "moles": 0.001,
+          "op": "add",
+          "species": "HCl",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 1.7763568394002505e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 305.62515369761866,
+            "elapsed_s": 1200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.002,
+              "Na": 0.001,
+              "H": 11.077104912572857,
+              "O": 5.538052456286429
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.077104912572855,
+              "O": 5.538052456286429,
+              "charge": 0.0,
+              "Cl": 0.002,
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "Na": 0.001
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.002,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.538052456286429,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 9,
+        "operator": {
+          "instrument": "ph_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 1.7763568394002505e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 305.62515369761866,
+            "elapsed_s": 1200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.002,
+              "Na": 0.001,
+              "H": 11.077104912572857,
+              "O": 5.538052456286429
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.077104912572855,
+              "O": 5.538052456286429,
+              "charge": 0.0,
+              "Cl": 0.002,
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "Na": 0.001
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.002,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.538052456286429,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 10,
+        "operator": {
+          "op": "wait",
+          "seconds": 600.0
+        },
+        "max_element_or_charge_residual": 1.7763568394002505e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 303.9775597709014,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.002,
+              "Na": 0.001,
+              "H": 11.077104912572857,
+              "O": 5.538052456286429
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.077104912572855,
+              "O": 5.538052456286429,
+              "charge": 0.0,
+              "Cl": 0.002,
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "Na": 0.001
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.002,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.538052456286429,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 11,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 1.7763568394002505e-15,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 303.9775597709014,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "charge": 0.0,
+              "Cl": 0.002,
+              "Na": 0.001,
+              "H": 11.077104912572857,
+              "O": 5.538052456286429
+            },
+            "expected_explicit_input_totals": {
+              "H": 11.077104912572855,
+              "O": 5.538052456286429,
+              "charge": 0.0,
+              "Cl": 0.002,
+              "owned_species:pepsin": 1.4492753623188406e-06,
+              "Na": 0.001
+            },
+            "unresolved_g": {
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 1.4492753623188406e-06,
+                "phase": "aqueous",
+                "species": "pepsin"
+              },
+              {
+                "moles": 0.002,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 5.538052456286429,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 1.7763568394002505e-15,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "Incremental conversion nearly pauses near pH6.847 and resumes after reacidification to2.051. The third increment is smaller than first because less unconverted substrate remains; no irreversible high-pH destruction or activity reset is inferred.",
+  "independent_calculations": {
+    "incremental_hydrolysed_g": [
+      0.2159145774796262,
+      2.2322179280859222e-05,
+      0.10965315064015874
+    ]
+  },
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 5,
+      "event": {
+        "converted_fraction": 0.4798101721769471,
+        "event": "enzyme_hydrolysed",
+        "family": "pepsin",
+        "hydrolysed_mass_g": 0.2159145774796262,
+        "material": "gelatine (dry sheets)",
+        "seconds": 600.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 9,
+      "event": {
+        "converted_fraction": 0.47985977701979343,
+        "event": "enzyme_hydrolysed",
+        "family": "pepsin",
+        "hydrolysed_mass_g": 2.232217928084812e-05,
+        "material": "gelatine (dry sheets)",
+        "seconds": 600.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 13,
+      "event": {
+        "converted_fraction": 0.7235334451090351,
+        "event": "enzyme_hydrolysed",
+        "family": "pepsin",
+        "hydrolysed_mass_g": 0.10965315064015874,
+        "material": "gelatine (dry sheets)",
+        "seconds": 600.0,
+        "substrate": "gelatine protein",
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 8,
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 6.846674059546,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 12,
+      "event": {
+        "event": "measured",
+        "instrument": "ph_meter",
+        "unit": "pH",
+        "value": 2.050516552096,
+        "vessel": 0
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 13,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 2.050375854227
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.02004650488635
+            }
+          ],
+          "boiling_point_k": 373.1706948000013,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 1800.0,
+          "enzyme_hydrolysis": [
+            {
+              "converted_fraction": 0.7235334451090351,
+              "family": "pepsin",
+              "material": "gelatine (dry sheets)",
+              "substrate": "gelatine protein"
+            }
+          ],
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.10006821965897696
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.10006821965897696
+          },
+          "mass_g": 99.91291900000002,
+          "melting_point_k": 273.0750210222412,
+          "notes": [
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "72"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "gelatine protein",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "gelatine (dry sheets)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 303.9775597709014,
+          "words": "The liquid is colourless and clear. The bounded enzyme model reports 72% conversion of gelatine protein in gelatine (dry sheets)."
+        }
+      ]
+    }
+  }
+}
