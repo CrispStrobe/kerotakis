@@ -15,6 +15,8 @@ python3 audits/target468-20261016/batch3-selection-review-20261020/review_saved.
 python3 audits/target468-20261016/batch3-selection-review-second-20261020/review_saved.py
 ```
 
+Evidence publication is immutable commit `a60d5c242fbc2b60cc537c157ef54433bd34209d`. Some audit files are intentionally outside main. Fetch that public commit and use a separate detached evidence checkout to run the readers; do not merge its broad audit history, build its checkout as current app source, or copy its runtime files into an implementation branch. Runtime repairs always start from refreshed actual main.
+
 These readers consume saved evidence and pinned Git objects; none invokes an engine. Check resources before archive hashing/decoding. The primary reviewer reproduced all four, read every selected original criterion/limitation and sent the first batch3 review back for missing control criteria, historical archive authentication, persistent state/scene observations, independent energy arithmetic and fail-closed event admission. First reader failures remain published. All248 original catalog entries, then all268 checkpoint entries, are preserved exactly in their successors.
 
 New selections comprise16 batch2 originals,18 batch3 originals and KN012 from first120. Independent arithmetic covers Faraday charge/gas increments, Nernst potential differences, NASA heat-capacity integrals, Stokes settling, salt washing, every-step material/charge ownership, actual clocks, enzyme-owned conversion, hydration water, opaque spectral mixing and sealed-gasCv including trapped air. Editorial/aggregate/material models qualify only their explicitly declared observable. Unsupported BD001/002/004 demonstrations are verified separately and excluded from scientific selections.
