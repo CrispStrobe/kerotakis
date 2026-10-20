@@ -1,0 +1,7 @@
+{
+  "exit_status": 0,
+  "collector_sha256": "7f15bf9c1ec57bc0433f955cd06e056172320bb8efacbb0dd4c582a9a2d9d189",
+  "fast_spool_sha256": "e5882090a323d4ebaebe4d6a2e935047f799b592bea3c70adb6418bfedccac25",
+  "actual_installed_status_and_output_request_serialization_checked": true,
+  "provider_calls": 0
+}

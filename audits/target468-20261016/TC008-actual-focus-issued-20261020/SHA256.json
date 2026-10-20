@@ -1,0 +1,14 @@
+{
+  "ISSUE.public-projection.json": "8ef8130d4a99add12c9c05a4cb2a855dfde676a73fc8cb81c3fa7c01265f5af9",
+  "PARENT-ISSUE-REVIEW.json": "4a11bc0c4181ea968e3e88f24ccd0e9ffcd648a370eb7a921368be07151cb970",
+  "README.md": "103322a45404dd14b0a53d53c3b7afd31d02e07747ffc7e764825253ddf775bb",
+  "collect_focus.py": "7f15bf9c1ec57bc0433f955cd06e056172320bb8efacbb0dd4c582a9a2d9d189",
+  "collector-parent.result.json": "b16332d2a68a5bfe539008447dbd903334378be2bd28944a6b6e6afe82607775",
+  "collector-parent.stderr": "c1365a1c148c94c6c372c4cd2197192c5b6f483d537337ee023435085a65161d",
+  "collector-parent.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "fast_spool.py": "e5882090a323d4ebaebe4d6a2e935047f799b592bea3c70adb6418bfedccac25",
+  "input-projection.json": "c131941931d3ece978b4df3dfc9a5a81cc4f94ce5c0bae0a4b78a8b437ba6a34",
+  "test_collect_focus.py": "2e9c20829f39a243972d211059d125af69cc9de9a38c396e1ea63638f448a294",
+  "worker.body.py": "fa0a9beeeb98c01cdba7cdc25825f69c0ff95bf0ca8b8a8b6befa67660f50a3d",
+  "worker.py": "9b2fd119c08f097bd2c654c98816b69144aab7683872077bcaf9e91b8153da50"
+}

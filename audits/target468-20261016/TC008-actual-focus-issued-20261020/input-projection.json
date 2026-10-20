@@ -1,0 +1,71 @@
+{
+  "state": "PREPARED_NOT_ISSUED",
+  "repository": "https://github.com/CrispStrobe/kerotakis.git",
+  "source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "tree": "f77a9e82941f30a6433583e1bd417939118d13c6",
+  "fixture_commit": "9300edb657254a6830095e3f0b3deaf01556d058",
+  "fixture_public_prefix": "audits/target468-20261016/TC008-stage-trace-preparation-20261020/",
+  "source_blobs_sha256": {
+    "crates/kerotakis-cli/src/main.rs": "fb4d3bfb499cbd07d3bd81811142c67e8f3ec846cb9b7b8c41d83c98539010ee",
+    "crates/kerotakis-cli/Cargo.toml": "bf37c2974740c1d320e12a7f17b4172dcb37191a38b7c821827375c7667ae9d5",
+    "crates/kerotakis-core/src/solve.rs": "8caf89fb2f397f998cadb336388f28c5213848ecf91d6b03d13229394d54edf3",
+    "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/src/aqueous_continuation.rs": "c6c12f8dcfa02720b908375d4f4395cf5ecbec8cfa985e7391c95d1513e819d7",
+    "crates/kerotakis-core/src/displacement.rs": "ff7425a1c965b3f601b09b36944a899a51927f4b664a70a424ffefdff6a98d49",
+    "crates/kerotakis-core/src/acid_endpoint.rs": "63f8b35a15a680221e0fee3853cf3c07fcc1535fc39c13ed7407ec1f9796a2e5",
+    "crates/kerotakis-core/src/script.rs": "a5e20d5b1d245de00c6053da8001936db99f809732b835f35d971aae7099b46f",
+    "crates/kerotakis-stack/src/lib.rs": "eecb8dc4356e3f3b18bcfc13b772fca988d71c9b9b1ba6fb45ce916d1e2a6a4b",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "8d4ad7084722c2fec27008aa73931ec2e75267ee5d9b9d26ac03d5fa4b7f73bb",
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "overlays": {
+    "brine_phase_energy.rs": "crates/kerotakis-core/tests/brine_phase_energy.rs",
+    "tc008_energy_trace.rs": "crates/kerotakis-cli/tests/tc008_energy_trace.rs",
+    "fixtures/tc008-original.lab": "crates/kerotakis-cli/tests/fixtures/tc008-original.lab"
+  },
+  "dependency_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "dependency_lock_qualification": "Seed accepted same-runtime-tree full18 lock; retain independently rehashed actual after-build producer bytes. This is not deployed41bb lock identity.",
+  "minimum_available_memory_mib": 6000,
+  "minimum_disk_bytes": 12884901888,
+  "maximum_seconds": 1800,
+  "toolchain": "1.99.1",
+  "brine_tests": [
+    "pure_water_freezing_conserves_independent_phase_energy",
+    "pure_water_melting_conserves_independent_phase_energy",
+    "dilute_brine_freezing_conserves_independent_phase_energy",
+    "intermediate_brine_freezing_conserves_independent_phase_energy",
+    "stronger_brine_freezing_conserves_independent_phase_energy",
+    "dilute_brine_melting_conserves_independent_phase_energy",
+    "intermediate_brine_melting_conserves_independent_phase_energy",
+    "stronger_brine_melting_conserves_independent_phase_energy"
+  ],
+  "trace_tests": [
+    "original_tc008_records_actual_stage_states_without_energy_verdict"
+  ],
+  "files": {
+    "brine_phase_energy.rs": {
+      "sha256": "3ce054a91dd581b0d9706cbb8dfec97d9b0cdadcfa1976624de1c212e588a591",
+      "bytes": 9568
+    },
+    "tc008_energy_trace.rs": {
+      "sha256": "331651a28d225e2d64e603974063a5881aca002bc86790a950f9bd565fbc611e",
+      "bytes": 11011
+    },
+    "fixtures/tc008-original.lab": {
+      "sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+      "bytes": 282
+    },
+    "review_trace.py": {
+      "sha256": "99bb9b2e0ed09b1d02f7415f631c01d7584cfd7a7d8dcdbd07342cf77f760ca0",
+      "bytes": 11802
+    },
+    "design.json": {
+      "sha256": "bd0e1eec1a8681c1132e4aabd5d42a214dd6d35714a1baf6d86731424e9ff0c3",
+      "bytes": 7039
+    }
+  },
+  "full_bound_worker_contains_only_public_frozen_inputs": true
+}
