@@ -35,3 +35,11 @@ PR787 was the only open PR at the 2026-10-15 checkpoint. It merged through this
 auto-merge command after 25 CI and 33 fleet jobs passed. Public auto-merge is
 already enabled in repository settings; required branch protection remains intact.
 Sign commits as required by [CONTRIBUTING](../CONTRIBUTING.md).
+
+## Batch related delivery work
+
+Prepare a cohesive implementation and its maintained status/handoff updates together before opening a PR. Fold related ready work into that PR while its acceptance head is still being prepared. Avoid a standalone documentation PR for every intermediate checkpoint. Freeze source-specific evidence separately and reference its immutable public audit commit; never merge broad audit history.
+
+Preserve an already reviewed head with active or completed acceptance. Optional bundling should not restart its validation; include later summaries with the next substantive change. Independent chemistry repairs still require their own frozen source/forecast/first-failure evidence even when delivery is batched.
+
+CI optimization starts with an explicit eight-file maintained-summary fast path. Unknown paths, root README/CONTRIBUTING (consumed by tests), scientific data, runtime, workflow and contract changes retain FULL. Classification errors must fail the stable required gate. Preserve exact required platform context names and unchanged full-runtime commands. Full own-fleet and actual delivery remain mandatory where applicable; a docs-only skip is not source/product acceptance.
