@@ -1,0 +1,657 @@
+{
+  "schema": "kerotakis.SE009-phase-owned.saved-production-review.v1",
+  "engine": {
+    "source_head": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+    "binary_sha256": "fafe782ff4f27e47f3a6a4213ef6e3d2acd12ed06eb970033b6c11cd126454fe",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "design_sha256": "5a1a1669b5c5614202719e4d807e33eb3e8347c90387cbb3191d459c9298d4bd",
+  "frozen_protocol_sha256": "38108debc502109f0be3b59a86849f786b070e62e88acda8f87b52ffc973da22",
+  "historical_wrong_phase_debit_source_review": {
+    "repository_path": "audits/target468-20261016/aqueous-solubility-ownership-preparation-20261020/SOURCE-REVIEW.md",
+    "sha256": "3d812f3af0a8b43857943c72f4c431eaf3188ddf7ba0f8387d121374a67aae2a"
+  },
+  "artifact_receipt_sha256": "5f4402fa06398e1e5b7a35479c7d96be3be35eb53c8e2de04ed515c8df8b25ad",
+  "production_receipt_sha256": "95c6752022b73ab2e1c55bad8fba46aecbbea1ae875fc5f5ab3b3c2dce09125f",
+  "runner_sha256": "c50294e7f71ce8230d5aad2796c168744cc7e3d5657a462309348b10b27a3584",
+  "issued_receipt_sha256": "2392ce51349bcdb916fd16105a05dcfe90ba0b246cde2a0cda01ef9260dd4472",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "thermal_fixture_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/src/solve.rs": "d34fa7f06f820840a11d37f2aad8684e869dcaaa7d413d87b881ac92a641583c",
+    "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+    "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47",
+    "crates/kerotakis-core/src/clock.rs": "a7e64dac6135a6150f6c241beeb63e52e114de84ec217f1b694ac90b0476d80c",
+    "crates/kerotakis-core/src/lib.rs": "cc0022bb26e09b9edb86f0ff8809f7238831059f1fca6c177c6b34c692ab1334",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "faf5a9cca1f76a11b94171a0367db809d4cba7762672074cbcf2e45bc9b49ab5"
+  },
+  "cases": [
+    {
+      "id": "batch2:se-009",
+      "status": "PASS",
+      "engine": {
+        "source_head": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+        "binary_sha256": "fafe782ff4f27e47f3a6a4213ef6e3d2acd12ed06eb970033b6c11cd126454fe",
+        "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+      },
+      "script_sha256": "e1a9c24c63fc3c3eca32e6ebf76e57e5c7815e95f062df019ce0efb134a2c8cc",
+      "response_sha256": "e7e559c78341dc7e0421244d108e1ed733bb578ed7db1264d152d8c618f07c44",
+      "original_forecast": "A lower aqueous fraction, an organic liquid fraction and an insoluble solid residue should be distinguishable, subject to the operators\u2019 actual phase semantics.",
+      "original_checks": [
+        {
+          "id": "SE-009-C1",
+          "criterion": "Identify the composition of each destination rather than assigning it from vessel number.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "SE-009-C2",
+          "criterion": "Close water, hexane, salt and silica balances across all three vessels.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Interfacial trapping, emulsions and solid entrainment may be outside the ideal model."
+      ],
+      "common_checks": {
+        "complete_atoms_charge": true,
+        "filter_phase_ownership": true,
+        "no_unresolved_or_noncontents_reservoirs": true,
+        "no_solver_or_relevant_model_limit": true,
+        "phase_selected_silica_carrier_ownership": true,
+        "closed_separation_energy": true
+      },
+      "criteria": {
+        "SE-009-C1": true,
+        "SE-009-C2": true
+      },
+      "metrics": {
+        "actual_destinations_by_composition": [
+          {
+            "vessel": 0,
+            "water_mol": "0",
+            "hexane_mol": "0",
+            "Na_atoms_mol": "0",
+            "Cl_atoms_mol": "0",
+            "Si_atoms_mol": "0.0166233939151854070",
+            "SiO2_solid_mol": "0.016623393915185407",
+            "SiO2_aqueous_mol": "0",
+            "all_gases": [],
+            "actual_contents": [
+              {
+                "moles": "0.016623393915185407",
+                "phase": "solid",
+                "species": "SiO2"
+              }
+            ]
+          },
+          {
+            "vessel": 1,
+            "water_mol": "5.534276991396059",
+            "hexane_mol": "0",
+            "Na_atoms_mol": "0.0010",
+            "Cl_atoms_mol": "0.0010",
+            "Si_atoms_mol": "0.0000199720391451967220",
+            "SiO2_solid_mol": "0",
+            "SiO2_aqueous_mol": "0.000019972039145196722",
+            "all_gases": [],
+            "actual_contents": [
+              {
+                "moles": "0.000019972039145196722",
+                "phase": "aqueous",
+                "species": "SiO2"
+              },
+              {
+                "moles": "0.001",
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": "0.001",
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": "5.534276991396059",
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "vessel": 2,
+            "water_mol": "0",
+            "hexane_mol": "0.15331058970967068",
+            "Na_atoms_mol": "0",
+            "Cl_atoms_mol": "0",
+            "Si_atoms_mol": "0",
+            "SiO2_solid_mol": "0",
+            "SiO2_aqueous_mol": "0",
+            "all_gases": [],
+            "actual_contents": [
+              {
+                "moles": "0.15331058970967068",
+                "phase": "liquid",
+                "species": "hexane"
+              }
+            ]
+          }
+        ],
+        "drain_source_phase_checks": {
+          "solid_SiO2_not_debited_for_aqueous_transfer": true,
+          "aqueous_SiO2_removed_from_donor": true,
+          "aqueous_SiO2_received": true,
+          "carrier_water_received": true,
+          "hexane_retained": true
+        },
+        "predrain_solid_SiO2_mol": "0.016623393915185407",
+        "predrain_aqueous_SiO2_mol": "0.000019972039145196722",
+        "postdrain_donor_solid_SiO2_mol": "0.016623393915185407",
+        "postdrain_donor_aqueous_SiO2_mol": "0",
+        "postdrain_receiver_aqueous_SiO2_mol": "0.000019972039145196722",
+        "waterless_organic_aqueous_silica_violations": [],
+        "actual_clocks_temperatures_pH": [
+          {
+            "row": 0,
+            "vessel": 0,
+            "op": "add",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0",
+            "T_K": "298.15",
+            "pH": "6.997375771104036"
+          },
+          {
+            "row": 1,
+            "vessel": 0,
+            "op": "add",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1406955541713",
+            "pH": "6.99679587879"
+          },
+          {
+            "row": 2,
+            "vessel": 0,
+            "op": "add",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413197569033",
+            "pH": "6.996786018983"
+          },
+          {
+            "row": 3,
+            "vessel": 0,
+            "op": "add",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413342044983",
+            "pH": "6.996786018983"
+          },
+          {
+            "row": 4,
+            "vessel": 0,
+            "op": "new_vessel",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413342044983",
+            "pH": "6.996786018983"
+          },
+          {
+            "row": 4,
+            "vessel": 1,
+            "op": "new_vessel",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0",
+            "T_K": "298.15",
+            "pH": null
+          },
+          {
+            "row": 5,
+            "vessel": 0,
+            "op": "drain",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413342044983",
+            "pH": null
+          },
+          {
+            "row": 5,
+            "vessel": 1,
+            "op": "drain",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413327300347",
+            "pH": "6.996786018983"
+          },
+          {
+            "row": 6,
+            "vessel": 0,
+            "op": "new_vessel",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413342044983",
+            "pH": null
+          },
+          {
+            "row": 6,
+            "vessel": 1,
+            "op": "new_vessel",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413327300347",
+            "pH": "6.996786018983"
+          },
+          {
+            "row": 6,
+            "vessel": 2,
+            "op": "new_vessel",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0",
+            "T_K": "298.15",
+            "pH": null
+          },
+          {
+            "row": 7,
+            "vessel": 0,
+            "op": "filter",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413342044983",
+            "pH": null
+          },
+          {
+            "row": 7,
+            "vessel": 1,
+            "op": "filter",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413327300347",
+            "pH": "6.996786018983"
+          },
+          {
+            "row": 7,
+            "vessel": 2,
+            "op": "filter",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413342044983",
+            "pH": null
+          },
+          {
+            "row": 8,
+            "vessel": 0,
+            "op": "inspect",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413342044983",
+            "pH": null
+          },
+          {
+            "row": 8,
+            "vessel": 1,
+            "op": "inspect",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413327300347",
+            "pH": "6.996786018983"
+          },
+          {
+            "row": 8,
+            "vessel": 2,
+            "op": "inspect",
+            "actual_seconds": "0.0",
+            "delta_seconds": "0.0",
+            "T_K": "298.1413342044983",
+            "pH": null
+          }
+        ],
+        "unapplied_external_CO2_credits": [
+          {
+            "row": 0,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 1,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 2,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 3,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 4,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 4,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 5,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 5,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 6,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 6,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 6,
+            "vessel": 2,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 7,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 7,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 7,
+            "vessel": 2,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 8,
+            "vessel": 0,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 8,
+            "vessel": 1,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          },
+          {
+            "row": 8,
+            "vessel": 2,
+            "unapplied_external_CO2_credit_mol": "0.0"
+          }
+        ],
+        "phase_owned_gas_checks": [
+          {
+            "row": 5,
+            "op": "drain",
+            "donor": 0,
+            "receiver": 1,
+            "owned_donor_gases": [],
+            "all_original_donor_gases_retained": true
+          },
+          {
+            "row": 7,
+            "op": "filter",
+            "donor": 0,
+            "receiver": 2,
+            "owned_donor_gases": [],
+            "all_original_donor_gases_retained": true
+          }
+        ],
+        "independent_transfer_heat": [
+          {
+            "row": 5,
+            "operator": {
+              "from": 0,
+              "op": "drain",
+              "to": 1
+            },
+            "independent_before_sensible_plus_excess_J": -3.8800542739734714,
+            "independent_after_sensible_plus_excess_J": -3.8806691424343143,
+            "closed_transfer_residual_J": -0.00061486846084291,
+            "actual_gas_boundary_events": [],
+            "closed_transfer_domain": true
+          },
+          {
+            "row": 7,
+            "operator": {
+              "from": 0,
+              "op": "filter",
+              "to": 2
+            },
+            "independent_before_sensible_plus_excess_J": -3.8806691424343143,
+            "independent_after_sensible_plus_excess_J": -3.8806691424343143,
+            "closed_transfer_residual_J": 0.0,
+            "actual_gas_boundary_events": [],
+            "closed_transfer_domain": true
+          }
+        ],
+        "all_actual_gas_exports_or_absorption": [],
+        "drying_interpretation": "Original contains no drying/heating/wait command. Dry solid residue is produced by drain/filter transfer of carrier liquids. Any actual evaporation/boundary event is recorded; a transfer with such an event is held for explicit open-energy treatment, never silently assumed closed."
+      },
+      "qualified_scope": [
+        "Original ideal three-fraction phase separation and material/charge ownership only, with source-selected aqueous silica debited from aqueous inventory rather than solid inventory.",
+        "No empirical partition, interfacial trapping/emulsion/solid-entrainment, evaporation-rate or calibrated thermal claim. Transfer enthalpy check uses actual source Cp and recorded excess; the original protocol does not command drying or evaporation.",
+        "Canonical gas ownership is bookkeeping, not a validated physical open-vessel venting model. Pending external CO2 credits are unapplied claims until actual source threshold and boundary event."
+      ],
+      "actual_limits_or_failures": [],
+      "per_step_vessel_atom_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "charge": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.0000",
+            "O": "0E-16",
+            "charge": "0E-16",
+            "Cl": "0.0000",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "C": "0E-18",
+            "Na": "0.0000",
+            "O": "0E-16",
+            "charge": "0E-18",
+            "Cl": "0.0000",
+            "H": "0E-18"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "C": "0E-18",
+            "Si": "-2.780E-19",
+            "Na": "0.0000",
+            "O": "-5.560E-19",
+            "charge": "0E-22",
+            "Cl": "0.0000",
+            "H": "0E-18"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "C": "0E-18",
+            "Si": "-2.780E-19",
+            "Na": "0.0000",
+            "O": "-5.560E-19",
+            "charge": "0E-22",
+            "Cl": "0.0000",
+            "H": "0E-18"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "C": "0E-18",
+            "Si": "-2.780E-19",
+            "Na": "0.0000",
+            "O": "-5.560E-19",
+            "charge": "0E-22",
+            "Cl": "0.0000",
+            "H": "0E-18"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "residuals": {
+            "Si": "0E-22",
+            "Na": "0.0000",
+            "O": "0E-22",
+            "charge": "0E-22",
+            "Cl": "0.0000",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "C": "0E-18",
+            "Si": "-2.780E-19",
+            "Na": "0.0000",
+            "O": "-5.560E-19",
+            "charge": "0E-22",
+            "Cl": "0.0000",
+            "H": "0E-18"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "residuals": {
+            "Si": "0E-22",
+            "Na": "0.0000",
+            "O": "0E-22",
+            "charge": "0E-22",
+            "Cl": "0.0000",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 2,
+          "residuals": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.0000",
+            "charge": "0E-22",
+            "Si": "-2.780E-19",
+            "C": "0E-18",
+            "O": "-5.560E-19",
+            "Cl": "0.0000",
+            "H": "0E-18"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "residuals": {
+            "Si": "0E-22",
+            "Na": "0.0000",
+            "O": "0E-22",
+            "charge": "0E-22",
+            "Cl": "0.0000",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 2,
+          "residuals": {
+            "charge": "0E-18",
+            "C": "0E-18",
+            "H": "0E-18"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.0000",
+            "charge": "0E-22",
+            "Si": "-2.780E-19",
+            "C": "0E-18",
+            "O": "-5.560E-19",
+            "Cl": "0.0000",
+            "H": "0E-18"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "residuals": {
+            "Si": "0E-22",
+            "Na": "0.0000",
+            "O": "0E-22",
+            "charge": "0E-22",
+            "Cl": "0.0000",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 2,
+          "residuals": {
+            "charge": "0E-18",
+            "C": "0E-18",
+            "H": "0E-18"
+          }
+        }
+      ],
+      "maximum_material_residuals": {
+        "O": "5.560E-19",
+        "charge": "0",
+        "H": "0",
+        "Na": "0",
+        "Cl": "0",
+        "C": "0",
+        "Si": "2.780E-19"
+      },
+      "boundary_exports": [],
+      "noncontents_reservoir_snapshot_checks": 17
+    }
+  ],
+  "new_engine_or_API_executions": 0,
+  "catalog_selection_assigned": false
+}

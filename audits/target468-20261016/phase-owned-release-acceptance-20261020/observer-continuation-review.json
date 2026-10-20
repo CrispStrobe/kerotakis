@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-20T12:52:54.992586+00:00",
+  "reason": "Current reused partition monitor lacks resource gate; old assertion incorrectly presumed it existed. Insert one actual collection wait before first collection, preserving first stop and every issued worker/design byte.",
+  "existing_version": 1,
+  "original_worker_sha256": "0e57027e467effad97c7277638078f943449c631e9ac4f9c9d077fda8f651194",
+  "original_frozen_design_sha256": "acb78ead199f43e3bc097b276cc3fec63c0e2d9bfb1c4cbe0df785efe4543b5a",
+  "watch_sha256": "49273f7ba1ec89fcb3ed769807a9fab4d337ea894b17902b62ec03e832ee9743",
+  "targeted_reader_sha256": "135ff34c1f78acfc04560ea16e30f0e715b86c9b33ec64c154670a0f77b4f909",
+  "no_original_or_provider_reexecution": true,
+  "collection_not_previously_started": true
+}

@@ -1,0 +1,51 @@
+{
+  "frozen_protocol_sha256": "38108debc502109f0be3b59a86849f786b070e62e88acda8f87b52ffc973da22",
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "accepted_engine": {
+    "source_head": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+    "binary_sha256": "fafe782ff4f27e47f3a6a4213ef6e3d2acd12ed06eb970033b6c11cd126454fe",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "authenticated_artifact_receipt_sha256": "5f4402fa06398e1e5b7a35479c7d96be3be35eb53c8e2de04ed515c8df8b25ad",
+  "actual_production_acceptance_sha256": "95c6752022b73ab2e1c55bad8fba46aecbbea1ae875fc5f5ab3b3c2dce09125f",
+  "bound_to_authenticated_accepted_artifact": true,
+  "new_original_followups": 1,
+  "scientific_selection_automatic": false,
+  "cases": [
+    {
+      "id": "batch2:se-009",
+      "script": "# SE-009: Recover three physical fractions from an immiscible liquid\u2013solid mixture\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 hexane 20mL\nadd v1 SiO2 1g\nnew\ndrain v1 v2\nnew\nfilter v1 v3\ninspect\n",
+      "script_sha256": "e1a9c24c63fc3c3eca32e6ebf76e57e5c7815e95f062df019ce0efb134a2c8cc",
+      "original_forecast": "A lower aqueous fraction, an organic liquid fraction and an insoluble solid residue should be distinguishable, subject to the operators\u2019 actual phase semantics.",
+      "original_acceptance_checks": [
+        {
+          "id": "SE-009-C1",
+          "criterion": "Identify the composition of each destination rather than assigning it from vessel number.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "SE-009-C2",
+          "criterion": "Close water, hexane, salt and silica balances across all three vessels.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Interfacial trapping, emulsions and solid entrainment may be outside the ideal model."
+      ]
+    }
+  ],
+  "separate_review_expectations": [
+    "Identify all THREE physical destination compositions by phase, not vessel number.",
+    "Withdraw actual aqueous silica and aqueous carrier; unchanged solid SiO2 remains donor until filtering.",
+    "No waterless-organic aqueous SiO2 is silently accepted.",
+    "All every-step/vessel atoms/charge, carrier water/hexane/salt/silica, gas/export and phase inventories close.",
+    "Transfer energy uses actual source phase-specificCp and all recorded excess/evaporation; no drying or heat command is invented."
+  ],
+  "baseline_wrong_phase_debit_source_review": {
+    "repository_path": "audits/target468-20261016/aqueous-solubility-ownership-preparation-20261020/SOURCE-REVIEW.md",
+    "sha256": "3d812f3af0a8b43857943c72f4c431eaf3188ddf7ba0f8387d121374a67aae2a"
+  },
+  "API_requests_issued": 0
+}

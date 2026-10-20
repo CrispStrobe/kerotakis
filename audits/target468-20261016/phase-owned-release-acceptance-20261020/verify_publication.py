@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+"""Authenticate published saved delivery records only; no API, browser, engine or provider calls."""
+import hashlib,json
+from pathlib import Path
+P=Path(__file__).resolve().parent;load=lambda p:json.loads(p.read_bytes());sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();manifest=load(P/'publication-manifest.json')
+for name,digest in manifest['files_sha256'].items():
+ path=Path(name);assert not path.is_absolute() and '..' not in path.parts;assert sha(P/path)==digest
+source='000ca5729b5f11c5c6c036b73b68c92bf84cdd70';prod=load(P/'production-acceptance.json');parent=load(P/'parent-production-acceptance.json');engine=prod['engine'];assert prod['source']==engine['source_head']==source and engine['binary_sha256']=='fafe782ff4f27e47f3a6a4213ef6e3d2acd12ed06eb970033b6c11cd126454fe' and engine['cargo_lock_sha256']=='41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb';assert {k:v for k,v in prod.items() if k!='utc'}=={k:v for k,v in parent.items() if k!='utc'};assert prod['unchanged_API_controls']==11 and prod['unchanged_browser_controls']==37 and prod['fresh_targeted_browser_controls']==7 and prod['actual_five_asset_hashes_verified'] and prod['scientific_catalog_additions']==0
+artifact=load(P/'artifact-acceptance.json');assert artifact==load(P/'parent-artifact-acceptance.json');assert artifact['actual_binary_bytes_rehashed'] and artifact['actual_producer_lock_bytes_rehashed'];assert all(artifact['engine'][k]==v for k,v in engine.items());assert artifact['workflow_run']==39420804529;large=load(P/'retained-large-artifact-metadata.json');assert large['release_archive']['sha256']==artifact['artifact_sha256']==load(P/'release-artifact-metadata.json')['digest'].removeprefix('sha256:')
+design=load(P/'bound-release-design.json');assess=load(P/'api-script-assessment.json');assert assess==load(P/'parent-api-script-assessment.json') and assess['all_script_controls_pass'] and len(assess['cases'])==11 and assess['engine']==engine and assess['design_sha256']==sha(P/'bound-release-design.json');assert design['accepted_engine']==engine
+byid={c['id']:c for c in assess['cases']}
+for c in design['cases']:
+ folder=P/'api-controls'/c['id'];request=load(folder/'request.json');assert request['script']==c['script'];assert hashlib.sha256(c['script'].encode()).hexdigest()==c['script_sha256'];http=load(folder/'http.json');assert http['attempts']==1 and http['http_status']==c['expected_http'];assert sha(folder/'response.body')==http['response_sha256']==byid[c['id']]['response_sha256'];assert byid[c['id']]['status']=='PASS' and all(byid[c['id']]['criteria'].values())
+assert load(P/'api-controls/concurrency-assessment.json')['http_statuses']==[200,429]
+for label,count in [('browser37',37),('targeted7',7)]:
+ report=load(P/(label+'-report.json'));assert report['all_checks_passed'] and len(report['checks'])==count and all(c['passed'] for c in report['checks']);assert report['owner_credentials_supplied'] is False and report['new_corpus_executions']==0;binding=load(P/label/'release-binding.json');assert report['source_binding']==binding and binding['expected_engine_source']==source and binding['expected_binary_sha256']==engine['binary_sha256'];m=load(P/label/'SHA256.json');assert sha(P/(label+'-report.json'))==m['actual-browser/report.json']
+ for name in ['source.json','STARTED.json','COMPLETED.json','source-unchanged.json','release-binding.json']:assert sha(P/label/name)==m[name]
+ assert load(P/label/'COMPLETED.json')['browser_exit_status']==0 and load(P/label/'source.json')['runtime_source']==source
+report=load(P/'targeted7-report.json');assets={n:v['sha256'] for n,v in artifact['frontend_assets'].items() if n!='rest.html'};assert len(assets)==5 and report['source_binding']['frontend_assets']==assets
+for name,digest in assets.items():assert report['assets'][name]['status']==200 and report['assets'][name]['sha256']==digest
+assert prod['targeted_report_sha256']==sha(P/'targeted7-report.json') and prod['targeted_manifest_sha256']==sha(P/'targeted7/SHA256.json');assert prod['unchanged_browser_acceptance_sha256']==sha(P/'browser37-acceptance.json');stop=load(P/'first-observer-stop-summary.json');assert stop['no_original_or_provider_reexecution'] and stop['collection_not_previously_started'];assert load(P/'parent-browser37-acceptance.json')['all37_actual_checks_pass']
+for path in P.rglob('*.json'):
+ text=path.read_text();assert all(m not in text for m in ['/mnt/','/home/','/kerotakis-private/','kernelId','kernel_id','chr1s4/','/kaggle/','Bearer '])
+print(json.dumps({'all_published_record_hashes_verified':True,'source':source,'actual_binary_and_lock_receipts_parent_reproduced':True,'API11_browser37_targeted7':True,'actual_five_asset_hashes_verified':True,'first_observer_stop_preserved_no_reissue':True,'new_API_or_job_executions':0,'scientific_catalog_additions':0}))

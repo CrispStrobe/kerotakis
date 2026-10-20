@@ -1,0 +1,20 @@
+{
+  "id": 12263859479,
+  "node_id": "MDg6QXJ0aWZhY3QxMjI2Mzg1OTQ3OQ==",
+  "name": "rest-native-39420804529",
+  "size_in_bytes": 15781976,
+  "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12263859479",
+  "archive_download_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12263859479/zip",
+  "expired": false,
+  "digest": "sha256:a1c8d5173199fee1c9dcbe3da4232786356c3b65e458c74b50da75a879128518",
+  "created_at": "2026-10-20T12:46:34Z",
+  "updated_at": "2026-10-20T12:46:34Z",
+  "expires_at": "2026-11-03T12:46:31Z",
+  "workflow_run": {
+    "id": 39420804529,
+    "repository_id": 1338831929,
+    "head_repository_id": 1338831929,
+    "head_branch": "main",
+    "head_sha": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70"
+  }
+}

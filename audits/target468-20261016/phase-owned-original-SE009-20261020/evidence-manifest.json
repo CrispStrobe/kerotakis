@@ -1,0 +1,26 @@
+{
+  "schema": "kerotakis.safe-original-publication.v1",
+  "files_sha256": {
+    "evidence/ISSUED.json": "2392ce51349bcdb916fd16105a05dcfe90ba0b246cde2a0cda01ef9260dd4472",
+    "evidence/assessment.json": "b17e23df9cabc0b0fe4b55fd2b8bb4c69dc4bee348c33956f90933d2eeca967d",
+    "evidence/design.json": "5a1a1669b5c5614202719e4d807e33eb3e8347c90387cbb3191d459c9298d4bd",
+    "evidence/frozen-protocol.json": "38108debc502109f0be3b59a86849f786b070e62e88acda8f87b52ffc973da22",
+    "evidence/parent-assessment.json": "e7c55209ca43968b4d892a35f28d3f84fac6abe44115e4ad806f8de8bf31dc2c",
+    "evidence/results/STARTED.json": "aa1b6db75da4f56dbb131f5276b80adaed344f8f187e63fab13ea0af107baa40",
+    "evidence/results/batch2-se-009/http.json": "bcd68c4b1914fc85cf206a1f2c7ef458488944ebf9a0407e0b0acc192fbe8c78",
+    "evidence/results/batch2-se-009/issued.json": "1ff21821b6cecaed00371345c68d1f7a4a030d9f7bd35b66e12f74c95b2ffd6f",
+    "evidence/results/batch2-se-009/request.json": "abe802198e9b1412c8596c547f0169c082a03987f08ba19e6d3fcf03ce096fcc",
+    "evidence/results/batch2-se-009/response.body": "e7e559c78341dc7e0421244d108e1ed733bb578ed7db1264d152d8c618f07c44",
+    "evidence/results/completion.json": "2a4479ec116ee415de8419a2d8dc8dff978925224acbfef61c6921c35a16f005",
+    "evidence/results/design.json": "5a1a1669b5c5614202719e4d807e33eb3e8347c90387cbb3191d459c9298d4bd",
+    "evidence/run_once.py": "c50294e7f71ce8230d5aad2796c168744cc7e3d5657a462309348b10b27a3584",
+    "first-reader-assumed-issuance-source-fields.py": "f541d656821579fafb8dcdce189361f0cbe9972fae30b975d4c8b98262becbdf",
+    "first-reader-issuance-schema-failure.json": "46dba6ce26825206dc512ec48f316867544b934dac4948792c7f3a1c8810ec74",
+    "parent-adjudication.json": "ec54050b34aa7ddca141388260714adf2082b3de20d3dd3d76715fba452c4c25",
+    "read_responses.py": "64c80c0b6d9007739c642522947370a699a7920e998e2d12cd57f2456724034f"
+  },
+  "runtime_requests_by_publication": 0,
+  "source_runner_contains_generic_header_construction_only_no_header_values": true,
+  "no_owner_key_or_private_header_or_hostpath_published": true,
+  "large_archives_unchanged_private": true
+}

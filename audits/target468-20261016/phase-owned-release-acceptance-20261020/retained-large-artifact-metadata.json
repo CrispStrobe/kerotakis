@@ -1,0 +1,22 @@
+{
+  "release_archive": {
+    "name": "release-artifact.zip",
+    "bytes": 15781976,
+    "sha256": "a1c8d5173199fee1c9dcbe3da4232786356c3b65e458c74b50da75a879128518",
+    "artifact_metadata_sha256": "5529c1395cfbfb0297894086983e72b2af142c6de39f09cc769e86945652fe41"
+  },
+  "screenshots": {
+    "browser37": {
+      "actual-browser/pages.png": {
+        "bytes": 41819,
+        "sha256": "3f3c2e7413e24d193ccb5c23e3505bc528a3a373bf01b68d9295d9daa5b7b9a7"
+      },
+      "actual-browser/production.png": {
+        "bytes": 41819,
+        "sha256": "3f3c2e7413e24d193ccb5c23e3505bc528a3a373bf01b68d9295d9daa5b7b9a7"
+      }
+    },
+    "targeted7": {}
+  },
+  "scope": "Large archive and screenshots retained privately; exact public metadata/digests only. No owner-key file, private request headers, provider identity or kernel identifier is published."
+}

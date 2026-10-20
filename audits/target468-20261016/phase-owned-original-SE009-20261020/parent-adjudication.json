@@ -1,0 +1,13 @@
+{
+  "accepted_originals": [
+    "batch2:se-009"
+  ],
+  "reader_sha256": "64c80c0b6d9007739c642522947370a699a7920e998e2d12cd57f2456724034f",
+  "assessment_sha256": "b17e23df9cabc0b0fe4b55fd2b8bb4c69dc4bee348c33956f90933d2eeca967d",
+  "parent_assessment_sha256": "e7c55209ca43968b4d892a35f28d3f84fac6abe44115e4ad806f8de8bf31dc2c",
+  "parent_reproduced_full_saved_reader_exactly": true,
+  "parent_inspected_both_original_criteria_three_destinations_and_actual_phase_debits": true,
+  "accepted_scope": "Actual owned aqueous water/salt/19.972umol dissolvedSiO2 transfer, unchanged16.623394mmol oldsolid silica, separate153.310590mmol hexane filtrate and drysolid residue; no stranded aqueous silica in waterless organic donor. Perstep atoms/charge/phases/carrier/gas/clock and declared transfer energy checked. No empirical extraction/entrainment/venting calibration.",
+  "new_requests_by_saved_review": 0,
+  "original_once_followup_requests": 1
+}

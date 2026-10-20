@@ -1,0 +1,16 @@
+{
+  "utc": "2026-10-20T12:14:50.077784+00:00",
+  "accepted_runtime_merge": "ff1459b4319ef49d786b8b6d464050032744849a",
+  "actual_workflow_main": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+  "reviewed_nonruntime_advancement_paths": [
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/peroxide-medium-and-i18n-20261019.md",
+    "docs/post-hydrolysis-gap-lanes-20261019.md",
+    "docs/scientific-coverage-expansion-20261020.md",
+    "docs/unifac-input-admission-20261019.md",
+    "docs/wrap-up-and-open-lanes-20261019.md"
+  ],
+  "source_tree": "35a4ce87ba624324816701f1b74c8b62002fc8a8"
+}

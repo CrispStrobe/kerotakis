@@ -1,0 +1,14 @@
+{
+  "cases": [
+    {
+      "id": "batch2:se-009",
+      "http_status": 200,
+      "elapsed_seconds": 3.7722573447972536,
+      "response_sha256": "e7e559c78341dc7e0421244d108e1ed733bb578ed7db1264d152d8c618f07c44",
+      "attempts": 1
+    }
+  ],
+  "physical_assessment": "pending independent owned material and phase/energy review",
+  "catalog_additions": 0,
+  "no_retries": true
+}

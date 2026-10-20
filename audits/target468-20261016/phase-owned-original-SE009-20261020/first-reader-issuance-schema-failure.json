@@ -1,0 +1,6 @@
+{
+  "failure": "KeyError source: runner issuance marker binds source through exact design SHA, without duplicated source/scientific_selection fields.",
+  "correction": "Read actual schema: original issuance/start/design SHA checks preserved; accepted_engine source is authenticated by unchanged design and actual response/artifact/production. Selection automatic flag belongs to bound design. No issuance/design/results mutated and no request repeated.",
+  "original_issued_sha256": "2392ce51349bcdb916fd16105a05dcfe90ba0b246cde2a0cda01ef9260dd4472",
+  "new_executions": 0
+}

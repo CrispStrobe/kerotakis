@@ -1,0 +1,22 @@
+{
+  "schema": "kerotakis.phase-owned.production-independent-proof.v1",
+  "source": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+  "engine": {
+    "source_head": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+    "binary_sha256": "fafe782ff4f27e47f3a6a4213ef6e3d2acd12ed06eb970033b6c11cd126454fe",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "actual_source_workflow": 39420804529,
+  "actual_workflow_source": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+  "integrated_runtime_merge": "ff1459b4319ef49d786b8b6d464050032744849a",
+  "source_artifact_parent_reproduction_exact": true,
+  "eleven_API_saved_assessment_parent_reproduction_exact": true,
+  "browser37_actual_raw_report_and_manifest_parent_reproduced": true,
+  "targeted7_parent_reproduction_identical_except_UTC": true,
+  "artifact_receipt_sha256": "5f4402fa06398e1e5b7a35479c7d96be3be35eb53c8e2de04ed515c8df8b25ad",
+  "parent_artifact_receipt_sha256": "5f4402fa06398e1e5b7a35479c7d96be3be35eb53c8e2de04ed515c8df8b25ad",
+  "production_receipt_sha256": "95c6752022b73ab2e1c55bad8fba46aecbbea1ae875fc5f5ab3b3c2dce09125f",
+  "parent_production_receipt_sha256": "46d244a841b2b80767d472be29d35c21d41715f822e12e007e69d039fc46b597",
+  "publication_new_API_or_job_executions": 0,
+  "scientific_catalog_additions": 0
+}

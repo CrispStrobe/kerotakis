@@ -1,0 +1,15 @@
+{
+  "first_stop_utc": "2026-10-20T12:49:20.221852+00:00",
+  "stage": "Collection observer, before any output collection started",
+  "reason": "Observer assumed reused monitor already had resource gate; actual monitor did not. Parent inserted one collection resource wait and continued the existing issued worker.",
+  "continuation_review_sha256": "c0e0fdbb977504a2eaf626aee3c79288d705b12439bd6884b9ccd5f968d5caca",
+  "original_worker_sha256": "0e57027e467effad97c7277638078f943449c631e9ac4f9c9d077fda8f651194",
+  "original_frozen_design_sha256": "acb78ead199f43e3bc097b276cc3fec63c0e2d9bfb1c4cbe0df785efe4543b5a",
+  "no_original_or_provider_reexecution": true,
+  "collection_not_previously_started": true,
+  "private_first_source_files_sha256": {
+    "watch-phase-owned-846-browser-20261020.py": "de5dbc3f4c962ea8e3ca2e328aac7996c46e1ad4f4abe48b14c085b4666628f2",
+    "review-phase-owned-846-targeted-20261020.py": "135ff34c1f78acfc04560ea16e30f0e715b86c9b33ec64c154670a0f77b4f909",
+    "unstarted-monitor.py": "d6f4fcd5903e9ee65cc3a05d719a97d4358dab6ca9b5abbad98f55ab9e3656ab"
+  }
+}

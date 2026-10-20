@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-20T12:56:55.199501+00:00",
+  "design_sha256": "5a1a1669b5c5614202719e4d807e33eb3e8347c90387cbb3191d459c9298d4bd",
+  "runner_sha256": "c50294e7f71ce8230d5aad2796c168744cc7e3d5657a462309348b10b27a3584",
+  "actual_production_acceptance_sha256": "95c6752022b73ab2e1c55bad8fba46aecbbea1ae875fc5f5ab3b3c2dce09125f",
+  "once_only_original_followups": 1,
+  "automatic_retries": false,
+  "parent_independently_reproduced_artifact_11API_37browser_7targeted": true
+}
