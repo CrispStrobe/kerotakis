@@ -4149,17 +4149,18 @@ impl Bench {
                             note_reason: None,
                         }),
                         None if crate::conductivity::neutral_aqueous_ph(v).is_some() => {
+                            let reason = Phrase::bare(
+                                "measured.neutral-water-baseline",
+                                "ideal 25 °C water-autoprotolysis baseline; listed neutral unspeciated solutes are assumed to add no acidity or basicity. Dissolved CO₂, activity effects, temperature dependence and trace contamination are outside this blank",
+                            );
                             events.push(Event::Measured {
                                 vessel: *vessel,
                                 instrument: *instrument,
                                 value: crate::conductivity::neutral_aqueous_ph(v)
                                     .expect("guard established a neutral aqueous blank"),
                                 unit: "pH".to_string(),
-                                note: Some(
-                                    "ideal 25 °C water-autoprotolysis baseline; listed neutral unspeciated solutes are assumed to add no acidity or basicity. Dissolved CO₂, activity effects, temperature dependence and trace contamination are outside this blank"
-                                        .to_string(),
-                                ),
-                                note_reason: None,
+                                note: Some(reason.render(crate::Locale::EN)),
+                                note_reason: Some(reason),
                             })
                         }
                         None => events.push(Event::not_modeled(

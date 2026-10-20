@@ -1995,6 +1995,7 @@ and-the-others-are-spared = ", und das {others} daneben bleibt verschont"
 
 # The boundary a conductivity reading carries with it (I18N-12).
 [measured]
+neutral-water-baseline = "idealer Referenzwert der Autoprotolyse von Wasser bei 25 °C; die aufgeführten neutralen, nicht speziierten gelösten Stoffe werden als weder sauer noch basisch angenommen. Gelöstes CO₂, Aktivitätseffekte, Temperaturabhängigkeit und Spurenverunreinigungen sind in dieser Blindprobe nicht berücksichtigt"
 conductivity-past-the-dilute-limit = "jenseits von I = {limit} mol/kgw ist eine Summe von Grenzleitfähigkeiten keine kalibrierte Messung mehr: {where_it_stands}. Ladungstyp und Ionengröße stecken nicht in der Korrektur, ein 2:2-Salz ist deshalb eine schwächere Aussage als ein 1:1-Salz"
 conductivity-fitted-correction = "die Ion-Ion-Reibung wird mit einem empirischen Faktor korrigiert ({factor}× der Summe bei unendlicher Verdünnung hier), angepasst an Natrium- und Kaliumchlorid zwischen 0,01 und {limit} mol/kgw"
 conductivity-extrapolated = "diese Lösung liegt bei I = {ionic_strength} mol/kgw, ÜBER den {limit} mol/kgw, an die die Korrektur angepasst wurde; der angewandte Faktor ({factor}×) ist also eine Extrapolation"
@@ -2071,3 +2072,50 @@ numerical-range = "der Aktivitätskoeffizient für Komponente {component} lässt
 "iron-corrosion" = "Eisenkorrosion"
 "zinc-corrosion" = "Zinkkorrosion"
 "peroxide-melanin-bleach" = "Melaninbleichung durch Peroxid"
+
+[family-gate]
+"temperature" = "das Gefäß steht bei {actual} K und die Familie benötigt {window} K"
+"ph-uncharacterised" = "keine charakterisierte wässrige Lösung, an der sich ein pH ablesen lässt — die Bedingung wird abgelehnt, statt Neutralität anzunehmen"
+"ph-outside" = "pH {actual} liegt außerhalb des Bereichs {window}"
+"catalyst-missing" = "kein {wanted} im Gefäß — die Familie benötigt einen vorhandenen Katalysator"
+"light-unreadable" = "Bestrahlung erreicht das Labor als typisiertes Ereignis, nicht als gespeicherter Gefäßzustand (BRD-076); die Lichtbedingung lässt sich daher noch nicht ablesen und wird abgelehnt"
+"structure-missing" = "für {species} ist keine geprüfte Struktur hinterlegt, daher sind seine Gruppen nicht bestimmbar"
+"required-group-missing" = "kein Substrat trägt eine Gruppe {group}"
+"forbidden-group-present" = "{species} trägt eine Gruppe {group}; diese Familie reagiert nicht in deren Gegenwart"
+"medium-water" = "die Familie läuft in Wasser ab, und dieses Gefäß enthält keine Flüssigkeit mit Wasser als Hauptbestandteil"
+"medium-other-solvent" = "die Flüssigkeit ist {actual}, und die Familie läuft in {wanted} ab"
+"medium-no-solvent" = "keine einzelne wasserfreie Phase von {wanted} für diese Familie vorhanden"
+"medium-water-present" = "Wasser ist vorhanden, und diese Familie benötigt wasserfreie Bedingungen"
+"medium-liquid-present" = "eine Flüssigkeit ist vorhanden, und diese Familie läuft zwischen trockenen Feststoffen und Gasen ab"
+"window-between" = "zwischen {min} und {max}"
+"window-min" = "mindestens {min}"
+"window-max" = "höchstens {max}"
+"window-any" = "beliebig"
+"alternative" = "{first} oder {rest}"
+
+[family-gate-label]
+"medium" = "Medium"
+"temperature_k" = "Temperatur"
+"ph" = "pH"
+"catalyst" = "Katalysator"
+"light" = "Licht"
+"required_groups" = "erforderliche Gruppen"
+"forbidden_groups" = "ausgeschlossene Gruppen"
+"outcome" = "Ergebnismodell"
+
+[family-group]
+"alcohol" = "Alkohol"
+"carboxylic acid" = "Carbonsäure"
+"ester" = "Ester"
+
+[family-species]
+"H2SO4" = "Schwefelsäure"
+"H+" = "Wasserstoffionen"
+"OH-" = "Hydroxidionen"
+"water" = "Wasser"
+"ethanol" = "Ethanol"
+"methanol" = "Methanol"
+"hexane" = "Hexan"
+"propanone" = "Aceton"
+"Ni" = "Nickel"
+"Pd" = "Palladium"

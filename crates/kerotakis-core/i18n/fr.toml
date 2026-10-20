@@ -1711,6 +1711,7 @@ and-the-others-are-spared = ", et le {others} à côté est épargné"
 
 # The boundary a conductivity reading carries with it (I18N-12).
 [measured]
+neutral-water-baseline = "référence idéale de l’autoprotolyse de l’eau à 25 °C ; les solutés neutres répertoriés sans spéciation sont supposés ne contribuer ni à l’acidité ni à la basicité. Le CO₂ dissous, les effets d’activité, la dépendance en température et les contaminations à l’état de traces ne sont pas pris en compte dans ce blanc"
 conductivity-past-the-dilute-limit = "au-delà de I = {limit} mol/kgw, une somme de conductivités molaires limites n'est plus une lecture étalonnée : {where_it_stands}. Le type de charge et la taille des ions ne figurent pas dans la correction, si bien qu'un sel 2:2 est une affirmation plus faible qu'un sel 1:1"
 conductivity-fitted-correction = "le frottement ion-ion est corrigé par un facteur empirique ({factor}× la somme à dilution infinie ici), ajusté sur les chlorures de sodium et de potassium entre 0,01 et {limit} mol/kgw"
 conductivity-extrapolated = "cette solution est à I = {ionic_strength} mol/kgw, AU-DESSUS des {limit} mol/kgw sur lesquels la correction a été ajustée : le facteur appliqué ({factor}×) est donc une extrapolation"
@@ -1809,3 +1810,50 @@ numerical-range = "le coefficient d’activité du composant {component} ne peut
 "iron-corrosion" = "Corrosion du fer"
 "zinc-corrosion" = "Corrosion du zinc"
 "peroxide-melanin-bleach" = "Blanchiment de la mélanine par le peroxyde"
+
+[family-gate]
+"temperature" = "le récipient est à {actual} K et la famille nécessite {window} K"
+"ph-uncharacterised" = "aucune solution aqueuse caractérisée ne permet de lire un pH — la condition est refusée au lieu de supposer la neutralité"
+"ph-outside" = "le pH {actual} est en dehors de la plage {window}"
+"catalyst-missing" = "aucun {wanted} dans le récipient — la famille nécessite la présence de son catalyseur"
+"light-unreadable" = "l’irradiation atteint le laboratoire sous forme d’événement typé, et non d’état conservé par le récipient (BRD-076) ; la condition de lumière ne peut pas encore être lue et est donc refusée"
+"structure-missing" = "aucune structure vérifiée n’est disponible pour {species} ; ses groupes ne peuvent donc pas être déterminés"
+"required-group-missing" = "aucun substrat ne porte de groupe {group}"
+"forbidden-group-present" = "{species} porte un groupe {group}, en présence duquel cette famille refuse de réagir"
+"medium-water" = "la famille se déroule dans l’eau et ce récipient ne contient pas de liquide majoritairement aqueux"
+"medium-other-solvent" = "le liquide est {actual} et la famille se déroule dans {wanted}"
+"medium-no-solvent" = "aucune phase unique de {wanted} sans eau pour cette famille"
+"medium-water-present" = "de l’eau est présente et cette famille nécessite son absence"
+"medium-liquid-present" = "un liquide est présent et cette famille se déroule entre solides secs et gaz"
+"window-between" = "entre {min} et {max}"
+"window-min" = "au moins {min}"
+"window-max" = "au plus {max}"
+"window-any" = "quelconque"
+"alternative" = "{first} ou {rest}"
+
+[family-gate-label]
+"medium" = "milieu"
+"temperature_k" = "température"
+"ph" = "pH"
+"catalyst" = "catalyseur"
+"light" = "lumière"
+"required_groups" = "groupes requis"
+"forbidden_groups" = "groupes exclus"
+"outcome" = "modèle de résultat"
+
+[family-group]
+"alcohol" = "alcool"
+"carboxylic acid" = "acide carboxylique"
+"ester" = "ester"
+
+[family-species]
+"H2SO4" = "acide sulfurique"
+"H+" = "ions hydrogène"
+"OH-" = "ions hydroxyde"
+"water" = "eau"
+"ethanol" = "éthanol"
+"methanol" = "méthanol"
+"hexane" = "hexane"
+"propanone" = "acétone"
+"Ni" = "nickel"
+"Pd" = "palladium"
