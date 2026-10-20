@@ -1,0 +1,18 @@
+test_different_engine_refused (test_final_metadata.Metadata.test_different_engine_refused) ... ok
+test_different_execution_design_refused (test_final_metadata.Metadata.test_different_execution_design_refused) ... ok
+test_different_external_issue_refused (test_final_metadata.Metadata.test_different_external_issue_refused) ... ok
+test_different_group_manifest_refused (test_final_metadata.Metadata.test_different_group_manifest_refused) ... ok
+test_different_source_refused (test_final_metadata.Metadata.test_different_source_refused) ... ok
+test_different_top_manifest_refused (test_final_metadata.Metadata.test_different_top_manifest_refused) ... ok
+test_different_worker_refused (test_final_metadata.Metadata.test_different_worker_refused) ... ok
+test_fake_flags_without_matching_report_refused (test_final_metadata.Metadata.test_fake_flags_without_matching_report_refused) ... ok
+test_missing_raw_proof_refused (test_final_metadata.Metadata.test_missing_raw_proof_refused) ... ok
+test_prior44_schema (test_final_metadata.Metadata.test_prior44_schema) ... ok
+test_prior62_identity_and_raw_hashes (test_final_metadata.Metadata.test_prior62_identity_and_raw_hashes) ... ok
+test_producer_receipt_not_parent_metadata (test_final_metadata.Metadata.test_producer_receipt_not_parent_metadata) ... ok
+test_schema_only_positive (test_final_metadata.Metadata.test_schema_only_positive) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.001s
+
+OK

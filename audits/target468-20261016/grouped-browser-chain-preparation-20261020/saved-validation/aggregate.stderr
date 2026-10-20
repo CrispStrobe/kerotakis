@@ -1,0 +1,15 @@
+test_heat_never_replaces_retained62 (test_aggregate_metadata.Agreement.test_heat_never_replaces_retained62) ... ok
+test_missing_heat_locale (test_aggregate_metadata.Agreement.test_missing_heat_locale) ... ok
+test_missing_retained_locale_case (test_aggregate_metadata.Agreement.test_missing_retained_locale_case) ... ok
+test_parent_hash_difference_requires_explicit_validated_edge (test_aggregate_metadata.Agreement.test_parent_hash_difference_requires_explicit_validated_edge) ... ok
+test_physical_field_cannot_be_waived (test_aggregate_metadata.Agreement.test_physical_field_cannot_be_waived) ... ok
+test_raw_clock_drift_is_never_normalized (test_aggregate_metadata.Agreement.test_raw_clock_drift_is_never_normalized) ... ok
+test_schema_only_positive_is_not_actual_acceptance (test_aggregate_metadata.Agreement.test_schema_only_positive_is_not_actual_acceptance) ... ok
+test_unsupported_calibration_claim (test_aggregate_metadata.Agreement.test_unsupported_calibration_claim) ... ok
+test_validated_parent_links_do_not_hide_metric_drift (test_aggregate_metadata.Agreement.test_validated_parent_links_do_not_hide_metric_drift) ... ok
+test_wall_clock_only_is_ignored (test_aggregate_metadata.Agreement.test_wall_clock_only_is_ignored) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.001s
+
+OK

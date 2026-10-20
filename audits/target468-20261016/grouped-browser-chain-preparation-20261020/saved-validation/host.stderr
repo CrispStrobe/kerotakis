@@ -1,0 +1,18 @@
+test_actual_output_request_serializes_exact_version_on_each_page (test_host_envelope.HostEnvelope.test_actual_output_request_serializes_exact_version_on_each_page) ... ok
+test_actual_status_request_serializes_exact_version (test_host_envelope.HostEnvelope.test_actual_status_request_serializes_exact_version) ... ok
+test_bad_hash_preserves_first_partial (test_host_envelope.HostEnvelope.test_bad_hash_preserves_first_partial) ... ok
+test_exclusive_marker_cannot_be_reused (test_host_envelope.HostEnvelope.test_exclusive_marker_cannot_be_reused) ... ok
+test_length_failure_preserves_first_partial (test_host_envelope.HostEnvelope.test_length_failure_preserves_first_partial) ... ok
+test_mismatched_owned_ID_metadata_rejected (test_host_envelope.HostEnvelope.test_mismatched_owned_ID_metadata_rejected) ... ok
+test_nonexact_version_request_rejected (test_host_envelope.HostEnvelope.test_nonexact_version_request_rejected) ... ok
+test_owned_descendant_symlink_refused (test_host_envelope.HostEnvelope.test_owned_descendant_symlink_refused) ... ok
+test_private_CPU_metadata_only (test_host_envelope.HostEnvelope.test_private_CPU_metadata_only) ... ok
+test_storage_failure_keeps_verified_fast_bytes (test_host_envelope.HostEnvelope.test_storage_failure_keeps_verified_fast_bytes) ... ok
+test_stream_spool_then_verified_storage (test_host_envelope.HostEnvelope.test_stream_spool_then_verified_storage) ... ok
+test_trusted_root_resolves_once (test_host_envelope.HostEnvelope.test_trusted_root_resolves_once) ... ok
+test_unsafe_paths_rejected (test_host_envelope.HostEnvelope.test_unsafe_paths_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.196s
+
+OK
