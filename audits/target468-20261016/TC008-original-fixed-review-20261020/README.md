@@ -1,0 +1,7 @@
+# TC008 original criteria: reviewed candidate, selection pending
+
+The unchanged original protocol and literal C1/C2 criteria have supporting observations on source1ca170cb under its declared native model. This is an independent saved-evidence review of the [authenticated actual fixed focus](../brine-phase-fixed-focus-outcome-20261020/README.md), with no product rerun or recipe substitution. Parent verified its exact trace, executable and ledger hashes.
+
+Temperature falls from0 to−12.352176961°C while ice fraction falls from0.599500832 to0.510149085:0.247992635406mol ice melts. All0.0855534452372mol added salt is owned as aqueous sodium/chloride; undissolved salt is zero. The common-reference interpretation explicitly accounts for331.947367520J endothermic dissolution,−108.071896797J incoming cold-solid sensible enthalpy, phase transfer and cooling of the initial inventory. The whole addition residual is−0.000028777081J under the unchanged0.001J focused energy contract and1e−10mol material bound.
+
+No catalog entry is added here. Full-source/platform/integration and changed-release acceptance remain pending on PR852. After acceptance, preserve the original criteria, first failures, source/binary/actual-lock bindings and native model qualifications in a separate reviewed selection. Coverage remains332/468 until that selection is earned. This does not validate calibrated subzero brine calorimetry, eutectic/cap behavior, conductivity accuracy or broader physical predictions.

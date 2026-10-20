@@ -1,0 +1,11 @@
+# Brine phase full validation issued
+
+One CPU validation is active on PR852's unchanged reviewed candidate1ca170cb, tree6b6ee4a6. The [21-control focus and independent energy ledger](../brine-phase-fixed-focus-outcome-20261020/README.md) are accepted. This package binds issuance; it does not claim full results.
+
+The public plan projection preserves all33 original workflow groups/142 run steps,29 law reports and500 requirements, plus full core/native/thermodynamics suites, medium hooks, cache-only tests, classifier and UTF8 lint. Eight new frozen core controls raise the required core count from2177 to2185. The previous59 named platform controls remain unchanged and separate. Canonical format is checked with the pinned toolchain. Worker, actual plan and saved-reader hashes are recorded; full raw transport/private provider coordinates remain in the private operating handoff.
+
+Next: collect the exact issued version once using serial ext4 spooling and verified storage readback. Authenticate actual raw manifests, source/tree, original input bytes, actual producer lock and decompressed executable/artifact identities. Review all named actual results,500 requirement outcomes,142 steps and29 law reports. A terminal/completed collector marker alone is not acceptance. Preserve first compiler, scientific and collector failures; repair a reader using saved evidence without repeating chemistry. Do not reissue while the owned run remains active.
+
+GitHub CI and Chemistry audit fleets also started on this same revision. The chemistry build was already executing when the hosted validation was admitted, so it is preserved. Required protection and both actual native platform logs remain mandatory. PR852 stays draft until applicable external acceptance is complete, then use normal exact-head auto-merge. Verify the actual merged tree and changed-release artifact/API/browser acceptance afterward. Scope the model-cap refusal/remaining-energy gap separately and preserve its first actual failures.
+
+[TC008's literal original criteria](../TC008-original-fixed-review-20261020/README.md) have a saved-evidence candidate verdict, with native model limits retained. Do not promote it automatically: complete delivery acceptance and a separately reviewed selection. Coverage remains332/468.

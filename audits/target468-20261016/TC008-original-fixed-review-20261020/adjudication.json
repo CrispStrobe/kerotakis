@@ -1,0 +1,94 @@
+{
+  "state": "INDEPENDENT_ORIGINAL_CRITERIA_ADJUDICATION_PROPOSAL_ONLY",
+  "original_id": "batch2:tc-008",
+  "original_forecast": "When supported by the coupled brine/ice model, salt lowers the freezing equilibrium temperature and promotes melting that consumes latent energy. Cooling and melting can therefore occur together.",
+  "original_criteria": [
+    {
+      "id": "TC-008-C1",
+      "criterion": "Compare both temperature and ice fraction before and after salt addition.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "TC-008-C2",
+      "criterion": "Include salt dissolution energy and any undissolved salt in the interpretation, rather than attributing every joule to freezing-point depression.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "original_limits": [
+    "This prediction requires brine/ice equilibrium coupled to dissolution and enthalpy; a missing coupling is a model-coverage result."
+  ],
+  "script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+  "verdict": "BOTH_ORIGINAL_CRITERIA_SUPPORTED_WITHIN_DECLARED_NATIVE_MODEL_DOMAIN",
+  "criteria": {
+    "TC-008-C1": {
+      "supported": true,
+      "reason": "Actual original thermometer observations and complete owned water phase inventories show simultaneous cooling and net melting after the unchanged salt dose."
+    },
+    "TC-008-C2": {
+      "supported": true,
+      "reason": "All salt dissolves to owned Na+/Cl-; independent common-reference Cp/fusion ledger explicitly includes endothermic dissolution and cold incoming solid salt, and closes without a compensating sink. Melting alone is not credited with every joule."
+    }
+  },
+  "metrics": {
+    "before_temperature_K": 273.15,
+    "after_temperature_K": 260.7978230393231,
+    "actual_before_thermometer_C": 0.0,
+    "actual_after_thermometer_C": -12.3521769606769,
+    "before_water_liquid_mol": "1.111571379553829",
+    "after_water_liquid_mol": "1.3595640149595865",
+    "before_water_solid_mol": "1.6638935108153077",
+    "after_water_solid_mol": "1.4159008754095501",
+    "before_ice_fraction": "0.599500831946755392480544093178035892660766938",
+    "after_ice_fraction": "0.510149085410060943382577070743259519621548413",
+    "mol_melted": "0.2479926354057576",
+    "salt_added_mol": "0.0855534452372397",
+    "undissolved_salt_mol": "0",
+    "Na_aqueous_mol": 0.08555344523723969,
+    "Cl_aqueous_mol": 0.08555344523723969,
+    "reference_endothermic_NaCl_dissolution_J": "331.9473675204900360",
+    "incoming_solid_NaCl_sensible_298_to_273_J": "-108.071896796577562431068036497216247755470012",
+    "total_incoming_NaCl_declared_H_J": "-440.019264317067598431068036497216247755470012",
+    "water_fusion_enthalpy_at_final_T_J_per_mol": "5529.03126295271606496841963601117049370977018",
+    "phase_transfer_at_final_T_J": "1371.15903414046839293901256132318108747010294",
+    "initial_phase_inventory_sensible_273_to_final_J": "-1811.1783272346173479509360259554871539128154",
+    "whole_addition_residual_J": "-0.000028777081262489984497849128629754558888",
+    "unchanged_material_tolerance_mol": "1e-10",
+    "actual_max_material_residual_mol": "2e-16",
+    "unchanged_focused_energy_tolerance_J": ".001",
+    "original_previous_derived_energy_review_tolerance_J": ".1"
+  },
+  "source": "1ca170cb15743d1a972e3fdfd7a290ef645a8c2c",
+  "source_tree": "6b6ee4a6cedc921f939e1db5060838bbcb3500d5",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_trace_binary_sha256": "bc59dc148ac4e0011975dbbf0cd440a18ae7cf2112857044c2fcfa1afa08fdbe",
+  "source_qualification": "Actual source1ca test-only observer around unchanged real production parser/stack adapters; actual668 producer lock. Not the deployed production33 executable/41bb lock. No new experiment or recipe replaces TC008.",
+  "raw_bindings": {
+    "manifest_sha256": "c73c2eee09657bf2b8082a219f8bce2a85f09117a60243fe1dfba2d1196da329",
+    "trace_sha256": "f81789f6837f136915f441430cc62183db3a0b5c53f6489797dd89282d811ef5",
+    "parent_actual_ledger_sha256": "ab5b73361bf2eb7ffd82624f14dd15542cac1ed4fca7ec5460ab335f1672f32a",
+    "intake_sha256": "522be43f6f0d92e79fe2e0d2865e293f433f4a46d9ab0fa1395de2ad49bc7fac"
+  },
+  "source_citations": [
+    "audits/new-experiments-201-20261016/intake.json original_id=batch2:tc-008, original criteria TC-008-C1/C2",
+    "crates/kerotakis-core/src/solve.rs at1ca170cb: water_fusion_enthalpy_at/self_consistent_phase_transfer/equilibrate_phase_coupled",
+    "crates/kerotakis-phreeqc/src/enthalpy.rs at1ca170cb: DISSOCIATION NaCl and species_enthalpy Liquid/Aqueous fallback",
+    "crates/kerotakis-core/tests/golden/registry.json at1ca170cb: water solid/liquid Cp, NaCl solid dissolution3.88kJ/mol, zero Na+/Cl- Cp",
+    "vendor/iphreeqc git47b459c4: database/pitzer.dat Na+/Cl- master basis; noNaCl SOLUTION_SPECIES"
+  ],
+  "unsupported_or_unclaimed": [
+    "No calibrated subzero nonideal brine calorimetry or empirically measured ice fraction/temperature is claimed. Native activity/phase/Cp/dissolution approximation is explicit.",
+    "No salt crystallization/eutectic or beyond-model-cap prediction; this actual260.797823K mixture lies above declared252K phase boundary.",
+    "Conductivity reading is observed but no original quantitative conductivity forecast exists, so no conductivity calibration is earned.",
+    "No full application/source/platform/production acceptance: PR852/full checks/integration/delivery remain required under policy.",
+    "No new scientific selection/catalog edit: parent independent adjudication and preserved first failures/source qualifications remain mandatory."
+  ],
+  "remaining_proof_for_original_scientific_question": "No additional product replay is needed for the two literal native-model criteria if parent accepts these actual original-script owned observations and reference ledger. Parent must retain source qualifications and independently accept before selection; acceptance of broader physical calibration would require new independently specified evidence, not relaxed criteria.",
+  "first_probe_assumptions_preserved_in_tool_outputs": [
+    "Initial parent ledger path fixed-parent-review absent; actual path parent-actual-review found by bounded saved-file search.",
+    "Metadata-only register/inspect command_exit rows lack events; actual thermometer rows6/9 do contain measured events. Neither is a physical simulation failure."
+  ],
+  "new_product_provider_build_calls": 0,
+  "catalog_selection_assigned": false
+}
