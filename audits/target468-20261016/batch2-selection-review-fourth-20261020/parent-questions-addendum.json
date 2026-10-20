@@ -1,0 +1,1278 @@
+{
+  "schema": "kerotakis.batch2.fourth-parent-questions-addendum.v1",
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "vessel_source_sha256": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "original_assessment_sha256": "9d7215ae1a022f543728f1029621b45ca0bae18cae7311a03608df4edebeb8e4",
+  "raw_archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "raw_cases": {
+    "batch2:ab-027": {
+      "stdout_sha256": "6c538209052b62967d5db3a84e4c7a5ed06d46a5ceacf97cbf3f99bc228fabd4",
+      "script_sha256": "9e0fc25e4f096c6f231badec49a40a168fc5534d0d6225324dcc0309f71a272f"
+    },
+    "batch2:ab-034": {
+      "stdout_sha256": "7f86acf163df592bf39fefec2236d5097ed68bb691cc8674b5f6c4deafad0e06",
+      "script_sha256": "2450659854651908a4b29eb4476e8c2c8d10cb5d2ae8b8a1d936fc21c7bca953"
+    },
+    "batch2:pq-006": {
+      "stdout_sha256": "da77effef1d5bbc3b2261fc9405f13be4d2dff1cc6927aea7e1d8474b52980ea",
+      "script_sha256": "2659c5218d9595e9af88a914b1343d7eb51f88b8786654092a1e75b09a54cca7"
+    },
+    "batch2:pq-007": {
+      "stdout_sha256": "417e32351618fbbdc6dec160c517f27ea26663b175e02ef26e7d2fe622d05337",
+      "script_sha256": "d3874f0644991ddb16c1a9f78c41d6191ca900835dccb358b5e260c177c7d4fe"
+    },
+    "batch2:ec-003": {
+      "stdout_sha256": "f27de34c87fd1ce58ac39814526a2d62628690d6111781b8e1f328858fc098af",
+      "script_sha256": "6376391a2db5129d2297c0efabd91d8688641309c04181d40a4a26028ce6d953"
+    },
+    "batch2:ec-004": {
+      "stdout_sha256": "e23b6e6fd35273fb6c6cdd864988345650b28dc1525b22612fd3205f5f6f550d",
+      "script_sha256": "7a63a56a782f393467b11ac85e746cdc992132bc0d258de3473ac9836a725045"
+    },
+    "batch2:ec-007": {
+      "stdout_sha256": "55db65c56310fd36dc24fe764289dbe0e5086d573af8cec5205e73703f297e3e",
+      "script_sha256": "e95d5be80d08ae4309c14b4f87cca5e5c2f4365898faf7996bad3596cfa141bd"
+    },
+    "batch2:ec-010": {
+      "stdout_sha256": "dd4cbab11d9c5b9fba1433c43df9785774e9dff149a72c7e26301e11074e7b46",
+      "script_sha256": "a969dab193a068c92f653400c63a08a030f924803beb7396df1579f6b62ddefb"
+    },
+    "batch2:ec-012": {
+      "stdout_sha256": "b6e45a2f77261d7a610b442c7597b5c97942da307db82502e40ac3d0d0ba4fce",
+      "script_sha256": "4e3fffd7602910a85c42e92589f71595e6634d4906e896603b2c83e5df2f37bd"
+    },
+    "batch2:qa-005": {
+      "stdout_sha256": "889d699c81eba999aedc528912db2653b45716ce182209b27f2bf03ad10a3627",
+      "script_sha256": "f7dde9dc362fc2baf13a672385ceff67426eeb23f0e5c7f3e5dbc3bbedf60963"
+    },
+    "batch2:qa-006": {
+      "stdout_sha256": "62bcfc8245ceebaec684162ff7f959ea8bc392b2173fdc47fc7aa88c5b7b7411",
+      "script_sha256": "fd00c688f0c86ffb544cef6d91c5254bdc72d8a4ce822a176b14a40d011efdcc"
+    },
+    "batch2:se-003": {
+      "stdout_sha256": "a17fa2f891e486971cc96009bf18a41928f4c2e554c492fd3dcad5e75f26328a",
+      "script_sha256": "445b43da8cabd17cfe064e0a4c96dab0ce3722da6aa76ca3df3b712789abbee8"
+    }
+  },
+  "all12_noncontents_reservoir_reviews": [
+    {
+      "id": "batch2:ab-027",
+      "checked_vessel_snapshots": 15,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:ab-034",
+      "checked_vessel_snapshots": 35,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:pq-006",
+      "checked_vessel_snapshots": 20,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:pq-007",
+      "checked_vessel_snapshots": 67,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:ec-003",
+      "checked_vessel_snapshots": 21,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:ec-004",
+      "checked_vessel_snapshots": 19,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:ec-007",
+      "checked_vessel_snapshots": 6,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:ec-010",
+      "checked_vessel_snapshots": 14,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:ec-012",
+      "checked_vessel_snapshots": 9,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:qa-005",
+      "checked_vessel_snapshots": 7,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:qa-006",
+      "checked_vessel_snapshots": 6,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    },
+    {
+      "id": "batch2:se-003",
+      "checked_vessel_snapshots": 20,
+      "surfaces_empty": true,
+      "optional_owned_vectors_empty_by_authenticated_serde_omission": [
+        "unresolved_materials",
+        "material_objects",
+        "electrodes",
+        "exchanges",
+        "adsorbed",
+        "solid_solutions",
+        "surface_colours",
+        "charred_materials"
+      ],
+      "optional_owned_objects_none_by_authenticated_serde_omission": [
+        "soap_scum",
+        "lemon_paper_mark",
+        "surface_particles",
+        "emulsion"
+      ],
+      "nuclides_empty": true,
+      "foam_all_zero": true,
+      "pending_CO2_zero": true,
+      "resolved_mirror_empty": true,
+      "bench_other_material_reservoirs_absent": true
+    }
+  ],
+  "serialized_vessel_keys": [
+    "co2_partial_pressure_atm",
+    "contents",
+    "elapsed_seconds",
+    "excess_enthalpy_j",
+    "foam",
+    "free_hydroxide",
+    "free_proton",
+    "headspace",
+    "id",
+    "label",
+    "lots",
+    "nuclides",
+    "pending_co2_transfer_mol",
+    "pressure",
+    "resolved",
+    "solute_charge",
+    "solution",
+    "surfaces",
+    "temperature",
+    "thermal_mode"
+  ],
+  "AB034_solved_phosphate": [
+    {
+      "vessel": 0,
+      "actual_pH": "4.705253300499",
+      "actual_T_K": "298.4093648455138",
+      "actual_solvent_kg": "0.099718015",
+      "canonical_total_P_mol": "0.00099999999984186361260",
+      "solved_species": [
+        {
+          "name": "H2PO4-",
+          "molality_mol_kgw": "0.009956",
+          "reported_activity": "0.009007",
+          "solved_mol_from_reported_molality": "0.000992792557340"
+        },
+        {
+          "name": "HPO4-2",
+          "molality_mol_kgw": "0.00004348",
+          "reported_activity": "0.00002899",
+          "solved_mol_from_reported_molality": "0.00000433573929220"
+        },
+        {
+          "name": "H3PO4",
+          "molality_mol_kgw": "0.00002503",
+          "reported_activity": "0.00002503",
+          "solved_mol_from_reported_molality": "0.00000249594191545"
+        },
+        {
+          "name": "NaHPO4-",
+          "molality_mol_kgw": "0.000003421",
+          "reported_activity": "0.000003095",
+          "solved_mol_from_reported_molality": "3.41135329315E-7"
+        }
+      ],
+      "canonical_and_solved_views_must_not_be_added": true
+    },
+    {
+      "vessel": 1,
+      "actual_pH": "9.312823480792",
+      "actual_T_K": "298.64228730656805",
+      "actual_solvent_kg": "0.099735979",
+      "canonical_total_P_mol": "0.00099999999971747290430",
+      "solved_species": [
+        {
+          "name": "HPO4-2",
+          "molality_mol_kgw": "0.008892",
+          "reported_activity": "0.004801",
+          "solved_mol_from_reported_molality": "0.000886852325268"
+        },
+        {
+          "name": "NaHPO4-",
+          "molality_mol_kgw": "0.001074",
+          "reported_activity": "0.0009228",
+          "solved_mol_from_reported_molality": "0.000107116441446"
+        },
+        {
+          "name": "H2PO4-",
+          "molality_mol_kgw": "0.0000428",
+          "reported_activity": "0.00003678",
+          "solved_mol_from_reported_molality": "0.0000042686999012"
+        },
+        {
+          "name": "PO4-3",
+          "molality_mol_kgw": "0.00001749",
+          "reported_activity": "0.000004202",
+          "solved_mol_from_reported_molality": "0.00000174438227271"
+        }
+      ],
+      "canonical_and_solved_views_must_not_be_added": true
+    },
+    {
+      "vessel": 2,
+      "actual_pH": "11.39648795084",
+      "actual_T_K": "298.713429906162",
+      "actual_solvent_kg": "0.099739764",
+      "canonical_total_P_mol": "0.000999999999999984536930",
+      "solved_species": [
+        {
+          "name": "HPO4-2",
+          "molality_mol_kgw": "0.00714",
+          "reported_activity": "0.003596",
+          "solved_mol_from_reported_molality": "0.00071214191496"
+        },
+        {
+          "name": "PO4-3",
+          "molality_mol_kgw": "0.001866",
+          "reported_activity": "0.0003822",
+          "solved_mol_from_reported_molality": "0.000186114399624"
+        },
+        {
+          "name": "NaHPO4-",
+          "molality_mol_kgw": "0.00102",
+          "reported_activity": "0.0008617",
+          "solved_mol_from_reported_molality": "0.00010173455928"
+        },
+        {
+          "name": "H2PO4-",
+          "molality_mol_kgw": "2.688E-7",
+          "reported_activity": "2.272E-7",
+          "solved_mol_from_reported_molality": "2.68100485632E-8"
+        }
+      ],
+      "canonical_and_solved_views_must_not_be_added": true
+    }
+  ],
+  "PQ006_exact_fraction_identities": [
+    {
+      "vessel": 0,
+      "exact_solid_portions": [
+        {
+          "moles": "0.0004827159238265",
+          "phase": "solid",
+          "species": "Mg(OH)2"
+        }
+      ],
+      "Ca_aqueous_mol": "0",
+      "Mg_aqueous_mol": "0",
+      "total_Ca_mol": "0E-16",
+      "total_Mg_mol": "0.00048271592382650"
+    },
+    {
+      "vessel": 1,
+      "exact_solid_portions": [
+        {
+          "moles": "0.000006593969418134",
+          "phase": "solid",
+          "species": "Mg(OH)2"
+        },
+        {
+          "moles": "0.0004978161940234",
+          "phase": "solid",
+          "species": "CaCO3"
+        }
+      ],
+      "Ca_aqueous_mol": "0",
+      "Mg_aqueous_mol": "0",
+      "total_Ca_mol": "0.000497816194023400",
+      "total_Mg_mol": "0.0000065939694181340"
+    },
+    {
+      "vessel": 2,
+      "exact_solid_portions": [
+        {
+          "moles": "1.12910004979E-10",
+          "phase": "solid",
+          "species": "Mg(OH)2"
+        },
+        {
+          "moles": "2.883210602827E-11",
+          "phase": "solid",
+          "species": "CaCO3"
+        }
+      ],
+      "Ca_aqueous_mol": "0.0000021837771347038440000",
+      "Mg_aqueous_mol": "0.0000106899937987665370000",
+      "total_Ca_mol": "0.0000021838059668098722700",
+      "total_Mg_mol": "0.0000106901067087715160000"
+    }
+  ],
+  "QA006_all_boundary_exports": {
+    "events": [
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.000020000000000000005",
+        "species": "CO2",
+        "vessel": 0
+      },
+      {
+        "row": 3,
+        "event": "gas_evolved",
+        "moles": "0.00001999999999999613",
+        "species": "CO2",
+        "vessel": 0
+      }
+    ],
+    "only_CO2_exported": true,
+    "total_CO2_mol": "0.001999999999999996625"
+  },
+  "EC007_partial_coupling_and_threshold": {
+    "row": 2,
+    "AgCl_solid_before_mol": "0.0003986316832253",
+    "AgCl_solid_after_mol": "0.0003977800419145",
+    "AgCl_solid_loss_mol": "8.516413108E-7",
+    "Ag_aqueous_before_mol": "0.0000013683167746747614",
+    "Ag_aqueous_after_mol": "8.516413107814673E-7",
+    "Ag_aqueous_draw_mol": "5.166754638932941E-7",
+    "formed_Ag_mol": "0.0000013683167746722909",
+    "solid_loss_plus_aqueous_draw_minus_metal_mol": "2.10032E-17",
+    "Zn_oxidation_mol": "6.841583873362E-7",
+    "remaining_solid_Zn_mol": "0.0002993158416126638",
+    "observable_gate_mol": "0.000001",
+    "partial_response_only": true,
+    "equilibrium_completion_not_established": true,
+    "coupling_proof": "NetAgClsolidlossanddissolvedAgdrawaccountforallnewAgmetal, with2AgperZn. AppreciablesolidAgClandZnremainwhilefreeAgisbelowthehistoricaldisplay-scalegate; nofullthermodynamicequilibriumclaim."
+  },
+  "ownership_convention": "Contentsarelivecanonicalmaterial.Solvedsolution/activitiesandfreeH/OHdiagnosticsaremirroredresolvedproperties,notadditionalmolecules.MaterialLotsareadditionprovenance/metadata,notseparatelyownedamounts.Headspacegaslivesincontents.Nonuclide/surface/electrode/exchange/adsorbed/solid-solution/material-object/emulsion/foamreservoirisactiveinthese12cases.",
+  "new_engine_or_API_requests": 0,
+  "catalog_selection_assigned": false
+}

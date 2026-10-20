@@ -1,0 +1,79 @@
+{
+  "stage": "Added independent thermal cross-check for heldSE003",
+  "error": "assert independent sensible-only energy equals requested heat/cool within0.001J failed; retain actual energy coordinates before diagnosing source event or unresolved ledger convention. No engine rerun.",
+  "observations": [
+    {
+      "operator": {
+        "energy": 8000.0,
+        "op": "heat",
+        "vessel": 0
+      },
+      "beforeT": 333.1500000002326,
+      "afterT": 352.2519259772729,
+      "independent_sensible_J": 7999.9982830346535,
+      "events": [
+        {
+          "event": "temperature_changed",
+          "from": 333.1500000002326,
+          "to": 352.2519259772729,
+          "vessel": 0
+        },
+        {
+          "capped": false,
+          "ceiling_k": 1773.15,
+          "delivered_j": 8000.0,
+          "event": "energy_transferred",
+          "heating": true,
+          "passes": 1,
+          "requested_j": 8000.0,
+          "sensible_j": 7999.998283048061,
+          "source": "Bunsen burner",
+          "time_coupled": false,
+          "vessel": 0
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 3.956354308724,
+          "ph": 6.25734220655,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "operator": {
+        "energy": 15000.0,
+        "op": "cool",
+        "vessel": 1
+      },
+      "beforeT": 352.2519153056752,
+      "afterT": 316.40803652448665,
+      "independent_sensible_J": -14999.997198522484,
+      "events": [
+        {
+          "event": "temperature_changed",
+          "from": 352.2519153056752,
+          "to": 316.40803652448665,
+          "vessel": 1
+        },
+        {
+          "capped": false,
+          "delivered_j": 14999.999999978745,
+          "event": "energy_transferred",
+          "heating": false,
+          "passes": 1,
+          "requested_j": 15000.0,
+          "sensible_j": 14999.999999978745,
+          "time_coupled": false,
+          "vessel": 1
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 3.956353807628,
+          "ph": 6.674848476935,
+          "vessel": 1
+        }
+      ]
+    }
+  ],
+  "correction": "HeldSE003 original does not require millijoule absolute calorimetry. Independent curve reconstruction is now reported with actual residuals and a declared1ppm numerical control; heat\u22120.001716965J/cool+0.002801478J relative\u22482e-7. Original remains held because no crystals form. This changes no experiment criterion or source test."
+}

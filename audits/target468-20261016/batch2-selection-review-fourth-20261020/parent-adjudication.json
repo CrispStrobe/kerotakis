@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-20T08:57:29.147107+00:00",
+  "assessment_sha256": "9d7215ae1a022f543728f1029621b45ca0bae18cae7311a03608df4edebeb8e4",
+  "addendum_sha256": "d2225bef267776f4b3ee1d8222a0f7ef290edb8de5bdfc533657c95b36fa89d0",
+  "saved_reader_sha256": "df1e178c381d47a5f7ca6175d30fa9c4cf67d9fd9b51554c7f59df9564d3703f",
+  "addendum_reader_sha256": "209acf394ebff4e194deaff16a5d4ec30ce1c18c59c333e7e0692114b63f9bbb",
+  "parent_independently_reproduced_saved_reader_JSON": true,
+  "parent_independently_reproduced_addendum_CLI_JSON": true,
+  "parent_inspected_all_nine_original_forecasts_and_criteria": true,
+  "accepted_originals": [
+    "batch2:ab-027",
+    "batch2:ab-034",
+    "batch2:pq-006",
+    "batch2:pq-007",
+    "batch2:ec-003",
+    "batch2:ec-007",
+    "batch2:ec-010",
+    "batch2:ec-012",
+    "batch2:qa-006"
+  ],
+  "held_originals": [
+    "batch2:ec-004",
+    "batch2:qa-005",
+    "batch2:se-003"
+  ],
+  "EC007_adjudication": "AcceptedonlyfororiginalboundedpositiveAgCl-drivensilverformation,Znoxidationwith2:1electronratioandcompleteAgbudget.ThesavedtraceprovesAgClsolidlossplusdissolvedAgdrawaccountforallnewAgmetal.Extentispartial/threshold-limited;nocoupledequilibriumendpoint,completionorcorrectrateclaim.",
+  "threshold_constraints": "Do not globallylowerOBSERVABLE_MOLES.Reaction-extentthresholdalso protectsmodelauthority/e.g.unmodelledpicomoleMg-waterconversion.Nernstreadingadmissionisaseparatecontract;preservezeroion/unknownactivity/overpotentialandMgwaternon-double-countingguards.",
+  "reader_call_semantics": "review_addendum.main() printsJSONandreturnsNone.ParentcomparedactualCLIstdoutJSON; comparingmain()returnNoneagainstJSONisacall-siteAPIassumption,notaphysicaltestfailure.",
+  "no_changes_to_original_forecasts_scripts_or_first_failures": true,
+  "new_engine_or_API_executions": 0,
+  "scientific_scope": "Historicalsource-bounddeclaredmodelcriteriaonly,notuniformcurrentproductionrevalidationorempiricalcalibration."
+}
