@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "rustup",
+    "component",
+    "add",
+    "rustfmt",
+    "clippy"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "4ae2551ea6202e5136e5d7344c5cd841fb1b981ec6798b8e0c525a228d335c72"
+}

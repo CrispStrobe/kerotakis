@@ -1,0 +1,10 @@
+
+thread 'adiabatic_peroxide_heat_matches_independent_sensible_energy' (2791) panicked at crates/kerotakis-core/tests/peroxide_heat_basis.rs:58:5:
+reference heat basis mismatch: 4.674910643174822 J for 0.00009521202939256207 mol H2O2
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'second_loading_preserves_the_reference_heat_basis' (2793) panicked at crates/kerotakis-core/tests/peroxide_heat_basis.rs:58:5:
+reference heat basis mismatch: 2.8095951118570843 J for 0.00005722189637183406 mol H2O2
+
+thread 'thermostatted_peroxide_heat_uses_consumed_molecules_not_extent' (2794) panicked at crates/kerotakis-core/tests/peroxide_heat_basis.rs:58:5:
+reference heat basis mismatch: 9.3053105138689 J for 0.00018951752574071154 mol H2O2

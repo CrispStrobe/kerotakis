@@ -1,0 +1,16 @@
+
+running 4 tests
+test adiabatic_peroxide_heat_matches_independent_sensible_energy ... FAILED
+test excluded_peroxide_path_produces_no_material_or_heat ... ok
+test second_loading_preserves_the_reference_heat_basis ... FAILED
+test thermostatted_peroxide_heat_uses_consumed_molecules_not_extent ... FAILED
+
+failures:
+
+failures:
+    adiabatic_peroxide_heat_matches_independent_sensible_energy
+    second_loading_preserves_the_reference_heat_basis
+    thermostatted_peroxide_heat_uses_consumed_molecules_not_extent
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

@@ -1,0 +1,9 @@
+{
+  "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+  "crates/kerotakis-core/Cargo.toml": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7",
+  "crates/kerotakis-core/src/clock.rs": "a56fc7d1917f710b6a0a3a26b480a3f085f5467e8d327d9fbc9c0fb755a9fe71",
+  "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+  "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+  "crates/kerotakis-core/tests/peroxide_heat_basis.rs": "51f4d4330b9bc585b119ef80ae0cbd09d2dcb011a8d4e99b525cac68c673c65e",
+  "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4"
+}

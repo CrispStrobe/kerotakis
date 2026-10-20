@@ -1,0 +1,14 @@
+{
+  "head": "877b9e2e39e50d985e234837ba423af7b98b07f4",
+  "exit_status": 101,
+  "passed": 1,
+  "failed": 3,
+  "ignored": 0,
+  "tests": {
+    "adiabatic_peroxide_heat_matches_independent_sensible_energy": "FAILED",
+    "excluded_peroxide_path_produces_no_material_or_heat": "ok",
+    "second_loading_preserves_the_reference_heat_basis": "FAILED",
+    "thermostatted_peroxide_heat_uses_consumed_molecules_not_extent": "FAILED"
+  },
+  "forecast_not_observation": false
+}

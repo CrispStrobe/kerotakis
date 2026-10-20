@@ -1,0 +1,11 @@
+{
+  "source": "4a30c91081b571f88f74b26f9b43a519ff0b391f",
+  "tree": "3c1bec7d952738ac8436ed5dc223699694ce69df",
+  "baseline_actual_outcome": "baseline-actual-outcome.json",
+  "fixed_actual_outcome": "fixed-actual-outcome.json",
+  "protected_contexts_replaced": false,
+  "full_source_acceptance": false,
+  "scientific_selections": 0,
+  "reference_heat_basis_only": true,
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+}

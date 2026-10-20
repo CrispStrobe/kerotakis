@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "fetch",
+    "--depth",
+    "1",
+    "origin",
+    "877b9e2e39e50d985e234837ba423af7b98b07f4"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "3b98d6480377e9665420a3db36d580b13e43e49142456fdd5805b7a4e82bdc2c"
+}

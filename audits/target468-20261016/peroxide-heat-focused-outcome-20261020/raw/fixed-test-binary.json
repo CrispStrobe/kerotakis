@@ -1,0 +1,11 @@
+{
+  "head": "4a30c91081b571f88f74b26f9b43a519ff0b391f",
+  "tree": "3c1bec7d952738ac8436ed5dc223699694ce69df",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "executable": "target/debug/deps/peroxide_heat_basis-011eff9b6d623886",
+  "sha256": "2669df6947383864eb47741c8b1a412db4ea407fe28aabc27f5c26e791b653a5",
+  "bytes": 47067648,
+  "gzip": "fixed-peroxide_heat_basis.gz",
+  "gzip_sha256": "c2bcdea503cbb54d19429611abee5ea982ccd2edd0b6e831e084725cb9f90cd1",
+  "gzip_bytes": 10686668
+}

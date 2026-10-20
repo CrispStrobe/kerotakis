@@ -1,0 +1,9 @@
+
+running 4 tests
+test adiabatic_peroxide_heat_matches_independent_sensible_energy ... ok
+test excluded_peroxide_path_produces_no_material_or_heat ... ok
+test second_loading_preserves_the_reference_heat_basis ... ok
+test thermostatted_peroxide_heat_uses_consumed_molecules_not_extent ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+

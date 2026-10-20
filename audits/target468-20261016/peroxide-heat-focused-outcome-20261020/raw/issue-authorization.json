@@ -1,0 +1,10 @@
+{
+  "utc": "2026-10-20T14:31:46.486988+00:00",
+  "baseline": "877b9e2e39e50d985e234837ba423af7b98b07f4",
+  "fixed": "4a30c91081b571f88f74b26f9b43a519ff0b391f",
+  "reviewed_for_one_bounded_focus": true,
+  "active_full32_priority_released": true,
+  "actual_full32_receipt_sha256": "e6e18f082513000ad0f27f8f3f936517a431510d6b7d1314fe5f70bc75e17cbe",
+  "actual_full32_parent_receipt_sha256": "a5ce9aa62b053d7ca995501c5330f5306ab91e8df5cca5333b5db43a606ac7a0",
+  "review_scope": "Actual four test bodies and isolated registered peroxide heat owner; independent NIST amount basis, actual conversion/material/O2/KI and adiabatic sensible energy, excluded-path positive. Worker retains actual baseline failures and binaries before forecast checks, lock unchanged, CPU2/wall1800/min6GiB on hosted worker. No full-source, integration or scientific selection claim."
+}

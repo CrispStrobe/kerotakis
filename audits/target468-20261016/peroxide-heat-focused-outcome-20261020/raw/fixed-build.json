@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "peroxide_heat_basis",
+    "--no-run",
+    "--message-format=json"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "7adafd4ae2b6ea5bb2a1f37108fc774d78fb6bd197e8cb52d05c03e37930a791",
+  "stderr_sha256": "e0038ffcf4c4da75d9f884ab729116300fae61c3dca7efed88ab6786f2bb95bd"
+}

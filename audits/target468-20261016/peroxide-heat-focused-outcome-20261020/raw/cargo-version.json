@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "cargo",
+    "--version"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "c35608815f43d0b8788a9b826fad2bb17384f49fb328dc4fe64da9db5f5ef4d6",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

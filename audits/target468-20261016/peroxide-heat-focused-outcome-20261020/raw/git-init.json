@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/peroxide-heat-focus/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "39bf5dabbcedb388cec1452118fa7b9e73060cc7485c57c10992e51b37b1fc5f",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

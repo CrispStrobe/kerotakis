@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "/kaggle/temp/peroxide-heat-focus/source/target/debug/deps/peroxide_heat_basis-011eff9b6d623886",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 101,
+  "stdout_sha256": "24b09aa83edeb89db4a95d06debe4b97d17e84605020ee99844ecd1084eae07a",
+  "stderr_sha256": "3d532eb165da6abef0952a963234f955561545728078cd5fe27bf7b06d90e637"
+}

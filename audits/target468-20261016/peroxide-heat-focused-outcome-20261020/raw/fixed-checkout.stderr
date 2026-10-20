@@ -1,0 +1,11 @@
+Warning: you are leaving 1 commit behind, not connected to
+any of your branches:
+
+  877b9e2 test: freeze peroxide heat controls against consumed molecule basis
+
+If you want to keep it by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> 877b9e2
+
+HEAD is now at 4a30c91 fix: apply peroxide reference heat per consumed molecule
