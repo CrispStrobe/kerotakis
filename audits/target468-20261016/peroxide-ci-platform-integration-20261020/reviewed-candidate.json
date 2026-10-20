@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-20T19:35:15.442591+00:00",
+  "head": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "base": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+  "tree": "f77a9e82941f30a6433583e1bd417939118d13c6",
+  "reviewed_base_paths": [],
+  "protection": {
+    "url": "https://api.github.com/repos/CrispStrobe/kerotakis/branches/main/protection/required_status_checks",
+    "strict": false,
+    "contexts": [
+      "Full preflight gate",
+      "Test (native) (ubuntu-latest)",
+      "Test (native) (macos-latest)",
+      "The bench in WebAssembly",
+      "The demo page, in a real browser"
+    ],
+    "contexts_url": "https://api.github.com/repos/CrispStrobe/kerotakis/branches/main/protection/required_status_checks/contexts",
+    "checks": [
+      {
+        "context": "Full preflight gate",
+        "app_id": 15368
+      },
+      {
+        "context": "Test (native) (ubuntu-latest)",
+        "app_id": 15368
+      },
+      {
+        "context": "Test (native) (macos-latest)",
+        "app_id": 15368
+      },
+      {
+        "context": "The bench in WebAssembly",
+        "app_id": 15368
+      },
+      {
+        "context": "The demo page, in a real browser",
+        "app_id": 15368
+      }
+    ]
+  },
+  "full33_acceptance": true,
+  "both_native_platforms_accepted": true
+}

@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+585-water-heating-1 exit= 0 steps= 4
+586-water-heating-2 exit= 0 steps= 4
+587-water-heating-3 exit= 0 steps= 4
+588-water-heating-4 exit= 0 steps= 4
+589-water-cooling-1 exit= 0 steps= 4
+590-water-cooling-2 exit= 0 steps= 4
+591-water-cooling-3 exit= 0 steps= 4
+592-water-cooling-4 exit= 0 steps= 4
+593-salt-freezing-1 exit= 0 steps= 5
+594-salt-freezing-2 exit= 0 steps= 5
+595-salt-freezing-3 exit= 0 steps= 6
+596-salt-freezing-4 exit= 0 steps= 6
+597-heat-partition-1 exit= 0 steps= 4
+598-heat-partition-2 exit= 0 steps= 5
+599-heat-partition-3 exit= 0 steps= 6
+600-heat-partition-4 exit= 0 steps= 7
+601-cool-partition-1 exit= 0 steps= 4
+602-cool-partition-2 exit= 0 steps= 5
+603-cool-partition-3 exit= 0 steps= 6
+604-cool-partition-4 exit= 0 steps= 7
+605-thermal-scale-1 exit= 0 steps= 4
+606-thermal-scale-2 exit= 0 steps= 4
+607-thermal-scale-3 exit= 0 steps= 4
+608-thermal-scale-4 exit= 0 steps= 4

@@ -1,0 +1,25 @@
+{
+  "actual_merged_parents_and_tree_independently_verified": true,
+  "source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "merge": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "actual_tree": "f77a9e82941f30a6433583e1bd417939118d13c6",
+  "platform_logs": [
+    {
+      "job": 118783060948,
+      "sha256": "5b671c536b27027b64fd7f890197dfdc16dc571918e6df013499211ccd4f8828",
+      "independently_fetched_platform_log_identical": true,
+      "all59_required_names_present": true
+    },
+    {
+      "job": 118783061088,
+      "sha256": "053eb0cde85adc8120fc55d60e829c0dc09f5f83326a42dbf5e92269bb988335",
+      "independently_fetched_platform_log_identical": true,
+      "all59_required_names_present": true
+    }
+  ],
+  "all27_ci_success": true,
+  "full_receipt_matches_public_current18": true,
+  "production_dispatch_run": 39484825683,
+  "actual_production_source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "production_API_browser_acceptance_not_assigned": true
+}

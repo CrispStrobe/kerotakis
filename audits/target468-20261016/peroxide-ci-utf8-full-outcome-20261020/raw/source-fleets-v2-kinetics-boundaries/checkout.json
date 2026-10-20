@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-ci-utf8-full/source",
+    "/kaggle/temp/kerotakis-ci-utf8-full/source-fleets-v2-kinetics-boundaries"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "3c5a5cdaf0ac0849b9d570cbd55dc5431f7ddb3d0153084aef330f4427899a43"
+}

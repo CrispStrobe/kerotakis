@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-ci-utf8-full/source",
+    "/kaggle/temp/kerotakis-ci-utf8-full/source-fleets-observables-negative-controls"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "6bc8337b28acecbc76434eb518069cc7dc323a44f5c483639d657d5ce6fc2a17"
+}

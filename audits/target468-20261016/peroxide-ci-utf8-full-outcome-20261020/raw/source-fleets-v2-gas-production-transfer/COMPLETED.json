@@ -1,0 +1,8 @@
+{
+  "name": "Source fleet v2 gas-production-transfer",
+  "key": "source-fleets-v2",
+  "family": "gas-production-transfer",
+  "all_original_run_steps_passed": true,
+  "original_run_steps_executed": 5,
+  "expected_original_run_steps": 5
+}

@@ -1,0 +1,83 @@
+{
+  "schema": "kerotakis-peroxide-heat-focused-acceptance-v1",
+  "source": "4a30c91081b571f88f74b26f9b43a519ff0b391f",
+  "tree": "3c1bec7d952738ac8436ed5dc223699694ce69df",
+  "baseline": "877b9e2e39e50d985e234837ba423af7b98b07f4",
+  "worker_sha256": "8a01a1c1b0b898902018fcf889921a43c97a37cadaa5e9fb04d74053e193a80a",
+  "producer_manifest_sha256": "0e1fa2e8801fb0ad3b78c021922f9d3094ba5ac4fba9a0081af3043edef0839c",
+  "actual_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_results": {
+    "baseline": {
+      "head": "877b9e2e39e50d985e234837ba423af7b98b07f4",
+      "exit_status": 101,
+      "passed": 1,
+      "failed": 3,
+      "ignored": 0,
+      "tests": {
+        "adiabatic_peroxide_heat_matches_independent_sensible_energy": "FAILED",
+        "excluded_peroxide_path_produces_no_material_or_heat": "ok",
+        "second_loading_preserves_the_reference_heat_basis": "FAILED",
+        "thermostatted_peroxide_heat_uses_consumed_molecules_not_extent": "FAILED"
+      },
+      "forecast_not_observation": false
+    },
+    "fixed": {
+      "head": "4a30c91081b571f88f74b26f9b43a519ff0b391f",
+      "exit_status": 0,
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0,
+      "tests": {
+        "adiabatic_peroxide_heat_matches_independent_sensible_energy": "ok",
+        "excluded_peroxide_path_produces_no_material_or_heat": "ok",
+        "second_loading_preserves_the_reference_heat_basis": "ok",
+        "thermostatted_peroxide_heat_uses_consumed_molecules_not_extent": "ok"
+      },
+      "forecast_not_observation": false
+    }
+  },
+  "actual_test_binaries": {
+    "baseline": {
+      "head": "877b9e2e39e50d985e234837ba423af7b98b07f4",
+      "tree": "c7469a66fe3f0d385111bff051339e5cc973ed03",
+      "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "executable": "target/debug/deps/peroxide_heat_basis-011eff9b6d623886",
+      "sha256": "ee29532b69552812e6c7d62c8a066244e8521c7f3dd6fe40c396f47201a387bd",
+      "bytes": 47057384,
+      "gzip": "baseline-peroxide_heat_basis.gz",
+      "gzip_sha256": "b56dd5ffd2aabe8a5c6f08f60c578c63c7d726539cfea889cc3417b7307b961b",
+      "gzip_bytes": 10686805
+    },
+    "fixed": {
+      "head": "4a30c91081b571f88f74b26f9b43a519ff0b391f",
+      "tree": "3c1bec7d952738ac8436ed5dc223699694ce69df",
+      "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "executable": "target/debug/deps/peroxide_heat_basis-011eff9b6d623886",
+      "sha256": "2669df6947383864eb47741c8b1a412db4ea407fe28aabc27f5c26e791b653a5",
+      "bytes": 47067648,
+      "gzip": "fixed-peroxide_heat_basis.gz",
+      "gzip_sha256": "c2bcdea503cbb54d19429611abee5ea982ccd2edd0b6e831e084725cb9f90cd1",
+      "gzip_bytes": 10686668
+    }
+  },
+  "reference": {
+    "url": "https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.2126.pdf",
+    "pdf_sha256": "bd3be9916f25a58599f641296406d32a0eb881cd70b33c352de7f23059a9521a",
+    "printed_page": 328,
+    "pdf_page": 337,
+    "table": "4-4(1)",
+    "compound": "liquid H2O2",
+    "enthalpy_kj_per_consumed_mol": -98.48,
+    "reported_uncertainty_kj_per_mol": 0.79,
+    "temperature_k": 298.15,
+    "legacy_release_j_per_consumed_mol": 98200,
+    "independent_formation_difference_kj_per_mol": -98.47600000000003,
+    "scope": "Pure-liquid reference heat basis; no aqueous mixing, enthalpy-temperature or kinetic calibration claim."
+  },
+  "all_four_fixed_controls": true,
+  "three_observed_baseline_basis_failures_one_positive": true,
+  "format_and_core_clippy_pass": true,
+  "protected_contexts_replaced": false,
+  "full_source_acceptance": false,
+  "scientific_selections": 0
+}

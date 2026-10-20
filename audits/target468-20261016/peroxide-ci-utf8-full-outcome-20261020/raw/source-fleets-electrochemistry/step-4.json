@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets.py --family 'electrochemistry' --binary target/release/kero --out 'audit-evidence/electrochemistry'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "f127015b8b3d35e3a8e0743286d0ac6151ec037ebdf02f6aa6a6bc012046ea18",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

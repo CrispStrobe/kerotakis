@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-ci-utf8-full/source",
+    "/kaggle/temp/kerotakis-ci-utf8-full/source-fleets-v3-organic-equilibrium"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "cbf0de851de2ba8da25863d3c2f769faac3d76a2865b14e1003a984ec75f889c"
+}

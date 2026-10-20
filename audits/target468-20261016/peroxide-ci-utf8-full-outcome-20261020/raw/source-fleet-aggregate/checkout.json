@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-ci-utf8-full/source",
+    "/kaggle/temp/kerotakis-ci-utf8-full/source-fleet-aggregate"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "98d665cf307a0c75a72c19d06bac296685e7bd1190df4dc851060a763db3fe87"
+}

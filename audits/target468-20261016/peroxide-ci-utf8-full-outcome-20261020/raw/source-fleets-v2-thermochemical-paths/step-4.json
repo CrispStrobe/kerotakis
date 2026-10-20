@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_2.py --family 'thermochemical-paths' --binary target/release/kero --out 'audit-evidence-v2/thermochemical-paths'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "9bc5a987b82b9a612926ab48297d9845b20a7cacb38b5b24dedc9e2f53aa8de8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,13 @@
+{
+  "files_sha256": {
+    "README.md": "83736e31123380fdfde97f2865353537774a2e52411ef842e3dfd1ad98f967f9",
+    "control-plan.safe.json": "80161f16f92de0fd53c0013e5c67f8b2e57a73d94a1d1b9106b228c1c04b73df",
+    "parent-reproduced.json": "c02a77aa4904b0b908d38546aaac8a074ec02d73c12f083e62d6388e687922e2",
+    "publication.json": "a91bd26c12e5651af54e02a22226fe106c167e60dad11878dce8af84f77648d7",
+    "readers/parent_review_saved.py": "70e2575659de5228dd07b24b73f1768bd30fddaf2d9abb6b67a569b46fde4341",
+    "readers/review_saved.py": "cd38d50fe4695600b3f309d32d48d031afa7e945c727d378b86ce35e04e88471",
+    "root-accepted.json": "b61828f06632ebec5ad2ea6aa183080bd469e47668cdce363f5aa22e436d504f",
+    "root-parent-accepted.json": "be397c0000eb02a20b786d66d7a1b9d2c29c37c0a04695de16a79dcfc9ca84fc",
+    "verify_publication.py": "49acda41f1d09aa84ec29177ff1af601efac34bab92e852d5e3cd42967f6e7c2"
+  }
+}

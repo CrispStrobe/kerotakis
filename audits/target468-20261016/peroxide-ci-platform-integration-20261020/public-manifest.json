@@ -1,0 +1,14 @@
+{
+  "files_sha256": {
+    "README.md": "4eadf0243443049c41291a1264558ed4dd2ef4911f5b7db03a94e68b35102e8e",
+    "auto-merge-issued.json": "8f226e77a83e6d1fdd46f42e75b3488b2ca4d28b8533cc5d4340c7400e1489c9",
+    "auto-merge-result.json": "a651eb5185e062a22a8e795888fd79124b40fe1ce8fa132cea8eb7b8ce00900d",
+    "deployment-issued.json": "f8e1a399a4695dd985ba804db0d9d7e48a54924cf8c4afcb04eec85e0ff1a22f",
+    "full-accepted-binding.json": "780b9a84b7af992ddba0955658d1eea4c55761b7c4a603f55a6cce3d136c6476",
+    "integrated.json": "a180ad875019906765c5bd82a758b5a94d2f7497e53f0d09f82841ff86196ef1",
+    "parent-platform-and-tree-review.json": "249badd0faa4ae8310e5e204a9d16d971d0ed61cd72acf23dc854170337e47e1",
+    "platform-accepted.json": "fd842a52710a6881f4d681c11188d078b1902055007560bcb17e3b04d3ac5d52",
+    "production-run.json": "eef8831b054c46d79be270202aa4cd61db0a3c59328d2a4f04219def56fba897",
+    "reviewed-candidate.json": "094081f85cf32b2733d8a403f3ae7dc388acbe7752b45986405a28c9f1dcb7aa"
+  }
+}

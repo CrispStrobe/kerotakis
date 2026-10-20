@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets_3.py --family 'organic-equilibrium' --binary target/release/kero --out 'audit-evidence-v3/organic-equilibrium'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "b4cc29f883f440c0807cf3de7f463c522da84760e0f2e3db54bc4fbb5d98f582",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

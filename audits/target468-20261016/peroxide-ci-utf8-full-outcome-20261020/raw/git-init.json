@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/kerotakis-ci-utf8-full/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "18f7773a6dc8fb6986ac12c497b3d7d2619185b4bb352c3023c3d992418c16b8",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

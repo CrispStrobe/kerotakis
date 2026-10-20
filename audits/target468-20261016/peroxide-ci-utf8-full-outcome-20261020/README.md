@@ -1,0 +1,11 @@
+# Corrected18 full-source acceptance
+
+Current PR850 source18f2bebd/treef77a9e82 independently passes2177 core/184 thermo/620 native/two external hooks,18 separate cache-only controls,11 classifier tests, the exact139-file UTF-8 lint,500 requirements without drift, and all33 original logical groups/142steps/29laws. Both complete saved-reader results agree exactly. Actual executable/archive/lock bytes were independently hashed. Current source-native CLI49b20174 and actual hosted producer lock66886813 remain distinct from any future production binary/lock.
+
+This is current-source full acceptance, not a deployment or a scientific-catalog addition. Actual protected/platform acceptance and normal merged parents/tree are separately recorded by the integration guard. Existing accepted5a production and its11 API/62 browser controls remain preserved until changed-source delivery passes its own controls. No unchanged original corpus or focused baseline was re-executed.
+
+All1373 output files of this once-issued COMPLETE producer are collected. The unissued monitor had been strengthened to wait at unchanged resource thresholds, and the hash-pinned historical macOS log was restored to this preparation before its saved review. First predecessor setup/collection failures remain [separate](../peroxide-snapshot-prior86-full-outcome-20261020/README.md); they are not new failures or acceptance inherited by this source.
+
+This public subset includes current command records/stdout/stderr, actual lock, source-native binding, both receipts, exact saved readers and a safe plan projection. Historical duplicates, raw private PLAN and large archive/executable bytes remain hash-enumerated and retained outside this subset. Full frozen readers require the retained original run directory and large inputs; verify_publication.py verifies the public source/command/count subset only. It does not pretend omitted bytes are embedded.
+
+The actual current CI result is [run39464616435](https://github.com/CrispStrobe/kerotakis/actions/runs/39464616435); actual native-platform logs contain all59 required controls. Full-source acceptance does not waive protection or authorize counting unsupported chemistry. Coverage remains332/468. No rate, solution-mixing or complete calorimetry calibration is claimed.

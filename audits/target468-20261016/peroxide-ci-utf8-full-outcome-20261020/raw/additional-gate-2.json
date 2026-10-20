@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "cargo",
+    "run",
+    "-p",
+    "kerotakis-cli",
+    "--",
+    "codex",
+    "lint"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "f5aafd5cb5637e19c3092d653a4db94c643f263e914e541391c50a05cf3109db",
+  "stderr_sha256": "c9926dd5067315489c6a1acc46a18bfa8d0026c7fd543d3c18d2df13144d2a59"
+}

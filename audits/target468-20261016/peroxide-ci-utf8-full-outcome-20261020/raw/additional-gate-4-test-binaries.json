@@ -1,0 +1,21 @@
+{
+  "source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "tree": "f77a9e82941f30a6433583e1bd417939118d13c6",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": [
+    {
+      "executed_path": "target/debug/deps/acid_permanganate_cache_only-f38de42dae505a4f",
+      "sha256": "afd84c227a49664bcead3330a93c9c54d317c79331cf6d6fa6642aecc7698d42",
+      "bytes": 53210336,
+      "gzip": "actual-test-executables/afd84c227a49664bcead3330a93c9c54d317c79331cf6d6fa6642aecc7698d42.gz",
+      "gzip_sha256": "23de6288a1e3df131c731a6f55692fe4112529f5bbdcb6b96c5452f8fdcf80af"
+    },
+    {
+      "executed_path": "target/debug/deps/aqueous_continuation_cache_only-8ad76ac9f7169cc2",
+      "sha256": "0a00215457e1d0db7b7afc3ce7d06240b8486179cb7d3e46ee3d20c6c38bd291",
+      "bytes": 52538616,
+      "gzip": "actual-test-executables/0a00215457e1d0db7b7afc3ce7d06240b8486179cb7d3e46ee3d20c6c38bd291.gz",
+      "gzip_sha256": "23026759c28c0e9d3cb7df1f07e2a3cbf405bf44ed9843d0293f3d4d658a6d4e"
+    }
+  ]
+}

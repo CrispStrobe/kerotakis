@@ -1,0 +1,337 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "219-strong-acid-0.00025: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "220-strong-acid-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "221-strong-acid-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "222-strong-acid-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "223-acid-dilution-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "224-acid-dilution-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "225-acid-dilution-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "226-acid-dilution-800: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "227-strong-base-0.00025: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "228-strong-base-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "229-strong-base-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "230-strong-base-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "231-neutral-order-acid-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "232-neutral-order-base-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "233-neutral-split-acid: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "234-neutral-split-base: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "235-acetate-buffer-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "236-acetate-buffer-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "237-acetate-buffer-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "238-acetate-buffer-0.008: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "239-buffer-extensive-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "240-buffer-extensive-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "241-buffer-extensive-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "242-buffer-extensive-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "acid-base-buffers:ab-strong-acid-monotonic",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        3.214704825021,
+        2.918133018864,
+        2.62300133413,
+        2.329590772274
+      ]
+    },
+    {
+      "check": "acid-base-buffers:ab-dilution-ph-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        1.961764510739,
+        2.25272825875,
+        2.545647087998,
+        2.840351578017
+      ]
+    },
+    {
+      "check": "acid-base-buffers:ab-dilution-elements",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "223-acid-dilution-100": [
+          {
+            "H": 11.069753982792118,
+            "Cl": 0.0011999999999999997
+          },
+          {
+            "H": 11.069753982792118,
+            "Cl": 0.0011999999999999997
+          }
+        ],
+        "224-acid-dilution-200": [
+          {
+            "H": 22.138307965584236,
+            "Cl": 0.0012
+          },
+          {
+            "H": 22.138307965584236,
+            "Cl": 0.0012
+          }
+        ],
+        "225-acid-dilution-400": [
+          {
+            "H": 44.27541593116847,
+            "Cl": 0.0012
+          },
+          {
+            "H": 44.27541593116847,
+            "Cl": 0.0012
+          }
+        ],
+        "226-acid-dilution-800": [
+          {
+            "H": 88.54963186233694,
+            "Cl": 0.0012
+          },
+          {
+            "H": 88.54963186233694,
+            "Cl": 0.0012
+          }
+        ]
+      }
+    },
+    {
+      "check": "acid-base-buffers:ab-strong-base-monotonic",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        10.78409411658,
+        11.0799760239,
+        11.37378726812,
+        11.66472583259
+      ]
+    },
+    {
+      "check": "acid-base-buffers:ab-neutral-path-independence",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "check": "acid-base-buffers:ab-conjugate-base-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        4.146212678377,
+        4.426936619042,
+        4.711715754087,
+        4.994513025189
+      ]
+    },
+    {
+      "check": "acid-base-buffers:ab-buffer-intensive",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        4.711715754087,
+        4.711715754087,
+        4.711715754087,
+        4.711715754087
+      ]
+    },
+    {
+      "check": "acid-base-buffers:ab-buffer-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "239-buffer-extensive-1": [
+          {
+            "C": 0.007199999999999998,
+            "H": 19.935997169025814,
+            "O": 9.968898584512907,
+            "Na": 0.0017999999999999997
+          },
+          {
+            "C": 0.007199999999999998,
+            "H": 19.935997169025814,
+            "O": 9.968898584512907,
+            "Na": 0.0017999999999999997
+          }
+        ],
+        "240-buffer-extensive-2": [
+          {
+            "C": 0.014399999999999996,
+            "H": 39.87199433805163,
+            "O": 19.937797169025814,
+            "Na": 0.0035999999999999995
+          },
+          {
+            "C": 0.014399999999999996,
+            "H": 39.87199433805163,
+            "O": 19.937797169025814,
+            "Na": 0.0035999999999999995
+          }
+        ],
+        "241-buffer-extensive-3": [
+          {
+            "C": 0.021599999999999998,
+            "H": 59.80799150707744,
+            "O": 29.906695753538717,
+            "Na": 0.0054
+          },
+          {
+            "C": 0.021599999999999998,
+            "H": 59.80799150707744,
+            "O": 29.906695753538717,
+            "Na": 0.0054
+          }
+        ],
+        "242-buffer-extensive-4": [
+          {
+            "C": 0.028799999999999992,
+            "H": 79.74398867610326,
+            "O": 39.87559433805163,
+            "Na": 0.007199999999999999
+          },
+          {
+            "C": 0.028799999999999992,
+            "H": 79.74398867610326,
+            "O": 39.87559433805163,
+            "Na": 0.007199999999999999
+          }
+        ]
+      }
+    }
+  ],
+  "passed": 32,
+  "unmet": 0
+}

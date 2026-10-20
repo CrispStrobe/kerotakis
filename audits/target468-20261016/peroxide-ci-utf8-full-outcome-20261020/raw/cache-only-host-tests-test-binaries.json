@@ -1,0 +1,14 @@
+{
+  "source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "tree": "f77a9e82941f30a6433583e1bd417939118d13c6",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": [
+    {
+      "executed_path": "target/debug/deps/kerotakis_wasm-0791f3d501657475",
+      "sha256": "3f83b99785af7dc9b6a7aa77da123b05e804016ae22a4e00c4c1a2b7c213dc5b",
+      "bytes": 82854456,
+      "gzip": "actual-test-executables/3f83b99785af7dc9b6a7aa77da123b05e804016ae22a4e00c4c1a2b7c213dc5b.gz",
+      "gzip_sha256": "023ad02fa89b1fb4f613266333aac95f60a94c22b87b8f2ceac4d4423a602ea5"
+    }
+  ]
+}

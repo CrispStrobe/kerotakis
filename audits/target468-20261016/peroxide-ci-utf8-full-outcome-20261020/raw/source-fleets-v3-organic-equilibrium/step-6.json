@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/organic-equilibrium' --family 'organic-equilibrium' --out 'audit-evidence-v3/organic-equilibrium/organic-equilibrium-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "617ac607d9810ae10ca8cf866901511597b5cafbf8156106c79ef6eb845e879b",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

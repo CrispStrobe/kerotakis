@@ -1,0 +1,25 @@
+{"families": 1, "cases": 24, "distinct_scripts": 24}
+657-peroxide-wait-30 exit= 0 steps= 5
+658-peroxide-wait-60 exit= 0 steps= 5
+659-peroxide-wait-120 exit= 0 steps= 5
+660-peroxide-wait-240 exit= 0 steps= 5
+661-acid-metal-wait-10 exit= 0 steps= 6
+662-acid-metal-wait-30 exit= 0 steps= 6
+663-acid-metal-wait-60 exit= 0 steps= 6
+664-acid-metal-wait-120 exit= 0 steps= 6
+665-peroxide-heat-0 exit= 0 steps= 6
+666-peroxide-heat-100 exit= 0 steps= 6
+667-peroxide-heat-200 exit= 0 steps= 6
+668-peroxide-heat-300 exit= 0 steps= 6
+669-zinc-dose-0.0005 exit= 0 steps= 6
+670-zinc-dose-0.001 exit= 0 steps= 6
+671-zinc-dose-0.002 exit= 0 steps= 6
+672-zinc-dose-0.004 exit= 0 steps= 6
+673-wait-partition-1 exit= 0 steps= 5
+674-wait-partition-2 exit= 0 steps= 6
+675-wait-partition-3 exit= 0 steps= 6
+676-wait-partition-4 exit= 0 steps= 7
+677-acid-dose-0.0005 exit= 0 steps= 6
+678-acid-dose-0.001 exit= 0 steps= 6
+679-acid-dose-0.002 exit= 0 steps= 6
+680-acid-dose-0.004 exit= 0 steps= 6
