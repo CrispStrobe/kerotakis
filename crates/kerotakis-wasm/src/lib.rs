@@ -16,6 +16,9 @@
 //! * **Thermal chemistry is fully live.** The Gibbs minimiser is pure Rust,
 //!   so heating, calcining and burning are computed in the browser.
 
+#[cfg(test)]
+mod solver_contract_tests;
+
 pub mod worker;
 
 use kerotakis_core::{
