@@ -1,0 +1,13 @@
+{
+  "failure": "Strict elemental/formal-charge ledger stopped at CO004 row12 vessel2 charge residual1.4255598067472588e-10",
+  "raw_coordinate": {
+    "case": "batch3-diverse:co-004",
+    "state_row_index": 12,
+    "vessel": 2,
+    "coordinate": "charge"
+  },
+  "actual": 0.00018729910241690518,
+  "expected": 0.0001872989598609245,
+  "original_reader_preserved": "review_saved_first.py",
+  "no_tolerance_relaxation_or_candidate_selection": true
+}

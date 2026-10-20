@@ -1,0 +1,2634 @@
+{
+  "original_id": "batch3-diverse:fo-004",
+  "title": "A watercolour and an acrylic paint can carry blue colour differently",
+  "original_forecast": "Compare dissolved-species coverage with unresolved pigment/binder states. A blue appearance is not evidence that both paints have the same molecular colourant or obey the same optical dilution law.",
+  "original_limitations": [
+    "These named recipes do not represent all watercolours or acrylic paints. Binder film formation, pigment sedimentation and an exact Beer-Lambert law for the opaque sample are not assumed."
+  ],
+  "original_script_sha256": "7dcec740108e33469ba8753a2ed0edd4a831050e6fda74370c8184df9c1f9728",
+  "raw_member_prefix": "batch3-diverse_fo-004",
+  "raw_sha256": {
+    "experiment.lab": "7dcec740108e33469ba8753a2ed0edd4a831050e6fda74370c8184df9c1f9728",
+    "stdout.jsonl": "6f31d382015cc39bc15432347e881dd00a79a8d46a0cc89b5e5978eb4b9424ad",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "status": "proposal_pending_parent_review",
+  "assessment": {
+    "status": "proposal_pending_parent_review",
+    "hold_reason": null,
+    "model_scope": "Equal formulation doses retain dissolved indigo versus an unresolved pigment/binder pool through equal dilution. Persistent colour states differ. The opaque formulation zero at405nm is only absence of an installed molecular-spectrum contribution, not measured transparency or Beer-Lambert behaviour; no pigment sedimentation or binder film law is inferred.",
+    "independent_calculations": {
+      "dye_retained_mol": 2.1443122118580465e-08,
+      "opaque_binder_pigment_retained_g": 0.275,
+      "actual_rgb_after_dilution": [
+        [
+          246,
+          253,
+          255
+        ],
+        [
+          15,
+          140,
+          232
+        ]
+      ],
+      "actual_spectrophotometry": [
+        [
+          10,
+          {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "unit": "absorbance at 605 nm",
+            "value": 0.013950956029321582,
+            "vessel": 0
+          }
+        ],
+        [
+          11,
+          {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "unit": "absorbance at 405 nm",
+            "value": 0.0,
+            "vessel": 1
+          }
+        ]
+      ]
+    },
+    "coverage_warnings": [
+      {
+        "raw_jsonl_line": 3,
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "indigo_carmine",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "indigo_carmine is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      },
+      {
+        "raw_jsonl_line": 6,
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "indigo_carmine",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "indigo_carmine is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      },
+      {
+        "raw_jsonl_line": 12,
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "indigo_carmine",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "indigo_carmine is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      }
+    ],
+    "energy_scope": "All actual temperatures and clocks retained per step. No calorimetric or empirical kinetic forecast is present; no unmeasured energy or yield asserted.",
+    "actual_auxiliary_reservoirs": [
+      {
+        "raw_jsonl_line": 1,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.031764230227039e-09,
+            "free_hydroxide": 3.031764230227039e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.031764230227039e-09,
+            "free_hydroxide": 3.031764230227039e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.031764230227039e-09,
+            "free_hydroxide": 3.031764230227039e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.031764230227039e-09,
+            "free_hydroxide": 3.031764230227039e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.031764230227039e-09,
+            "free_hydroxide": 3.031764230227039e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.031764230227039e-09,
+            "free_hydroxide": 3.031764230227039e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.031764230227039e-09,
+            "free_hydroxide": 3.031764230227039e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.031764230227039e-09,
+            "free_hydroxide": 3.031764230227039e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.040892092383691e-09,
+            "free_hydroxide": 6.040892092383691e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.040892092383691e-09,
+            "free_hydroxide": 6.040892092383691e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.040892092383691e-09,
+            "free_hydroxide": 6.040892092383691e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 18,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 3.0091278621566525e-09,
+            "free_hydroxide": 3.0091278621566525e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.040892092383691e-09,
+            "free_hydroxide": 6.040892092383691e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      }
+    ],
+    "raw_nonbench_observations": [
+      {
+        "raw_jsonl_line": 16,
+        "record": {
+          "events": [],
+          "operator": {
+            "op": "particles",
+            "vessel": 0
+          },
+          "output_sequence": 15,
+          "particles": {
+            "per_glyph": 8.934634216075194e-10,
+            "populations": [
+              {
+                "amount": 3.3483202886483485,
+                "drawn": 6,
+                "kind": "solvent",
+                "label": "H2O"
+              },
+              {
+                "amount": 2.1443122118580465e-08,
+                "drawn": 24,
+                "kind": "neutral_solute",
+                "label": "C16H8N2Na2O8S2"
+              }
+            ],
+            "source": "inventory",
+            "too_rare": []
+          },
+          "step": 15
+        }
+      },
+      {
+        "raw_jsonl_line": 17,
+        "record": {
+          "events": [],
+          "operator": {
+            "op": "particles",
+            "vessel": 1
+          },
+          "output_sequence": 16,
+          "particles": {
+            "per_glyph": 8.383840026068909e-09,
+            "populations": [
+              {
+                "amount": 3.3330557868442963,
+                "drawn": 6,
+                "kind": "solvent",
+                "label": "H2O"
+              },
+              {
+                "amount": 1.006060803128269e-07,
+                "drawn": 12,
+                "kind": "cation",
+                "label": "H+"
+              },
+              {
+                "amount": 1.006060803128269e-07,
+                "drawn": 12,
+                "kind": "anion",
+                "label": "OH-"
+              }
+            ],
+            "source": "speciation",
+            "too_rare": []
+          },
+          "step": 15
+        }
+      }
+    ]
+  },
+  "per_criterion": [
+    {
+      "id": "question",
+      "criterion": "Does dilution expose a difference between a dissolved colourant formulation and an opaque pigment/binder formulation?",
+      "review_instruction": "Compare dissolved-species coverage with unresolved pigment/binder states. A blue appearance is not evidence that both paints have the same molecular colourant or obey the same optical dilution law.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.independent_calculations"
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "inventory.trace"
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.model_scope and assessment.coverage_warnings"
+    }
+  ],
+  "no_catalog_selection": true,
+  "original_criteria": [
+    {
+      "id": "question",
+      "criterion": "Does dilution expose a difference between a dissolved colourant formulation and an opaque pigment/binder formulation?",
+      "review_instruction": "Compare dissolved-species coverage with unresolved pigment/binder states. A blue appearance is not evidence that both paints have the same molecular colourant or obey the same optical dilution law.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    }
+  ],
+  "inventory": {
+    "strict_balance_failures": [],
+    "domain": "Every operator and every vessel/step: pinned recipe additions, all resolved atoms/charge, exact formula-free enzyme carriers, unresolved material pools, sealed dry air, retained gases, actual clocks and temperatures. Unknown/export events rejected; no duplicate free-ion counting or invented aggregate formulas.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 1.6602830974188176,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "watercolour_blue",
+          "op": "add_material",
+          "recipe_id": "school/watercolor-blue-indigo-carmine",
+          "recipe_version": 2,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 1.6880371912295309,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 1.6602830974188176,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 1.6880371912295309,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "acrylic_blue",
+          "op": "add_material",
+          "recipe_id": "school/acrylic-blue-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 1.6880371912295309,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 1.6727726894254789,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "op": "stir",
+          "rpm": 300.0,
+          "seconds": 20.0,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 1.6880371912295309,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 1.6727726894254789,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "op": "stir",
+          "rpm": 300.0,
+          "seconds": 20.0,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 1.6880371912295309,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 1.6727726894254789,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 1.6880371912295309,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 1.6727726894254789,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 1.6880371912295309,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 1.6727726894254789,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 1.6880371912295309,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 1.6727726894254789,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3760745540040387,
+              "O": 1.6880373627745078,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 1.6880371912295309,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 1.6727726894254789,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "moles": 1.6602830974188176,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 6.696640748841674,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 6.6966407488416735,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 3.3483202886483485,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3455453788509577,
+              "O": 1.6727726894254789,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 1.6727726894254789,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "moles": 1.6602830974188176,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 6.696640748841674,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 6.6966407488416735,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 3.3483202886483485,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 6.6661115736885925,
+              "O": 3.3330557868442963,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 6.6661115736885925,
+              "O": 3.3330557868442963,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 3.3330557868442963,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 6.696640748841674,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 6.6966407488416735,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 3.3483202886483485,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 6.6661115736885925,
+              "O": 3.3330557868442963,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 6.6661115736885925,
+              "O": 3.3330557868442963,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 3.3330557868442963,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 6.696640748841674,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 6.6966407488416735,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 3.3483202886483485,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 6.6661115736885925,
+              "O": 3.3330557868442963,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 6.6661115736885925,
+              "O": 3.3330557868442963,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 3.3330557868442963,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 18,
+        "step": 15,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 6.696640748841674,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "expected_explicit_input_totals": {
+              "H": 6.6966407488416735,
+              "O": 3.3483204601933254,
+              "charge": 0.0,
+              "C": 3.4308995389728744e-07,
+              "N": 4.288624423716093e-08,
+              "Na": 4.288624423716093e-08,
+              "S": 4.288624423716093e-08
+            },
+            "unresolved_g": {
+              "school/watercolor-blue-indigo-carmine": 0.0
+            },
+            "contents": [
+              {
+                "moles": 3.3483202886483485,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 2.1443122118580465e-08,
+                "phase": "aqueous",
+                "species": "indigo_carmine"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 6.6661115736885925,
+              "O": 3.3330557868442963,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 6.6661115736885925,
+              "O": 3.3330557868442963,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/acrylic-blue-surrogate": 0.275
+            },
+            "contents": [
+              {
+                "moles": 3.3330557868442963,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 8.881784197001252e-16,
+    "max_unresolved_g_residual": 0
+  },
+  "actual_events": [
+    {
+      "raw_jsonl_line": 1,
+      "operator": {
+        "op": "new_vessel"
+      },
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 2,
+      "operator": {
+        "moles": 1.6602830974188176,
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 1.6602830974188176,
+          "species": "water",
+          "total_after": 1.6602830974188176,
+          "vessel": 0
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 3,
+      "operator": {
+        "basis": "mass_fraction",
+        "material": "watercolour_blue",
+        "op": "add_material",
+        "recipe_id": "school/watercolor-blue-indigo-carmine",
+        "recipe_version": 2,
+        "sample_seed": 0,
+        "total_amount": 0.5,
+        "vessel": 0
+      },
+      "events": [
+        {
+          "basis": "mass_fraction",
+          "components": [
+            {
+              "basis_amount": 1e-05,
+              "moles": 2.1443122118580465e-08,
+              "species": "indigo_carmine"
+            },
+            {
+              "basis_amount": 0.49999,
+              "moles": 0.027754093810713292,
+              "species": "water"
+            }
+          ],
+          "event": "material_added",
+          "material": "watercolour_blue",
+          "recipe_id": "school/watercolor-blue-indigo-carmine",
+          "recipe_version": 2,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "unresolved_amount": 0.0,
+          "vessel": 0
+        },
+        {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "indigo_carmine",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "indigo_carmine is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 4,
+      "operator": {
+        "moles": 1.6602830974188176,
+        "op": "add",
+        "species": "water",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 1.6602830974188176,
+          "species": "water",
+          "total_after": 1.6602830974188176,
+          "vessel": 1
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 5,
+      "operator": {
+        "basis": "mass_fraction",
+        "material": "acrylic_blue",
+        "op": "add_material",
+        "recipe_id": "school/acrylic-blue-surrogate",
+        "recipe_version": 1,
+        "sample_seed": 0,
+        "total_amount": 0.5,
+        "vessel": 1
+      },
+      "events": [
+        {
+          "basis": "mass_fraction",
+          "components": [
+            {
+              "basis_amount": 0.225,
+              "moles": 0.012489592006661115,
+              "species": "water"
+            }
+          ],
+          "event": "material_added",
+          "material": "acrylic_blue",
+          "recipe_id": "school/acrylic-blue-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "unresolved_amount": 0.275,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 6,
+      "operator": {
+        "op": "stir",
+        "rpm": 300.0,
+        "seconds": 20.0,
+        "vessel": 0
+      },
+      "events": [
+        {
+          "bar_length_m": 0.025,
+          "event": "stirred",
+          "rate_coupled": false,
+          "resuspended_fraction": 0.9999999999957323,
+          "rpm": 300.0,
+          "seconds": 20.0,
+          "tip_speed_m_s": 0.3926990816987241,
+          "vessel": 0
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "indigo_carmine",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "indigo_carmine is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 7,
+      "operator": {
+        "op": "stir",
+        "rpm": 300.0,
+        "seconds": 20.0,
+        "vessel": 1
+      },
+      "events": [
+        {
+          "bar_length_m": 0.025,
+          "event": "stirred",
+          "rate_coupled": false,
+          "resuspended_fraction": 0.9999999999957323,
+          "rpm": 300.0,
+          "seconds": 20.0,
+          "tip_speed_m_s": 0.3926990816987241,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 8,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "appearance": {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "blue-green",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 0.0,
+            "deposit": null,
+            "liquid": {
+              "b": 255,
+              "g": 251,
+              "r": 238,
+              "strength": 0.0
+            },
+            "words": "The liquid is blue-green and clear."
+          },
+          "event": "observed",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 9,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "appearance": {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "blue",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and so cloudy you cannot see through it",
+                          "key": "look.clarity-opaque"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 1.0,
+            "deposit": null,
+            "liquid": {
+              "b": 232,
+              "g": 140,
+              "r": 15,
+              "strength": 0.0
+            },
+            "words": "The liquid is blue and so cloudy you cannot see through it."
+          },
+          "event": "observed",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 10,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "spectrophotometer",
+          "unit": "absorbance at 605 nm",
+          "value": 0.013950956029321582,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 11,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "spectrophotometer",
+          "unit": "absorbance at 405 nm",
+          "value": 0.0,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 12,
+      "operator": {
+        "moles": 1.6602830974188176,
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 1.6602830974188176,
+          "species": "water",
+          "total_after": 3.3483202886483485,
+          "vessel": 0
+        },
+        {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "indigo_carmine",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "indigo_carmine is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 13,
+      "operator": {
+        "moles": 1.6602830974188176,
+        "op": "add",
+        "species": "water",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 1.6602830974188176,
+          "species": "water",
+          "total_after": 3.3330557868442963,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 14,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "appearance": {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 0.0,
+            "deposit": null,
+            "liquid": {
+              "b": 255,
+              "g": 253,
+              "r": 246,
+              "strength": 0.0
+            },
+            "words": "The liquid is colourless and clear."
+          },
+          "event": "observed",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 15,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "appearance": {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "blue",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and so cloudy you cannot see through it",
+                          "key": "look.clarity-opaque"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 1.0,
+            "deposit": null,
+            "liquid": {
+              "b": 232,
+              "g": 140,
+              "r": 15,
+              "strength": 0.0
+            },
+            "words": "The liquid is blue and so cloudy you cannot see through it."
+          },
+          "event": "observed",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 18,
+      "operator": {
+        "op": "inspect"
+      },
+      "events": []
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 15,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [],
+          "boiling_point_k": 373.1500001823902,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 20.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                246,
+                253,
+                255
+              ],
+              "volume_l": 0.06050149448345035
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              246,
+              253,
+              255
+            ],
+            "volume_l": 0.06050149448345035
+          },
+          "mass_g": 60.32,
+          "melting_point_k": 273.14999933896695,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "blue",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and so cloudy you cannot see through it",
+                        "key": "look.clarity-opaque"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 20.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "blue",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                15,
+                140,
+                232
+              ],
+              "volume_l": 0.060225677031093286
+            }
+          ],
+          "liquid": {
+            "cloudiness": 1.0,
+            "colour_word": "blue",
+            "path_length_cm": 4.0,
+            "srgb": [
+              15,
+              140,
+              232
+            ],
+            "volume_l": 0.060225677031093286
+          },
+          "mass_g": 60.045,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is blue and so cloudy you cannot see through it."
+        }
+      ]
+    }
+  }
+}

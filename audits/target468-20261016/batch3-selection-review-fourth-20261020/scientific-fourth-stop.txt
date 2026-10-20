@@ -1,0 +1,1 @@
+Corrosion source assertion used bare quoted recipe ID; actual BARRIERS key is full lot provenance string "material recipe <ID>". Correct assertion checks the stronger actual lot-source key. No inventory or outcome requirement changed.

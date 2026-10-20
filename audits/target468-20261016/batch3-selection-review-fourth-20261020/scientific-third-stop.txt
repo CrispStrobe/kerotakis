@@ -1,0 +1,1 @@
+PO007 assumed identical nominal starch/cellulose molar mass despite separate registry precision. Correct control compares retained cellulose with its own original operator dose; equal0.2g doses need not serialize identical mole counts. Whole elemental ledgers and exact starch/maltose/water stoichiometry remain unchanged.

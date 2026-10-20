@@ -1,0 +1,42 @@
+[
+  {
+    "original_id": "batch3-diverse:co-004",
+    "assessment": "co-004.json",
+    "status": "proposal_pending_parent_review"
+  },
+  {
+    "original_id": "batch3-diverse:en-006",
+    "assessment": "en-006.json",
+    "status": "proposal_pending_parent_review"
+  },
+  {
+    "original_id": "batch3-diverse:en-008",
+    "assessment": "en-008.json",
+    "status": "hold"
+  },
+  {
+    "original_id": "batch3-diverse:fo-004",
+    "assessment": "fo-004.json",
+    "status": "proposal_pending_parent_review"
+  },
+  {
+    "original_id": "batch3-diverse:po-007",
+    "assessment": "po-007.json",
+    "status": "proposal_pending_parent_review"
+  },
+  {
+    "original_id": "batch3-diverse:su-002",
+    "assessment": "su-002.json",
+    "status": "proposal_pending_parent_review"
+  },
+  {
+    "original_id": "batch3-diverse:su-003",
+    "assessment": "su-003.json",
+    "status": "proposal_pending_parent_review"
+  },
+  {
+    "original_id": "batch3-diverse:su-005",
+    "assessment": "su-005.json",
+    "status": "hold"
+  }
+]

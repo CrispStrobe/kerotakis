@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-20T12:43:57.314531+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 332,
+  "source_qualified_selected_in_target": 328,
+  "additional_selections_needed_for_401": 73,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261020-reviewed-enzyme-materials.json",
+  "catalog_sha256": "c408ab17a250eda985c0cce4c995cb262d4f6157ee1dadac88b8fb6ef0b901bb",
+  "selection_receipt": "audits/target468-20261016/selection-enzyme-materials-20261020/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard-20261020-reviewed-batch2-seventh.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "Seven unchanged bounded enzyme/material originals independently reproduced and parent-accepted; all325 preceding entries exact. Unknown enzyme formula conserved symbolically, unresolved material/observer limits and historical producer-reported lock retained. Nine reviewed originals remain held; no uniform current-release or empirical claim."
+}

@@ -1,0 +1,5 @@
+{
+  "error": "Assumed every nonzero conversion has a ReactionHeatReleased event",
+  "actual": "MnO2 arm extent is below the source event observability threshold; heat application precedes that event gate. Its absent narration is not zero heat. Other two arms have actual49.099999509J events.",
+  "new_executions": 0
+}

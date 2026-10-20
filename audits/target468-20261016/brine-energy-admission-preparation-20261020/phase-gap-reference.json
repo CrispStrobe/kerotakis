@@ -1,0 +1,38 @@
+{
+  "kind": "independent_analytical_model_reference_only",
+  "source": "32c5c96b2685b08ddea048861006ec486357c7a8",
+  "rows": [
+    {
+      "NaCl_pair_mol_per_one_mol_liquid_water": 0,
+      "independent_ideal_liquidus_K": 273.15,
+      "declared_phase_enthalpy_gap_J_per_mol": 6010.0,
+      "source_constant_fusion_J_per_mol": 6010,
+      "difference_from_constant_J_per_mol": 0.0
+    },
+    {
+      "NaCl_pair_mol_per_one_mol_liquid_water": 0.001,
+      "independent_ideal_liquidus_K": 272.9439225796658,
+      "declared_phase_enthalpy_gap_J_per_mol": 6002.15346730753,
+      "source_constant_fusion_J_per_mol": 6010,
+      "difference_from_constant_J_per_mol": -7.8465326924697365
+    },
+    {
+      "NaCl_pair_mol_per_one_mol_liquid_water": 0.01,
+      "independent_ideal_liquidus_K": 271.1211630283249,
+      "declared_phase_enthalpy_gap_J_per_mol": 5932.485434237429,
+      "source_constant_fusion_J_per_mol": 6010,
+      "difference_from_constant_J_per_mol": -77.51456576257078
+    },
+    {
+      "NaCl_pair_mol_per_one_mol_liquid_water": 0.03,
+      "independent_ideal_liquidus_K": 267.2650872449519,
+      "declared_phase_enthalpy_gap_J_per_mol": 5783.54093193497,
+      "source_constant_fusion_J_per_mol": 6010,
+      "difference_from_constant_J_per_mol": -226.4590680650299
+    }
+  ],
+  "native_engine_executions": 0,
+  "native_controls_executed": false,
+  "actual_TC008_cause_or_residual_assigned": false,
+  "reference": "H_liquid(T)-H_ice(T) = 6010 + integral_273.15^T(Cp_liquid-Cp_ice)dT, using the frozen registry curves and endpoint clamps."
+}

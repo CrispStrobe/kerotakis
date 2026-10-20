@@ -1,0 +1,36 @@
+{
+  "source_head": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+  "source_view": "Locally available actual origin/main at source inspection; no fresh remote fetch or engine execution is claimed.",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-core/src/solve.rs": "d34fa7f06f820840a11d37f2aad8684e869dcaaa7d413d87b881ac92a641583c",
+    "crates/kerotakis-core/src/solution_optics.rs": "b37b8bd710378e28cfe81ec984e1f4dc7e6ef70c5b5089358fa65490b779d763",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "faf5a9cca1f76a11b94171a0367db809d4cba7762672074cbcf2e45bc9b49ab5",
+    "crates/kerotakis-phreeqc/src/derived.rs": "d5d2436439578f6fbad78dc320582b32769c2ea5cdc4070fa74a97b5820122c5",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "same_bytes_as_historical_c446": {
+    "crates/kerotakis-core/src/states.rs": true,
+    "crates/kerotakis-core/src/kinetics.rs": true,
+    "crates/kerotakis-core/src/solve.rs": false,
+    "crates/kerotakis-core/src/solution_optics.rs": true,
+    "crates/kerotakis-phreeqc/src/aqueous.rs": false,
+    "crates/kerotakis-phreeqc/src/derived.rs": true,
+    "crates/kerotakis-core/tests/golden/registry.json": true,
+    "data/registry/registry-source-v1.json": true
+  },
+  "actual_source_capability_observations": {
+    "zero_shift_on_pressure_outside_cleared_window_still_present": true,
+    "maximum_effective_catalyst_pathway_rule_present": true,
+    "CaO_dissolution_enthalpy_still_unspecified": true,
+    "catalase_formula_placeholder_still_C": true,
+    "no_registered_iodide_or_triiodide_compositions": true,
+    "AgI_registered_composition": false,
+    "Ag2CO3_registered_composition": false,
+    "redox_stood_down_notice_present": true,
+    "conservative_spectral_gap_guard_present": true
+  },
+  "qualification": "These are exact source/data observations only. Historical unsupported forecasts and charge discrepancy remain historical; changed runtime paths require separately frozen current-source execution before a new physical verdict."
+}

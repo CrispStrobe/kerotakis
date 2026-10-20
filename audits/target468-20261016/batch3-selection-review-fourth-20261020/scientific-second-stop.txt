@@ -1,0 +1,1 @@
+FO004 first independent dye assertion incorrectly rounded dose to20nmol. Actual source recipe fraction divided by registry molar mass is authoritative; retained dye must equal independently expanded material dose exactly, not this hand estimate.

@@ -1,0 +1,15 @@
+{
+  "failure": "Strict charge ledger first stopped at EN008 state row_index12, raw JSONL line13, vessel2; initial CO004 attribution was a review bookkeeping error, corrected without changing observed values or tolerance.",
+  "raw_coordinate": {
+    "case": "batch3-diverse:en-008",
+    "state_row_index": 12,
+    "vessel": 2,
+    "coordinate": "charge",
+    "raw_jsonl_line": 13
+  },
+  "actual": 0.00018729910241690518,
+  "expected": 0.0001872989598609245,
+  "original_reader_preserved": "review_saved_first.py",
+  "no_tolerance_relaxation_or_candidate_selection": true,
+  "initial_attribution_error_preserved": "reader-first-failure-initial-misattribution.json"
+}

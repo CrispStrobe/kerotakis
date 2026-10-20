@@ -1,0 +1,12 @@
+{
+  "actual_historical_SE008_dataset": "wateq4f.dat plus reference-complex/gas-uptake extensions",
+  "source_vendor_gitlinks": {
+    "c44692053a94c59dcf62e7fb67549f84c7d18f83": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+    "000ca5729b5f11c5c6c036b73b68c92bf84cdd70": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "actual_vendor_checkout": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+  "selected_base_dataset_path": "vendor/iphreeqc/database/wateq4f.dat",
+  "selected_base_dataset_sha256": "93547b0343d9f151e73fb48e7927aa9e9c777399fedcb8c7497d00371af4d0ae",
+  "selected_base_dataset_has_Niter_named_phase": false,
+  "scope": "No nitrate crystallisation occurs; neither saved output nor mere absence of a Niter phase establishes physical mixed-salt saturation or proves that more cooling alone repairs it. Current and historical source share this pinned vendor baseline. Review nitrate solid admission and reference/activity data before changed-source claims or protocol redesign."
+}

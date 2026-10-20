@@ -1,0 +1,20 @@
+{
+  "source_commit": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "source_files_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/src/enzyme.rs": "95661ba277e06e2e0e980cd843d38a580b56291a00cf98c7e5464fdfa5b2f2d5",
+    "crates/kerotakis-core/src/enzyme_activity.rs": "6a37b9880b7877a0676352e4271b71d995a6e10a852ffa9921d287985df151af",
+    "crates/kerotakis-core/src/curdling.rs": "223b2f1810c37aeb99a8cec923421b40f5b9c3873c8398df90c4afacf113dc9d",
+    "crates/kerotakis-core/src/corrosion.rs": "10e1db01ae45e4c7893f13febf9fbc829ba4e06923c8a2c74948e8bfb88baef2",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94"
+  },
+  "raw_archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "actual_lock_bytes_available": false,
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "reader_chain_sha256": {
+    "audits/target468-20261016/batch3-selection-review-fourth-20261020/review_saved.py": "7a45a717959a468b4797a290223f6d031dc0731fbfd380e20cd79809ee0f0d17",
+    "audits/target468-20261016/batch3-selection-review-third-20261020/review_saved.py": "1c31b0d7c3f2b663bfa4f846169372520a498af257b79fc1f4aa8a722dd62c7d",
+    "audits/target468-20261016/batch3-selection-review-second-20261020/review_saved.py": "c0ee7675bf6aad038d34800c0c54b70f9c4978d83af6ec9b8e063c81160add50",
+    "audits/target468-20261016/batch3-selection-review-20261020/review_saved.py": "67db029dbf94ab015e380330b6fc068f15602952a2c68421b968243fca747798"
+  }
+}

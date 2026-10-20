@@ -1,0 +1,6 @@
+{
+  "error": "AssertionError: cool",
+  "stage": "first full saved mathematical reader",
+  "cause": "New unit includes cool operator; reused nonmutating operator-admission whitelist omitted cool. Ledger source/atoms are unchanged; admit symmetric prescribed heat removal.",
+  "physical_failure_claim": false
+}

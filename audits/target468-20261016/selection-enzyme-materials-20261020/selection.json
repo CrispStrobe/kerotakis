@@ -1,0 +1,42 @@
+{
+  "schema": "kerotakis.scientific-selection-expansion.v1",
+  "utc": "2026-10-20T12:43:57.314531+00:00",
+  "previous_catalog": "audits/working-experiments-20261020-reviewed-batch2-seventh.json",
+  "previous_catalog_sha256": "9328bef973e049ac9c319aa4b7b68d555e59d9a9ca49fc114b98238211c6a9a7",
+  "new_catalog": "audits/working-experiments-20261020-reviewed-enzyme-materials.json",
+  "new_catalog_sha256": "c408ab17a250eda985c0cce4c995cb262d4f6157ee1dadac88b8fb6ef0b901bb",
+  "all325_previous_entries_preserved_exactly": true,
+  "new_selected_originals": [
+    "batch2:ki-008",
+    "batch3-diverse:en-006",
+    "batch3-diverse:co-004",
+    "batch3-diverse:po-007",
+    "batch3-diverse:fo-004",
+    "batch3-diverse:su-002",
+    "batch3-diverse:su-003"
+  ],
+  "new_scientific_selections": 7,
+  "unique_fixed468_before": 321,
+  "unique_fixed468_after": 328,
+  "catalog_entries": 332,
+  "additional_to401": 73,
+  "remaining_unselected_originals": 140,
+  "parent_adjudications": {
+    "audits/target468-20261016/batch2-selection-review-eighth-20261020/parent-adjudication.json": "37f5d173c9e206b349ad96c2d69e3cc88eb2e3302b3623be4380b961220367b5",
+    "audits/target468-20261016/batch3-selection-review-fourth-20261020/parent-adjudication.json": "d0b2a724b9b37394ae599df153230e31c3f1de91b8f710b7fb2974442d3fb9f5"
+  },
+  "retained_holds": [
+    "batch2:pq-001",
+    "batch2:pq-004",
+    "batch2:ec-009",
+    "batch2:se-008",
+    "batch2:tc-001",
+    "batch2:tc-005",
+    "batch2:pq-010",
+    "batch3-diverse:en-008",
+    "batch3-diverse:su-005"
+  ],
+  "counts_by_group_recomputed_from_actual_entries": true,
+  "new_engine_or_API_executions": 0,
+  "uniform_current_release_revalidation_claim": false
+}

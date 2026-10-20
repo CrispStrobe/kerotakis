@@ -1,0 +1,57 @@
+{
+  "kind": "authenticated_historical_runtime_heat_basis_counterexample",
+  "archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "original_script_sha256": "24786bd781e4dd02bb2cf6121125ee4ba6632fb0d5499d72de0b01b104371439",
+  "stdout_sha256": "d393d6d929837b3bb5348ae3b8edd3231abc83ba1c9489d02096ab1585e0127c",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "lock_qualification": "Inherited original producer-reported lock; no new actual lock bytes asserted.",
+  "source_bindings": {
+    "c44692053a94c59dcf62e7fb67549f84c7d18f83": {
+      "crates/kerotakis-core/src/clock.rs": "a7e64dac6135a6150f6c241beeb63e52e114de84ec217f1b694ac90b0476d80c",
+      "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94"
+    },
+    "32c5c96b2685b08ddea048861006ec486357c7a8": {
+      "crates/kerotakis-core/src/clock.rs": "a7e64dac6135a6150f6c241beeb63e52e114de84ec217f1b694ac90b0476d80c",
+      "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94"
+    }
+  },
+  "observations": [
+    {
+      "row": 12,
+      "vessel": 1,
+      "actual_H2O2_consumed_mol": "0.00099999999",
+      "actual_reaction_heat_J": "49.099999509",
+      "actual_heat_per_consumed_mole_J": "4.91E+4",
+      "NIST_reference_magnitude_J_per_consumed_mole": 98480,
+      "NIST_reference_uncertainty_J_per_mol": 790,
+      "heat_basis_matches_reference": false
+    },
+    {
+      "row": 12,
+      "vessel": 2,
+      "actual_H2O2_consumed_mol": "0.00099999999",
+      "actual_reaction_heat_J": "49.099999509",
+      "actual_heat_per_consumed_mole_J": "4.91E+4",
+      "NIST_reference_magnitude_J_per_consumed_mole": 98480,
+      "NIST_reference_uncertainty_J_per_mol": 790,
+      "heat_basis_matches_reference": false
+    }
+  ],
+  "below_heat_event_observability_threshold": [
+    {
+      "row": 12,
+      "vessel": 0,
+      "actual_H2O2_consumed_mol": "3.225810726068E-7",
+      "actual_heat_event_present": false,
+      "absence_is_not_zero_heat": true
+    }
+  ],
+  "new_engine_or_API_executions": 0,
+  "prepared_Rust_controls_executed": false,
+  "current_candidate_validated": false
+}

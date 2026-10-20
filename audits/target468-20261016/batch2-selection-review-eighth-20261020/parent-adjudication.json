@@ -1,0 +1,21 @@
+{
+  "accepted_originals": [
+    "batch2:ki-008"
+  ],
+  "held_originals": [
+    "batch2:pq-001",
+    "batch2:pq-004",
+    "batch2:ec-009",
+    "batch2:se-008",
+    "batch2:tc-001",
+    "batch2:tc-005",
+    "batch2:pq-010"
+  ],
+  "reader_sha256": "e69b5c99fa0c882da812fdfdee9eb5313a9d7e1c129c180880c3a272b5c7c663",
+  "assessment_sha256": "68904c33e12dae77d9ba2c4f1ebadef762d0f1d34742b4188cc9817b29832a5b",
+  "parent_reproduced_full_reader_exactly": true,
+  "original_criteria_preserved": true,
+  "parent_symbolic_conservation_adjudication": "An unchanged enzyme identity/phase/amount carries the same arbitrary unknown elemental vector on both sides. Zero every-step carrier coefficient proves conservation without assigning a protein formula. Actual represented H/O/Mn/O2/water budgets remain numeric; no invented catalyst atoms or absolute formula.",
+  "scope": "Three actual conversion fractions and explicit max-effective-pathway rule. Near-complete enzyme arms do not identify catalyst interactions. No empirical rate, enzyme formula or calorimetric validation claim; known peroxide heat-basis repair is separately prepared/unvalidated.",
+  "new_executions": 0
+}

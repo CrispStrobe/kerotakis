@@ -1,0 +1,37 @@
+{
+  "accepted_originals": [
+    "batch3-diverse:en-006",
+    "batch3-diverse:co-004",
+    "batch3-diverse:po-007",
+    "batch3-diverse:fo-004",
+    "batch3-diverse:su-002",
+    "batch3-diverse:su-003"
+  ],
+  "held_originals": [
+    "batch3-diverse:en-008",
+    "batch3-diverse:su-005"
+  ],
+  "reader_sha256": "7a45a717959a468b4797a290223f6d031dc0731fbfd380e20cd79809ee0f0d17",
+  "reports_sha256": {
+    "en-006": "07c12fe7cea70ff52f7665e3924290178987d6ad12029a0ba28e9658ff4fe98f",
+    "co-004": "4971245656d8791a4d8d6d04d8b99e334966fcedda563f55a747d8720c4050e6",
+    "po-007": "dde82eacdf06d0cc3175ecf76657605e06b3052abee6f0c400e7db3898a86c53",
+    "fo-004": "fcc21a956f1461a755591e3b87f363e40f27a072c8025a88c2ef8ee0653a4013",
+    "su-002": "4f7ab05d2a98b2582f7c99e80617b1cda43bffa0836dcc525edc23aa1015c4a4",
+    "su-003": "8c842d8533514750d19af32c0a1b550933612b30d5311abde6a3cbd61033f902",
+    "en-008": "cb5d47240a260390b7fb5c92ac67fbad2c3032f4a3d203c9922c6a078ae09f0e",
+    "su-005": "2c43ff3bb687b1537b0cc3b91f2b5b1273a6d32bd9443ea1d092dab479a07af0"
+  },
+  "parent_reproduced_all_saved_output_bytes_exactly": true,
+  "parent_read_all_original_forecasts_criteria_and_actual_independent_calculations": true,
+  "accepted_scope": {
+    "en-006": "Persistent lipase/oil annotation against actual wrong-substrate/oil-only controls; no glycerol/fatty-acid molecular yields or empirical kinetics.",
+    "co-004": "Actual persistent acid-family curd aggregate against dilution/untouched controls, unresolved dry-milk basis explicit; not wet curd yield or pH-isoelectric mechanism.",
+    "po-007": "Owned starch-to-maltose plus water debit against unchanged cellulose; no claim from zero iodine optics or calibrated wait-time kinetics.",
+    "fo-004": "Actual retained dissolved dye versus unresolved pigment/binder and paired dilution/appearance; unequal measured wavelengths and opaque zero are not a matched Beer-Lambert/scattering calibration.",
+    "su-002": "Source-owned paint barrier against matched exposed Fe/water/electrolyte/air/O2/time and actual4Fe:3O2:2Fe2O3 changes; not matched surface area, film breakdown, pitting or thermal calibration.",
+    "su-003": "Source-owned alloy/passive accessibility role against matched bare Fe; equal conductivity is not a protection mechanism, no resolved Cr-film chemistry or general stainless immunity."
+  },
+  "preserved_holds": "EN008 retains unexplained formal-charge residual at unchanged strict1e-10mol floor; SU005 electrical comparison lacks two requested solid resistivities. No warning/refusal is counted as a physical negative.",
+  "no_new_executions_or_empirical_calibration": true
+}

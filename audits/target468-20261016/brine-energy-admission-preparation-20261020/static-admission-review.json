@@ -1,0 +1,73 @@
+{
+  "source": "32c5c96b2685b08ddea048861006ec486357c7a8",
+  "test_sha256": "3ce054a91dd581b0d9706cbb8dfec97d9b0cdadcfa1976624de1c212e588a591",
+  "source_bindings_checked": true,
+  "registry_ions_do_not_supply_unspeciated_particles": true,
+  "registry_ion_heat_capacity_zero_and_no_curves": true,
+  "fixture_uses_declared_synthetic_particle_input": true,
+  "no_native_solve_or_aqueous_authority_claim": true,
+  "analytical_initial_admission_predictions": [
+    {
+      "salt_pair_mol": 0,
+      "temperature_K": 263.15,
+      "independent_ideal_initial_liquidus_K": 273.15,
+      "direction": "freezing",
+      "expected_particle_molality": 0.0
+    },
+    {
+      "salt_pair_mol": 0,
+      "temperature_K": 273.65,
+      "independent_ideal_initial_liquidus_K": 273.15,
+      "direction": "melting",
+      "expected_particle_molality": 0.0
+    },
+    {
+      "salt_pair_mol": 0.001,
+      "temperature_K": 263.15,
+      "independent_ideal_initial_liquidus_K": 272.9439225796658,
+      "direction": "freezing",
+      "expected_particle_molality": 0.11101859561476547
+    },
+    {
+      "salt_pair_mol": 0.001,
+      "temperature_K": 273.05,
+      "independent_ideal_initial_liquidus_K": 272.9439225796658,
+      "direction": "melting",
+      "expected_particle_molality": 0.11101859561476547
+    },
+    {
+      "salt_pair_mol": 0.01,
+      "temperature_K": 263.15,
+      "independent_ideal_initial_liquidus_K": 271.1211630283249,
+      "direction": "freezing",
+      "expected_particle_molality": 1.1101859561476548
+    },
+    {
+      "salt_pair_mol": 0.01,
+      "temperature_K": 273.05,
+      "independent_ideal_initial_liquidus_K": 271.1211630283249,
+      "direction": "melting",
+      "expected_particle_molality": 1.1101859561476548
+    },
+    {
+      "salt_pair_mol": 0.03,
+      "temperature_K": 263.15,
+      "independent_ideal_initial_liquidus_K": 267.2650872449519,
+      "direction": "freezing",
+      "expected_particle_molality": 3.330557868442964
+    },
+    {
+      "salt_pair_mol": 0.03,
+      "temperature_K": 273.05,
+      "independent_ideal_initial_liquidus_K": 267.2650872449519,
+      "direction": "melting",
+      "expected_particle_molality": 3.330557868442964
+    }
+  ],
+  "standalone_rustfmt_pass": true,
+  "compiled": false,
+  "executed": false,
+  "observed_energy_failures": null,
+  "TC008_source_cause_demonstrated": false,
+  "scientific_selections": 0
+}

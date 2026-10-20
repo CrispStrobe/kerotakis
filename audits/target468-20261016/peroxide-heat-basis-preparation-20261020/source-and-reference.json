@@ -1,0 +1,28 @@
+{
+  "baseline_tests_only": "877b9e2e39e50d985e234837ba423af7b98b07f4",
+  "candidate": "4a30c91081b571f88f74b26f9b43a519ff0b391f",
+  "based_on_actual_main": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+  "test_path": "crates/kerotakis-core/tests/peroxide_heat_basis.rs",
+  "identical_test_sha256": "51f4d4330b9bc585b119ef80ae0cbd09d2dcb011a8d4e99b525cac68c673c65e",
+  "candidate_clock_sha256": "a56fc7d1917f710b6a0a3a26b480a3f085f5467e8d327d9fbc9c0fb755a9fe71",
+  "scope": "Reference heat multiplied by consumed H2O2 from registered negative stoichiometric coefficient; no change to98_200J/mol reference or rate/gas equation.",
+  "primary_reference": {
+    "url": "https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.2126.pdf",
+    "pdf_sha256": "bd3be9916f25a58599f641296406d32a0eb881cd70b33c352de7f23059a9521a",
+    "table": "4-4(1), printed328 / PDF337",
+    "reference_temperature_K": 298.15,
+    "liquid_H2O2_delta_c_H_kJ_per_mol": -98.48,
+    "reported_uncertainty_kJ_per_mol": 0.79,
+    "liquid_H2O2_delta_f_H_kJ_per_mol": -187.35,
+    "liquid_water_delta_f_H_kJ_per_mol": -285.826,
+    "independent_formation_difference_kJ_per_mol": -98.476,
+    "Ttrs426_40K_is_not_reaction_temperature": true
+  },
+  "expected_baseline_control_outcomes": "Forecast only: three actual heat-reference failures and one excluded-path positive; no new test executable has run.",
+  "required_fixed_controls": 4,
+  "compiled": false,
+  "executed": false,
+  "format_checked_only": true,
+  "native_and_full_combined_platform_delivery_pending": true,
+  "scientific_selections": 0
+}

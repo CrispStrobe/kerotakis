@@ -1,0 +1,3592 @@
+{
+  "original_id": "batch3-diverse:en-006",
+  "title": "Lipase recognises oil, not cellulose",
+  "original_forecast": "Only the oil-plus-lipase vessel should acquire the supported triglyceride-hydrolysis state. Neither dissolved glycerol nor liberated fatty acids may be claimed unless the actual runtime explicitly resolves them.",
+  "original_limitations": [
+    "The oil is a mixture, not a single triglyceride. Interfacial area, emulsification-dependent rate enhancement and product acidity are not calibrated by this aggregate model."
+  ],
+  "original_script_sha256": "af769533c312acdaac701326ff0aa3240ade0afaa01ee8337f6e6ba6d6a49d56",
+  "raw_member_prefix": "batch3-diverse_en-006",
+  "raw_sha256": {
+    "experiment.lab": "af769533c312acdaac701326ff0aa3240ade0afaa01ee8337f6e6ba6d6a49d56",
+    "stdout.jsonl": "9041f67ff026a86b089acba5f8ba209bab714e6d16519527a83198b704fac166",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "status": "proposal_pending_parent_review",
+  "assessment": {
+    "status": "proposal_pending_parent_review",
+    "hold_reason": null,
+    "model_scope": "Lipase changes only the retained oil aggregate annotation, with wrong-substrate cellulose and oil-without-enzyme controls. Independent prior-temperature/pH/dose/time reconstruction agrees with each state and persistent scene. No glycerol, fatty-acid products, acidity yield, interfacial kinetics or empirical enzyme calibration is inferred.",
+    "independent_calculations": {
+      "editorial_enzyme_model": [
+        {
+          "raw_jsonl_line": 11,
+          "vessel": 0,
+          "family": "lipase",
+          "actual_temperature_k": 298.15,
+          "actual_prior_ph": 6.997375771104036,
+          "substrate_g": 1.0,
+          "enzyme_g": 0.05,
+          "seconds": 20.0,
+          "independent_fraction": 0.007361401990734873,
+          "independent_annotation_mass_g": 0.007361401990734873
+        },
+        {
+          "raw_jsonl_line": 14,
+          "vessel": 0,
+          "family": "lipase",
+          "actual_temperature_k": 298.15,
+          "actual_prior_ph": 6.997375771104036,
+          "substrate_g": 1.0,
+          "enzyme_g": 0.05,
+          "seconds": 2700.0,
+          "independent_fraction": 0.6339018424989908,
+          "independent_annotation_mass_g": 0.626540440508256
+        }
+      ]
+    },
+    "coverage_warnings": [
+      {
+        "raw_jsonl_line": 7,
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "cellulose (anhydroglucose unit)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction"
+        }
+      }
+    ],
+    "energy_scope": "All actual temperatures and clocks retained per step. No calorimetric or empirical kinetic forecast is present; no unmeasured energy or yield asserted.",
+    "actual_auxiliary_reservoirs": [
+      {
+        "raw_jsonl_line": 1,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 18,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      }
+    ],
+    "raw_nonbench_observations": []
+  },
+  "per_criterion": [
+    {
+      "id": "question",
+      "criterion": "Will a lipid-cleaving enzyme distinguish a triglyceride mixture from a polysaccharide solid?",
+      "review_instruction": "Only the oil-plus-lipase vessel should acquire the supported triglyceride-hydrolysis state. Neither dissolved glycerol nor liberated fatty acids may be claimed unless the actual runtime explicitly resolves them.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.independent_calculations"
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "inventory.trace"
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.model_scope and assessment.coverage_warnings"
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: wrong substrate; v3: oil without enzyme",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.independent_calculations and final_scene"
+    }
+  ],
+  "no_catalog_selection": true,
+  "original_criteria": [
+    {
+      "id": "question",
+      "criterion": "Will a lipid-cleaving enzyme distinguish a triglyceride mixture from a polysaccharide solid?",
+      "review_instruction": "Only the oil-plus-lipase vessel should acquire the supported triglyceride-hydrolysis state. Neither dissolved glycerol nor liberated fatty acids may be claimed unless the actual runtime explicitly resolves them.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: wrong substrate; v3: oil without enzyme",
+      "result": null
+    }
+  ],
+  "inventory": {
+    "strict_balance_failures": [],
+    "domain": "Every operator and every vessel/step: pinned recipe additions, all resolved atoms/charge, exact formula-free enzyme carriers, unresolved material pools, sealed dry air, retained gases, actual clocks and temperatures. Unknown/export events rejected; no duplicate free-ion counting or invented aggregate formulas.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "vegetable_oil",
+          "op": "add_material",
+          "recipe_id": "household/vegetable-oil-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 1.5151515151515152e-06,
+          "op": "add",
+          "species": "lipase",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "moles": 0.006167471521700249,
+          "op": "add",
+          "species": "cellulose",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "moles": 1.5151515151515152e-06,
+          "op": "add",
+          "species": "lipase",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "vegetable_oil",
+          "op": "add_material",
+          "recipe_id": "household/vegetable-oil-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "op": "stir",
+          "rpm": 400.0,
+          "seconds": 20.0,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "op": "stir",
+          "rpm": 400.0,
+          "seconds": 20.0,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "op": "stir",
+          "rpm": 400.0,
+          "seconds": 20.0,
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 20.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "op": "wait",
+          "seconds": 2700.0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 15,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "step": 16,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 18,
+        "step": 17,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.595951706613061,
+              "O": 2.7979758533065304,
+              "charge": 0.0,
+              "C": 0.03700482913020149,
+              "owned_species:lipase": 1.5151515151515152e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.006167471521700249,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.5151515151515152e-06,
+                "phase": "aqueous",
+                "species": "lipase"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 2720.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "household/vegetable-oil-surrogate": 1.0
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 0,
+    "max_unresolved_g_residual": 0
+  },
+  "actual_events": [
+    {
+      "raw_jsonl_line": 1,
+      "operator": {
+        "op": "new_vessel"
+      },
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 2,
+      "operator": {
+        "op": "new_vessel"
+      },
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 3,
+      "operator": {
+        "moles": 2.7671384956980294,
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 2.7671384956980294,
+          "species": "water",
+          "total_after": 2.7671384956980294,
+          "vessel": 0
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 4,
+      "operator": {
+        "basis": "mass_fraction",
+        "material": "vegetable_oil",
+        "op": "add_material",
+        "recipe_id": "household/vegetable-oil-surrogate",
+        "recipe_version": 1,
+        "sample_seed": 0,
+        "total_amount": 1.0,
+        "vessel": 0
+      },
+      "events": [
+        {
+          "basis": "mass_fraction",
+          "components": [],
+          "event": "material_added",
+          "material": "vegetable_oil",
+          "recipe_id": "household/vegetable-oil-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "unresolved_amount": 1.0,
+          "vessel": 0
+        },
+        {
+          "event": "material_layers_formed",
+          "lower": "water",
+          "upper_material": "vegetable oil",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 5,
+      "operator": {
+        "moles": 1.5151515151515152e-06,
+        "op": "add",
+        "species": "lipase",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 1.5151515151515152e-06,
+          "species": "lipase",
+          "total_after": 1.5151515151515152e-06,
+          "vessel": 0
+        },
+        {
+          "event": "material_layers_formed",
+          "lower": "water",
+          "upper_material": "vegetable oil",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 6,
+      "operator": {
+        "moles": 2.7671384956980294,
+        "op": "add",
+        "species": "water",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 2.7671384956980294,
+          "species": "water",
+          "total_after": 2.7671384956980294,
+          "vessel": 1
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 7,
+      "operator": {
+        "moles": 0.006167471521700249,
+        "op": "add",
+        "species": "cellulose",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.006167471521700249,
+          "species": "cellulose",
+          "total_after": 0.006167471521700249,
+          "vessel": 1
+        },
+        {
+          "beside_a_visible_change": true,
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "cellulose (anhydroglucose unit)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 8,
+      "operator": {
+        "moles": 1.5151515151515152e-06,
+        "op": "add",
+        "species": "lipase",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 1.5151515151515152e-06,
+          "species": "lipase",
+          "total_after": 1.5151515151515152e-06,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 9,
+      "operator": {
+        "moles": 2.7671384956980294,
+        "op": "add",
+        "species": "water",
+        "vessel": 2
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 2.7671384956980294,
+          "species": "water",
+          "total_after": 2.7671384956980294,
+          "vessel": 2
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 10,
+      "operator": {
+        "basis": "mass_fraction",
+        "material": "vegetable_oil",
+        "op": "add_material",
+        "recipe_id": "household/vegetable-oil-surrogate",
+        "recipe_version": 1,
+        "sample_seed": 0,
+        "total_amount": 1.0,
+        "vessel": 2
+      },
+      "events": [
+        {
+          "basis": "mass_fraction",
+          "components": [],
+          "event": "material_added",
+          "material": "vegetable_oil",
+          "recipe_id": "household/vegetable-oil-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "unresolved_amount": 1.0,
+          "vessel": 2
+        },
+        {
+          "event": "material_layers_formed",
+          "lower": "water",
+          "upper_material": "vegetable oil",
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 11,
+      "operator": {
+        "op": "stir",
+        "rpm": 400.0,
+        "seconds": 20.0,
+        "vessel": 0
+      },
+      "events": [
+        {
+          "bar_length_m": 0.025,
+          "event": "stirred",
+          "rate_coupled": false,
+          "resuspended_fraction": 0.9999999999999993,
+          "rpm": 400.0,
+          "seconds": 20.0,
+          "tip_speed_m_s": 0.5235987755982988,
+          "vessel": 0
+        },
+        {
+          "converted_fraction": 0.007361401990734873,
+          "event": "enzyme_hydrolysed",
+          "family": "lipase",
+          "hydrolysed_mass_g": 0.007361401990734873,
+          "material": "vegetable oil",
+          "seconds": 20.0,
+          "substrate": "triglycerides in vegetable oil",
+          "vessel": 0
+        },
+        {
+          "event": "material_layers_formed",
+          "lower": "water",
+          "upper_material": "vegetable oil",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 12,
+      "operator": {
+        "op": "stir",
+        "rpm": 400.0,
+        "seconds": 20.0,
+        "vessel": 1
+      },
+      "events": [
+        {
+          "bar_length_m": 0.025,
+          "event": "stirred",
+          "rate_coupled": false,
+          "resuspended_fraction": 0.9999999999999993,
+          "rpm": 400.0,
+          "seconds": 20.0,
+          "tip_speed_m_s": 0.5235987755982988,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 13,
+      "operator": {
+        "op": "stir",
+        "rpm": 400.0,
+        "seconds": 20.0,
+        "vessel": 2
+      },
+      "events": [
+        {
+          "bar_length_m": 0.025,
+          "event": "stirred",
+          "rate_coupled": false,
+          "resuspended_fraction": 0.9999999999999993,
+          "rpm": 400.0,
+          "seconds": 20.0,
+          "tip_speed_m_s": 0.5235987755982988,
+          "vessel": 2
+        },
+        {
+          "event": "material_layers_formed",
+          "lower": "water",
+          "upper_material": "vegetable oil",
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 14,
+      "operator": {
+        "op": "wait",
+        "seconds": 2700.0
+      },
+      "events": [
+        {
+          "converted_fraction": 0.6339018424989908,
+          "event": "enzyme_hydrolysed",
+          "family": "lipase",
+          "hydrolysed_mass_g": 0.626540440508256,
+          "material": "vegetable oil",
+          "seconds": 2700.0,
+          "substrate": "triglycerides in vegetable oil",
+          "vessel": 0
+        },
+        {
+          "event": "gravity_settled",
+          "seconds": 2700.0,
+          "separations": [
+            {
+              "direction": "outward",
+              "distance_m": 8.310924105641446,
+              "particle_density_kg_m3": 1500.0,
+              "particle_diameter_um": 100.0,
+              "particle_size_assumed": true,
+              "separated_fraction": 1.0,
+              "species": "cellulose",
+              "terminal_speed_m_s": 0.0030781200391264613
+            }
+          ],
+          "vessel": 1
+        },
+        {
+          "event": "material_layers_formed",
+          "lower": "water",
+          "upper_material": "vegetable oil",
+          "vessel": 0
+        },
+        {
+          "event": "material_layers_formed",
+          "lower": "water",
+          "upper_material": "vegetable oil",
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 15,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "appearance": {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 0.0,
+            "deposit": null,
+            "liquid": {
+              "b": 255,
+              "g": 255,
+              "r": 255,
+              "strength": 0.0
+            },
+            "words": "The liquid is colourless and clear."
+          },
+          "event": "observed",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 16,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "appearance": {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              {
+                "en": "there is {what} at the bottom",
+                "key": "look.deposit-in-liquid",
+                "slots": [
+                  [
+                    "what",
+                    {
+                      "list": {
+                        "items": [
+                          {
+                            "phrase": {
+                              "phrase": {
+                                "en": "{colour} {name}",
+                                "key": "look.coloured",
+                                "slots": [
+                                  [
+                                    "colour",
+                                    {
+                                      "term": {
+                                        "en": "white",
+                                        "section": "appearance"
+                                      }
+                                    }
+                                  ],
+                                  [
+                                    "name",
+                                    {
+                                      "term": {
+                                        "en": "cellulose (anhydroglucose unit)",
+                                        "section": "species"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 0.0,
+            "deposit": [
+              "cellulose (anhydroglucose unit)",
+              {
+                "b": 220,
+                "g": 220,
+                "r": 220,
+                "strength": 0.0
+              }
+            ],
+            "liquid": {
+              "b": 255,
+              "g": 255,
+              "r": 255,
+              "strength": 0.0
+            },
+            "words": "The liquid is colourless and clear, there is white cellulose (anhydroglucose unit) at the bottom."
+          },
+          "event": "observed",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 17,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 2
+      },
+      "events": [
+        {
+          "appearance": {
+            "bubbling": false,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 0.0,
+            "deposit": null,
+            "liquid": {
+              "b": 255,
+              "g": 255,
+              "r": 255,
+              "strength": 0.0
+            },
+            "words": "The liquid is colourless and clear."
+          },
+          "event": "observed",
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 18,
+      "operator": {
+        "op": "inspect"
+      },
+      "events": []
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 17,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.15001569752496,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 2720.0,
+          "enzyme_hydrolysis": [
+            {
+              "converted_fraction": 0.6339018424989908,
+              "family": "lipase",
+              "material": "vegetable oil",
+              "substrate": "triglycerides in vegetable oil"
+            }
+          ],
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05
+            },
+            {
+              "colour_word": "pale yellow",
+              "name": "vegetable oil",
+              "species": "vegetable_oil",
+              "srgb": [
+                238,
+                218,
+                112
+              ],
+              "volume_l": 0.0010869565217391304
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.051086956521739134
+          },
+          "mass_g": 50.9,
+          "melting_point_k": 273.1499431078075,
+          "notes": [
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "63"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "triglycerides in vegetable oil",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "{material} forms a separate {colour} layer above the water.",
+              "key": "scene.material-layer",
+              "slots": [
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ],
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "pale yellow",
+                      "section": "appearance"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear. The bounded enzyme model reports 63% conversion of triglycerides in vegetable oil in vegetable oil. vegetable oil forms a separate pale yellow layer above the water."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.15001569752496,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "there is {what} at the bottom",
+              "key": "look.deposit-in-liquid",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "cellulose (anhydroglucose unit)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 2720.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.05
+          },
+          "mass_g": 50.9,
+          "melting_point_k": 273.1499431078075,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.006167471521700249,
+              "name": "cellulose (anhydroglucose unit)",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "cellulose",
+              "srgb": [
+                220,
+                220,
+                220
+              ],
+              "volume_l": 0.0006666666666666666
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear, there is white cellulose (anhydroglucose unit) at the bottom."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 2720.0,
+          "id": 2,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05
+            },
+            {
+              "colour_word": "pale yellow",
+              "name": "vegetable oil",
+              "species": "vegetable_oil",
+              "srgb": [
+                238,
+                218,
+                112
+              ],
+              "volume_l": 0.0010869565217391304
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.051086956521739134
+          },
+          "mass_g": 50.85,
+          "melting_point_k": 273.1499996258458,
+          "notes": [
+            {
+              "en": "{material} forms a separate {colour} layer above the water.",
+              "key": "scene.material-layer",
+              "slots": [
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "vegetable oil",
+                      "section": "material"
+                    }
+                  }
+                ],
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "pale yellow",
+                      "section": "appearance"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear. vegetable oil forms a separate pale yellow layer above the water."
+        }
+      ]
+    }
+  }
+}

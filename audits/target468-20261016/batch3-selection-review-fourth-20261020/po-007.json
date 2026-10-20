@@ -1,0 +1,2746 @@
+{
+  "original_id": "batch3-diverse:po-007",
+  "title": "The same repeat-unit formula does not mean the same enzyme substrate",
+  "original_forecast": "Starch cleavage can occur without analogous cellulose cleavage. The two materials should not be treated as interchangeable simply because a formula parser sees the same repeat-unit atom counts.",
+  "original_limitations": [
+    "Neither repeat-unit notation specifies chain length or crystallinity. Iodine is not a universal cellulose assay; use inventory changes for the cellulose control."
+  ],
+  "original_script_sha256": "9b17e81c347424a71377f0c3f83177137094a954b38aca267bd544996ee6a31f",
+  "raw_member_prefix": "batch3-diverse_po-007",
+  "raw_sha256": {
+    "experiment.lab": "9b17e81c347424a71377f0c3f83177137094a954b38aca267bd544996ee6a31f",
+    "stdout.jsonl": "0541515b3f80ef3e6ab533f0ed9a8e970f29bcc4db721db1e678f6a4c24b0830",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "status": "proposal_pending_parent_review",
+  "assessment": {
+    "status": "proposal_pending_parent_review",
+    "hold_reason": null,
+    "model_scope": "Actual starch depletion/maltose formation and stoichiometric water debit distinguish cellulose, despite identical repeat-unit elemental composition. Reaction occurs at enzyme addition, not by a calibrated 30-minute kinetic law. Both iodine measurements read zero at405nm; unsupported KI mapping and particle glyph/speciation displays are not molecular inventory or a universal cellulose assay.",
+    "independent_calculations": {
+      "starch_repeat_unit_input_mol": 0.0012335019119279636,
+      "retained_maltose_mol": 0.0006167509559639818,
+      "stoichiometric_water_consumed_mol": 0.0006167509559639818,
+      "control_cellulose_mol": 0.0012334943043400498,
+      "reaction_raw_line": 4
+    },
+    "coverage_warnings": [
+      {
+        "raw_jsonl_line": 6,
+        "event": {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "cellulose (anhydroglucose unit)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction"
+        }
+      },
+      {
+        "raw_jsonl_line": 11,
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      },
+      {
+        "raw_jsonl_line": 12,
+        "event": {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      },
+      {
+        "raw_jsonl_line": 13,
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      },
+      {
+        "raw_jsonl_line": 14,
+        "event": {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      }
+    ],
+    "energy_scope": "All actual temperatures and clocks retained per step. No calorimetric or empirical kinetic forecast is present; no unmeasured energy or yield asserted.",
+    "actual_auxiliary_reservoirs": [
+      {
+        "raw_jsonl_line": 1,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 7.718338440075657e-09,
+            "free_hydroxide": 7.718338440075657e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 7.715930832969153e-09,
+            "free_hydroxide": 7.715930832969153e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 7.714210938932895e-09,
+            "free_hydroxide": 7.714210938932895e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 7.714210938932895e-09,
+            "free_hydroxide": 7.714210938932895e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 7.718338440075657e-09,
+            "free_hydroxide": 7.718338440075657e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 7.714210938932895e-09,
+            "free_hydroxide": 7.714210938932895e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 7.71448832315215e-09,
+            "free_hydroxide": 7.71448832315215e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 7.714210938932895e-09,
+            "free_hydroxide": 7.714210938932895e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 7.714488186923417e-09,
+            "free_hydroxide": 7.714488186923417e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.548341273316769e-09,
+            "free_hydroxide": 5.548341273316769e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.549790882950715e-09,
+            "free_hydroxide": 5.549790882950715e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.548341273316769e-09,
+            "free_hydroxide": 5.548341273316769e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.549790882950715e-09,
+            "free_hydroxide": 5.549790882950715e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.548341273316769e-09,
+            "free_hydroxide": 5.548341273316769e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.549790882950715e-09,
+            "free_hydroxide": 5.549790882950715e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.548341273316769e-09,
+            "free_hydroxide": 5.548341273316769e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.549790882950715e-09,
+            "free_hydroxide": 5.549790882950715e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.548341273316769e-09,
+            "free_hydroxide": 5.548341273316769e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.549790882950715e-09,
+            "free_hydroxide": 5.549790882950715e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.548341273316769e-09,
+            "free_hydroxide": 5.548341273316769e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.549790882950715e-09,
+            "free_hydroxide": 5.549790882950715e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.548341273316769e-09,
+            "free_hydroxide": 5.548341273316769e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.549790882950715e-09,
+            "free_hydroxide": 5.549790882950715e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.548341273316769e-09,
+            "free_hydroxide": 5.548341273316769e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.549790882950715e-09,
+            "free_hydroxide": 5.549790882950715e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      }
+    ],
+    "raw_nonbench_observations": [
+      {
+        "raw_jsonl_line": 9,
+        "record": {
+          "events": [],
+          "operator": {
+            "op": "particles",
+            "vessel": 0
+          },
+          "output_sequence": 8,
+          "particles": {
+            "per_glyph": 9.27712836111735e-09,
+            "populations": [
+              {
+                "amount": 2.7665217447420654,
+                "drawn": 6,
+                "kind": "solvent",
+                "label": "H2O"
+              },
+              {
+                "amount": 1.1132554033340821e-07,
+                "drawn": 12,
+                "kind": "cation",
+                "label": "H+"
+              },
+              {
+                "amount": 1.1132554033340821e-07,
+                "drawn": 12,
+                "kind": "anion",
+                "label": "OH-"
+              }
+            ],
+            "source": "speciation",
+            "too_rare": []
+          },
+          "step": 8
+        }
+      },
+      {
+        "raw_jsonl_line": 10,
+        "record": {
+          "events": [],
+          "operator": {
+            "op": "particles",
+            "vessel": 1
+          },
+          "output_sequence": 9,
+          "particles": {
+            "per_glyph": 0.0010310142125725642,
+            "populations": [
+              {
+                "amount": 2.7671384956980294,
+                "drawn": 6,
+                "kind": "solvent",
+                "label": "H2O"
+              },
+              {
+                "amount": 0.02474411844212738,
+                "drawn": 24,
+                "kind": "solid",
+                "label": "C6H10O5"
+              }
+            ],
+            "source": "speciation",
+            "too_rare": [
+              [
+                "H+",
+                1.1132980708025508e-07
+              ],
+              [
+                "OH-",
+                1.1132980708025508e-07
+              ]
+            ]
+          },
+          "step": 8
+        }
+      }
+    ]
+  },
+  "per_criterion": [
+    {
+      "id": "question",
+      "criterion": "Can amylase distinguish starch from cellulose despite their common anhydroglucose repeat-unit composition?",
+      "review_instruction": "Starch cleavage can occur without analogous cellulose cleavage. The two materials should not be treated as interchangeable simply because a formula parser sees the same repeat-unit atom counts.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.independent_calculations"
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "inventory.trace"
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.model_scope and assessment.coverage_warnings"
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: beta-linked polysaccharide material",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.independent_calculations and final_scene"
+    }
+  ],
+  "no_catalog_selection": true,
+  "original_criteria": [
+    {
+      "id": "question",
+      "criterion": "Can amylase distinguish starch from cellulose despite their common anhydroglucose repeat-unit composition?",
+      "review_instruction": "Starch cleavage can occur without analogous cellulose cleavage. The two materials should not be treated as interchangeable simply because a formula parser sees the same repeat-unit atom counts.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: beta-linked polysaccharide material",
+      "result": null
+    }
+  ],
+  "inventory": {
+    "strict_balance_failures": [],
+    "domain": "Every operator and every vessel/step: pinned recipe additions, all resolved atoms/charge, exact formula-free enzyme carriers, unresolved material pools, sealed dry air, retained gases, actual clocks and temperatures. Unknown/export events rejected; no duplicate free-ion counting or invented aggregate formulas.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "at": 310.15,
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 0.0012335019119279636,
+          "op": "add",
+          "species": "starch",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.14077746020746,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.007401011471567782
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.007401011471567782
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012335019119279636,
+                "phase": "solid",
+                "species": "starch"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 1.8181818181818183e-07,
+          "op": "add",
+          "species": "amylase",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.1407769377623,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "at": 310.15,
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.1407769377623,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 0.0012334943043400498,
+          "op": "add",
+          "species": "cellulose",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.1407769377623,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.13525083013644,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007400965826040299
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007400965826040299
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "moles": 1.8181818181818183e-07,
+          "op": "add",
+          "species": "amylase",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 310.1407769377623,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.1352503081729,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "op": "wait",
+          "seconds": 1800.0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.84161902972187,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.84265182273776,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 8,
+        "operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "KI",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.84155079230436,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.0001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.0001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.84265182273776,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 9,
+        "operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "KI",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.84155079230436,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.0001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.0001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.84258359772537,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.0001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.0001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 10,
+        "operator": {
+          "moles": 2e-05,
+          "op": "add",
+          "species": "I2",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.84153674795107,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              },
+              {
+                "moles": 2e-05,
+                "phase": "aqueous",
+                "species": "I2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.84258359772537,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.0001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.0001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 11,
+        "operator": {
+          "moles": 2e-05,
+          "op": "add",
+          "species": "I2",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.84153674795107,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              },
+              {
+                "moles": 2e-05,
+                "phase": "aqueous",
+                "species": "I2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.842569555925,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              },
+              {
+                "moles": 2e-05,
+                "phase": "aqueous",
+                "species": "I2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 12,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.84153674795107,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              },
+              {
+                "moles": 2e-05,
+                "phase": "aqueous",
+                "species": "I2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.842569555925,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              },
+              {
+                "moles": 2e-05,
+                "phase": "aqueous",
+                "species": "I2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 13,
+        "operator": {
+          "instrument": "spectrophotometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.84153674795107,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              },
+              {
+                "moles": 2e-05,
+                "phase": "aqueous",
+                "species": "I2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.842569555925,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              },
+              {
+                "moles": 2e-05,
+                "phase": "aqueous",
+                "species": "I2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "step": 14,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 300.84153674795107,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466120105153385,
+              "O": 2.7733060052576692,
+              "charge": 0.0,
+              "C": 0.0074011932897496005,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7665217447420654,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0006167509559639818,
+                "phase": "aqueous",
+                "species": "maltose"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              },
+              {
+                "moles": 2e-05,
+                "phase": "aqueous",
+                "species": "I2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 300.842569555925,
+            "elapsed_s": 1800.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5466119344394595,
+              "O": 2.7733059672197298,
+              "charge": 0.0,
+              "C": 0.007401147644222118,
+              "I": 0.00014000000000000001,
+              "K": 0.0001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012334943043400498,
+                "phase": "solid",
+                "species": "cellulose"
+              },
+              {
+                "moles": 1.8181818181818183e-07,
+                "phase": "aqueous",
+                "species": "amylase"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "aqueous",
+                "species": "KI"
+              },
+              {
+                "moles": 2e-05,
+                "phase": "aqueous",
+                "species": "I2"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 0,
+    "max_unresolved_g_residual": 0
+  },
+  "actual_events": [
+    {
+      "raw_jsonl_line": 1,
+      "operator": {
+        "op": "new_vessel"
+      },
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 2,
+      "operator": {
+        "at": 310.15,
+        "moles": 2.7671384956980294,
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "temperature_changed",
+          "from": 298.15,
+          "to": 310.15,
+          "vessel": 0
+        },
+        {
+          "event": "added",
+          "moles": 2.7671384956980294,
+          "species": "water",
+          "total_after": 2.7671384956980294,
+          "vessel": 0
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 3,
+      "operator": {
+        "moles": 0.0012335019119279636,
+        "op": "add",
+        "species": "starch",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.0012335019119279636,
+          "species": "starch",
+          "total_after": 0.0012335019119279636,
+          "vessel": 0
+        },
+        {
+          "event": "inert",
+          "reason": {
+            "en": "{name} does not dissolve in water: its reviewed solubility is {limit} g per 100 mL, which is below anything a beaker would show. It is still all there",
+            "key": "inert.insoluble-in-water",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "starch",
+                    "section": "species"
+                  }
+                }
+              ],
+              [
+                "limit",
+                {
+                  "number": {
+                    "text": "0"
+                  }
+                }
+              ]
+            ]
+          },
+          "species": "starch",
+          "vessel": 0,
+          "why": "starch does not dissolve in water: its reviewed solubility is 0 g per 100 mL, which is below anything a beaker would show. It is still all there"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 4,
+      "operator": {
+        "moles": 1.8181818181818183e-07,
+        "op": "add",
+        "species": "amylase",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 1.8181818181818183e-07,
+          "species": "amylase",
+          "total_after": 1.8181818181818183e-07,
+          "vessel": 0
+        },
+        {
+          "equation": "2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁",
+          "event": "reaction_occurred",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 5,
+      "operator": {
+        "at": 310.15,
+        "moles": 2.7671384956980294,
+        "op": "add",
+        "species": "water",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "temperature_changed",
+          "from": 298.15,
+          "to": 310.15,
+          "vessel": 1
+        },
+        {
+          "event": "added",
+          "moles": 2.7671384956980294,
+          "species": "water",
+          "total_after": 2.7671384956980294,
+          "vessel": 1
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 6,
+      "operator": {
+        "moles": 0.0012334943043400498,
+        "op": "add",
+        "species": "cellulose",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "temperature_changed",
+          "from": 310.15,
+          "to": 310.13525083013644,
+          "vessel": 1
+        },
+        {
+          "event": "added",
+          "moles": 0.0012334943043400498,
+          "species": "cellulose",
+          "total_after": 0.0012334943043400498,
+          "vessel": 1
+        },
+        {
+          "cause": "no-solver",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            "key": "not-modeled.no-dissolution-solver",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "cellulose (anhydroglucose unit)",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "cellulose (anhydroglucose unit) in contact with liquid: no wired solver models this dissolution/reaction"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 7,
+      "operator": {
+        "moles": 1.8181818181818183e-07,
+        "op": "add",
+        "species": "amylase",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 1.8181818181818183e-07,
+          "species": "amylase",
+          "total_after": 1.8181818181818183e-07,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 8,
+      "operator": {
+        "op": "wait",
+        "seconds": 1800.0
+      },
+      "events": [
+        {
+          "event": "temperature_changed",
+          "from": 310.1407769377623,
+          "to": 300.84161902972187,
+          "vessel": 0
+        },
+        {
+          "event": "gravity_settled",
+          "seconds": 1800.0,
+          "separations": [
+            {
+              "direction": "outward",
+              "distance_m": 7.129798114730377,
+              "particle_density_kg_m3": 1500.0,
+              "particle_diameter_um": 100.0,
+              "particle_size_assumed": true,
+              "separated_fraction": 1.0,
+              "species": "cellulose",
+              "terminal_speed_m_s": 0.003960998952627987
+            }
+          ],
+          "vessel": 1
+        },
+        {
+          "event": "temperature_changed",
+          "from": 310.1352503081729,
+          "to": 300.84265182273776,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 11,
+      "operator": {
+        "moles": 0.0001,
+        "op": "add",
+        "species": "KI",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.0001,
+          "species": "KI",
+          "total_after": 0.0001,
+          "vessel": 0
+        },
+        {
+          "event": "dissolved",
+          "moles": 0.0001,
+          "species": "KI",
+          "vessel": 0
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 12,
+      "operator": {
+        "moles": 0.0001,
+        "op": "add",
+        "species": "KI",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.0001,
+          "species": "KI",
+          "total_after": 0.0001,
+          "vessel": 1
+        },
+        {
+          "event": "dissolved",
+          "moles": 0.0001,
+          "species": "KI",
+          "vessel": 1
+        },
+        {
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 13,
+      "operator": {
+        "moles": 2e-05,
+        "op": "add",
+        "species": "I2",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 2e-05,
+          "species": "I2",
+          "total_after": 2e-05,
+          "vessel": 0
+        },
+        {
+          "event": "dissolved",
+          "moles": 2e-05,
+          "species": "I2",
+          "vessel": 0
+        },
+        {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 14,
+      "operator": {
+        "moles": 2e-05,
+        "op": "add",
+        "species": "I2",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 2e-05,
+          "species": "I2",
+          "total_after": 2e-05,
+          "vessel": 1
+        },
+        {
+          "event": "dissolved",
+          "moles": 2e-05,
+          "species": "I2",
+          "vessel": 1
+        },
+        {
+          "beside_a_visible_change": true,
+          "cause": "not-speciated",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+            "key": "not-modeled.no-component-mapping",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "KI",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 15,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "spectrophotometer",
+          "unit": "absorbance at 405 nm",
+          "value": 0.0,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 16,
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "spectrophotometer",
+          "unit": "absorbance at 405 nm",
+          "value": 0.0,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 17,
+      "operator": {
+        "op": "inspect"
+      },
+      "events": []
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 16,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [],
+          "boiling_point_k": 373.1502058899293,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "brown",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 1800.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "orange",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                253,
+                241,
+                235
+              ],
+              "volume_l": 0.04998885579892508
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "orange",
+            "path_length_cm": 4.0,
+            "srgb": [
+              253,
+              241,
+              235
+            ],
+            "volume_l": 0.04998885579892508
+          },
+          "mass_g": 50.08167771350191,
+          "melting_point_k": 273.1492537999495,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 300.84153674795107,
+          "words": "The liquid is brown and clear."
+        },
+        {
+          "badges": [],
+          "boiling_point_k": 373.1502058440398,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "brown",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "there is {what} at the bottom",
+              "key": "look.deposit-in-liquid",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "cellulose (anhydroglucose unit)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 1800.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "orange",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                253,
+                241,
+                235
+              ],
+              "volume_l": 0.05
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "orange",
+            "path_length_cm": 4.0,
+            "srgb": [
+              253,
+              241,
+              235
+            ],
+            "volume_l": 0.05
+          },
+          "mass_g": 50.081676480000006,
+          "melting_point_k": 273.1492539662645,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.0012334943043400498,
+              "name": "cellulose (anhydroglucose unit)",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "cellulose",
+              "srgb": [
+                220,
+                220,
+                220
+              ],
+              "volume_l": 0.00013333333333333334
+            }
+          ],
+          "temperature_k": 300.842569555925,
+          "words": "The liquid is brown and clear, there is white cellulose (anhydroglucose unit) at the bottom."
+        }
+      ]
+    }
+  }
+}

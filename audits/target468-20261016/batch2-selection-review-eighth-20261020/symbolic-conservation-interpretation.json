@@ -1,0 +1,13 @@
+{
+  "first_interpretation_preserved": [
+    "first-unknown-enzyme-formula-hold-reader.py",
+    "first-unknown-enzyme-formula-hold-assessment.json"
+  ],
+  "correction": "Original C2 asks conservation, not determination of an absolute enzyme formula. An unknown fixed atom/charge vector cancels exactly if its separately owned species/phase/moles match authenticated inputs every step and vessel. Numeric H/O/Mn closure plus exact symbolic cancellation establishes this bounded conservation without inventing protein composition.",
+  "original_criteria_changed": false,
+  "every_step_symbolic_coefficients_exactly_zero": true,
+  "symbolic_snapshot_count": 32,
+  "no_hidden_owned_reservoirs": true,
+  "does_not_establish": "Unknown absolute protein formula/charge, species transformation, inhibition or calibrated enzyme kinetics.",
+  "exploratory_failure": "An exploratory summary assumed filtered donor has a solution; actual empty donor solution is null. Final reader follows actual owned states; this was not a physical failure."
+}

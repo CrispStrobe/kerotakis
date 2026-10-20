@@ -1,0 +1,5181 @@
+{
+  "original_id": "batch3-diverse:su-003",
+  "title": "Passivated alloy and bare iron are not equivalent aqueous inputs",
+  "original_forecast": "The declared passive-film accessibility rule can distinguish the alloy material from bare iron. The result must not be generalized to immunity of all stainless steels in every chloride environment.",
+  "original_limitations": [
+    "Alloy grade, pitting potential, crevice geometry and breakdown of the passive film are outside this simplified barrier rule."
+  ],
+  "original_script_sha256": "7404ec9e90b245375311dd12577f701cc39eb1155735d5e020806619723e3427",
+  "raw_member_prefix": "batch3-diverse_su-003",
+  "raw_sha256": {
+    "experiment.lab": "7404ec9e90b245375311dd12577f701cc39eb1155735d5e020806619723e3427",
+    "stdout.jsonl": "1ed0b166cc9f540a6a63c05bf9667bd880902b8109442e0197f30e9642afb643",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "status": "proposal_pending_parent_review",
+  "assessment": {
+    "status": "proposal_pending_parent_review",
+    "hold_reason": null,
+    "model_scope": "Matched Fe/water/salt/air/O2 and clocks isolate a declared provenance-owned accessibility barrier from bare-iron oxidation. Independent4Fe:3O2:2Fe2O3 state changes agree with actual extent; unresolved coating/alloy remains, air and retained gas are fully counted. This is the original bounded barrier question, not computed chromium passivation, coating defects, pitting immunity, surface-area matching or calibrated corrosion rate.",
+    "independent_calculations": {
+      "matched_initial_Fe_mol": 0.012534694242994,
+      "actual_iron_consumed_mol": 0.009352317977404236,
+      "actual_oxide_formed_mol": 0.004676158988702118,
+      "actual_contained_O2_consumed_mol": 0.007014238483053177,
+      "retained_coating_or_alloy_pool_g": 0.30000000000000004,
+      "reaction_raw_line": 12,
+      "actual_temperatures_k": [
+        298.15,
+        298.15
+      ],
+      "equal_electrolyte_conductivity": [
+        [
+          15,
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.86× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+            "note_reason": {
+              "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+              "key": "measured.conductivity-past-the-dilute-limit",
+              "slots": [
+                [
+                  "limit",
+                  {
+                    "number": {
+                      "text": "0.10"
+                    }
+                  }
+                ],
+                [
+                  "where_it_stands",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the ion–ion drag is corrected by an empirical factor ({factor}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                        "key": "measured.conductivity-fitted-correction",
+                        "slots": [
+                          [
+                            "factor",
+                            {
+                              "number": {
+                                "text": "0.86"
+                              }
+                            }
+                          ],
+                          [
+                            "limit",
+                            {
+                              "number": {
+                                "text": "2"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "unit": "µS/cm",
+            "value": 10905.71729190619,
+            "vessel": 0
+          }
+        ],
+        [
+          16,
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.86× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+            "note_reason": {
+              "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+              "key": "measured.conductivity-past-the-dilute-limit",
+              "slots": [
+                [
+                  "limit",
+                  {
+                    "number": {
+                      "text": "0.10"
+                    }
+                  }
+                ],
+                [
+                  "where_it_stands",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the ion–ion drag is corrected by an empirical factor ({factor}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                        "key": "measured.conductivity-fitted-correction",
+                        "slots": [
+                          [
+                            "factor",
+                            {
+                              "number": {
+                                "text": "0.86"
+                              }
+                            }
+                          ],
+                          [
+                            "limit",
+                            {
+                              "number": {
+                                "text": "2"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "unit": "µS/cm",
+            "value": 10905.71729190619,
+            "vessel": 1
+          }
+        ]
+      ]
+    },
+    "coverage_warnings": [
+      {
+        "raw_jsonl_line": 4,
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        }
+      },
+      {
+        "raw_jsonl_line": 7,
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        }
+      },
+      {
+        "raw_jsonl_line": 8,
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        }
+      },
+      {
+        "raw_jsonl_line": 10,
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        }
+      },
+      {
+        "raw_jsonl_line": 12,
+        "event": {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        }
+      }
+    ],
+    "energy_scope": "All actual temperatures and clocks retained per step. No calorimetric or empirical kinetic forecast is present; no unmeasured energy or yield asserted.",
+    "actual_auxiliary_reservoirs": [
+      {
+        "raw_jsonl_line": 1,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.259356858077875e-09,
+            "free_hydroxide": 6.25935685767409e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.259380778086919e-09,
+            "free_hydroxide": 6.2593807777977906e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.259380778086919e-09,
+            "free_hydroxide": 6.2593807777977906e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 5.0152131035944206e-09,
+            "free_hydroxide": 5.0152131035944206e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.259380778086919e-09,
+            "free_hydroxide": 6.2593807777977906e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.259356858077875e-09,
+            "free_hydroxide": 6.25935685767409e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.259380778086919e-09,
+            "free_hydroxide": 6.2593807777977906e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.259380778086919e-09,
+            "free_hydroxide": 6.2593807777977906e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.4740918752320279e-07,
+            "free_hydroxide": 2.6580000027394097e-10,
+            "solute_charge": -1.4322224044879004e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 6.259380778086919e-09,
+            "free_hydroxide": 6.2593807777977906e-09,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.4740918752320279e-07,
+            "free_hydroxide": 2.6580000027394097e-10,
+            "solute_charge": -1.4322224044879004e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.4740918752320279e-07,
+            "free_hydroxide": 2.6580000027394097e-10,
+            "solute_charge": -1.4322224044879004e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.474091899405783e-07,
+            "free_hydroxide": 2.65799995546438e-10,
+            "solute_charge": -1.4322223794052084e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.4740918752320279e-07,
+            "free_hydroxide": 2.6580000027394097e-10,
+            "solute_charge": -1.4322224044879004e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.474091899405783e-07,
+            "free_hydroxide": 2.65799995546438e-10,
+            "solute_charge": -1.4322223794052084e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.474091899405783e-07,
+            "free_hydroxide": 2.65799995546438e-10,
+            "solute_charge": -1.4322223794052084e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 1.473496789904697e-07,
+            "free_hydroxide": 2.677991346653843e-10,
+            "solute_charge": -1.431637960776209e-07,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "sealed",
+              "volume": 0.5
+            }
+          }
+        ]
+      }
+    ],
+    "raw_nonbench_observations": []
+  },
+  "per_criterion": [
+    {
+      "id": "question",
+      "criterion": "Can a stainless-steel material retain a surface-protection state even though part of its bulk inventory is iron?",
+      "review_instruction": "The declared passive-film accessibility rule can distinguish the alloy material from bare iron. The result must not be generalized to immunity of all stainless steels in every chloride environment.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.independent_calculations"
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "inventory.trace"
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.model_scope and assessment.coverage_warnings"
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: matched resolved-iron content",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.independent_calculations and final_scene"
+    }
+  ],
+  "no_catalog_selection": true,
+  "original_criteria": [
+    {
+      "id": "question",
+      "criterion": "Can a stainless-steel material retain a surface-protection state even though part of its bulk inventory is iron?",
+      "review_instruction": "The declared passive-film accessibility rule can distinguish the alloy material from bare iron. The result must not be generalized to immunity of all stainless steels in every chloride environment.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v2: matched resolved-iron content",
+      "result": null
+    }
+  ],
+  "inventory": {
+    "strict_balance_failures": [],
+    "domain": "Every operator and every vessel/step: pinned recipe additions, all resolved atoms/charge, exact formula-free enzyme carriers, unresolved material pools, sealed dry air, retained gases, actual clocks and temperatures. Unknown/export events rejected; no duplicate free-ion counting or invented aggregate formulas.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 0.005,
+          "op": "add",
+          "species": "NaCl",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 8.673617379884035e-19,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.0569563701299,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.005000000000000001,
+              "charge": 0.0,
+              "Na": 0.005000000000000001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "stainless_steel",
+          "op": "add_material",
+          "recipe_id": "metal/stainless-steel",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 8.673617379884035e-19,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.0570967744957,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": 0.0,
+              "Cl": 0.005000000000000001,
+              "Na": 0.005000000000000001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 8.673617379884035e-19,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.0570967744957,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": 0.0,
+              "Cl": 0.005000000000000001,
+              "Na": 0.005000000000000001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 0.005,
+          "op": "add",
+          "species": "NaCl",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 8.673617379884035e-19,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.0570967744957,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": 0.0,
+              "Cl": 0.005000000000000001,
+              "Na": 0.005000000000000001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.0569563701299,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.005000000000000001,
+              "charge": 0.0,
+              "Na": 0.005000000000000001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "moles": 0.012534694242994,
+          "op": "add",
+          "species": "Fe",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 8.673617379884035e-19,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.0570967744957,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": 0.0,
+              "Cl": 0.005000000000000001,
+              "Na": 0.005000000000000001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.0570967744957,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": 0.0,
+              "Cl": 0.005000000000000001,
+              "Na": 0.005000000000000001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "headspace_volume": 0.5,
+          "op": "seal",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.05716385636595,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.985059786316001e-15,
+              "N": 0.03230464867312353,
+              "O": 2.7757206318282517,
+              "Cl": 0.005000000000003197,
+              "Na": 0.0049999999999982125,
+              "C": 8.177356960669597e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7757206318280936,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000003197,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0049999999999982125,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.078863310890306e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4321101168706954e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.611888496293751e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.426254006005e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352481406,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4322223546373025e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.0570967744957,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": 0.0,
+              "Cl": 0.005000000000000001,
+              "Na": 0.005000000000000001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.005000000000000001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "headspace_volume": 0.5,
+          "op": "seal",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.05716385636595,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.985059786316001e-15,
+              "N": 0.03230464867312353,
+              "O": 2.7757206318282517,
+              "Cl": 0.005000000000003197,
+              "Na": 0.0049999999999982125,
+              "C": 8.177356960669597e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7757206318280936,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000003197,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0049999999999982125,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.078863310890306e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4321101168706954e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.611888496293751e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.426254006005e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352481406,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4322223546373025e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.05716385636595,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.985059786316001e-15,
+              "N": 0.03230464867312353,
+              "O": 2.7757206318282517,
+              "Cl": 0.005000000000003197,
+              "Na": 0.0049999999999982125,
+              "C": 8.177356960669597e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7757206318280936,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000003197,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0049999999999982125,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.078863310890306e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4321101168706954e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.611888496293751e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.426254006005e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352481406,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4322223546373025e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "moles": 0.003,
+          "op": "add",
+          "species": "O2",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.05720294217065,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.98520073789238e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000001726,
+              "Na": 0.004999999999996741,
+              "C": 8.177356960669461e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000001726,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999996741,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.078863308009714e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4321100917918702e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.61188830295787e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.426254008801e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.7671383524814086,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.432222329553201e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.05716385636595,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.985059786316001e-15,
+              "N": 0.03230464867312353,
+              "O": 2.7757206318282517,
+              "Cl": 0.005000000000003197,
+              "Na": 0.0049999999999982125,
+              "C": 8.177356960669597e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7757206318280936,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000003197,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.0049999999999982125,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.078863310890306e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4321101168706954e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.611888496293751e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.426254006005e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352481406,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4322223546373025e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "moles": 0.003,
+          "op": "add",
+          "species": "O2",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.05720294217065,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.98520073789238e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000001726,
+              "Na": 0.004999999999996741,
+              "C": 8.177356960669461e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000001726,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999996741,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.078863308009714e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4321100917918702e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.61188830295787e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.426254008801e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.7671383524814086,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.432222329553201e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.05720294217065,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.98520073789238e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000001726,
+              "Na": 0.004999999999996741,
+              "C": 8.177356960669461e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000001726,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999996741,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.078863308009714e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4321100917918702e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.61188830295787e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.426254008801e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.7671383524814086,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.432222329553201e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "op": "wait",
+          "seconds": 259200.0
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0031823762655897644,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.000268652225097297,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.004676158988702118,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0031823762655897644,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.000268652225097297,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.004676158988702118,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0031823762655897644,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.000268652225097297,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.004676158988702118,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0031823762655897644,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.000268652225097297,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.004676158988702118,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 15,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0031823762655897644,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.000268652225097297,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.004676158988702118,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "step": 16,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 5.953848525308558e-13,
+        "max_unresolved_g_residual": 5.551115123125783e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {
+              "metal/stainless-steel": 0.30000000000000004
+            },
+            "contents": [
+              {
+                "moles": 0.012534694242994,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.007282890708150474,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 259200.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Fe": 0.012534694242994,
+              "charge": -4.981291866129259e-15,
+              "N": 0.03230464867312353,
+              "O": 2.781720631828252,
+              "Cl": 0.005000000000004231,
+              "Na": 0.004999999999999247,
+              "C": 8.17735696066917e-06,
+              "H": 5.53427699139606
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7817206318280934,
+              "charge": 0.0,
+              "Cl": 0.005,
+              "Na": 0.005,
+              "Fe": 0.012534694242994,
+              "N": 0.03230464867252814,
+              "C": 8.17735696051845e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0031823762655897644,
+                "phase": "solid",
+                "species": "Fe"
+              },
+              {
+                "moles": 0.016152324336561764,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.000268652225097297,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.004676158988702118,
+                "phase": "solid",
+                "species": "Fe2O3"
+              },
+              {
+                "moles": 0.005000000000004231,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.004999999999999247,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 6.066603690000447e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.4315254487849117e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 5.6231076345987215e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 7.427538423683e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.767138352539862,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.4316379109632904e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 5.953848525308558e-13,
+    "max_unresolved_g_residual": 5.551115123125783e-17
+  },
+  "actual_events": [
+    {
+      "raw_jsonl_line": 1,
+      "operator": {
+        "op": "new_vessel"
+      },
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 2,
+      "operator": {
+        "moles": 2.7671384956980294,
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 2.7671384956980294,
+          "species": "water",
+          "total_after": 2.7671384956980294,
+          "vessel": 0
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 3,
+      "operator": {
+        "moles": 0.005,
+        "op": "add",
+        "species": "NaCl",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.005,
+          "species": "NaCl",
+          "total_after": 0.005,
+          "vessel": 0
+        },
+        {
+          "event": "dissolved",
+          "moles": 0.005,
+          "species": "NaCl",
+          "vessel": 0
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+            "routing_phrase": {
+              "en": "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+              "key": "routing.second-speciation-for-solvent",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "dataset",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                        "key": "provenance.dataset.with-gas-uptake-slice",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "pitzer.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "model",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                        "key": "provenance.model.ion-interaction",
+                        "slots": [
+                          [
+                            "name",
+                            {
+                              "text": {
+                                "text": "Pitzer"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "vessel": 0
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003010282719,
+          "ph": 6.984543893054,
+          "vessel": 0
+        },
+        {
+          "event": "temperature_changed",
+          "from": 298.15,
+          "to": 298.0569563701299,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 4,
+      "operator": {
+        "basis": "mass_fraction",
+        "material": "stainless_steel",
+        "op": "add_material",
+        "recipe_id": "metal/stainless-steel",
+        "recipe_version": 1,
+        "sample_seed": 0,
+        "total_amount": 1.0,
+        "vessel": 0
+      },
+      "events": [
+        {
+          "basis": "mass_fraction",
+          "components": [
+            {
+              "basis_amount": 0.7,
+              "moles": 0.012534694242994,
+              "species": "Fe"
+            }
+          ],
+          "event": "material_added",
+          "material": "stainless_steel",
+          "recipe_id": "metal/stainless-steel",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "unresolved_amount": 0.30000000000000004,
+          "vessel": 0
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003010282724,
+          "ph": 6.984542245751,
+          "vessel": 0
+        },
+        {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        {
+          "corroded_fraction": 0.0,
+          "corroded_moles": 0.0,
+          "corroding": false,
+          "event": "corroded",
+          "reason": {
+            "en": "this iron came in as stainless steel, and stainless steel does not rust for a reason ordinary steel cannot borrow: its chromium reacts with oxygen faster than the iron does and builds a chromium(III) oxide film a couple of nanometres thick, transparent, tightly bound, and self-repairing — scratch it and it reforms out of the same air that would have rusted the iron. Iron oxide is none of those things: it is loose, it flakes, and it exposes fresh metal underneath, which is why rust does not stop and a passive film does",
+            "key": "corrosion-barrier.metal/stainless-steel"
+          },
+          "species": "Fe",
+          "vessel": 0,
+          "why": "this iron came in as stainless steel, and stainless steel does not rust for a reason ordinary steel cannot borrow: its chromium reacts with oxygen faster than the iron does and builds a chromium(III) oxide film a couple of nanometres thick, transparent, tightly bound, and self-repairing — scratch it and it reforms out of the same air that would have rusted the iron. Iron oxide is none of those things: it is loose, it flakes, and it exposes fresh metal underneath, which is why rust does not stop and a passive film does"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 5,
+      "operator": {
+        "moles": 2.7671384956980294,
+        "op": "add",
+        "species": "water",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 2.7671384956980294,
+          "species": "water",
+          "total_after": 2.7671384956980294,
+          "vessel": 1
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "vendored USGS phreeqc.dat",
+            "dataset_phrase": {
+              "en": "vendored USGS {file}",
+              "key": "provenance.dataset.vendored-usgs",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "text": {
+                      "text": "phreeqc.dat"
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "USGS PHREEQC thermodynamic database"
+            ],
+            "engine": "Kerotakis analytic equilibrium evaluator",
+            "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+            "model_phrase": {
+              "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+              "key": "provenance.model.water-autoionisation",
+              "slots": [
+                [
+                  "engine",
+                  {
+                    "text": {
+                      "text": "PHREEQC"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+            "routing_phrase": {
+              "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+              "key": "routing.solvent-relation-only"
+            }
+          },
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 6,
+      "operator": {
+        "moles": 0.005,
+        "op": "add",
+        "species": "NaCl",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.005,
+          "species": "NaCl",
+          "total_after": 0.005,
+          "vessel": 1
+        },
+        {
+          "event": "dissolved",
+          "moles": 0.005,
+          "species": "NaCl",
+          "vessel": 1
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone",
+            "routing_phrase": {
+              "en": "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+              "key": "routing.second-speciation-for-solvent",
+              "slots": [
+                [
+                  "routing",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "the default inorganic aqueous dataset",
+                        "key": "routing.default-inorganic"
+                      }
+                    }
+                  }
+                ],
+                [
+                  "dataset",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                        "key": "provenance.dataset.with-gas-uptake-slice",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "pitzer.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "model",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                        "key": "provenance.model.ion-interaction",
+                        "slots": [
+                          [
+                            "name",
+                            {
+                              "text": {
+                                "text": "Pitzer"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "vessel": 1
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003010282719,
+          "ph": 6.984543893054,
+          "vessel": 1
+        },
+        {
+          "event": "temperature_changed",
+          "from": 298.15,
+          "to": 298.0569563701299,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 7,
+      "operator": {
+        "moles": 0.012534694242994,
+        "op": "add",
+        "species": "Fe",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.012534694242994,
+          "species": "Fe",
+          "total_after": 0.012534694242994,
+          "vessel": 1
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003010282724,
+          "ph": 6.984542245751,
+          "vessel": 1
+        },
+        {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 1,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        {
+          "corroded_fraction": 0.0,
+          "corroded_moles": 0.0,
+          "corroding": false,
+          "event": "corroded",
+          "reason": {
+            "en": "nothing rusts in this vessel, because there is no oxygen in it. Corrosion needs three things at once — the metal, liquid water and oxygen — since it is a circuit: {name} would give up electrons at the anode, oxygen would take them at the cathode, and the water carries the ions between the two. This bench does not yet draw oxygen from the room into an open beaker, so the oxygen has to be put in the vessel for the slow clock to see it{and_then}",
+            "key": "corrosion.no-oxygen",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ],
+              [
+                "and_then",
+                {
+                  "text": {
+                    "text": ""
+                  }
+                }
+              ]
+            ]
+          },
+          "species": "Fe",
+          "vessel": 1,
+          "why": "nothing rusts in this vessel, because there is no oxygen in it. Corrosion needs three things at once — the metal, liquid water and oxygen — since it is a circuit: iron would give up electrons at the anode, oxygen would take them at the cathode, and the water carries the ions between the two. This bench does not yet draw oxygen from the room into an open beaker, so the oxygen has to be put in the vessel for the slow clock to see it"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 8,
+      "operator": {
+        "headspace_volume": 0.5,
+        "op": "seal",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "vessel_sealed",
+          "headspace_volume": 0.5,
+          "trapped_air": 0.020443392401672908,
+          "vessel": 0
+        },
+        {
+          "event": "headspace_equilibrated",
+          "pressure": 101321.30006021998,
+          "total_moles": 0.020442641298718242,
+          "vessel": 0
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "vessel": 0
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003037679729,
+          "ph": 5.612553717733,
+          "vessel": 0
+        },
+        {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        {
+          "corroded_fraction": 0.0,
+          "corroded_moles": 0.0,
+          "corroding": false,
+          "event": "corroded",
+          "reason": {
+            "en": "this iron came in as stainless steel, and stainless steel does not rust for a reason ordinary steel cannot borrow: its chromium reacts with oxygen faster than the iron does and builds a chromium(III) oxide film a couple of nanometres thick, transparent, tightly bound, and self-repairing — scratch it and it reforms out of the same air that would have rusted the iron. Iron oxide is none of those things: it is loose, it flakes, and it exposes fresh metal underneath, which is why rust does not stop and a passive film does",
+            "key": "corrosion-barrier.metal/stainless-steel"
+          },
+          "species": "Fe",
+          "vessel": 0,
+          "why": "this iron came in as stainless steel, and stainless steel does not rust for a reason ordinary steel cannot borrow: its chromium reacts with oxygen faster than the iron does and builds a chromium(III) oxide film a couple of nanometres thick, transparent, tightly bound, and self-repairing — scratch it and it reforms out of the same air that would have rusted the iron. Iron oxide is none of those things: it is loose, it flakes, and it exposes fresh metal underneath, which is why rust does not stop and a passive film does"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 9,
+      "operator": {
+        "headspace_volume": 0.5,
+        "op": "seal",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "vessel_sealed",
+          "headspace_volume": 0.5,
+          "trapped_air": 0.020443392401672908,
+          "vessel": 1
+        },
+        {
+          "event": "headspace_equilibrated",
+          "pressure": 101321.30006021998,
+          "total_moles": 0.020442641298718242,
+          "vessel": 1
+        },
+        {
+          "event": "solution_routed",
+          "provenance": {
+            "dataset": "wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice",
+            "dataset_phrase": {
+              "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+              "key": "provenance.dataset.with-gas-uptake-slice",
+              "slots": [
+                [
+                  "file",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "{file} plus USBM IC 9429 reference-temperature complexes",
+                        "key": "provenance.dataset.plus-reference-complexes",
+                        "slots": [
+                          [
+                            "file",
+                            {
+                              "text": {
+                                "text": "wateq4f.dat"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "dataset_sources": [
+              "WATEQ4F, Alpers and others, 1989",
+              "log K from llnl.dat  Aug 23, 2005",
+              "Dzombak and Morel, 1990",
+              "usbm-ic9429-complexes-25c",
+              "sander-2023-hbr-reference"
+            ],
+            "engine": "PHREEQC (IPhreeqc, USGS)",
+            "model": "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)",
+            "model_phrase": {
+              "en": "{name} extension (reliable to about I = {ionic_strength} mol/kgw)",
+              "key": "provenance.model.wateq-debye-huckel",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "text": {
+                      "text": "WATEQ Debye-Hückel"
+                    }
+                  }
+                ],
+                [
+                  "ionic_strength",
+                  {
+                    "number": {
+                      "text": "1"
+                    }
+                  }
+                ]
+              ]
+            },
+            "routing": "the default inorganic aqueous dataset",
+            "routing_phrase": {
+              "en": "the default inorganic aqueous dataset",
+              "key": "routing.default-inorganic"
+            }
+          },
+          "vessel": 1
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003037679729,
+          "ph": 5.612553717733,
+          "vessel": 1
+        },
+        {
+          "corroded_fraction": 0.0,
+          "corroded_moles": 0.0,
+          "corroding": true,
+          "event": "corroded",
+          "reason": {
+            "en": "{name}, liquid water and oxygen are all three here, which is everything corrosion needs: {name} gives up electrons at the anode, oxygen takes them at the cathode, and the water between them carries the ions{protecting}. {name} is the lowest-E° metal in contact, so it is the anode of every cell in this vessel and it is the one that goes",
+            "key": "corrosion.everything-it-needs",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ],
+              [
+                "protecting",
+                {
+                  "text": {
+                    "text": ""
+                  }
+                }
+              ]
+            ]
+          },
+          "species": "Fe",
+          "vessel": 1,
+          "why": "iron, liquid water and oxygen are all three here, which is everything corrosion needs: iron gives up electrons at the anode, oxygen takes them at the cathode, and the water between them carries the ions. iron is the lowest-E° metal in contact, so it is the anode of every cell in this vessel and it is the one that goes"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 10,
+      "operator": {
+        "moles": 0.003,
+        "op": "add",
+        "species": "O2",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.003,
+          "species": "O2",
+          "total_after": 0.007282890708150474,
+          "vessel": 0
+        },
+        {
+          "event": "neutralised",
+          "moles": 4.727502998754582e-18,
+          "vessel": 0
+        },
+        {
+          "event": "headspace_equilibrated",
+          "pressure": 116190.42617835909,
+          "total_moles": 0.023442641298721038,
+          "vessel": 0
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003037679729,
+          "ph": 5.612553717733,
+          "vessel": 0
+        },
+        {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        {
+          "corroded_fraction": 0.0,
+          "corroded_moles": 0.0,
+          "corroding": false,
+          "event": "corroded",
+          "reason": {
+            "en": "this iron came in as stainless steel, and stainless steel does not rust for a reason ordinary steel cannot borrow: its chromium reacts with oxygen faster than the iron does and builds a chromium(III) oxide film a couple of nanometres thick, transparent, tightly bound, and self-repairing — scratch it and it reforms out of the same air that would have rusted the iron. Iron oxide is none of those things: it is loose, it flakes, and it exposes fresh metal underneath, which is why rust does not stop and a passive film does",
+            "key": "corrosion-barrier.metal/stainless-steel"
+          },
+          "species": "Fe",
+          "vessel": 0,
+          "why": "this iron came in as stainless steel, and stainless steel does not rust for a reason ordinary steel cannot borrow: its chromium reacts with oxygen faster than the iron does and builds a chromium(III) oxide film a couple of nanometres thick, transparent, tightly bound, and self-repairing — scratch it and it reforms out of the same air that would have rusted the iron. Iron oxide is none of those things: it is loose, it flakes, and it exposes fresh metal underneath, which is why rust does not stop and a passive film does"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 11,
+      "operator": {
+        "moles": 0.003,
+        "op": "add",
+        "species": "O2",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.003,
+          "species": "O2",
+          "total_after": 0.007282890708150474,
+          "vessel": 1
+        },
+        {
+          "event": "neutralised",
+          "moles": 4.727502998754582e-18,
+          "vessel": 1
+        },
+        {
+          "event": "headspace_equilibrated",
+          "pressure": 116190.42617835909,
+          "total_moles": 0.023442641298721038,
+          "vessel": 1
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003037679729,
+          "ph": 5.612553717733,
+          "vessel": 1
+        },
+        {
+          "corroded_fraction": 0.0,
+          "corroded_moles": 0.0,
+          "corroding": true,
+          "event": "corroded",
+          "reason": {
+            "en": "{name}, liquid water and oxygen are all three here, which is everything corrosion needs: {name} gives up electrons at the anode, oxygen takes them at the cathode, and the water between them carries the ions{protecting}. {name} is the lowest-E° metal in contact, so it is the anode of every cell in this vessel and it is the one that goes",
+            "key": "corrosion.everything-it-needs",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ],
+              [
+                "protecting",
+                {
+                  "text": {
+                    "text": ""
+                  }
+                }
+              ]
+            ]
+          },
+          "species": "Fe",
+          "vessel": 1,
+          "why": "iron, liquid water and oxygen are all three here, which is everything corrosion needs: iron gives up electrons at the anode, oxygen takes them at the cathode, and the water between them carries the ions. iron is the lowest-E° metal in contact, so it is the anode of every cell in this vessel and it is the one that goes"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 12,
+      "operator": {
+        "op": "wait",
+        "seconds": 259200.0
+      },
+      "events": [
+        {
+          "event": "temperature_changed",
+          "from": 298.05720294217065,
+          "to": 298.15,
+          "vessel": 0
+        },
+        {
+          "activation_energy": 36000.0,
+          "catalyst": "chloride ion",
+          "equation": "4 Fe + 3 O₂ → 2 Fe₂O₃↓",
+          "event": "reacted",
+          "moles": 0.002338079494351059,
+          "reaction": "iron-corrosion",
+          "seconds": 259200.0,
+          "vessel": 1
+        },
+        {
+          "event": "temperature_changed",
+          "from": 298.05720294217065,
+          "to": 298.15,
+          "vessel": 1
+        },
+        {
+          "event": "gas_contained",
+          "moles": 1.2844148820000486e-09,
+          "species": "CO2",
+          "vessel": 0
+        },
+        {
+          "event": "headspace_equilibrated",
+          "pressure": 116226.60724570003,
+          "total_moles": 0.023442642583135918,
+          "vessel": 0
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003037668241,
+          "ph": 5.612740543661,
+          "vessel": 0
+        },
+        {
+          "cause": "rate-not-modelled",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+            "key": "not-modeled.stays-as-the-metal",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ]
+            ]
+          },
+          "vessel": 0,
+          "what": "iron stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+        },
+        {
+          "corroded_fraction": 0.0,
+          "corroded_moles": 0.0,
+          "corroding": false,
+          "event": "corroded",
+          "reason": {
+            "en": "this iron came in as stainless steel, and stainless steel does not rust for a reason ordinary steel cannot borrow: its chromium reacts with oxygen faster than the iron does and builds a chromium(III) oxide film a couple of nanometres thick, transparent, tightly bound, and self-repairing — scratch it and it reforms out of the same air that would have rusted the iron. Iron oxide is none of those things: it is loose, it flakes, and it exposes fresh metal underneath, which is why rust does not stop and a passive film does",
+            "key": "corrosion-barrier.metal/stainless-steel"
+          },
+          "species": "Fe",
+          "vessel": 0,
+          "why": "this iron came in as stainless steel, and stainless steel does not rust for a reason ordinary steel cannot borrow: its chromium reacts with oxygen faster than the iron does and builds a chromium(III) oxide film a couple of nanometres thick, transparent, tightly bound, and self-repairing — scratch it and it reforms out of the same air that would have rusted the iron. Iron oxide is none of those things: it is loose, it flakes, and it exposes fresh metal underneath, which is why rust does not stop and a passive film does"
+        },
+        {
+          "event": "gas_contained",
+          "moles": 1.2844148820000486e-09,
+          "species": "CO2",
+          "vessel": 1
+        },
+        {
+          "event": "headspace_equilibrated",
+          "pressure": 81450.61565659643,
+          "total_moles": 0.01642840410008274,
+          "vessel": 1
+        },
+        {
+          "event": "solution_characterized",
+          "ionic_strength": 0.1003037668241,
+          "ph": 5.612740543661,
+          "vessel": 1
+        },
+        {
+          "corroded_fraction": 0.7461145677830566,
+          "corroded_moles": 0.009352317977404236,
+          "corroding": true,
+          "event": "corroded",
+          "reason": {
+            "en": "{name}, liquid water and oxygen are all three here, which is everything corrosion needs: {name} gives up electrons at the anode, oxygen takes them at the cathode, and the water between them carries the ions{protecting}. {name} is the lowest-E° metal in contact, so it is the anode of every cell in this vessel and it is the one that goes",
+            "key": "corrosion.everything-it-needs",
+            "slots": [
+              [
+                "name",
+                {
+                  "term": {
+                    "en": "iron",
+                    "section": "species"
+                  }
+                }
+              ],
+              [
+                "protecting",
+                {
+                  "text": {
+                    "text": ""
+                  }
+                }
+              ]
+            ]
+          },
+          "species": "Fe",
+          "vessel": 1,
+          "why": "iron, liquid water and oxygen are all three here, which is everything corrosion needs: iron gives up electrons at the anode, oxygen takes them at the cathode, and the water between them carries the ions. iron is the lowest-E° metal in contact, so it is the anode of every cell in this vessel and it is the one that goes"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 13,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "appearance": {
+            "bubbling": true,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "colourless",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and clear",
+                          "key": "look.clarity-clear"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              {
+                "en": "bubbles of gas are rising through it",
+                "key": "look.bubbling"
+              },
+              {
+                "en": "there is {what} at the bottom",
+                "key": "look.deposit-in-liquid",
+                "slots": [
+                  [
+                    "what",
+                    {
+                      "list": {
+                        "items": [
+                          {
+                            "phrase": {
+                              "phrase": {
+                                "en": "{colour} {name}",
+                                "key": "look.coloured",
+                                "slots": [
+                                  [
+                                    "colour",
+                                    {
+                                      "term": {
+                                        "en": "grey",
+                                        "section": "appearance"
+                                      }
+                                    }
+                                  ],
+                                  [
+                                    "name",
+                                    {
+                                      "term": {
+                                        "en": "iron",
+                                        "section": "species"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                ]
+              },
+              {
+                "en": "a piece of {what} is at the bottom",
+                "key": "look.piece-bottom",
+                "slots": [
+                  [
+                    "what",
+                    {
+                      "term": {
+                        "en": "stainless steel",
+                        "section": "material"
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 0.0,
+            "deposit": [
+              "iron",
+              {
+                "b": 125,
+                "g": 120,
+                "r": 120,
+                "strength": 0.0
+              }
+            ],
+            "liquid": {
+              "b": 255,
+              "g": 255,
+              "r": 255,
+              "strength": 0.0
+            },
+            "words": "The liquid is colourless and clear, bubbles of gas are rising through it, there is grey iron at the bottom, a piece of stainless steel is at the bottom."
+          },
+          "event": "observed",
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 14,
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "appearance": {
+            "bubbling": true,
+            "clauses": [
+              {
+                "en": "the liquid is {colour} {clarity}",
+                "key": "look.liquid",
+                "slots": [
+                  [
+                    "colour",
+                    {
+                      "term": {
+                        "en": "white",
+                        "section": "appearance"
+                      }
+                    }
+                  ],
+                  [
+                    "clarity",
+                    {
+                      "phrase": {
+                        "phrase": {
+                          "en": "and so cloudy you cannot see through it",
+                          "key": "look.clarity-opaque"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              },
+              {
+                "en": "bubbles of gas are rising through it",
+                "key": "look.bubbling"
+              },
+              {
+                "en": "there is {what} at the bottom",
+                "key": "look.deposit-in-liquid",
+                "slots": [
+                  [
+                    "what",
+                    {
+                      "list": {
+                        "items": [
+                          {
+                            "phrase": {
+                              "phrase": {
+                                "en": "{colour} {name}",
+                                "key": "look.coloured",
+                                "slots": [
+                                  [
+                                    "colour",
+                                    {
+                                      "term": {
+                                        "en": "reddish brown",
+                                        "section": "appearance"
+                                      }
+                                    }
+                                  ],
+                                  [
+                                    "name",
+                                    {
+                                      "term": {
+                                        "en": "iron(III) oxide (hematite)",
+                                        "section": "species"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "phrase": {
+                              "phrase": {
+                                "en": "{colour} {name}",
+                                "key": "look.coloured",
+                                "slots": [
+                                  [
+                                    "colour",
+                                    {
+                                      "term": {
+                                        "en": "grey",
+                                        "section": "appearance"
+                                      }
+                                    }
+                                  ],
+                                  [
+                                    "name",
+                                    {
+                                      "term": {
+                                        "en": "iron",
+                                        "section": "species"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                ]
+              }
+            ],
+            "cloudiness": 1.0,
+            "deposit": [
+              "iron(III) oxide (hematite)",
+              {
+                "b": 54,
+                "g": 66,
+                "r": 145,
+                "strength": 0.0
+              }
+            ],
+            "liquid": {
+              "b": 255,
+              "g": 255,
+              "r": 255,
+              "strength": 0.0
+            },
+            "words": "The liquid is white and so cloudy you cannot see through it, bubbles of gas are rising through it, there is reddish brown iron(III) oxide (hematite) and grey iron at the bottom."
+          },
+          "event": "observed",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 15,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "conductivity_meter",
+          "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.86× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "note_reason": {
+            "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+            "key": "measured.conductivity-past-the-dilute-limit",
+            "slots": [
+              [
+                "limit",
+                {
+                  "number": {
+                    "text": "0.10"
+                  }
+                }
+              ],
+              [
+                "where_it_stands",
+                {
+                  "phrase": {
+                    "phrase": {
+                      "en": "the ion–ion drag is corrected by an empirical factor ({factor}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                      "key": "measured.conductivity-fitted-correction",
+                      "slots": [
+                        [
+                          "factor",
+                          {
+                            "number": {
+                              "text": "0.86"
+                            }
+                          }
+                        ],
+                        [
+                          "limit",
+                          {
+                            "number": {
+                              "text": "2"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "unit": "µS/cm",
+          "value": 10905.71729190619,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 16,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "conductivity_meter",
+          "note": "past I = 0.10 mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: the ion–ion drag is corrected by an empirical factor (0.86× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and 2 mol/kgw. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+          "note_reason": {
+            "en": "past I = {limit} mol/kgw a sum of limiting molar conductivities is no longer a calibrated reading: {where_it_stands}. Charge type and ion size are not in the correction, so a 2:2 salt is a weaker claim than a 1:1 one",
+            "key": "measured.conductivity-past-the-dilute-limit",
+            "slots": [
+              [
+                "limit",
+                {
+                  "number": {
+                    "text": "0.10"
+                  }
+                }
+              ],
+              [
+                "where_it_stands",
+                {
+                  "phrase": {
+                    "phrase": {
+                      "en": "the ion–ion drag is corrected by an empirical factor ({factor}× the infinite-dilution sum here), fitted to sodium and potassium chloride between 0.01 and {limit} mol/kgw",
+                      "key": "measured.conductivity-fitted-correction",
+                      "slots": [
+                        [
+                          "factor",
+                          {
+                            "number": {
+                              "text": "0.86"
+                            }
+                          }
+                        ],
+                        [
+                          "limit",
+                          {
+                            "number": {
+                              "text": "2"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            ]
+          },
+          "unit": "µS/cm",
+          "value": 10905.71729190619,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 17,
+      "operator": {
+        "op": "inspect"
+      },
+      "events": []
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 16,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 5.612740543661
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.1003037668241
+            }
+          ],
+          "boiling_point_k": 373.25277338727375,
+          "boundary": "sealed",
+          "bubbling": true,
+          "bulk_objects": [
+            {
+              "amount_g": 0.30000000000000004,
+              "bulk_density_g_per_ml": 7.9,
+              "material": "stainless steel",
+              "position": "sunk",
+              "recipe_id": "metal/stainless-steel",
+              "srgb": [
+                120,
+                120,
+                125
+              ]
+            }
+          ],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "bubbles of gas are rising through it",
+              "key": "look.bubbling"
+            },
+            {
+              "en": "there is {what} at the bottom",
+              "key": "look.deposit-in-liquid",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "grey",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "iron",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "a piece of {what} is at the bottom",
+              "key": "look.piece-bottom",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "term": {
+                      "en": "stainless steel",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "coatings": [
+            {
+              "host_species": "Fe",
+              "kind": "passive_film",
+              "phrase": {
+                "en": "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale.",
+                "key": "scene.coating-passive-film"
+              },
+              "recipe_id": "metal/stainless-steel",
+              "words": "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale."
+            }
+          ],
+          "corrosion": [
+            {
+              "corroding": false,
+              "metal": "Fe",
+              "metal_in_oxide_fraction": 0.0,
+              "metal_in_oxide_moles": 0.0,
+              "phrase": {
+                "en": "{percent}% of the tracked {metal} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+                "key": "scene.corrosion",
+                "slots": [
+                  [
+                    "percent",
+                    {
+                      "number": {
+                        "text": "0"
+                      }
+                    }
+                  ],
+                  [
+                    "metal",
+                    {
+                      "term": {
+                        "en": "iron",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "words": "0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            }
+          ],
+          "elapsed_s": 259200.0,
+          "headspace_moles": 0.023442642583135918,
+          "headspace_volume_l": 0.5,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.049999997413245345
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.049999997413245345
+          },
+          "mass_g": 51.52810402828962,
+          "melting_point_k": 272.77813011285974,
+          "notes": [
+            {
+              "en": "The stainless steel has a transparent protective passive film; its thickness is not drawn to scale.",
+              "key": "scene.coating-passive-film"
+            },
+            {
+              "en": "{percent}% of the tracked {metal} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+              "key": "scene.corrosion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "0"
+                    }
+                  }
+                ],
+                [
+                  "metal",
+                  {
+                    "term": {
+                      "en": "iron",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 116226.60724570003,
+          "solids": [
+            {
+              "colour_word": "grey",
+              "metallic": true,
+              "moles": 0.012534694242994,
+              "name": "iron",
+              "represented_by_bulk_object": true,
+              "settled_fraction": 1.0,
+              "species": "Fe",
+              "srgb": [
+                120,
+                120,
+                125
+              ],
+              "volume_l": 8.89001778003556e-05
+            }
+          ],
+          "temperature_k": 298.15,
+          "volume": 0.5,
+          "words": "The liquid is colourless and clear, bubbles of gas are rising through it, there is grey iron at the bottom, a piece of stainless steel is at the bottom. The stainless steel has a transparent protective passive film; its thickness is not drawn to scale. 0% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 5.612740543661
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.1003037668241
+            }
+          ],
+          "boiling_point_k": 367.2709322713894,
+          "boundary": "sealed",
+          "bubbling": true,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "white",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and so cloudy you cannot see through it",
+                        "key": "look.clarity-opaque"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "bubbles of gas are rising through it",
+              "key": "look.bubbling"
+            },
+            {
+              "en": "there is {what} at the bottom",
+              "key": "look.deposit-in-liquid",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "reddish brown",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "iron(III) oxide (hematite)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "grey",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "iron",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "corrosion": [
+            {
+              "corroding": true,
+              "metal": "Fe",
+              "metal_in_oxide_fraction": 0.7461145677830566,
+              "metal_in_oxide_moles": 0.009352317977404236,
+              "phrase": {
+                "en": "{percent}% of the tracked {metal} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+                "key": "scene.corrosion",
+                "slots": [
+                  [
+                    "percent",
+                    {
+                      "number": {
+                        "text": "75"
+                      }
+                    }
+                  ],
+                  [
+                    "metal",
+                    {
+                      "term": {
+                        "en": "iron",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "words": "75% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+            }
+          ],
+          "elapsed_s": 259200.0,
+          "headspace_moles": 0.01642840410008274,
+          "headspace_volume_l": 0.5,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "white",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.049999997413245345
+            }
+          ],
+          "liquid": {
+            "cloudiness": 1.0,
+            "colour_word": "white",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.049999997413245345
+          },
+          "mass_g": 51.52810402828962,
+          "melting_point_k": 272.77813011285974,
+          "notes": [
+            {
+              "en": "{percent}% of the tracked {metal} is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage.",
+              "key": "scene.corrosion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "75"
+                    }
+                  }
+                ],
+                [
+                  "metal",
+                  {
+                    "term": {
+                      "en": "iron",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 81450.61565659643,
+          "solids": [
+            {
+              "colour_word": "reddish brown",
+              "metallic": false,
+              "moles": 0.004676158988702118,
+              "name": "iron(III) oxide (hematite)",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "Fe2O3",
+              "srgb": [
+                145,
+                66,
+                54
+              ],
+              "volume_l": 0.00014250416038718991
+            },
+            {
+              "colour_word": "grey",
+              "metallic": true,
+              "moles": 0.0031823762655897644,
+              "name": "iron",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "Fe",
+              "srgb": [
+                120,
+                120,
+                125
+              ],
+              "volume_l": 2.2570460065006405e-05
+            }
+          ],
+          "temperature_k": 298.15,
+          "volume": 0.5,
+          "words": "The liquid is white and so cloudy you cannot see through it, bubbles of gas are rising through it, there is reddish brown iron(III) oxide (hematite) and grey iron at the bottom. 75% of the tracked iron is currently locked in its modeled oxide. Oxide added directly is indistinguishable from oxide formed here; this is not a corrosion rate, history, thickness, or surface coverage."
+        }
+      ]
+    }
+  }
+}

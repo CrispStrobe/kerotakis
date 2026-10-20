@@ -1,0 +1,2624 @@
+{
+  "original_id": "batch3-diverse:su-005",
+  "title": "Carbon allotropes can have very different electronic behaviour",
+  "original_forecast": "Compare the installed solid-state electrical descriptors for graphite and diamond with a metal and a polymer reference. Shared carbon composition is not evidence of the same bonding topology or electronic structure.",
+  "original_limitations": [
+    "Aqueous conductivity and solid resistivity are different quantities. Use the reported quantity and units; an unsupported solid measurement must not be interpreted as zero conductivity."
+  ],
+  "original_script_sha256": "7844f999b60651bf71cec0617a34a67636931abbaccf9251f2bfe19d99df47a2",
+  "raw_member_prefix": "batch3-diverse_su-005",
+  "raw_sha256": {
+    "experiment.lab": "7844f999b60651bf71cec0617a34a67636931abbaccf9251f2bfe19d99df47a2",
+    "stdout.jsonl": "9ade0392dcf57efa820abeb55194ec4bce3088d18ac703ab9c450d32df657b87",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "status": "hold",
+  "assessment": {
+    "status": "hold",
+    "hold_reason": "Diamond and polyethylene have no installed reviewed solid resistivity; missing readings cannot complete original graphite/diamond/metal/polymer electrical comparison.",
+    "model_scope": "Shared carbon inventory and distinct density are established, but do not supply the missing diamond electrical descriptor. Particle glyphs encode elemental inventory, not bonding topology or electronic structure. Unsupported measurements are not zero conductivity.",
+    "independent_calculations": {
+      "actual_solid_conductivity": [
+        [
+          8,
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "unit": "S/m",
+            "value": 99999.99999999999,
+            "vessel": 0
+          }
+        ],
+        [
+          10,
+          {
+            "event": "measured",
+            "instrument": "conductivity_meter",
+            "unit": "S/m",
+            "value": 59594755.661501795,
+            "vessel": 2
+          }
+        ]
+      ],
+      "actual_missing_resistivity_refusals": [
+        [
+          9,
+          {
+            "cause": "no-reviewed-datum",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess",
+              "key": "not-modeled.conductivity-on-a-dry-solid"
+            },
+            "vessel": 1,
+            "what": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess"
+          }
+        ],
+        [
+          11,
+          {
+            "cause": "no-reviewed-datum",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess",
+              "key": "not-modeled.conductivity-on-a-dry-solid"
+            },
+            "vessel": 3,
+            "what": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess"
+          }
+        ]
+      ],
+      "actual_density": [
+        [
+          12,
+          {
+            "event": "measured",
+            "instrument": "densitometer",
+            "unit": "g/mL",
+            "value": 2.26,
+            "vessel": 0
+          }
+        ],
+        [
+          13,
+          {
+            "event": "measured",
+            "instrument": "densitometer",
+            "unit": "g/mL",
+            "value": 3.51,
+            "vessel": 1
+          }
+        ]
+      ]
+    },
+    "coverage_warnings": [
+      {
+        "raw_jsonl_line": 9,
+        "event": {
+          "cause": "no-reviewed-datum",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess",
+            "key": "not-modeled.conductivity-on-a-dry-solid"
+          },
+          "vessel": 1,
+          "what": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess"
+        }
+      },
+      {
+        "raw_jsonl_line": 11,
+        "event": {
+          "cause": "no-reviewed-datum",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess",
+            "key": "not-modeled.conductivity-on-a-dry-solid"
+          },
+          "vessel": 3,
+          "what": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess"
+        }
+      }
+    ],
+    "energy_scope": "All actual temperatures and clocks retained per step. No calorimetric or empirical kinetic forecast is present; no unmeasured energy or yield asserted.",
+    "actual_auxiliary_reservoirs": [
+      {
+        "raw_jsonl_line": 1,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "vessels": [
+          {
+            "id": 0,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 1,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 2,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          },
+          {
+            "id": 3,
+            "pending_co2_transfer_mol": 0.0,
+            "free_proton": 0.0,
+            "free_hydroxide": 0.0,
+            "solute_charge": 0.0,
+            "excess_enthalpy_j": 0.0,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            }
+          }
+        ]
+      }
+    ],
+    "raw_nonbench_observations": [
+      {
+        "raw_jsonl_line": 14,
+        "record": {
+          "events": [],
+          "operator": {
+            "op": "particles",
+            "vessel": 0
+          },
+          "output_sequence": 13,
+          "particles": {
+            "per_glyph": 0.0027752338134487834,
+            "populations": [
+              {
+                "amount": 0.0832570144034635,
+                "drawn": 30,
+                "kind": "solid",
+                "label": "C"
+              }
+            ],
+            "source": "inventory",
+            "too_rare": []
+          },
+          "step": 13
+        }
+      },
+      {
+        "raw_jsonl_line": 15,
+        "record": {
+          "events": [],
+          "operator": {
+            "op": "particles",
+            "vessel": 1
+          },
+          "output_sequence": 14,
+          "particles": {
+            "per_glyph": 0.0027752338134487834,
+            "populations": [
+              {
+                "amount": 0.0832570144034635,
+                "drawn": 30,
+                "kind": "solid",
+                "label": "C"
+              }
+            ],
+            "source": "inventory",
+            "too_rare": []
+          },
+          "step": 13
+        }
+      }
+    ]
+  },
+  "per_criterion": [
+    {
+      "id": "question",
+      "criterion": "Does elemental composition alone determine the electrical character of a solid?",
+      "review_instruction": "Compare the installed solid-state electrical descriptors for graphite and diamond with a metal and a polymer reference. Shared carbon composition is not evidence of the same bonding topology or electronic structure.",
+      "result": null,
+      "assessment": "hold",
+      "evidence": "assessment.independent_calculations"
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "inventory.trace"
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null,
+      "assessment": "supported_with_stated_model_scope",
+      "evidence": "assessment.model_scope and assessment.coverage_warnings"
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v3: metallic conductor reference; v4: polymer reference",
+      "result": null,
+      "assessment": "hold",
+      "evidence": "assessment.independent_calculations and final_scene"
+    }
+  ],
+  "no_catalog_selection": true,
+  "original_criteria": [
+    {
+      "id": "question",
+      "criterion": "Does elemental composition alone determine the electrical character of a solid?",
+      "review_instruction": "Compare the installed solid-state electrical descriptors for graphite and diamond with a metal and a polymer reference. Shared carbon composition is not evidence of the same bonding topology or electronic structure.",
+      "result": null
+    },
+    {
+      "id": "inventory",
+      "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "result": null
+    },
+    {
+      "id": "coverage",
+      "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "result": null
+    },
+    {
+      "id": "controls",
+      "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "review_instruction": "v3: metallic conductor reference; v4: polymer reference",
+      "result": null
+    }
+  ],
+  "inventory": {
+    "strict_balance_failures": [],
+    "domain": "Every operator and every vessel/step: pinned recipe additions, all resolved atoms/charge, exact formula-free enzyme carriers, unresolved material pools, sealed dry air, retained gases, actual clocks and temperatures. Unknown/export events rejected; no duplicate free-ion counting or invented aggregate formulas.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 0.0832570144034635,
+          "op": "add",
+          "species": "graphite",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 0.0832570144034635,
+          "op": "add",
+          "species": "diamond",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 0.015736631731344222,
+          "op": "add",
+          "species": "Cu",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.015736631731344222,
+                "phase": "solid",
+                "species": "Cu"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "moles": 0.035645540742853074,
+          "op": "add",
+          "species": "PE",
+          "vessel": 3
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.015736631731344222,
+                "phase": "solid",
+                "species": "Cu"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.035645540742853074,
+                "phase": "solid",
+                "species": "PE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.015736631731344222,
+                "phase": "solid",
+                "species": "Cu"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.035645540742853074,
+                "phase": "solid",
+                "species": "PE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.015736631731344222,
+                "phase": "solid",
+                "species": "Cu"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.035645540742853074,
+                "phase": "solid",
+                "species": "PE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.015736631731344222,
+                "phase": "solid",
+                "species": "Cu"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.035645540742853074,
+                "phase": "solid",
+                "species": "PE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 3
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.015736631731344222,
+                "phase": "solid",
+                "species": "Cu"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.035645540742853074,
+                "phase": "solid",
+                "species": "PE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "instrument": "densitometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.015736631731344222,
+                "phase": "solid",
+                "species": "Cu"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.035645540742853074,
+                "phase": "solid",
+                "species": "PE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "densitometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.015736631731344222,
+                "phase": "solid",
+                "species": "Cu"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.035645540742853074,
+                "phase": "solid",
+                "species": "PE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 13,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "graphite"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.0832570144034635,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0832570144034635,
+                "phase": "solid",
+                "species": "diamond"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "Cu": 0.015736631731344222,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.015736631731344222,
+                "phase": "solid",
+                "species": "Cu"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "C": 0.07129108148570615,
+              "H": 0.1425821629714123,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.035645540742853074,
+                "phase": "solid",
+                "species": "PE"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 0,
+    "max_unresolved_g_residual": 0
+  },
+  "actual_events": [
+    {
+      "raw_jsonl_line": 1,
+      "operator": {
+        "op": "new_vessel"
+      },
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 2,
+      "operator": {
+        "op": "new_vessel"
+      },
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 3,
+      "operator": {
+        "op": "new_vessel"
+      },
+      "events": [
+        {
+          "event": "vessel_created",
+          "vessel": 3
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 4,
+      "operator": {
+        "moles": 0.0832570144034635,
+        "op": "add",
+        "species": "graphite",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.0832570144034635,
+          "species": "graphite",
+          "total_after": 0.0832570144034635,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 5,
+      "operator": {
+        "moles": 0.0832570144034635,
+        "op": "add",
+        "species": "diamond",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.0832570144034635,
+          "species": "diamond",
+          "total_after": 0.0832570144034635,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 6,
+      "operator": {
+        "moles": 0.015736631731344222,
+        "op": "add",
+        "species": "Cu",
+        "vessel": 2
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.015736631731344222,
+          "species": "Cu",
+          "total_after": 0.015736631731344222,
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 7,
+      "operator": {
+        "moles": 0.035645540742853074,
+        "op": "add",
+        "species": "PE",
+        "vessel": 3
+      },
+      "events": [
+        {
+          "event": "added",
+          "moles": 0.035645540742853074,
+          "species": "PE",
+          "total_after": 0.035645540742853074,
+          "vessel": 3
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 8,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "conductivity_meter",
+          "unit": "S/m",
+          "value": 99999.99999999999,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 9,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "cause": "no-reviewed-datum",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess",
+            "key": "not-modeled.conductivity-on-a-dry-solid"
+          },
+          "vessel": 1,
+          "what": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 10,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 2
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "conductivity_meter",
+          "unit": "S/m",
+          "value": 59594755.661501795,
+          "vessel": 2
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 11,
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 3
+      },
+      "events": [
+        {
+          "cause": "no-reviewed-datum",
+          "event": "not_yet_modeled",
+          "reason": {
+            "en": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess",
+            "key": "not-modeled.conductivity-on-a-dry-solid"
+          },
+          "vessel": 3,
+          "what": "the conductivity meter is on a dry solid the registry carries no electrical resistivity for — the reading needs a reviewed value, not a guess"
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 12,
+      "operator": {
+        "instrument": "densitometer",
+        "op": "measure",
+        "vessel": 0
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "densitometer",
+          "unit": "g/mL",
+          "value": 2.26,
+          "vessel": 0
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 13,
+      "operator": {
+        "instrument": "densitometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "events": [
+        {
+          "event": "measured",
+          "instrument": "densitometer",
+          "unit": "g/mL",
+          "value": 3.51,
+          "vessel": 1
+        }
+      ]
+    },
+    {
+      "raw_jsonl_line": 16,
+      "operator": {
+        "op": "inspect"
+      },
+      "events": []
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 13,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "black",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "graphite",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 1.0,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "black",
+              "metallic": false,
+              "moles": 0.0832570144034635,
+              "name": "graphite",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "graphite",
+              "srgb": [
+                58,
+                58,
+                60
+              ],
+              "volume_l": 0.00044247787610619474
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "There is black graphite in the beaker."
+        },
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "diamond",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 1.0,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.0832570144034635,
+              "name": "diamond",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "diamond",
+              "srgb": [
+                237,
+                243,
+                245
+              ],
+              "volume_l": 0.0002849002849002849
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "There is white diamond in the beaker."
+        },
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "orange",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "copper",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 2,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 0.9999999999999999,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "orange",
+              "metallic": true,
+              "moles": 0.015736631731344222,
+              "name": "copper",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "Cu",
+              "srgb": [
+                184,
+                115,
+                51
+              ],
+              "volume_l": 0.00011160714285714284
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "There is orange copper in the beaker."
+        },
+        {
+          "badges": [],
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "there is {what} in the beaker",
+              "key": "look.deposit-dry",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "phrase": {
+                            "phrase": {
+                              "en": "{colour} {name}",
+                              "key": "look.coloured",
+                              "slots": [
+                                [
+                                  "colour",
+                                  {
+                                    "term": {
+                                      "en": "white",
+                                      "section": "appearance"
+                                    }
+                                  }
+                                ],
+                                [
+                                  "name",
+                                  {
+                                    "term": {
+                                      "en": "polyethylene (HDPE)",
+                                      "section": "species"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 3,
+          "label": "beaker",
+          "liquid": null,
+          "mass_g": 1.0,
+          "pressure_pa": 101325.0,
+          "solids": [
+            {
+              "colour_word": "white",
+              "metallic": false,
+              "moles": 0.035645540742853074,
+              "name": "polyethylene (HDPE)",
+              "represented_by_bulk_object": false,
+              "settled_fraction": 1.0,
+              "species": "PE",
+              "srgb": [
+                240,
+                237,
+                232
+              ],
+              "volume_l": 0.0010526315789473684
+            }
+          ],
+          "temperature_k": 298.15,
+          "words": "There is white polyethylene (HDPE) in the beaker."
+        }
+      ]
+    }
+  }
+}
