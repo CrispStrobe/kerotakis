@@ -17,7 +17,49 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  changes:
+    name: Classify complete change range
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.classify.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # Classify exact PR base/head (not the synthetic merge commit), with
+          # complete local history: no API path-count limits or shallow guess.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Test conservative classifier
+        run: python3 tools/test_ci_changes.py
+      - name: Classify exact event range
+        id: classify
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: python3 tools/ci_changes.py --event-name "$EVENT_NAME" --event-path "$GITHUB_EVENT_PATH" --output "$GITHUB_OUTPUT"
+
+  preflight-gate:
+    # Keep the required context reporting even when heavy jobs are skipped.
+    name: Full preflight gate
+    needs: [changes, preflight-build]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require classifier and the appropriate preflight outcome
+        env:
+          CHANGES_RESULT: ${{ needs.changes.result }}
+          CHANGE_MODE: ${{ needs.changes.outputs.mode }}
+          BUILD_RESULT: ${{ needs.preflight-build.result }}
+        run: |
+          test "$CHANGES_RESULT" = success
+          case "$CHANGE_MODE:$BUILD_RESULT" in
+            docs:skipped) echo "Reviewed documentation only; full preflight explicitly skipped." ;;
+            full:success) echo "Full preflight passed." ;;
+            *) echo "Classifier/preflight failed, was cancelled, or returned an unknown result."; exit 1 ;;
+          esac
+
   gpu-release-tools:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: GPU release tools (deterministic)
     runs-on: ubuntu-latest
     steps:
@@ -31,6 +73,8 @@ jobs:
         run: bash tools/test-gpu-release-tools.sh
 
   viewer-decision-spike:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: BRD-080 viewer decision spike
     runs-on: ubuntu-latest
     defaults:
@@ -50,6 +94,8 @@ jobs:
         run: npm run test:browser
 
   theme-contrast:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: Theme contrast tokens
     runs-on: ubuntu-latest
     steps:
@@ -61,6 +107,8 @@ jobs:
         run: node tools/test-theme-contrast.mjs
 
   presentation-authority:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: Presentation authority adapters
     runs-on: ubuntu-latest
     defaults:
@@ -90,8 +138,10 @@ jobs:
       - name: Every vitest file in the app runs
         run: npx vitest run --reporter=dot
 
-  preflight-gate:
-    name: Full preflight gate
+  preflight-build:
+    name: Full preflight execution
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -119,6 +169,8 @@ jobs:
         run: bash tools/preflight.sh --no-clippy
 
   test:
+    needs: changes
+    if: ${{ always() }}
     name: Test (native)
     runs-on: ${{ matrix.os }}
     strategy:
@@ -129,15 +181,21 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@v6
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
         with:
           submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
       - uses: Swatinem/rust-cache@v2
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
         run: bash tools/fetch-sundials.sh
       - name: Format
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
         run: cargo fmt --check
       - name: Clippy
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
         run: cargo clippy --workspace --all-targets -- -D warnings
       # `--no-fail-fast` because cargo's fail-fast is per test BINARY, not
       # per workspace: without it the first crate whose suite fails ends
@@ -147,12 +205,15 @@ jobs:
       # rebuild. It cannot turn a red run green — it only makes a red one
       # say everything it knows in one go.
       - name: Test
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
         run: cargo test --workspace --no-fail-fast
       - name: Aqueous continuation cache-only adapter
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
         # Native builds do not dispatch through SolveHook. Exercise the
         # browser's no-engine adapter configuration as a separate test binary.
         run: cargo test -p kerotakis-phreeqc --no-default-features --test aqueous_continuation_cache_only --test acid_permanganate_cache_only
       - name: Codex — every claim must still compute
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
         run: cargo run -p kerotakis-cli -- codex lint
       # The curiosity baseline records the route every prompt actually takes.
       # It existed as a manual tool and drifted on four rows unnoticed,
@@ -161,12 +222,13 @@ jobs:
       # step above it, and a drift is a scientific claim someone has to
       # explain rather than a number someone regenerates.
       - name: Curiosity coverage — the recorded route is still the route
+        if: ${{ needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs' }}
         run: cargo run -p kerotakis-cli -- coverage curiosity --check
       # A snapshot test that fails prints a diff, but the whole regenerated
       # file is what someone actually needs to judge whether the new value is
       # right. The suites already write it beside the golden; keep it.
       - name: Preserve regenerated snapshots for review
-        if: always()
+        if: ${{ always() && (needs.changes.result != 'success' || needs.changes.outputs.mode != 'docs') }}
         uses: actions/upload-artifact@v6
         with:
           name: snapshot-differences-${{ runner.os }}-${{ github.sha }}
@@ -174,7 +236,13 @@ jobs:
           if-no-files-found: ignore
           retention-days: 30
 
+      - name: Reviewed documentation needs no native build
+        if: needs.changes.result == 'success' && needs.changes.outputs.mode == 'docs'
+        run: echo "Reviewed documentation only; native matrix context retained without building."
+
   my-basic-preview:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: MY-BASIC preview (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
@@ -200,6 +268,8 @@ jobs:
           fi
 
   legacy-basic-oracle:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: Legacy BASIC oracle (development only)
     runs-on: ubuntu-latest
     steps:
@@ -222,6 +292,8 @@ jobs:
           fi
 
   wasm-core:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: Core and data schemas compile to wasm32
     runs-on: ubuntu-latest
     steps:
@@ -240,6 +312,8 @@ jobs:
           -p kerotakis-scene-physics --target wasm32-unknown-unknown
 
   feos-target-contract:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: feos adapter (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
     strategy:
@@ -270,6 +344,8 @@ jobs:
           --locked --lib --target ${{ matrix.target }}
 
   registry-export:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: Current registry source export
     runs-on: ubuntu-latest
     steps:
@@ -290,6 +366,8 @@ jobs:
         run: cmp data/registry/registry-source-v1.json "$RUNNER_TEMP/registry-source-v1.json"
 
   native-host:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: The native host still compiles
     # `kerotakis-app` is deliberately outside the main workspace — its own
     # workspace root — so `cargo check --workspace` has never touched it,
@@ -324,6 +402,8 @@ jobs:
         run: cargo check --all-targets
 
   engine-msvc:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     # IPhreeqc's C++ had never been compiled by MSVC anywhere in this repo. The
     # Windows release build was the only thing that tried, and it had been
     # failing earlier — at the shell payload — for long enough that nothing
@@ -364,6 +444,8 @@ jobs:
         run: cargo test --no-run -p kerotakis-phreeqc
 
   payload:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     # The shell payload's four Python steps were only ever run on
     # `ubuntu-latest` (and macOS, in native-host). The release builds them on
     # `ubuntu-22.04` and `windows-latest` too, and v0.1.0 failed on both while
@@ -473,6 +555,8 @@ jobs:
           echo "no shipping build passes --without-codex"
 
   wasm-lab:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: The bench in WebAssembly
     runs-on: ubuntu-latest
     steps:
@@ -507,6 +591,8 @@ jobs:
         run: node tools/test-protocol-conformance.mjs "$RUNNER_TEMP/kero-wasm" "$RUNNER_TEMP/lessons.postcard"
 
   wasm-engine:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: IPhreeqc wasm gate
     runs-on: ubuntu-latest
     env:
@@ -525,6 +611,8 @@ jobs:
         run: node tools/test-iphreeqc-wasm.mjs "$RUNNER_TEMP/iphreeqc-wasm" vendor/iphreeqc/database/wateq4f.dat
 
   wasm-bridge:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: The two wasm halves, together
     runs-on: ubuntu-latest
     env:
@@ -564,6 +652,8 @@ jobs:
             "$RUNNER_TEMP/iphreeqc-wasm" "$RUNNER_TEMP/expected.json"
 
   demo:
+    needs: changes
+    if: needs.changes.outputs.mode == 'full'
     name: The demo page, in a real browser
     runs-on: ubuntu-latest
     env:
@@ -626,8 +716,8 @@ jobs:
 
   publish:
     name: Publish the demo
-    needs: demo
-    if: github.ref == 'refs/heads/main'
+    needs: [changes, demo]
+    if: github.ref == 'refs/heads/main' && needs.changes.outputs.mode == 'full'
     runs-on: ubuntu-latest
     # One Pages deployment at a time, queued not cancelled — two racing
     # deployers is exactly the 400 "in progress deployment" failure.
