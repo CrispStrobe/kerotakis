@@ -205,6 +205,22 @@ fn combined_real_analytic_adapter_characterizes_current_water_like_concrete_adap
     assert_eq!(aqueous.engine_calls(), 0);
 }
 
+#[test]
+fn combined_refuses_ambiguous_real_aqueous_authorities() {
+    let mut aqueous = kerotakis_phreeqc::PhreeqcEquilibrator::new().unwrap();
+    let mut stack = SolverStack::new(vec![Box::new(
+        kerotakis_phreeqc::PhreeqcEquilibrator::new().unwrap(),
+    )]);
+    let mut vessel = water();
+    let before = format!("{vessel:?}");
+    let mut combined = CombinedSolver {
+        stack: &mut stack,
+        aqueous: &mut aqueous,
+    };
+    assert!(characterize_via(&mut combined, &mut vessel).is_err());
+    assert_eq!(format!("{vessel:?}"), before);
+}
+
 struct NoOptIn;
 impl Equilibrator for NoOptIn {
     fn name(&self) -> &'static str {
@@ -228,6 +244,7 @@ fn untrusted_wrapper_cannot_get_receipt_from_existing_solution() {
 #[derive(Clone, Copy)]
 enum Proposal {
     MutateThenErr,
+    UnbalancedMaterial,
     InvalidTemperature,
     InvalidGas,
     FiniteGas,
@@ -249,6 +266,10 @@ impl Equilibrator for Writer {
                     solver: self.name().into(),
                     detail: "deliberate failed proposal".into(),
                 })
+            }
+            Proposal::UnbalancedMaterial => {
+                vessel.deposit(SpeciesId::new("NaCl"), Moles(0.25), Phase::Solid);
+                Ok(vec![])
             }
             Proposal::InvalidTemperature => {
                 vessel.temperature = Kelvin(-1.0);
@@ -300,10 +321,13 @@ fn transaction_fixture(proposal: Proposal) -> (Vessel, Rc<RefCell<Seen>>, Solver
     }
     vessel.step_start = Some(StepStart::capture(&vessel));
     let seen = Rc::new(RefCell::new(Seen::default()));
-    let stack = SolverStack::new(vec![
-        Box::new(Writer(proposal)),
-        Box::new(Observer(seen.clone())),
-    ]);
+    let solvers: Vec<Box<dyn Equilibrator>> =
+        vec![Box::new(Writer(proposal)), Box::new(Observer(seen.clone()))];
+    let stack = if matches!(proposal, Proposal::UnbalancedMaterial) {
+        SolverStack::with_required_conservation(solvers, 1e-10).unwrap()
+    } else {
+        SolverStack::new(solvers)
+    };
     (vessel, seen, stack)
 }
 fn assert_rejected_proposal_parity(proposal: Proposal) {
@@ -377,4 +401,9 @@ fn combined_successful_outward_gas_is_booked_before_later_route_like_native_stac
     );
     assert_eq!(actual.step_start.as_ref().unwrap().gas_out, expected);
     assert_eq!(actual.contents, native.contents);
+}
+
+#[test]
+fn combined_installed_routes_preserve_required_material_conservation_policy() {
+    assert_rejected_proposal_parity(Proposal::UnbalancedMaterial);
 }
