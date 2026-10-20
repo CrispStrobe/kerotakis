@@ -1,0 +1,33 @@
+{
+  "reviewed_utc": "2026-10-20T12:11:17.164845+00:00",
+  "source": "32c5c96b2685b08ddea048861006ec486357c7a8",
+  "tree": "6fa99b9e7f9c37d2b12774b123cb3e909ff61c17",
+  "review_type": "independent_static_source_only",
+  "merge_parents": [
+    "0d348142dda92f5d2ce7b0efe9fc480c6c6387ca",
+    "000ca5729b5f11c5c6c036b73b68c92bf84cdd70"
+  ],
+  "actual_merge_reconstruction_matches": true,
+  "phase_integration_is_ancestor": true,
+  "browser_workflow_head_is_ancestor": true,
+  "runtime_diff_vs_current_main_expected_six_files": true,
+  "phase_four_caller_fixes_preserved": true,
+  "phase_eight_test_bytes_unchanged": true,
+  "browser_twelve_and_borrowed_test_bytes_unchanged": true,
+  "mechanical_native_transaction_acceptance_preserved": true,
+  "borrowed_and_range_entries_preserve_required_policy": true,
+  "aqueous_constructor_cfg_matches_its_four_engine_callers": true,
+  "all_existing_19_ci_jobs_and_steps_preserved": true,
+  "separate_cache_only_clippy_and_host_tests_retained": true,
+  "all33_jobs_142_steps_29_laws_preserved": true,
+  "full_native_and_separate_cache_only_commands_reviewed": true,
+  "all55_required_declarations_exist_at_actual_combined_source": true,
+  "validation_limits": {
+    "builds": 0,
+    "engine_or_provider_jobs": 0,
+    "runtime_acceptance": false,
+    "full_source_or_platform_acceptance": false,
+    "parent_source_review_still_required": true,
+    "finalizer_not_run": true
+  }
+}
