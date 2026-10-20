@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-20T22:40:23.331708+00:00",
+  "worker_sha256": "15169f5ed028ce3e1408af0b164f371a4b0963af94ad1b086f72003a1ca37d9b",
+  "actual_plan_sha256": "2fa758b55bc949b74a370fd04489a6e41d709a128f91cf720bcc876527871fed",
+  "runtime_source": "1ca170cb15743d1a972e3fdfd7a290ef645a8c2c",
+  "version": 1,
+  "version_label": "v1",
+  "private_CPU_only": true,
+  "one_issue_only": true,
+  "scientific_or_energy_acceptance": false,
+  "private_original_issue_sha256": "1b1b6b405e5d9b5bbb1f860b93666b87c0e718b47f27803ffa7d443908914ce7"
+}

@@ -1,0 +1,7 @@
+{
+  "original_collector_sha256": "7f15bf9c1ec57bc0433f955cd06e056172320bb8efacbb0dd4c582a9a2d9d189",
+  "fixed_collector_sha256": "953cb8a802bf4f798562d9852caca402234e3c894ca4556e381603b7478433cd",
+  "only_SOURCE_constant_changes": true,
+  "same_version_v1": true,
+  "no_product_execution_by_collector": true
+}

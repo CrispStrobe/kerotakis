@@ -1,0 +1,10 @@
+{
+  "ISSUE.public-projection.json": "dfcd2ee5ae7105351ff0b9b0344745e27ed0839438781cd3a3a8ad483fb91d48",
+  "PARENT-ISSUE-REVIEW.json": "830062a160bfc1c8a4cb4fec6819431cb1fbae85b54d8ec0f7d9b52005e6614e",
+  "README.md": "597bd1a6af8a97811d126d134d69ff39a71a34cfb2432c7b67be2a08ea0a4572",
+  "collect_focus.py": "953cb8a802bf4f798562d9852caca402234e3c894ca4556e381603b7478433cd",
+  "collector-source-scope-review.json": "eb5c5929eb11d754d1b36efbce55279b8ea84edf8fbbad4ec60cec749f7b0b3f",
+  "input-projection.json": "4d00685f6352075e1b4bf06d096008718ced70d4a5792ffa9a7f20964b06355b",
+  "worker.body.py": "54a93cd8071cf89218fa46fe29585e93be75bf763dd72d8b999e3bd70bfa1a34",
+  "worker.py": "15169f5ed028ce3e1408af0b164f371a4b0963af94ad1b086f72003a1ca37d9b"
+}
