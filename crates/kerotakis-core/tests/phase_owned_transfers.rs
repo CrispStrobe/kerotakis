@@ -169,6 +169,11 @@ fn saturation_direct_and_delta_agree_on_owned_phases() {
     let mut direct = silica();
     let mut delta_state = direct.clone();
     let (delta, _) = MixingEquilibrator.equilibrate_delta(&delta_state).unwrap();
+    let errors = delta.validate(&delta_state);
+    assert!(
+        errors.is_empty(),
+        "invalid planned phase transfer: {errors:?}"
+    );
     delta.apply(&mut delta_state);
     MixingEquilibrator.equilibrate(&mut direct).unwrap();
     for phase in [Phase::Solid, Phase::Aqueous] {
