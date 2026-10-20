@@ -1,0 +1,1 @@
+{"error_type":"TypeError","error":"ZipFile object is not callable","stage":"Serializing first case original criterion mapping","cause":"Reader local archive variable shadowed Python built-in zip used to pair unchanged criteria with their outcomes.","correction":"Rename local archive handle only; no engine/source/protocol/forecast change and no physical outcome reassigned."}

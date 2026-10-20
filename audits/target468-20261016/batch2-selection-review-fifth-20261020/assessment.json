@@ -1,0 +1,4349 @@
+{
+  "schema": "kerotakis.batch2.fifth-saved-review.v1",
+  "cases": [
+    {
+      "id": "batch2:ec-005",
+      "proposed_candidate": true,
+      "original_forecast": "A salt-induced activity-coefficient change can shift the predicted cell voltage even with unchanged analytical copper and zinc amounts.",
+      "criteria": [
+        {
+          "id": "EC-005-C1",
+          "criterion": "Compare the voltage change with the actual solved free-ion activities.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "EC-005-C2",
+          "criterion": "Do not prescribe a shift direction without those activities.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "metrics": {
+        "states": [
+          {
+            "solved_activities": [
+              "0.003758",
+              "0.003879"
+            ],
+            "independent_signed_voltage_V": 1.104111556117784,
+            "actual_voltage_V": "1.104111556117784",
+            "T_K": [
+              "298.34278961462746",
+              "298.32528433646644"
+            ]
+          },
+          {
+            "solved_activities": [
+              "0.003758",
+              "0.002801"
+            ],
+            "independent_signed_voltage_V": 1.0999263336950182,
+            "actual_voltage_V": "1.0999263336950182",
+            "T_K": [
+              "298.34278961462746",
+              "298.32528436237976"
+            ]
+          }
+        ],
+        "input_NaNO3_mol": "0.02"
+      },
+      "limitations": [
+        "Actual activity/speciation and temperatures determine the shift. No prescribed sign from analytical concentration alone; slow Zn-water limit is unrelated to nonconsuming potential readback."
+      ],
+      "hold_or_gap": null,
+      "named_model_limits": {
+        "not-modeled.stays-as-the-metal": {
+          "first_observation_index": 2,
+          "first_operator": {
+            "moles": "0.001",
+            "op": "add",
+            "species": "Zn",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "rate-not-modelled",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+              "key": "not-modeled.stays-as-the-metal",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+          },
+          "occurrences": 1
+        }
+      },
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "e00ac97d1a0567d750ec7b782e6c11c1c636d93eeefcc322b6ebd745244c126c",
+      "stdout_sha256": "24fcb2a0afcf0cc2c504253a6168086b956d1ca1a7c0ad1b920793288a592d4e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ec-005/experiment.lab",
+        "batch2_ec-005/stdout.jsonl",
+        "batch2_ec-005/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "1.44560E-15",
+        "H": "4.0E-15",
+        "charge": "5.6599546810E-11",
+        "S": "8.3218410E-13",
+        "Zn": "3.2980E-16",
+        "Cu": "8.2961000E-13",
+        "Na": "8.3245360E-12",
+        "N": "8.3245360E-12"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "7.70E-18",
+            "S": "-2.0790E-16",
+            "charge": "-1.2325520E-15",
+            "O": "-9.7960E-16",
+            "H": "-1.9597520E-15"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "4.146030E-13",
+            "S": "4.159550E-13",
+            "charge": "3.3249371910E-12",
+            "O": "-5.720E-16",
+            "H": "-1.1428090E-15"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "4.146030E-13",
+            "S": "4.159550E-13",
+            "charge": "3.3249371910E-12",
+            "O": "-5.720E-16",
+            "H": "-1.1428090E-15"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "8.2961000E-13",
+            "Na": "8.3245360E-12",
+            "charge": "5.6599546810E-11",
+            "S": "8.3218410E-13",
+            "N": "8.3245360E-12",
+            "O": "-1.44560E-15",
+            "H": "-2.884990E-15"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "8.2961000E-13",
+            "Na": "8.3245360E-12",
+            "charge": "5.6599546810E-11",
+            "S": "8.3218410E-13",
+            "N": "8.3245360E-12",
+            "O": "-1.44560E-15",
+            "H": "-2.884990E-15"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "residuals": {
+            "S": "3.2980E-16",
+            "charge": "0E-20",
+            "O": "-6.8080E-16",
+            "Zn": "3.2980E-16",
+            "H": "-4.0E-15"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "8.2961000E-13",
+            "Na": "8.3245360E-12",
+            "charge": "5.6599546810E-11",
+            "S": "8.3218410E-13",
+            "N": "8.3245360E-12",
+            "O": "-1.44560E-15",
+            "H": "-2.884990E-15"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 19,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:ec-006",
+      "proposed_candidate": true,
+      "original_forecast": "Cumulative copper metal deposition cannot substantially exceed the 0.5 mmol zinc electron-donor budget; later copper additions increasingly remain dissolved.",
+      "criteria": [
+        {
+          "id": "EC-006-C1",
+          "criterion": "Sum zinc oxidation and copper reduction across all doses.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "EC-006-C2",
+          "criterion": "Residual Cu2+ after the final dose is not misreported as a lack of initial reaction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "metrics": {
+        "successive_Cu_doses": [
+          {
+            "Cu_metal_mol": "0.0002989357758859572",
+            "Zn_oxidation_mol": "0.0002989357758859572",
+            "remaining_Zn_metal_mol": "0.0002010642241140428",
+            "remaining_Cu2_mol": "0.0000010642241140162513"
+          },
+          {
+            "Cu_metal_mol": "0.0005",
+            "Zn_oxidation_mol": "0.0005",
+            "remaining_Zn_metal_mol": "0",
+            "remaining_Cu2_mol": "0.0000996055140134985"
+          },
+          {
+            "Cu_metal_mol": "0.0005",
+            "Zn_oxidation_mol": "0.0005",
+            "remaining_Zn_metal_mol": "0",
+            "remaining_Cu2_mol": "0.00039834888562853885"
+          }
+        ]
+      },
+      "limitations": [
+        "Finite donor exhaustion, not a complete kinetic or corrosion claim. Named initial Zn-water dissolution/rate limits do not negate later independently accounted Cu displacement."
+      ],
+      "hold_or_gap": null,
+      "named_model_limits": {
+        "not-modeled.stays-as-the-metal": {
+          "first_observation_index": 1,
+          "first_operator": {
+            "moles": "0.0005",
+            "op": "add",
+            "species": "Zn",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "rate-not-modelled",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model",
+              "key": "not-modeled.stays-as-the-metal",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself \u2014 hydrogen over hours, a passivating hydroxide skin \u2014 is a rate this lab does not model"
+          },
+          "occurrences": 1
+        },
+        "not-modeled.no-dissolution-solver": {
+          "first_observation_index": 1,
+          "first_operator": {
+            "moles": "0.0005",
+            "op": "add",
+            "species": "Zn",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "no-solver",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+              "key": "not-modeled.no-dissolution-solver",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc in contact with liquid: no wired solver models this dissolution/reaction"
+          },
+          "occurrences": 1
+        }
+      },
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "651dc54d576bd636cc684142e816b58096db8701e91aabe67cf7770807365c06",
+      "stdout_sha256": "348cf0fbd6d6f0c0ccb12ff9b7e69911dd4ac3ae57db84f0921be3f0c3de3d22",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ec-006/experiment.lab",
+        "batch2_ec-006/stdout.jsonl",
+        "batch2_ec-006/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "8.58200E-16",
+        "H": "1.71620570E-15",
+        "charge": "1.496824200050E-11",
+        "Zn": "9.680010E-13",
+        "Cu": "1.91112980E-13",
+        "S": "2.19947230E-12"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "Zn": "0.00000",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "-2.654870E-17",
+            "S": "-1.31437390E-12",
+            "charge": "-7.886295945202159E-12",
+            "O": "-5.04812197841E-16",
+            "Zn": "7.0E-20",
+            "H": "-1.009212197841E-15"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "-2.654870E-17",
+            "S": "-1.31437390E-12",
+            "charge": "-7.886295945202159E-12",
+            "O": "-5.04812197841E-16",
+            "Zn": "7.0E-20",
+            "H": "-1.009212197841E-15"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "1.91112980E-13",
+            "S": "-1.53569980E-13",
+            "charge": "1.39680827430E-12",
+            "O": "-8.58200E-16",
+            "Zn": "9.680010E-13",
+            "H": "-1.71620570E-15"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "1.91112980E-13",
+            "S": "-1.53569980E-13",
+            "charge": "1.39680827430E-12",
+            "O": "-8.58200E-16",
+            "Zn": "9.680010E-13",
+            "H": "-1.71620570E-15"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "-1.48532750E-13",
+            "S": "-2.19947230E-12",
+            "charge": "-1.496824200050E-11",
+            "O": "-3.1800E-16",
+            "Zn": "-7.3717170E-13",
+            "H": "-6.3530050E-16"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "-1.48532750E-13",
+            "S": "-2.19947230E-12",
+            "charge": "-1.496824200050E-11",
+            "O": "-3.1800E-16",
+            "Zn": "-7.3717170E-13",
+            "H": "-6.3530050E-16"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "-1.48532750E-13",
+            "S": "-2.19947230E-12",
+            "charge": "-1.496824200050E-11",
+            "O": "-3.1800E-16",
+            "Zn": "-7.3717170E-13",
+            "H": "-6.3530050E-16"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 9,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:ab-028",
+      "proposed_candidate": true,
+      "original_forecast": "The mixed acetate/phosphate sample should retain an additional buffering region after the acetate-only sample approaches exhaustion.",
+      "criteria": [
+        {
+          "id": "AB-028-C1",
+          "criterion": "Identify buffering intervals from incremental pH changes, not from an assumed common starting pH.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "AB-028-C2",
+          "criterion": "Account separately for all phosphate proton-equivalent steps and for acetate.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "metrics": {
+        "actual_pH": {
+          "0": [
+            "4.699729711513",
+            "5.828907139813",
+            "6.940289375397",
+            "9.28298270211"
+          ],
+          "1": [
+            "4.711745616978",
+            "5.178430711491",
+            "8.457491949526",
+            "11.61184275618"
+          ]
+        },
+        "equal_0_5mmol_step_delta_pH": {
+          "0": [
+            "1.129177428300",
+            "1.111382235584",
+            "2.342693326713"
+          ],
+          "1": [
+            "0.466685094513",
+            "3.279061238035",
+            "3.154350806654"
+          ]
+        },
+        "separate_pools": [
+          {
+            "vessel": 0,
+            "acetate_mol": "0.0010000000000000000",
+            "P_mol": "0.00099999999981911912380",
+            "phosphate_proton_inventory_mol": "0.0019979527193326438514",
+            "phosphate_species_mol": {
+              "H3PO4": "0.0000024861941211487138",
+              "H2PO4-": "0.0009929803312712273",
+              "HPO4-2": "0.00000453347442674311",
+              "PO4-3": "0"
+            },
+            "T_K": "298.5300119650559",
+            "actual_pH": "4.699729711513",
+            "actual_solved_phosphate_species": [
+              {
+                "activity": "0.00884",
+                "molality": "0.009952",
+                "name": "H2PO4-"
+              },
+              {
+                "activity": "0.00002811",
+                "molality": "0.00004544",
+                "name": "HPO4-2"
+              },
+              {
+                "activity": "0.00002492",
+                "molality": "0.00002492",
+                "name": "H3PO4"
+              },
+              {
+                "activity": "0.000004413",
+                "molality": "0.000004968",
+                "name": "NaHPO4-"
+              }
+            ]
+          },
+          {
+            "vessel": 1,
+            "acetate_mol": "0.0020000000000000003",
+            "P_mol": "0",
+            "phosphate_proton_inventory_mol": "0",
+            "phosphate_species_mol": {
+              "H3PO4": "0",
+              "H2PO4-": "0",
+              "HPO4-2": "0",
+              "PO4-3": "0"
+            },
+            "T_K": "298.3914134151065",
+            "actual_pH": "4.711745616978",
+            "actual_solved_phosphate_species": []
+          },
+          {
+            "vessel": 0,
+            "acetate_mol": "0.00099999999999999994",
+            "P_mol": "0.000999999999819119100046780",
+            "phosphate_proton_inventory_mol": "0.00193951665502409365466",
+            "phosphate_species_mol": {
+              "H3PO4": "1.7214657326517822E-7",
+              "H2PO4-": "0.0009391723976664891",
+              "HPO4-2": "0.00006065541997131992",
+              "PO4-3": "3.560804490182678E-11"
+            },
+            "T_K": "298.65031859817",
+            "actual_pH": "5.828907139813",
+            "actual_solved_phosphate_species": [
+              {
+                "activity": "0.008167",
+                "molality": "0.00934",
+                "name": "H2PO4-"
+              },
+              {
+                "activity": "0.0003498",
+                "molality": "0.0006032",
+                "name": "HPO4-2"
+              },
+              {
+                "activity": "0.00007176",
+                "molality": "0.00008206",
+                "name": "NaHPO4-"
+              },
+              {
+                "activity": "0.000001712",
+                "molality": "0.000001712",
+                "name": "H3PO4"
+              }
+            ]
+          },
+          {
+            "vessel": 1,
+            "acetate_mol": "0.0020000000000000002",
+            "P_mol": "0",
+            "phosphate_proton_inventory_mol": "0",
+            "phosphate_species_mol": {
+              "H3PO4": "0",
+              "H2PO4-": "0",
+              "HPO4-2": "0",
+              "PO4-3": "0"
+            },
+            "T_K": "298.5121380475226",
+            "actual_pH": "5.178430711491",
+            "actual_solved_phosphate_species": []
+          },
+          {
+            "vessel": 0,
+            "acetate_mol": "0.000999999999999999993",
+            "P_mol": "0.0009999999998191191077310",
+            "phosphate_proton_inventory_mol": "0.001530234408626519777274",
+            "phosphate_species_mol": {
+              "H3PO4": "7.388652079475758E-9",
+              "H2PO4-": "0.0005302235934206843",
+              "HPO4-2": "0.00046976505582891275",
+              "PO4-3": "3.961917442581973E-9"
+            },
+            "T_K": "298.76762330312465",
+            "actual_pH": "6.940289375397",
+            "actual_solved_phosphate_species": [
+              {
+                "activity": "0.004254",
+                "molality": "0.004958",
+                "name": "H2PO4-"
+              },
+              {
+                "activity": "0.002356",
+                "molality": "0.004392",
+                "name": "HPO4-2"
+              },
+              {
+                "activity": "0.0005797",
+                "molality": "0.0006756",
+                "name": "NaHPO4-"
+              },
+              {
+                "activity": "6.908E-8",
+                "molality": "6.908E-8",
+                "name": "H3PO4"
+              },
+              {
+                "activity": "8.768E-9",
+                "molality": "3.704E-8",
+                "name": "PO4-3"
+              }
+            ]
+          },
+          {
+            "vessel": 1,
+            "acetate_mol": "0.0020000000000000000379",
+            "P_mol": "0",
+            "phosphate_proton_inventory_mol": "0",
+            "phosphate_species_mol": {
+              "H3PO4": "0",
+              "H2PO4-": "0",
+              "HPO4-2": "0",
+              "PO4-3": "0"
+            },
+            "T_K": "298.6328337457029",
+            "actual_pH": "8.457491949526",
+            "actual_solved_phosphate_species": []
+          },
+          {
+            "vessel": 0,
+            "acetate_mol": "0.001000000000000000070876",
+            "P_mol": "0.0009999999995168742720",
+            "phosphate_proton_inventory_mol": "0.00100283242464681072",
+            "phosphate_species_mol": {
+              "H3PO4": "0",
+              "H2PO4-": "0.00000484435451457476",
+              "HPO4-2": "0.0009931437156176612",
+              "PO4-3": "0.000002011929384638312"
+            },
+            "T_K": "298.88359951031487",
+            "actual_pH": "9.28298270211",
+            "actual_solved_phosphate_species": [
+              {
+                "activity": "0.004283",
+                "molality": "0.008522",
+                "name": "HPO4-2"
+              },
+              {
+                "activity": "0.00122",
+                "molality": "0.001444",
+                "name": "NaHPO4-"
+              },
+              {
+                "activity": "0.00003511",
+                "molality": "0.00004157",
+                "name": "H2PO4-"
+              },
+              {
+                "activity": "0.000003517",
+                "molality": "0.00001726",
+                "name": "PO4-3"
+              }
+            ]
+          },
+          {
+            "vessel": 1,
+            "acetate_mol": "0.00200000000000000005621393",
+            "P_mol": "0",
+            "phosphate_proton_inventory_mol": "0",
+            "phosphate_species_mol": {
+              "H3PO4": "0",
+              "H2PO4-": "0",
+              "HPO4-2": "0",
+              "PO4-3": "0"
+            },
+            "T_K": "298.6862158728135",
+            "actual_pH": "11.61184275618",
+            "actual_solved_phosphate_species": []
+          }
+        ],
+        "independent_base_equivalent_allocation": [
+          {
+            "vessel": 0,
+            "acetate_deprotonation_mol": "0.0004977683823502276",
+            "phosphate_deprotonation_equiv_mol": "0.00100204728012471352",
+            "residual_base_minus_acid_mol": "1.8433842946356804E-7",
+            "reconstructed_formal_base_mol": "0.00150000000090440468804",
+            "actual_retained_sodium_mol": "0.0015"
+          },
+          {
+            "vessel": 1,
+            "acetate_deprotonation_mol": "0.0009994628649197639",
+            "phosphate_deprotonation_equiv_mol": "0",
+            "residual_base_minus_acid_mol": "5.371350802379007E-7",
+            "reconstructed_formal_base_mol": "0.0010000000000000018007",
+            "actual_retained_sodium_mol": "0.001"
+          },
+          {
+            "vessel": 0,
+            "acetate_deprotonation_mol": "0.0009313623729180068",
+            "phosphate_deprotonation_equiv_mol": "0.00106048334443326364548034",
+            "residual_base_minus_acid_mol": "0.000008154283553134765",
+            "reconstructed_formal_base_mol": "0.00200000000090440521048034",
+            "actual_retained_sodium_mol": "0.002"
+          },
+          {
+            "vessel": 1,
+            "acetate_deprotonation_mol": "0.001497845417465195",
+            "phosphate_deprotonation_equiv_mol": "0",
+            "residual_base_minus_acid_mol": "0.000002154582534807589",
+            "reconstructed_formal_base_mol": "0.001500000000000002589",
+            "actual_retained_sodium_mol": "0.0014999999999999998"
+          },
+          {
+            "vessel": 0,
+            "acetate_deprotonation_mol": "0.0009944421041785752",
+            "phosphate_deprotonation_equiv_mol": "0.001469765590830837545919",
+            "residual_base_minus_acid_mol": "0.000035792305894994",
+            "reconstructed_formal_base_mol": "0.002500000000904406745919",
+            "actual_retained_sodium_mol": "0.0025"
+          },
+          {
+            "vessel": 1,
+            "acetate_deprotonation_mol": "0.001999652817085596",
+            "phosphate_deprotonation_equiv_mol": "0",
+            "residual_base_minus_acid_mol": "3.4718291440707927E-7",
+            "reconstructed_formal_base_mol": "0.00200000000000000307927",
+            "actual_retained_sodium_mol": "0.002"
+          },
+          {
+            "vessel": 0,
+            "acetate_deprotonation_mol": "0.0009999750306747502",
+            "phosphate_deprotonation_equiv_mol": "0.001997167573903812096",
+            "residual_base_minus_acid_mol": "0.0000028573978370707853",
+            "reconstructed_formal_base_mol": "0.0030000000024156330813",
+            "actual_retained_sodium_mol": "0.003"
+          },
+          {
+            "vessel": 1,
+            "acetate_deprotonation_mol": "0.001999999759766376",
+            "phosphate_deprotonation_equiv_mol": "0",
+            "residual_base_minus_acid_mol": "0.0005000002402336277",
+            "reconstructed_formal_base_mol": "0.0025000000000000037",
+            "actual_retained_sodium_mol": "0.0025"
+          }
+        ]
+      },
+      "limitations": [
+        "Compare incremental pH spans against each own starting pH and actual temperatures; separate phosphate proton equivalents and acetate, without assuming equal total formal buffer capacities."
+      ],
+      "hold_or_gap": null,
+      "named_model_limits": {},
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "a30a3f450155a364b136780aaa690ac31d367928391040b817331ba60c556b60",
+      "stdout_sha256": "71908755fe270205a86c2c6b80ecadf858d62aed88830fc0e73351948512fdea",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ab-028/experiment.lab",
+        "batch2_ab-028/stdout.jsonl",
+        "batch2_ab-028/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "2.4319849480E-15",
+        "H": "4.8684111960E-15",
+        "charge": "2.4156330813000E-12",
+        "C": "6.0E-19",
+        "P": "4.831257280E-13",
+        "Na": "2.0E-19"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "C": "1.40E-19",
+            "O": "1.40E-19",
+            "H": "5.90E-19",
+            "charge": "3.10E-19"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "charge": "-5.0230E-18",
+            "P": "-9.850E-19",
+            "C": "-2.140E-19",
+            "O": "-1.0041540E-15",
+            "H": "-2.0084060E-15"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.0440468804E-13",
+            "P": "-1.8088087620E-13",
+            "C": "0E-20",
+            "O": "-1.05993676E-15",
+            "H": "-2.12018056E-15"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.0440468804E-13",
+            "P": "-1.8088087620E-13",
+            "C": "0E-20",
+            "O": "-1.05993676E-15",
+            "H": "-2.12018056E-15"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.0440468804E-13",
+            "P": "-1.8088087620E-13",
+            "C": "0E-20",
+            "O": "-1.05993676E-15",
+            "H": "-2.12018056E-15"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.0440468804E-13",
+            "P": "-1.8088087620E-13",
+            "C": "0E-20",
+            "O": "-1.05993676E-15",
+            "H": "-2.12018056E-15"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "residuals": {
+            "C": "3.320E-19",
+            "O": "3.320E-19",
+            "H": "5.380E-19",
+            "charge": "-1.260E-19"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.0440468804E-13",
+            "P": "-1.8088087620E-13",
+            "C": "0E-20",
+            "O": "-1.05993676E-15",
+            "H": "-2.12018056E-15"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.0000",
+            "charge": "-1.8007E-18",
+            "C": "6.0E-19",
+            "O": "2.385007E-16",
+            "H": "4.752007E-16"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.0440468804E-13",
+            "P": "-1.8088087620E-13",
+            "C": "0E-20",
+            "O": "-1.05993676E-15",
+            "H": "-2.12018056E-15"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.0000",
+            "charge": "-1.8007E-18",
+            "C": "6.0E-19",
+            "O": "2.385007E-16",
+            "H": "4.752007E-16"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.0440468804E-13",
+            "P": "-1.8088087620E-13",
+            "C": "0E-20",
+            "O": "-1.05993676E-15",
+            "H": "-2.12018056E-15"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.0000",
+            "charge": "-1.8007E-18",
+            "C": "6.0E-19",
+            "O": "2.385007E-16",
+            "H": "4.752007E-16"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.04405210480340E-13",
+            "P": "-1.80880899953220E-13",
+            "C": "-1.20E-19",
+            "O": "-1.388954812880E-15",
+            "H": "-2.778620340E-15"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.0000",
+            "charge": "-1.8007E-18",
+            "C": "6.0E-19",
+            "O": "2.385007E-16",
+            "H": "4.752007E-16"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.04405210480340E-13",
+            "P": "-1.80880899953220E-13",
+            "C": "-1.20E-19",
+            "O": "-1.388954812880E-15",
+            "H": "-2.778620340E-15"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "residuals": {
+            "Na": "-2.0E-19",
+            "charge": "-2.789E-18",
+            "C": "4.0E-19",
+            "O": "-1.92011E-16",
+            "H": "-3.86611E-16"
+          }
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.04405210480340E-13",
+            "P": "-1.80880899953220E-13",
+            "C": "-1.20E-19",
+            "O": "-1.388954812880E-15",
+            "H": "-2.778620340E-15"
+          }
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "residuals": {
+            "Na": "-2.0E-19",
+            "charge": "-2.789E-18",
+            "C": "4.0E-19",
+            "O": "-1.92011E-16",
+            "H": "-3.86611E-16"
+          }
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.04405210480340E-13",
+            "P": "-1.80880899953220E-13",
+            "C": "-1.20E-19",
+            "O": "-1.388954812880E-15",
+            "H": "-2.778620340E-15"
+          }
+        },
+        {
+          "row": 13,
+          "vessel": 1,
+          "residuals": {
+            "Na": "-2.0E-19",
+            "charge": "-2.789E-18",
+            "C": "4.0E-19",
+            "O": "-1.92011E-16",
+            "H": "-3.86611E-16"
+          }
+        },
+        {
+          "row": 14,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.044067459190E-13",
+            "P": "-1.808808922690E-13",
+            "C": "-1.40E-20",
+            "O": "-1.5295830760E-15",
+            "H": "-3.0614507260E-15"
+          }
+        },
+        {
+          "row": 14,
+          "vessel": 1,
+          "residuals": {
+            "Na": "-2.0E-19",
+            "charge": "-2.789E-18",
+            "C": "4.0E-19",
+            "O": "-1.92011E-16",
+            "H": "-3.86611E-16"
+          }
+        },
+        {
+          "row": 15,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.044067459190E-13",
+            "P": "-1.808808922690E-13",
+            "C": "-1.40E-20",
+            "O": "-1.5295830760E-15",
+            "H": "-3.0614507260E-15"
+          }
+        },
+        {
+          "row": 15,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-3.07927E-18",
+            "C": "7.580E-20",
+            "O": "-5.9284493E-16",
+            "H": "-1.18876913E-15"
+          }
+        },
+        {
+          "row": 16,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.044067459190E-13",
+            "P": "-1.808808922690E-13",
+            "C": "-1.40E-20",
+            "O": "-1.5295830760E-15",
+            "H": "-3.0614507260E-15"
+          }
+        },
+        {
+          "row": 16,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-3.07927E-18",
+            "C": "7.580E-20",
+            "O": "-5.9284493E-16",
+            "H": "-1.18876913E-15"
+          }
+        },
+        {
+          "row": 17,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.044067459190E-13",
+            "P": "-1.808808922690E-13",
+            "C": "-1.40E-20",
+            "O": "-1.5295830760E-15",
+            "H": "-3.0614507260E-15"
+          }
+        },
+        {
+          "row": 17,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-3.07927E-18",
+            "C": "7.580E-20",
+            "O": "-5.9284493E-16",
+            "H": "-1.18876913E-15"
+          }
+        },
+        {
+          "row": 18,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-2.4156330813000E-12",
+            "P": "-4.831257280E-13",
+            "C": "1.417520E-19",
+            "O": "-2.4319849480E-15",
+            "H": "-4.8684111960E-15"
+          }
+        },
+        {
+          "row": 18,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-3.07927E-18",
+            "C": "7.580E-20",
+            "O": "-5.9284493E-16",
+            "H": "-1.18876913E-15"
+          }
+        },
+        {
+          "row": 19,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-2.4156330813000E-12",
+            "P": "-4.831257280E-13",
+            "C": "1.417520E-19",
+            "O": "-2.4319849480E-15",
+            "H": "-4.8684111960E-15"
+          }
+        },
+        {
+          "row": 19,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-3.700000000E-18",
+            "C": "1.12427860E-19",
+            "O": "-3.72187572140E-16",
+            "H": "-7.48075144280E-16"
+          }
+        },
+        {
+          "row": 20,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-2.4156330813000E-12",
+            "P": "-4.831257280E-13",
+            "C": "1.417520E-19",
+            "O": "-2.4319849480E-15",
+            "H": "-4.8684111960E-15"
+          }
+        },
+        {
+          "row": 20,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-3.700000000E-18",
+            "C": "1.12427860E-19",
+            "O": "-3.72187572140E-16",
+            "H": "-7.48075144280E-16"
+          }
+        },
+        {
+          "row": 21,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-2.4156330813000E-12",
+            "P": "-4.831257280E-13",
+            "C": "1.417520E-19",
+            "O": "-2.4319849480E-15",
+            "H": "-4.8684111960E-15"
+          }
+        },
+        {
+          "row": 21,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-3.700000000E-18",
+            "C": "1.12427860E-19",
+            "O": "-3.72187572140E-16",
+            "H": "-7.48075144280E-16"
+          }
+        },
+        {
+          "row": 22,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-2.4156330813000E-12",
+            "P": "-4.831257280E-13",
+            "C": "1.417520E-19",
+            "O": "-2.4319849480E-15",
+            "H": "-4.8684111960E-15"
+          }
+        },
+        {
+          "row": 22,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-3.700000000E-18",
+            "C": "1.12427860E-19",
+            "O": "-3.72187572140E-16",
+            "H": "-7.48075144280E-16"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 42,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:pq-009",
+      "proposed_candidate": false,
+      "original_forecast": "Sulfate should strongly compete for barium. Only after sufficient barium is available can substantial carbonate precipitation coexist; neither anion may consume the same barium twice.",
+      "criteria": [
+        {
+          "id": "PQ-009-C1",
+          "criterion": "Sum barium in every solid and aqueous species against its input.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "PQ-009-C2",
+          "criterion": "Compare phase allocation in the barium-deficient and barium-excess-to-sulfate arms.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        }
+      ],
+      "metrics": {
+        "arms": [
+          {
+            "vessel": 0,
+            "Ba_total_mol": "0.000399999999201197130150",
+            "BaSO4_solid_mol": "0.0003999381822869",
+            "Ba_aqueous_mol": "6.181691429713015E-8",
+            "all_solid_portions": [
+              {
+                "moles": "0.0003999381822869",
+                "phase": "solid",
+                "species": "BaSO4"
+              }
+            ]
+          },
+          {
+            "vessel": 1,
+            "Ba_total_mol": "0.000799999998402364670",
+            "BaSO4_solid_mol": "0.0004999760638462",
+            "Ba_aqueous_mol": "0.00030002393455616467",
+            "all_solid_portions": [
+              {
+                "moles": "0.0004999760638462",
+                "phase": "solid",
+                "species": "BaSO4"
+              }
+            ]
+          }
+        ]
+      },
+      "limitations": [
+        "Sulfate allocation is real, but missing Witherite/BaCO3 excludes the competing carbonate phase required by the original question. Barium closure does not make unsupported carbonate chemistry pass."
+      ],
+      "hold_or_gap": "missing-barium-carbonate-phase",
+      "named_model_limits": {
+        "not-modeled.supersaturated-no-registry-solid": {
+          "first_observation_index": 8,
+          "first_operator": {
+            "moles": "0.0008",
+            "op": "add",
+            "species": "BaCl2",
+            "vessel": 1
+          },
+          "event": {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Witherite (SI +2.8)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the solution is supersaturated against Witherite (SI +2.8). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          "occurrences": 1
+        }
+      },
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "697aaa58f3efd1a6b0b641b51c20fe3c0a8a99c94c277ae5a4affb0d4fc039c2",
+      "stdout_sha256": "edb18ee4297f2da535936aa6ac9552f238003c31754ffea1a4da5c0ff79a83b0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_pq-009/experiment.lab",
+        "batch2_pq-009/stdout.jsonl",
+        "batch2_pq-009/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "8.1660573300E-16",
+        "H": "1.42000E-15",
+        "charge": "1.397812058500000E-11",
+        "Na": "3.99355460E-12",
+        "S": "9.9850597250E-13",
+        "C": "9.9848843019370E-13",
+        "Cl": "3.19508430E-12",
+        "Ba": "1.597635330E-12"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "Na": "3.4520E-16",
+            "charge": "3.9880E-16",
+            "S": "-2.680E-17",
+            "O": "-1.0720E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "Na": "5.110E-16",
+            "charge": "5.0640000000E-16",
+            "S": "-2.180E-17",
+            "C": "-2.175286650E-17",
+            "O": "-8.1660573300E-16",
+            "H": "-1.42000E-15"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "-1.59762120E-12",
+            "Na": "-3.99355460E-12",
+            "S": "-9.98435210E-13",
+            "Ba": "-7.98802869850E-13",
+            "C": "-9.9848843019370E-13",
+            "O": "-4.6152038740E-16",
+            "H": "-7.08020E-16",
+            "charge": "-1.397788909970000E-11"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "-1.59762120E-12",
+            "Na": "-3.99355460E-12",
+            "S": "-9.98435210E-13",
+            "Ba": "-7.98802869850E-13",
+            "C": "-9.9848843019370E-13",
+            "O": "-4.6152038740E-16",
+            "H": "-7.08020E-16",
+            "charge": "-1.397788909970000E-11"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "-1.59762120E-12",
+            "Na": "-3.99355460E-12",
+            "S": "-9.98435210E-13",
+            "Ba": "-7.98802869850E-13",
+            "C": "-9.9848843019370E-13",
+            "O": "-4.6152038740E-16",
+            "H": "-7.08020E-16",
+            "charge": "-1.397788909970000E-11"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "-1.59762120E-12",
+            "Na": "-3.99355460E-12",
+            "S": "-9.98435210E-13",
+            "Ba": "-7.98802869850E-13",
+            "C": "-9.9848843019370E-13",
+            "O": "-4.6152038740E-16",
+            "H": "-7.08020E-16",
+            "charge": "-1.397788909970000E-11"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "residuals": {
+            "Na": "3.4520E-16",
+            "charge": "3.9880E-16",
+            "S": "-2.680E-17",
+            "O": "-1.0720E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "-1.59762120E-12",
+            "Na": "-3.99355460E-12",
+            "S": "-9.98435210E-13",
+            "Ba": "-7.98802869850E-13",
+            "C": "-9.9848843019370E-13",
+            "O": "-4.6152038740E-16",
+            "H": "-7.08020E-16",
+            "charge": "-1.397788909970000E-11"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "residuals": {
+            "Na": "5.110E-16",
+            "charge": "5.0640000000E-16",
+            "S": "-2.180E-17",
+            "C": "-2.175286650E-17",
+            "O": "-8.1660573300E-16",
+            "H": "-1.42000E-15"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "-1.59762120E-12",
+            "Na": "-3.99355460E-12",
+            "S": "-9.98435210E-13",
+            "Ba": "-7.98802869850E-13",
+            "C": "-9.9848843019370E-13",
+            "O": "-4.6152038740E-16",
+            "H": "-7.08020E-16",
+            "charge": "-1.397788909970000E-11"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "-3.19508430E-12",
+            "Na": "-3.9933570E-12",
+            "S": "-9.9850597250E-13",
+            "Ba": "-1.597635330E-12",
+            "C": "-9.9843890968750E-13",
+            "O": "2.4672062500E-16",
+            "H": "7.07690E-16",
+            "charge": "-1.397812058500000E-11"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "-1.59762120E-12",
+            "Na": "-3.99355460E-12",
+            "S": "-9.98435210E-13",
+            "Ba": "-7.98802869850E-13",
+            "C": "-9.9848843019370E-13",
+            "O": "-4.6152038740E-16",
+            "H": "-7.08020E-16",
+            "charge": "-1.397788909970000E-11"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "-3.19508430E-12",
+            "Na": "-3.9933570E-12",
+            "S": "-9.9850597250E-13",
+            "Ba": "-1.597635330E-12",
+            "C": "-9.9843890968750E-13",
+            "O": "2.4672062500E-16",
+            "H": "7.07690E-16",
+            "charge": "-1.397812058500000E-11"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 16,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:pq-011",
+      "proposed_candidate": true,
+      "original_forecast": "The acetate-buffered arm spends hydroxide on its acid reserve, delaying extensive copper hydroxide precipitation compared with the unbuffered arm.",
+      "criteria": [
+        {
+          "id": "PQ-011-C1",
+          "criterion": "Separate base spent on acetate protonation from the formal 2 OH per Cu precipitation budget.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "PQ-011-C2",
+          "criterion": "Later base addition should change pH and phase allocation, not create extra copper.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "metrics": {
+        "independent_base_allocation": [
+          {
+            "vessel": 0,
+            "added_base_mol": "0.0004",
+            "acetate_acid_deprotonated_mol": "0",
+            "solid_hydroxyl_equivalent_changes_mol": {
+              "Cu(OH)2": "0.0003975604013372",
+              "brochantite": "-4.2900859192734E-7",
+              "antlerite": "0"
+            },
+            "residual_base_minus_acid_coordinate_change_mol": "0.0000028686048946415920",
+            "reconstructed_base_mol": "0.0003999999976399142520",
+            "allocation_residual_mol": "-2.3600857480E-12"
+          },
+          {
+            "vessel": 1,
+            "added_base_mol": "0.0004",
+            "acetate_acid_deprotonated_mol": "0.00031967001621581222",
+            "solid_hydroxyl_equivalent_changes_mol": {
+              "Cu(OH)2": "0",
+              "brochantite": "0.00009831119991570",
+              "antlerite": "0"
+            },
+            "residual_base_minus_acid_coordinate_change_mol": "-0.000017981218988660785",
+            "reconstructed_base_mol": "0.000399999997142851435",
+            "allocation_residual_mol": "-2.857148565E-12"
+          },
+          {
+            "vessel": 1,
+            "added_base_mol": "0.0006",
+            "acetate_acid_deprotonated_mol": "0.0002117259746576019311872",
+            "solid_hydroxyl_equivalent_changes_mol": {
+              "Cu(OH)2": "0.0003999817861710",
+              "brochantite": "-0.00009831119991570",
+              "antlerite": "0"
+            },
+            "residual_base_minus_acid_coordinate_change_mol": "0.00008660343279790492",
+            "reconstructed_base_mol": "0.0005999999937108068511872",
+            "allocation_residual_mol": "-6.2891931488128E-12"
+          }
+        ],
+        "after_equal_0_4mmol_base_pulses": [
+          {
+            "vessel": 0,
+            "pH": "8.182172260931",
+            "acid_acetate_mol": "0",
+            "acetate_anion_mol": "0",
+            "CuOH2_solid_mol": "0.0001987802006686",
+            "other_solids": [
+              {
+                "moles": "7.788512571711E-8",
+                "phase": "solid",
+                "species": "brochantite"
+              }
+            ],
+            "total_Cu_mol": "0.00020000000029444978210"
+          },
+          {
+            "vessel": 1,
+            "pH": "5.27743030142",
+            "acid_acetate_mol": "0.00021172656189614078",
+            "acetate_anion_mol": "0.0007882734392036432",
+            "CuOH2_solid_mol": "0",
+            "other_solids": [
+              {
+                "moles": "0.00001638519998595",
+                "phase": "solid",
+                "species": "brochantite"
+              }
+            ],
+            "total_Cu_mol": "0.000200000000219900660"
+          }
+        ],
+        "later_buffered_pH": "10.93226905308",
+        "later_buffered_CuOH2_mol": "0.0001999908930855",
+        "later_buffered_Cu_total_mol": "0.0002000000005624559592450"
+      },
+      "limitations": [
+        "Metastable supported hydroxide/basic-sulfate domain only. Explicit Tenorite formation-temperature exclusion is retained, not a claim of full oxide nucleation/phase equilibrium. Acid/acetate and all other Cu solids stay accounted."
+      ],
+      "hold_or_gap": null,
+      "named_model_limits": {
+        "not-modeled.supersaturated-below-formation-temperature": {
+          "first_observation_index": 7,
+          "first_operator": {
+            "moles": "0.0004",
+            "op": "add",
+            "species": "NaOH",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+              "key": "not-modeled.supersaturated-below-formation-temperature",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Tenorite (SI +1.0)"
+                    }
+                  }
+                ],
+                [
+                  "temperature",
+                  {
+                    "number": {
+                      "text": "25"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Tenorite (SI +1.0), deliberately withheld below the registry's formation-temperature threshold at 25 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+          },
+          "occurrences": 2
+        }
+      },
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "85c833f9e3b4fe18a41e89fd77b7752f1b162c3e7132159b4a5d52e28299e40d",
+      "stdout_sha256": "018b98c7cf330a1473671f75f103bed27bf09feb7a9c91e913d1c8119404273b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_pq-011/experiment.lab",
+        "batch2_pq-011/stdout.jsonl",
+        "batch2_pq-011/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "1.238185E-15",
+        "H": "2.476515E-15",
+        "charge": "1.005721004849000E-11",
+        "Cu": "5.624559592450E-13",
+        "S": "6.87448130E-13",
+        "C": "7.29427809762560E-12",
+        "Na": "4.8076090E-12"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "6.2830E-17",
+            "S": "-6.40E-19",
+            "charge": "1.2176440E-16",
+            "O": "-7.72560E-16",
+            "H": "-1.54517560E-15"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "6.2830E-17",
+            "S": "-6.40E-19",
+            "charge": "1.2176440E-16",
+            "O": "-7.72560E-16",
+            "H": "-1.54517560E-15"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "6.2830E-17",
+            "S": "-6.40E-19",
+            "charge": "1.2176440E-16",
+            "O": "-7.72560E-16",
+            "H": "-1.54517560E-15"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "6.2830E-17",
+            "S": "-6.40E-19",
+            "charge": "1.2176440E-16",
+            "O": "-7.72560E-16",
+            "H": "-1.54517560E-15"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "residuals": {
+            "C": "1.40E-19",
+            "O": "1.40E-19",
+            "H": "5.90E-19",
+            "charge": "3.10E-19"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "6.2830E-17",
+            "S": "-6.40E-19",
+            "charge": "1.2176440E-16",
+            "O": "-7.72560E-16",
+            "H": "-1.54517560E-15"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "6.6040E-19",
+            "C": "-2.0E-19",
+            "O": "-5.0020E-16",
+            "H": "-9.9973960E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "6.2830E-17",
+            "S": "-6.40E-19",
+            "charge": "1.2176440E-16",
+            "O": "-7.72560E-16",
+            "H": "-1.54517560E-15"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "-5.1870E-17",
+            "Na": "0.00000",
+            "charge": "1.83215E-16",
+            "S": "4.7850E-17",
+            "C": "1.40E-19",
+            "O": "-1.238185E-15",
+            "H": "-2.476515E-15"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "2.9444978210E-13",
+            "Na": "5.90588040E-13",
+            "charge": "2.94954801660E-12",
+            "S": "2.95010080E-13",
+            "O": "-4.02524E-17",
+            "H": "-8.05724E-17"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "-5.1870E-17",
+            "Na": "0.00000",
+            "charge": "1.83215E-16",
+            "S": "4.7850E-17",
+            "C": "1.40E-19",
+            "O": "-1.238185E-15",
+            "H": "-2.476515E-15"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "2.9444978210E-13",
+            "Na": "5.90588040E-13",
+            "charge": "2.94954801660E-12",
+            "S": "2.95010080E-13",
+            "O": "-4.02524E-17",
+            "H": "-8.05724E-17"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "2.19900660E-13",
+            "Na": "9.8701380E-13",
+            "charge": "2.745125570E-12",
+            "S": "2.19718430E-13",
+            "C": "2.199567960E-12",
+            "O": "-9.48830E-16",
+            "H": "-1.897790E-15"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "2.9444978210E-13",
+            "Na": "5.90588040E-13",
+            "charge": "2.94954801660E-12",
+            "S": "2.95010080E-13",
+            "O": "-4.02524E-17",
+            "H": "-8.05724E-17"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "2.19900660E-13",
+            "Na": "9.8701380E-13",
+            "charge": "2.745125570E-12",
+            "S": "2.19718430E-13",
+            "C": "2.199567960E-12",
+            "O": "-9.48830E-16",
+            "H": "-1.897790E-15"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "2.9444978210E-13",
+            "Na": "5.90588040E-13",
+            "charge": "2.94954801660E-12",
+            "S": "2.95010080E-13",
+            "O": "-4.02524E-17",
+            "H": "-8.05724E-17"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "2.19900660E-13",
+            "Na": "9.8701380E-13",
+            "charge": "2.745125570E-12",
+            "S": "2.19718430E-13",
+            "C": "2.199567960E-12",
+            "O": "-9.48830E-16",
+            "H": "-1.897790E-15"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "2.9444978210E-13",
+            "Na": "5.90588040E-13",
+            "charge": "2.94954801660E-12",
+            "S": "2.95010080E-13",
+            "O": "-4.02524E-17",
+            "H": "-8.05724E-17"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "2.19900660E-13",
+            "Na": "9.8701380E-13",
+            "charge": "2.745125570E-12",
+            "S": "2.19718430E-13",
+            "C": "2.199567960E-12",
+            "O": "-9.48830E-16",
+            "H": "-1.897790E-15"
+          }
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "residuals": {
+            "Cu": "2.9444978210E-13",
+            "Na": "5.90588040E-13",
+            "charge": "2.94954801660E-12",
+            "S": "2.95010080E-13",
+            "O": "-4.02524E-17",
+            "H": "-8.05724E-17"
+          }
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "residuals": {
+            "Cu": "5.624559592450E-13",
+            "Na": "4.8076090E-12",
+            "charge": "1.005721004849000E-11",
+            "S": "6.87448130E-13",
+            "C": "7.29427809762560E-12",
+            "O": "-6.1497237440E-16",
+            "H": "-1.22959474880E-15"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 24,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:pq-012",
+      "proposed_candidate": true,
+      "original_forecast": "A calcium-phosphate-bearing solid may capture phosphorus from solution; acidification of the isolated solid should favour dissolved phosphate species.",
+      "criteria": [
+        {
+          "id": "PQ-012-C1",
+          "criterion": "Identify the actual calcium phosphate phase and track total phosphorus through filtration.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "PQ-012-C2",
+          "criterion": "Dissolution must release phosphorus from the retained solid, not merely change liquid pH.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "metrics": {
+        "actual_captured_phase": "octacalcium_phosphate",
+        "phase_composition": {
+          "Ca": "4.0",
+          "H": "7.0",
+          "O": "15.0",
+          "P": "3.0",
+          "charge": "0.0"
+        },
+        "captured_phase_mol": "0.00009943089986863",
+        "solid_P_before_filter_mol": "0.000298292699605890",
+        "solid_P_after_filter_mol": "0.000298292699605890",
+        "final_acidified_P_mol": "0.00029829269963325968451970",
+        "final_filtrate_P_mol": "0.00000170730169131695577650",
+        "final_species": [
+          {
+            "moles": "0.0003977235995129741",
+            "phase": "aqueous",
+            "species": "Ca+2"
+          },
+          {
+            "moles": "0.0015",
+            "phase": "aqueous",
+            "species": "Cl-"
+          },
+          {
+            "moles": "0.00014338440191813764",
+            "phase": "aqueous",
+            "species": "H3PO4"
+          },
+          {
+            "moles": "0.00015490633170803334",
+            "phase": "aqueous",
+            "species": "H2PO4-"
+          },
+          {
+            "moles": "1.9660070887045197E-9",
+            "phase": "aqueous",
+            "species": "HPO4-2"
+          },
+          {
+            "moles": "5.534575284095555",
+            "phase": "liquid",
+            "species": "water"
+          },
+          {
+            "moles": "0.0008594630649100192",
+            "phase": "aqueous",
+            "species": "H+"
+          }
+        ]
+      },
+      "limitations": [
+        "Actual octacalcium-phosphate capture and acid remobilisation only. Withheld Hydroxylapatite/beta-Ca3(PO4)2 metastability remains explicit; no automatic crystalline-equilibrium/nucleation claim."
+      ],
+      "hold_or_gap": null,
+      "named_model_limits": {
+        "not-modeled.supersaturated-below-formation-temperature": {
+          "first_observation_index": 3,
+          "first_operator": {
+            "moles": "0.0006",
+            "op": "add",
+            "species": "CaCl2",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+              "key": "not-modeled.supersaturated-below-formation-temperature",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Hydroxylapatite (SI +11.8), Ca3(PO4)2(beta) (SI +2.4)"
+                    }
+                  }
+                ],
+                [
+                  "temperature",
+                  {
+                    "number": {
+                      "text": "25"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Hydroxylapatite (SI +11.8), Ca3(PO4)2(beta) (SI +2.4), deliberately withheld below the registry's formation-temperature threshold at 25 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+          },
+          "occurrences": 3
+        }
+      },
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "0fc34355745a58c763fc7305c09425e13494bb6de6ce01f9eaccdefee87d65b3",
+      "stdout_sha256": "dfa325024f2cdfa00d88d7d039f87ee0122af6a108198169dfc9904ccc16b655",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_pq-012/experiment.lab",
+        "batch2_pq-012/stdout.jsonl",
+        "batch2_pq-012/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "8.5119284920E-16",
+        "H": "1.70252976030E-15",
+        "charge": "1.023773067737660E-11",
+        "P": "1.33224756028770E-12",
+        "Na": "3.50028470E-12",
+        "Cl": "5.25102520E-12",
+        "Ca": "2.663616760E-12"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "P": "-2.0148360E-18",
+            "O": "-8.0593440E-18",
+            "H": "-1.60548360E-17",
+            "charge": "-1.00103280E-17"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "Na": "0.00000",
+            "charge": "-9.65430540E-17",
+            "P": "-1.92689460E-17",
+            "O": "-2.567057840E-16",
+            "H": "-5.136098920E-16"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "5.25102520E-12",
+            "Ca": "2.625162660E-12",
+            "Na": "3.50028470E-12",
+            "charge": "1.00239740264160E-11",
+            "P": "1.3048778757680E-12",
+            "O": "-4.399309280E-16",
+            "H": "-8.80034280E-16"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "5.25102520E-12",
+            "Ca": "2.625162660E-12",
+            "Na": "3.50028470E-12",
+            "charge": "1.00239740264160E-11",
+            "P": "1.3048778757680E-12",
+            "O": "-4.399309280E-16",
+            "H": "-8.80034280E-16"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "5.25102520E-12",
+            "Ca": "2.625162660E-12",
+            "Na": "3.50028470E-12",
+            "charge": "1.00239740264160E-11",
+            "P": "1.3048778757680E-12",
+            "O": "-4.399309280E-16",
+            "H": "-8.80034280E-16"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "5.25102520E-12",
+            "Ca": "2.625162660E-12",
+            "Na": "3.50028470E-12",
+            "charge": "1.00239740264160E-11",
+            "P": "1.3048778757680E-12",
+            "O": "-4.399309280E-16",
+            "H": "-8.80034280E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "0E-20",
+            "Ca": "0E-21",
+            "Na": "0E-20",
+            "charge": "-3.835460134550E-14",
+            "P": "-7.67091999150E-15",
+            "O": "-4.5689966600E-16",
+            "H": "-9.13800720E-16"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "5.25102520E-12",
+            "Ca": "2.6251801060E-12",
+            "Na": "3.50028470E-12",
+            "charge": "1.00171091358900E-11",
+            "P": "1.3034979299740E-12",
+            "O": "-5.355771040E-16",
+            "H": "-1.0713801880E-15"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "0E-20",
+            "Ca": "0E-21",
+            "Na": "0E-20",
+            "charge": "-3.835460134550E-14",
+            "P": "-7.67091999150E-15",
+            "O": "-4.5689966600E-16",
+            "H": "-9.13800720E-16"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "5.25102520E-12",
+            "Ca": "2.663616760E-12",
+            "Na": "3.50028470E-12",
+            "charge": "1.023773067737660E-11",
+            "P": "1.33224756028770E-12",
+            "O": "-8.5119284920E-16",
+            "H": "-1.70252976030E-15"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "0E-20",
+            "Ca": "0E-21",
+            "Na": "0E-20",
+            "charge": "-3.835460134550E-14",
+            "P": "-7.67091999150E-15",
+            "O": "-4.5689966600E-16",
+            "H": "-9.13800720E-16"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "5.25102520E-12",
+            "Ca": "2.663616760E-12",
+            "Na": "3.50028470E-12",
+            "charge": "1.023773067737660E-11",
+            "P": "1.33224756028770E-12",
+            "O": "-8.5119284920E-16",
+            "H": "-1.70252976030E-15"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "0E-20",
+            "Ca": "0E-21",
+            "Na": "0E-20",
+            "charge": "-3.835460134550E-14",
+            "P": "-7.67091999150E-15",
+            "O": "-4.5689966600E-16",
+            "H": "-9.13800720E-16"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 15,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:mo-002",
+      "proposed_candidate": true,
+      "original_forecast": "The activated arm should generate titratable acetic acid in proportion to ethanol converted. The unactivated arm tests whether an explicit named reaction is required.",
+      "criteria": [
+        {
+          "id": "MO-002-C1",
+          "criterion": "Relate the blank-corrected base demand to the observed ethanol loss and acetate-family gain.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "MO-002-C2",
+          "criterion": "Account for any oxygen initially present in the sealed headspace instead of equating explicit oxygen addition with the entire oxygen budget.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "metrics": {
+        "ethanol_loss_mol": "0.0005",
+        "acetate_gain_mol": "0.000500000000000060927",
+        "O2_consumed_mol": "0.0005000000000000000",
+        "initial_total_O2_mol": "0.0031407780819617545",
+        "actual_air": [
+          {
+            "row": 1,
+            "vessel": 0,
+            "N2_mol": "0.00807364564466817204745231129263890854777213632",
+            "O2_mol": "0.00214077808196175426394286699887084083123435332",
+            "CO2_mol": "0.00000408740445243294370203888687135244072789375336"
+          },
+          {
+            "row": 10,
+            "vessel": 1,
+            "N2_mol": "0.00807364564466817204745231129263890854777213632",
+            "O2_mol": "0.00214077808196175426394286699887084083123435332",
+            "CO2_mol": "0.00000408740445243294370203888687135244072789375336"
+          }
+        ],
+        "titrant_stages": [
+          {
+            "row": 6,
+            "vessel": 0,
+            "solute_mol": "0.0005043441772460937",
+            "carrier_water_mol": "0.279118037587763207826810990840965861781848460",
+            "volume_L": "0.005043441772460937",
+            "endpoint_pH": "8.50006854104",
+            "step_mol": "0.00001"
+          },
+          {
+            "row": 14,
+            "vessel": 1,
+            "solute_mol": "0.00000435394287109375",
+            "carrier_water_mol": "0.00240959258533470371912295309464335276158756592",
+            "volume_L": "0.0000435394287109375",
+            "endpoint_pH": "8.499918656197",
+            "step_mol": "0.00001"
+          }
+        ],
+        "blank_corrected_base_mol": "0.00049999023437499995",
+        "endpoint_carbonate_and_protonation_corrected_base_mol": "0.00049999998096912011716",
+        "blank_retained_ethanol_mol": "0.0005"
+      },
+      "limitations": [
+        "Requested stoichiometric oxidation template, not spontaneous mechanism or calibrated rate. Initial air oxygen, carbonic acidity, endpoint protonation and reagent water remain separately accounted."
+      ],
+      "hold_or_gap": null,
+      "named_model_limits": {},
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "4c4625ea328a294ee6e05240159eceb837a7763c1bffb7cc619c3f776f3b39eb",
+      "stdout_sha256": "f4e4470b97595cb3e98317c6a12503d57db324a2e77ec15b076425836b452cfc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_mo-002/experiment.lab",
+        "batch2_mo-002/stdout.jsonl",
+        "batch2_mo-002/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "1.782588220080261245024832577296E-14",
+        "H": "3.56114419519816819317235636969E-14",
+        "charge": "1.9031913978750000000000000000000000000000E-11",
+        "N": "3.9050953774147221829044557274E-18",
+        "C": "4.75260044313703888687135244072789375E-12",
+        "Na": "1.89810E-15"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.164602414000000000000000000000000E-18",
+            "C": "-5.8140583188687135244072789375336E-19",
+            "O": "-2.5034290119077148438654392450E-16",
+            "H": "-5.00469010E-16"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "3.919664320000000000000000000000000E-18",
+            "C": "-5.841419888687135244072789375E-20",
+            "O": "-5.5187822629177148438654392450E-16",
+            "H": "-1.100547360E-15"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "3.034723522000000000000000000000000E-18",
+            "C": "-5.843379988687135244072789375E-20",
+            "O": "-5.5186068509477148438654392450E-16",
+            "H": "-1.101397140E-15"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.095040840100000000000000000000000000E-15",
+            "C": "-1.5333806193888687135244072789375E-16",
+            "O": "-2.8232816951177148438654392450E-16",
+            "H": "-5.5987315990E-16"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.095040840100000000000000000000000000E-15",
+            "C": "-1.5333806193888687135244072789375E-16",
+            "O": "-2.8232816951177148438654392450E-16",
+            "H": "-5.5987315990E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.164602414000000000000000000000000E-18",
+            "C": "-5.8140583188687135244072789375336E-19",
+            "O": "-2.5034290119077148438654392450E-16",
+            "H": "-5.00469010E-16"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "3.919664320000000000000000000000000E-18",
+            "C": "-5.841419888687135244072789375E-20",
+            "O": "-5.5187822629177148438654392450E-16",
+            "H": "-1.100547360E-15"
+          }
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "3.034723522000000000000000000000000E-18",
+            "C": "-5.843379988687135244072789375E-20",
+            "O": "-5.5186068509477148438654392450E-16",
+            "H": "-1.101397140E-15"
+          }
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 13,
+          "vessel": 1,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "3.034723522000000000000000000000000E-18",
+            "C": "-5.843379988687135244072789375E-20",
+            "O": "-5.5186068509477148438654392450E-16",
+            "H": "-1.101397140E-15"
+          }
+        },
+        {
+          "row": 14,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 14,
+          "vessel": 1,
+          "residuals": {
+            "Na": "1.4460E-19",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-6.04700000000000000000000000000000E-19",
+            "C": "-4.9491203888687135244072789375E-19",
+            "O": "-7.7575606276486612773930551207E-16",
+            "H": "-1.5512260059061892867055231751E-15"
+          }
+        },
+        {
+          "row": 15,
+          "vessel": 0,
+          "residuals": {
+            "Na": "1.89810E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.9031913978750000000000000000000000000000E-11",
+            "C": "-4.75260044313703888687135244072789375E-12",
+            "O": "-1.782588220080261245024832577296E-14",
+            "H": "-3.56114419519816819317235636969E-14"
+          }
+        },
+        {
+          "row": 15,
+          "vessel": 1,
+          "residuals": {
+            "Na": "1.4460E-19",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-6.04700000000000000000000000000000E-19",
+            "C": "-4.9491203888687135244072789375E-19",
+            "O": "-7.7575606276486612773930551207E-16",
+            "H": "-1.5512260059061892867055231751E-15"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [
+        {
+          "row": 1,
+          "vessel": 0,
+          "N2_mol": "0.00807364564466817204745231129263890854777213632",
+          "O2_mol": "0.00214077808196175426394286699887084083123435332",
+          "CO2_mol": "0.00000408740445243294370203888687135244072789375336"
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "N2_mol": "0.00807364564466817204745231129263890854777213632",
+          "O2_mol": "0.00214077808196175426394286699887084083123435332",
+          "CO2_mol": "0.00000408740445243294370203888687135244072789375336"
+        }
+      ],
+      "titrant_carrier": [
+        {
+          "row": 6,
+          "vessel": 0,
+          "solute_mol": "0.0005043441772460937",
+          "carrier_water_mol": "0.279118037587763207826810990840965861781848460",
+          "volume_L": "0.005043441772460937",
+          "endpoint_pH": "8.50006854104",
+          "step_mol": "0.00001"
+        },
+        {
+          "row": 14,
+          "vessel": 1,
+          "solute_mol": "0.00000435394287109375",
+          "carrier_water_mol": "0.00240959258533470371912295309464335276158756592",
+          "volume_L": "0.0000435394287109375",
+          "endpoint_pH": "8.499918656197",
+          "step_mol": "0.00001"
+        }
+      ],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 24,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:mo-005",
+      "proposed_candidate": false,
+      "original_forecast": "The requested respiration can release up to 0.0006 mol of carbon dioxide from this glucose dose. Lime addition may transfer some of that carbon into carbonate solid while the rest remains in dissolved or gaseous pools.",
+      "criteria": [
+        {
+          "id": "MO-005-C1",
+          "criterion": "Account for all six carbons per converted glucose across every retained carbon-bearing pool.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "MO-005-C2",
+          "criterion": "Identify carbonate separately from any excess unreacted calcium hydroxide before using retained solid mass as a carbon assay.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "metrics": {
+        "retained_solid_identity": [
+          {
+            "moles": "0.0006029244794884",
+            "phase": "solid",
+            "species": "CaCO3"
+          }
+        ],
+        "silently_removed_filter_gases": [
+          {
+            "moles": "0.008073645644668174",
+            "phase": "gas",
+            "species": "N2"
+          },
+          {
+            "moles": "0.0025407780819617547",
+            "phase": "gas",
+            "species": "O2"
+          },
+          {
+            "moles": "1.985477216207E-12",
+            "phase": "gas",
+            "species": "CO2"
+          }
+        ],
+        "initial_air": [
+          {
+            "row": 1,
+            "vessel": 0,
+            "N2_mol": "0.00807364564466817204745231129263890854777213632",
+            "O2_mol": "0.00214077808196175426394286699887084083123435332",
+            "CO2_mol": "0.00000408740445243294370203888687135244072789375336"
+          }
+        ],
+        "final_vessel_C_mol": {
+          "0": "0.00060292447948840",
+          "1": "0.00000116292298176816651337990"
+        }
+      },
+      "limitations": [
+        "Glucose/carbonate questions have positive partial evidence, but original closed N/O and possibly traceC budgets fail when historical filter silently drops headspace. Later accepted gas-preserving filter may address; no new current-source failure claimed."
+      ],
+      "hold_or_gap": "historical-filter-gas-ownership",
+      "named_model_limits": {},
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "6d41f80d3a37bfe1c129105421063e3ff9f083cdcaf9e4e5def90fc98aef4d1a",
+      "stdout_sha256": "0c2b250d9620c4158d7df74bc017b5e6fbddd69ee5a7fc6f92eec35ec38ee36a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_mo-005/experiment.lab",
+        "batch2_mo-005/stdout.jsonl",
+        "batch2_mo-005/stderr.txt"
+      ],
+      "material_budget_pass": false,
+      "material_maxima": {
+        "O": "0.00508155616789537349882684417148438654392450",
+        "H": "1.815863540E-15",
+        "charge": "5.5041249806000000E-13",
+        "N": "0.0161472912893363440949046225852778170955442726",
+        "C": "1.985494903100555086871352440727893753E-12",
+        "Ca": "2.68746010E-13"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.164602414000000000000000000000000E-18",
+            "C": "-5.8140583188687135244072789375336E-19",
+            "O": "-2.5034290119077148438654392450E-16",
+            "H": "-5.00469010E-16"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "3.034723522000000000000000000000000E-18",
+            "C": "-5.8433799886871352440727893753E-20",
+            "O": "-5.5186068509477148438654392450E-16",
+            "H": "-1.101397140E-15"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "3.052304320000000000000000000000000E-18",
+            "C": "-5.8414198886871352440727893753E-20",
+            "O": "-5.5187822629177148438654392450E-16",
+            "H": "-1.101414720E-15"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-6.0639107650000000000000000000000000E-17",
+            "C": "-1.5841248213886871352440727893753E-17",
+            "O": "-2.4310792833677148438654392450E-16",
+            "H": "-4.8523420E-16"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-6.0639107650000000000000000000000000E-17",
+            "C": "-1.5841248213886871352440727893753E-17",
+            "O": "-2.4310792833677148438654392450E-16",
+            "H": "-4.8523420E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Ca": "-1.9320E-17",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.04174060000000000000000000000000000E-16",
+            "C": "-1.7686893555086871352440727893753E-17",
+            "O": "-9.0966641284417148438654392450E-16",
+            "H": "-1.815863540E-15"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Ca": "-1.9320E-17",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.04174060000000000000000000000000000E-16",
+            "C": "-1.7686893555086871352440727893753E-17",
+            "O": "-9.0966641284417148438654392450E-16",
+            "H": "-1.815863540E-15"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Ca": "-1.9320E-17",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.04174060000000000000000000000000000E-16",
+            "C": "-1.7686893555086871352440727893753E-17",
+            "O": "-9.0966641284417148438654392450E-16",
+            "H": "-1.815863540E-15"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "residuals": {
+            "Ca": "-1.9320E-17",
+            "N": "3.9050953774147221829044557274E-18",
+            "charge": "-1.04174060000000000000000000000000000E-16",
+            "C": "-1.7686893555086871352440727893753E-17",
+            "O": "-9.0966641284417148438654392450E-16",
+            "H": "-1.815863540E-15"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "residuals": {
+            "Ca": "-1.9320E-17",
+            "N": "-0.0161472912893363440949046225852778170955442726",
+            "C": "-1.985494903100555086871352440727893753E-12",
+            "O": "-0.00508155616789537349882684417148438654392450",
+            "H": "-1.815863540E-15",
+            "charge": "-1.04174060000000000000000000000000E-16"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "residuals": {
+            "Ca": "2.68746010E-13",
+            "charge": "5.5041249806000000E-13",
+            "C": "3.23012591189610E-15",
+            "O": "5.6213396379220E-16",
+            "H": "1.124242340E-15"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "residuals": {
+            "Ca": "-1.9320E-17",
+            "N": "-0.0161472912893363440949046225852778170955442726",
+            "C": "-1.985494903100555086871352440727893753E-12",
+            "O": "-0.00508155616789537349882684417148438654392450",
+            "H": "-1.815863540E-15",
+            "charge": "-1.04174060000000000000000000000000E-16"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "residuals": {
+            "Ca": "2.68746010E-13",
+            "charge": "5.5041249806000000E-13",
+            "C": "3.23012591189610E-15",
+            "O": "5.6213396379220E-16",
+            "H": "1.124242340E-15"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [
+        {
+          "row": 1,
+          "vessel": 0,
+          "N2_mol": "0.00807364564466817204745231129263890854777213632",
+          "O2_mol": "0.00214077808196175426394286699887084083123435332",
+          "CO2_mol": "0.00000408740445243294370203888687135244072789375336"
+        }
+      ],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 15,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:mo-010",
+      "proposed_candidate": false,
+      "original_forecast": "A temperature-dependent transport model can change conductivity during warming even though sodium and chloride totals are unchanged. Cooling tests reversibility rather than chemical consumption.",
+      "criteria": [
+        {
+          "id": "MO-010-C1",
+          "criterion": "Verify constant retained salt totals and inspect any water loss or volume change.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "MO-010-C2",
+          "criterion": "Identify whether the instrument reports temperature-compensated or in-situ conductivity before interpreting the sign and magnitude.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        }
+      ],
+      "metrics": {
+        "states": [
+          {
+            "T_K": "293.10346854475665",
+            "conductivity_uS_cm": "5678.763936808268",
+            "water_mol": "5.534276991396059",
+            "scene_layer_volume_L": [
+              "0.1"
+            ]
+          },
+          {
+            "T_K": "317.0853618157129",
+            "conductivity_uS_cm": "5678.82842953843",
+            "water_mol": "5.534276991396059",
+            "scene_layer_volume_L": [
+              "0.1"
+            ]
+          },
+          {
+            "T_K": "293.10346854473426",
+            "conductivity_uS_cm": "5678.763936808268",
+            "water_mol": "5.534276991396059",
+            "scene_layer_volume_L": [
+              "0.1"
+            ]
+          }
+        ],
+        "source_basis": "25C limiting ionic mobilities plus concentration correction; no explicit temperature transport argument.",
+        "volume_instrument_limit": "Original volume_meter on open vessel refused; independent retained water and scene layers provide ownership control, not a fabricated instrument reading."
+      },
+      "limitations": [
+        "Small conductivity changes alone do not establish in-situ temperature-dependent transport or actual temperature compensation. Source reference table and measured temperatures expose the missing authority; original physical-temperature experiment is held."
+      ],
+      "hold_or_gap": "conductivity-temperature-authority",
+      "named_model_limits": {
+        "not-modeled.volume-meter-on-an-open-vessel": {
+          "first_observation_index": 4,
+          "first_operator": {
+            "instrument": "volume_meter",
+            "op": "measure",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "boundary-mismatch",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+              "key": "not-modeled.volume-meter-on-an-open-vessel"
+            },
+            "vessel": 0,
+            "what": "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+          },
+          "occurrences": 3
+        }
+      },
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "a70ecf1cdb86d6b56e6893822d0110d4f2560c4ff622eaf6fcbd6a38f4134cfa",
+      "stdout_sha256": "92d22d227efebc483dd0df84af4892c1c83209b41caad775aa56791cd70ff8e9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_mo-010/experiment.lab",
+        "batch2_mo-010/stdout.jsonl",
+        "batch2_mo-010/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "0",
+        "H": "0",
+        "charge": "0",
+        "Cl": "0",
+        "Na": "0"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 14,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        },
+        {
+          "row": 15,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "Na": "0.0000",
+            "charge": "0E-16",
+            "O": "0E-16",
+            "H": "0E-16"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 16,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:qa-003",
+      "proposed_candidate": false,
+      "original_forecast": "The remaining stock and withdrawn aliquot contain approximately 1.5 and 0.5 mmol acid. Their pre-titration concentrations should agree.",
+      "criteria": [
+        {
+          "id": "QA-003-C1",
+          "criterion": "Endpoint base demands are approximately 3:1.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "QA-003-C2",
+          "criterion": "Base demand divided by each measured pre-titration volume agrees within dosing resolution.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        }
+      ],
+      "metrics": {
+        "aliquots": [
+          {
+            "vessel": 0,
+            "actual_base_mol": "0.0015000005626678432",
+            "inventory_derived_pretitration_L": "0.149999999999999995305917753259779338014042126",
+            "dose_per_L": "0.0100000037511189549796056005030873240023685079"
+          },
+          {
+            "vessel": 1,
+            "actual_base_mol": "0.0005000001859664917",
+            "inventory_derived_pretitration_L": "0.0499999999999999996399197592778335005015045135",
+            "dose_per_L": "0.0100000037193298340720160749295769394554417432"
+          }
+        ],
+        "actual_failed_volume_instrument_events": [
+          {
+            "cause": "boundary-mismatch",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+              "key": "not-modeled.volume-meter-on-an-open-vessel"
+            },
+            "vessel": 0,
+            "what": "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+          },
+          {
+            "cause": "boundary-mismatch",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+              "key": "not-modeled.volume-meter-on-an-open-vessel"
+            },
+            "vessel": 1,
+            "what": "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+          }
+        ],
+        "available_scene_layer_prevolumes": [
+          [
+            {
+              "vessel": 0,
+              "layer_volumes_L": [
+                "0.15"
+              ]
+            },
+            {
+              "vessel": 1,
+              "layer_volumes_L": [
+                "0.05"
+              ]
+            }
+          ],
+          [
+            {
+              "vessel": 0,
+              "layer_volumes_L": [
+                "0.15"
+              ]
+            },
+            {
+              "vessel": 1,
+              "layer_volumes_L": [
+                "0.05"
+              ]
+            }
+          ]
+        ]
+      },
+      "limitations": [
+        "Scene layer volumes and canonical water prove aliquot proportions, but do not replace the failed volume-meter instrument requested by the original measured-volume criterion. No protocol rewrite."
+      ],
+      "hold_or_gap": "original-liquid-volume-instrument-protocol",
+      "named_model_limits": {
+        "not-modeled.volume-meter-on-an-open-vessel": {
+          "first_observation_index": 4,
+          "first_operator": {
+            "instrument": "volume_meter",
+            "op": "measure",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "boundary-mismatch",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line.",
+              "key": "not-modeled.volume-meter-on-an-open-vessel"
+            },
+            "vessel": 0,
+            "what": "the volume meter reads a sealed vessel's headspace, and this one is open \u2014 seal it to give the gas a measured volume. The liquid's own volume is on the vessel line."
+          },
+          "occurrences": 2
+        }
+      },
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "06ff160b761f71e03495726cc45fe9bc0fa02e2fc7d560228059686386719448",
+      "stdout_sha256": "7d02848f1d8eb8d37319a7110694f2768a7844501309584c3a04d91eb5d6177c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_qa-003/experiment.lab",
+        "batch2_qa-003/stdout.jsonl",
+        "batch2_qa-003/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "6.816451920231404385234526783236E-14",
+        "H": "1.363325180921280877046905356647E-13",
+        "charge": "2.4203125000000000000000000000E-18",
+        "Cl": "7.0E-19",
+        "Na": "6.60E-18"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.0000",
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.000000",
+            "O": "-5.00E-16",
+            "H": "-1.000E-15",
+            "charge": "0E-18"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "0.000000",
+            "O": "-1.00E-16",
+            "H": "-2.00E-16",
+            "charge": "0E-18"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.000000",
+            "O": "-5.00E-16",
+            "H": "-1.000E-15",
+            "charge": "0E-18"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "0.000000",
+            "O": "-1.00E-16",
+            "H": "-2.00E-16",
+            "charge": "0E-18"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0.000000",
+            "O": "-5.00E-16",
+            "H": "-1.000E-15",
+            "charge": "0E-18"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "0.000000",
+            "O": "-1.00E-16",
+            "H": "-2.00E-16",
+            "charge": "0E-18"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "7.0E-19",
+            "Na": "6.60E-18",
+            "charge": "2.4203125000000000000000000000E-18",
+            "O": "-6.816451920231404385234526783236E-14",
+            "H": "-1.363325180921280877046905356647E-13"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "0.000000",
+            "O": "-1.00E-16",
+            "H": "-2.00E-16",
+            "charge": "0E-18"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "7.0E-19",
+            "Na": "6.60E-18",
+            "charge": "2.4203125000000000000000000000E-18",
+            "O": "-6.816451920231404385234526783236E-14",
+            "H": "-1.363325180921280877046905356647E-13"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "1.0E-19",
+            "Na": "4.0E-19",
+            "charge": "3.007812300000000000000000000E-19",
+            "O": "-1.36058917978675825700804884818E-15",
+            "H": "-2.72117757834351651401609769636E-15"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "7.0E-19",
+            "Na": "6.60E-18",
+            "charge": "2.4203125000000000000000000000E-18",
+            "O": "-6.816451920231404385234526783236E-14",
+            "H": "-1.363325180921280877046905356647E-13"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "residuals": {
+            "Cl": "1.0E-19",
+            "Na": "4.0E-19",
+            "charge": "3.007812300000000000000000000E-19",
+            "O": "-1.36058917978675825700804884818E-15",
+            "H": "-2.72117757834351651401609769636E-15"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [
+        {
+          "row": 6,
+          "vessel": 0,
+          "solute_mol": "0.0015000005626678432",
+          "carrier_water_mol": "0.830141860105378667998889814043852345267832362",
+          "volume_L": "0.015000005626678432",
+          "endpoint_pH": "6.999988760571",
+          "step_mol": "0.00001"
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "solute_mol": "0.0005000001859664917",
+          "carrier_water_mol": "0.276713952488810560588398556758257008048848182",
+          "volume_L": "0.005000001859664917",
+          "endpoint_pH": "6.999931989175",
+          "step_mol": "0.00001"
+        }
+      ],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 16,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:tc-003",
+      "proposed_candidate": true,
+      "original_forecast": "Warm water first supplies sensible and latent energy to the cold portion. The final temperature should fall below a liquid-only weighted-temperature prediction when initial ice is present.",
+      "criteria": [
+        {
+          "id": "TC-003-C1",
+          "criterion": "Read the actual initial ice fraction and temperature before estimating a fusion energy.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "TC-003-C2",
+          "criterion": "Close the energy balance including warming any sub-zero solid and the measured final liquid.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "metrics": {
+        "initial_ice_mol": "1.663893510815308",
+        "initial_liquid_water_mol": "0.001385423406174091",
+        "initial_T_K": "273.15",
+        "warm_input_mol": "2.7754648903691366",
+        "warm_input_T_K": "333.15",
+        "actual_final_T_K": "280.74574860746634",
+        "liquid_only_weighted_T_K": "310.649999999999998893766406249999940793894085",
+        "independent_cold_enthalpy_J": -10000.0,
+        "independent_warm_enthalpy_J": 12555.217944936137,
+        "independent_final_enthalpy_J": 2555.2179449227974,
+        "whole_mixing_energy_residual_J": -1.3340468285605311e-08,
+        "inferred_fusion_J_mol": 6010.000000008017
+      },
+      "limitations": [
+        "Pure-water phase-specific sensible/latent balance; actual starting ice fraction at273.15K, so no subzero solid warming is omitted. No empirical calorimeter calibration."
+      ],
+      "hold_or_gap": null,
+      "named_model_limits": {},
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "2a35a62db84195d11803fff8709ad1f95ded2bfc1de4618cdcb4504a01cc2130",
+      "stdout_sha256": "1c59b03041d53cb0ad9cc2bc6ff650a8ba8e718b0c81ca83707c8fa594524bc9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_tc-003/experiment.lab",
+        "batch2_tc-003/stdout.jsonl",
+        "batch2_tc-003/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "6.0E-16",
+        "H": "1.20E-15",
+        "charge": "0"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-16",
+            "H": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "O": "9.10E-17",
+            "H": "1.820E-16",
+            "charge": "0E-19"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "O": "9.10E-17",
+            "H": "1.820E-16",
+            "charge": "0E-19"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "O": "9.10E-17",
+            "H": "1.820E-16",
+            "charge": "0E-19"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "O": "-6.0E-16",
+            "H": "-1.20E-15",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "O": "-6.0E-16",
+            "H": "-1.20E-15",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "O": "-6.0E-16",
+            "H": "-1.20E-15",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "O": "-6.0E-16",
+            "H": "-1.20E-15",
+            "charge": "0E-17"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 8,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    },
+    {
+      "id": "batch2:tc-008",
+      "proposed_candidate": false,
+      "original_forecast": "When supported by the coupled brine/ice model, salt lowers the freezing equilibrium temperature and promotes melting that consumes latent energy. Cooling and melting can therefore occur together.",
+      "criteria": [
+        {
+          "id": "TC-008-C1",
+          "criterion": "Compare both temperature and ice fraction before and after salt addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "TC-008-C2",
+          "criterion": "Include salt dissolution energy and any undissolved salt in the interpretation, rather than attributing every joule to freezing-point depression.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        }
+      ],
+      "metrics": {
+        "before_ice_mol": "1.6638935108153081",
+        "after_ice_mol": "1.433749228616425",
+        "before_T_K": "273.15",
+        "after_T_K": "260.6058104854603",
+        "undissolved_NaCl_mol": "0",
+        "salt_dissolution_energy_J": 331.94736752049005,
+        "independent_water_phase_enthalpy_change_J": -568.3359762878499,
+        "incoming_salt_sensible_enthalpy_J": 0.0,
+        "thermal_closure_residual_J": -236.38860876735987,
+        "before_excess_enthalpy_J": "0.0",
+        "after_excess_enthalpy_J": "0.0",
+        "nonwater_ion_sensible_Cp_J_mol_K": {
+          "Cl-": 0.0,
+          "Na+": 0.0
+        },
+        "actual_phase_events": [
+          {
+            "at": "256.90323409012683",
+            "event": "state_changed",
+            "from": "solid",
+            "kind": "melting",
+            "moles": "0.25193266514823054",
+            "shifted_by": "-16.246765909873147",
+            "species": "water",
+            "to": "liquid",
+            "vessel": 0
+          },
+          {
+            "at": "260.8831697595776",
+            "event": "state_changed",
+            "from": "liquid",
+            "kind": "freezing",
+            "moles": "0.023700940631454497",
+            "shifted_by": "-12.266830240422394",
+            "species": "water",
+            "to": "solid",
+            "vessel": 0
+          },
+          {
+            "at": "260.6058104854603",
+            "event": "state_changed",
+            "from": "solid",
+            "kind": "melting",
+            "moles": "0.0019125576821070137",
+            "shifted_by": "-12.544189514539653",
+            "species": "water",
+            "to": "liquid",
+            "vessel": 0
+          }
+        ]
+      },
+      "limitations": [
+        "Include actual salt dissolution and all ice/liquid enthalpy, not cooling/melting signs alone. Historical phase-energy failure, if present, is not automatically a current-source defect."
+      ],
+      "hold_or_gap": "historical-brine-ice-energy-ownership",
+      "named_model_limits": {},
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+      "stdout_sha256": "266a4a87d902436dab09f8f8ed6914dbeb8058c7edb54f6aa7877f589f886dc1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_tc-008/experiment.lab",
+        "batch2_tc-008/stdout.jsonl",
+        "batch2_tc-008/stderr.txt"
+      ],
+      "material_budget_pass": true,
+      "material_maxima": {
+        "O": "1.0E-16",
+        "H": "2.0E-16",
+        "charge": "0",
+        "Cl": "0",
+        "Na": "0"
+      },
+      "per_step_vessel_material_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-17",
+            "H": "0E-17",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-17",
+            "H": "0E-17",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-17",
+            "H": "0E-17",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "O": "0E-17",
+            "H": "0E-17",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0E-17",
+            "Na": "0E-17",
+            "charge": "0E-17",
+            "O": "-1.0E-16",
+            "H": "-2.0E-16"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0E-17",
+            "Na": "0E-17",
+            "charge": "0E-17",
+            "O": "-1.0E-16",
+            "H": "-2.0E-16"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0E-17",
+            "Na": "0E-17",
+            "charge": "0E-17",
+            "O": "-1.0E-16",
+            "H": "-2.0E-16"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "Cl": "0E-17",
+            "Na": "0E-17",
+            "charge": "0E-17",
+            "O": "-1.0E-16",
+            "H": "-2.0E-16"
+          }
+        }
+      ],
+      "boundary_exports": [],
+      "initial_air": [],
+      "titrant_carrier": [],
+      "noncontents_reservoirs": {
+        "checked_snapshots": 8,
+        "all_optional_owned_vectors_empty": [
+          "unresolved_materials",
+          "material_objects",
+          "electrodes",
+          "exchanges",
+          "adsorbed",
+          "solid_solutions",
+          "surface_colours",
+          "charred_materials"
+        ],
+        "all_optional_owned_objects_none": [
+          "soap_scum",
+          "lemon_paper_mark",
+          "surface_particles",
+          "emulsion"
+        ],
+        "surfaces_empty": true,
+        "nuclides_empty": true,
+        "foam_zero": true,
+        "pending_CO2_zero": true,
+        "resolved_mirror_empty": true
+      }
+    }
+  ],
+  "raw_archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "thermal_fixture_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "helper_sha256": "df1e178c381d47a5f7ca6175d30fa9c4cf67d9fd9b51554c7f59df9564d3703f",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80",
+    "crates/kerotakis-core/src/vessel.rs": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd",
+    "crates/kerotakis-core/src/solve.rs": "4f8b9786e8a04ae4d869ae56e9821225151ad068643fe71cac078409a81a82ad",
+    "crates/kerotakis-core/src/conductivity.rs": "fa46bc6b7aa8712f541f264b75c210bfd46c4b0bf3ee3e1d7b7d69db81ee621e",
+    "crates/kerotakis-core/src/displacement.rs": "546e8bcdceca3f7d18301bbc0b8f6f2cefbded8303d435df6d06f7f403d6bfd7",
+    "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+    "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47"
+  },
+  "original_lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "new_engine_or_HTTP_requests": 0,
+  "catalog_selection_assigned": false,
+  "material_tolerance_mol": "1E-8"
+}

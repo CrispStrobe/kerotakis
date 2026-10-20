@@ -1,0 +1,35 @@
+{
+  "utc": "2026-10-20T09:41:25.456927+00:00",
+  "assessment_sha256": "2ed033be8b80db181f0a8973d37efd044bd32de99743c32ebe545af2b99733a2",
+  "reader_sha256": "368fa5648d5e49d263b5b869ff11da61c19e368037e8a57d10e228aa332a353d",
+  "parent_independently_reproduced_actual_CLI_JSON": true,
+  "parent_inspected_all_seven_original_forecasts_and_criteria": true,
+  "accepted_originals": [
+    "batch2:ec-005",
+    "batch2:ec-006",
+    "batch2:ab-028",
+    "batch2:pq-011",
+    "batch2:pq-012",
+    "batch2:mo-002",
+    "batch2:tc-003"
+  ],
+  "held_originals": [
+    "batch2:pq-009",
+    "batch2:mo-005",
+    "batch2:mo-010",
+    "batch2:qa-003",
+    "batch2:tc-008"
+  ],
+  "scoped_acceptance": [
+    "EC005/006 retain specific initial slow-metal/water model limits, without claiming water corrosion or intermediate equilibrium completion.",
+    "AB028 independently budgets acetate and all phosphate proton-equivalent steps with actual pH/solved species.",
+    "PQ011 includes real buffered brochantite precipitation; qualifies delayed extensive CuOH2, not prevention of every copper solid. Tenorite exclusion remains explicit.",
+    "PQ012 qualifies actual declared octacalcium-phosphate phase and its complete retained/remobilised phosphorus budget, not withheld alternative-phase nucleation.",
+    "MO002 qualifies the requested stoichiometric template and blank-corrected endpoint including initial air oxygen, not spontaneous oxidation kinetics.",
+    "TC003 closes pure-water phase-specific sensible/latent mixing energy; no subzero solid warming or empirical calorimeter accuracy is invented."
+  ],
+  "all_original_scripts_forecasts_criteria_and_first_failures_preserved": true,
+  "new_engine_or_API_executions": 0,
+  "current_MO005_TC008_followups_not_selected_by_this_receipt": true,
+  "qualification": "Bounded historical source-qualified originals only. No uniform current-production or empirical calibration claim."
+}
