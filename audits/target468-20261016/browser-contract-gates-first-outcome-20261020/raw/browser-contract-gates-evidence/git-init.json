@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/browser-contract-gates/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "04a7f6485d6559719a12b3ee6d73b3c0ea11ed1b0a64876679bb7b421a032cd8",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

@@ -1,0 +1,6 @@
+{
+  "error_type": "AssertionError",
+  "error": "clippy",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 68, in <module>\n    run(name,argv,cwd=R,timeout=240 if name=='wasm-target' else 1800)\n    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/kaggle/src/script.py\", line 28, in run\n    print(name,result.returncode,flush=True);assert result.returncode==0,name\n                                                    ^^^^^^^^^^^^^^^^^^^^\nAssertionError: clippy\n",
+  "no_auto_retry": true
+}

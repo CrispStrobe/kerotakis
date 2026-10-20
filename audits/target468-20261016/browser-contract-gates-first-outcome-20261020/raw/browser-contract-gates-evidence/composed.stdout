@@ -1,0 +1,23 @@
+
+running 18 tests
+test a_gap_without_a_recipe_falls_back_to_its_english ... ok
+test a_gap_explains_itself_in_german ... ok
+test a_scene_vessel_without_clauses_falls_back_to_its_english ... ok
+test an_appearance_without_clauses_falls_back_to_its_english ... ok
+test an_unresolved_static_phrase_key_fails_closed - should panic ... ok
+test every_composed_key_is_translated ... ok
+test every_curated_corrosion_verdict_is_translated ... ok
+test every_curated_solvent_verdict_is_translated ... ok
+test every_scene_term_table_is_translated ... ok
+test every_unavailable_solid_verdict_is_translated ... ok
+test kinetic_catalyst_names_are_localized_in_every_register ... ok
+test kinetic_reaction_display_names_cover_the_registry_and_render_heat ... ok
+test no_english_reaches_a_german_look ... ok
+test no_english_reaches_a_german_scene_caption ... ok
+test production_constant_phrase_keys_resolve_without_using_the_english_as_a_key ... ok
+test the_inert_verdict_explains_itself_in_german ... ok
+test a_translation_fills_the_same_holes ... ok
+test unknown_composers_are_declared ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+

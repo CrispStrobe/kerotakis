@@ -1,0 +1,49 @@
+
+running 1 test
+test borrowed_adapter_cannot_bypass_required_material_conservation ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 38 tests
+test absorbed_gas_is_accounted_and_unbacked_outlet_event_is_rejected ... ok
+test a_fully_removed_deposit_does_not_constrain_new_layer_metadata ... ok
+test boundary_event_must_name_correct_vessel_and_finite_amount ... ok
+test accumulated_waste_overflow_rolls_back_transfer_and_journal ... ok
+test cloned_proposal_commits_all_solver_state_even_without_bulk_changes ... ok
+test complete_snapshot_cannot_be_edited_into_a_different_native_delta ... ok
+test disclosed_cooling_floor_can_be_reheated_without_invalid_native_context ... ok
+test electrode_deposit_first_then_withdraw_is_valid_and_conservative ... ok
+test electrode_inventory_prefixes_cannot_borrow_from_later_deposits ... ok
+test electrode_updates_refuse_ambiguous_layers_and_overflowing_prefixes ... ok
+test finite_mass_with_overflowed_heat_capacity_is_refused_atomically ... ok
+test finite_species_amounts_with_overflowing_aggregate_mass_are_rejected ... ok
+test finite_surface_inventory_and_speciation_commit_as_one_result ... ok
+test heat_input_prices_only_the_current_delivery_pass_and_is_not_persisted ... ok
+test individually_finite_initial_inventory_and_delta_cannot_overflow_on_commit ... ok
+test invalid_boundary_and_dependent_numerical_state_never_commits ... ok
+test invalid_thermal_and_snapshot_inventories_never_commit ... ok
+test native_bulk_prefix_and_overflow_are_rejected_before_clamping ... ok
+test native_withdrawal_preserves_unrelated_bulk_and_electrode_traces ... ok
+test nonfinite_energy_and_heat_input_proposals_never_commit ... ok
+test numerically_invalid_success_discards_trial_events_and_metadata ... ok
+test operator_numeric_refusal_preserves_all_bench_state_and_history ... ok
+test orchestration_commits_boundary_events_and_complete_state_together ... ok
+test ordered_deposit_effects_enrich_once_and_refuse_conflicting_declarations ... ok
+test ordered_reservoirs_do_not_grant_absolute_credit_to_empty_or_trace_stock ... ok
+test ordered_reservoirs_use_current_stock_at_large_dynamic_ranges ... ok
+test production_mix_failure_and_decline_restore_all_trial_state ... ok
+test production_native_mix_enforces_balances_before_committing ... ok
+test production_stack_enforces_opted_in_balances_and_event_domains_atomically ... ok
+test production_stack_failure_restores_state_before_next_solver ... ok
+test rejected_snapshot_restores_derived_state_and_narration_too ... ok
+test separate_small_portions_remain_available_after_a_large_portion_is_exhausted ... ok
+test bounded_equilibrium_sequences_preserve_complete_results_and_reload ... ok
+test snapshot_material_progress_and_visual_geometry_are_atomic ... ok
+test snapshot_scaling_is_explicitly_unsupported ... ok
+test stale_snapshot_cannot_erase_an_intervening_operation_or_narration ... ok
+test valid_signed_electrical_state_and_fraction_boundaries_still_commit ... ok
+test snapshot_deposit_geometry_and_aggregate_electrical_overflow_are_atomic ... ok
+
+test result: ok. 38 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

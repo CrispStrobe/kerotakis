@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-20T10:00:26.483231+00:00",
+  "source": "6b637e4d7a00847865990b259171a8f4c6c11c1e",
+  "kernel": "/code/chr1s4/kerotakis-browser-contract-gates-v2-20261020",
+  "version": 1,
+  "worker_sha256": "a9f34836526525b2bfdc545cd889971ac7a488675bf859335f404cf77023e5d2",
+  "reader_sha256": "11a57f7baea1b68cf848b55396eee67eee36a44598f961cc9886fca0621f417d",
+  "prerequisites_sha256": {
+    "phase_full_prerequisite": "0da542894254065fe0672c7b35c7a56ff1d81ee9d6f177b94c7e5ed02b5940e6",
+    "focused_controls_prerequisite": "0f828cd8a07210fc58317113606c718f089655212539be183181e3b1666fe261"
+  }
+}

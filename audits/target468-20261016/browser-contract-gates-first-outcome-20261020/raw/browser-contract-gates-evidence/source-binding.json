@@ -1,0 +1,11 @@
+{
+  "source": "6b637e4d7a00847865990b259171a8f4c6c11c1e",
+  "tree": "48a68818a1aadabf54caa6eb4b5d815331f0c8de",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "blobs_sha256": {
+    "crates/kerotakis-wasm/src/solver_contract_tests.rs": "92eea2f37e08a5e8bc3972d53c8268d4045c8a48ff943338295795b8e30f57c9",
+    "crates/kerotakis-core/src/solve.rs": "9c2a6414d95341b095e33cba6ce65f94a52d1b6bde057e79ae5af162d5d0e17b",
+    "crates/kerotakis-wasm/src/lib.rs": "2c7b6a01ad8e18c8e2071a67fd5458bc247052bc99ee156c4ca328388abeb6fe",
+    "crates/kerotakis-core/tests/borrowed_solver_routes.rs": "0c211e6b3789a997d71d66c783e931779c9ab811c7922a30836b2d54e6de3d3f"
+  }
+}

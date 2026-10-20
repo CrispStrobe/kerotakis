@@ -1,0 +1,24 @@
+{
+  "reviewed_utc": "2026-10-20T10:17:14.173162+00:00",
+  "source": "6b637e4d7a00847865990b259171a8f4c6c11c1e",
+  "tree": "48a68818a1aadabf54caa6eb4b5d815331f0c8de",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "worker_sha256": "a9f34836526525b2bfdc545cd889971ac7a488675bf859335f404cf77023e5d2",
+  "prerequisites_sha256": {
+    "phase_full_prerequisite": "0da542894254065fe0672c7b35c7a56ff1d81ee9d6f177b94c7e5ed02b5940e6",
+    "focused_controls_prerequisite": "0f828cd8a07210fc58317113606c718f089655212539be183181e3b1666fe261"
+  },
+  "canonical_format_pass": true,
+  "exact_one_borrowed_and_38_existing_transactions_pass": true,
+  "exact18_composed_locale_controls_pass": true,
+  "locale_and_wasm_target_compile_pass": true,
+  "clippy_pass": false,
+  "clippy_stop": "PathResult::new unused without native engine feature",
+  "completed_test_executables_retained": false,
+  "completed_test_executables_independently_rehashed": false,
+  "original_baseline_or_12_controls_reexecuted": false,
+  "full_focused_acceptance": false,
+  "full_source_acceptance": false,
+  "production_or_original_experiment_acceptance": false,
+  "scientific_selections": 0
+}

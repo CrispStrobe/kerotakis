@@ -1,0 +1,30 @@
+[{"stream_name":"stdout","time":1.447544395,"data":"fetch-rustup 0\n"}
+,{"stream_name":"stdout","time":21.111534956,"data":"rustup 0\n"}
+,{"stream_name":"stdout","time":22.885652441,"data":"components 0\n"}
+,{"stream_name":"stdout","time":22.952541915,"data":"git-init 0\n"}
+,{"stream_name":"stdout","time":22.970095146,"data":"git-remote 0\n"}
+,{"stream_name":"stdout","time":25.798731856,"data":"source-fetch 0\n"}
+,{"stream_name":"stdout","time":26.567689366,"data":"source-checkout 0\n"}
+,{"stream_name":"stdout","time":31.219042939,"data":"submodules 0\n"}
+,{"stream_name":"stdout","time":38.152166532,"data":"format 0\n"}
+,{"stream_name":"stdout","time":257.569574946,"data":"transactions 0\n"}
+,{"stream_name":"stdout","time":261.452502679,"data":"wasm-target 0\n"}
+,{"stream_name":"stdout","time":393.932455606,"data":"wasm-check 0\n"}
+,{"stream_name":"stdout","time":395.154669124,"data":"locale 0\n"}
+,{"stream_name":"stdout","time":397.58492851,"data":"composed 0\n"}
+,{"stream_name":"stdout","time":536.637113461,"data":"clippy 101\n"}
+,{"stream_name":"stderr","time":536.674403643,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":536.674916581,"data":"  File \"/kaggle/src/script.py\", line 68, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":536.674944194,"data":"    run(name,argv,cwd=R,timeout=240 if name=='wasm-target' else 1800)\n"}
+,{"stream_name":"stderr","time":536.674951221,"data":"    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":536.674957523,"data":"  File \"/kaggle/src/script.py\", line 28, in run\n"}
+,{"stream_name":"stderr","time":536.674963222,"data":"    print(name,result.returncode,flush=True);assert result.returncode==0,name\n"}
+,{"stream_name":"stderr","time":536.674968703,"data":"                                                    ^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":536.674974639,"data":"AssertionError: clippy\n"}
+,{"stream_name":"stderr","time":540.100769809,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":540.100836746,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":540.674416137,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":540.674452316,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":543.088248191,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":544.816665442,"data":"[NbConvertApp] Writing 460582 bytes to __results__.html\n"}
+]

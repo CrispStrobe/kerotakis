@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "cargo",
+    "clippy",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "-p",
+    "kerotakis-wasm",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit_status": 101,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "60fab0f308aba0f5ed63e344048815c9fd6e1a76f7b96b9f9ff43b8da723e0cd"
+}
