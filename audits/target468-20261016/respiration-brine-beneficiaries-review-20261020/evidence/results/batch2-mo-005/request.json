@@ -1,0 +1,1 @@
+{"script": "# MO-005: Capture carbon from the requested glucose-respiration model\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nseal v1 250mL\nadd v1 glucose 0.0001mol\nadd v1 O2 0.001mol\nreact v1 respiration\ninspect v1\nadd v1 Ca(OH)2 0.0007mol\nmeasure v1 pressure\ninspect v1\nnew\nfilter v1 v2\ninspect\n"}

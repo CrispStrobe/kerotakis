@@ -1,0 +1,17 @@
+{
+  "source": "6b637e4d7a00847865990b259171a8f4c6c11c1e",
+  "baseline": "e42d68a7a643caae96f35ed79c63e140f43e7b20",
+  "same_corrected_fixture_bytes": true,
+  "runtime_unchanged_from_first_candidate": true,
+  "retains_actual_test_executables_before_forecast_assertion": true,
+  "worker_sha256_before_launcher": "5718ca24b443ba220b2cda55a7c1b2acef4a2b2f5779320725e7c4222afb5843",
+  "first_stop_preserved": {
+    "public_commit": "4b88d120719c3a62d54b5df0525e9b3c1fcdea4f",
+    "path": "audits/target468-20261016/browser-contract-first-outcome-20261020",
+    "baseline_executed": 12,
+    "failed": 10,
+    "passed": 2,
+    "candidate_executed": false
+  },
+  "new_engine_requests": 0
+}

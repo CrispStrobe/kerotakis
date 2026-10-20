@@ -1,0 +1,6 @@
+{
+  "assumption": "Top-level parsed_observations existed",
+  "actual": "Actual API exposes observations; raw response is unchanged",
+  "exception": "KeyError: parsed_observations",
+  "no_new_request_or_execution": true
+}

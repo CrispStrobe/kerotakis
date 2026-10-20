@@ -1,0 +1,1 @@
+{"script": "# TC-008: Salt-induced melting can cool an ice-water mixture\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 50g @ 0C\ncool v1 10kJ\nmeasure v1 thermometer\ninspect v1\nadd v1 NaCl 5g @ 0C\nmeasure v1 thermometer\nmeasure v1 conductivity\ninspect\n"}

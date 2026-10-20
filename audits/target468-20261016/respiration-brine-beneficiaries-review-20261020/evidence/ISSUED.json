@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-20T09:26:47.106295+00:00",
+  "source": "dacf76513328c2226e2f5133a79fb9af84343431",
+  "actual_production_acceptance_sha256": "ff312bbe6f5e7c850857f320768ca8e51c43d13f7d64ef572e2c9a7464245194",
+  "design_sha256": "9ddb7d9dc1d3e4a82410c926b5d8c24ed27f6e9fe386f8f18ddf32e9d02fea24",
+  "once_only_original_followups": 2,
+  "automatic_retries": false,
+  "scientific_selection_automatic": false
+}

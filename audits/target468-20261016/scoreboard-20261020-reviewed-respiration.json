@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-20T09:49:52.267385+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 318,
+  "source_qualified_selected_in_target": 314,
+  "additional_selections_needed_for_401": 87,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261020-reviewed-respiration.json",
+  "catalog_sha256": "36665929eb9fe18d834d2e88a58615516812702efbd28f0ade07588223f2bd38",
+  "selection_receipt": "audits/target468-20261016/selection-respiration-beneficiary-20261020/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard-20261020-reviewed-batch2-fifth.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "One unchanged original MO005 accepted from already-issued actual Dacf production observations; all317 prior entries exact. Actual group counts corrected in successor metadata. TC008 remains held; no uniform combined-release or empirical claim."
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "kerotakis.scientific-selection-expansion.v1",
+  "utc": "2026-10-20T09:49:52.267385+00:00",
+  "previous_catalog": "audits/working-experiments-20261020-reviewed-batch2-fifth.json",
+  "previous_catalog_sha256": "916940f31cdc5b0b80a1957eade3bb44e79a5fe439d2836072963bbb8204d621",
+  "new_catalog": "audits/working-experiments-20261020-reviewed-respiration.json",
+  "new_catalog_sha256": "36665929eb9fe18d834d2e88a58615516812702efbd28f0ade07588223f2bd38",
+  "all317_previous_entries_preserved_exactly": true,
+  "new_selected_originals": [
+    "batch2:mo-005"
+  ],
+  "new_scientific_selections": 1,
+  "unique_fixed468_before": 313,
+  "unique_fixed468_after": 314,
+  "catalog_entries": 318,
+  "additional_to401": 87,
+  "remaining_unselected_originals": 154,
+  "parent_adjudication": "audits/target468-20261016/respiration-brine-beneficiaries-review-20261020/parent-adjudication.json",
+  "counts_by_group_recomputed_from_actual_entries": true,
+  "new_engine_or_API_executions": 0,
+  "uniform_current_release_revalidation_claim": false
+}

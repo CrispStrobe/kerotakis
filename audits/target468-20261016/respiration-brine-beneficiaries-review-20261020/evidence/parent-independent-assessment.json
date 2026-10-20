@@ -1,0 +1,648 @@
+{
+  "schema": "kerotakis.respiration-brine.saved-production-review.v1",
+  "engine": {
+    "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
+    "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "design_sha256": "9ddb7d9dc1d3e4a82410c926b5d8c24ed27f6e9fe386f8f18ddf32e9d02fea24",
+  "artifact_receipt_sha256": "36a6c9796fd403e96b19ac2ac94b2967dd409dd160bb79a1fe9db24bd95ba8ba",
+  "production_receipt_sha256": "ff312bbe6f5e7c850857f320768ca8e51c43d13f7d64ef572e2c9a7464245194",
+  "runner_sha256": "fe811efc1470650681d2c1ffe95fc5cb36e8bc0d48a164e1a552deb7728aa9b1",
+  "issued_receipt_sha256": "eb1a653b7a27eff0933e4ccf3336a58e82824efbd4a1143db8dedffc72369b1a",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "thermal_fixture_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "5c4f5dcdaa779607340f237645b7cd4fd0bdcebd17f15a8b354375b7cb871957",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/src/solve.rs": "653d655cefd81e2100033d037779cf02def5fd566c44d8e866bec699505a8e20",
+    "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+    "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47"
+  },
+  "cases": [
+    {
+      "id": "batch2:mo-005",
+      "status": "PASS",
+      "engine": {
+        "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
+        "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+        "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+      },
+      "script_sha256": "6d41f80d3a37bfe1c129105421063e3ff9f083cdcaf9e4e5def90fc98aef4d1a",
+      "response_sha256": "842a30d030e26f05c75eb3182ec588ad5ce32194d8e06bc55b15a093f96197de",
+      "original_forecast": "The requested respiration can release up to 0.0006 mol of carbon dioxide from this glucose dose. Lime addition may transfer some of that carbon into carbonate solid while the rest remains in dissolved or gaseous pools.",
+      "original_checks": [
+        {
+          "id": "MO-005-C1",
+          "criterion": "Account for all six carbons per converted glucose across every retained carbon-bearing pool.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-005-C2",
+          "criterion": "Identify carbonate separately from any excess unreacted calcium hydroxide before using retained solid mass as a carbon assay.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "This does not simulate a living organism or enzyme pathway.",
+        "Gas partitioning and excess lime make total filter-residue mass an unsuitable direct pure-carbonate measurement."
+      ],
+      "common_checks": {
+        "complete_atoms_charge": true,
+        "filter_phase_ownership": true,
+        "no_unresolved_or_noncontents_reservoirs": true,
+        "no_solver_or_relevant_model_limit": true
+      },
+      "criteria": {
+        "MO-005-C1": true,
+        "MO-005-C2": true
+      },
+      "metrics": {
+        "glucose_consumed_mol": "0.0001",
+        "inorganic_C_gain_mol": "0.0005999999999999842171659850",
+        "O2_consumed_mol": "0.0005999999999999998",
+        "original_explicit_O2_mol": "0.001",
+        "actual_total_initial_O2_mol": "0.0031407780819617545",
+        "actual_air": [
+          {
+            "row": 1,
+            "vessel": 0,
+            "air_mol": "0.0102185111310823592550972171783811018197343834",
+            "N2_mol": "0.00807364564466817204745231129263890854777213632",
+            "O2_mol": "0.00214077808196175426394286699887084083123435332",
+            "CO2_mol": "0.00000408740445243294370203888687135244072789375336"
+          }
+        ],
+        "final_total_C_mol": "0.00060408740445564538266695180",
+        "trapped_air_C_mol": "0.00000408740445243294370203888687135244072789375336",
+        "retained_Carbonate_portions": [
+          {
+            "moles": "0.0006029244794884",
+            "phase": "solid",
+            "species": "CaCO3"
+          }
+        ],
+        "retained_CaOH2_solid_mol": "0",
+        "final_canonical_contents": {
+          "0": [
+            {
+              "moles": "0.008073645644668174",
+              "phase": "gas",
+              "species": "N2"
+            },
+            {
+              "moles": "0.0025407780819617547",
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": "1.985477216209E-12",
+              "phase": "gas",
+              "species": "CO2"
+            },
+            {
+              "moles": "0.0006029244794884",
+              "phase": "solid",
+              "species": "CaCO3"
+            }
+          ],
+          "1": [
+            {
+              "moles": "0.00009707552078029678",
+              "phase": "aqueous",
+              "species": "Ca+2"
+            },
+            {
+              "moles": "1.2580256098679518E-12",
+              "phase": "aqueous",
+              "species": "CO2(aq)"
+            },
+            {
+              "moles": "1.0605888443104539E-7",
+              "phase": "aqueous",
+              "species": "HCO3-"
+            },
+            {
+              "moles": "0.0000010568628393115112",
+              "phase": "aqueous",
+              "species": "CO3-2"
+            },
+            {
+              "moles": "5.535480972738393",
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": "0.00019193125644729092",
+              "phase": "aqueous",
+              "species": "base_equivalents"
+            }
+          ]
+        },
+        "final_elemental_Ca_mol": "0.000700000000268696780",
+        "filter_checks": [
+          {
+            "row": 10,
+            "donor": 0,
+            "receiver": 1,
+            "owned_donor_gases": [
+              {
+                "moles": "0.008073645644668174",
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": "0.0025407780819617547",
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": "1.985477216209E-12",
+                "phase": "gas",
+                "species": "CO2"
+              }
+            ],
+            "all_original_donor_gases_retained": true
+          }
+        ],
+        "no_isotopic_assignment_of_identical_air_and_glucose_carbon": true
+      },
+      "qualified_scope": [
+        "Qualifies the requested stoichiometric respiration-template/carbon-capture budget, not spontaneous respiration mechanism, kinetics, complete carbonate capture or empirical calibration.",
+        "Carbon from trapped air remains in the total. No isotope identity is invented to assign individual solid carbonate atoms uniquely to glucose versus air. Excess lime is distinguished by actual CaOH2 solid and aqueous Ca pools."
+      ],
+      "actual_limits_or_failures": [],
+      "per_step_vessel_atom_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "H": "0E-16",
+            "O": "0E-16",
+            "charge": "0E-16"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "C": "-5.8140583188687135244072789375336E-19",
+            "H": "-5.00469010E-16",
+            "N": "3.9050953774147221829044557274E-18",
+            "O": "-2.5034290119077148438654392450E-16",
+            "charge": "-1.164602414000000000000000000000000E-18"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "C": "-5.8433799886871352440727893753E-20",
+            "H": "-1.101397140E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "O": "-5.5186068509477148438654392450E-16",
+            "charge": "3.034723522000000000000000000000000E-18"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "C": "-5.8414198886871352440727893753E-20",
+            "H": "-1.101414720E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "O": "-5.5187822629177148438654392450E-16",
+            "charge": "3.052304320000000000000000000000000E-18"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "C": "-1.5841248213886871352440727893753E-17",
+            "H": "-4.8523420E-16",
+            "N": "3.9050953774147221829044557274E-18",
+            "O": "-2.4310792833677148438654392450E-16",
+            "charge": "-6.0639107650000000000000000000000000E-17"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "C": "-1.5841248213886871352440727893753E-17",
+            "H": "-4.8523420E-16",
+            "N": "3.9050953774147221829044557274E-18",
+            "O": "-2.4310792833677148438654392450E-16",
+            "charge": "-6.0639107650000000000000000000000000E-17"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "C": "-1.7686850871286871352440727893753E-17",
+            "H": "-1.8158290E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "Ca": "-4.9230E-17",
+            "O": "-9.0966628747657148438654392450E-16",
+            "charge": "-1.63959600000000000000000000000000000E-16"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "C": "-1.7686850871286871352440727893753E-17",
+            "H": "-1.8158290E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "Ca": "-4.9230E-17",
+            "O": "-9.0966628747657148438654392450E-16",
+            "charge": "-1.63959600000000000000000000000000000E-16"
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "residuals": {
+            "C": "-1.7686850871286871352440727893753E-17",
+            "H": "-1.8158290E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "Ca": "-4.9230E-17",
+            "O": "-9.0966628747657148438654392450E-16",
+            "charge": "-1.63959600000000000000000000000000000E-16"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "residuals": {
+            "C": "-1.7686850871286871352440727893753E-17",
+            "H": "-1.8158290E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "Ca": "-4.9230E-17",
+            "O": "-9.0966628747657148438654392450E-16",
+            "charge": "-1.63959600000000000000000000000000000E-16"
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "residuals": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "residuals": {
+            "C": "-1.7686850871286871352440727893753E-17",
+            "H": "-1.8158290E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "Ca": "-4.9230E-17",
+            "O": "-9.0966628747657148438654392450E-16",
+            "charge": "-1.63959600000000000000000000000000E-16"
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "residuals": {
+            "C": "3.23012581578420E-15",
+            "H": "1.537794390E-15",
+            "Ca": "2.68746010E-13",
+            "O": "7.6889292156840E-16",
+            "charge": "5.5041253181000000E-13"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "residuals": {
+            "C": "-1.7686850871286871352440727893753E-17",
+            "H": "-1.8158290E-15",
+            "N": "3.9050953774147221829044557274E-18",
+            "Ca": "-4.9230E-17",
+            "O": "-9.0966628747657148438654392450E-16",
+            "charge": "-1.63959600000000000000000000000000E-16"
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "residuals": {
+            "C": "3.23012581578420E-15",
+            "H": "1.537794390E-15",
+            "Ca": "2.68746010E-13",
+            "O": "7.6889292156840E-16",
+            "charge": "5.5041253181000000E-13"
+          }
+        }
+      ],
+      "maximum_material_residuals": {
+        "H": "1.8158290E-15",
+        "O": "9.0966628747657148438654392450E-16",
+        "charge": "5.5041253181000000E-13",
+        "C": "3.23012581578420E-15",
+        "N": "3.9050953774147221829044557274E-18",
+        "Ca": "2.68746010E-13"
+      },
+      "boundary_exports": [],
+      "noncontents_reservoir_snapshot_checks": 15
+    },
+    {
+      "id": "batch2:tc-008",
+      "status": "HOLD",
+      "engine": {
+        "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
+        "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+        "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+      },
+      "script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+      "response_sha256": "e22f64b48caba33e78d20ac2b66c7cee3361979d6062aaeda520537427e88553",
+      "original_forecast": "When supported by the coupled brine/ice model, salt lowers the freezing equilibrium temperature and promotes melting that consumes latent energy. Cooling and melting can therefore occur together.",
+      "original_checks": [
+        {
+          "id": "TC-008-C1",
+          "criterion": "Compare both temperature and ice fraction before and after salt addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TC-008-C2",
+          "criterion": "Include salt dissolution energy and any undissolved salt in the interpretation, rather than attributing every joule to freezing-point depression.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "This prediction requires brine/ice equilibrium coupled to dissolution and enthalpy; a missing coupling is a model-coverage result."
+      ],
+      "common_checks": {
+        "complete_atoms_charge": true,
+        "filter_phase_ownership": true,
+        "no_unresolved_or_noncontents_reservoirs": true,
+        "no_solver_or_relevant_model_limit": true
+      },
+      "criteria": {
+        "TC-008-C1": true,
+        "TC-008-C2": false
+      },
+      "metrics": {
+        "before_ice_mol": "1.6638935108153081",
+        "after_ice_mol": "1.433749228616425",
+        "before_liquid_water_mol": "1.1115713795538285",
+        "after_liquid_water_mol": "1.3417156617527115",
+        "before_T_K": "273.15",
+        "after_T_K": "260.6058104854603",
+        "fusion_reference_J_mol": 6010.0,
+        "independent_water_enthalpy_before_J": -10000.000000000002,
+        "independent_water_enthalpy_after_J": -10568.335976287852,
+        "incoming_salt_sensible_energy_J": 0.0,
+        "salt_dissolution_energy_J": 331.94736752049005,
+        "excess_enthalpy_delta_J": 0.0,
+        "unclosed_energy_J": -236.38860876735987,
+        "undissolved_NaCl_mol": "0",
+        "other_nonwater_sensible_Cp": {
+          "Cl-": 0.0,
+          "Na+": 0.0
+        },
+        "actual_event_records": [
+          {
+            "event": "added",
+            "moles": "0.0855534452372397",
+            "species": "NaCl",
+            "total_after": "0.0855534452372397",
+            "vessel": 0
+          },
+          {
+            "event": "dissolved",
+            "moles": "0.0855534452372397",
+            "species": "NaCl",
+            "vessel": 0
+          },
+          {
+            "event": "solution_routed",
+            "provenance": {
+              "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+              "dataset_phrase": {
+                "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+                "key": "provenance.dataset.with-gas-uptake-slice",
+                "slots": [
+                  [
+                    "file",
+                    {
+                      "text": {
+                        "text": "pitzer.dat"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "dataset_sources": [
+                "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+                "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+                "Hnedkovsky et al., 1996, JCT 28, 125",
+                "sander-2023-hbr-reference"
+              ],
+              "engine": "PHREEQC (IPhreeqc, USGS)",
+              "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+              "model_phrase": {
+                "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+                "key": "provenance.model.ion-interaction",
+                "slots": [
+                  [
+                    "name",
+                    {
+                      "text": {
+                        "text": "Pitzer"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "routing": "chosen because the solution is concentrated (~8.5 mol/kgw), where the ion-interaction model is the valid one",
+              "routing_phrase": {
+                "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+                "key": "routing.concentrated-ion-interaction",
+                "slots": [
+                  [
+                    "molality",
+                    {
+                      "number": {
+                        "text": "8.5"
+                      }
+                    }
+                  ]
+                ]
+              }
+            },
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": "4.272340743639",
+            "ph": "7.081835781771",
+            "vessel": 0
+          },
+          {
+            "event": "temperature_changed",
+            "from": "273.15",
+            "to": "260.6058104854603",
+            "vessel": 0
+          },
+          {
+            "at": "256.90323409012683",
+            "event": "state_changed",
+            "from": "solid",
+            "kind": "melting",
+            "moles": "0.25193266514823054",
+            "shifted_by": "-16.246765909873147",
+            "species": "water",
+            "to": "liquid",
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": "3.482946536312",
+            "ph": "7.407588849435",
+            "vessel": 0
+          },
+          {
+            "at": "260.8831697595776",
+            "event": "state_changed",
+            "from": "liquid",
+            "kind": "freezing",
+            "moles": "0.023700940631454497",
+            "shifted_by": "-12.266830240422394",
+            "species": "water",
+            "to": "solid",
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": "3.544559402631",
+            "ph": "7.378274909126",
+            "vessel": 0
+          },
+          {
+            "at": "260.6058104854603",
+            "event": "state_changed",
+            "from": "solid",
+            "kind": "melting",
+            "moles": "0.0019125576821070137",
+            "shifted_by": "-12.544189514539653",
+            "species": "water",
+            "to": "liquid",
+            "vessel": 0
+          },
+          {
+            "event": "solution_characterized",
+            "ionic_strength": "3.539506786383",
+            "ph": "7.380648275396",
+            "vessel": 0
+          }
+        ],
+        "declared_energy_domain": "Actual Dacf phase-specific source Cp, water fusion referenced at273.15K, incoming salt sensible enthalpy and declared fixed dissolution enthalpy; liquid Cp clamped below table endpoint. Not calibrated subzero nonideal brine calorimetry."
+      },
+      "qualified_scope": [
+        "Cooling and melting signs alone do not establish whole-energy closure. Any missing nonideal enthalpy/domain capability remains a hold, rather than inventing a compensating heat term.",
+        "This receipt uses actual sourceDacf thermodynamic rows and all recorded excess energy. Historical c446 findings are preserved separately; no assumption that later software checks repair this experiment."
+      ],
+      "actual_limits_or_failures": [],
+      "per_step_vessel_atom_charge": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "residuals": {
+            "H": "0E-17",
+            "O": "0E-17",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "residuals": {
+            "H": "0E-17",
+            "O": "0E-17",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "residuals": {
+            "H": "0E-17",
+            "O": "0E-17",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "residuals": {
+            "H": "0E-17",
+            "O": "0E-17",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "residuals": {
+            "H": "-2.0E-16",
+            "Cl": "0E-17",
+            "Na": "0E-17",
+            "O": "-1.0E-16",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "residuals": {
+            "H": "-2.0E-16",
+            "Cl": "0E-17",
+            "Na": "0E-17",
+            "O": "-1.0E-16",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "residuals": {
+            "H": "-2.0E-16",
+            "Cl": "0E-17",
+            "Na": "0E-17",
+            "O": "-1.0E-16",
+            "charge": "0E-17"
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "residuals": {
+            "H": "-2.0E-16",
+            "Cl": "0E-17",
+            "Na": "0E-17",
+            "O": "-1.0E-16",
+            "charge": "0E-17"
+          }
+        }
+      ],
+      "maximum_material_residuals": {
+        "H": "2.0E-16",
+        "O": "1.0E-16",
+        "charge": "0",
+        "Cl": "0",
+        "Na": "0"
+      },
+      "boundary_exports": [],
+      "noncontents_reservoir_snapshot_checks": 8
+    }
+  ],
+  "new_engine_or_API_executions": 0,
+  "catalog_selection_assigned": false
+}

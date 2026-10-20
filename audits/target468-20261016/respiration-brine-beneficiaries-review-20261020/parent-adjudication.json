@@ -1,0 +1,23 @@
+{
+  "schema": "kerotakis.parent-scientific-adjudication.v1",
+  "utc": "2026-10-20T09:49:52.267385+00:00",
+  "reader_sha256": "cb43fd03d57da292e29476097bf7fb04f269515e9e8f6e242cf69250870f946a",
+  "assessment_sha256": "4cd2072592402160cdbf51ef36fbceafc4c2b883978241f2c0afe721c939f02b",
+  "parent_independent_assessment_sha256": "dd2ca3b1975779255480f023fc03ac11e95854cedc3c652041e8aea7e1a557ab",
+  "evidence_manifest_sha256": "12324000b94249f48c6ad95b0789d48f0bd4d83c6a14bffe31b0611aa51c589e",
+  "parent_reproduced_full_saved_reader_output_exactly": true,
+  "parent_independently_inspected_original_forecasts_criteria_metrics_source_and_limits": true,
+  "accepted_originals": [
+    "batch2:mo-005"
+  ],
+  "held_originals": [
+    "batch2:tc-008"
+  ],
+  "accepted_scope": [
+    "Qualifies the requested stoichiometric respiration-template/carbon-capture budget, not spontaneous respiration mechanism, kinetics, complete carbonate capture or empirical calibration.",
+    "Carbon from trapped air remains in the total. No isotope identity is invented to assign individual solid carbonate atoms uniquely to glucose versus air. Excess lime is distinguished by actual CaOH2 solid and aqueous Ca pools."
+  ],
+  "hold_reason": "TC008 correct cooling/melting signs do not close its coupled dissolution/enthalpy budget: -236.38860876735987 J remains unclosed.",
+  "earlier_historical_failure_and_parent_schema_error_preserved": true,
+  "new_engine_or_API_executions": 0
+}

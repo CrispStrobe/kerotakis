@@ -1,0 +1,68 @@
+{
+  "frozen_utc": "2026-10-20T09:26:47.102965+00:00",
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "accepted_engine": {
+    "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
+    "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "authenticated_artifact_receipt_sha256": "36a6c9796fd403e96b19ac2ac94b2967dd409dd160bb79a1fe9db24bd95ba8ba",
+  "bound_to_authenticated_accepted_artifact": true,
+  "execution_prerequisite": "Actual accepted sourceDacf artifact/API/browser receipt, unchanged scripts, one request per original and complete independently reviewed owned-material/phase/energy follow-up; no automatic selection.",
+  "new_original_followups": 2,
+  "prior_c446_failures_preserved": true,
+  "scientific_selection_automatic": false,
+  "cases": [
+    {
+      "id": "batch2:mo-005",
+      "script": "# MO-005: Capture carbon from the requested glucose-respiration model\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nseal v1 250mL\nadd v1 glucose 0.0001mol\nadd v1 O2 0.001mol\nreact v1 respiration\ninspect v1\nadd v1 Ca(OH)2 0.0007mol\nmeasure v1 pressure\ninspect v1\nnew\nfilter v1 v2\ninspect\n",
+      "script_sha256": "6d41f80d3a37bfe1c129105421063e3ff9f083cdcaf9e4e5def90fc98aef4d1a",
+      "original_forecast": "The requested respiration can release up to 0.0006 mol of carbon dioxide from this glucose dose. Lime addition may transfer some of that carbon into carbonate solid while the rest remains in dissolved or gaseous pools.",
+      "original_acceptance_checks": [
+        {
+          "id": "MO-005-C1",
+          "criterion": "Account for all six carbons per converted glucose across every retained carbon-bearing pool.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "MO-005-C2",
+          "criterion": "Identify carbonate separately from any excess unreacted calcium hydroxide before using retained solid mass as a carbon assay.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "This does not simulate a living organism or enzyme pathway.",
+        "Gas partitioning and excess lime make total filter-residue mass an unsuitable direct pure-carbonate measurement."
+      ]
+    },
+    {
+      "id": "batch2:tc-008",
+      "script": "# TC-008: Salt-induced melting can cool an ice-water mixture\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 50g @ 0C\ncool v1 10kJ\nmeasure v1 thermometer\ninspect v1\nadd v1 NaCl 5g @ 0C\nmeasure v1 thermometer\nmeasure v1 conductivity\ninspect\n",
+      "script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+      "original_forecast": "When supported by the coupled brine/ice model, salt lowers the freezing equilibrium temperature and promotes melting that consumes latent energy. Cooling and melting can therefore occur together.",
+      "original_acceptance_checks": [
+        {
+          "id": "TC-008-C1",
+          "criterion": "Compare both temperature and ice fraction before and after salt addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TC-008-C2",
+          "criterion": "Include salt dissolution energy and any undissolved salt in the interpretation, rather than attributing every joule to freezing-point depression.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "This prediction requires brine/ice equilibrium coupled to dissolution and enthalpy; a missing coupling is a model-coverage result."
+      ]
+    }
+  ],
+  "separate_review_expectations": {
+    "batch2:mo-005": "Delivered generic filter repair should preserve donor gas while transferring only admitted phases. Account six glucose carbons, trapped-air N/O/C, actual gas/aqueous/solid budgets and distinct carbonate/lime identities. No respiration pathway or full carbonate assay claim.",
+    "batch2:tc-008": "Reassess historical brine/ice energy failure on changed accepted source. Independently integrate actual source Cp/latent/dissolution/initial salt sensible terms and all excess/source/sink reservoirs; cooling and melting signs alone do not qualify it. Preserve any current unsupported-domain or unclosed energy outcome without correction."
+  }
+}
