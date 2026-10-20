@@ -1,0 +1,19 @@
+{
+  "rustfmt_check": true,
+  "python_syntax_compile_only": true,
+  "native_compiled": false,
+  "native_executed": false,
+  "all_twelve_trait_methods_preserve_inner_semantics": true,
+  "both_trusted_readback_methods_observed": true,
+  "Some_self_only_if_inner_opts_in": true,
+  "synthetic_causal_schema_only_controls": {
+    "positive": 2,
+    "adversarial_rejected": 8,
+    "chemical_validation": false
+  },
+  "exact_eight_fixture_preserved": true,
+  "source_tree_bindings_prepared": true,
+  "actual_producer_bindings_pending": true,
+  "reader_executed_on_actual_trace": false,
+  "synthetic_engine_or_success_result": false
+}

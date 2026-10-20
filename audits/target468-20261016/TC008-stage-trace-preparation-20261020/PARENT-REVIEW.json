@@ -1,0 +1,16 @@
+{
+  "state": "STATIC_PREPARATION_ONLY_NO_COMPILATION_OR_ENGINE_EXECUTION",
+  "source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "source_blob_hashes_and_all_quote_lines_verified": true,
+  "original_script_and_eight_control_fixture_exact": true,
+  "actual_Bench_new_empty_v0_and_StepStart_serialization_checked": true,
+  "all_twelve_equilibrator_methods_delegated": true,
+  "both_trusted_methods_delegate_exact_opaque_result_no_new_attestation": true,
+  "first_direct_trusted_bypass_preparation_preserved": true,
+  "parent_rustfmt_AST_and_ten_synthetic_schema_probes_pass": true,
+  "whole_step_fallback_heat_price_branch_still_unobservable": true,
+  "phase_gap_outputs_not_automatically_called_projection": true,
+  "native_collection_test_success_not_energy_acceptance": true,
+  "new_engine_API_provider_build_calls": 0,
+  "scientific_selection_assigned": false
+}
