@@ -1,0 +1,44 @@
+{
+  "reviewed_utc": "2026-10-20T10:49:18.096523+00:00",
+  "source_reviewed": "0d348142dda92f5d2ce7b0efe9fc480c6c6387ca",
+  "review_kind": "static_source_and_fixture_review_only",
+  "first_preparation_sha256": "9b3f29a1daebce8d2d3b99ae73c401c1f9ce7fb66b348673b643faccc4dc259e",
+  "current_test_sha256": "681192b84664a408087480aa3f9f73d12ea610f4482684425287909f876f9dda",
+  "test_count": 8,
+  "source_api": {
+    "event": "kerotakis_core::Event::StateChanged",
+    "vessel": "VesselId",
+    "kind": "Option<kerotakis_core::ops::PhaseTransition>",
+    "moles": "Option<Moles>",
+    "constructing_helper": "Event::state_changed fills kind from phases and moles=Some(actual amount)"
+  },
+  "oracle_review": {
+    "nasa9_registry_formula_and_endpoint_clamp_match_declared_model": true,
+    "phase_specific_water_curves_present": true,
+    "ion_zero_cp_and_empty_polynomials_source_checked_and_fixture_asserted": true,
+    "fusion_reference": "6010 J/mol at273.15 K",
+    "quadrature_panels": 4096,
+    "absolute_energy_tolerance_J": 0.001,
+    "production_energy_root_helpers_not_used_as_oracle": true,
+    "balanced_salt_doses_and_warm_cold_directions_inside_stated_ideal_domain": true
+  },
+  "event_inventory_contract": {
+    "owner_vessel_required": true,
+    "water_only_phase_owner": true,
+    "matching_from_to_and_kind_required": true,
+    "finite_positive_declared_event_moles_required": true,
+    "opposite_or_unowned_phase_changes_rejected": true,
+    "signed_event_sum_matches_ice_and_liquid_deltas": true,
+    "total_water_and_each_ion_ledger_retained": true
+  },
+  "validation": {
+    "rustfmt_only": true,
+    "compiled": false,
+    "executed": false,
+    "observed_baseline_failures": null,
+    "provider_jobs": 0,
+    "runtime_source_changes": 0,
+    "scientific_selections": 0
+  },
+  "remaining": "Stage identical fixtures on actual tests-only baseline and repair after current phase/browser prerequisite lanes. Compilation/setup errors are not scientific baseline failures; preserve first raw results."
+}

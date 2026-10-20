@@ -1,0 +1,8 @@
+{
+  "attempt": "Compare independent interval-wise antiderivative against400-panel unsplit Simpson to1e-6J",
+  "result": "FAILED numerical-method agreement assumption",
+  "difference_J": 0.0002314874618605245,
+  "cause": "Simpson panel spans the registry373.15K interval join; different numerical integration methods need not agree to1e-6J. Both independently close the original35kJ ledger within existing0.1J contract.",
+  "no_runtime_reexecution": true,
+  "scientific_tolerance_changed": false
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "kerotakis.phase-energy.controls-preparation.v1",
+  "source_reviewed": "0d348142dda92f5d2ce7b0efe9fc480c6c6387ca",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/solve.rs": "9c2a6414d95341b095e33cba6ce65f94a52d1b6bde057e79ae5af162d5d0e17b",
+    "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "independent_registry_phase_cp_quadrature_panels": 4096,
+  "fusion_reference_K": 273.15,
+  "fusion_reference_J_per_mol": 6010,
+  "absolute_energy_tolerance_J": 0.001,
+  "initial_water_solid_and_liquid_mol": [
+    1,
+    1
+  ],
+  "salt_pair_doses_mol": [
+    0.001,
+    0.01,
+    0.03
+  ],
+  "forecast": "Two pure-water positive controls and six brine controls probe whether the present crossing approximation conserves independently declared phase enthalpy. No observed pass/failure count is assigned. A later repaired source must pass all eight.",
+  "executed": false,
+  "compiled": false,
+  "scientific_selections": 0,
+  "frozen_test_sha256": "681192b84664a408087480aa3f9f73d12ea610f4482684425287909f876f9dda",
+  "first_preparation_test_sha256": "9b3f29a1daebce8d2d3b99ae73c401c1f9ce7fb66b348673b643faccc4dc259e",
+  "preexecution_hardening": {
+    "retained_first_preparation": "first-preparation/",
+    "correct_event_vessel_and_kind": true,
+    "positive_finite_declared_event_moles_required": true,
+    "opposite_or_unowned_state_changes_refused": true,
+    "signed_event_moles_equal_ice_and_liquid_inventory_deltas": true,
+    "registry_ion_heat_capacity_zero_and_no_curves_asserted": true,
+    "executed": false,
+    "compiled": false
+  }
+}

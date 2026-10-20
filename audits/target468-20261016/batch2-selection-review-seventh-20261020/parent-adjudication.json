@@ -1,0 +1,31 @@
+{
+  "accepted_originals": [
+    "batch2:ab-032",
+    "batch2:pq-005",
+    "batch2:mo-009"
+  ],
+  "held_originals": [
+    "batch2:ec-008",
+    "batch2:se-002",
+    "batch2:se-007",
+    "batch2:mo-007",
+    "batch2:mo-008"
+  ],
+  "reader_sha256": "54d36db5ef97f3259f618663c74f05a1ed0acf55c2a38ed50acd713f9bf6b4bf",
+  "assessment_sha256": "8cda18acf9b8852838ed524482d07ca8877952fccbde9232d1b7640255e8e0df",
+  "parent_reproduced_full_saved_reader_output_exactly": true,
+  "parent_inspected_original_C1_C2_and_forecast": true,
+  "independent_source_indicator_pKa_verified": [
+    3.47,
+    9.4
+  ],
+  "independent_interval_antiderivative_sensible_J": 31250.458048280532,
+  "independent_interval_antiderivative_whole_heat_residual_J": -0.0051171060258639045,
+  "existing_energy_tolerance_J": 0.1,
+  "accepted_scope": [
+    "AB032 actual RGB paired with actual pH at trace indicator dose; no human-visible endpoint or quantitative full-mixture acidity claim",
+    "PQ005 calcium/carbon contrast and actual retained solid/filtrate accounting; boilingpH and nucleation calibration excluded",
+    "MO009 real silica retention and copper transfer plus actual eyes cloudiness decrease; conditional original criterion explicitly distinguishes missing scattering. Missing copper-complex UVvis remains refusal, not an absorbance pass"
+  ],
+  "new_engine_or_API_executions": 0
+}

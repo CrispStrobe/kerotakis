@@ -1,0 +1,13 @@
+{
+  "source_head": "ed012116b065434047c6e90300d9d7b23aefab77",
+  "source_view": "Locally available origin/main ref, read-only exact-source inspection; no claim of a fresh remote fetch or current runtime reproduction.",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/solution_optics.rs": "b37b8bd710378e28cfe81ec984e1f4dc7e6ef70c5b5089358fa65490b779d763",
+    "crates/kerotakis-core/src/indicator.rs": "b9da6ad8e7fbfe193220ce819b62ab488a46788578e0d1b50bff59065449625d",
+    "crates/kerotakis-core/src/bench.rs": "7e7aeb09486764401ce8e5432c1e88c1fcd28c85db3ad083bde5176a522808ec",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-thermo/src/vle.rs": "139bba0076c34e0efdc643b4ce5c8847d5e8cda5ab726b7f6c69578ed944842e",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "scope": "Historical c446 original outcomes remain immutable. Current capability gaps and already-delivered fixes must be distinguished by their own exact source and separate executed followups."
+}

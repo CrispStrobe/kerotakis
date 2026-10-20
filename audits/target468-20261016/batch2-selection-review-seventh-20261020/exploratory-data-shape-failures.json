@@ -1,0 +1,16 @@
+{
+  "errors": [
+    {
+      "error": "KeyError: 'scene'",
+      "stage": "read-only exploratory inspection before mathematical reader",
+      "cause": "Assumed inspect rows have scene, but scene is present on measure rows and absent from inspect rows."
+    },
+    {
+      "error": "AttributeError: 'NoneType' object has no attribute 'get'",
+      "stage": "second exploratory scene summary before mathematical reader",
+      "cause": "Empty filtered donor has liquid:null. Final reader reads each actual measured receiver and handles null liquid."
+    }
+  ],
+  "physical_failure_claim": false,
+  "first_mathematical_reader_execution": "completed successfully; no fabricated reader failure"
+}
