@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-phase-owned-full/source",
+    "/kaggle/temp/kerotakis-phase-owned-full/source-fleets-v2-quantitative-solutions"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "dcce5a108302acf2e39c47b687ba90cceb87a25b763f1a9e1bdef34f903a219c"
+}

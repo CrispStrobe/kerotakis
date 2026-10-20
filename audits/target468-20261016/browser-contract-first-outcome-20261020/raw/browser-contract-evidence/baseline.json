@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-wasm",
+    "--lib",
+    "solver_contract_tests",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "stdout_sha256": "9ac1e8ac1ade1e459605b885efef8fbd82ae0dc247fd85faea883401bdc3e374",
+  "stderr_sha256": "d077fb82a44b2aa6c7b3165f128b5475340b918d015ffe7c45bb4a1e5d5c1ef7"
+}

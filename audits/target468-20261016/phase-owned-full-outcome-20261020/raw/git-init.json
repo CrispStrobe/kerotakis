@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/kerotakis-phase-owned-full/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "48466dbb9d637c94d10e18433768c3ba8ef8237882b7240f0aca6dabfcf2cd97",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

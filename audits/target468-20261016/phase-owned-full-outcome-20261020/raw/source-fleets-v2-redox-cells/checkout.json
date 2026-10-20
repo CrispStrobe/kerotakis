@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-phase-owned-full/source",
+    "/kaggle/temp/kerotakis-phase-owned-full/source-fleets-v2-redox-cells"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "398a3e077431ef51c62e213e16a1819e269a3279e12e312cdc9b35ef79673ea4"
+}

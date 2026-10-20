@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-phase-owned-full/source",
+    "/kaggle/temp/kerotakis-phase-owned-full/seventh-fleet"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "5f10a6a82a2a0fe9937b77cfdbf7c7a3571dd414b39eaa6ab87fd57a36e5d0d0"
+}

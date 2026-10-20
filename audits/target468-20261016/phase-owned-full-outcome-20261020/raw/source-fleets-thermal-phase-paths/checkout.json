@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "clone",
+    "--shared",
+    "--no-checkout",
+    "/kaggle/temp/kerotakis-phase-owned-full/source",
+    "/kaggle/temp/kerotakis-phase-owned-full/source-fleets-thermal-phase-paths"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "f6b23306a6531a878cb722035b82db23943e717dcb5463592386a192c8ee6237"
+}

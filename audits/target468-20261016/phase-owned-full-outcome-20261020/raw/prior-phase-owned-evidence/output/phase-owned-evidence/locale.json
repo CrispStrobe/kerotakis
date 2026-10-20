@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "python3",
+    "tools/engine-locale-lint.py",
+    "--check"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "5b6530085b23a327102324486d2083ccebd506a471db31598711dbe420c05674",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

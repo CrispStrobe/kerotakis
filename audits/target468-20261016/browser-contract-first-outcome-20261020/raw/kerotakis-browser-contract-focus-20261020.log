@@ -1,0 +1,21 @@
+[{"stream_name":"stdout","time":1.043566633,"data":"fetch-rustup 0\n"}
+,{"stream_name":"stdout","time":14.814566577,"data":"rustup 0\n"}
+,{"stream_name":"stdout","time":16.133458192,"data":"components 0\n"}
+,{"stream_name":"stdout","time":16.199486899,"data":"git-init 0\n"}
+,{"stream_name":"stdout","time":16.207921475,"data":"git-remote 0\n"}
+,{"stream_name":"stdout","time":18.02933834,"data":"baseline-fetch 0\n"}
+,{"stream_name":"stdout","time":18.495620711,"data":"baseline-checkout 0\n"}
+,{"stream_name":"stdout","time":20.922172882,"data":"baseline-submodules 0\n"}
+,{"stream_name":"stdout","time":174.955598451,"data":"baseline 101\n"}
+,{"stream_name":"stderr","time":174.961266369,"data":"Traceback (most recent call last):\n"}
+,{"stream_name":"stderr","time":174.96148312,"data":"  File \"/kaggle/src/script.py\", line 51, in \u003cmodule\u003e\n"}
+,{"stream_name":"stderr","time":174.961495493,"data":"    assert result==101 and sum(int(p) for p,_,_ in results)==3 and sum(int(f) for _,f,_ in results)==9\n"}
+,{"stream_name":"stderr","time":174.961501029,"data":"           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"}
+,{"stream_name":"stderr","time":174.961506183,"data":"AssertionError\n"}
+,{"stream_name":"stderr","time":177.572609724,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":177.572646317,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":177.936219811,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":177.936245523,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":179.438912408,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":180.596897205,"data":"[NbConvertApp] Writing 456080 bytes to __results__.html\n"}
+]

@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-core",
+    "--lib",
+    "--tests",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "45e2e748c38f586ae5b9853551ae144273068da7610f12160cb2695e637a7409",
+  "stderr_sha256": "5fa04896ceb7a181ce6a24a6fba246de0553eba8147ae04ffcf2c6dc3f646791"
+}

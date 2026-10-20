@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/source_fleets.py --family 'distillation' --binary target/release/kero --out 'audit-evidence/distillation'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "6a219138a6bae4481293ef9da6802823dfe41ebf19342fd710b7bdd159591e50",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

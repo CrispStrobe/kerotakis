@@ -1,0 +1,423 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "657-peroxide-wait-30: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "658-peroxide-wait-60: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "659-peroxide-wait-120: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "660-peroxide-wait-240: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "661-acid-metal-wait-10: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "662-acid-metal-wait-30: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "663-acid-metal-wait-60: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "664-acid-metal-wait-120: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "665-peroxide-heat-0: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "666-peroxide-heat-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "667-peroxide-heat-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "668-peroxide-heat-300: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "669-zinc-dose-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "670-zinc-dose-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "671-zinc-dose-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "672-zinc-dose-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "673-wait-partition-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "674-wait-partition-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "675-wait-partition-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "676-wait-partition-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "677-acid-dose-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "678-acid-dose-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "679-acid-dose-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "680-acid-dose-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "kinetics-boundaries:v2b-kinetics-boundaries-peroxide-time",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "657-peroxide-wait-30": [
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          },
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          }
+        ],
+        "658-peroxide-wait-60": [
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          },
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          }
+        ],
+        "659-peroxide-wait-120": [
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          },
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          }
+        ],
+        "660-peroxide-wait-240": [
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          },
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          }
+        ]
+      }
+    },
+    {
+      "check": "kinetics-boundaries:v2b-kinetics-boundaries-metal-time",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "661-acid-metal-wait-10": [
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          },
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          }
+        ],
+        "662-acid-metal-wait-30": [
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          },
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          }
+        ],
+        "663-acid-metal-wait-60": [
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          },
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          }
+        ],
+        "664-acid-metal-wait-120": [
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          },
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          }
+        ]
+      }
+    },
+    {
+      "check": "kinetics-boundaries:v2b-kinetics-boundaries-temperature-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "665-peroxide-heat-0": [
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          },
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          }
+        ],
+        "666-peroxide-heat-100": [
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          },
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792115
+          }
+        ],
+        "667-peroxide-heat-200": [
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          },
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          }
+        ],
+        "668-peroxide-heat-300": [
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792117
+          },
+          {
+            "H": 22.157107965584235,
+            "O": 11.088553982792119
+          }
+        ]
+      }
+    },
+    {
+      "check": "kinetics-boundaries:v2b-kinetics-boundaries-zinc-dose-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "669-zinc-dose-0.0005": [
+          {
+            "Zn": 0.0005,
+            "Cl": 0.006
+          },
+          {
+            "Zn": 0.0005,
+            "Cl": 0.006
+          }
+        ],
+        "670-zinc-dose-0.001": [
+          {
+            "Zn": 0.001,
+            "Cl": 0.006
+          },
+          {
+            "Zn": 0.001,
+            "Cl": 0.006
+          }
+        ],
+        "671-zinc-dose-0.002": [
+          {
+            "Zn": 0.002,
+            "Cl": 0.006
+          },
+          {
+            "Zn": 0.002,
+            "Cl": 0.006
+          }
+        ],
+        "672-zinc-dose-0.004": [
+          {
+            "Zn": 0.004,
+            "Cl": 0.006
+          },
+          {
+            "Zn": 0.004,
+            "Cl": 0.006
+          }
+        ]
+      }
+    },
+    {
+      "check": "kinetics-boundaries:v2b-kinetics-boundaries-time-partition",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 12.175420099934936,
+          "H2O2|liquid": 0.010989281136393863,
+          "O2|gas": 5.359431803068442e-06
+        },
+        {
+          "water|liquid": 12.175420100090696,
+          "H2O2|liquid": 0.010989280980633299,
+          "O2|gas": 5.359509683350654e-06
+        },
+        {
+          "water|liquid": 12.175420100051761,
+          "H2O2|liquid": 0.010989281019567637,
+          "O2|gas": 5.359490216180966e-06
+        },
+        {
+          "water|liquid": 12.17542010012529,
+          "H2O2|liquid": 0.0109892809460373,
+          "O2|gas": 5.3595269813498174e-06
+        }
+      ]
+    },
+    {
+      "check": "kinetics-boundaries:v2b-kinetics-boundaries-acid-dose-ledger",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "677-acid-dose-0.0005": [
+          {
+            "Zn": 0.002,
+            "Cl": 0.0005
+          },
+          {
+            "Zn": 0.002,
+            "Cl": 0.0005
+          }
+        ],
+        "678-acid-dose-0.001": [
+          {
+            "Zn": 0.002,
+            "Cl": 0.001
+          },
+          {
+            "Zn": 0.002,
+            "Cl": 0.001
+          }
+        ],
+        "679-acid-dose-0.002": [
+          {
+            "Zn": 0.002,
+            "Cl": 0.002
+          },
+          {
+            "Zn": 0.002,
+            "Cl": 0.002
+          }
+        ],
+        "680-acid-dose-0.004": [
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          },
+          {
+            "Zn": 0.002,
+            "Cl": 0.004
+          }
+        ]
+      }
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "b4daecf742be080577e9fda57fc1ef55aefef3d3",
+  "binary_sha256": "3d22c977045bc788a0e085065ca730f06892ab0ce4bb5a0a3ecfcaad37f88613"
+}

@@ -1,0 +1,227 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "489-fixed-salt-dilution-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "490-fixed-salt-dilution-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "491-fixed-salt-dilution-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "492-fixed-salt-dilution-800: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "493-salt-dose-conductivity-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "494-salt-dose-conductivity-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "495-salt-dose-conductivity-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "496-salt-dose-conductivity-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "497-acid-dose-ph-0.0002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "498-acid-dose-ph-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "499-acid-dose-ph-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "500-acid-dose-ph-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "501-base-dose-ph-0.0002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "502-base-dose-ph-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "503-base-dose-ph-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "504-base-dose-ph-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "505-saline-extensive-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "506-saline-extensive-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "507-saline-extensive-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "508-saline-extensive-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "509-fixed-solute-mass-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "510-fixed-solute-mass-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "511-fixed-solute-mass-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "512-fixed-solute-mass-800: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "quantitative-solutions:qs-fixed-salt-dilution",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2360.3403959473176,
+        1204.2742133145518,
+        611.0523686910502,
+        308.8566877754742
+      ]
+    },
+    {
+      "check": "quantitative-solutions:qs-salt-dose-conductivity",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        177.60994629543558,
+        352.31178492753367,
+        696.5668309621545,
+        1371.2804081558638
+      ]
+    },
+    {
+      "check": "quantitative-solutions:qs-acid-dose-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        3.406279837938,
+        3.013464900299,
+        2.717837376526,
+        2.423845095673
+      ]
+    },
+    {
+      "check": "quantitative-solutions:qs-base-dose-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        10.59277629217,
+        10.9849154366,
+        11.27947214986,
+        11.5714398414
+      ]
+    },
+    {
+      "check": "quantitative-solutions:qs-saline-extensive",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        490.7068182505276,
+        490.7068182505276,
+        490.7068182505276,
+        490.7068182505276
+      ]
+    },
+    {
+      "check": "quantitative-solutions:qs-fixed-solute-mass",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        99.849102,
+        199.549102,
+        398.94910200000004,
+        797.749102
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "b4daecf742be080577e9fda57fc1ef55aefef3d3",
+  "binary_sha256": "3d22c977045bc788a0e085065ca730f06892ab0ce4bb5a0a3ecfcaad37f88613"
+}

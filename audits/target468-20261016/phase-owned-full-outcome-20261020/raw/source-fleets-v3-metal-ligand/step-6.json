@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/metal-ligand' --family 'metal-ligand' --out 'audit-evidence-v3/metal-ligand/metal-ligand-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "1962dc724cc25d04527db97cc8c069a6ee285c2193baaed9a48ff3cde68b3f24",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

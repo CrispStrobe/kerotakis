@@ -1,0 +1,126 @@
+{
+  "git-init.stdout": {
+    "sha256": "93d4c0455e30e03c047fb7c58e2f72d07df231485d2bea2c12bc91f90552731c",
+    "bytes": 79
+  },
+  "components.json": {
+    "sha256": "f09a33bd8a3e8e4af4af98ca299f8714ebb60dc41731508b397374fa88e3b8a4",
+    "bytes": 284
+  },
+  "baseline-fetch.json": {
+    "sha256": "32b0c98b12de7f0a6ad805c98747a83c8c07e1f085b8983a1a33aa6658a5827d",
+    "bytes": 323
+  },
+  "baseline-fetch.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "git-init.json": {
+    "sha256": "597d4706f8e1e4e007f5d7e781e3f36c7d3441994e5282206b91382617a21809",
+    "bytes": 280
+  },
+  "fetch-rustup.json": {
+    "sha256": "0b7e4a4d926491a8e6acf517973a6b75abb5033e947e5acba20c85f3963492e3",
+    "bytes": 352
+  },
+  "git-init.stderr": {
+    "sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430",
+    "bytes": 485
+  },
+  "baseline-checkout.stderr": {
+    "sha256": "ad3f0d9be3a2086399dd4f8e4b79d7c7f7a1350bb13ababeebf883b1370f86ed",
+    "bytes": 87
+  },
+  "frozen-plan.json": {
+    "sha256": "0707d6eafca497f7a9fdeb32121690f0f2684de94302ba15548808484826ac64",
+    "bytes": 130973
+  },
+  "baseline.stderr": {
+    "sha256": "d077fb82a44b2aa6c7b3165f128b5475340b918d015ffe7c45bb4a1e5d5c1ef7",
+    "bytes": 22912
+  },
+  "baseline.stdout": {
+    "sha256": "9ac1e8ac1ade1e459605b885efef8fbd82ae0dc247fd85faea883401bdc3e374",
+    "bytes": 2368
+  },
+  "STOPPED.json": {
+    "sha256": "c61b3c3be30a92168a08a73f13aa7ccb6a3588b7eaeab62b879c54f53aa93417",
+    "bytes": 412
+  },
+  "STARTED.json": {
+    "sha256": "907198441947df63acf2ecc18edf7c08f4ed504dce604f62af246f07bb209a44",
+    "bytes": 226
+  },
+  "fetch-rustup.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "prior-full-acceptance.json": {
+    "sha256": "0da542894254065fe0672c7b35c7a56ff1d81ee9d6f177b94c7e5ed02b5940e6",
+    "bytes": 14589
+  },
+  "baseline-submodules.stderr": {
+    "sha256": "a3cd49c8ec02e1c9317138959b54319f50979571f8ebb6194a83d6f6bb88074a",
+    "bytes": 393
+  },
+  "fetch-rustup.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "baseline-submodules.json": {
+    "sha256": "8fdb6aac1675b237c19cd6ddf35b65bcd8231966a2566592d0a5a86a1fa2f505",
+    "bytes": 312
+  },
+  "git-remote.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "baseline-checkout.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "baseline.json": {
+    "sha256": "55a6a42a79a65768789aa5fec912a2140e749ad19a836a3713a735b4e7cbabaf",
+    "bytes": 359
+  },
+  "git-remote.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "rustup.json": {
+    "sha256": "ada0be1038e4e11d38b5b3cd60d49e401f5a13ed13af9e387305cc6e0681936d",
+    "bytes": 382
+  },
+  "baseline-checkout.json": {
+    "sha256": "cb18057a8594a01e1a0fdad2ff60b4df67d889f498376b9db9ebd70cd4968d0c",
+    "bytes": 304
+  },
+  "baseline-fetch.stderr": {
+    "sha256": "c611c423e461675a711529df79cd01221305eefe1d2b61db31b201869cf318ff",
+    "bytes": 122
+  },
+  "git-remote.json": {
+    "sha256": "0af2d7ef65659703d31c87a63e35c318b4552852109c37762b6c10799effe6e0",
+    "bytes": 315
+  },
+  "components.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "components.stderr": {
+    "sha256": "4ae2551ea6202e5136e5d7344c5cd841fb1b981ec6798b8e0c525a228d335c72",
+    "bytes": 31
+  },
+  "rustup.stderr": {
+    "sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2",
+    "bytes": 346
+  },
+  "rustup.stdout": {
+    "sha256": "957e3060e716abaf6c807d5c9c9349f87e9da9175a043fc9e0a77671bbd1bfa4",
+    "bytes": 1247
+  },
+  "baseline-submodules.stdout": {
+    "sha256": "506b14f556ca726d5c1f6bef730fff3e5e526ca71c2d74b689b3c6e131de8f75",
+    "bytes": 183
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "worker_sha256_before_prerequisite_embedding": "103e798df986856095efe8d7064f0dd04933aa41da3f04bc7c7c5491a0979750",
+  "nine_real_expected_failures": 9,
+  "three_positive_controls": 3,
+  "existing_transaction_tests": 38,
+  "fixed_only_borrowed_policy_tests": 1,
+  "actual_test_binaries_will_be_retained_and_independently_rehashed": true,
+  "requires_embedded_prior_full_acceptance_before_issue": true,
+  "not_issued": true
+}

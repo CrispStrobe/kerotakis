@@ -1,0 +1,5 @@
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/family-gate/source/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 31.91s
+     Running tests/family_gate_legacy.rs (target/debug/deps/family_gate_legacy-e020e3971053cce4)
+     Running tests/family_gate_locale.rs (target/debug/deps/family_gate_locale-534c4c9309cdb39f)
+     Running tests/family_gate_registry_locale.rs (target/debug/deps/family_gate_registry_locale-c6e97f49b593d638)

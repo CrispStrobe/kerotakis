@@ -1,0 +1,8 @@
+{
+  "name": "Source fleet electrochemistry",
+  "key": "source-fleets",
+  "family": "electrochemistry",
+  "all_original_run_steps_passed": true,
+  "original_run_steps_executed": 4,
+  "expected_original_run_steps": 4
+}

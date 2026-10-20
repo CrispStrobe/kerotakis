@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "git",
+    "init",
+    "/kaggle/temp/phase-owned/source"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "9c0f743b0a824e888af61cd6097d40cd56aaa5a313e250823ec4be2c084f6d87",
+  "stderr_sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+}

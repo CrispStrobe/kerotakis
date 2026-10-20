@@ -1,0 +1,9 @@
+# Phase-owned full source acceptance —2026-10-20
+
+Exact source `b4daecf7` now passes2172 core/184 thermo/620 native/two hooks, all500 original coverage requirements without drift and all33 original product jobs/142 steps/29 law reports. Both original and independently rerun parent saved readers authenticate source/tree/worker, supplied actual lock66886813,920 evidence bindings and2193 artifact-member bindings. All eight new and34 prior named controls are present. This is CPU-source acceptance; actual protected CI/platform logs, integration and delivery remain separate.
+
+`raw/` preserves all small raw producer records, including original stdout/stderr, source-bound commands, source claims and all earlier failed/fixed focused evidence. The original manifest is unchanged; [publication](publication.json) maps retained small files and separately retained exact executable/artifact archives by actual bytes/hash. Large original archives remain outside Git; obtain them through the private operating handoff before reproducing the full saved reader. Their absence from this source publication is not permission to replace them with hashes or producer success flags.
+
+The frozen [full preparation and portable reader](../phase-owned-full-preparation-20261020/README.md) require actual collected archives and independently hash every original artifact member. Actual CPU binary and producer lock bindings are distinct from delivered partition sourceDacf/f6aef37d/production lock41bbdc74. No deployment or original SE009 qualification follows from these tests alone.
+
+An exact-head guard waits for all applicable protected CI and both actual native-platform logs containing42 required names before normal PR846 readiness/auto-merge. No bypass, force push, unassigned-run substitution for protected checks or weakened scientific criterion is authorized. Once integrated, verify actual merged tree, artifact/API/browser delivery and only then unchanged original SE009.

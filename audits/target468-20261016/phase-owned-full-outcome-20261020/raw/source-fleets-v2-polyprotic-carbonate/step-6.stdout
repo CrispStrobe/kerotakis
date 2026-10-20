@@ -1,0 +1,227 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "513-phosphoric-dose-0.0003: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "514-phosphoric-dose-0.0006: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "515-phosphoric-dose-0.0012: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "516-phosphoric-dose-0.0024: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "517-phosphoric-dilution-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "518-phosphoric-dilution-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "519-phosphoric-dilution-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "520-phosphoric-dilution-800: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "521-bicarbonate-dose-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "522-bicarbonate-dose-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "523-bicarbonate-dose-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "524-bicarbonate-dose-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "525-carbonate-dose-0.00025: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "526-carbonate-dose-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "527-carbonate-dose-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "528-carbonate-dose-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "529-carbonate-acid-0.0002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "530-carbonate-acid-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "531-carbonate-acid-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "532-carbonate-acid-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "533-carbonate-scale-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "534-carbonate-scale-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "535-carbonate-scale-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "536-carbonate-scale-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "polyprotic-carbonate:pc-phosphoric-dose",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        3.06177781171,
+        2.801049765581,
+        2.558150993074,
+        2.334056093723
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-phosphoric-dilution",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2.265723726753,
+        2.48398463561,
+        2.720806117929,
+        2.976062955623
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-bicarbonate-dose",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        8.417967273211,
+        8.698574975457,
+        8.964249828604,
+        9.20563010668
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-carbonate-dose",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        10.47369292278,
+        10.63438122907,
+        10.77801113385,
+        10.90533772541
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-carbonate-acid",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        10.7324261215,
+        10.47656301082,
+        10.07873262243,
+        8.946232250998
+      ]
+    },
+    {
+      "check": "polyprotic-carbonate:pc-carbonate-scale",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        10.85443350503,
+        10.85443350503,
+        10.85443350503,
+        10.85443350503
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "b4daecf742be080577e9fda57fc1ef55aefef3d3",
+  "binary_sha256": "3d22c977045bc788a0e085065ca730f06892ab0ce4bb5a0a3ecfcaad37f88613"
+}

@@ -1,0 +1,25 @@
+
+running 4 tests
+test globally_invalid_transfer_state_keeps_error_and_rollback_contract ... FAILED
+test refused_drain_creates_no_receiver_and_moves_no_material ... FAILED
+test refused_extraction_preserves_the_numerical_reason_and_inventory ... ok
+test ordinary_supported_drain_retains_both_solute_shares_and_total ... ok
+
+failures:
+
+failures:
+    globally_invalid_transfer_state_keeps_error_and_rollback_contract
+    refused_drain_creates_no_receiver_and_moves_no_material
+
+test result: FAILED. 2 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+
+running 5 tests
+test a_partial_sample_keeps_its_supported_peak_and_missing_data_note ... ok
+test globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract ... ok
+test invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter ... ok
+test methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures ... ok
+test invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+

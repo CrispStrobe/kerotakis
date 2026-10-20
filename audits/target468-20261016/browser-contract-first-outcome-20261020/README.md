@@ -1,0 +1,9 @@
+# Browser contract: first execution stopped —2026-10-20
+
+The actual baseline compiled and executed12 frozen controls: **ten failed and two passed**, versus the frozen nine/three forecast. The worker correctly stopped on that mismatch before candidate execution. The ordinary saved acceptance reader also refused the stopped run. No repaired pass, Wasm-target compilation, Clippy, source integration or production acceptance is earned.
+
+The analytic-water direct adapter failed before the composite comparison, and the supposed untrusted-wrapper positive failed at the same concrete setup. Preserve both first failures and investigate the actual aqueous medium/completeness contract. These failures cannot establish an additional wrapper defect. Cold-family inventory and warm-family boundary assumptions also require causal review against the actual shipped phase/thermal/oracle path. Keep the real controls; do not merely relabel all failures as expected.
+
+[Raw records](raw/browser-contract-evidence/) retain exact commands, stdout/stderr, first stop, worker/plan/prerequisite and original manifest. [Collected receipt](collected.json) hashes every downloaded file. Source baseline `cc2fe02adac818b6af6c8834fa19ca36ab1540c4`, test SHA-256 `d0a4a52dcc59ccb4cfeb83373d512b85fe1b57c66c25d115729ed53d689ce4ad` and actual supplied lock `66886813` remain frozen. The worker stopped before retaining its test executable; no independently rehashed baseline binary binding is claimed. The planned repair head was not reached.
+
+Run `python3 audits/target468-20261016/browser-contract-first-outcome-20261020/review_failure.py` to authenticate retained files and exact failure names against the frozen forecast. No engine, HTTP request or build is required. A causal setup correction and separate source/fixture binding are prerequisites to any successor job.

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/phase-colligative' --family 'phase-colligative' --out 'audit-evidence-v2/phase-colligative/phase-colligative-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "c18a21c55889cf7d0adaaf45993ffa18c7eea90dde1396962f4d954bc4e6f6e9",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

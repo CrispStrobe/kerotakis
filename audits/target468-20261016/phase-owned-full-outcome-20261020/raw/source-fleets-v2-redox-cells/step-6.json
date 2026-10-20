@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/redox-cells' --family 'redox-cells' --out 'audit-evidence-v2/redox-cells/redox-cells-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "00bd2baae5f62d2d16d27c6a90746c93f0d7ac6daa3c532cd82ee17dfe9dfcd6",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

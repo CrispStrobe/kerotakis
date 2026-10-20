@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/gas-production-transfer' --family 'gas-production-transfer' --out 'audit-evidence-v2/gas-production-transfer/gas-production-transfer-law-checks.json'"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "1ddf5ba0e53d2bb0dbe8eecee1a690be895699af1c115e56742eceaa77ee7b6b",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

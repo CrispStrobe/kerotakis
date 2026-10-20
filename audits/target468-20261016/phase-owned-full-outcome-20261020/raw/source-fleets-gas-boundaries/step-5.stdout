@@ -1,0 +1,273 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "267-gas-amount-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "268-gas-amount-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "269-gas-amount-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "270-gas-amount-0.008: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "271-gas-volume-1000: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "272-gas-volume-750: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "273-gas-volume-500: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "274-gas-volume-250: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "275-gas-heating-0: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "276-gas-heating-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "277-gas-heating-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "278-gas-heating-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "279-gas-energy-single: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "280-gas-energy-halves: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "281-gas-energy-unequal: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "282-gas-energy-three-pulses: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "283-gas-roundtrip-50: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "284-gas-roundtrip-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "285-gas-roundtrip-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "286-gas-roundtrip-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "287-gas-extensive-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "288-gas-extensive-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "289-gas-extensive-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "290-gas-extensive-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "gas-boundaries:gas-amount-pressure-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        106.28291405911342,
+        111.24082811822682,
+        121.15665623645361,
+        140.9883124729072
+      ]
+    },
+    {
+      "check": "gas-boundaries:gas-volume-pressure-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        110.49714100935981,
+        113.55452134581304,
+        119.6692820187196,
+        138.01356403743915
+      ]
+    },
+    {
+      "check": "gas-boundaries:gas-heating-pressure-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        122.14823904827628,
+        200.94458098620265,
+        276.3821516525198
+      ]
+    },
+    {
+      "check": "gas-boundaries:gas-heating-burst-boundary",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "check": "gas-boundaries:gas-energy-partition",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        853.221454159175,
+        853.221454159175,
+        853.221454159175,
+        853.221454159175
+      ]
+    },
+    {
+      "check": "gas-boundaries:gas-energy-roundtrip",
+      "kind": "metamorphic",
+      "assertion": "final-scalar-equal",
+      "passed": true,
+      "evidence": [
+        298.15,
+        298.15,
+        298.15,
+        298.14999999999986
+      ]
+    },
+    {
+      "check": "gas-boundaries:gas-extensive-pressure",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        238.13801824079894,
+        238.13801824079894,
+        238.13801824079894,
+        238.13801824079894
+      ]
+    },
+    {
+      "check": "gas-boundaries:gas-extensive-conservation",
+      "kind": "conservation",
+      "assertion": "case-elements-conserved",
+      "passed": true,
+      "evidence": {
+        "287-gas-extensive-1": [
+          {
+            "N": 0.020147291289336348
+          },
+          {
+            "N": 0.020147291289336348
+          }
+        ],
+        "288-gas-extensive-2": [
+          {
+            "N": 0.040294582578672695
+          },
+          {
+            "N": 0.040294582578672695
+          }
+        ],
+        "289-gas-extensive-3": [
+          {
+            "N": 0.06044187386800905
+          },
+          {
+            "N": 0.06044187386800905
+          }
+        ],
+        "290-gas-extensive-4": [
+          {
+            "N": 0.08058916515734539
+          },
+          {
+            "N": 0.08058916515734539
+          }
+        ]
+      }
+    }
+  ],
+  "passed": 32,
+  "unmet": 0
+}

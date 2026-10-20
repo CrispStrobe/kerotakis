@@ -1,0 +1,144 @@
+{
+  "utc": "2026-10-20T09:40:44.210472+00:00",
+  "version": 1,
+  "status": {
+    "status": "ERROR",
+    "failureMessage": null
+  },
+  "files": {
+    "kerotakis-browser-contract-focus-20261020.log": {
+      "bytes": 2065,
+      "sha256": "2db413f75483fc1fe66dd869278681fa4927c1504cb58efe9bfbc06b0dee7f14"
+    },
+    "browser-contract-evidence/git-init.stderr": {
+      "bytes": 485,
+      "sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430"
+    },
+    "browser-contract-evidence/git-remote.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-contract-evidence/fetch-rustup.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-contract-evidence/baseline-checkout.stderr": {
+      "bytes": 87,
+      "sha256": "ad3f0d9be3a2086399dd4f8e4b79d7c7f7a1350bb13ababeebf883b1370f86ed"
+    },
+    "browser-contract-evidence/prior-full-acceptance.json": {
+      "bytes": 14589,
+      "sha256": "0da542894254065fe0672c7b35c7a56ff1d81ee9d6f177b94c7e5ed02b5940e6"
+    },
+    "browser-contract-evidence/git-init.stdout": {
+      "bytes": 79,
+      "sha256": "93d4c0455e30e03c047fb7c58e2f72d07df231485d2bea2c12bc91f90552731c"
+    },
+    "browser-contract-evidence/components.stderr": {
+      "bytes": 31,
+      "sha256": "4ae2551ea6202e5136e5d7344c5cd841fb1b981ec6798b8e0c525a228d335c72"
+    },
+    "browser-contract-evidence/rustup.stdout": {
+      "bytes": 1247,
+      "sha256": "957e3060e716abaf6c807d5c9c9349f87e9da9175a043fc9e0a77671bbd1bfa4"
+    },
+    "browser-contract-evidence/baseline-fetch.json": {
+      "bytes": 323,
+      "sha256": "32b0c98b12de7f0a6ad805c98747a83c8c07e1f085b8983a1a33aa6658a5827d"
+    },
+    "browser-contract-evidence/baseline-checkout.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-contract-evidence/components.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-contract-evidence/frozen-plan.json": {
+      "bytes": 130973,
+      "sha256": "0707d6eafca497f7a9fdeb32121690f0f2684de94302ba15548808484826ac64"
+    },
+    "browser-contract-evidence/baseline-submodules.stderr": {
+      "bytes": 393,
+      "sha256": "a3cd49c8ec02e1c9317138959b54319f50979571f8ebb6194a83d6f6bb88074a"
+    },
+    "browser-contract-evidence/STOPPED.json": {
+      "bytes": 412,
+      "sha256": "c61b3c3be30a92168a08a73f13aa7ccb6a3588b7eaeab62b879c54f53aa93417"
+    },
+    "browser-contract-evidence/manifest.json": {
+      "bytes": 4016,
+      "sha256": "44c2cf733cacf77ad5f0b344dc746af4dfa9b70c62eea3ef0e2e7f51e3953a6b"
+    },
+    "browser-contract-evidence/STARTED.json": {
+      "bytes": 226,
+      "sha256": "907198441947df63acf2ecc18edf7c08f4ed504dce604f62af246f07bb209a44"
+    },
+    "browser-contract-evidence/baseline.json": {
+      "bytes": 359,
+      "sha256": "55a6a42a79a65768789aa5fec912a2140e749ad19a836a3713a735b4e7cbabaf"
+    },
+    "browser-contract-evidence/baseline-checkout.json": {
+      "bytes": 304,
+      "sha256": "cb18057a8594a01e1a0fdad2ff60b4df67d889f498376b9db9ebd70cd4968d0c"
+    },
+    "browser-contract-evidence/components.json": {
+      "bytes": 284,
+      "sha256": "f09a33bd8a3e8e4af4af98ca299f8714ebb60dc41731508b397374fa88e3b8a4"
+    },
+    "browser-contract-evidence/git-remote.json": {
+      "bytes": 315,
+      "sha256": "0af2d7ef65659703d31c87a63e35c318b4552852109c37762b6c10799effe6e0"
+    },
+    "browser-contract-evidence/rustup.stderr": {
+      "bytes": 346,
+      "sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2"
+    },
+    "browser-contract-evidence/git-init.json": {
+      "bytes": 280,
+      "sha256": "597d4706f8e1e4e007f5d7e781e3f36c7d3441994e5282206b91382617a21809"
+    },
+    "browser-contract-evidence/baseline-submodules.json": {
+      "bytes": 312,
+      "sha256": "8fdb6aac1675b237c19cd6ddf35b65bcd8231966a2566592d0a5a86a1fa2f505"
+    },
+    "browser-contract-evidence/baseline.stdout": {
+      "bytes": 2368,
+      "sha256": "9ac1e8ac1ade1e459605b885efef8fbd82ae0dc247fd85faea883401bdc3e374"
+    },
+    "browser-contract-evidence/baseline-fetch.stderr": {
+      "bytes": 122,
+      "sha256": "c611c423e461675a711529df79cd01221305eefe1d2b61db31b201869cf318ff"
+    },
+    "browser-contract-evidence/baseline.stderr": {
+      "bytes": 22912,
+      "sha256": "d077fb82a44b2aa6c7b3165f128b5475340b918d015ffe7c45bb4a1e5d5c1ef7"
+    },
+    "browser-contract-evidence/baseline-fetch.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-contract-evidence/fetch-rustup.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-contract-evidence/fetch-rustup.json": {
+      "bytes": 352,
+      "sha256": "0b7e4a4d926491a8e6acf517973a6b75abb5033e947e5acba20c85f3963492e3"
+    },
+    "browser-contract-evidence/rustup.json": {
+      "bytes": 382,
+      "sha256": "ada0be1038e4e11d38b5b3cd60d49e401f5a13ed13af9e387305cc6e0681936d"
+    },
+    "browser-contract-evidence/git-remote.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "browser-contract-evidence/baseline-submodules.stdout": {
+      "bytes": 183,
+      "sha256": "506b14f556ca726d5c1f6bef730fff3e5e526ca71c2d74b689b3c6e131de8f75"
+    }
+  },
+  "source_acceptance": "Not assigned; root must authenticate script/source/lock and inspect raw test output",
+  "scientific_selections": 0
+}

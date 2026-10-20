@@ -1,0 +1,6 @@
+{
+  "error_type": "AssertionError",
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 51, in <module>\n    assert result==101 and sum(int(p) for p,_,_ in results)==3 and sum(int(f) for _,f,_ in results)==9\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "no_auto_retry": true
+}

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "-e",
+    "-o",
+    "pipefail",
+    "-c",
+    "sha256sum \\\n  tools/chemistry-audit/seventh_batch.py \\\n  tools/chemistry-audit/analyse_seventh.py \\\n  tools/chemistry-audit/SEVENTH-BATCH.md \\\n  > audit-evidence/seventh-459-488/preflight-sha256.txt\n"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

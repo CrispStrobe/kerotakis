@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-20T08:59:01.040678+00:00",
+  "source": "b4daecf742be080577e9fda57fc1ef55aefef3d3",
+  "source_diff_reviewed": true,
+  "changed_files": [
+    "crates/kerotakis-core/src/bench.rs",
+    "crates/kerotakis-core/src/solve.rs",
+    "crates/kerotakis-core/tests/phase_owned_transfers.rs"
+  ],
+  "four_phase_owned_callers_only": true,
+  "quantities_admissions_curves_and_provenance_semantics_unchanged": true,
+  "fixtures_independently_reviewed_and_baseline_fixed_actual_logs_accepted": true,
+  "source_files_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a",
+    "crates/kerotakis-core/src/solve.rs": "d34fa7f06f820840a11d37f2aad8684e869dcaaa7d413d87b881ac92a641583c",
+    "crates/kerotakis-core/tests/phase_owned_transfers.rs": "ced2a833565ef6956c4ca14684656497bcaa111b4a81cbcf17bad1d7a44f0ebe"
+  },
+  "no_behavioral_acceptance_before_actual_saved_results": true
+}
