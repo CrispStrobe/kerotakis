@@ -1,0 +1,22 @@
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/browser-contract/source/crates/kerotakis-core)
+   Compiling kerotakis-cea v0.0.1 (/kaggle/temp/browser-contract/source/crates/kerotakis-cea)
+   Compiling kerotakis-org v0.0.1 (/kaggle/temp/browser-contract/source/crates/kerotakis-org)
+   Compiling kerotakis-stack v0.0.1 (/kaggle/temp/browser-contract/source/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/kaggle/temp/browser-contract/source/crates/kerotakis-safety)
+   Compiling kerotakis-codex v0.0.1 (/kaggle/temp/browser-contract/source/crates/kerotakis-codex)
+   Compiling kerotakis-phreeqc v0.0.1 (/kaggle/temp/browser-contract/source/crates/kerotakis-phreeqc)
+warning: associated function `new` is never used
+   --> crates/kerotakis-phreeqc/src/aqueous.rs:412:8
+    |
+394 | impl PathResult {
+    | --------------- associated function in this implementation
+...
+412 |     fn new(db_tag: &str, model: crate::dbindex::ActivityModel, outcome: PathOutcome) -> PathResult {
+    |        ^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `kerotakis-phreeqc` (lib) generated 1 warning
+   Compiling kerotakis-wasm v0.0.1 (/kaggle/temp/browser-contract/source/crates/kerotakis-wasm)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 55.86s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_wasm-0791f3d501657475)

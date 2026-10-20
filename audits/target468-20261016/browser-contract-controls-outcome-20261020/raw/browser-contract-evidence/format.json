@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "cargo",
+    "fmt",
+    "--all",
+    "--",
+    "--check"
+  ],
+  "exit_status": 1,
+  "stdout_sha256": "05a154ba328970b0a3f59a9bf6e89bd7f3995f65a5e4503e88fcc43a74d1cc5f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

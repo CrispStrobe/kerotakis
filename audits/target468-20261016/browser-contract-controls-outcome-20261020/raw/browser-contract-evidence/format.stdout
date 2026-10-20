@@ -1,0 +1,1275 @@
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:40:
+     let ud = unsafe { &mut *(user_data as *mut UserData<F, G>) };
+     if let Some(ref mut fe) = ud.f_e {
+         let len = unsafe { sundials_sys::N_VGetLength_Serial(y) } as usize;
+-        let y_slice = unsafe {
+-            std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len)
+-        };
++        let y_slice =
++            unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len) };
+         let ydot_slice = unsafe {
+             std::slice::from_raw_parts_mut(sundials_sys::N_VGetArrayPointer_Serial(ydot), len)
+         };
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:70:
+     let ud = unsafe { &mut *(user_data as *mut UserData<F, G>) };
+     if let Some(ref mut fi) = ud.f_i {
+         let len = unsafe { sundials_sys::N_VGetLength_Serial(y) } as usize;
+-        let y_slice = unsafe {
+-            std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len)
+-        };
++        let y_slice =
++            unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len) };
+         let ydot_slice = unsafe {
+             std::slice::from_raw_parts_mut(sundials_sys::N_VGetArrayPointer_Serial(ydot), len)
+         };
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:101:
+     let ud = unsafe { &mut *(user_data as *mut UserData<F, G>) };
+     if let Some(ref mut psetup) = ud.psetup {
+         let len = unsafe { sundials_sys::N_VGetLength_Serial(y) } as usize;
+-        let y_s = unsafe {
+-            std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len)
+-        };
+-        let fy_s = unsafe {
+-            std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(fy), len)
+-        };
+-        let result =
+-            catch_unwind(AssertUnwindSafe(|| psetup(t, y_s, fy_s, jok != 0, gamma)));
++        let y_s =
++            unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len) };
++        let fy_s =
++            unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(fy), len) };
++        let result = catch_unwind(AssertUnwindSafe(|| psetup(t, y_s, fy_s, jok != 0, gamma)));
+         match result {
+             Ok(Ok(jcur)) => {
+                 unsafe { *jcur_ptr = if jcur { 1 } else { 0 } };
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:136:
+     let ud = unsafe { &mut *(user_data as *mut UserData<F, G>) };
+     if let Some(ref mut psolve) = ud.psolve {
+         let len = unsafe { sundials_sys::N_VGetLength_Serial(y) } as usize;
+-        let y_s = unsafe {
+-            std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len)
+-        };
+-        let fy_s = unsafe {
+-            std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(fy), len)
+-        };
+-        let r_s = unsafe {
+-            std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(r), len)
+-        };
++        let y_s =
++            unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len) };
++        let fy_s =
++            unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(fy), len) };
++        let r_s =
++            unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(r), len) };
+         let z_s = unsafe {
+             std::slice::from_raw_parts_mut(sundials_sys::N_VGetArrayPointer_Serial(z), len)
+         };
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:242:
+         }
+     }
+ 
+-    pub fn init_imex<F, G>(
+-        self,
+-        t0: f64,
+-        y0: &NVector,
+-        fe: F,
+-        fi: G,
+-    ) -> ArkodeSolver<'a, F, G>
++    pub fn init_imex<F, G>(self, t0: f64, y0: &NVector, fe: F, fi: G) -> ArkodeSolver<'a, F, G>
+     where
+         F: FnMut(f64, &[f64], &mut [f64]) -> Result<(), ()> + 'a,
+         G: FnMut(f64, &[f64], &mut [f64]) -> Result<(), ()> + 'a,
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:310:
+     }
+ 
+     /// Set an iterative linear solver (matrix-free).
+-    pub fn set_iterative_linear_solver<LS: crate::linsol::IterativeSolver>(
+-        &mut self,
+-        linsol: &LS,
+-    ) {
++    pub fn set_iterative_linear_solver<LS: crate::linsol::IterativeSolver>(&mut self, linsol: &LS) {
+         let flag = unsafe {
+             sundials_sys::ARKodeSetLinearSolver(self.inner, linsol.as_raw(), ptr::null_mut())
+         };
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:320:
+         if flag != sundials_sys::ARK_SUCCESS as i32 {
+-            panic!("ARKodeSetLinearSolver (iterative) failed with code {}", flag);
++            panic!(
++                "ARKodeSetLinearSolver (iterative) failed with code {}",
++                flag
++            );
+         }
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:371:
+ 
+     pub fn get_num_rhs_evals_explicit(&self) -> Result<i64, i32> {
+         let mut nfevals = 0;
+-        let flag =
+-            unsafe { sundials_sys::ARKodeGetNumRhsEvals(self.inner, 0, &mut nfevals) };
++        let flag = unsafe { sundials_sys::ARKodeGetNumRhsEvals(self.inner, 0, &mut nfevals) };
+         if flag == sundials_sys::ARK_SUCCESS as i32 {
+             Ok(nfevals as i64)
+         } else {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:382:
+ 
+     pub fn get_num_rhs_evals_implicit(&self) -> Result<i64, i32> {
+         let mut nfevals = 0;
+-        let flag =
+-            unsafe { sundials_sys::ARKodeGetNumRhsEvals(self.inner, 1, &mut nfevals) };
++        let flag = unsafe { sundials_sys::ARKodeGetNumRhsEvals(self.inner, 1, &mut nfevals) };
+         if flag == sundials_sys::ARK_SUCCESS as i32 {
+             Ok(nfevals as i64)
+         } else {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:393:
+ 
+     pub fn get_num_lin_solv_setups(&self) -> Result<i64, i32> {
+         let mut nlinsetups = 0;
+-        let flag =
+-            unsafe { sundials_sys::ARKodeGetNumLinSolvSetups(self.inner, &mut nlinsetups) };
++        let flag = unsafe { sundials_sys::ARKodeGetNumLinSolvSetups(self.inner, &mut nlinsetups) };
+         if flag == sundials_sys::ARK_SUCCESS as i32 {
+             Ok(nlinsetups as i64)
+         } else {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/arkode.rs:404:
+ 
+     pub fn get_num_err_test_fails(&self) -> Result<i64, i32> {
+         let mut netfails = 0;
+-        let flag =
+-            unsafe { sundials_sys::ARKodeGetNumErrTestFails(self.inner, &mut netfails) };
++        let flag = unsafe { sundials_sys::ARKodeGetNumErrTestFails(self.inner, &mut netfails) };
+         if flag == sundials_sys::ARK_SUCCESS as i32 {
+             Ok(netfails as i64)
+         } else {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:150:
+         let fy_slice =
+             unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(fy), len) };
+ 
+-        let result =
+-            catch_unwind(AssertUnwindSafe(|| psetup(t, y_slice, fy_slice, jok != 0, gamma)));
++        let result = catch_unwind(AssertUnwindSafe(|| {
++            psetup(t, y_slice, fy_slice, jok != 0, gamma)
++        }));
+         match result {
+             Ok(Ok(jcur)) => {
+                 unsafe { *jcur_ptr = if jcur { 1 } else { 0 } };
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:418:
+ 
+     /// Set an iterative linear solver (SPGMR, SPBCGS, or SPTFQMR).
+     /// Pass `None` for the matrix to use a matrix-free Newton-Krylov method.
+-    pub fn set_iterative_linear_solver<LS: crate::linsol::IterativeSolver>(
+-        &mut self,
+-        linsol: &LS,
+-    ) {
+-        let flag = unsafe {
+-            CVodeSetLinearSolver(self.inner, linsol.as_raw(), ptr::null_mut())
+-        };
++    pub fn set_iterative_linear_solver<LS: crate::linsol::IterativeSolver>(&mut self, linsol: &LS) {
++        let flag = unsafe { CVodeSetLinearSolver(self.inner, linsol.as_raw(), ptr::null_mut()) };
+         if flag != CV_SUCCESS as i32 {
+             panic!("CVodeSetLinearSolver (iterative) failed with code {}", flag);
+         }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:479:
+         let ud = unsafe { &mut *(self.user_data as *mut UserData<F, G>) };
+         ud.jac_fn = Some(Box::new(jac));
+         unsafe {
+-            let flag = sundials_sys::CVodeSetJacFn(
+-                self.inner,
+-                Some(jac_trampoline::<F, G>),
+-            );
++            let flag = sundials_sys::CVodeSetJacFn(self.inner, Some(jac_trampoline::<F, G>));
+             assert_eq!(flag, CV_SUCCESS as i32, "CVodeSetJacFn failed");
+         }
+     }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:541:
+     /// Initialize adjoint sensitivity computation.
+     /// `ncheck` is the number of checkpointing steps between check points.
+     pub fn adj_init(&mut self, ncheck: i64, interp: AdjInterp) {
+-        let flag =
+-            unsafe { sundials_sys::CVodeAdjInit(self.inner, ncheck, interp as i32) };
++        let flag = unsafe { sundials_sys::CVodeAdjInit(self.inner, ncheck, interp as i32) };
+         assert_eq!(flag, CV_SUCCESS as i32, "CVodeAdjInit failed");
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:549:
+     /// Forward integration with checkpointing for adjoint computation.
+     /// Returns `(flag, ncheck)` where `ncheck` is the number of checkpoints stored.
+-    pub fn forward(
+-        &mut self,
+-        tout: f64,
+-        yout: &mut NVector,
+-        tret: &mut f64,
+-    ) -> (i32, i32) {
++    pub fn forward(&mut self, tout: f64, yout: &mut NVector, tret: &mut f64) -> (i32, i32) {
+         let mut ncheck: i32 = 0;
+-        let flag = unsafe {
+-            sundials_sys::CVodeF(self.inner, tout, yout.as_raw(), tret, 1, &mut ncheck)
+-        };
++        let flag =
++            unsafe { sundials_sys::CVodeF(self.inner, tout, yout.as_raw(), tret, 1, &mut ncheck) };
+         (flag, ncheck)
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:564:
+     /// Create a backward problem. Returns the `which` index.
+     pub fn create_backward(&mut self, lmm: Lmm) -> i32 {
+         let mut which: i32 = 0;
+-        let flag = unsafe {
+-            sundials_sys::CVodeCreateB(self.inner, lmm as i32, &mut which)
+-        };
++        let flag = unsafe { sundials_sys::CVodeCreateB(self.inner, lmm as i32, &mut which) };
+         assert_eq!(flag, CV_SUCCESS as i32, "CVodeCreateB failed");
+         which
+     }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:577:
+     /// # Safety
+     /// The `rhs_b` closure is stored as a raw pointer; the caller must ensure
+     /// it lives until `backward()` completes.
+-    pub fn init_backward<FB>(
+-        &mut self,
+-        which: i32,
+-        tb0: f64,
+-        yb0: &NVector,
+-        rhs_b: &mut FB,
+-    ) where
++    pub fn init_backward<FB>(&mut self, which: i32, tb0: f64, yb0: &NVector, rhs_b: &mut FB)
++    where
+         FB: FnMut(f64, &[f64], &[f64], &mut [f64]) -> Result<(), ()>,
+     {
+         extern "C" fn adj_rhs_trampoline<FB>(
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:606:
+                 std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(yb), lenb)
+             };
+             let ybdot_s = unsafe {
+-                std::slice::from_raw_parts_mut(
+-                    sundials_sys::N_VGetArrayPointer_Serial(ybdot),
+-                    lenb,
+-                )
++                std::slice::from_raw_parts_mut(sundials_sys::N_VGetArrayPointer_Serial(ybdot), lenb)
+             };
+             let result = catch_unwind(AssertUnwindSafe(|| closure(t, y_s, yb_s, ybdot_s)));
+             match result {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:636:
+ 
+     /// Set scalar tolerances for a backward problem.
+     pub fn set_ss_tolerances_b(&mut self, which: i32, reltol: f64, abstol: f64) {
+-        let flag =
+-            unsafe { sundials_sys::CVodeSStolerancesB(self.inner, which, reltol, abstol) };
++        let flag = unsafe { sundials_sys::CVodeSStolerancesB(self.inner, which, reltol, abstol) };
+         assert_eq!(flag, CV_SUCCESS as i32, "CVodeSStolerancesB failed");
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:649:
+         mat: &crate::matrix::DenseMatrix,
+     ) {
+         let flag = unsafe {
+-            sundials_sys::CVodeSetLinearSolverB(
+-                self.inner,
+-                which,
+-                linsol.as_raw(),
+-                mat.as_raw(),
+-            )
++            sundials_sys::CVodeSetLinearSolverB(self.inner, which, linsol.as_raw(), mat.as_raw())
+         };
+-        assert_eq!(
+-            flag, CV_SUCCESS as i32,
+-            "CVodeSetLinearSolverB failed"
+-        );
++        assert_eq!(flag, CV_SUCCESS as i32, "CVodeSetLinearSolverB failed");
+     }
+ 
+     /// Integrate all backward problems from `tbout` backward in time.
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/cvode.rs:845:
+         let mut yb = NVector::new_serial(1, &ctx);
+         yb.as_mut_slice()[0] = 1.0; // dg/dy(T) = 1
+ 
+-        let mut rhs_b =
+-            |_t: f64, _y: &[f64], yb: &[f64], ybdot: &mut [f64]| -> Result<(), ()> {
+-                // Adjoint RHS: dλ/dt = -∂f/∂y^T * λ = -(-1) * λ = λ
+-                ybdot[0] = yb[0];
+-                Ok(())
+-            };
++        let mut rhs_b = |_t: f64, _y: &[f64], yb: &[f64], ybdot: &mut [f64]| -> Result<(), ()> {
++            // Adjoint RHS: dλ/dt = -∂f/∂y^T * λ = -(-1) * λ = λ
++            ybdot[0] = yb[0];
++            Ok(())
++        };
+ 
+         solver.init_backward(which, 1.0, &yb, &mut rhs_b);
+         solver.set_ss_tolerances_b(which, 1e-8, 1e-10);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:96:
+             unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len) };
+         let yp_s =
+             unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(yp), len) };
+-        let rr_s = unsafe {
+-            std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(rr), len)
+-        };
++        let rr_s =
++            unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(rr), len) };
+         let result = catch_unwind(AssertUnwindSafe(|| psetup(t, y_s, yp_s, rr_s, cj)));
+         match result {
+             Ok(Ok(())) => 0,
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:131:
+             unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(y), len) };
+         let yp_s =
+             unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(yp), len) };
+-        let rr_s = unsafe {
+-            std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(rr), len)
+-        };
++        let rr_s =
++            unsafe { std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(rr), len) };
+         let r_s = unsafe {
+             std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(rvec), len)
+         };
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:140:
+         let z_s = unsafe {
+             std::slice::from_raw_parts_mut(sundials_sys::N_VGetArrayPointer_Serial(zvec), len)
+         };
+-        let result =
+-            catch_unwind(AssertUnwindSafe(|| psolve(t, y_s, yp_s, rr_s, r_s, z_s, cj, delta)));
++        let result = catch_unwind(AssertUnwindSafe(|| {
++            psolve(t, y_s, yp_s, rr_s, r_s, z_s, cj, delta)
++        }));
+         match result {
+             Ok(Ok(())) => 0,
+             Ok(Err(())) => 1,
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:238:
+ 
+     /// Set an iterative linear solver (matrix-free).
+     pub fn set_iterative_linear_solver<LS: crate::linsol::IterativeSolver>(&self, linsol: &LS) {
+-        let flag = unsafe {
+-            IDASetLinearSolver(self.inner, linsol.as_raw(), ptr::null_mut())
+-        };
++        let flag = unsafe { IDASetLinearSolver(self.inner, linsol.as_raw(), ptr::null_mut()) };
+         assert_eq!(flag, IDA_SUCCESS as i32);
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:299:
+     /// Initialize forward sensitivity analysis.
+     /// `ys0` and `yps0` are the initial conditions for each sensitivity.
+     /// Pass `None` for the sensitivity residual to use internal difference quotients.
+-    pub fn init_sensitivities(
+-        &mut self,
+-        method: IdaSensMethod,
+-        ys0: &[NVector],
+-        yps0: &[NVector],
+-    ) {
++    pub fn init_sensitivities(&mut self, method: IdaSensMethod, ys0: &[NVector], yps0: &[NVector]) {
+         let ns = ys0.len() as i32;
+         let mut raw_ys0: Vec<N_Vector> = ys0.iter().map(|v| v.as_raw()).collect();
+         let mut raw_yps0: Vec<N_Vector> = yps0.iter().map(|v| v.as_raw()).collect();
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:353:
+ 
+     /// Initialize adjoint sensitivity computation.
+     pub fn adj_init(&mut self, ncheck: i64, interp: IdaAdjInterp) {
+-        let flag =
+-            unsafe { sundials_sys::IDAAdjInit(self.inner, ncheck, interp as i32) };
++        let flag = unsafe { sundials_sys::IDAAdjInit(self.inner, ncheck, interp as i32) };
+         assert_eq!(flag, IDA_SUCCESS as i32, "IDAAdjInit failed");
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:430:
+                 std::slice::from_raw_parts(sundials_sys::N_VGetArrayPointer_Serial(ypb), lenb)
+             };
+             let resb_s = unsafe {
+-                std::slice::from_raw_parts_mut(
+-                    sundials_sys::N_VGetArrayPointer_Serial(resb),
+-                    lenb,
+-                )
++                std::slice::from_raw_parts_mut(sundials_sys::N_VGetArrayPointer_Serial(resb), lenb)
+             };
+-            let result =
+-                catch_unwind(AssertUnwindSafe(|| closure(t, y_s, yp_s, yb_s, ypb_s, resb_s)));
++            let result = catch_unwind(AssertUnwindSafe(|| {
++                closure(t, y_s, yp_s, yb_s, ypb_s, resb_s)
++            }));
+             match result {
+                 Ok(Ok(())) => 0,
+                 Ok(Err(())) => 1,
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:462:
+ 
+     /// Set scalar tolerances for a backward problem.
+     pub fn set_ss_tolerances_b(&mut self, which: i32, reltol: f64, abstol: f64) {
+-        let flag =
+-            unsafe { sundials_sys::IDASStolerancesB(self.inner, which, reltol, abstol) };
++        let flag = unsafe { sundials_sys::IDASStolerancesB(self.inner, which, reltol, abstol) };
+         assert_eq!(flag, IDA_SUCCESS as i32, "IDASStolerancesB failed");
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:475:
+         mat: &DenseMatrix,
+     ) {
+         let flag = unsafe {
+-            sundials_sys::IDASetLinearSolverB(
+-                self.inner,
+-                which,
+-                linsol.as_raw(),
+-                mat.as_raw(),
+-            )
++            sundials_sys::IDASetLinearSolverB(self.inner, which, linsol.as_raw(), mat.as_raw())
+         };
+         assert_eq!(flag, IDA_SUCCESS as i32, "IDASetLinearSolverB failed");
+     }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/ida.rs:498:
+         yb: &mut NVector,
+         ypb: &mut NVector,
+     ) -> i32 {
+-        unsafe {
+-            sundials_sys::IDAGetB(self.inner, which, tret, yb.as_raw(), ypb.as_raw())
+-        }
++        unsafe { sundials_sys::IDAGetB(self.inner, which, tret, yb.as_raw(), ypb.as_raw()) }
+     }
+ }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/lib.rs:19:
+ };
+ pub use matrix::{BandMatrix, DenseMatrix};
+ pub use nvector::NVector;
+-pub use sparse::{SparseMatrix, SparseType};
+ #[cfg(feature = "klu")]
+ pub use sparse::SparseLinearSolver;
++pub use sparse::{SparseMatrix, SparseType};
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/linsol.rs:82:
+     /// Create an SPGMR solver. `maxl` is the maximum Krylov dimension (0 = default = 5).
+     pub fn new(y: &NVector, prec_type: PrecType, maxl: i32, ctx: &Context) -> Self {
+         let inner = unsafe {
+-            sundials_sys::SUNLinSol_SPGMR(
+-                y.as_raw(),
+-                prec_type as i32,
+-                maxl,
+-                ctx.as_raw(),
+-            )
++            sundials_sys::SUNLinSol_SPGMR(y.as_raw(), prec_type as i32, maxl, ctx.as_raw())
+         };
+         if inner.is_null() {
+             panic!("Failed to allocate SUNLinSol_SPGMR");
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/linsol.rs:117:
+     /// Create an SPBCGS solver. `maxl` is the maximum iterations (0 = default = 5).
+     pub fn new(y: &NVector, prec_type: PrecType, maxl: i32, ctx: &Context) -> Self {
+         let inner = unsafe {
+-            sundials_sys::SUNLinSol_SPBCGS(
+-                y.as_raw(),
+-                prec_type as i32,
+-                maxl,
+-                ctx.as_raw(),
+-            )
++            sundials_sys::SUNLinSol_SPBCGS(y.as_raw(), prec_type as i32, maxl, ctx.as_raw())
+         };
+         if inner.is_null() {
+             panic!("Failed to allocate SUNLinSol_SPBCGS");
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/linsol.rs:152:
+     /// Create an SPTFQMR solver. `maxl` is the maximum iterations (0 = default = 5).
+     pub fn new(y: &NVector, prec_type: PrecType, maxl: i32, ctx: &Context) -> Self {
+         let inner = unsafe {
+-            sundials_sys::SUNLinSol_SPTFQMR(
+-                y.as_raw(),
+-                prec_type as i32,
+-                maxl,
+-                ctx.as_raw(),
+-            )
++            sundials_sys::SUNLinSol_SPTFQMR(y.as_raw(), prec_type as i32, maxl, ctx.as_raw())
+         };
+         if inner.is_null() {
+             panic!("Failed to allocate SUNLinSol_SPTFQMR");
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/matrix.rs:43:
+ 
+ impl BandMatrix {
+     pub fn new(n: usize, mu: usize, ml: usize, ctx: &Context) -> Self {
+-        let inner =
+-            unsafe { SUNBandMatrix(n as i64, mu as i64, ml as i64, ctx.as_raw()) };
++        let inner = unsafe { SUNBandMatrix(n as i64, mu as i64, ml as i64, ctx.as_raw()) };
+         if inner.is_null() {
+             panic!("Failed to allocate SUNBandMatrix");
+         }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials/src/sparse.rs:1:
+ use crate::{context::Context, nvector::NVector};
+-use sundials_sys::{
+-    SUNMatDestroy, SUNMatrix, SUNSparseMatrix, CSC_MAT, CSR_MAT,
+-};
++use sundials_sys::{SUNMatDestroy, SUNMatrix, SUNSparseMatrix, CSC_MAT, CSR_MAT};
+ 
+ #[derive(Clone, Copy)]
+ pub enum SparseType {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials-sys/build.rs:71:
+         cmake.define("ENABLE_KLU", "ON");
+ 
+         // Allow overriding SuiteSparse paths via environment variables
+-        let klu_include = env::var("KLU_INCLUDE_DIR")
+-            .unwrap_or_else(|_| "/usr/include/suitesparse".to_string());
+-        let klu_lib = env::var("KLU_LIBRARY_DIR").unwrap_or_else(|_| {
+-            format!("/usr/lib/{}-linux-gnu", target_arch)
+-        });
++        let klu_include =
++            env::var("KLU_INCLUDE_DIR").unwrap_or_else(|_| "/usr/include/suitesparse".to_string());
++        let klu_lib = env::var("KLU_LIBRARY_DIR")
++            .unwrap_or_else(|_| format!("/usr/lib/{}-linux-gnu", target_arch));
+         let amd_include = env::var("AMD_INCLUDE_DIR").unwrap_or_else(|_| klu_include.clone());
+         let amd_lib = env::var("AMD_LIBRARY_DIR").unwrap_or_else(|_| klu_lib.clone());
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials-sys/build.rs:132:
+         println!("cargo:rustc-link-lib=static=sundials_sunlinsolklu");
+ 
+         // Link SuiteSparse libraries
+-        let suitesparse_lib = env::var("KLU_LIBRARY_DIR").unwrap_or_else(|_| {
+-            format!("/usr/lib/{}-linux-gnu", target_arch)
+-        });
++        let suitesparse_lib = env::var("KLU_LIBRARY_DIR")
++            .unwrap_or_else(|_| format!("/usr/lib/{}-linux-gnu", target_arch));
+         println!("cargo:rustc-link-search=native={}", suitesparse_lib);
+         println!("cargo:rustc-link-lib=klu");
+         println!("cargo:rustc-link-lib=amd");
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/sundials-sys/build.rs:160:
+         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()));
+ 
+     if use_klu && !is_wasm && !is_ios {
+-        let klu_include = env::var("KLU_INCLUDE_DIR")
+-            .unwrap_or_else(|_| "/usr/include/suitesparse".to_string());
++        let klu_include =
++            env::var("KLU_INCLUDE_DIR").unwrap_or_else(|_| "/usr/include/suitesparse".to_string());
+         builder = builder
+             .clang_arg(format!("-I{}", klu_include))
+             .clang_arg("-DSUNDIALS_KLU_ENABLED");
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/symengine/src/lib.rs:1:
+-use symengine_sys::*;
+-use std::ffi::{CString, CStr};
++use std::ffi::{CStr, CString};
++use std::fmt;
+ use std::os::raw::c_char;
+ use std::ptr;
+-use std::fmt;
++use symengine_sys::*;
+ 
+ /// A wrapper around SymEngine's basic_struct pointer
+ pub struct Expression {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/symengine/src/lib.rs:208:
+     fn test_symengine_math() {
+         let x = Expression::symbol("x");
+         let y = Expression::symbol("y");
+-        
++
+         // z = x * y + x^2
+         let two = Expression::integer(2);
+         let x_squared = x.pow(&two);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/symengine/src/lib.rs:215:
+         let x_times_y = &x * &y;
+         let z = &x_times_y + &x_squared;
+-        
++
+         let dz_dx = z.diff(&x);
+-        
++
+         // Expected derivative: y + 2*x
+         let expected = &y + &(&Expression::integer(2) * &x);
+-        
++
+         // Basic string validation (internal ordering might vary slightly but usually predictable)
+         let dz_dx_str = dz_dx.to_string();
+         assert!(dz_dx_str.contains("2*x") || dz_dx_str.contains("x*2"));
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/symengine-sys/build.rs:1:
++use cmake::Config;
+ use std::env;
+ use std::path::PathBuf;
+-use cmake::Config;
+ 
+ fn main() {
+     let dst = Config::new("symengine_src")
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/symengine-sys/build.rs:15:
+ 
+     println!("cargo:rustc-link-search=native={}/lib", dst.display());
+     println!("cargo:rustc-link-lib=static=symengine");
+-    
++
+     // We also need to link GMP and C++ stdlib
+     println!("cargo:rustc-link-lib=gmp");
+     println!("cargo:rustc-link-lib=stdc++");
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/evaluator.rs:47:
+                     }
+                     rates[i] = r;
+                 }
+-                crate::RateLaw::PressureDependent { arrhenius, pressure: _ } => {
++                crate::RateLaw::PressureDependent {
++                    arrhenius,
++                    pressure: _,
++                } => {
+                     // TODO: full falloff (Lindemann/Troe) with third-body concentrations
+                     let k_base = arrhenius.rate_constant(t);
+                     let mut r = k_base;
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/evaluator.rs:85:
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+-    use crate::{ArrheniusParams, Phase, Reaction, RateLaw, ReactionSystem, Species};
++    use crate::{ArrheniusParams, Phase, RateLaw, Reaction, ReactionSystem, Species};
+ 
+     #[test]
+     fn test_rhs_evaluation() {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/evaluator.rs:93:
+         let a = sys.add_species(Species::new("A", 1.0, 0, Phase::Aqueous));
+         let b = sys.add_species(Species::new("B", 1.0, 0, Phase::Aqueous));
+ 
+-        sys.add_reaction(
+-            Reaction::new(0.5)
+-                .add_reactant(a, 1.0)
+-                .add_product(b, 1.0),
+-        );
++        sys.add_reaction(Reaction::new(0.5).add_reactant(a, 1.0).add_product(b, 1.0));
+ 
+         let eval = KineticEvaluator::new(sys);
+         let c = vec![2.0, 0.0];
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/evaluator.rs:115:
+         let b = sys.add_species(Species::new("B", 1.0, 0, Phase::Gas));
+ 
+         let arr = ArrheniusParams::new(1e13, 0.0, 40000.0);
+-        let mut rxn = Reaction { reactants: Vec::new(), products: Vec::new(), rate_law: RateLaw::ArrheniusLaw(arr) };
++        let mut rxn = Reaction {
++            reactants: Vec::new(),
++            products: Vec::new(),
++            rate_law: RateLaw::ArrheniusLaw(arr),
++        };
+         rxn = rxn.add_reactant(a, 1.0).add_product(b, 1.0);
+         sys.add_reaction(rxn);
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/evaluator.rs:140:
+         let mut sys = ReactionSystem::new();
+         let a = sys.add_species(Species::new("A", 1.0, 0, Phase::Aqueous));
+         let _b = sys.add_species(Species::new("B", 1.0, 0, Phase::Aqueous));
+-        sys.add_reaction(
+-            Reaction::new(0.5)
+-                .add_reactant(a, 1.0)
+-                .add_product(1, 1.0),
+-        );
++        sys.add_reaction(Reaction::new(0.5).add_reactant(a, 1.0).add_product(1, 1.0));
+ 
+         let eval = KineticEvaluator::new(sys);
+         let ctx = Context::new();
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/evaluator.rs:152:
+         y.as_mut_slice()[0] = 1.0;
+         y.as_mut_slice()[1] = 0.0;
+ 
+-        let mut solver =
+-            CvodeBuilder::new(Lmm::Bdf, &ctx).init(0.0, &y, move |_t, y_val, ydot| {
+-                eval.evaluate_rhs(y_val, ydot);
+-                Ok(())
+-            });
++        let mut solver = CvodeBuilder::new(Lmm::Bdf, &ctx).init(0.0, &y, move |_t, y_val, ydot| {
++            eval.evaluate_rhs(y_val, ydot);
++            Ok(())
++        });
+         solver.set_ss_tolerances(1e-6, 1e-8);
+         let mat = DenseMatrix::new(2, 2, &ctx);
+         let linsol = DenseLinearSolver::new(&y, &mat, &ctx);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/evaluator.rs:194:
+         y.as_mut_slice()[2] = 0.0;
+         y.as_mut_slice()[mno2] = 0.5;
+ 
+-        let mut solver =
+-            CvodeBuilder::new(Lmm::Bdf, &ctx).init(0.0, &y, move |_t, y_val, ydot| {
+-                eval.evaluate_rhs(y_val, ydot);
+-                Ok(())
+-            });
++        let mut solver = CvodeBuilder::new(Lmm::Bdf, &ctx).init(0.0, &y, move |_t, y_val, ydot| {
++            eval.evaluate_rhs(y_val, ydot);
++            Ok(())
++        });
+         solver.set_ss_tolerances(1e-6, 1e-8);
+         let mat = DenseMatrix::new(4, 4, &ctx);
+         let linsol = DenseLinearSolver::new(&y, &mat, &ctx);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/evaluator.rs:229:
+         y.as_mut_slice()[s1] = std::f64::consts::PI / 2.0;
+         y.as_mut_slice()[1] = 0.0;
+ 
+-        let mut solver =
+-            CvodeBuilder::new(Lmm::Bdf, &ctx).init(0.0, &y, move |_t, y_val, ydot| {
+-                eval.evaluate_rhs(y_val, ydot);
+-                Ok(())
+-            });
++        let mut solver = CvodeBuilder::new(Lmm::Bdf, &ctx).init(0.0, &y, move |_t, y_val, ydot| {
++            eval.evaluate_rhs(y_val, ydot);
++            Ok(())
++        });
+         solver.set_ss_tolerances(1e-6, 1e-8);
+         let mat = DenseMatrix::new(2, 2, &ctx);
+         let linsol = DenseLinearSolver::new(&y, &mat, &ctx);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/ffi.rs:1:
+ use crate::evaluator::KineticEvaluator;
+ use crate::{Phase, Reaction, ReactionSystem, Species};
+-use std::ffi::{c_void, CStr};
++use std::ffi::{CStr, c_void};
+ use std::os::raw::{c_char, c_double, c_int};
++use sundials::Context;
+ use sundials::cvode::{CvodeBuilder, Lmm};
+ use sundials::linsol::DenseLinearSolver;
+ use sundials::matrix::DenseMatrix;
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/ffi.rs:8:
+ use sundials::nvector::NVector;
+-use sundials::Context;
+ 
+ #[repr(C)]
+ pub struct ChemSystem {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/ffi.rs:30:
+     _linsol: *mut DenseLinearSolver,
+ }
+ 
+-
+ #[unsafe(no_mangle)]
+ pub unsafe extern "C" fn chem_system_new() -> *mut ChemSystem {
+     let sys = Box::new(ReactionSystem::new());
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/ffi.rs:147:
+         linsol: *mut DenseLinearSolver,
+     ) -> *mut ChemEvaluator {
+         unsafe fn step_fn<F: FnMut(f64, &[f64], &mut [f64]) -> Result<(), ()>>(
+-            ptr: *mut c_void, tout: f64, y: *mut NVector, tret: *mut f64,
++            ptr: *mut c_void,
++            tout: f64,
++            y: *mut NVector,
++            tret: *mut f64,
+         ) -> i32 {
+             let s = unsafe { &mut *(ptr as *mut sundials::cvode::CvodeSolver<'static, F, ()>) };
+             s.step(tout, unsafe { &mut *y }, unsafe { &mut *tret })
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/ffi.rs:164:
+             let s = unsafe { &*(ptr as *const sundials::cvode::CvodeSolver<'static, F, ()>) };
+             s.get_num_rhs_evals().unwrap_or(-1)
+         }
+-        unsafe fn drop_fn<F: FnMut(f64, &[f64], &mut [f64]) -> Result<(), ()>>(
+-            ptr: *mut c_void,
+-        ) {
+-            unsafe { drop(Box::from_raw(ptr as *mut sundials::cvode::CvodeSolver<'static, F, ()>)) }
++        unsafe fn drop_fn<F: FnMut(f64, &[f64], &mut [f64]) -> Result<(), ()>>(ptr: *mut c_void) {
++            unsafe {
++                drop(Box::from_raw(
++                    ptr as *mut sundials::cvode::CvodeSolver<'static, F, ()>,
++                ))
++            }
+         }
+ 
+         // Transmute solver lifetime to 'static for FFI storage.
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/jacobian_bridge.rs:36:
+             }
+         }
+ 
+-        Self { n, jac_exprs, symbols }
++        Self {
++            n,
++            jac_exprs,
++            symbols,
++        }
+     }
+ 
+     /// Evaluate the Jacobian at current concentrations.
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/jacobian_bridge.rs:104:
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+-    use crate::{Species, Reaction, Phase};
++    use crate::{Phase, Reaction, Species};
+ 
+     fn simple_decay() -> ReactionSystem {
+         let mut sys = ReactionSystem::new();
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/jacobian_bridge.rs:111:
+         let a = sys.add_species(Species::new("A", 1.0, 0, Phase::Aqueous));
+         let b = sys.add_species(Species::new("B", 1.0, 0, Phase::Aqueous));
+-        sys.add_reaction(
+-            Reaction::new(0.1).add_reactant(a, 1.0).add_product(b, 1.0),
+-        );
++        sys.add_reaction(Reaction::new(0.1).add_reactant(a, 1.0).add_product(b, 1.0));
+         sys
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/jacobian_bridge.rs:121:
+         let a = sys.add_species(Species::new("A", 1.0, 0, Phase::Aqueous));
+         let b = sys.add_species(Species::new("B", 1.0, 0, Phase::Aqueous));
+         let c = sys.add_species(Species::new("C", 1.0, 0, Phase::Aqueous));
+-        sys.add_reaction(
+-            Reaction::new(0.1).add_reactant(a, 1.0).add_product(b, 1.0),
+-        );
+-        sys.add_reaction(
+-            Reaction::new(0.2).add_reactant(b, 1.0).add_product(c, 1.0),
+-        );
++        sys.add_reaction(Reaction::new(0.1).add_reactant(a, 1.0).add_product(b, 1.0));
++        sys.add_reaction(Reaction::new(0.2).add_reactant(b, 1.0).add_product(c, 1.0));
+         sys
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:1:
+ pub mod cantera;
+ pub mod evaluator;
++pub mod ffi;
+ pub mod jacobian_bridge;
++pub mod parser;
+ pub mod stiff_solver;
+ pub mod symengine_generator;
+-pub mod parser;
+-pub mod ffi;
+ 
+ #[derive(Debug, Clone, PartialEq, Eq)]
+ pub enum Phase {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:16:
+ #[derive(Debug, Clone)]
+ pub struct Species {
+     pub name: String,
+-    pub mass: f64,    // kg/mol
+-    pub charge: i32,  // elementary charge
++    pub mass: f64,   // kg/mol
++    pub charge: i32, // elementary charge
+     pub phase: Phase,
+     pub fixed_concentration: bool, // If true, ydot is always 0
+ }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:74:
+     /// Arrhenius temperature-dependent rate
+     ArrheniusLaw(ArrheniusParams),
+     /// Pressure-dependent (falloff) rate law
+-    PressureDependent { arrhenius: ArrheniusParams, pressure: PressureDependence },
++    PressureDependent {
++        arrhenius: ArrheniusParams,
++        pressure: PressureDependence,
++    },
+     /// Custom rate law evaluated via a user-provided closure.
+     Custom(std::sync::Arc<dyn Fn(&[f64]) -> f64 + Send + Sync>),
+ }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:84:
+         match self {
+             RateLaw::MassAction(k) => write!(f, "MassAction({})", k),
+             RateLaw::ArrheniusLaw(a) => write!(f, "Arrhenius(A={}, n={}, Ea={})", a.a, a.n, a.ea),
+-            RateLaw::PressureDependent { arrhenius, .. } => write!(f, "PressureDependent(A={})", arrhenius.a),
++            RateLaw::PressureDependent { arrhenius, .. } => {
++                write!(f, "PressureDependent(A={})", arrhenius.a)
++            }
+             RateLaw::Custom(_) => write!(f, "Custom(<closure>)"),
+         }
+     }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:95:
+         match self {
+             RateLaw::MassAction(k) => RateLaw::MassAction(*k),
+             RateLaw::ArrheniusLaw(a) => RateLaw::ArrheniusLaw(*a),
+-            RateLaw::PressureDependent { arrhenius, pressure } => RateLaw::PressureDependent { arrhenius: *arrhenius, pressure: pressure.clone() },
++            RateLaw::PressureDependent {
++                arrhenius,
++                pressure,
++            } => RateLaw::PressureDependent {
++                arrhenius: *arrhenius,
++                pressure: pressure.clone(),
++            },
+             RateLaw::Custom(c) => RateLaw::Custom(std::sync::Arc::clone(c)),
+         }
+     }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:164:
+     }
+ 
+     pub fn with_custom_rate<F>(rate_fn: F) -> Self
+-    where F: Fn(&[f64]) -> f64 + Send + Sync + 'static
++    where
++        F: Fn(&[f64]) -> f64 + Send + Sync + 'static,
+     {
+         Self {
+             reactants: Vec::new(),
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:174:
+     }
+ 
+     pub fn add_reactant(mut self, species_idx: usize, coefficient: f64) -> Self {
+-        self.reactants.push(Stoichiometry { species_idx, coefficient });
++        self.reactants.push(Stoichiometry {
++            species_idx,
++            coefficient,
++        });
+         self
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:181:
+     pub fn add_product(mut self, species_idx: usize, coefficient: f64) -> Self {
+-        self.products.push(Stoichiometry { species_idx, coefficient });
++        self.products.push(Stoichiometry {
++            species_idx,
++            coefficient,
++        });
+         self
+     }
+ }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:219:
+     /// S_ij = (coeff as product) - (coeff as reactant)
+     pub fn net_stoichiometry(&self, reaction_idx: usize, species_idx: usize) -> f64 {
+         let reaction = &self.reactions[reaction_idx];
+-        
+-        let prod_sum: f64 = reaction.products.iter()
++
++        let prod_sum: f64 = reaction
++            .products
++            .iter()
+             .filter(|p| p.species_idx == species_idx)
+             .map(|p| p.coefficient)
+             .sum();
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:227:
+-            
+-        let react_sum: f64 = reaction.reactants.iter()
++
++        let react_sum: f64 = reaction
++            .reactants
++            .iter()
+             .filter(|r| r.species_idx == species_idx)
+             .map(|r| r.coefficient)
+             .sum();
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:232:
+-            
++
+         prod_sum - react_sum
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:237:
+     /// Rows = species, Columns = reactions.
+     pub fn stoichiometric_matrix(&self) -> Vec<f64> {
+         let mut s_matrix = Vec::with_capacity(self.species.len() * self.reactions.len());
+-        
++
+         for i in 0..self.species.len() {
+             for j in 0..self.reactions.len() {
+                 s_matrix.push(self.net_stoichiometry(j, i));
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:244:
+             }
+         }
+-        
++
+         s_matrix
+     }
+ }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:255:
+     #[test]
+     fn test_stoichiometric_matrix() {
+         let mut sys = ReactionSystem::new();
+-        
++
+         // 0: A, 1: B, 2: C
+         let idx_a = sys.add_species(Species::new("A", 1.0, 0, Phase::Aqueous));
+         let idx_b = sys.add_species(Species::new("B", 1.0, 0, Phase::Aqueous));
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/lib.rs:262:
+         let idx_c = sys.add_species(Species::new("C", 2.0, 0, Phase::Aqueous));
+-        
++
+         // R0: 2A + B -> C
+-        sys.add_reaction(Reaction::new(1.5)
+-            .add_reactant(idx_a, 2.0)
+-            .add_reactant(idx_b, 1.0)
+-            .add_product(idx_c, 1.0)
++        sys.add_reaction(
++            Reaction::new(1.5)
++                .add_reactant(idx_a, 2.0)
++                .add_reactant(idx_b, 1.0)
++                .add_product(idx_c, 1.0),
+         );
+-        
++
+         let s_matrix = sys.stoichiometric_matrix();
+-        
++
+         // Rows: A, B, C; Cols: R0
+         // A: -2.0
+         // B: -1.0
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:1:
+-use crate::{ReactionSystem, Species, Reaction, Phase};
++use crate::{Phase, Reaction, ReactionSystem, Species};
+ use std::collections::HashMap;
+ 
+ #[derive(Debug, PartialEq)]
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:23:
+     pub fn parse(input: &str) -> Result<ReactionSystem, ParserError> {
+         let mut sys = ReactionSystem::new();
+         let mut species_map = HashMap::new();
+-        
++
+         let mut section = "";
+-        
++
+         for line in input.lines() {
+             let line = line.trim();
+             if line.is_empty() || line.starts_with('!') || line.starts_with('#') {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:32:
+                 continue;
+             }
+-            
++
+             if line == "SPECIES" {
+                 section = "SPECIES";
+                 continue;
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:42:
+                 section = "";
+                 continue;
+             }
+-            
++
+             if section == "SPECIES" {
+                 // For simplified parsing, we assume default properties (mass 0, Aqueous)
+                 let name = line.to_string();
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:52:
+                 Self::parse_reaction_line(line, &mut sys, &species_map)?;
+             }
+         }
+-        
++
+         Ok(sys)
+     }
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:59:
+     fn parse_reaction_line(
+-        line: &str, 
+-        sys: &mut ReactionSystem, 
+-        species_map: &HashMap<String, usize>
++        line: &str,
++        sys: &mut ReactionSystem,
++        species_map: &HashMap<String, usize>,
+     ) -> Result<(), ParserError> {
+         // Example: "H2O2 => H2O + 0.5O2  10.0"
+         let parts: Vec<&str> = line.split_whitespace().collect();
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:66:
+-        if parts.is_empty() { return Ok(()); }
+-        
++        if parts.is_empty() {
++            return Ok(());
++        }
++
+         // The last token is the rate constant
+         let rate_str = parts.last().unwrap();
+         let rate_constant = rate_str.parse::<f64>().map_err(|_| {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:71:
+             ParserError::InvalidFormat(format!("Invalid rate constant: {}", rate_str))
+         })?;
+-        
++
+         let eqn_str = line[..line.len() - rate_str.len()].trim();
+         let sides: Vec<&str> = eqn_str.split("=>").collect();
+         if sides.len() != 2 {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:77:
+             // Also try '='
+             let sides_eq: Vec<&str> = eqn_str.split('=').collect();
+             if sides_eq.len() != 2 {
+-                return Err(ParserError::InvalidFormat(format!("Reaction must have => or = : {}", eqn_str)));
++                return Err(ParserError::InvalidFormat(format!(
++                    "Reaction must have => or = : {}",
++                    eqn_str
++                )));
+             }
+         }
+-        let sides = if sides.len() == 2 { sides } else { eqn_str.split('=').collect() };
+-        
++        let sides = if sides.len() == 2 {
++            sides
++        } else {
++            eqn_str.split('=').collect()
++        };
++
+         let mut reaction = Reaction::new(rate_constant);
+-        
++
+         // Parse reactants
+         Self::parse_side(sides[0], species_map, |idx, coeff| {
+             reaction = reaction.clone().add_reactant(idx, coeff);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:90:
+         })?;
+-        
++
+         // Parse products
+         Self::parse_side(sides[1], species_map, |idx, coeff| {
+             reaction = reaction.clone().add_product(idx, coeff);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:95:
+         })?;
+-        
++
+         sys.add_reaction(reaction);
+         Ok(())
+     }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:100:
+ 
+     fn parse_side<F>(
+-        side_str: &str, 
++        side_str: &str,
+         species_map: &HashMap<String, usize>,
+-        mut add_fn: F
+-    ) -> Result<(), ParserError> 
+-    where F: FnMut(usize, f64) 
++        mut add_fn: F,
++    ) -> Result<(), ParserError>
++    where
++        F: FnMut(usize, f64),
+     {
+         let side_str = side_str.trim();
+-        if side_str.is_empty() { return Ok(()); }
+-        
++        if side_str.is_empty() {
++            return Ok(());
++        }
++
+         let tokens = side_str.split('+');
+         for token in tokens {
+             let token = token.trim();
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:114:
+-            if token.is_empty() { continue; }
+-            
++            if token.is_empty() {
++                continue;
++            }
++
+             // Extract optional coefficient. E.g. "0.5O2", "2H2O", "H2O2"
+             let mut coeff = 1.0;
+             let mut name = token;
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:119:
+-            
++
+             // Find where alphabetic chars start
+             if let Some(first_alpha) = token.find(|c: char| c.is_alphabetic()) {
+                 if first_alpha > 0 {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:129:
+                     name = &token[first_alpha..];
+                 }
+             }
+-            
++
+             let name = name.trim();
+-            let idx = species_map.get(name).ok_or_else(|| {
+-                ParserError::UnknownSpecies(name.to_string())
+-            })?;
+-            
++            let idx = species_map
++                .get(name)
++                .ok_or_else(|| ParserError::UnknownSpecies(name.to_string()))?;
++
+             add_fn(*idx, coeff);
+         }
+         Ok(())
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:159:
+ END
+ ";
+         let sys = MechanismParser::parse(input).unwrap();
+-        
++
+         assert_eq!(sys.species.len(), 3);
+         assert_eq!(sys.species[0].name, "H2O2");
+         assert_eq!(sys.species[1].name, "H2O");
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:166:
+         assert_eq!(sys.species[2].name, "O2");
+-        
++
+         assert_eq!(sys.reactions.len(), 2);
+-        
++
+         let r1 = &sys.reactions[0];
+         assert_eq!(r1.reactants.len(), 1);
+         assert_eq!(r1.reactants[0].coefficient, 1.0);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/parser.rs:173:
+         assert_eq!(r1.products.len(), 2);
+         assert_eq!(r1.products[1].coefficient, 0.5);
+-        
++
+         let r2 = &sys.reactions[1];
+         assert_eq!(r2.reactants.len(), 1);
+         assert_eq!(r2.reactants[0].coefficient, 2.0);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/stiff_solver.rs:6:
+ //! 3. KineticEvaluator provides the RHS (dc/dt)
+ //! 4. CVODE integrates with exact Jacobians at each Newton step
+ 
++use crate::ReactionSystem;
+ use crate::evaluator::KineticEvaluator;
+ use crate::jacobian_bridge::CompiledJacobian;
+-use crate::ReactionSystem;
+ 
+ /// Result of integrating a stiff kinetic system.
+ pub struct IntegrationResult {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/stiff_solver.rs:115:
+             evaluator.evaluate_rhs(&c, &mut ydot);
+             for j in 0..n {
+                 c[j] += ydot[j] * step;
+-                if c[j] < 0.0 { c[j] = 0.0; } // positivity
++                if c[j] < 0.0 {
++                    c[j] = 0.0;
++                } // positivity
+             }
+             t += step;
+         }
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/stiff_solver.rs:129:
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+-    use crate::{Species, Reaction, Phase};
++    use crate::{Phase, Reaction, Species};
+ 
+     #[test]
+     fn integrate_simple_decay() {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/stiff_solver.rs:136:
+         let mut sys = ReactionSystem::new();
+         let a = sys.add_species(Species::new("A", 1.0, 0, Phase::Aqueous));
+         let _b = sys.add_species(Species::new("B", 1.0, 0, Phase::Aqueous));
+-        sys.add_reaction(
+-            Reaction::new(1.0).add_reactant(a, 1.0).add_product(_b, 1.0),
+-        );
++        sys.add_reaction(Reaction::new(1.0).add_reactant(a, 1.0).add_product(_b, 1.0));
+ 
+         let c0 = vec![1.0, 0.0];
+         let times = vec![0.0, 0.5, 1.0];
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/stiff_solver.rs:145:
+-        let result = integrate_stiff(
+-            &sys,
+-            &c0,
+-            &times,
+-            &StiffSolverConfig::default(),
+-        );
++        let result = integrate_stiff(&sys, &c0, &times, &StiffSolverConfig::default());
+ 
+         assert_eq!(result.times.len(), 3);
+         assert!(result.analytical_jacobian);
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/symengine_generator.rs:12:
+ 
+     /// Generates the array of symbolic variables for concentrations: c_0, c_1, ...
+     pub fn generate_symbols(&self) -> Vec<Expression> {
+-        self.sys.species.iter().enumerate().map(|(i, _)| {
+-            Expression::symbol(&format!("c_{}", i))
+-        }).collect()
++        self.sys
++            .species
++            .iter()
++            .enumerate()
++            .map(|(i, _)| Expression::symbol(&format!("c_{}", i)))
++            .collect()
+     }
+ 
+     /// Generates the analytical rate laws for each reaction as an expression
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/symengine_generator.rs:104:
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+-    use crate::{ReactionSystem, Species, Reaction, Phase};
++    use crate::{Phase, Reaction, ReactionSystem, Species};
+ 
+     #[test]
+     fn test_symengine_generator() {
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/symengine_generator.rs:111:
+         let mut sys = ReactionSystem::new();
+         let a = sys.add_species(Species::new("A", 1.0, 0, Phase::Aqueous));
+         let b = sys.add_species(Species::new("B", 1.0, 0, Phase::Aqueous));
+-        
++
+         // 2A -> B, rate = 0.5 * [A]^2
+         sys.add_reaction(Reaction::new(0.5).add_reactant(a, 2.0).add_product(b, 1.0));
+ 
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/symengine_generator.rs:118:
+         let generator = SymEngineGenerator::new(&sys);
+-        
++
+         let f_exprs = generator.generate_rhs();
+         let rhs_str_a = f_exprs[0].to_string(); // dc_a/dt = -2.0 * (0.5 * c_a^2) = -1.0 * c_a^2
+         let rhs_str_b = f_exprs[1].to_string(); // dc_b/dt = 1.0 * (0.5 * c_a^2) = 0.5 * c_a^2
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/symengine_generator.rs:123:
+-        
+-        assert!(rhs_str_a.contains("c_0") && rhs_str_a.contains("2.0") || rhs_str_a.contains("-1.0"));
+-        
++
++        assert!(
++            rhs_str_a.contains("c_0") && rhs_str_a.contains("2.0") || rhs_str_a.contains("-1.0")
++        );
++
+         let jac = generator.generate_jacobian();
+         // J_00 = d(f_a)/dc_a = -2.0 * c_a
+         let j_00_str = jac[0][0].to_string();
+Diff in /kaggle/temp/browser-contract/source/sundials-kinetics-rs/chem_core/src/symengine_generator.rs:129:
+         assert!(j_00_str.contains("c_0"));
+-        
++
+         // J_01 = d(f_a)/dc_b = 0.0
+         let j_01_str = jac[0][1].to_string();
+         assert!(j_01_str.contains("0"));

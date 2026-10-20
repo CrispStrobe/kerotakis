@@ -1,0 +1,42 @@
+{
+  "utc": "2026-10-20T09:52:57.209451+00:00",
+  "source": "6b637e4d7a00847865990b259171a8f4c6c11c1e",
+  "tree": "48a68818a1aadabf54caa6eb4b5d815331f0c8de",
+  "baseline_head": "e42d68a7a643caae96f35ed79c63e140f43e7b20",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "worker_sha256": "5718ca24b443ba220b2cda55a7c1b2acef4a2b2f5779320725e7c4222afb5843",
+  "nine_real_baseline_failures_and_three_positive_controls": true,
+  "twelve_fixed_controls_pass": true,
+  "actual_test_executable_bytes_independently_rehashed": true,
+  "format_all_stopped_only_unchanged_third_party": true,
+  "remaining_fmt_39_transactions_locale_composed_clippy_wasm_gates_accepted": false,
+  "full_source_acceptance": false,
+  "production_or_original_experiment_acceptance": false,
+  "scientific_selections": 0,
+  "test_binary_bindings": {
+    "baseline": {
+      "source": "e42d68a7a643caae96f35ed79c63e140f43e7b20",
+      "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "binaries": {
+        "target/debug/deps/kerotakis_wasm-0791f3d501657475": {
+          "sha256": "2b682149ec85807f4a9d946e422ca117258f52e36be956863fbc4b70121b04a9",
+          "bytes": 82818064,
+          "gzip": "baseline-kerotakis_wasm.gz",
+          "gzip_sha256": "1eb820e3034909145e9e7eb777031cb0db73b7d14ea50a71e3ace5c09f42ce12"
+        }
+      }
+    },
+    "fixed": {
+      "source": "6b637e4d7a00847865990b259171a8f4c6c11c1e",
+      "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+      "binaries": {
+        "target/debug/deps/kerotakis_wasm-0791f3d501657475": {
+          "sha256": "070874f3db6b693c441b29a29a4c356b7f3d3be201d58346abb0b724f6e2abd2",
+          "bytes": 82838232,
+          "gzip": "fixed-kerotakis_wasm.gz",
+          "gzip_sha256": "985e48bb55fd6d49838f6e1e914efcedfc91dd793bde124aafdbfd0caec380da"
+        }
+      }
+    }
+  }
+}

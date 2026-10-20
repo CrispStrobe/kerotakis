@@ -1,0 +1,12 @@
+{
+  "source": "6b637e4d7a00847865990b259171a8f4c6c11c1e",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": {
+    "target/debug/deps/kerotakis_wasm-0791f3d501657475": {
+      "sha256": "070874f3db6b693c441b29a29a4c356b7f3d3be201d58346abb0b724f6e2abd2",
+      "bytes": 82838232,
+      "gzip": "fixed-kerotakis_wasm.gz",
+      "gzip_sha256": "985e48bb55fd6d49838f6e1e914efcedfc91dd793bde124aafdbfd0caec380da"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "git",
+    "checkout",
+    "--detach",
+    "e42d68a7a643caae96f35ed79c63e140f43e7b20"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e063f26c46551063f028aaf6d35e98537747c0403c88180e9fd4bff105053c91"
+}

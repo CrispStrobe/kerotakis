@@ -1,0 +1,11 @@
+Warning: you are leaving 1 commit behind, not connected to
+any of your branches:
+
+  e42d68a test: freeze causal browser contract fixture corrections
+
+If you want to keep it by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> e42d68a
+
+HEAD is now at 6b637e4 test: respect solvent-only readback and phase redistribution boundaries

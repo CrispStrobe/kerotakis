@@ -1,0 +1,6 @@
+{
+  "error_type": "AssertionError",
+  "error": "format",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 70, in <module>\n    run('format',['cargo','fmt','--all','--','--check'],cwd=R)\n    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/kaggle/src/script.py\", line 17, in run\n    if required:assert p.returncode==0,name\n                       ^^^^^^^^^^^^^^^\nAssertionError: format\n",
+  "no_auto_retry": true
+}

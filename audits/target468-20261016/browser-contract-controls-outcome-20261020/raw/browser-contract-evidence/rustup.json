@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "sh",
+    "/kaggle/temp/browser-contract/rustup-init.sh",
+    "-y",
+    "--profile",
+    "minimal",
+    "--default-toolchain",
+    "1.99.1",
+    "--no-modify-path"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "957e3060e716abaf6c807d5c9c9349f87e9da9175a043fc9e0a77671bbd1bfa4",
+  "stderr_sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2"
+}
