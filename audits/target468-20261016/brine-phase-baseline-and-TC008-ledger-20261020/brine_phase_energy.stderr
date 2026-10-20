@@ -1,0 +1,19 @@
+
+thread 'dilute_brine_freezing_conserves_independent_phase_energy' (4223) panicked at crates/kerotakis-core/tests/brine_phase_energy.rs:219:5:
+unowned phase energy 1.7067235331560369 J
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'dilute_brine_melting_conserves_independent_phase_energy' (4224) panicked at crates/kerotakis-core/tests/brine_phase_energy.rs:219:5:
+unowned phase energy -0.015737916422040144 J
+
+thread 'intermediate_brine_freezing_conserves_independent_phase_energy' (4225) panicked at crates/kerotakis-core/tests/brine_phase_energy.rs:219:5:
+unowned phase energy 12.657742481854257 J
+
+thread 'intermediate_brine_melting_conserves_independent_phase_energy' (4226) panicked at crates/kerotakis-core/tests/brine_phase_energy.rs:219:5:
+unowned phase energy -2.6652098511503937 J
+
+thread 'stronger_brine_freezing_conserves_independent_phase_energy' (4229) panicked at crates/kerotakis-core/tests/brine_phase_energy.rs:219:5:
+unowned phase energy 16.673911238413893 J
+
+thread 'stronger_brine_melting_conserves_independent_phase_energy' (4230) panicked at crates/kerotakis-core/tests/brine_phase_energy.rs:219:5:
+unowned phase energy -21.042490078742958 J

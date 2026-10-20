@@ -1,0 +1,11 @@
+{
+  "runtime_source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "runtime_tree": "f77a9e82941f30a6433583e1bd417939118d13c6",
+  "tests_overlay_qualification": "Exact frozen observers over unchanged runtime; not the deployed release executable",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "executable": "target/debug/deps/tc008_energy_trace-8cb62ceefa580a18",
+  "sha256": "da26e2a60ab0d1479b1e34fc4c6cb4c1b4fac68162d2f75831b557ac529bd925",
+  "bytes": 87570536,
+  "gzip_sha256": "f9221c97fe0c46cad580e225d3ac7432535622ba04148872b669d833c0a6e183",
+  "gzip_bytes": 20954832
+}

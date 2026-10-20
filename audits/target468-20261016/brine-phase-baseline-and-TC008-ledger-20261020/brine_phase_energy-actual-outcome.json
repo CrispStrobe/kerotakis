@@ -1,0 +1,17 @@
+{
+  "exit_status": 101,
+  "passed": 2,
+  "failed": 6,
+  "ignored": 0,
+  "tests": {
+    "dilute_brine_freezing_conserves_independent_phase_energy": "FAILED",
+    "dilute_brine_melting_conserves_independent_phase_energy": "FAILED",
+    "intermediate_brine_freezing_conserves_independent_phase_energy": "FAILED",
+    "intermediate_brine_melting_conserves_independent_phase_energy": "FAILED",
+    "pure_water_freezing_conserves_independent_phase_energy": "ok",
+    "pure_water_melting_conserves_independent_phase_energy": "ok",
+    "stronger_brine_freezing_conserves_independent_phase_energy": "FAILED",
+    "stronger_brine_melting_conserves_independent_phase_energy": "FAILED"
+  },
+  "energy_acceptance_assigned": false
+}

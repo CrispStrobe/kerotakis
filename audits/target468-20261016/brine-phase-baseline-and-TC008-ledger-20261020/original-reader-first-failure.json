@@ -1,0 +1,9 @@
+{
+  "exit_status": 1,
+  "reader_sha256": "99bb9b2e0ed09b1d02f7415f631c01d7584cfd7a7d8dcdbd07342cf77f760ca0",
+  "trace_sha256": "d881ce26634f68b510be8105cf9f99291855e20a0807f02aa40b921742f3a9ce",
+  "new_product_executions": 0,
+  "stderr_sha256": "cdd0c80b788e2a5d7df8695d8702b34cc776013be8a0a789ed8d9ea9206a3ce9",
+  "reason": "Original reader refused positive transient analytical NaCl(aq); first raw failure retained privately. No product replay.",
+  "raw_error_withheld_for_private_host_coordinates": true
+}

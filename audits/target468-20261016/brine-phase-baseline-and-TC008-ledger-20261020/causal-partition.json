@@ -1,0 +1,14 @@
+{
+  "whole_original_command_residual_J": "-128.316711970228809453541397612860670130488388",
+  "exclusive_phase_gap_sum_J": "-128.3166831918871985903306756",
+  "aqueous_reference_numerical_remainder_J": "-0.00002877834161086321072201286067",
+  "terminal_temperature_only_projection_J": "0.6567302877324912642449102880599583581538",
+  "nested_aqueous_and_displacement_NOT_summed_twice": true,
+  "new_product_executions_by_saved_review": 0,
+  "scientific_selections": 0,
+  "baseline_brine_passed": 2,
+  "baseline_brine_failed": 6,
+  "strict_material_floor_mol": "1e-10",
+  "independently_observed_max_material_residual_mol": "2e-16",
+  "fixed_outcome_claimed": false
+}

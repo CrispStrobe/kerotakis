@@ -1,0 +1,32 @@
+{
+  "crates/kerotakis-phreeqc/src/enthalpy.rs:88": {
+    "source_sha256": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+    "lines": [
+      88,
+      96
+    ],
+    "excerpt": "/// name. Deriving these by splitting formulae was considered and dropped:\n/// it would have to guess for exactly the awkward ones, and a wrong guess\n/// here is indistinguishable from a right one until someone puts a\n/// thermometer in the beaker.\npub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[\n    (\"NaCl\", &[(\"Na+\", 1.0), (\"Cl-\", 1.0)]),\n    (\"KCl\", &[(\"K+\", 1.0), (\"Cl-\", 1.0)]),\n    (\"CaCl2\", &[(\"Ca+2\", 1.0), (\"Cl-\", 2.0)]),\n    (\"NaOH\", &[(\"Na+\", 1.0), (\"OH-\", 1.0)]),"
+  },
+  "crates/kerotakis-phreeqc/src/enthalpy.rs:262": {
+    "source_sha256": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+    "lines": [
+      262,
+      291
+    ],
+    "excerpt": "        // priced as what it becomes in solution, which leaves its enthalpy\n        // of MIXING to `hmix`, where it already lives, rather than counting\n        // it twice.\n        Phase::Liquid | Phase::Aqueous => {\n            if let Some(h) = aqueous_enthalpy(key, db_tag) {\n                return Ok(h);\n            }\n            // Already dissolved, and the database spells it only as its\n            // ions: it is the sum of them, with no dissolution term\n            // because there is no dissolution left to do.\n            let products = DISSOCIATION\n                .iter()\n                .find(|(k, _)| *k == key)\n                .map(|(_, p)| *p)\n                .ok_or(Unpriced {\n                    species: key.to_string(),\n                    why: \"the routed database does not define this species in solution\",\n                })?;\n            let mut sum = 0.0;\n            for (product, n) in products {\n                let h = aqueous_enthalpy(product, db_tag).ok_or(Unpriced {\n                    species: (*product).to_string(),\n                    why: \"a dissociation product the routed database does not define\",\n                })?;\n                sum += h * n;\n            }\n            Ok(sum)\n        }\n    }\n}"
+  },
+  "pitzer.dat": {
+    "submodule": "vendor/iphreeqc",
+    "commit": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+    "raw_sha256": "3640e62aee63a118f800b115b46a2760576e63e05e1792022315a28f75dbe9bb",
+    "qualification": "Na+ and Cl- masters have zero reference enthalpy; NaCl appears under MEAN_GAMMAS, not as a SOLUTION_SPECIES reaction. Original non-UTF8 comment byte is preserved in the authenticated source.",
+    "master_lines": [
+      58,
+      90
+    ],
+    "mean_gamma_lines": [
+      963,
+      973
+    ]
+  }
+}

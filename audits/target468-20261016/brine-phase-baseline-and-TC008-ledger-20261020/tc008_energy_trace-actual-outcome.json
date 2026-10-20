@@ -1,0 +1,10 @@
+{
+  "exit_status": 0,
+  "passed": 1,
+  "failed": 0,
+  "ignored": 0,
+  "tests": {
+    "original_tc008_records_actual_stage_states_without_energy_verdict": "ok"
+  },
+  "energy_acceptance_assigned": false
+}
