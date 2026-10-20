@@ -788,7 +788,7 @@ impl Equilibrator for MixingEquilibrator {
                 .map(|portion| (portion.species.clone(), portion.moles))
                 .collect::<Vec<_>>();
             for (species, moles) in dissolved {
-                vessel.withdraw(&species, moles);
+                vessel.withdraw_phase(&species, moles, Phase::Solid);
                 vessel.deposit(species.clone(), moles, Phase::Aqueous);
                 for lot in vessel
                     .lots
@@ -812,7 +812,7 @@ impl Equilibrator for MixingEquilibrator {
         let iodine = crate::starch_iodine::iodine_to_dissolve(vessel);
         if iodine.0 > 0.0 {
             let species = SpeciesId::new("I2");
-            vessel.withdraw(&species, iodine);
+            vessel.withdraw_phase(&species, iodine, Phase::Solid);
             vessel.deposit(species.clone(), iodine, Phase::Aqueous);
             rephase_lots(vessel, &species, iodine);
             events.push(Event::Dissolved {
@@ -830,7 +830,7 @@ impl Equilibrator for MixingEquilibrator {
         for move_ in saturation_moves(vessel) {
             match move_ {
                 SaturationMove::Dissolve(solute, moles) => {
-                    vessel.withdraw(&solute, moles);
+                    vessel.withdraw_phase(&solute, moles, Phase::Solid);
                     vessel.deposit(solute.clone(), moles, Phase::Aqueous);
                     rephase_lots(vessel, &solute, moles);
                     events.push(Event::Dissolved {
