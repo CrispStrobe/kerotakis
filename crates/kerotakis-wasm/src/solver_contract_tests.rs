@@ -3,8 +3,9 @@
 //! Adversarial writers below test transaction machinery only.
 use super::*;
 use kerotakis_core::{
-    aqueous_continuation::characterize_via, vessel::StepStart, Kelvin, Moles, Phase, SolveError,
-    SpeciesId, Vessel, VesselId,
+    aqueous_continuation::{characterize_optional_via, characterize_via},
+    vessel::StepStart,
+    Kelvin, Moles, Phase, SolveError, SpeciesId, Vessel, VesselId,
 };
 use serde_json::Value;
 use std::{cell::RefCell, rc::Rc};
@@ -41,21 +42,29 @@ fn slot<'a>(reason: &'a Value, key: &str) -> &'a Value {
         .map(|pair| &pair[1])
         .unwrap()
 }
-// Observe the actual phase ledger; do not presume a 15 C acid stays liquid.
+// AmbientClock legitimately redistributes phases (including cold acetic
+// acid). Close the complete species ledger rather than freezing phase labels.
 fn retained_reagents(before: &Vessel, after: &Vessel) {
     for species in ["CH3COOH", "ethanol"] {
         let key = SpeciesId::new(species);
         close(before.moles_of(&key).0, 0.01);
         close(after.moles_of(&key).0, before.moles_of(&key).0);
-        for phase in [Phase::Solid, Phase::Liquid, Phase::Aqueous, Phase::Gas] {
-            let amount = |v: &Vessel| {
-                v.contents
+        for vessel in [before, after] {
+            let mut total = 0.0;
+            for phase in [Phase::Solid, Phase::Liquid, Phase::Aqueous, Phase::Gas] {
+                let mut phase_total = 0.0;
+                for portion in vessel
+                    .contents
                     .iter()
                     .filter(|p| p.species == key && p.phase == phase)
-                    .map(|p| p.moles.0)
-                    .sum::<f64>()
-            };
-            close(amount(after), amount(before));
+                {
+                    assert!(portion.moles.0.is_finite() && portion.moles.0 >= 0.0);
+                    phase_total += portion.moles.0;
+                }
+                assert!(phase_total.is_finite() && phase_total >= 0.0);
+                total += phase_total;
+            }
+            close(total, vessel.moles_of(&key).0);
         }
     }
 }
@@ -183,8 +192,17 @@ fn combined_real_analytic_adapter_characterizes_current_water_like_concrete_adap
     let mut browser = BrowserAqueous {
         inner: &mut concrete,
     };
-    let (_, direct_receipt) = characterize_via(&mut browser, &mut direct_vessel)
-        .expect("real analytic adapter supplies its own receipt");
+    let (direct_events, direct_receipt) =
+        characterize_optional_via(&mut browser, &mut direct_vessel)
+            .expect("real analytic adapter characterizes its actual solvent-only domain");
+    assert!(
+        direct_receipt.is_none(),
+        "solvent-only answer is not a complete receipt"
+    );
+    assert_eq!(
+        direct_vessel.solution.as_ref().unwrap().scope,
+        kerotakis_core::SolutionScope::SolventOnly
+    );
     let mut aqueous = kerotakis_phreeqc::PhreeqcEquilibrator::new().unwrap();
     let mut stack = SolverStack::new(vec![]);
     let mut combined = CombinedSolver {
@@ -192,11 +210,30 @@ fn combined_real_analytic_adapter_characterizes_current_water_like_concrete_adap
         aqueous: &mut aqueous,
     };
     let mut actual = water();
-    let (_, receipt) = characterize_via(&mut combined, &mut actual)
-        .expect("outer wrapper forwards actual trusted aqueous adapter");
+    let (events, receipt) = characterize_optional_via(&mut combined, &mut actual)
+        .expect("outer wrapper forwards actual optional aqueous characterization");
+    assert!(
+        receipt.is_none(),
+        "wrapper must not upgrade a partial answer"
+    );
+    assert_eq!(
+        actual.solution.as_ref().unwrap().scope,
+        kerotakis_core::SolutionScope::SolventOnly
+    );
     assert_eq!(format!("{actual:?}"), format!("{direct_vessel:?}"));
-    assert_eq!(format!("{receipt:?}"), format!("{direct_receipt:?}"));
+    assert_eq!(
+        serde_json::to_value(events).unwrap(),
+        serde_json::to_value(direct_events).unwrap()
+    );
     assert!(actual.solution.as_ref().unwrap().ph.is_finite());
+    // Strict complete characterization must retain the genuine partial-state
+    // boundary, rather than manufacture a complete receipt from this answer.
+    let before = format!("{actual:?}");
+    assert!(characterize_via(&mut combined, &mut actual).is_err());
+    assert_eq!(format!("{actual:?}"), before);
+    let direct_before = format!("{direct_vessel:?}");
+    assert!(characterize_via(&mut browser, &mut direct_vessel).is_err());
+    assert_eq!(format!("{direct_vessel:?}"), direct_before);
     assert_eq!(
         concrete.engine_calls(),
         0,
@@ -234,7 +271,12 @@ impl Equilibrator for NoOptIn {
 fn untrusted_wrapper_cannot_get_receipt_from_existing_solution() {
     let mut aqueous = kerotakis_phreeqc::PhreeqcEquilibrator::new().unwrap();
     let mut vessel = water();
-    characterize_via(&mut aqueous, &mut vessel).unwrap();
+    let (_, receipt) = characterize_optional_via(&mut aqueous, &mut vessel).unwrap();
+    assert!(receipt.is_none());
+    assert_eq!(
+        vessel.solution.as_ref().unwrap().scope,
+        kerotakis_core::SolutionScope::SolventOnly
+    );
     let before = format!("{vessel:?}");
     assert!(characterize_via(&mut NoOptIn, &mut vessel).is_err());
     assert_eq!(before, format!("{vessel:?}"));
