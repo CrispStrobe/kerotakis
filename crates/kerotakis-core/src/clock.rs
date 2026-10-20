@@ -393,9 +393,18 @@ impl Clock for CuratedKineticsClock {
             &ctx.excluded_kinetic_reactions,
         )? {
             if reaction.id == "peroxide-decomposition" {
-                // 2 H2O2(l) -> 2 H2O(l) + O2(g), approximately -98.2 kJ
-                // per stoichiometric extent at 25 °C.
-                let energy_j = 98_200.0 * moles.0;
+                // Approximately 98.2 kJ is released per mole of H2O2
+                // consumed at 25 °C, not per 2H2O2 -> 2H2O + O2 extent.
+                // Preserve that reference value and derive its amount basis
+                // from the registered reactant coefficient. NIST TN2126,
+                // Table4-4(1), reports 98.48 +/-0.79 kJ/mol liquid H2O2;
+                // solution mixing and temperature corrections remain absent.
+                let peroxide_consumed_mol: f64 = reaction
+                    .reactants()
+                    .filter(|term| term.species == "H2O2")
+                    .map(|term| -term.coefficient * moles.0)
+                    .sum();
+                let energy_j = 98_200.0 * peroxide_consumed_mol;
                 let from = vessel.temperature;
                 if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
                     && vessel.heat_capacity() > 0.0
