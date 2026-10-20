@@ -3639,8 +3639,8 @@ impl Bench {
                     .sum::<f64>();
                 {
                     let src = self.vessel_mut(*from)?;
-                    for (spec, m, _) in &moved {
-                        src.withdraw(spec, *m);
+                    for (spec, m, phase) in &moved {
+                        src.withdraw_phase(spec, *m, *phase);
                     }
                 }
                 let t_from = source.temperature;
