@@ -1,0 +1,22 @@
+{
+  "same_exact_PLAN_object": true,
+  "old_body_bytes_retained_exact": true,
+  "metadata_and_frozen_plan_bytes_identical": true,
+  "reader_all_other_predicates_unchanged": true,
+  "malformed_transport_controls": {
+    "invalid_base64": "rejected",
+    "noncanonical_base64": "rejected",
+    "wrong_digest": "rejected",
+    "wrong_decoded_length": "rejected",
+    "declared_length_over16MiB": "rejected",
+    "truncated_zlib": "rejected",
+    "trailing_bytes": "rejected",
+    "concatenated_stream": "rejected",
+    "duplicate_JSON_key": "rejected"
+  },
+  "worker_reader_issuer_executed": false,
+  "helper_serialization_only": true,
+  "program_bytes": 914702,
+  "program_sha256": "8f4a86a1773fa3565a70cfcc19685c0d1b41be9fdc8f27cb461ba49f99864728",
+  "reader_sha256": "feb1913c7ea169dea05f982a04da04c638e635504400849ea30fe51f6d58bce2"
+}

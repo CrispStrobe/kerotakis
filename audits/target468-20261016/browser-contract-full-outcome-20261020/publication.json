@@ -337,10 +337,6 @@
       "sha256": "145e319e947996471a23c1d0451d13fc6238c13f97847abfa97c45274de600d2",
       "bytes": 130
     },
-    "frozen-plan.json": {
-      "sha256": "a0f19e40ac6d6937eb6263a86fce8b9f2f0ccd9b9251d8a34fe91f7d23c3c096",
-      "bytes": 789279
-    },
     "git-checkout.json": {
       "sha256": "e5d81b1d1b5c37b63cd6cf6530ea7b2d59001bce4d527c774e86323d87bd84fd",
       "bytes": 274
@@ -5129,13 +5125,18 @@
       "sha256": "27bda090064347635260c409cbb685b1c0ea0ce9d8e6270ca52c82a886fed917",
       "bytes": 275,
       "reason": "Contains private provider owner/kernel identity; exact original retained privately"
+    },
+    "frozen-plan.json": {
+      "sha256": "a0f19e40ac6d6937eb6263a86fce8b9f2f0ccd9b9251d8a34fe91f7d23c3c096",
+      "bytes": 789279,
+      "withheld_reason": "Original plan includes an encoded prior provider ownership receipt. Exact original remains privately retained; public control projection omits only this provider metadata payload."
     }
   },
   "full_private_reader_required_for_large_artifact_reproduction": true,
   "record_bindings": {
     "README.md": {
-      "sha256": "0f20f1c3ade710f303a20812844734ab972681abf48d29dd370f2e4e410ea229",
-      "bytes": 3017
+      "sha256": "8c7dc0915c60b18f67dc2eb900ed245021e57477c38b5f5648ef4efc80753246",
+      "bytes": 3700
     },
     "collected.json": {
       "sha256": "53476ebe3ffe3aba8879b88939019f47d5462237829baf84ee5fab97c0ccaf0c",
@@ -5194,8 +5195,18 @@
       "bytes": 991
     },
     "verify_publication.py": {
-      "sha256": "d23641c5ba7be4086127d503642b0de80442f34a8d04d82a2d91c428cd668c05",
-      "bytes": 6044
+      "sha256": "91a60a944af4ab6d23e31fb171b19b41856781d1c5f8819348e305ae9506f77a",
+      "bytes": 6051
+    },
+    "control-plan.safe.json": {
+      "sha256": "5ca01d4dc391fc1dc04a9d81f8210c0f135e733cd7cfd8fc4cea1317c6dfbdca",
+      "bytes": 788870
     }
+  },
+  "safe_plan_projection": {
+    "path": "control-plan.safe.json",
+    "original_plan_sha256": "a0f19e40ac6d6937eb6263a86fce8b9f2f0ccd9b9251d8a34fe91f7d23c3c096",
+    "omitted_payload_path": "phase_owned_focused_evidence/files_base64/metadata/ISSUE-BINDING.json",
+    "all_source_controls_original_steps_and_forecasts_unchanged": true
   }
 }

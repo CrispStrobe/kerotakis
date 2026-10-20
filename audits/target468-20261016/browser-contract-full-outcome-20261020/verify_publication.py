@@ -21,7 +21,7 @@ def main():
    p=prefix/name;assert p.stat().st_size==row['bytes'] and sha(p)==row['sha256'],name
  first=load(root/'root-accepted.json');parent=load(root/'root-parent-accepted.json')
  assert {k:v for k,v in first.items() if k!='reviewed_utc'}=={k:v for k,v in parent.items() if k!='reviewed_utc'}
- plan=load(raw/'frozen-plan.json');source=plan['reviewed_head'];assert first['source']==source
+ plan=load(root/'control-plan.safe.json');source=plan['reviewed_head'];assert first['source']==source
  get=lambda p:subprocess.check_output(['git','show',source+':'+p],cwd=args.repo)
  assert subprocess.check_output(['git','rev-parse',source+'^{tree}'],cwd=args.repo,text=True).strip()==plan['tree']==first['tree']
  assert hashlib.sha256(get('.github/workflows/chemistry-audit.yml')).hexdigest()==plan['workflow_sha256']
