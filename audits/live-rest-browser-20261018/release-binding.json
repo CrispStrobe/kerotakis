@@ -1,21 +1,21 @@
 {
   "status": "bound_before_browser_dispatch",
-  "expected_engine_source": "dacf76513328c2226e2f5133a79fb9af84343431",
-  "expected_binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+  "expected_engine_source": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+  "expected_binary_sha256": "fafe782ff4f27e47f3a6a4213ef6e3d2acd12ed06eb970033b6c11cd126454fe",
   "client_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
   "frontend_assets": {
-    "iphreeqc.mjs": "0feaacd1b4cd69630879d6b1881d0bc196b597625b456ecea75460f09d06c7b9",
-    "iphreeqc.wasm": "38c04668edb55c6339899e1191b9cfff76cc96dad68a0e90e0cb12b78eed1357",
+    "iphreeqc.mjs": "c56475cd941a3514c05a62ff449ae3ba86a61e5944a11c6b9654f80fc9202ef2",
+    "iphreeqc.wasm": "aca79c747b5825dcf919980f5e8055acc8567647ba42902453f7543e6d751d8c",
     "kerotakis.mjs": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
     "kerotakis_wasm.js": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
-    "kerotakis_wasm_bg.wasm": "088c4e6eb4630952ec22f72140f705ccd9d231d79541a047ba221207be5c3dd0"
+    "kerotakis_wasm_bg.wasm": "6910305346c88dcb3e15db8190efca64b0dd4aea840204051d381002571e4d61"
   },
   "native_bridge_reference": {
     "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
-    "response_sha256": "5a257b1e56df5c75c7d8f5391796739f302a812e7645e3bb82209966ecf35f34",
+    "response_sha256": "ea2e2329135a21f1772757a11acbf9cf9fbf498bd40216ea524dc64a6526bc6e",
     "engine": {
-      "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
-      "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+      "source_head": "000ca5729b5f11c5c6c036b73b68c92bf84cdd70",
+      "binary_sha256": "fafe782ff4f27e47f3a6a4213ef6e3d2acd12ed06eb970033b6c11cd126454fe",
       "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
     },
     "solution": {
@@ -23,6 +23,6 @@
       "ionic_strength": 0.2708857843468
     }
   },
-  "producer_artifact_receipt_sha256": "36a6c9796fd403e96b19ac2ac94b2967dd409dd160bb79a1fe9db24bd95ba8ba",
-  "protocol_design_sha256": "91afc3b7fcd012352453b49752fb9d0bade72c71ddaae52f60c9b353132f5bab"
+  "producer_artifact_receipt_sha256": "5f4402fa06398e1e5b7a35479c7d96be3be35eb53c8e2de04ed515c8df8b25ad",
+  "protocol_design_sha256": "ed77ead8ef3c98081f4b5457e8181b1daa4c5808f9bb2df32520249fbda89156"
 }
