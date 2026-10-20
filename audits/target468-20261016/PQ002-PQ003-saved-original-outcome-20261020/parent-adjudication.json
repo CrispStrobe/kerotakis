@@ -1,0 +1,27 @@
+{
+  "schema": "kerotakis.PQ002.PQ003.parent-domain-adjudication.v1",
+  "utc": "2026-10-20T17:36:53.445918+00:00",
+  "accepted_originals": [
+    "batch2:pq-002",
+    "batch2:pq-003"
+  ],
+  "parent_reproduced_full_saved_reader_exactly": true,
+  "reader_sha256": "d3a2a294c92e7f626493d00dd6d2d41bff9bf304a3e9121614bd7175e5e8fdfc",
+  "assessment_sha256": "25218e92f4f6c25ab6f238124d6f61e4ad0cfee5bdcb0098929e2a7487aeb5ee",
+  "parent_assessment_sha256": "25218e92f4f6c25ab6f238124d6f61e4ad0cfee5bdcb0098929e2a7487aeb5ee",
+  "parent_inspected_original_criteria_and_named_limits": true,
+  "all63_owned_ledgers_strict_1e10_mol_floor": true,
+  "old_engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "binary_and_lock_only_producer_identified_not_independently_rehashed": true,
+  "rationale": {
+    "batch2:pq-002": "C1 expressly permits complex-specific concentrations: the equal-input arm has an interval-separated 1:1 FeSCN peak; analytical Fe+SCN is exactly100 micromol in each arm. Both SCN complexes and hydrolysed iron pools are included. The forecast is explicitly conditional on a dominant 1:1 complex model, not an empirical Job determination.",
+    "batch2:pq-003": "C1 is met by directly identified iron-phosphate pools, not solely colour or acidity. C2 is met by retaining the measured unequal pH and refusing an isolated ligand-causality claim. Original limitation explicitly requires solved pH/species, which are present."
+  },
+  "scope": "Original bounded native-speciation criteria only. Unoffered/unregistered oxide phases leave physical complete equilibrium unsupported. UVvis refuses all arms; no optical result, metastable lifetime, oxide suppression condition, calibrated temperature response, kinetics or real experimental stoichiometry is earned. These are historical saved-source qualifications, not current-release reruns.",
+  "new_engine_API_provider_build_calls": 0
+}

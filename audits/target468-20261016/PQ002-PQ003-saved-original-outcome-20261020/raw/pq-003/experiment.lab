@@ -1,0 +1,16 @@
+# PQ-003: A competing phosphate pool can remove iron from a coloured complex
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 100mL
+add v1 HCl 0.001mol
+add v1 FeCl3 0.0001mol
+add v1 KSCN 0.0005mol
+new
+decant v1 v2 0.5
+add v1 H3PO4 0.001mol
+add v2 HCl 0.001mol
+measure v1 ph
+measure v2 ph
+measure v1 uvvis
+measure v2 uvvis
+inspect

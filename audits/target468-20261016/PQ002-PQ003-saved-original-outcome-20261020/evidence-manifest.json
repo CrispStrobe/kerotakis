@@ -1,0 +1,17 @@
+{
+  "files_sha256": {
+    "README.md": "a8aa4fbf3ff6b57787d77ed78e9605cace8bdf8ca2b0381d1476782ba0547515",
+    "assessment.json": "25218e92f4f6c25ab6f238124d6f61e4ad0cfee5bdcb0098929e2a7487aeb5ee",
+    "domain-proposal.md": "c6175a7537dedb9d0e348116c4115d29e3a5eba80dda3f884fa3579e0cb37965",
+    "parent-adjudication.json": "f03a3b2e1b8f52603945fa5215c0667256b1a9758c9d33bfebac5580dc652446",
+    "parent-assessment.json": "25218e92f4f6c25ab6f238124d6f61e4ad0cfee5bdcb0098929e2a7487aeb5ee",
+    "raw/pq-002/experiment.lab": "03fd4e39282f63d890e3b6b585d7b68f2409521a05c5b5290c561ef47c412256",
+    "raw/pq-002/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "raw/pq-002/stdout.jsonl": "da8db6332c8f832bcf94160b35e7786d94712b814bea3c3e3da207c7d91cfb80",
+    "raw/pq-003/experiment.lab": "52e0eb8c781da1785ed6f252f7bd2229675876755d89758b032e48c89a4c7359",
+    "raw/pq-003/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "raw/pq-003/stdout.jsonl": "a73644ec7829352b387d64835fd515dd9452ae3f532f2c7aca2764dbd827fe1e",
+    "raw-bindings.json": "39b65b63b89a7a9ab5f9c12cb1923b66866638b0f7d721fac9952741472ceab0",
+    "review_saved.py": "d3a2a294c92e7f626493d00dd6d2d41bff9bf304a3e9121614bd7175e5e8fdfc"
+  }
+}
