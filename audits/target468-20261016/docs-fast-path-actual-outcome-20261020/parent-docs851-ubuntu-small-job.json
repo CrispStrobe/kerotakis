@@ -1,0 +1,145 @@
+{
+  "utc": "2026-10-20T19:58:40.038719+00:00",
+  "actual_job": {
+    "id": 118849768946,
+    "run_id": 39485496097,
+    "workflow_name": "CI",
+    "head_branch": "docs/status-pr850-20261020",
+    "run_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/runs/39485496097",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOT8z0Oc8AAAAbq_-N8g",
+    "head_sha": "1fe4c9f07b36d18194393c1a5a2c77b3e98998fd",
+    "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/jobs/118849768946",
+    "html_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849768946",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-10-20T19:51:09Z",
+    "started_at": "2026-10-20T19:57:40Z",
+    "completed_at": "2026-10-20T19:57:44Z",
+    "name": "Test (native) (ubuntu-latest)",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-10-20T19:57:41Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Run actions/checkout@v6",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 2,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Run dtolnay/rust-toolchain@stable",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 3,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Run Swatinem/rust-cache@v2",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 4,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 5,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Format",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 6,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Clippy",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 7,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Test",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 8,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Aqueous continuation cache-only adapter",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 9,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Codex \u2014 every claim must still compute",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 10,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Curiosity coverage \u2014 the recorded route is still the route",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 11,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Preserve regenerated snapshots for review",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 12,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Reviewed documentation needs no native build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-10-20T19:57:42Z",
+        "completed_at": "2026-10-20T19:57:42Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/CrispStrobe/kerotakis/check-runs/118849768946",
+    "labels": [
+      "ubuntu-latest"
+    ],
+    "runner_id": 1000380274,
+    "runner_name": "GitHub Actions 1000380274",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  "only_setup_docs_echo_complete_executed": true,
+  "all_four_jobs_accepted": false
+}

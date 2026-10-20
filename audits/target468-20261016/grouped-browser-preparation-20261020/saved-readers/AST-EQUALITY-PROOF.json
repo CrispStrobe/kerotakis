@@ -1,0 +1,39 @@
+{
+  "status": "EXTRACTION_ONLY_NOT_EXECUTED_ON_ACTUAL_REPORT",
+  "blocks": [
+    {
+      "old_reader_name": "watch-browser-contract-848-browser-20261020.py",
+      "old_reader_sha256": "bcf1978a46cd059a5a0fbf967fa3361cadacff5f9e61131cdb20b7a477a56b3e",
+      "original_try_statement_slice": [
+        15,
+        26
+      ],
+      "old_block_first_line": 37,
+      "old_block_last_line": 46,
+      "new_module": "group37_predicates.py",
+      "new_module_sha256": "2f7d23773e98068068a5d730983821a65095c90a62d6b472e2ef55e98105d944",
+      "assertion_block_AST_sha256": "1620105a7a9b67b0108a9c93535665edd4bc701a62310c43a8dae4c4895bd046",
+      "exact_original_block_AST_equal": true,
+      "original_top_level_statement_count": 11,
+      "all_asserts_recursive": 9,
+      "excluded": "old resource/readiness polling, collector/provider/dispatch, receipt writes and old hardcoded-source admission; replaced by explicit authenticated grouped saved envelope only"
+    },
+    {
+      "old_reader_name": "review-browser-contract-848-targeted-20261020.py",
+      "old_reader_sha256": "a638e13525b9690b2675530885cfb35e2abc634a313fca43b07f9db17346340c",
+      "original_try_statement_slice": [
+        9,
+        49
+      ],
+      "old_block_first_line": 29,
+      "old_block_last_line": 58,
+      "new_module": "group7_predicates.py",
+      "new_module_sha256": "81206e7ac27de50244effe2912469a345c1fba5bb50b1f3d0a2d52e6769d1216",
+      "assertion_block_AST_sha256": "b8cd7a7c50e2c1c31f4816af1638d5da10b7228f01e1a6b06c7c96bf544e3267",
+      "exact_original_block_AST_equal": true,
+      "original_top_level_statement_count": 40,
+      "all_asserts_recursive": 24,
+      "excluded": "old resource/readiness polling, collector/provider/dispatch, receipt writes and old hardcoded-source admission; replaced by explicit authenticated grouped saved envelope only"
+    }
+  ]
+}

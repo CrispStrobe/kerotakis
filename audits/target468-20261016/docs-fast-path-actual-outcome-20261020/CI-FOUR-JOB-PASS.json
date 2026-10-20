@@ -1,0 +1,536 @@
+{
+  "utc": "2026-10-20T19:59:24.836187+00:00",
+  "head": "1fe4c9f07b36d18194393c1a5a2c77b3e98998fd",
+  "run": 39485496097,
+  "exactly_four_executing_jobs": [
+    "Classify complete change range",
+    "Full preflight gate",
+    "Test (native) (macos-latest)",
+    "Test (native) (ubuntu-latest)"
+  ],
+  "all_other_jobs_skipped": true,
+  "classifier_actual_docs8_and11tests_verified": true,
+  "jobs": [
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "success",
+      "databaseId": 118844705660,
+      "name": "Classify complete change range",
+      "startedAt": "2026-10-20T19:51:00Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-20T19:51:02Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-20T19:51:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:51:06Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-20T19:51:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:51:07Z",
+          "conclusion": "success",
+          "name": "Test conservative classifier",
+          "number": 3,
+          "startedAt": "2026-10-20T19:51:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:51:07Z",
+          "conclusion": "success",
+          "name": "Classify exact event range",
+          "number": 4,
+          "startedAt": "2026-10-20T19:51:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:51:07Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 8,
+          "startedAt": "2026-10-20T19:51:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:51:07Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "startedAt": "2026-10-20T19:51:07Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118844705660"
+    },
+    {
+      "completedAt": "2026-10-20T19:53:04Z",
+      "conclusion": "success",
+      "databaseId": 118849768845,
+      "name": "Test (native) (macos-latest)",
+      "startedAt": "2026-10-20T19:52:59Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-20T19:53:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Format",
+          "number": 6,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Clippy",
+          "number": 7,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Test",
+          "number": 8,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Aqueous continuation cache-only adapter",
+          "number": 9,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Codex \u2014 every claim must still compute",
+          "number": 10,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Curiosity coverage \u2014 the recorded route is still the route",
+          "number": 11,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "skipped",
+          "name": "Preserve regenerated snapshots for review",
+          "number": 12,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "success",
+          "name": "Reviewed documentation needs no native build",
+          "number": 13,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:53:02Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 14,
+          "startedAt": "2026-10-20T19:53:02Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849768845"
+    },
+    {
+      "completedAt": "2026-10-20T19:57:44Z",
+      "conclusion": "success",
+      "databaseId": 118849768946,
+      "name": "Test (native) (ubuntu-latest)",
+      "startedAt": "2026-10-20T19:57:40Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-20T19:57:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Run actions/checkout@v6",
+          "number": 2,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 4,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 5,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Format",
+          "number": 6,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Clippy",
+          "number": 7,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Test",
+          "number": 8,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Aqueous continuation cache-only adapter",
+          "number": 9,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Codex \u2014 every claim must still compute",
+          "number": 10,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Curiosity coverage \u2014 the recorded route is still the route",
+          "number": 11,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "skipped",
+          "name": "Preserve regenerated snapshots for review",
+          "number": 12,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "success",
+          "name": "Reviewed documentation needs no native build",
+          "number": 13,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:57:42Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 14,
+          "startedAt": "2026-10-20T19:57:42Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849768946"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849770054,
+      "name": "GPU release tools (deterministic)",
+      "startedAt": "2026-10-20T19:51:09Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770054"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849770279,
+      "name": "The native host still compiles",
+      "startedAt": "2026-10-20T19:51:09Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770279"
+    },
+    {
+      "completedAt": "2026-10-20T19:58:53Z",
+      "conclusion": "success",
+      "databaseId": 118849770455,
+      "name": "Full preflight gate",
+      "startedAt": "2026-10-20T19:58:49Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-20T19:58:50Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-20T19:58:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:58:50Z",
+          "conclusion": "success",
+          "name": "Require classifier and the appropriate preflight outcome",
+          "number": 2,
+          "startedAt": "2026-10-20T19:58:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T19:58:50Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 3,
+          "startedAt": "2026-10-20T19:58:50Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770455"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849770518,
+      "name": "The demo page, in a real browser",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770518"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849770717,
+      "name": "Full preflight execution",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770717"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849770732,
+      "name": "Shell payload (${{ matrix.os }})",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770732"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849770739,
+      "name": "Presentation authority adapters",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770739"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849770768,
+      "name": "Legacy BASIC oracle (development only)",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770768"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849770823,
+      "name": "IPhreeqc under MSVC",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770823"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849770949,
+      "name": "Theme contrast tokens",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849770949"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849771023,
+      "name": "Core and data schemas compile to wasm32",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849771023"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849771069,
+      "name": "feos adapter (${{ matrix.target }})",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849771069"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849771212,
+      "name": "Current registry source export",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849771212"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849771332,
+      "name": "The two wasm halves, together",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849771332"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849771345,
+      "name": "MY-BASIC preview (${{ matrix.os }})",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849771345"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849771438,
+      "name": "The bench in WebAssembly",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849771438"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849771442,
+      "name": "BRD-080 viewer decision spike",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849771442"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849772112,
+      "name": "IPhreeqc wasm gate",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849772112"
+    },
+    {
+      "completedAt": "2026-10-20T19:51:09Z",
+      "conclusion": "skipped",
+      "databaseId": 118849773088,
+      "name": "Publish the demo",
+      "startedAt": "2026-10-20T19:51:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39485496097/job/118849773088"
+    }
+  ],
+  "not_product_or_scientific_acceptance": true
+}

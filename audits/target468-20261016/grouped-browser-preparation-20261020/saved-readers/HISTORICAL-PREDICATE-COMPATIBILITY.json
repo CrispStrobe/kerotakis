@@ -1,0 +1,16 @@
+{
+  "kind": "ACTUAL_HISTORICAL_SAVED_PREDICATE_COMPATIBILITY_ONLY",
+  "actual_historical_source": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+  "counts": [
+    37,
+    7
+  ],
+  "old_report_sha256": {
+    "37": "ddf7207050d02d68e2ebe1c9efbbd38266805d750d842108232bad9439fab9e1",
+    "7": "30b8288ac4574166bfb9f8561c413c66ea7a4de841cebb92defca0bf0aab4d7b"
+  },
+  "original_exact_AST_blocks_reproduced_on_genuine_old_reports": true,
+  "grouped_envelope_executed": false,
+  "current33_browser_acceptance": false,
+  "new_engine_browser_provider_calls": 0
+}

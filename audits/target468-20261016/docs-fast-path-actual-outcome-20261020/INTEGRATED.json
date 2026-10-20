@@ -1,0 +1,25 @@
+{
+  "utc": "2026-10-20T19:59:26.070389+00:00",
+  "pr": 851,
+  "head": "1fe4c9f07b36d18194393c1a5a2c77b3e98998fd",
+  "merge": "b5a261cfbd59c9f3036985f7398d810c6baf7e1b",
+  "parents": [
+    "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+    "1fe4c9f07b36d18194393c1a5a2c77b3e98998fd"
+  ],
+  "actual_tree": "fe6c84257edb516d8a9b0fa7f0e7039f583e8224",
+  "reconstructed_tree": "fe6c84257edb516d8a9b0fa7f0e7039f583e8224",
+  "changed_paths": [
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/peroxide-medium-and-i18n-20261019.md",
+    "docs/post-hydrolysis-gap-lanes-20261019.md",
+    "docs/scientific-coverage-expansion-20261020.md",
+    "docs/unifac-input-admission-20261019.md",
+    "docs/wrap-up-and-open-lanes-20261019.md"
+  ],
+  "four_small_job_path_actually_passed": true,
+  "runtime_source_remains": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "not_a_deployment_claim": true
+}

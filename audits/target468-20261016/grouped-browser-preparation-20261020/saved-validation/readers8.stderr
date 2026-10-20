@@ -1,0 +1,13 @@
+test_aliases_are_read_only_actual_input_paths (test_saved_controls.SavedControls.test_aliases_are_read_only_actual_input_paths) ... ok
+test_changed_assertion_cannot_keep_AST_identity (test_saved_controls.SavedControls.test_changed_assertion_cannot_keep_AST_identity) ... ok
+test_exact_manifest (test_saved_controls.SavedControls.test_exact_manifest) ... ok
+test_exact_original_block_fingerprints (test_saved_controls.SavedControls.test_exact_original_block_fingerprints) ... ok
+test_mutated_raw_refused (test_saved_controls.SavedControls.test_mutated_raw_refused) ... ok
+test_symlink_refused (test_saved_controls.SavedControls.test_symlink_refused) ... ok
+test_traversal_refused (test_saved_controls.SavedControls.test_traversal_refused) ... ok
+test_unmanifested_file_refused (test_saved_controls.SavedControls.test_unmanifested_file_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.030s
+
+OK

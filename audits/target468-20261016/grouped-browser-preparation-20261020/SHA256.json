@@ -1,0 +1,22 @@
+{
+  "README.md": "98aacf2ec3d1715bda7b2f0772ca361dd6fbd56821aaf5179e42166467ba4601",
+  "admission/pack_admission.py": "15a80959f1a2216cf656016c6bc755c10a657c24384b8b63f050a193aefc39f7",
+  "admission/release_binding.py": "ce1056bedda46b926d0edf86e5567028b1790ca796735f314e6edd557f405d25",
+  "producer/grouped_browser.py": "ffcc030c22f796ce2f27f2399bbe025c57501e8528e3405d64532a5366f071e2",
+  "producer/test_orchestration.py": "a411ce2862c4b29e20ad7d52006310651c43efd206564c328c07d2a756839d46",
+  "saved-readers/AST-EQUALITY-PROOF.json": "71d02d65417b60737a5a6af71112e7b30c260c93811eac3488d78dfccc53c596",
+  "saved-readers/HISTORICAL-PREDICATE-COMPATIBILITY.json": "145838104f46310e8898424596badc4b39c3969cf00092e61be42b0ef1457deb",
+  "saved-readers/POSTCOLLECTION-18-CONTEXT-PROPOSAL.json": "180e22e6bd93e071e4f3ed42d0abd234a5b5743d045747c6f803ea1309de369d",
+  "saved-readers/extract_predicates.py": "a3df4083111f025be91094f1e2d66a1c523967c89c172a09b2aba24df40dc52b",
+  "saved-readers/group37_predicates.py": "2f7d23773e98068068a5d730983821a65095c90a62d6b472e2ef55e98105d944",
+  "saved-readers/group7_predicates.py": "81206e7ac27de50244effe2912469a345c1fba5bb50b1f3d0a2d52e6769d1216",
+  "saved-readers/read_group.py": "327ee4aba48ab59806a971489096365ff9c6e5841a1ecd12015a78289b40a16e",
+  "saved-readers/saved_envelope.py": "e3228a3b68ba1d3745f645d036eb2631921961894acd680a6f588a58f2459c2f",
+  "saved-readers/test_saved_controls.py": "affb522c18bd4a327079deeaa13227d8d6d4d218a4032600cb855f40146307b2",
+  "saved-validation/historical37-7.stdout": "145838104f46310e8898424596badc4b39c3969cf00092e61be42b0ef1457deb",
+  "saved-validation/producer12.stderr": "8963e92b0769fc5960d0bf99567cf19cbad0d2a35521daf37a73418f1787737d",
+  "saved-validation/producer12.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "saved-validation/readers8.stderr": "0e39bdad48df243f13f088f6f29ecd90328a6067d2c4ab509eebb8d6677c5a47",
+  "saved-validation/readers8.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "verify.py": "befea3d78219242439a4244497967cb57e2a80681cf47c0cefa03ffcdfd7f74c"
+}
