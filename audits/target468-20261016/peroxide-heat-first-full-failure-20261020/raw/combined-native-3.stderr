@@ -1,0 +1,2080 @@
+   Compiling bitflags v2.13.2
+   Compiling rand_core v0.10.1
+   Compiling getrandom v0.4.3
+   Compiling raw-cpuid v11.6.0
+   Compiling linux-raw-sys v0.12.1
+   Compiling regex-syntax v0.8.11
+   Compiling pulp v0.22.3
+   Compiling private-gemm-x86 v0.1.22
+   Compiling gemm-common v0.19.0
+   Compiling gemm-f64 v0.19.0
+   Compiling gemm-c64 v0.19.0
+   Compiling gemm-f32 v0.19.0
+   Compiling gemm-c32 v0.19.0
+   Compiling qd v0.8.0
+   Compiling faer-traits v0.24.0
+   Compiling gemm v0.19.0
+   Compiling faer v0.24.4
+   Compiling rustix v1.1.5
+   Compiling gimli v0.32.3
+   Compiling fastrand v2.5.0
+   Compiling adler2 v2.0.1
+   Compiling miniz_oxide v0.8.9
+   Compiling tempfile v3.27.0
+   Compiling addr2line v0.25.1
+   Compiling object v0.37.3
+   Compiling regex-automata v0.4.18
+   Compiling wait-timeout v0.2.1
+   Compiling quick-error v1.2.3
+   Compiling fnv v1.0.7
+   Compiling cpufeatures v0.3.1
+   Compiling rustc-demangle v0.1.28
+   Compiling bit-vec v0.10.1
+   Compiling bit-set v0.11.1
+   Compiling backtrace v0.3.76
+   Compiling chacha20 v0.10.2
+   Compiling rusty-fork v0.3.1
+   Compiling regex v1.13.1
+   Compiling rand v0.10.3
+   Compiling parking_lot v0.12.5
+   Compiling rand_xorshift v0.5.0
+   Compiling core_detect v1.0.0
+   Compiling mintex v0.1.4
+   Compiling thousands v0.2.0
+   Compiling unarray v0.1.4
+   Compiling proptest v1.12.0
+   Compiling dhat v0.3.3
+   Compiling criterion v0.5.1
+   Compiling diffsol-la v0.1.1
+   Compiling diffsol-nl v0.1.1
+   Compiling diffsol v0.16.2
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/kerotakis-peroxide-ci-bundle-full/source/crates/kerotakis-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4m 26s
+     Running unittests src/lib.rs (target/debug/deps/kerotakis_core-09029db3d4cac185)
+
+thread 'kinetics::fit_override_tests::pre_exponential_override_restores_after_unwind' (14228) panicked at crates/kerotakis-core/src/kinetics.rs:1328:17:
+exercise the RAII guard
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+     Running tests/accuracy_corpus.rs (target/debug/deps/accuracy_corpus-0fb79c05ed588453)
+     Running tests/acid_metal_cell.rs (target/debug/deps/acid_metal_cell-d9553879e74ce8b4)
+     Running tests/acid_permanganate_endpoint.rs (target/debug/deps/acid_permanganate_endpoint-af02bbfa78650ede)
+     Running tests/adsorption.rs (target/debug/deps/adsorption-795896176407be3a)
+     Running tests/adsorption_delta.rs (target/debug/deps/adsorption_delta-eb67d6b16d170684)
+     Running tests/allocation_profile.rs (target/debug/deps/allocation_profile-acc7a335c25696e4)
+
+=== OPT-5: Combined allocation profile ===
+  Total allocations:  4822
+  Total bytes:        197948
+  Peak blocks:        671
+  Peak bytes:         92386
+     Running tests/ambient_heat.rs (target/debug/deps/ambient_heat-0640b47fcc12b146)
+     Running tests/amount_foundation.rs (target/debug/deps/amount_foundation-847d12ce1f7389db)
+     Running tests/amylase.rs (target/debug/deps/amylase-1cb27b420fbc97ad)
+     Running tests/aqueous_continuation.rs (target/debug/deps/aqueous_continuation-94f220ea11a748a9)
+     Running tests/aqueous_transfer_snapshot.rs (target/debug/deps/aqueous_transfer_snapshot-72d3c92d86195d37)
+     Running tests/atomic_distil_refusal.rs (target/debug/deps/atomic_distil_refusal-c746a6b0cb48d31c)
+     Running tests/batteries.rs (target/debug/deps/batteries-71c61e65426a2699)
+     Running tests/borrowed_solver_routes.rs (target/debug/deps/borrowed_solver_routes-be639429db70a5e2)
+     Running tests/buoyancy.rs (target/debug/deps/buoyancy-3b330d5c572139b9)
+     Running tests/centrifuging.rs (target/debug/deps/centrifuging-c85e2b8f8e817e71)
+     Running tests/chromatograph.rs (target/debug/deps/chromatograph-1160d5880358da66)
+     Running tests/column_breakthrough.rs (target/debug/deps/column_breakthrough-2205c04cf50ec3ef)
+     Running tests/combustion.rs (target/debug/deps/combustion-9f5f8c075f6a51d8)
+     Running tests/compensated_amount_contracts.rs (target/debug/deps/compensated_amount_contracts-8be56a5586cdb7ee)
+     Running tests/compensated_stock_contracts.rs (target/debug/deps/compensated_stock_contracts-3365f53f17d42d70)
+     Running tests/compensated_stock_precision_boundaries.rs (target/debug/deps/compensated_stock_precision_boundaries-4ac5b898ead44479)
+     Running tests/composed_locale.rs (target/debug/deps/composed_locale-efca51dd639a8d31)
+
+thread 'an_unresolved_static_phrase_key_fails_closed' (14772) panicked at crates/kerotakis-core/tests/composed_locale.rs:181:18:
+unresolved static Phrase key: UNREGISTERED_KEY
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+     Running tests/conductivity_sources.rs (target/debug/deps/conductivity_sources-3320f69fe088f8a1)
+     Running tests/conservation.rs (target/debug/deps/conservation-e88f88b439786909)
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+     Running tests/corrosion.rs (target/debug/deps/corrosion-46c20b921e12afaa)
+     Running tests/dataset_model_locale.rs (target/debug/deps/dataset_model_locale-d1172644bea98be1)
+     Running tests/delta_inventory_contracts.rs (target/debug/deps/delta_inventory_contracts-db95db37648c472b)
+     Running tests/delta_thermal_contracts.rs (target/debug/deps/delta_thermal_contracts-9aa29d1c3a857e11)
+     Running tests/density.rs (target/debug/deps/density-5c9de08da3358704)
+     Running tests/did_not_ignite.rs (target/debug/deps/did_not_ignite-04b757cc7e2c5bef)
+     Running tests/dilute.rs (target/debug/deps/dilute-38a68cb3e7df8c8a)
+     Running tests/direct_model_routes.rs (target/debug/deps/direct_model_routes-f1ba6113b04dc58d)
+     Running tests/discard_verb.rs (target/debug/deps/discard_verb-366ca622ca8a23a8)
+     Running tests/distil.rs (target/debug/deps/distil-8a221c7e5deb55bb)
+     Running tests/element_coverage.rs (target/debug/deps/element_coverage-29e776e214905f01)
+     Running tests/energy_transfer.rs (target/debug/deps/energy_transfer-e50b18fb62b042a0)
+     Running tests/english_input_alias.rs (target/debug/deps/english_input_alias-02b9e9ce1535c0f3)
+     Running tests/enzyme_activity.rs (target/debug/deps/enzyme_activity-19d444d9526cb811)
+     Running tests/enzyme_families.rs (target/debug/deps/enzyme_families-5d0c693893c1c95d)
+     Running tests/exchange.rs (target/debug/deps/exchange-b0eaeeb6716c23d7)
+     Running tests/family_gate_legacy.rs (target/debug/deps/family_gate_legacy-e020e3971053cce4)
+     Running tests/family_gate_locale.rs (target/debug/deps/family_gate_locale-534c4c9309cdb39f)
+     Running tests/family_gate_registry_locale.rs (target/debug/deps/family_gate_registry_locale-c6e97f49b593d638)
+     Running tests/fermentation.rs (target/debug/deps/fermentation-125ff57dab1b3e52)
+     Running tests/finite_script_quantities.rs (target/debug/deps/finite_script_quantities-9c0291a6c7319b4e)
+     Running tests/float_or_sink.rs (target/debug/deps/float_or_sink-a4e376feb0240acc)
+     Running tests/fluid_pack_identity.rs (target/debug/deps/fluid_pack_identity-8ece0a94c2cf812a)
+     Running tests/foam_observable.rs (target/debug/deps/foam_observable-44dfe776193ad682)
+     Running tests/food_colour.rs (target/debug/deps/food_colour-c696f8a02ab29899)
+     Running tests/frozen_behavior.rs (target/debug/deps/frozen_behavior-6e306d6823a42e60)
+
+thread 'lessons_produce_stable_output' (15011) panicked at crates/kerotakis-core/tests/frozen_behavior.rs:195:13:
+ARCH-001: lesson behavior changed!
+6614 differing line(s), first 600 shown:
+line 2262:
+  expected:       "v1: peroxide-decomposition released 4374.39 J",
+  actual:         "v1: peroxide-decomposition released 8748.78 J",
+line 2263:
+  expected:       "v1: 26.6 °C → 34.7 °C",
+  actual:         "v1: 26.6 °C → 42.9 °C",
+line 2265:
+  expected:       "v1: 34.7 °C → 34.7 °C",
+  actual:         "v1: 42.9 °C → 42.8 °C",
+line 2298:
+  expected:         "temperature_k": 307.2908
+  actual:           "temperature_k": 314.969
+line 2325:
+  expected:         "temperature_k": 307.878
+  actual:           "temperature_k": 316.0497
+line 2330:
+  expected:     "event_count": 19,
+  actual:       "event_count": 20,
+line 2343:
+  expected:       "v1: peroxide-decomposition released 203.91 J",
+  actual:         "v1: peroxide-decomposition released 407.81 J",
+line 2344:
+  expected:       "v1: 25.0 °C → 25.4 °C",
+  actual:         "v1: 25.0 °C → 25.9 °C",
+line 2348:
+  expected:       "v2: peroxide-decomposition released 760.35 J",
+  actual:         "v2: peroxide-decomposition released 1520.70 J",
+line 2349:
+  expected:       "v2: 25.0 °C → 26.7 °C",
+  actual:         "v2: 25.0 °C → 28.4 °C",
+line 2350:
+  expected:       "v2: 7.74 mmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑"
+  actual:         "v2: 7.74 mmol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
+line 2351:
+  expected:     ],
+  actual:         "v2: 28.4 °C → 28.3 °C"
+line 2352:
+  expected:     "lesson": "elephant-toothpaste-catalyst-dose.lab",
+  actual:       ],
+line 2353:
+  expected:     "vessels": [
+  actual:       "lesson": "elephant-toothpaste-catalyst-dose.lab",
+line 2354:
+  expected:       {
+  actual:       "vessels": [
+line 2355:
+  expected:         "contents": [
+  actual:         {
+line 2356:
+  expected:           {
+  actual:           "contents": [
+line 2357:
+  expected:             "moles": 0.08493856,
+  actual:             {
+line 2358:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.08493856,
+line 2359:
+  expected:             "species": "H2O2"
+  actual:               "phase": "Liquid",
+line 2360:
+  expected:           },
+  actual:               "species": "H2O2"
+line 2361:
+  expected:           {
+  actual:             },
+line 2362:
+  expected:             "moles": 0.001506,
+  actual:             {
+line 2363:
+  expected:             "phase": "Aqueous",
+  actual:               "moles": 0.001506,
+line 2364:
+  expected:             "species": "KI"
+  actual:               "phase": "Aqueous",
+line 2365:
+  expected:           },
+  actual:               "species": "KI"
+line 2366:
+  expected:           {
+  actual:             },
+line 2367:
+  expected:             "moles": 0.00207644,
+  actual:             {
+line 2368:
+  expected:             "phase": "Gas",
+  actual:               "moles": 0.00207644,
+line 2369:
+  expected:             "species": "O2"
+  actual:               "phase": "Gas",
+line 2370:
+  expected:           },
+  actual:               "species": "O2"
+line 2371:
+  expected:           {
+  actual:             },
+line 2372:
+  expected:             "moles": 5.8997954,
+  actual:             {
+line 2373:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 5.8997954,
+line 2374:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2375:
+  expected:           }
+  actual:               "species": "water"
+line 2376:
+  expected:         ],
+  actual:             }
+line 2377:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2378:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2379:
+  expected:         "temperature_k": 298.5991
+  actual:           "label": "beaker",
+line 2380:
+  expected:       },
+  actual:           "temperature_k": 299.0483
+line 2381:
+  expected:       {
+  actual:         },
+line 2382:
+  expected:         "contents": [
+  actual:         {
+line 2383:
+  expected:           {
+  actual:           "contents": [
+line 2384:
+  expected:             "moles": 0.07360572,
+  actual:             {
+line 2385:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.07360572,
+line 2386:
+  expected:             "species": "H2O2"
+  actual:               "phase": "Liquid",
+line 2387:
+  expected:           },
+  actual:               "species": "H2O2"
+line 2388:
+  expected:           {
+  actual:             },
+line 2389:
+  expected:             "moles": 0.00602399,
+  actual:             {
+line 2390:
+  expected:             "phase": "Aqueous",
+  actual:               "moles": 0.00602399,
+line 2391:
+  expected:             "species": "KI"
+  actual:               "phase": "Aqueous",
+line 2392:
+  expected:           },
+  actual:               "species": "KI"
+line 2393:
+  expected:           {
+  actual:             },
+line 2394:
+  expected:             "moles": 0.00774286,
+  actual:             {
+line 2395:
+  expected:             "phase": "Gas",
+  actual:               "moles": 0.00774286,
+line 2396:
+  expected:             "species": "O2"
+  actual:               "phase": "Gas",
+line 2397:
+  expected:           },
+  actual:               "species": "O2"
+line 2398:
+  expected:           {
+  actual:             },
+line 2399:
+  expected:             "moles": 5.91112824,
+  actual:             {
+line 2400:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 5.91112824,
+line 2401:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2402:
+  expected:           }
+  actual:               "species": "water"
+line 2403:
+  expected:         ],
+  actual:             }
+line 2404:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2405:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2406:
+  expected:         "temperature_k": 299.8238
+  actual:           "label": "beaker",
+line 2407:
+  expected:       }
+  actual:           "temperature_k": 301.4976
+line 2408:
+  expected:     ]
+  actual:         }
+line 2409:
+  expected:   },
+  actual:       ]
+line 2410:
+  expected:   "endpoint-is-not-a-full-drop": {
+  actual:     },
+line 2411:
+  expected:     "event_count": 11,
+  actual:     "endpoint-is-not-a-full-drop": {
+line 2412:
+  expected:     "events_sample": [
+  actual:       "event_count": 11,
+line 2413:
+  expected:       "v1: +11.0686 mol water",
+  actual:       "events_sample": [
+line 2414:
+  expected:       "v1: +2.30 mmol hydrochloric acid",
+  actual:         "v1: +11.0686 mol water",
+line 2415:
+  expected:       "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+  actual:         "v1: +2.30 mmol hydrochloric acid",
+line 2416:
+  expected:       "v1: not yet modelled — titration needs an aqueous solver to compute pH after each addition — none is wired",
+  actual:         "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+line 2417:
+  expected:       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+  actual:         "v1: not yet modelled — titration needs an aqueous solver to compute pH after each addition — none is wired",
+line 2418:
+  expected:       "v2: new vessel",
+  actual:         "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+line 2419:
+  expected:       "v2: +11.0686 mol water",
+  actual:         "v2: new vessel",
+line 2420:
+  expected:       "v2: +2.30 mmol hydrochloric acid",
+  actual:         "v2: +11.0686 mol water",
+line 2421:
+  expected:       "v2: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+  actual:         "v2: +2.30 mmol hydrochloric acid",
+line 2422:
+  expected:       "v2: not yet modelled — titration needs an aqueous solver to compute pH after each addition — none is wired",
+  actual:         "v2: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+line 2423:
+  expected:       "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+  actual:         "v2: not yet modelled — titration needs an aqueous solver to compute pH after each addition — none is wired",
+line 2424:
+  expected:     ],
+  actual:         "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+line 2425:
+  expected:     "lesson": "endpoint-is-not-a-full-drop.lab",
+  actual:       ],
+line 2426:
+  expected:     "vessels": [
+  actual:       "lesson": "endpoint-is-not-a-full-drop.lab",
+line 2427:
+  expected:       {
+  actual:       "vessels": [
+line 2428:
+  expected:         "contents": [
+  actual:         {
+line 2429:
+  expected:           {
+  actual:           "contents": [
+line 2430:
+  expected:             "moles": 0.0023,
+  actual:             {
+line 2431:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.0023,
+line 2432:
+  expected:             "species": "HCl"
+  actual:               "phase": "Liquid",
+line 2433:
+  expected:           },
+  actual:               "species": "HCl"
+line 2434:
+  expected:           {
+  actual:             },
+line 2435:
+  expected:             "moles": 0.0007,
+  actual:             {
+line 2436:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.0007,
+line 2437:
+  expected:             "species": "NaOH"
+  actual:               "phase": "Solid",
+line 2438:
+  expected:           },
+  actual:               "species": "NaOH"
+line 2439:
+  expected:           {
+  actual:             },
+line 2440:
+  expected:             "moles": 11.45595337,
+  actual:             {
+line 2441:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 11.45595337,
+line 2442:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2443:
+  expected:           }
+  actual:               "species": "water"
+line 2444:
+  expected:         ],
+  actual:             }
+line 2445:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2446:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2447:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2448:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2449:
+  expected:       {
+  actual:         },
+line 2450:
+  expected:         "contents": [
+  actual:         {
+line 2451:
+  expected:           {
+  actual:           "contents": [
+line 2452:
+  expected:             "moles": 0.0023,
+  actual:             {
+line 2453:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.0023,
+line 2454:
+  expected:             "species": "HCl"
+  actual:               "phase": "Liquid",
+line 2455:
+  expected:           },
+  actual:               "species": "HCl"
+line 2456:
+  expected:           {
+  actual:             },
+line 2457:
+  expected:             "moles": 0.0001,
+  actual:             {
+line 2458:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.0001,
+line 2459:
+  expected:             "species": "NaOH"
+  actual:               "phase": "Solid",
+line 2460:
+  expected:           },
+  actual:               "species": "NaOH"
+line 2461:
+  expected:           {
+  actual:             },
+line 2462:
+  expected:             "moles": 11.12389675,
+  actual:             {
+line 2463:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 11.12389675,
+line 2464:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2465:
+  expected:           }
+  actual:               "species": "water"
+line 2466:
+  expected:         ],
+  actual:             }
+line 2467:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2468:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2469:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2470:
+  expected:       }
+  actual:           "temperature_k": 298.15
+line 2471:
+  expected:     ]
+  actual:         }
+line 2472:
+  expected:   },
+  actual:       ]
+line 2473:
+  expected:   "equal-charge-different-clocks": {
+  actual:     },
+line 2474:
+  expected:     "event_count": 12,
+  actual:     "equal-charge-different-clocks": {
+line 2475:
+  expected:     "events_sample": [
+  actual:       "event_count": 12,
+line 2476:
+  expected:       "v1: +13.8357 mol water",
+  actual:       "events_sample": [
+line 2477:
+  expected:       "v1: +1.00 mmol potassium nitrate",
+  actual:         "v1: +13.8357 mol water",
+line 2478:
+  expected:       "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+  actual:         "v1: +1.00 mmol potassium nitrate",
+line 2479:
+  expected:       "v2: new vessel",
+  actual:         "v1: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+line 2480:
+  expected:       "v2: +13.8357 mol water",
+  actual:         "v2: new vessel",
+line 2481:
+  expected:       "v2: +1.00 mmol potassium nitrate",
+  actual:         "v2: +13.8357 mol water",
+line 2482:
+  expected:       "v2: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+  actual:         "v2: +1.00 mmol potassium nitrate",
+line 2483:
+  expected:       "v3: new vessel",
+  actual:         "v2: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+line 2484:
+  expected:       "v3: +13.8357 mol water",
+  actual:         "v3: new vessel",
+line 2485:
+  expected:       "v3: +1.00 mmol potassium nitrate",
+  actual:         "v3: +13.8357 mol water",
+line 2486:
+  expected:       "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+  actual:         "v3: +1.00 mmol potassium nitrate",
+line 2487:
+  expected:       "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled"
+  actual:         "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled",
+line 2488:
+  expected:     ],
+  actual:         "v3: not yet modelled — nothing here can be electrolysed: the solvent-electrolysis model requires a dissolved supporting electrolyte; pure water has finite but very low conductivity, and the voltage, electrode spacing and overpotentials needed to sustain the requested current are not modelled"
+line 2489:
+  expected:     "lesson": "equal-charge-different-clocks.lab",
+  actual:       ],
+line 2490:
+  expected:     "vessels": [
+  actual:       "lesson": "equal-charge-different-clocks.lab",
+line 2491:
+  expected:       {
+  actual:       "vessels": [
+line 2492:
+  expected:         "contents": [
+  actual:         {
+line 2493:
+  expected:           {
+  actual:           "contents": [
+line 2494:
+  expected:             "moles": 0.001,
+  actual:             {
+line 2495:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.001,
+line 2496:
+  expected:             "species": "KNO3"
+  actual:               "phase": "Solid",
+line 2497:
+  expected:           },
+  actual:               "species": "KNO3"
+line 2498:
+  expected:           {
+  actual:             },
+line 2499:
+  expected:             "moles": 13.83569248,
+  actual:             {
+line 2500:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 13.83569248,
+line 2501:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2502:
+  expected:           }
+  actual:               "species": "water"
+line 2503:
+  expected:         ],
+  actual:             }
+line 2504:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2505:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2506:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2507:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2508:
+  expected:       {
+  actual:         },
+line 2509:
+  expected:         "contents": [
+  actual:         {
+line 2510:
+  expected:           {
+  actual:           "contents": [
+line 2511:
+  expected:             "moles": 0.001,
+  actual:             {
+line 2512:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.001,
+line 2513:
+  expected:             "species": "KNO3"
+  actual:               "phase": "Solid",
+line 2514:
+  expected:           },
+  actual:               "species": "KNO3"
+line 2515:
+  expected:           {
+  actual:             },
+line 2516:
+  expected:             "moles": 13.83569248,
+  actual:             {
+line 2517:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 13.83569248,
+line 2518:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2519:
+  expected:           }
+  actual:               "species": "water"
+line 2520:
+  expected:         ],
+  actual:             }
+line 2521:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2522:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2523:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2524:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2525:
+  expected:       {
+  actual:         },
+line 2526:
+  expected:         "contents": [
+  actual:         {
+line 2527:
+  expected:           {
+  actual:           "contents": [
+line 2528:
+  expected:             "moles": 0.001,
+  actual:             {
+line 2529:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.001,
+line 2530:
+  expected:             "species": "KNO3"
+  actual:               "phase": "Solid",
+line 2531:
+  expected:           },
+  actual:               "species": "KNO3"
+line 2532:
+  expected:           {
+  actual:             },
+line 2533:
+  expected:             "moles": 13.83569248,
+  actual:             {
+line 2534:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 13.83569248,
+line 2535:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2536:
+  expected:           }
+  actual:               "species": "water"
+line 2537:
+  expected:         ],
+  actual:             }
+line 2538:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2539:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2540:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2541:
+  expected:       }
+  actual:           "temperature_k": 298.15
+line 2542:
+  expected:     ]
+  actual:         }
+line 2543:
+  expected:   },
+  actual:       ]
+line 2544:
+  expected:   "equilibrium-can-run-backward": {
+  actual:     },
+line 2545:
+  expected:     "event_count": 9,
+  actual:     "equilibrium-can-run-backward": {
+line 2546:
+  expected:     "events_sample": [
+  actual:       "event_count": 9,
+line 2547:
+  expected:       "v1: +0.0100 mol acetic acid",
+  actual:       "events_sample": [
+line 2548:
+  expected:       "v1: +0.0100 mol ethanol",
+  actual:         "v1: +0.0100 mol acetic acid",
+line 2549:
+  expected:       "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.007 mol reacted)",
+  actual:         "v1: +0.0100 mol ethanol",
+line 2550:
+  expected:       "v1: not yet modelled — a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+  actual:         "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.007 mol reacted)",
+line 2551:
+  expected:       "v2: new vessel",
+  actual:         "v1: not yet modelled — a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+line 2552:
+  expected:       "v2: +0.0100 mol water",
+  actual:         "v2: new vessel",
+line 2553:
+  expected:       "v2: +0.0100 mol ethyl_acetate",
+  actual:         "v2: +0.0100 mol water",
+line 2554:
+  expected:       "v2: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (-0.003 mol reacted)",
+  actual:         "v2: +0.0100 mol ethyl_acetate",
+line 2555:
+  expected:       "v2: not yet modelled — a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+  actual:         "v2: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (-0.003 mol reacted)",
+line 2556:
+  expected:     ],
+  actual:         "v2: not yet modelled — a mixed solvent that is mostly organic (water is 33% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+line 2557:
+  expected:     "lesson": "equilibrium-can-run-backward.lab",
+  actual:       ],
+line 2558:
+  expected:     "vessels": [
+  actual:       "lesson": "equilibrium-can-run-backward.lab",
+line 2559:
+  expected:       {
+  actual:       "vessels": [
+line 2560:
+  expected:         "contents": [
+  actual:         {
+line 2561:
+  expected:           {
+  actual:           "contents": [
+line 2562:
+  expected:             "moles": 0.00333333,
+  actual:             {
+line 2563:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.00333333,
+line 2564:
+  expected:             "species": "CH3COOH"
+  actual:               "phase": "Liquid",
+line 2565:
+  expected:           },
+  actual:               "species": "CH3COOH"
+line 2566:
+  expected:           {
+  actual:             },
+line 2567:
+  expected:             "moles": 0.00333333,
+  actual:             {
+line 2568:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.00333333,
+line 2569:
+  expected:             "species": "ethanol"
+  actual:               "phase": "Liquid",
+line 2570:
+  expected:           },
+  actual:               "species": "ethanol"
+line 2571:
+  expected:           {
+  actual:             },
+line 2572:
+  expected:             "moles": 0.00666667,
+  actual:             {
+line 2573:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.00666667,
+line 2574:
+  expected:             "species": "ethyl_acetate"
+  actual:               "phase": "Liquid",
+line 2575:
+  expected:           },
+  actual:               "species": "ethyl_acetate"
+line 2576:
+  expected:           {
+  actual:             },
+line 2577:
+  expected:             "moles": 0.00666667,
+  actual:             {
+line 2578:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.00666667,
+line 2579:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2580:
+  expected:           }
+  actual:               "species": "water"
+line 2581:
+  expected:         ],
+  actual:             }
+line 2582:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2583:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2584:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2585:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2586:
+  expected:       {
+  actual:         },
+line 2587:
+  expected:         "contents": [
+  actual:         {
+line 2588:
+  expected:           {
+  actual:           "contents": [
+line 2589:
+  expected:             "moles": 0.00333333,
+  actual:             {
+line 2590:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.00333333,
+line 2591:
+  expected:             "species": "CH3COOH"
+  actual:               "phase": "Liquid",
+line 2592:
+  expected:           },
+  actual:               "species": "CH3COOH"
+line 2593:
+  expected:           {
+  actual:             },
+line 2594:
+  expected:             "moles": 0.00333333,
+  actual:             {
+line 2595:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.00333333,
+line 2596:
+  expected:             "species": "ethanol"
+  actual:               "phase": "Liquid",
+line 2597:
+  expected:           },
+  actual:               "species": "ethanol"
+line 2598:
+  expected:           {
+  actual:             },
+line 2599:
+  expected:             "moles": 0.00666667,
+  actual:             {
+line 2600:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.00666667,
+line 2601:
+  expected:             "species": "ethyl_acetate"
+  actual:               "phase": "Liquid",
+line 2602:
+  expected:           },
+  actual:               "species": "ethyl_acetate"
+line 2603:
+  expected:           {
+  actual:             },
+line 2604:
+  expected:             "moles": 0.00666667,
+  actual:             {
+line 2605:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.00666667,
+line 2606:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2607:
+  expected:           }
+  actual:               "species": "water"
+line 2608:
+  expected:         ],
+  actual:             }
+line 2609:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2610:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2611:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2612:
+  expected:       }
+  actual:           "temperature_k": 298.15
+line 2613:
+  expected:     ]
+  actual:         }
+line 2614:
+  expected:   },
+  actual:       ]
+line 2615:
+  expected:   "filter-cannot-catch-dissolved": {
+  actual:     },
+line 2616:
+  expected:     "event_count": 8,
+  actual:     "filter-cannot-catch-dissolved": {
+line 2617:
+  expected:     "events_sample": [
+  actual:       "event_count": 8,
+line 2618:
+  expected:       "v1: +12.0000 mol water",
+  actual:       "events_sample": [
+line 2619:
+  expected:       "v1: +400 µmol silicon dioxide (quartz)",
+  actual:         "v1: +12.0000 mol water",
+line 2620:
+  expected:       "v1: 43.3 µmol silicon dioxide (quartz) dissolved",
+  actual:         "v1: +400 µmol silicon dioxide (quartz)",
+line 2621:
+  expected:       "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
+  actual:         "v1: 43.3 µmol silicon dioxide (quartz) dissolved",
+line 2622:
+  expected:       "v1: +800 µmol sodium chloride",
+  actual:         "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
+line 2623:
+  expected:       "v1: 800 µmol sodium chloride dissolved",
+  actual:         "v1: +800 µmol sodium chloride",
+line 2624:
+  expected:       "v2: new vessel",
+  actual:         "v1: 800 µmol sodium chloride dissolved",
+line 2625:
+  expected:       "v1 → v2: filtrate passed; residue retained"
+  actual:         "v2: new vessel",
+line 2626:
+  expected:     ],
+  actual:         "v1 → v2: filtrate passed; residue retained"
+line 2627:
+  expected:     "lesson": "filter-cannot-catch-dissolved.lab",
+  actual:       ],
+line 2628:
+  expected:     "vessels": [
+  actual:       "lesson": "filter-cannot-catch-dissolved.lab",
+line 2629:
+  expected:       {
+  actual:       "vessels": [
+line 2630:
+  expected:         "contents": [
+  actual:         {
+line 2631:
+  expected:           {
+  actual:           "contents": [
+line 2632:
+  expected:             "moles": 0.00035669,
+  actual:             {
+line 2633:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.00035669,
+line 2634:
+  expected:             "species": "SiO2"
+  actual:               "phase": "Solid",
+line 2635:
+  expected:           }
+  actual:               "species": "SiO2"
+line 2636:
+  expected:         ],
+  actual:             }
+line 2637:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2638:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2639:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2640:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2641:
+  expected:       {
+  actual:         },
+line 2642:
+  expected:         "contents": [
+  actual:         {
+line 2643:
+  expected:           {
+  actual:           "contents": [
+line 2644:
+  expected:             "moles": 0.0008,
+  actual:             {
+line 2645:
+  expected:             "phase": "Aqueous",
+  actual:               "moles": 0.0008,
+line 2646:
+  expected:             "species": "NaCl"
+  actual:               "phase": "Aqueous",
+line 2647:
+  expected:           },
+  actual:               "species": "NaCl"
+line 2648:
+  expected:           {
+  actual:             },
+line 2649:
+  expected:             "moles": 0.00004331,
+  actual:             {
+line 2650:
+  expected:             "phase": "Aqueous",
+  actual:               "moles": 0.00004331,
+line 2651:
+  expected:             "species": "SiO2"
+  actual:               "phase": "Aqueous",
+line 2652:
+  expected:           },
+  actual:               "species": "SiO2"
+line 2653:
+  expected:           {
+  actual:             },
+line 2654:
+  expected:             "moles": 12.0,
+  actual:             {
+line 2655:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 12.0,
+line 2656:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2657:
+  expected:           }
+  actual:               "species": "water"
+line 2658:
+  expected:         ],
+  actual:             }
+line 2659:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2660:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2661:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2662:
+  expected:       }
+  actual:           "temperature_k": 298.15
+line 2663:
+  expected:     ]
+  actual:         }
+line 2664:
+  expected:   },
+  actual:       ]
+line 2665:
+  expected:   "filter-then-concentrate-the-brine": {
+  actual:     },
+line 2666:
+  expected:     "event_count": 21,
+  actual:     "filter-then-concentrate-the-brine": {
+line 2667:
+  expected:     "events_sample": [
+  actual:       "event_count": 21,
+line 2668:
+  expected:       "v1: +16.6028 mol water",
+  actual:       "events_sample": [
+line 2669:
+  expected:       "v1: +3.00 mmol silicon dioxide (quartz)",
+  actual:         "v1: +16.6028 mol water",
+line 2670:
+  expected:       "v1: 59.9 µmol silicon dioxide (quartz) dissolved",
+  actual:         "v1: +3.00 mmol silicon dioxide (quartz)",
+line 2671:
+  expected:       "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
+  actual:         "v1: 59.9 µmol silicon dioxide (quartz) dissolved",
+line 2672:
+  expected:       "v1: +0.0200 mol sodium chloride",
+  actual:         "v1: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
+line 2673:
+  expected:       "v1: 0.0200 mol sodium chloride dissolved",
+  actual:         "v1: +0.0200 mol sodium chloride",
+line 2674:
+  expected:       "v2: new vessel",
+  actual:         "v1: 0.0200 mol sodium chloride dissolved",
+line 2675:
+  expected:       "v1 → v2: filtrate passed; residue retained",
+  actual:         "v2: new vessel",
+line 2676:
+  expected:       "v2: 8.301 mol water evaporated",
+  actual:         "v1 → v2: filtrate passed; residue retained",
+line 2677:
+  expected:       "v2: supersaturated — 59.9 µmol silicon dioxide (quartz) dissolved against a limit of 30.0 µmol at this temperature (2.00× saturation); it stays in solution until something seeds it",
+  actual:         "v2: 8.301 mol water evaporated",
+line 2678:
+  expected:       "v3: new vessel",
+  actual:         "v2: supersaturated — 59.9 µmol silicon dioxide (quartz) dissolved against a limit of 30.0 µmol at this temperature (2.00× saturation); it stays in solution until something seeds it",
+line 2679:
+  expected:       "v3: +33.2057 mol water",
+  actual:         "v3: new vessel",
+line 2680:
+  expected:       "v3: +6.00 mmol silicon dioxide (quartz)",
+  actual:         "v3: +33.2057 mol water",
+line 2681:
+  expected:       "v3: 120 µmol silicon dioxide (quartz) dissolved",
+  actual:         "v3: +6.00 mmol silicon dioxide (quartz)",
+line 2682:
+  expected:       "v3: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
+  actual:         "v3: 120 µmol silicon dioxide (quartz) dissolved",
+line 2683:
+  expected:       "v3: +0.0400 mol sodium chloride",
+  actual:         "v3: silicon dioxide (quartz) does not react — silicon dioxide (quartz) hardly dissolves in water: its reviewed solubility is 0.0012 g per 100 mL, which is below anything a beaker would show. A trace of it is in solution; the rest is still there",
+line 2684:
+  expected:       "v3: 0.0400 mol sodium chloride dissolved",
+  actual:         "v3: +0.0400 mol sodium chloride",
+line 2685:
+  expected:       "v4: new vessel",
+  actual:         "v3: 0.0400 mol sodium chloride dissolved",
+line 2686:
+  expected:       "v3 → v4: filtrate passed; residue retained",
+  actual:         "v4: new vessel",
+line 2687:
+  expected:       "v4: 16.603 mol water evaporated"
+  actual:         "v3 → v4: filtrate passed; residue retained",
+line 2688:
+  expected:     ],
+  actual:         "v4: 16.603 mol water evaporated"
+line 2689:
+  expected:     "lesson": "filter-then-concentrate-the-brine.lab",
+  actual:       ],
+line 2690:
+  expected:     "vessels": [
+  actual:       "lesson": "filter-then-concentrate-the-brine.lab",
+line 2691:
+  expected:       {
+  actual:       "vessels": [
+line 2692:
+  expected:         "contents": [
+  actual:         {
+line 2693:
+  expected:           {
+  actual:           "contents": [
+line 2694:
+  expected:             "moles": 0.00294008,
+  actual:             {
+line 2695:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.00294008,
+line 2696:
+  expected:             "species": "SiO2"
+  actual:               "phase": "Solid",
+line 2697:
+  expected:           }
+  actual:               "species": "SiO2"
+line 2698:
+  expected:         ],
+  actual:             }
+line 2699:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2700:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2701:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2702:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2703:
+  expected:       {
+  actual:         },
+line 2704:
+  expected:         "contents": [
+  actual:         {
+line 2705:
+  expected:           {
+  actual:           "contents": [
+line 2706:
+  expected:             "moles": 0.02,
+  actual:             {
+line 2707:
+  expected:             "phase": "Aqueous",
+  actual:               "moles": 0.02,
+line 2708:
+  expected:             "species": "NaCl"
+  actual:               "phase": "Aqueous",
+line 2709:
+  expected:           },
+  actual:               "species": "NaCl"
+line 2710:
+  expected:           {
+  actual:             },
+line 2711:
+  expected:             "moles": 0.00005992,
+  actual:             {
+line 2712:
+  expected:             "phase": "Aqueous",
+  actual:               "moles": 0.00005992,
+line 2713:
+  expected:             "species": "SiO2"
+  actual:               "phase": "Aqueous",
+line 2714:
+  expected:           },
+  actual:               "species": "SiO2"
+line 2715:
+  expected:           {
+  actual:             },
+line 2716:
+  expected:             "moles": 8.30141549,
+  actual:             {
+line 2717:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 8.30141549,
+line 2718:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2719:
+  expected:           }
+  actual:               "species": "water"
+line 2720:
+  expected:         ],
+  actual:             }
+line 2721:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2722:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2723:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2724:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2725:
+  expected:       {
+  actual:         },
+line 2726:
+  expected:         "contents": [
+  actual:         {
+line 2727:
+  expected:           {
+  actual:           "contents": [
+line 2728:
+  expected:             "moles": 0.00588017,
+  actual:             {
+line 2729:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.00588017,
+line 2730:
+  expected:             "species": "SiO2"
+  actual:               "phase": "Solid",
+line 2731:
+  expected:           }
+  actual:               "species": "SiO2"
+line 2732:
+  expected:         ],
+  actual:             }
+line 2733:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2734:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2735:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2736:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2737:
+  expected:       {
+  actual:         },
+line 2738:
+  expected:         "contents": [
+  actual:         {
+line 2739:
+  expected:           {
+  actual:           "contents": [
+line 2740:
+  expected:             "moles": 0.04,
+  actual:             {
+line 2741:
+  expected:             "phase": "Aqueous",
+  actual:               "moles": 0.04,
+line 2742:
+  expected:             "species": "NaCl"
+  actual:               "phase": "Aqueous",
+line 2743:
+  expected:           },
+  actual:               "species": "NaCl"
+line 2744:
+  expected:           {
+  actual:             },
+line 2745:
+  expected:             "moles": 0.00011983,
+  actual:             {
+line 2746:
+  expected:             "phase": "Aqueous",
+  actual:               "moles": 0.00011983,
+line 2747:
+  expected:             "species": "SiO2"
+  actual:               "phase": "Aqueous",
+line 2748:
+  expected:           },
+  actual:               "species": "SiO2"
+line 2749:
+  expected:           {
+  actual:             },
+line 2750:
+  expected:             "moles": 16.60283097,
+  actual:             {
+line 2751:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 16.60283097,
+line 2752:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2753:
+  expected:           }
+  actual:               "species": "water"
+line 2754:
+  expected:         ],
+  actual:             }
+line 2755:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2756:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2757:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2758:
+  expected:       }
+  actual:           "temperature_k": 298.15
+line 2759:
+  expected:     ]
+  actual:         }
+line 2760:
+  expected:   },
+  actual:       ]
+line 2761:
+  expected:   "fire": {
+  actual:     },
+line 2762:
+  expected:     "event_count": 8,
+  actual:     "fire": {
+line 2763:
+  expected:     "events_sample": [
+  actual:       "event_count": 8,
+line 2764:
+  expected:       "v1: +0.0494 mol magnesium",
+  actual:       "events_sample": [
+line 2765:
+  expected:       "v1 balance: 1.20 g",
+  actual:         "v1: +0.0494 mol magnesium",
+line 2766:
+  expected:       "v1: flame test — magnesium colours the flame a blinding white",
+  actual:         "v1 balance: 1.20 g",
+line 2767:
+  expected:       "v1 balance: 1.20 g",
+  actual:         "v1: flame test — magnesium colours the flame a blinding white",
+line 2768:
+  expected:       "v1 thermometer: 25.00 °C",
+  actual:         "v1 balance: 1.20 g",
+line 2769:
+  expected:       "v2: new vessel",
+  actual:         "v1 thermometer: 25.00 °C",
+line 2770:
+  expected:       "v2: +0.0856 mol sodium chloride",
+  actual:         "v2: new vessel",
+line 2771:
+  expected:       "v2: flame test — sodium chloride colours the flame bright yellow"
+  actual:         "v2: +0.0856 mol sodium chloride",
+line 2772:
+  expected:     ],
+  actual:         "v2: flame test — sodium chloride colours the flame bright yellow"
+line 2773:
+  expected:     "lesson": "fire.lab",
+  actual:       ],
+line 2774:
+  expected:     "vessels": [
+  actual:       "lesson": "fire.lab",
+line 2775:
+  expected:       {
+  actual:       "vessels": [
+line 2776:
+  expected:         "contents": [
+  actual:         {
+line 2777:
+  expected:           {
+  actual:           "contents": [
+line 2778:
+  expected:             "moles": 0.04937256,
+  actual:             {
+line 2779:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.04937256,
+line 2780:
+  expected:             "species": "Mg"
+  actual:               "phase": "Solid",
+line 2781:
+  expected:           }
+  actual:               "species": "Mg"
+line 2782:
+  expected:         ],
+  actual:             }
+line 2783:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2784:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2785:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2786:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2787:
+  expected:       {
+  actual:         },
+line 2788:
+  expected:         "contents": [
+  actual:         {
+line 2789:
+  expected:           {
+  actual:           "contents": [
+line 2790:
+  expected:             "moles": 0.08555345,
+  actual:             {
+line 2791:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.08555345,
+line 2792:
+  expected:             "species": "NaCl"
+  actual:               "phase": "Solid",
+line 2793:
+  expected:           }
+  actual:               "species": "NaCl"
+line 2794:
+  expected:         ],
+  actual:             }
+line 2795:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2796:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2797:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2798:
+  expected:       }
+  actual:           "temperature_k": 298.15
+line 2799:
+  expected:     ]
+  actual:         }
+line 2800:
+  expected:   },
+  actual:       ]
+line 2801:
+  expected:   "first-warmth": {
+  actual:     },
+line 2802:
+  expected:     "event_count": 14,
+  actual:     "first-warmth": {
+line 2803:
+  expected:     "events_sample": [
+  actual:       "event_count": 14,
+line 2804:
+  expected:       "v1: 25.0 °C → 20.0 °C",
+  actual:       "events_sample": [
+line 2805:
+  expected:       "v1: +5.5343 mol water",
+  actual:         "v1: 25.0 °C → 20.0 °C",
+line 2806:
+  expected:       "v1 thermometer: 20.00 °C",
+  actual:         "v1: +5.5343 mol water",
+line 2807:
+  expected:       "v1: 20.0 °C → 50.0 °C",
+  actual:         "v1 thermometer: 20.00 °C",
+line 2808:
+  expected:       "v1: +5.5343 mol water — 11.0686 mol now in vessel",
+  actual:         "v1: 20.0 °C → 50.0 °C",
+line 2809:
+  expected:       "v1 thermometer: 50.01 °C",
+  actual:         "v1: +5.5343 mol water — 11.0686 mol now in vessel",
+line 2810:
+  expected:       "v1 balance: 199.40 g",
+  actual:         "v1 thermometer: 50.01 °C",
+line 2811:
+  expected:       "v2: new vessel",
+  actual:         "v1 balance: 199.40 g",
+line 2812:
+  expected:       "v2: 25.0 °C → 50.0 °C",
+  actual:         "v2: new vessel",
+line 2813:
+  expected:       "v1 → v2: 50% of the liquid",
+  actual:         "v2: 25.0 °C → 50.0 °C",
+line 2814:
+  expected:       "v2 thermometer: 50.01 °C",
+  actual:         "v1 → v2: 50% of the liquid",
+line 2815:
+  expected:       "v2: 50.0 °C → 49.8 °C",
+  actual:         "v2 thermometer: 50.01 °C",
+line 2816:
+  expected:       "v2: +0.0856 mol sodium chloride",
+  actual:         "v2: 50.0 °C → 49.8 °C",
+line 2817:
+  expected:       "v2: 0.0856 mol sodium chloride dissolved"
+  actual:         "v2: +0.0856 mol sodium chloride",
+line 2818:
+  expected:     ],
+  actual:         "v2: 0.0856 mol sodium chloride dissolved"
+line 2819:
+  expected:     "lesson": "first-warmth.lab",
+  actual:       ],
+line 2820:
+  expected:     "vessels": [
+  actual:       "lesson": "first-warmth.lab",
+line 2821:
+  expected:       {
+  actual:       "vessels": [
+line 2822:
+  expected:         "contents": [
+  actual:         {
+line 2823:
+  expected:           {
+  actual:           "contents": [
+line 2824:
+  expected:             "moles": 5.53427699,
+  actual:             {
+line 2825:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 5.53427699,
+line 2826:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2827:
+  expected:           }
+  actual:               "species": "water"
+line 2828:
+  expected:         ],
+  actual:             }
+line 2829:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2830:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2831:
+  expected:         "temperature_k": 323.1643
+  actual:           "label": "beaker",
+line 2832:
+  expected:       },
+  actual:           "temperature_k": 323.1643
+line 2833:
+  expected:       {
+  actual:         },
+line 2834:
+  expected:         "contents": [
+  actual:         {
+line 2835:
+  expected:           {
+  actual:           "contents": [
+line 2836:
+  expected:             "moles": 0.08555345,
+  actual:             {
+line 2837:
+  expected:             "phase": "Aqueous",
+  actual:               "moles": 0.08555345,
+line 2838:
+  expected:             "species": "NaCl"
+  actual:               "phase": "Aqueous",
+line 2839:
+  expected:           },
+  actual:               "species": "NaCl"
+line 2840:
+  expected:           {
+  actual:             },
+line 2841:
+  expected:             "moles": 5.53427699,
+  actual:             {
+line 2842:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 5.53427699,
+line 2843:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2844:
+  expected:           }
+  actual:               "species": "water"
+line 2845:
+  expected:         ],
+  actual:             }
+line 2846:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2847:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2848:
+  expected:         "temperature_k": 322.9068
+  actual:           "label": "beaker",
+line 2849:
+  expected:       }
+  actual:           "temperature_k": 322.9068
+line 2850:
+  expected:     ]
+  actual:         }
+line 2851:
+  expected:   },
+  actual:       ]
+line 2852:
+  expected:   "fizz": {
+  actual:     },
+line 2853:
+  expected:     "event_count": 8,
+  actual:     "fizz": {
+line 2854:
+  expected:     "events_sample": [
+  actual:       "event_count": 8,
+line 2855:
+  expected:       "v1: +13.8357 mol water",
+  actual:       "events_sample": [
+line 2856:
+  expected:       "v1: +0.0500 mol baking soda (sodium bicarbonate)",
+  actual:         "v1: +13.8357 mol water",
+line 2857:
+  expected:       "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+  actual:         "v1: +0.0500 mol baking soda (sodium bicarbonate)",
+line 2858:
+  expected:       "v1 balance: 253.45 g",
+  actual:         "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+line 2859:
+  expected:       "v1 thermometer: 25.00 °C",
+  actual:         "v1 balance: 253.45 g",
+line 2860:
+  expected:       "v1: +0.0599 mol acetic acid",
+  actual:         "v1 thermometer: 25.00 °C",
+line 2861:
+  expected:       "v1 balance: 257.05 g",
+  actual:         "v1: +0.0599 mol acetic acid",
+line 2862:
+  expected:       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+  actual:         "v1 balance: 257.05 g",
+line 2863:
+  expected:     ],
+  actual:         "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+line 2864:
+  expected:     "lesson": "fizz.lab",
+  actual:       ],
+line 2865:
+  expected:     "vessels": [
+  actual:       "lesson": "fizz.lab",
+line 2866:
+  expected:       {
+  actual:       "vessels": [
+line 2867:
+  expected:         "contents": [
+  actual:         {
+line 2868:
+  expected:           {
+  actual:           "contents": [
+line 2869:
+  expected:             "moles": 0.05994805,
+  actual:             {
+line 2870:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 0.05994805,
+line 2871:
+  expected:             "species": "CH3COOH"
+  actual:               "phase": "Liquid",
+line 2872:
+  expected:           },
+  actual:               "species": "CH3COOH"
+line 2873:
+  expected:           {
+  actual:             },
+line 2874:
+  expected:             "moles": 0.04999583,
+  actual:             {
+line 2875:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.04999583,
+line 2876:
+  expected:             "species": "NaHCO3"
+  actual:               "phase": "Solid",
+line 2877:
+  expected:           },
+  actual:               "species": "NaHCO3"
+line 2878:
+  expected:           {
+  actual:             },
+line 2879:
+  expected:             "moles": 13.83569248,
+  actual:             {
+line 2880:
+  expected:             "phase": "Liquid",
+  actual:               "moles": 13.83569248,
+line 2881:
+  expected:             "species": "water"
+  actual:               "phase": "Liquid",
+line 2882:
+  expected:           }
+  actual:               "species": "water"
+line 2883:
+  expected:         ],
+  actual:             }
+line 2884:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2885:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2886:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2887:
+  expected:       }
+  actual:           "temperature_k": 298.15
+line 2888:
+  expected:     ]
+  actual:         }
+line 2889:
+  expected:   },
+  actual:       ]
+line 2890:
+  expected:   "flame-colour-series": {
+  actual:     },
+line 2891:
+  expected:     "event_count": 17,
+  actual:     "flame-colour-series": {
+line 2892:
+  expected:     "events_sample": [
+  actual:       "event_count": 17,
+line 2893:
+  expected:       "v1: +0.0171 mol sodium chloride",
+  actual:       "events_sample": [
+line 2894:
+  expected:       "v1: flame test — sodium chloride colours the flame bright yellow",
+  actual:         "v1: +0.0171 mol sodium chloride",
+line 2895:
+  expected:       "v2: new vessel",
+  actual:         "v1: flame test — sodium chloride colours the flame bright yellow",
+line 2896:
+  expected:       "v2: +0.0134 mol potassium chloride",
+  actual:         "v2: new vessel",
+line 2897:
+  expected:       "v2: flame test — potassium chloride colours the flame lilac",
+  actual:         "v2: +0.0134 mol potassium chloride",
+line 2898:
+  expected:       "v3: new vessel",
+  actual:         "v2: flame test — potassium chloride colours the flame lilac",
+line 2899:
+  expected:       "v3: +9.01 mmol calcium chloride",
+  actual:         "v3: new vessel",
+line 2900:
+  expected:       "v3: flame test — calcium chloride colours the flame brick red",
+  actual:         "v3: +9.01 mmol calcium chloride",
+line 2901:
+  expected:       "v4: new vessel",
+  actual:         "v3: flame test — calcium chloride colours the flame brick red",
+line 2902:
+  expected:       "v4: +0.0100 mol strontium ion",
+  actual:         "v4: new vessel",
+line 2903:
+  expected:       "v4: flame test — strontium ion colours the flame crimson red",
+  actual:         "v4: +0.0100 mol strontium ion",
+line 2904:
+  expected:       "v5: new vessel",
+  actual:         "v4: flame test — strontium ion colours the flame crimson red",
+line 2905:
+  expected:       "v5: +4.80 mmol barium chloride",
+  actual:         "v5: new vessel",
+line 2906:
+  expected:       "v5: flame test — barium chloride colours the flame apple green",
+  actual:         "v5: +4.80 mmol barium chloride",
+line 2907:
+  expected:       "v6: new vessel",
+  actual:         "v5: flame test — barium chloride colours the flame apple green",
+line 2908:
+  expected:       "v6: +0.0100 mol copper(II) ion",
+  actual:         "v6: new vessel",
+line 2909:
+  expected:       "v6: flame test — copper(II) ion colours the flame blue-green"
+  actual:         "v6: +0.0100 mol copper(II) ion",
+line 2910:
+  expected:     ],
+  actual:         "v6: flame test — copper(II) ion colours the flame blue-green"
+line 2911:
+  expected:     "lesson": "flame-colour-series.lab",
+  actual:       ],
+line 2912:
+  expected:     "vessels": [
+  actual:       "lesson": "flame-colour-series.lab",
+line 2913:
+  expected:       {
+  actual:       "vessels": [
+line 2914:
+  expected:         "contents": [
+  actual:         {
+line 2915:
+  expected:           {
+  actual:           "contents": [
+line 2916:
+  expected:             "moles": 0.01711069,
+  actual:             {
+line 2917:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.01711069,
+line 2918:
+  expected:             "species": "NaCl"
+  actual:               "phase": "Solid",
+line 2919:
+  expected:           }
+  actual:               "species": "NaCl"
+line 2920:
+  expected:         ],
+  actual:             }
+line 2921:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2922:
+  expected:         "label": "beaker",
+  actual:           "headspace": "Open",
+line 2923:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "beaker",
+line 2924:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2925:
+  expected:       {
+  actual:         },
+line 2926:
+  expected:         "contents": [
+  actual:         {
+line 2927:
+  expected:           {
+  actual:           "contents": [
+line 2928:
+  expected:             "moles": 0.01341364,
+  actual:             {
+line 2929:
+  expected:             "phase": "Solid",
+  actual:               "moles": 0.01341364,
+line 2930:
+  expected:             "species": "KCl"
+  actual:               "phase": "Solid",
+line 2931:
+  expected:           }
+  actual:               "species": "KCl"
+line 2932:
+  expected:         ],
+  actual:             }
+line 2933:
+  expected:         "headspace": "Open",
+  actual:           ],
+line 2934:
+  expected:         "label": "crucible",
+  actual:           "headspace": "Open",
+line 2935:
+  expected:         "temperature_k": 298.15
+  actual:           "label": "crucible",
+line 2936:
+  expected:       },
+  actual:           "temperature_k": 298.15
+line 2937:
+  expected:       {
+  actual:         },
+line 2938:
+  expected:         "contents": [
+  actual:         {
+line 2939:
+  expected:           {
+  actual:           "contents": [
+Expected: /kaggle/temp/kerotakis-peroxide-ci-bundle-full/source/crates/kerotakis-core/tests/golden/lessons.json
+Actual:   /kaggle/temp/kerotakis-peroxide-ci-bundle-full/source/crates/kerotakis-core/tests/golden/lessons.actual.json
+Run `diff /kaggle/temp/kerotakis-peroxide-ci-bundle-full/source/crates/kerotakis-core/tests/golden/lessons.json /kaggle/temp/kerotakis-peroxide-ci-bundle-full/source/crates/kerotakis-core/tests/golden/lessons.actual.json` to see changes.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p kerotakis-core --test frozen_behavior`
+     Running tests/gap_beside_a_colour_change.rs (target/debug/deps/gap_beside_a_colour_change-c09b800971e2d134)
+     Running tests/gas_mechanism_clock.rs (target/debug/deps/gas_mechanism_clock-43843b121e62526e)
+     Running tests/gas_mechanism_packs.rs (target/debug/deps/gas_mechanism_packs-a9b525df00d76bd6)
+     Running tests/gas_tests.rs (target/debug/deps/gas_tests-9b1a17559cb9f972)
+     Running tests/grinding.rs (target/debug/deps/grinding-82e67f704d921ec3)
+     Running tests/hair_bleach.rs (target/debug/deps/hair_bleach-3d2fa46ca0bf85f8)
+     Running tests/hazard_locale.rs (target/debug/deps/hazard_locale-d5e0a69c56ade257)
+     Running tests/headspace.rs (target/debug/deps/headspace-77192745e7e7d5e0)
+     Running tests/heat_capacity_curves.rs (target/debug/deps/heat_capacity_curves-2740dac03cbf9b1c)
+     Running tests/heat_capacity_ledger.rs (target/debug/deps/heat_capacity_ledger-e81fd42a71b34f23)
+     Running tests/heat_of_mixing.rs (target/debug/deps/heat_of_mixing-5c852bfb54cf68b9)
+     Running tests/henry_oracle.rs (target/debug/deps/henry_oracle-7707f0a674b1ebb8)
+henry oracle: solubility corroborated for 5 of 6 gases, temperature coefficient for 3; 1 unreachable, 3 pinned disagreements
+     Running tests/honesty.rs (target/debug/deps/honesty-4f8c96c0dba22afc)
+     Running tests/household_fizz.rs (target/debug/deps/household_fizz-d82473a7793fbbdb)
+     Running tests/i18n_coverage.rs (target/debug/deps/i18n_coverage-04d868de999bdca4)
+     Running tests/ideal_still_portion_validation.rs (target/debug/deps/ideal_still_portion_validation-ef093d42c13cc6c0)
+     Running tests/ideal_still_refusal_diagnostics.rs (target/debug/deps/ideal_still_refusal_diagnostics-e0055e8024ac54c8)
+     Running tests/inert_and_dissolved.rs (target/debug/deps/inert_and_dissolved-ed948c7d6643c08a)
+     Running tests/inference_validation.rs (target/debug/deps/inference_validation-92131b793a26fe85)
+     Running tests/instrument_oracle.rs (target/debug/deps/instrument_oracle-830f07729d05e267)
+     Running tests/iodine_clock.rs (target/debug/deps/iodine_clock-11d512ee50833c56)
+     Running tests/ionic_render.rs (target/debug/deps/ionic_render-cea099ece968b73e)
+     Running tests/irradiation.rs (target/debug/deps/irradiation-6a08e0fb431b5fbb)
+     Running tests/kids_luminol_temperature.rs (target/debug/deps/kids_luminol_temperature-b6baaea503aabb2f)
+     Running tests/kids_water_filter.rs (target/debug/deps/kids_water_filter-34461698cc35102c)
+     Running tests/kitchen_biology.rs (target/debug/deps/kitchen_biology-ff2b441b429d5d02)
+     Running tests/layer_admission.rs (target/debug/deps/layer_admission-81a662f416eac4e7)
+     Running tests/layers.rs (target/debug/deps/layers-3cff67cce58d17a8)
+     Running tests/lemon_paper_mark.rs (target/debug/deps/lemon_paper_mark-60e2f679662c501a)
+     Running tests/liquid_contact.rs (target/debug/deps/liquid_contact-9d9266ef8641e4f0)
+     Running tests/liquid_extraction.rs (target/debug/deps/liquid_extraction-c73ba552135975d5)
+     Running tests/liquid_partition_refusals.rs (target/debug/deps/liquid_partition_refusals-43b13f14a1e87557)
+     Running tests/list_grammar.rs (target/debug/deps/list_grammar-1c8df0ca4aed3742)
+     Running tests/loader_fidelity.rs (target/debug/deps/loader_fidelity-f446f347783f814c)
+     Running tests/magic_milk.rs (target/debug/deps/magic_milk-6eec7f62e3c222d6)
+     Running tests/magnetic_materials.rs (target/debug/deps/magnetic_materials-3ae735f872cb72ad)
+     Running tests/material_object_state.rs (target/debug/deps/material_object_state-010869676e2906b6)
+     Running tests/material_recipe.rs (target/debug/deps/material_recipe-747d5b1fe28b8c5d)
+     Running tests/measurement.rs (target/debug/deps/measurement-808152557cf6a729)
+     Running tests/measurement_validation.rs (target/debug/deps/measurement_validation-618acbe8760c810e)
+     Running tests/mechanism_cantera_audit.rs (target/debug/deps/mechanism_cantera_audit-71ecee357361396e)
+     Running tests/melting_point.rs (target/debug/deps/melting_point-64e04451fe9ffecb)
+     Running tests/milk_colloid.rs (target/debug/deps/milk_colloid-b25d402d1398774f)
+     Running tests/milk_curdling.rs (target/debug/deps/milk_curdling-22662f02c1ae0d0a)
+     Running tests/mix.rs (target/debug/deps/mix-c003bf448ab9f17d)
+     Running tests/named_alkaline.rs (target/debug/deps/named_alkaline-8cf34c14ad9b426a)
+     Running tests/nested_rate_admission_contracts.rs (target/debug/deps/nested_rate_admission_contracts-ac88d5233e0c0f55)
+     Running tests/neutral_blank_note_locale.rs (target/debug/deps/neutral_blank_note_locale-7d5dec92bcf9a42b)
+     Running tests/nonaqueous.rs (target/debug/deps/nonaqueous-8ef91708ded213f7)
+     Running tests/nonaqueous_routing.rs (target/debug/deps/nonaqueous_routing-f61b5d58398f523f)
+     Running tests/nuclear.rs (target/debug/deps/nuclear-efc7bf1a9b647dc0)
+     Running tests/nuclide_inventory_serde_contracts.rs (target/debug/deps/nuclide_inventory_serde_contracts-cae9a205d3de5cd3)
+     Running tests/nuclide_state_validation_contracts.rs (target/debug/deps/nuclide_state_validation_contracts-7726317a9a686591)
+     Running tests/oil_emulsion.rs (target/debug/deps/oil_emulsion-49ba9d36cd475308)
+     Running tests/one_value.rs (target/debug/deps/one_value-4a2c6d79b0b33e9f)
+     Running tests/ordinary_delta_state_contracts.rs (target/debug/deps/ordinary_delta_state_contracts-e9329101d79e6cce)
+     Running tests/org_react.rs (target/debug/deps/org_react-292eeb11d278de28)
+     Running tests/organic_equilibrium_grid.rs (target/debug/deps/organic_equilibrium_grid-8bc1afe6f6b5d26a)
+     Running tests/paint_colour.rs (target/debug/deps/paint_colour-d285c6eb87a71967)
+     Running tests/parse_roundtrip.rs (target/debug/deps/parse_roundtrip-f726a5b791fe7ca4)
+parsed 1479 lines, 1336 operators — all round-trip clean
+     Running tests/particles_operator.rs (target/debug/deps/particles_operator-a81f5387180174f4)
+     Running tests/partition_consumer_admission.rs (target/debug/deps/partition_consumer_admission-635f8eb75ef9a58a)
+     Running tests/permanganate.rs (target/debug/deps/permanganate-7f5b8004a86f5ad9)
+     Running tests/peroxide_heat_basis.rs (target/debug/deps/peroxide_heat_basis-011eff9b6d623886)
+     Running tests/phase_cooling_energy.rs (target/debug/deps/phase_cooling_energy-8ba07b59a4c99d6e)
+     Running tests/phase_heat_capacity.rs (target/debug/deps/phase_heat_capacity-7d55b69e0dd26193)
+     Running tests/phase_owned_transfers.rs (target/debug/deps/phase_owned_transfers-2548257587fcc78c)
+     Running tests/phase_routes.rs (target/debug/deps/phase_routes-c434fce17a07860f)
+     Running tests/phase_without_aqueous.rs (target/debug/deps/phase_without_aqueous-74ff5bca949d16fd)
+     Running tests/physical_solid_settling.rs (target/debug/deps/physical_solid_settling-64e0b9e37d6b1799)
+     Running tests/plastics.rs (target/debug/deps/plastics-2fbf3344b067f1c8)
+     Running tests/prepared_kitchen_objects.rs (target/debug/deps/prepared_kitchen_objects-55a85517d38bca58)
+     Running tests/prepared_material_identity.rs (target/debug/deps/prepared_material_identity-7a375398cee2e859)
+     Running tests/pressure_boiling.rs (target/debug/deps/pressure_boiling-508b759dec1aa3f5)
+     Running tests/proportional_transfer.rs (target/debug/deps/proportional_transfer-d8dac29c226a48d7)
+     Running tests/protein_denaturation.rs (target/debug/deps/protein_denaturation-a443557aea6cb1e9)
+     Running tests/proven_input_alias.rs (target/debug/deps/proven_input_alias-2a029bdb594f3d9d)
+     Running tests/react_diagnostics.rs (target/debug/deps/react_diagnostics-2c0488a45f3f7eee)
+     Running tests/redox_titrimetry.rs (target/debug/deps/redox_titrimetry-f85c62dd86ff59af)
+     Running tests/refusal_locale.rs (target/debug/deps/refusal_locale-cb654aab598713b2)
+     Running tests/refusal_missing_vessel.rs (target/debug/deps/refusal_missing_vessel-194d016c944ef108)
+     Running tests/refusal_preflight_atomicity.rs (target/debug/deps/refusal_preflight_atomicity-0e5cea92fd9fed7e)
+     Running tests/registry_applicability_runtime_route_contracts.rs (target/debug/deps/registry_applicability_runtime_route_contracts-82719dd37529ca4f)
+     Running tests/registry_consistent_phase_selection_contracts.rs (target/debug/deps/registry_consistent_phase_selection_contracts-72041484e4b498e2)
+     Running tests/registry_loader_applicability_contracts.rs (target/debug/deps/registry_loader_applicability_contracts-08f485d985af1974)
+     Running tests/registry_loader_phase_selection_contracts.rs (target/debug/deps/registry_loader_phase_selection_contracts-025488a5065b2d70)
+     Running tests/registry_loader_property_contracts.rs (target/debug/deps/registry_loader_property_contracts-ce80a431f10a35e1)
+     Running tests/registry_loader_unit_contracts.rs (target/debug/deps/registry_loader_unit_contracts-09e388d89aecbd44)
+     Running tests/registry_neutral_zero_cp_contracts.rs (target/debug/deps/registry_neutral_zero_cp_contracts-46eb7a54874f367a)
+     Running tests/registry_scaled_pack_metadata_contracts.rs (target/debug/deps/registry_scaled_pack_metadata_contracts-a3f6b7ece3521cfe)
+     Running tests/registry_snapshot.rs (target/debug/deps/registry_snapshot-f4dd6d78708775e8)
+     Running tests/registry_unit_alias_equivalence_contracts.rs (target/debug/deps/registry_unit_alias_equivalence_contracts-7e0b7e92838c0727)
+     Running tests/remove_vessel.rs (target/debug/deps/remove_vessel-c82eb59fb49ad7c2)
+     Running tests/render_locale.rs (target/debug/deps/render_locale-b4f0cd0ba332cad7)
+     Running tests/repeated_honesty.rs (target/debug/deps/repeated_honesty-0460816e14a983ae)
+     Running tests/required_solid_solution_contracts.rs (target/debug/deps/required_solid_solution_contracts-1c1fdabafe3dce5b)
+     Running tests/required_solver_conservation_contracts.rs (target/debug/deps/required_solver_conservation_contracts-4b7a173771f7135a)
+     Running tests/required_solver_ledger_boundaries.rs (target/debug/deps/required_solver_ledger_boundaries-10c0539b9901abad)
+     Running tests/required_solver_ledger_supplement.rs (target/debug/deps/required_solver_ledger_supplement-be1907478d7abae5)
+     Running tests/required_solver_policy_controls.rs (target/debug/deps/required_solver_policy_controls-2dd2570dfda067be)
+     Running tests/resistivity.rs (target/debug/deps/resistivity-6cf342393a90ddcb)
+     Running tests/routing_locale.rs (target/debug/deps/routing_locale-7b7277e43bd67ae5)
+     Running tests/safety_veto_atomicity.rs (target/debug/deps/safety_veto_atomicity-94c61bff4b995574)
+     Running tests/scene_authority.rs (target/debug/deps/scene_authority-4879a9676af5122d)
+     Running tests/scene_bulk_objects.rs (target/debug/deps/scene_bulk_objects-478b0ff3055f3b48)
+     Running tests/scene_golden.rs (target/debug/deps/scene_golden-3e89249fa531b2a4)
+     Running tests/scene_numbers.rs (target/debug/deps/scene_numbers-29a0283727efe0f7)
+     Running tests/selectivity.rs (target/debug/deps/selectivity-01f6bf7d8ca930f4)
+     Running tests/senses.rs (target/debug/deps/senses-474fb4e53851f02a)
+     Running tests/silver_metathesis.rs (target/debug/deps/silver_metathesis-7aa62de82dbdba35)
+     Running tests/solid_solution.rs (target/debug/deps/solid_solution-607878a0428cabf8)
+     Running tests/solid_solution_aggregate_validity.rs (target/debug/deps/solid_solution_aggregate_validity-3fb2eeed2dd4371b)
+     Running tests/solid_solution_state_contracts.rs (target/debug/deps/solid_solution_state_contracts-fade3dd0881ec4ae)
+     Running tests/solvent_electrolysis_balance.rs (target/debug/deps/solvent_electrolysis_balance-3775fdd6fefa840f)
+     Running tests/solver_boundary_contracts.rs (target/debug/deps/solver_boundary_contracts-b01dcd664215a7fb)
+     Running tests/solver_electrode_schema_contracts.rs (target/debug/deps/solver_electrode_schema_contracts-fbaf0bcd3c694751)
+     Running tests/solver_snapshot_contracts.rs (target/debug/deps/solver_snapshot_contracts-a36298f2771414d1)
+     Running tests/solver_snapshot_edit_contracts.rs (target/debug/deps/solver_snapshot_edit_contracts-0b1081b13a54a59a)
+     Running tests/solver_stack_atomic_contracts.rs (target/debug/deps/solver_stack_atomic_contracts-08d8ba65f8efe025)
+     Running tests/solver_transactions.rs (target/debug/deps/solver_transactions-76dedfa0e628e773)
+     Running tests/spill_breakage.rs (target/debug/deps/spill_breakage-1cd3bc42db30e625)
+     Running tests/spill_persistence.rs (target/debug/deps/spill_persistence-b468f0f6d5a91431)
+     Running tests/starch_iodine.rs (target/debug/deps/starch_iodine-7cd923313cee76cf)
+     Running tests/states.rs (target/debug/deps/states-b3a3e703d55add05)
+     Running tests/still_refusal_diagnostics.rs (target/debug/deps/still_refusal_diagnostics-d7e2714966058da7)
+     Running tests/stirring.rs (target/debug/deps/stirring-3e9115d830c7d1b8)
+     Running tests/stock.rs (target/debug/deps/stock-f0533f996958f15f)
+     Running tests/stock_precision_contracts.rs (target/debug/deps/stock_precision_contracts-383cb8da87d41fdb)
+     Running tests/stock_refusal_short_circuit.rs (target/debug/deps/stock_refusal_short_circuit-bf27107dd062a592)
+     Running tests/sucrose_dissolution.rs (target/debug/deps/sucrose_dissolution-9f7d0643f0648dfa)
+     Running tests/sunscreen.rs (target/debug/deps/sunscreen-051f2e49ca377f02)
+     Running tests/surface.rs (target/debug/deps/surface-24061d22af665f17)
+     Running tests/surface_spread.rs (target/debug/deps/surface_spread-1ec968df04891a9c)
+     Running tests/terminal_command_grammar.rs (target/debug/deps/terminal_command_grammar-000396f11849cdc3)
+     Running tests/thermal_decomp.rs (target/debug/deps/thermal_decomp-28ab9cd1e58e48fd)
+     Running tests/titration_trial_admission_contracts.rs (target/debug/deps/titration_trial_admission_contracts-1352db0ae896f589)
+     Running tests/titration_trial_publication_contracts.rs (target/debug/deps/titration_trial_publication_contracts-63f9bed50a4742c9)
+     Running tests/transitions_beyond_water.rs (target/debug/deps/transitions_beyond_water-5235ac10c90a853d)
+     Running tests/transport.rs (target/debug/deps/transport-34b9970ea322bc09)
+     Running tests/transport_effluent_ownership.rs (target/debug/deps/transport_effluent_ownership-46f72f4a2ba7c512)
+     Running tests/transport_verb.rs (target/debug/deps/transport_verb-0a94736b66328d0c)
+     Running tests/vegetable_oil_layers.rs (target/debug/deps/vegetable_oil_layers-c5177a0b0dd87b3a)
+     Running tests/vitamin_c.rs (target/debug/deps/vitamin_c-d645fd23ac5dca1c)
+     Running tests/water_input_alias.rs (target/debug/deps/water_input_alias-4d722484ffc64582)
+     Running tests/watercolour_revision.rs (target/debug/deps/watercolour_revision-adc7bf6a28130b4c)
+     Running tests/withdrawal_trace.rs (target/debug/deps/withdrawal_trace-ff9d670b8056c148)
+     Running tests/yaml_mechanism_parser_contracts.rs (target/debug/deps/yaml_mechanism_parser_contracts-4d0e029a6f28df5d)
+error: 1 target failed:
+    `-p kerotakis-core --test frozen_behavior`

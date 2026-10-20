@@ -1,0 +1,12 @@
+{
+  "source": "86df84aa702b049ace43cd576793cd62bbc8f582",
+  "version": 1,
+  "worker_sha256": "c258d8142f976adb179fa06f54858984d4fcde5839a0e45eedaf524ce419b450",
+  "reader_sha256": "196f8d07f8e8c66aab4fbba979000854398cd19491591d5b260596d10c3445d7",
+  "actual_issue_completed": true,
+  "first_observed_state": "RUNNING",
+  "original_experiment_replays": 0,
+  "prior_focused_reexecutions": 0,
+  "actual_new_source_acceptance": false,
+  "private_exact_inputs_retained": true
+}

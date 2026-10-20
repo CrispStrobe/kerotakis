@@ -1,0 +1,24 @@
+{
+  "source": "624ad076af3db39f583adcbfe6c07281ba219f48",
+  "tree": "28032416caeb0a81f01f1e90b22511c66fc21083",
+  "actual_engine": {
+    "source": "624ad076af3db39f583adcbfe6c07281ba219f48",
+    "tree": "28032416caeb0a81f01f1e90b22511c66fc21083",
+    "binary_sha256": "522d6ebc3d433daa5b24ca913ca2eb6aa02fd1e7bf3a4ef85776f1be9730b8b8",
+    "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "gzip_sha256": "1bc9f66b2040294cd144c59dfbdbd9216c771a1d56a0d1f288a8b731c5bfed7d"
+  },
+  "actual_debug_binary_bytes": 103965056,
+  "actual_executable_bytes_independently_streamed": 17372739976,
+  "core_passed_before_stop": 2176,
+  "core_failed": 1,
+  "only_failed_test": "lessons_produce_stable_output",
+  "whole_full_fleet_accepted": false,
+  "remaining_full_commands_not_executed": true,
+  "no_engine_reissue": true,
+  "raw_manifest_sha256": "df24ec39c618bdb0a78ddf59fe6d88c6a6e315d678c650abd55fa17072c17730",
+  "actual_binary_reproduction": "All319 collected compiled test executables and the actual CLI were independently rehashed compressed and uncompressed. Some were captured by no-run compilation; execution acceptance is limited to the actual command logs.",
+  "utc": "2026-10-20T16:43:45.605787+00:00",
+  "collected_compiled_test_executable_count": 319,
+  "execution_scope": "Core2176pass/1snapshot failure and earlier logged successful gates only. Thermo/native CLI/product fleet commands after the stop were not executed."
+}

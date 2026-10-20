@@ -1,0 +1,9 @@
+# First combined peroxide/CI full failure
+
+Source624ad076/tree28032416 genuinely stopped at `combined-native-3`:2176core tests passed and only `lessons_produce_stable_output` failed. Exit101, actual stdout/stderr, command record and producer hashes are retained verbatim. The unchanged strict comparison exposes the reviewed four-lesson heat consequences described in [paired snapshot review](../peroxide-heat-snapshot-review-20261020/README.md). The remaining thermo/native/product fleet commands were not executed; this is not full-source acceptance.
+
+The actual debug CLI is522d6ebc and actual generated producer lock66886813. The parent independently streamed compressed and uncompressed hashes for319 collected compiled test executables (17,372,739,976 uncompressed bytes) and the103,965,056byte CLI. Some executables were collected by no-run compilation; a collected executable is not evidence that its tests executed. Actual execution claims come only from command logs. The first private parent receipt's ambiguous execution label is retained separately and clarified in the published receipt. Large binary bytes remain retained outside this small-record publication; no replay was needed.
+
+The stopped producer's complete saved outputs were recovered through a serial verified local spool, then separately verified storage copies. Original failed partials and the original collection stop remain preserved. SDK buffering is a demonstrated hazard, but the ENOMEM's exact cause remains unproven; a subsequent streamed network-storage write also failed. No OOM event or particular syscall cause is asserted.
+
+Successor86df84aa changes only the four reviewed golden entries and eight maintained summaries from624ad076; it requires new full acceptance. The first failed source was not rerun. Qualified coverage remains329/468.
