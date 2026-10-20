@@ -1,0 +1,3344 @@
+{
+  "schema": "kerotakis.batch2.third-saved-review.v1",
+  "cases": [
+    {
+      "id": "batch2:gs-012",
+      "proposed_candidate": true,
+      "original_forecast": "Initial CO2 is strongly absorbed as carbonate/bicarbonate. As alkalinity is spent, more added carbon remains as dissolved CO2 and headspace gas.",
+      "criteria": [
+        {
+          "id": "GS-012-C1",
+          "criterion": "Relate changing gas allocation to the carbonate/bicarbonate inventory and falling pH.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "GS-012-C2",
+          "criterion": "Do not assume a single sharp 2 OH:1 CO2 capacity after bicarbonate becomes important.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "pulse_states": [
+          {
+            "vessel": 0,
+            "T_K": 298.3210185867623,
+            "pH": 11.64846792986,
+            "C_mol": 0.0002516343766753141,
+            "CO2_gas_mol": 4.127554626212e-11,
+            "CO2_aqueous_mol": 3.796823097330433e-11,
+            "bicarbonate_mol": 8.408681790062325e-06,
+            "carbonate_mol": 0.0002432256156414745
+          },
+          {
+            "vessel": 0,
+            "T_K": 298.41622248677584,
+            "pH": 8.373983399118,
+            "C_mol": 0.0010016343766752328,
+            "CO2_gas_mol": 9.998995858193e-06,
+            "CO2_aqueous_mol": 8.284498110752991e-06,
+            "bicarbonate_mol": 0.0009687524602216467,
+            "carbonate_mol": 1.459842248464017e-05
+          },
+          {
+            "vessel": 0,
+            "T_K": 298.4601037507356,
+            "pH": 6.348134333579,
+            "C_mol": 0.0030016343766752747,
+            "CO2_gas_mol": 0.001098347445358,
+            "CO2_aqueous_mol": 0.0009055756899631015,
+            "bicarbonate_mol": 0.0009975697020437279,
+            "carbonate_mol": 1.4153931044538138e-07
+          }
+        ]
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 1.3423658885847178e-13,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 6.62013846519649e-16,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 5.376111136671559e-13
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 5.364762453718974e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 5.364762453718974e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 5.368527887864016e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 5.368527887864016e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 5.368527887864016e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 5.376111136671559e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 5.376111136671559e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 5.376111136671559e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 5.372535395555054e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "max_abs_residual": 5.372535395555054e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "max_abs_residual": 5.372535395555054e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "max_abs_residual": 5.372535395555054e-13,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [],
+      "ideal_pressure_checks": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101284.61261179154,
+          "recorded_pressure_Pa": 101284.61261179154
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101284.61261179154,
+          "recorded_pressure_Pa": 101284.61261179154
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101306.30844404979,
+          "recorded_pressure_Pa": 101306.30844404979
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101306.30844404979,
+          "recorded_pressure_Pa": 101306.30844404979
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101306.30844404979,
+          "recorded_pressure_Pa": 101306.30844404979
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101586.72968256935,
+          "recorded_pressure_Pa": 101586.72968256935
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101586.72968256935,
+          "recorded_pressure_Pa": 101586.72968256935
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101586.72968256935,
+          "recorded_pressure_Pa": 101586.72968256935
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 128609.41950881733,
+          "recorded_pressure_Pa": 128609.41950881733
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 128609.41950881733,
+          "recorded_pressure_Pa": 128609.41950881733
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 128609.41950881733,
+          "recorded_pressure_Pa": 128609.41950881733
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 128609.41950881733,
+          "recorded_pressure_Pa": 128609.41950881733
+        }
+      ],
+      "trapped_air": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "already_closed": false,
+          "new_air_mol": 0.004085942023673436,
+          "new_air_C_mol": 1.6343768094693744e-06
+        }
+      ],
+      "exports": [],
+      "limitations": [
+        "Finitecarbon doses and carbonate/bicarbonate speciation retained; not a sharp2OH-perCO2 cutoff."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "37b2b2ab4b22729284f1ef71bc74b45e4892042ddb09ba52965ba7f81d18d1f4",
+      "stdout_sha256": "bba76907835a8228d3cf016fc62ac5c6dbb19019cd0e8aadf2842c4c4e1292bb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_gs-012/experiment.lab",
+        "batch2_gs-012/stdout.jsonl",
+        "batch2_gs-012/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:gs-014",
+      "proposed_candidate": false,
+      "original_forecast": "Base favours NH3; subsequent acid returns nitrogen toward ammonium and lowers its gas-phase share without removing total nitrogen.",
+      "criteria": [
+        {
+          "id": "GS-014-C1",
+          "criterion": "Track NH3 gas separately from ammonium and dissolved ammonia.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        },
+        {
+          "id": "GS-014-C2",
+          "criterion": "Nitrogen is conserved through the closed acid\u2013base cycle.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "base_then_acid": [
+          {
+            "T_K": 296.4418200638904,
+            "pH": 10.65264486685,
+            "NH3_gas_mol": 1.3137752910742127e-10,
+            "NH3_aqueous_mol": 0.0009533155637328976,
+            "NH4_mol": 4.668430489009059e-05
+          },
+          {
+            "T_K": 298.35381621694034,
+            "pH": 5.168075398882,
+            "NH3_gas_mol": 6.332301059277785e-07,
+            "NH3_aqueous_mol": 7.405716352071856e-08,
+            "NH4_mol": 0.0009992927127314012
+          }
+        ]
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 5.55487919354778e-13,
+        "Ca": 0.0,
+        "Cl": 4.839878497975292e-16,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 8.500145032286355e-16,
+        "Na": 3.3328374782204406e-16,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 2.2242583209292066e-12
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 2.168404344971009e-19,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 2.2242583209292066e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 2.2242583209292066e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 2.2242583209292066e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "max_abs_residual": 2.2242583209292066e-12,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [],
+      "ideal_pressure_checks": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101305.0399468474,
+          "recorded_pressure_Pa": 101305.0399468474
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101305.0399468474,
+          "recorded_pressure_Pa": 101305.0399468474
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 100716.32061083906,
+          "recorded_pressure_Pa": 100716.32061083907
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 100716.32061083906,
+          "recorded_pressure_Pa": 100716.32061083907
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 100716.32061083906,
+          "recorded_pressure_Pa": 100716.32061083907
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 100716.32061083906,
+          "recorded_pressure_Pa": 100716.32061083907
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101403.1454816936,
+          "recorded_pressure_Pa": 101403.1454816936
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101403.1454816936,
+          "recorded_pressure_Pa": 101403.1454816936
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101403.1454816936,
+          "recorded_pressure_Pa": 101403.1454816936
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101403.1454816936,
+          "recorded_pressure_Pa": 101403.1454816936
+        }
+      ],
+      "trapped_air": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "already_closed": false,
+          "new_air_mol": 0.0040878968797795874,
+          "new_air_C_mol": 1.635158751911835e-06
+        }
+      ],
+      "exports": [],
+      "limitations": [
+        "Acid correctly increasesammonium but actualNH3gas rises, contradicting originalgas-shareforecast. Laterammoniarepair maybenefit; no current-source failureclaimedwithoutfollowup."
+      ],
+      "shared_gap": "historical-finite-ammonia-gas-partition",
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "6645698bc7ed13a566e400b81053b92cdf4f7a835fa19404e0449a2ea3b9b6b5",
+      "stdout_sha256": "4de354b4b3f5b01f372e8b2df9f9e70a5bb9e7085465af51bf304d198dfd607a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_gs-014/experiment.lab",
+        "batch2_gs-014/stdout.jsonl",
+        "batch2_gs-014/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:gs-015",
+      "proposed_candidate": true,
+      "original_forecast": "Warming changes gas pressure and CO2 partitioning. Cooling toward the original temperature should approximately restore the partition without needing a new carbon dose.",
+      "criteria": [
+        {
+          "id": "GS-015-C1",
+          "criterion": "Closed total carbon remains constant throughout.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "GS-015-C2",
+          "criterion": "Judge recovery at the actual returned temperature, allowing modelled thermal effects.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "cycle": [
+          {
+            "vessel": 0,
+            "T_K": 298.1717853610495,
+            "pH": 4.34753019671,
+            "C_mol": 0.0010016349617808212,
+            "CO2_gas_mol": 0.0005448677341741,
+            "CO2_aqueous_mol": 0.000452253586559079,
+            "bicarbonate_mol": 4.5136362218604545e-06,
+            "carbonate_mol": 4.825781702494397e-12
+          },
+          {
+            "vessel": 0,
+            "T_K": 302.96510246803234,
+            "pH": 4.349346592564,
+            "C_mol": 0.0010016349617808817,
+            "CO2_gas_mol": 0.0005716227458859,
+            "CO2_aqueous_mol": 0.00042551720287420196,
+            "bicarbonate_mol": 4.495007736104355e-06,
+            "carbonate_mol": 5.284675472567284e-12
+          },
+          {
+            "vessel": 0,
+            "T_K": 298.1717853920319,
+            "pH": 4.34753019671,
+            "C_mol": 0.001001634961780709,
+            "CO2_gas_mol": 0.0005448677394418,
+            "CO2_aqueous_mol": 0.0004522535813648434,
+            "bicarbonate_mol": 4.513636148284036e-06,
+            "carbonate_mol": 4.825781600773963e-12
+          }
+        ]
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 2.641116492174689e-16,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 1.055798616665226e-15
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 1.0272921463418561e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 6.06565375726488e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 6.06565375726488e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 6.06565375726488e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 6.06565375726488e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 3.641564046835688e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 3.641564046835688e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 3.641564046835688e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 3.641564046835688e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [],
+      "ideal_pressure_checks": [
+        {
+          "row": 1,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101304.3013245774,
+          "recorded_pressure_Pa": 101304.3013245774
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 114799.89463661729,
+          "recorded_pressure_Pa": 114799.89463661729
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 114799.89463661729,
+          "recorded_pressure_Pa": 114799.89463661729
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 114799.89463661729,
+          "recorded_pressure_Pa": 114799.89463661729
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 114799.89463661729,
+          "recorded_pressure_Pa": 114799.89463661729
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 117319.33873326497,
+          "recorded_pressure_Pa": 117319.33873326497
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 117319.33873326497,
+          "recorded_pressure_Pa": 117319.33873326497
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 117319.33873326497,
+          "recorded_pressure_Pa": 117319.33873326497
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 117319.33873326497,
+          "recorded_pressure_Pa": 117319.33873326497
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 114799.89477913947,
+          "recorded_pressure_Pa": 114799.89477913947
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 114799.89477913947,
+          "recorded_pressure_Pa": 114799.89477913947
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 114799.89477913947,
+          "recorded_pressure_Pa": 114799.89477913947
+        },
+        {
+          "row": 13,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 114799.89477913947,
+          "recorded_pressure_Pa": 114799.89477913947
+        }
+      ],
+      "trapped_air": [
+        {
+          "row": 1,
+          "vessel": 0,
+          "already_closed": false,
+          "new_air_mol": 0.004087404452432945,
+          "new_air_C_mol": 1.6349617809731778e-06
+        }
+      ],
+      "exports": [],
+      "limitations": [
+        "Actualreturnedtemperature and retainedcarbon checked. Approximatepartitioncycle, not empiricallycalibratedHenrylaw or reactionenthalpy."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "a8ca90b024f75e3df6e4185ac7d72e4b14b5594bf5ebf6b0e33bd1d86fd78130",
+      "stdout_sha256": "e7187fe2ce4b1b4572e3951dbe1f9a5f24817e2b804122398ef1a54e461f5aa1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_gs-015/experiment.lab",
+        "batch2_gs-015/stdout.jsonl",
+        "batch2_gs-015/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:gs-016",
+      "proposed_candidate": true,
+      "original_forecast": "The larger water volume should hold a larger fraction of the finite carbon dose, reducing its gas-phase pressure contribution relative to the small-water arm.",
+      "criteria": [
+        {
+          "id": "GS-016-C1",
+          "criterion": "Compare CO2 gas moles and dissolved carbon moles, not only total pressure.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "GS-016-C2",
+          "criterion": "Both arms have identical introduced carbon and headspace volume.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "arms": [
+          {
+            "vessel": 0,
+            "T_K": 298.1842238447226,
+            "pH": 4.248945439056,
+            "C_mol": 0.001001634959872404,
+            "CO2_gas_mol": 0.0008580953346721,
+            "CO2_aqueous_mol": 0.0001424058170591138,
+            "bicarbonate_mol": 1.1338081411900912e-06,
+            "carbonate_mol": 0
+          },
+          {
+            "vessel": 1,
+            "T_K": 298.16496304674445,
+            "pH": 4.429393265268,
+            "C_mol": 0.0010016349617810803,
+            "CO2_gas_mol": 0.0003737008504496,
+            "CO2_aqueous_mol": 0.0006204628387611141,
+            "bicarbonate_mol": 7.471262946930075e-06,
+            "carbonate_mol": 9.623436132344177e-12
+          }
+        ],
+        "water_mol": [
+          1.1068542644748878,
+          11.068546511519548
+        ],
+        "headspace_L": [
+          0.1,
+          0.1
+        ]
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 1.908569222802692e-12,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 7.634275479418602e-12
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 3.759299504574006e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "max_abs_residual": 5.60878747892196e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "max_abs_residual": 3.552713678800501e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "max_abs_residual": 3.552713678800501e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "max_abs_residual": 3.552713678800501e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "max_abs_residual": 3.552713678800501e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "max_abs_residual": 3.552713678800501e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "max_abs_residual": 7.634275479418602e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "max_abs_residual": 3.552713678800501e-15,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [],
+      "ideal_pressure_checks": [
+        {
+          "row": 1,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101318.29446139079,
+          "recorded_pressure_Pa": 101318.29446139079
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "ideal_gas_pressure_Pa": 101297.15632572453,
+          "recorded_pressure_Pa": 101297.15632572453
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "ideal_gas_pressure_Pa": 110553.90151508577,
+          "recorded_pressure_Pa": 110553.90151508577
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "ideal_gas_pressure_Pa": 110553.90151508577,
+          "recorded_pressure_Pa": 110553.90151508577
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "ideal_gas_pressure_Pa": 110553.90151508577,
+          "recorded_pressure_Pa": 110553.90151508577
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "ideal_gas_pressure_Pa": 110553.90151508577,
+          "recorded_pressure_Pa": 110553.90151508577
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "ideal_gas_pressure_Pa": 110553.90151508577,
+          "recorded_pressure_Pa": 110553.90151508577
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122570.35252877678,
+          "recorded_pressure_Pa": 122570.35252877678
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "ideal_gas_pressure_Pa": 110553.90151508577,
+          "recorded_pressure_Pa": 110553.90151508577
+        }
+      ],
+      "trapped_air": [
+        {
+          "row": 1,
+          "vessel": 0,
+          "already_closed": false,
+          "new_air_mol": 0.004087404452432945,
+          "new_air_C_mol": 1.6349617809731778e-06
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "already_closed": false,
+          "new_air_mol": 0.004087404452432945,
+          "new_air_C_mol": 1.6349617809731778e-06
+        }
+      ],
+      "exports": [],
+      "limitations": [
+        "Actualtemperature difference retained; compare gasCO2 and aqueous carbon, not onlytotalpressure. Both1mmol introduceddose and identicalheadspaceair separatelyaccounted."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "f1a6f93ccd1effafa1b7c7fbf0900eea259c7248d1b9c4dee05389fe5c0c31d4",
+      "stdout_sha256": "040ba887e0d5caa34bb8fabd04981b1e0e5e4928f10ac92576a6f27d06514f33",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_gs-016/experiment.lab",
+        "batch2_gs-016/stdout.jsonl",
+        "batch2_gs-016/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:gs-017",
+      "proposed_candidate": true,
+      "original_forecast": "The requested overall route consumes 6 O2 and forms 6 CO2 per glucose. Gas pressure need not be unchanged because CO2 and O2 partition differently and water is also formed.",
+      "criteria": [
+        {
+          "id": "GS-017-C1",
+          "criterion": "Verify glucose-derived carbon and oxygen consumption before interpreting pressure.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "GS-017-C2",
+          "criterion": "Compare gas-only changes with liquid-plus-gas budgets.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "glucose_consumed_mol": 5e-05,
+        "O2_consumed_mol": 0.0002999999999999999,
+        "inorganic_C_gain_mol": 0.0002999999999999687,
+        "gas_total_change_mol": -0.00013735329767941822,
+        "gas_CO2_gain_mol": 0.00016264670232058132,
+        "before": {
+          "vessel": 0,
+          "T_K": 298.1500375440862,
+          "pH": 5.763473018444,
+          "C_mol": 0.0003016349617809734,
+          "CO2_gas_mol": 7.994719759187e-07,
+          "CO2_aqueous_mol": 6.639311792484885e-07,
+          "bicarbonate_mol": 1.7155393739913366e-07,
+          "carbonate_mol": 4.6884070346875024e-12
+        },
+        "after": {
+          "vessel": 0,
+          "T_K": 298.15656787626665,
+          "pH": 4.608942034816,
+          "C_mol": 0.00030163496178094206,
+          "CO2_gas_mol": 0.0001634461742965,
+          "CO2_aqueous_mol": 0.00013572121959673885,
+          "bicarbonate_mol": 2.4675631018491376e-06,
+          "carbonate_mol": 4.785854054141818e-12
+        }
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 3.117081245895825e-17,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 1.2781430712535853e-16
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 1.440538345483548e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 1.7549463875925035e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 1.7549463875925035e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 1.7549463875925035e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 1.2781430712535853e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 1.2781430712535853e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 1.2781430712535853e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 1.2781430712535853e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 1.2781430712535853e-16,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [],
+      "ideal_pressure_checks": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101304.30132421553,
+          "recorded_pressure_Pa": 101304.30132421553
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 126093.87474049117,
+          "recorded_pressure_Pa": 126093.87474049117
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 126093.87474049117,
+          "recorded_pressure_Pa": 126093.87474049117
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 126093.87474049117,
+          "recorded_pressure_Pa": 126093.87474049117
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122691.63231975307,
+          "recorded_pressure_Pa": 122691.63231975307
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122691.63231975307,
+          "recorded_pressure_Pa": 122691.63231975307
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122691.63231975307,
+          "recorded_pressure_Pa": 122691.63231975307
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122691.63231975307,
+          "recorded_pressure_Pa": 122691.63231975307
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 122691.63231975307,
+          "recorded_pressure_Pa": 122691.63231975307
+        }
+      ],
+      "trapped_air": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "already_closed": false,
+          "new_air_mol": 0.004087404452432945,
+          "new_air_C_mol": 1.6349617809731778e-06
+        }
+      ],
+      "exports": [],
+      "limitations": [
+        "Gas-onlychange differsfromformal6:6 becauseinorganiccarbonpartitionsintoliquid. CompleteglucoseC/H/O budgetchecked; no respirationkinetics/thermalcalibrationclaim."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "1bd441cb7b97878659a02a213b5c6c62e1c9de31ddb4d18c186caa8066b631e4",
+      "stdout_sha256": "e513c6c96e6f6d3c4572624ab15dd2a11f11aafc13d0dfccbb99cd6d33803500",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_gs-017/experiment.lab",
+        "batch2_gs-017/stdout.jsonl",
+        "batch2_gs-017/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:gs-018",
+      "proposed_candidate": false,
+      "original_forecast": "Captured carbonate carbon should remain with the isolated solid and reappear as CO2/dissolved carbon on acidification; uncaptured carbon stays in the earlier liquid/gas accounts.",
+      "criteria": [
+        {
+          "id": "GS-018-C1",
+          "criterion": "Quantify carbon in the first solid before assigning recaptured gas to it.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "GS-018-C2",
+          "criterion": "Sum carbon over both vessels and any boundary transfer during filtration.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "isolated_CaCO3_mol": 0.0005008970899059,
+        "acidified_retained_C_mol": 0.0005008970899059331,
+        "filter_silent_gas_removal": [
+          {
+            "row": 6,
+            "from_vessel": 0,
+            "unreported_removed_gases": [
+              {
+                "moles": 0.0032288178204254057,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.0008561414167562618,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          }
+        ]
+      },
+      "material_budget_pass": false,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 4.899791510026841e-14,
+        "Ca": 1.4326328751784745e-12,
+        "Cl": 6.023827270329463e-16,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.938553484404082e-15,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.006457635640850811,
+        "Na": 0.0,
+        "O": 0.0017122828335132565,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 2.7503567999465073e-12
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 3.4673219156955426e-14,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 1.957769883709215e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 1.957769883709215e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 1.957769883709215e-13,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 0.006457635640850811,
+          "nonzero_over_tolerance": {
+            "N": -0.006457635640850811,
+            "O": -0.0017122828335132565
+          }
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "max_abs_residual": 2.7503567999465073e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 0.006457635640850811,
+          "nonzero_over_tolerance": {
+            "N": -0.006457635640850811,
+            "O": -0.0017122828335125462
+          }
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "max_abs_residual": 2.7503567999465073e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 0.006457635640850811,
+          "nonzero_over_tolerance": {
+            "N": -0.006457635640850811,
+            "O": -0.001712282833511658
+          }
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "max_abs_residual": 2.7503567999465073e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 0.006457635640850811,
+          "nonzero_over_tolerance": {
+            "N": -0.006457635640850811,
+            "O": -0.001712282833511658
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "max_abs_residual": 2.7503567999465073e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 0.006457635640850811,
+          "nonzero_over_tolerance": {
+            "N": -0.006457635640850811,
+            "O": -0.001712282833511658
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "max_abs_residual": 2.7503567999465073e-12,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "max_abs_residual": 0.006457635640850811,
+          "nonzero_over_tolerance": {
+            "N": -0.006457635640850811,
+            "O": -0.001712282833511658
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "max_abs_residual": 2.7503567999465073e-12,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [],
+      "ideal_pressure_checks": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101284.47,
+          "recorded_pressure_Pa": 101284.47
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101284.46596903894,
+          "recorded_pressure_Pa": 101284.46596903894
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101284.46596903894,
+          "recorded_pressure_Pa": 101284.46596903894
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101284.46596903894,
+          "recorded_pressure_Pa": 101284.46596903894
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 0.0,
+          "recorded_pressure_Pa": -0.0
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 0.0669503270867862,
+          "recorded_pressure_Pa": 0.0669503270867862
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 0.06695032705654291,
+          "recorded_pressure_Pa": 0.06695032705654291
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 6808.060928159796,
+          "recorded_pressure_Pa": 6808.060928159796
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 6808.060928159796,
+          "recorded_pressure_Pa": 6808.060928159796
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 6808.060928159796,
+          "recorded_pressure_Pa": 6808.060928159796
+        }
+      ],
+      "trapped_air": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "already_closed": false,
+          "new_air_mol": 0.00408659387473156,
+          "new_air_C_mol": 1.6346375498926242e-06
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "already_closed": true,
+          "new_air_mol": 0,
+          "new_air_C_mol": 0.0
+        }
+      ],
+      "exports": [],
+      "limitations": [
+        "Recoveredsolidcarbon isreal, butfilterdropssealedheadspacegaseswithoutboundaryexport andfullatomsfail. LaterKN007filterrepair mayalreadyaddress; requireschangedsourcequalification, nothistoricalpass."
+      ],
+      "shared_gap": "historical-filter-dropped-gas-ownership",
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "a84ebd056148ee1683feb853028a573a93b134438a4b81882946c3d0e0f9ca2b",
+      "stdout_sha256": "8266b8f158beb8eae5ef0085ae562452118a7d08b58613aaf395eb6a7cb3139e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_gs-018/experiment.lab",
+        "batch2_gs-018/stdout.jsonl",
+        "batch2_gs-018/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ki-001",
+      "proposed_candidate": true,
+      "original_forecast": "Peroxide consumption should accelerate after catalyst introduction, relative to the initial uncatalysed interval.",
+      "criteria": [
+        {
+          "id": "KI-001-C1",
+          "criterion": "Calculate interval consumption from inventories, allowing unequal remaining substrate.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "KI-001-C2",
+          "criterion": "MnO2 must not be consumed as a stoichiometric fuel.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "intervals": [
+          {
+            "vessel": 0,
+            "row": 3,
+            "initial_H2O2_mol": 0.001,
+            "final_H2O2_mol": 0.0009997562994759923,
+            "fraction_remaining": 0.9997562994759922,
+            "loss_mol": 2.437005240077568e-07,
+            "apparent_k_s-1": 8.124340793527713e-06,
+            "start_T_K": 298.15003753977635,
+            "end_T_K": 298.15006622175144,
+            "MnO2_mol": 0
+          },
+          {
+            "vessel": 0,
+            "row": 6,
+            "initial_H2O2_mol": 0.0009997562994759923,
+            "final_H2O2_mol": 0.0009987890991173592,
+            "fraction_remaining": 0.9990325638766767,
+            "loss_mol": 9.672003586330517e-07,
+            "apparent_k_s-1": 3.226347972290514e-05,
+            "start_T_K": 298.15006622165265,
+            "end_T_K": 298.15018005470836,
+            "MnO2_mol": 1.1502185415228894e-05
+          },
+          {
+            "vessel": 0,
+            "row": 8,
+            "initial_H2O2_mol": 0.0009987890991173592,
+            "final_H2O2_mol": 0.0009978228258358892,
+            "fraction_remaining": 0.9990325552388148,
+            "loss_mol": 9.662732814699673e-07,
+            "apparent_k_s-1": 3.226376793045779e-05,
+            "start_T_K": 298.15018005470836,
+            "end_T_K": 298.1502937786537,
+            "MnO2_mol": 1.1502185415228894e-05
+          }
+        ]
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 2.522252358686493e-18,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 1.7763568394002505e-15,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 0.0,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 8.857794106352642e-18
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 1.5993040835345258e-19,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 3.972796280859482e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 3.972796280859482e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 3.9523351412273705e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 8.857794106352642e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 8.857794106352642e-18,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 8.857794106352642e-18,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [
+        {
+          "row": 3,
+          "vessel": 0,
+          "start": 0.0,
+          "end": 30.0
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "start": 30.0,
+          "end": 60.0
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "start": 60.0,
+          "end": 90.0
+        }
+      ],
+      "ideal_pressure_checks": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101304.30132185266,
+          "recorded_pressure_Pa": 101304.30132185266
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101307.33170455157,
+          "recorded_pressure_Pa": 101307.33170455157
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101307.33170455157,
+          "recorded_pressure_Pa": 101307.33170455157
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101307.331704518,
+          "recorded_pressure_Pa": 101307.331704518
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101319.35865084332,
+          "recorded_pressure_Pa": 101319.35865084332
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101319.35865084332,
+          "recorded_pressure_Pa": 101319.35865084332
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101331.37407830803,
+          "recorded_pressure_Pa": 101331.37407830803
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101331.37407830803,
+          "recorded_pressure_Pa": 101331.37407830803
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "ideal_gas_pressure_Pa": 101331.37407830803,
+          "recorded_pressure_Pa": 101331.37407830803
+        }
+      ],
+      "trapped_air": [
+        {
+          "row": 2,
+          "vessel": 0,
+          "already_closed": false,
+          "new_air_mol": 0.004087404452432945,
+          "new_air_C_mol": 1.6349617809731778e-06
+        }
+      ],
+      "exports": [],
+      "limitations": [
+        "Compareactual30sintervalfractions andremainingperoxide; eventabsencebelowreportthreshold doesnotmeanzerodecomposition. Catalystretained, indicativeabsoluterateonly."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "62b9aff557f81e726db7115abd7e3f8fbf90b099a0ef392944478cdf63f44334",
+      "stdout_sha256": "cc0d12673fc5b749734185f78b33c405fab0a94374ff42320446744d67fdae72",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ki-001/experiment.lab",
+        "batch2_ki-001/stdout.jsonl",
+        "batch2_ki-001/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ki-002",
+      "proposed_candidate": false,
+      "original_forecast": "The catalyst-free filtrate should consume less additional peroxide than the unfiltered control, after correcting for their inventories at filtration.",
+      "criteria": [
+        {
+          "id": "KI-002-C1",
+          "criterion": "Record the post-filtration starting peroxide in v3.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "KI-002-C2",
+          "criterion": "Distinguish slowed uncatalysed reaction from a claim of absolutely zero decomposition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "intervals": [
+          {
+            "vessel": 0,
+            "row": 7,
+            "initial_H2O2_mol": 0.001,
+            "final_H2O2_mol": 0.0009996774189273932,
+            "fraction_remaining": 0.9996774189273933,
+            "loss_mol": 3.2258107260678057e-07,
+            "apparent_k_s-1": 3.226331130727583e-05,
+            "start_T_K": 298.15,
+            "end_T_K": 298.1500379734084,
+            "MnO2_mol": 1.1502185415228894e-05
+          },
+          {
+            "vessel": 1,
+            "row": 7,
+            "initial_H2O2_mol": 0.001,
+            "final_H2O2_mol": 0.0009996774189273932,
+            "fraction_remaining": 0.9996774189273933,
+            "loss_mol": 3.2258107260678057e-07,
+            "apparent_k_s-1": 3.226331130727583e-05,
+            "start_T_K": 298.15,
+            "end_T_K": 298.1500379734084,
+            "MnO2_mol": 1.1502185415228894e-05
+          },
+          {
+            "vessel": 1,
+            "row": 11,
+            "initial_H2O2_mol": 0.0009996774189273932,
+            "final_H2O2_mol": 0.0009977441107359441,
+            "fraction_remaining": 0.9980660679586787,
+            "loss_mol": 1.93330819144911e-06,
+            "apparent_k_s-1": 3.226340837371131e-05,
+            "start_T_K": 298.1500379734084,
+            "end_T_K": 298.15026555743987,
+            "MnO2_mol": 1.1502185415228894e-05
+          },
+          {
+            "vessel": 2,
+            "row": 11,
+            "initial_H2O2_mol": 0.0009996774189273932,
+            "final_H2O2_mol": 0.0009991902344439344,
+            "fraction_remaining": 0.9995126583093359,
+            "loss_mol": 4.871844834588614e-07,
+            "apparent_k_s-1": 8.124341337024635e-06,
+            "start_T_K": 298.1500379734084,
+            "end_T_K": 298.1500953235902,
+            "MnO2_mol": 0
+          }
+        ]
+      },
+      "material_budget_pass": false,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 4.7704895589362195e-17,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 3.2258107204147417e-07,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 2,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 3.2258107204147417e-07,
+          "nonzero_over_tolerance": {
+            "O": -3.2258107204147417e-07
+          }
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 2,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 3.2258107204147417e-07,
+          "nonzero_over_tolerance": {
+            "O": -3.2258107204147417e-07
+          }
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 2,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "max_abs_residual": 3.2258107204147417e-07,
+          "nonzero_over_tolerance": {
+            "O": -3.2258107204147417e-07
+          }
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 2,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "max_abs_residual": 3.2258107204147417e-07,
+          "nonzero_over_tolerance": {
+            "O": -3.2258107204147417e-07
+          }
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 12,
+          "vessel": 2,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [
+        {
+          "row": 7,
+          "vessel": 0,
+          "start": 0.0,
+          "end": 10.0
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "start": 0.0,
+          "end": 10.0
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "start": 10.0,
+          "end": 70.0
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "start": 10.0,
+          "end": 70.0
+        },
+        {
+          "row": 11,
+          "vessel": 2,
+          "start": 0.0,
+          "end": 60.0
+        }
+      ],
+      "ideal_pressure_checks": [],
+      "trapped_air": [],
+      "exports": [],
+      "limitations": [
+        "Filtrateinitialsubstrate andnonzerouncatalysedrate arecorrectlydistinguished, butunreportedfilterO2loss breaksfullatomaccounting; do notqualifybeforeownedboundaryrepair."
+      ],
+      "shared_gap": "historical-filter-dropped-gas-ownership",
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "56c2b530111e0cf1ec8ed7fc33f9287047be8d0f69a3011f0096ccc5c3d10498",
+      "stdout_sha256": "6ee231eae239c830c56a972e745c90c9d0a6015e1bd0c8aed7d56958e685984f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ki-002/experiment.lab",
+        "batch2_ki-002/stdout.jsonl",
+        "batch2_ki-002/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ki-006",
+      "proposed_candidate": true,
+      "original_forecast": "At matched catalyst activity and temperature, a first-order surface teaching model predicts similar fractions remaining, despite different absolute initial substrate.",
+      "criteria": [
+        {
+          "id": "KI-006-C1",
+          "criterion": "Normalise each peroxide trace by its own initial amount.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "KI-006-C2",
+          "criterion": "Test logarithmic decay only over an interval with approximately stable temperature and catalyst activity.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "intervals": [
+          {
+            "vessel": 0,
+            "row": 7,
+            "initial_H2O2_mol": 0.001,
+            "final_H2O2_mol": 0.0009996774189273932,
+            "fraction_remaining": 0.9996774189273933,
+            "loss_mol": 3.2258107260678057e-07,
+            "apparent_k_s-1": 3.226331130727583e-05,
+            "start_T_K": 298.15,
+            "end_T_K": 298.1500379734084,
+            "MnO2_mol": 1.1502185415228894e-05
+          },
+          {
+            "vessel": 1,
+            "row": 7,
+            "initial_H2O2_mol": 0.002,
+            "final_H2O2_mol": 0.001999354837854761,
+            "fraction_remaining": 0.9996774189273804,
+            "loss_mol": 6.451621452391483e-07,
+            "apparent_k_s-1": 3.2263311308564104e-05,
+            "start_T_K": 298.15,
+            "end_T_K": 298.1500759305967,
+            "MnO2_mol": 1.1502185415228894e-05
+          },
+          {
+            "vessel": 0,
+            "row": 9,
+            "initial_H2O2_mol": 0.0009996774189273932,
+            "final_H2O2_mol": 0.0009990325669917018,
+            "fraction_remaining": 0.9993549399801555,
+            "loss_mol": 6.44851935691429e-07,
+            "apparent_k_s-1": 3.226340802864006e-05,
+            "start_T_K": 298.1500379734084,
+            "end_T_K": 298.15011388370806,
+            "MnO2_mol": 1.1502185415228894e-05
+          },
+          {
+            "vessel": 1,
+            "row": 9,
+            "initial_H2O2_mol": 0.001999354837854761,
+            "final_H2O2_mol": 0.0019980651301442784,
+            "fraction_remaining": 0.9993549380599862,
+            "loss_mol": 1.289707710482469e-06,
+            "apparent_k_s-1": 3.226350409907364e-05,
+            "start_T_K": 298.1500759305967,
+            "end_T_K": 298.15022771922236,
+            "MnO2_mol": 1.1502185415228894e-05
+          },
+          {
+            "vessel": 0,
+            "row": 11,
+            "initial_H2O2_mol": 0.0009990325669917018,
+            "final_H2O2_mol": 0.000997744103075803,
+            "fraction_remaining": 0.9987102883745035,
+            "loss_mol": 1.2884639158988655e-06,
+            "apparent_k_s-1": 3.226360048276528e-05,
+            "start_T_K": 298.15011388370806,
+            "end_T_K": 298.15026555834186,
+            "MnO2_mol": 1.1502185415228894e-05
+          },
+          {
+            "vessel": 1,
+            "row": 11,
+            "initial_H2O2_mol": 0.0019980651301442784,
+            "final_H2O2_mol": 0.0019954881793138647,
+            "fraction_remaining": 0.9987102768615818,
+            "loss_mol": 2.5769508304137635e-06,
+            "apparent_k_s-1": 3.226388867749821e-05,
+            "start_T_K": 298.15022771922236,
+            "end_T_K": 298.15053100640637,
+            "MnO2_mol": 1.1502185415228894e-05
+          }
+        ]
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 8.881784197001252e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [
+        {
+          "row": 7,
+          "vessel": 0,
+          "start": 0.0,
+          "end": 10.0
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "start": 0.0,
+          "end": 10.0
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "start": 10.0,
+          "end": 30.0
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "start": 10.0,
+          "end": 30.0
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "start": 30.0,
+          "end": 70.0
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "start": 30.0,
+          "end": 70.0
+        }
+      ],
+      "ideal_pressure_checks": [],
+      "trapped_air": [],
+      "exports": [],
+      "limitations": [
+        "Normaliseeachowninitialinventory andactualinterval; temperaturesremainwithin0.001K andcatalystmass/activitymatched. Logdecaytestedonlythisnearconstantteachingdomain."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "eedbf6203a8a83bff83c843662ffcfba684d8c14fada8050f2a6fc86c22ed2e9",
+      "stdout_sha256": "0a03b96836de73cfca8f0e39d1603f6cd1cf05858637200e207a45f8d37f5162",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ki-006/experiment.lab",
+        "batch2_ki-006/stdout.jsonl",
+        "batch2_ki-006/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:ki-012",
+      "proposed_candidate": true,
+      "original_forecast": "If the first route produces MnO2, its isolated solid should accelerate peroxide decomposition relative to the catalyst-free control.",
+      "criteria": [
+        {
+          "id": "KI-012-C1",
+          "criterion": "Confirm MnO2 formation and isolation before assigning catalytic action.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "KI-012-C2",
+          "criterion": "Exclude residual permanganate as a stoichiometric oxidant in the second stage.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "intervals": [
+          {
+            "vessel": 0,
+            "row": 11,
+            "initial_H2O2_mol": 0.001,
+            "final_H2O2_mol": 0.0009966396916944258,
+            "fraction_remaining": 0.9966396916944258,
+            "loss_mol": 3.3603083055742076e-06,
+            "apparent_k_s-1": 0.0001121988940440942,
+            "start_T_K": 298.1499999919379,
+            "end_T_K": 298.15039555726196,
+            "MnO2_mol": 4e-05
+          },
+          {
+            "vessel": 2,
+            "row": 11,
+            "initial_H2O2_mol": 0.001,
+            "final_H2O2_mol": 0.000999756300404214,
+            "fraction_remaining": 0.9997563004042139,
+            "loss_mol": 2.436995957860646e-07,
+            "apparent_k_s-1": 8.124309845261562e-06,
+            "start_T_K": 298.15,
+            "end_T_K": 298.1500286877281,
+            "MnO2_mol": 0
+          }
+        ],
+        "isolated_MnO2_mol": 4e-05,
+        "isolated_remaining_permanganate_mol": 0
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 1.3552527156068805e-20,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 3.552713678800501e-15,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 9.083039225268874e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 1.6940658945086007e-20
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 1.2723925645746759e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 2,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 2,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 2,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "max_abs_residual": 3.552713678800501e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 2,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 12,
+          "vessel": 0,
+          "max_abs_residual": 3.552713678800501e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 12,
+          "vessel": 1,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 12,
+          "vessel": 2,
+          "max_abs_residual": 1.7763568394002505e-15,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [
+        {
+          "row": 11,
+          "vessel": 0,
+          "start": 0.0,
+          "end": 30.0
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "start": 0.0,
+          "end": 30.0
+        },
+        {
+          "row": 11,
+          "vessel": 2,
+          "start": 0.0,
+          "end": 30.0
+        }
+      ],
+      "ideal_pressure_checks": [],
+      "trapped_air": [],
+      "exports": [],
+      "limitations": [
+        "ActualMnO2formation/isolation precedesreaction. Permanganateisabsentfromcatalystsolid; remainingacetate/K pools stayseparate, nocarryoverstoichiometricoxidantclaim."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "51dc0fe70e63fd8474dc939ea4571e3d9288ab9cca50cda798d85ced74c4c394",
+      "stdout_sha256": "7dfef62cba5f6e675c3a7fa043f33f913714813cb53fdabf396bce7b9bc313c0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_ki-012/experiment.lab",
+        "batch2_ki-012/stdout.jsonl",
+        "batch2_ki-012/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:se-009",
+      "proposed_candidate": false,
+      "original_forecast": "A lower aqueous fraction, an organic liquid fraction and an insoluble solid residue should be distinguishable, subject to the operators\u2019 actual phase semantics.",
+      "criteria": [
+        {
+          "id": "SE-009-C1",
+          "criterion": "Identify the composition of each destination rather than assigning it from vessel number.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "not_met"
+        },
+        {
+          "id": "SE-009-C2",
+          "criterion": "Close water, hexane, salt and silica balances across all three vessels.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "final_fractions": [
+          {
+            "vessel": 0,
+            "water_mol": 0,
+            "hexane_mol": 0,
+            "solid_SiO2_mol": 0.01660342187604021,
+            "aqueous_SiO2_mol": 0,
+            "Na_mol": 0,
+            "Cl_mol": 0
+          },
+          {
+            "vessel": 1,
+            "water_mol": 5.534276991396059,
+            "hexane_mol": 0,
+            "solid_SiO2_mol": 0,
+            "aqueous_SiO2_mol": 1.9972039145196722e-05,
+            "Na_mol": 0.001,
+            "Cl_mol": 0.001
+          },
+          {
+            "vessel": 2,
+            "water_mol": 0,
+            "hexane_mol": 0.15331058970967068,
+            "solid_SiO2_mol": 0,
+            "aqueous_SiO2_mol": 1.9972039145196722e-05,
+            "Na_mol": 0,
+            "Cl_mol": 0
+          }
+        ],
+        "dry_organic_unsupported_aqueous_silica": [
+          {
+            "row": 5,
+            "vessel": 0,
+            "water_mol": 0,
+            "hexane_mol": 0.15331058970967068,
+            "aqueous_silica_mol": 1.9972039145196722e-05
+          },
+          {
+            "row": 6,
+            "vessel": 0,
+            "water_mol": 0,
+            "hexane_mol": 0.15331058970967068,
+            "aqueous_silica_mol": 1.9972039145196722e-05
+          },
+          {
+            "row": 7,
+            "vessel": 2,
+            "water_mol": 0,
+            "hexane_mol": 0.15331058970967068,
+            "aqueous_silica_mol": 1.9972039145196722e-05
+          },
+          {
+            "row": 8,
+            "vessel": 2,
+            "water_mol": 0,
+            "hexane_mol": 0.15331058970967068,
+            "aqueous_silica_mol": 1.9972039145196722e-05
+          }
+        ]
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 4.440892098500626e-16,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 1.3877787807814457e-17,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 4.440892098500626e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 4.440892098500626e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 2,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 4.440892098500626e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 2,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 4.440892098500626e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 2,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [],
+      "ideal_pressure_checks": [],
+      "trapped_air": [],
+      "exports": [],
+      "limitations": [
+        "GlobalSiclosure andcoarsefractionlabels do notvalidatewater-solubilitydissolutioninto nowdryhexane. Latermediumadmission mayrepair; nocurrentbugclaimuntilnewsourcecontrol."
+      ],
+      "shared_gap": "historical-waterless-organic-aqueous-silica",
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "e1a9c24c63fc3c3eca32e6ebf76e57e5c7815e95f062df019ce0efb134a2c8cc",
+      "stdout_sha256": "bad4d7fc637d810aea14aa7dd88332732bc92f8130329cd8016902f497454db9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_se-009/experiment.lab",
+        "batch2_se-009/stdout.jsonl",
+        "batch2_se-009/stderr.txt"
+      ]
+    },
+    {
+      "id": "batch2:se-011",
+      "proposed_candidate": true,
+      "original_forecast": "Clarified silica remains as a solid sediment, whereas dissolved salt remains in the liquid. Both may present a clear liquid layer for different reasons.",
+      "criteria": [
+        {
+          "id": "SE-011-C1",
+          "criterion": "Use phase-resolved inventories to distinguish sediment from dissolved solute.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        },
+        {
+          "id": "SE-011-C2",
+          "criterion": "Do not infer chemical disappearance from reduced turbidity.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": "met"
+        }
+      ],
+      "observed": {
+        "solid_silica_mol": 0.0016443044598812083,
+        "dissolved_silica_mol": 2.003213555185228e-05,
+        "suspended_solid_fraction": [
+          0.0
+        ],
+        "dissolved_Na_mol": 0.0017110689047447943,
+        "dissolved_Cl_mol": 0.0017110689047447943,
+        "actual_appearance": [
+          {
+            "appearance": {
+              "bubbling": false,
+              "clauses": [
+                {
+                  "en": "the liquid is {colour} {clarity}",
+                  "key": "look.liquid",
+                  "slots": [
+                    [
+                      "colour",
+                      {
+                        "term": {
+                          "en": "colourless",
+                          "section": "appearance"
+                        }
+                      }
+                    ],
+                    [
+                      "clarity",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "and clear",
+                            "key": "look.clarity-clear"
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "en": "there is {what} at the bottom",
+                  "key": "look.deposit-in-liquid",
+                  "slots": [
+                    [
+                      "what",
+                      {
+                        "list": {
+                          "items": [
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "{colour} {name}",
+                                  "key": "look.coloured",
+                                  "slots": [
+                                    [
+                                      "colour",
+                                      {
+                                        "term": {
+                                          "en": "white",
+                                          "section": "appearance"
+                                        }
+                                      }
+                                    ],
+                                    [
+                                      "name",
+                                      {
+                                        "term": {
+                                          "en": "silicon dioxide (quartz)",
+                                          "section": "species"
+                                        }
+                                      }
+                                    ]
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "cloudiness": 0.0,
+              "deposit": [
+                "silicon dioxide (quartz)",
+                {
+                  "b": 220,
+                  "g": 220,
+                  "r": 220,
+                  "strength": 0.0
+                }
+              ],
+              "liquid": {
+                "b": 255,
+                "g": 255,
+                "r": 255,
+                "strength": 0.0
+              },
+              "words": "The liquid is colourless and clear, there is white silicon dioxide (quartz) at the bottom."
+            },
+            "event": "observed",
+            "vessel": 0
+          },
+          {
+            "appearance": {
+              "bubbling": false,
+              "clauses": [
+                {
+                  "en": "the liquid is {colour} {clarity}",
+                  "key": "look.liquid",
+                  "slots": [
+                    [
+                      "colour",
+                      {
+                        "term": {
+                          "en": "colourless",
+                          "section": "appearance"
+                        }
+                      }
+                    ],
+                    [
+                      "clarity",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "and clear",
+                            "key": "look.clarity-clear"
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "cloudiness": 0.0,
+              "deposit": null,
+              "liquid": {
+                "b": 255,
+                "g": 255,
+                "r": 255,
+                "strength": 0.0
+              },
+              "words": "The liquid is colourless and clear."
+            },
+            "event": "observed",
+            "vessel": 1
+          }
+        ]
+      },
+      "material_budget_pass": true,
+      "max_per_vessel_per_step_atom_charge_residual_mol": {
+        "Ag": 0.0,
+        "Br": 0.0,
+        "C": 0.0,
+        "Ca": 0.0,
+        "Cl": 0.0,
+        "Cu": 0.0,
+        "Fe": 0.0,
+        "H": 0.0,
+        "K": 0.0,
+        "Mn": 0.0,
+        "N": 0.0,
+        "Na": 0.0,
+        "O": 8.881784197001252e-16,
+        "S": 0.0,
+        "Si": 0.0,
+        "Zn": 0.0,
+        "charge": 0.0
+      },
+      "per_step_ledger": [
+        {
+          "row": 0,
+          "vessel": 0,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 1,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 2,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 3,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 4,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 5,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 6,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 7,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 8,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 9,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 10,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 0,
+          "max_abs_residual": 8.881784197001252e-16,
+          "nonzero_over_tolerance": {}
+        },
+        {
+          "row": 11,
+          "vessel": 1,
+          "max_abs_residual": 0.0,
+          "nonzero_over_tolerance": {}
+        }
+      ],
+      "clock_checks": [],
+      "ideal_pressure_checks": [],
+      "trapped_air": [],
+      "exports": [],
+      "limitations": [
+        "Clearliquidabove retainedsediment versusdissolvedsalt; neitherclaritynorcloudinessreduction establishchemicaldisappearance."
+      ],
+      "shared_gap": null,
+      "source": {
+        "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+        "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+        "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+        "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+      },
+      "script_sha256": "0077381fe0e6798184bbfa8e9c0987887dc0e49247f6363e05a0cf4149188f92",
+      "stdout_sha256": "c4aade814cb7c5ee09328c5df887c3aab14970855fccbc05e7049423052ee10e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_members": [
+        "batch2_se-011/experiment.lab",
+        "batch2_se-011/stdout.jsonl",
+        "batch2_se-011/stderr.txt"
+      ]
+    }
+  ],
+  "raw_artifact_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "new_engine_executions": 0,
+  "selection_performed": false,
+  "tolerance_mol": 1e-08,
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/bench.rs": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80",
+    "crates/kerotakis-core/src/clock.rs": "a7e64dac6135a6150f6c241beeb63e52e114de84ec217f1b694ac90b0476d80c",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-core/src/displacement.rs": "546e8bcdceca3f7d18301bbc0b8f6f2cefbded8303d435df6d06f7f403d6bfd7",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4"
+  },
+  "helper_sha256": {
+    "audits/target468-20261016/batch2-selection-review-20261020/review_saved.py": "8430e6069074541715e1459d53a1ccd510d20d5dbfd0dadc1d7d51874eb011b5",
+    "audits/target468-20261016/batch2-selection-review-second-20261020/review_saved.py": "923daa1efdf6c1e5a9a2a22bc01c37d9d884f7caecf9c60a474b28fdb66f9016"
+  }
+}

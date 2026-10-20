@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-20T08:38:20.475166+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 301,
+  "source_qualified_selected_in_target": 297,
+  "additional_selections_needed_for_401": 104,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261020-reviewed-partition-beneficiaries.json",
+  "catalog_sha256": "c8fd4a9086221138e263a73a4745a450fd773420dadb892a15fbdde817124594",
+  "selection_receipt": "audits/target468-20261016/selection-partition-beneficiaries-20261020/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard-20261020-reviewed-gas-light.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "Five unchanged originals on authenticated accepted delivered source independently qualify; all296 prior entries remain exact with historical bindings. SE009 held for wrong-phase drain ownership. No uniform current-release or empirical calibration claim."
+}

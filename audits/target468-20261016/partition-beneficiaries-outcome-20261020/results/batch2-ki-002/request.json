@@ -1,0 +1,1 @@
+{"script": "# KI-002: Removing a solid catalyst interrupts an ongoing reaction\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 H2O2 0.001mol\nadd v1 MnO2 0.001g\nnew\nadd v2 water 100mL\nadd v2 H2O2 0.001mol\nadd v2 MnO2 0.001g\nwait 10s\nnew\nfilter v1 v3\ninspect\nwait 60s\ninspect\n"}

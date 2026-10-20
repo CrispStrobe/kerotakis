@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-20T08:19:28.612815+00:00",
+  "raw_reader_reproduction_pass": true,
+  "original_proposals_preserved": 6,
+  "supported_originals_accepted": [
+    "batch3-diverse:mi-005",
+    "batch3-diverse:li-005",
+    "batch3-diverse:li-006",
+    "batch3-diverse:co-008",
+    "batch3-diverse:en-005"
+  ],
+  "held_original": "batch3-diverse:li-007",
+  "reason": "The exact unchanged question explicitly asks UVA, UVB and visible attenuation.550nm has no supported attenuation readout; declared-band scope wording in expected_result cannot replace that missing physical observable. Positive UVA/UVB controls and material closure remain valid partial results.",
+  "second_reviewer_reconsideration": "Agreed full qualification was overstated; retain initial report unchanged and hold complete original.",
+  "unsupported_result_not_interpreted_as_zero_or_unity": true,
+  "CO008_nominal_mass_limit": "Every nominal-mass difference is independently predicted from molecule/ion registry mass rounding; exact Ca/Cl/Na/equivalent ownership and aggregate-scum algebra pass. No exact physical gram closure or empirical calibration is claimed.",
+  "new_engine_or_API_executions": 0
+}

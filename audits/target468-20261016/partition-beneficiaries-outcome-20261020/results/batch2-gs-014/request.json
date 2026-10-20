@@ -1,0 +1,1 @@
+{"script": "# GS-014: Release and recapture ammonia inside one closed system\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NH4Cl 0.001mol\nseal v1 100mL\nmeasure v1 pressure\nadd v1 NaOH 0.001mol\nmeasure v1 ph\nmeasure v1 pressure\ninspect v1\nadd v1 HCl 0.001mol\nmeasure v1 ph\nmeasure v1 pressure\ninspect\n"}

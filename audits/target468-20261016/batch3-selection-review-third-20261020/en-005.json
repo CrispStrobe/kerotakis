@@ -1,0 +1,2179 @@
+{
+  "original_id": "batch3-diverse:en-005",
+  "title": "Heating the enzyme source rather than the protein substrate",
+  "original_forecast": "If the heated source crosses its declared denaturation threshold, its later proteolytic activity should remain lower after cooling. The comparison is about enzyme history, not heating gelatin itself.",
+  "original_limitations": [
+    "Equal heat and cooling doses do not guarantee identical final temperatures if phase changes or losses occur; confirm thermometer readings. Gel setting and tenderness are outside the enzyme ledger."
+  ],
+  "original_script_sha256": "ef265a8b5513c82b4b5e442112120b0d10d9e934256195ad90b2252749ceb865",
+  "raw_member_prefix": "batch3-diverse_en-005",
+  "raw_sha256": {
+    "experiment.lab": "ef265a8b5513c82b4b5e442112120b0d10d9e934256195ad90b2252749ceb865",
+    "stdout.jsonl": "c883e6f7978922ec945a7f2008461e60ed6a858ee43bf7bd977b1ffa35670c9f",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Does preheating pineapple suppress later protein hydrolysis after the samples are brought back toward the same temperature?",
+      "original_instruction": "If the heated source crosses its declared denaturation threshold, its later proteolytic activity should remain lower after cooling. The comparison is about enzyme history, not heating gelatin itself.",
+      "assessment": "Heatedenzyme source crossesdeclared343.15K threshold before gelatinaddition; carried irreversible denaturationflagpersists aftercooling and no gelatin conversion appears, while freshsourcecontrol converts0.381800g. Independent±9000J energy andallstate/recipe/acidcoordinate inventoriesclose. Heating/cooling+ambient120swaitleave16.577C vs25C beforeprotein and final24.673vs25C, so no isothermalratecomparison orgeltextureclaim.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Heatedenzyme source crossesdeclared343.15K threshold before gelatinaddition; carried irreversible denaturationflagpersists aftercooling and no gelatin conversion appears, while freshsourcecontrol converts0.381800g. Independent±9000J energy andallstate/recipe/acidcoordinate inventoriesclose. Heating/cooling+ambient120swaitleave16.577C vs25C beforeprotein and final24.673vs25C, so no isothermalratecomparison orgeltextureclaim.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_instruction": "v2: unheated pineapple source",
+      "assessment": "Heatedenzyme source crossesdeclared343.15K threshold before gelatinaddition; carried irreversible denaturationflagpersists aftercooling and no gelatin conversion appears, while freshsourcecontrol converts0.381800g. Independent±9000J energy andallstate/recipe/acidcoordinate inventoriesclose. Heating/cooling+ambient120swaitleave16.577C vs25C beforeprotein and final24.673vs25C, so no isothermalratecomparison orgeltextureclaim.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "at": 298.15,
+          "moles": 1.6602830974188176,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "pineapple",
+          "op": "add_material",
+          "recipe_id": "food/pineapple",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 5.0,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "at": 298.15,
+          "moles": 1.6602830974188176,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "pineapple",
+          "op": "add_material",
+          "recipe_id": "food/pineapple",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 5.0,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "energy": 9000.0,
+          "op": "heat",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 360.7047395677048,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 360.7047395677048,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "op": "wait",
+          "seconds": 120.0
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 352.31314350884037,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "energy": 9000.0,
+          "op": "cool",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 289.7272360767413,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 289.7272360767413,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 289.7272360767413,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 289.7394721372307,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.831266969889796,
+              "O": 1.9161019348441812,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.8989730779905634,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "gelatin",
+          "op": "add_material",
+          "recipe_id": "food/gelatin",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.5,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 289.7394721372307,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "op": "wait",
+          "seconds": 2700.0
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 297.8233218641094,
+            "elapsed_s": 2820.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 2820.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 297.8233218641094,
+            "elapsed_s": 2820.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 2820.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 15,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 297.8233218641094,
+            "elapsed_s": 2820.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 2820.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "step": 16,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 3.0357660829594124e-18,
+        "max_unresolved_g_residual": 3.885780586188048e-16,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 297.8233218641094,
+            "elapsed_s": 2820.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 2820.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "C": 0.01784767931606391,
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": -3.0357660829594124e-18
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.836817899670534,
+              "O": 1.9188773997345503,
+              "charge": 0.0,
+              "C": 0.01784767931606391
+            },
+            "unresolved_g": {
+              "food/pineapple": 0.17800000000000038,
+              "food/gelatin": 0.45
+            },
+            "contents": [
+              {
+                "moles": 0.000874972428873798,
+                "phase": "aqueous",
+                "species": "sucrose"
+              },
+              {
+                "moles": 0.0005883789604564933,
+                "phase": "aqueous",
+                "species": "fructose"
+              },
+              {
+                "moles": 0.00048013943471213833,
+                "phase": "aqueous",
+                "species": "glucose"
+              },
+              {
+                "moles": 0.00015614996642775722,
+                "phase": "aqueous",
+                "species": "C6H5O7-3"
+              },
+              {
+                "moles": 1.9017485428809324,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.00046844989928326863,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 3.0357660829594124e-18,
+    "max_unresolved_g_residual": 3.885780586188048e-16
+  },
+  "interpretation": "Heatedenzyme source crossesdeclared343.15K threshold before gelatinaddition; carried irreversible denaturationflagpersists aftercooling and no gelatin conversion appears, while freshsourcecontrol converts0.381800g. Independent±9000J energy andallstate/recipe/acidcoordinate inventoriesclose. Heating/cooling+ambient120swaitleave16.577C vs25C beforeprotein and final24.673vs25C, so no isothermalratecomparison orgeltextureclaim.",
+  "independent_calculations": {
+    "independent_heat_cool_energy": [
+      {
+        "raw_jsonl_line": 6,
+        "independent_sensible_j": 9000.000000015349,
+        "t0_k": 298.15,
+        "t1_k": 360.7047395677048
+      },
+      {
+        "raw_jsonl_line": 9,
+        "independent_sensible_j": -9000.00000002283,
+        "t0_k": 352.31314350884037,
+        "t1_k": 289.7272360767413
+      }
+    ],
+    "denatures_above_k": 343.15,
+    "final_temperatures_k": [
+      297.8233218641094,
+      298.15
+    ],
+    "final_hydrolysed_g": [
+      0.0,
+      0.3818003595672507
+    ]
+  },
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 14,
+      "event": {
+        "converted_fraction": 0.8484452434827794,
+        "event": "enzyme_hydrolysed",
+        "family": "bromelain",
+        "hydrolysed_mass_g": 0.3818003595672507,
+        "material": "gelatine (dry sheets)",
+        "seconds": 2700.0,
+        "substrate": "gelatine protein",
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 7,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 87.55473956770481,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 10,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 16.577236076741315,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 11,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 25.0,
+        "vessel": 1
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 16,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 2.819990856282
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.001602997059008
+            }
+          ],
+          "boiling_point_k": 373.1823785397836,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [
+            {
+              "amount_g": 0.17800000000000038,
+              "bulk_density_g_per_ml": 1.01,
+              "material": "pineapple (fresh fruit)",
+              "position": "sunk",
+              "recipe_id": "food/pineapple",
+              "srgb": [
+                255,
+                255,
+                255
+              ]
+            }
+          ],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "a piece of {what} is at the bottom",
+              "key": "look.piece-bottom",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "term": {
+                      "en": "pineapple (fresh fruit)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 2820.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.03436308926780341
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.03436308926780341
+          },
+          "mass_g": 34.782,
+          "melting_point_k": 273.03271171129137,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 297.8233218641094,
+          "words": "The liquid is colourless and clear, a piece of pineapple (fresh fruit) is at the bottom."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 2.819682909392
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.001604206315069
+            }
+          ],
+          "boiling_point_k": 373.18237362932257,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [
+            {
+              "amount_g": 0.17800000000000038,
+              "bulk_density_g_per_ml": 1.01,
+              "material": "pineapple (fresh fruit)",
+              "position": "sunk",
+              "recipe_id": "food/pineapple",
+              "srgb": [
+                255,
+                255,
+                255
+              ]
+            }
+          ],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "a piece of {what} is at the bottom",
+              "key": "look.piece-bottom",
+              "slots": [
+                [
+                  "what",
+                  {
+                    "term": {
+                      "en": "pineapple (fresh fruit)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 2820.0,
+          "enzyme_hydrolysis": [
+            {
+              "converted_fraction": 0.8484452434827794,
+              "family": "bromelain",
+              "material": "gelatine (dry sheets)",
+              "substrate": "gelatine protein"
+            }
+          ],
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.03436308926780341
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.03436308926780341
+          },
+          "mass_g": 34.782,
+          "melting_point_k": 273.03272948980674,
+          "notes": [
+            {
+              "en": "The bounded enzyme model reports {percent}% conversion of {substrate} in {material}.",
+              "key": "scene.enzyme-conversion",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "85"
+                    }
+                  }
+                ],
+                [
+                  "substrate",
+                  {
+                    "term": {
+                      "en": "gelatine protein",
+                      "section": "substrate"
+                    }
+                  }
+                ],
+                [
+                  "material",
+                  {
+                    "term": {
+                      "en": "gelatine (dry sheets)",
+                      "section": "material"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear, a piece of pineapple (fresh fruit) is at the bottom. The bounded enzyme model reports 85% conversion of gelatine protein in gelatine (dry sheets)."
+        }
+      ]
+    }
+  }
+}

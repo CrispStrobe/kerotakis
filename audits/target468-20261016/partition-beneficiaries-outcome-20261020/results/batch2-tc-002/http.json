@@ -1,0 +1,7 @@
+{
+  "id": "batch2:tc-002",
+  "http_status": 200,
+  "elapsed_seconds": 3.417017698287964,
+  "response_sha256": "78c9a1adcdff422272cdf1f6484743c0e85e5dc13e9ad36e2d4181d9c6c73671",
+  "attempts": 1
+}

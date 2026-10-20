@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-20T08:38:20.475166+00:00",
+  "independent_assessment_sha256": "7a53282edc74ad873aa844d8f3c7ae81f8bc0e91f3b77a20c5c3328f4a332aba",
+  "parent_assessment_sha256": "826cc6d6d726f70c03f0736f915841d62eea41d328252628ae0e6cc34698e35a",
+  "parsed_assessments_equal": true,
+  "accepted_originals": [
+    "batch2:gs-014",
+    "batch2:gs-018",
+    "batch2:ki-002",
+    "batch2:tc-002",
+    "batch2:tc-009"
+  ],
+  "held_originals": [
+    "batch2:se-009"
+  ],
+  "SE009_corrected_source_cause": "Wrong-phase drain debit: existing aqueous silica copied to receiver while any-phase withdrawal consumes solid silica, leaving original source aqueous portion. No new dissolution event.",
+  "corrected_source_review": "audits/target468-20261016/aqueous-solubility-ownership-preparation-20261020/SOURCE-REVIEW.md",
+  "no_additional_engine_or_API_requests": true
+}

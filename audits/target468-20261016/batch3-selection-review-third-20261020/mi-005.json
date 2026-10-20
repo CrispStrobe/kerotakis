@@ -1,0 +1,2071 @@
+{
+  "original_id": "batch3-diverse:mi-005",
+  "title": "Carbonate and sulfate minerals do not share the same acid-test signal",
+  "original_forecast": "The carbonate route supplies inorganic carbon and potentially retained CO2; gypsum supplies calcium/sulfate without a stoichiometric carbon-gas source. Confirm gas identity from inventory rather than pressure alone.",
+  "original_limitations": [
+    "Pressure also depends on headspace state and temperature. Gypsum dissolution is limited by equilibrium, not expected to match the carbonate sample's dissolution extent."
+  ],
+  "original_script_sha256": "adafd246f3347ffce89af3c1753bfe2a3eb014ba69600f2f25510651c75cfd9b",
+  "raw_member_prefix": "batch3-diverse_mi-005",
+  "raw_sha256": {
+    "experiment.lab": "adafd246f3347ffce89af3c1753bfe2a3eb014ba69600f2f25510651c75cfd9b",
+    "stdout.jsonl": "8a78e1c224c0d8f5836fd3f9afc1c81cd0895f7fba15050a52df1325a0ac7cf7",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Can a gas observation distinguish a carbonate sample from gypsum without assuming that any dissolving white solid releases CO2?",
+      "original_instruction": "The carbonate route supplies inorganic carbon and potentially retained CO2; gypsum supplies calcium/sulfate without a stoichiometric carbon-gas source. Confirm gas identity from inventory rather than pressure alone.",
+      "assessment": "Carbonate contributes0.5 mmol additional inorganicC while gypsum contributes0.5 mmol sulfate; both retain separately counted airCO2. Actual gas identity/inventory, not pressure alone, distinguishes arms. Full original sealed C/Ca/S/H/O/Cl/N/charge closes every row, with actual temperature andnRT/V pressures. No carbonate dissolving trajectory or gypsum solubility equality is assumed.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Carbonate contributes0.5 mmol additional inorganicC while gypsum contributes0.5 mmol sulfate; both retain separately counted airCO2. Actual gas identity/inventory, not pressure alone, distinguishes arms. Full original sealed C/Ca/S/H/O/Cl/N/charge closes every row, with actual temperature andnRT/V pressures. No carbonate dissolving trajectory or gypsum solubility equality is assumed.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_instruction": "v2: sulfate mineral with no carbonate carbon",
+      "assessment": "Carbonate contributes0.5 mmol additional inorganicC while gypsum contributes0.5 mmol sulfate; both retain separately counted airCO2. Actual gas identity/inventory, not pressure alone, distinguishes arms. Full original sealed C/Ca/S/H/O/Cl/N/charge closes every row, with actual temperature andnRT/V pressures. No carbonate dissolving trajectory or gypsum solubility equality is assumed.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2137107965584235,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2137107965584235,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 0.0005,
+          "op": "add",
+          "species": "CaCO3",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0004999999999999784,
+              "charge": -1.2938047104483173e-16,
+              "C": 0.0004999999999999784,
+              "O": 2.2152107965584236,
+              "H": 4.427421593116846
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2152107965584236,
+              "charge": 0.0,
+              "C": 0.0005,
+              "Ca": 0.0005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 4.893526251078425e-06,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 9.410788622421137e-10,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.4767122766944948e-06,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 1.4158728955216881e-06,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.0004951064737489,
+                "phase": "solid",
+                "species": "CaCO3"
+              },
+              {
+                "moles": 2.2137073189050676,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 3.4785944345483606e-06,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 2.2137107965584235,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0004999999999999784,
+              "charge": -1.2938047104483173e-16,
+              "C": 0.0004999999999999784,
+              "O": 2.2152107965584236,
+              "H": 4.427421593116846
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2152107965584236,
+              "charge": 0.0,
+              "C": 0.0005,
+              "Ca": 0.0005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 4.893526251078425e-06,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 9.410788622421137e-10,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.4767122766944948e-06,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 1.4158728955216881e-06,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.0004951064737489,
+                "phase": "solid",
+                "species": "CaCO3"
+              },
+              {
+                "moles": 2.2137073189050676,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 3.4785944345483606e-06,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2137107965584235,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2137107965584235,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.2137107965584235,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "moles": 0.0005,
+          "op": "add",
+          "species": "gypsum",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 8.881784197001252e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0004999999999999784,
+              "charge": -1.2938047104483173e-16,
+              "C": 0.0004999999999999784,
+              "O": 2.2152107965584236,
+              "H": 4.427421593116846
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.2152107965584236,
+              "charge": 0.0,
+              "C": 0.0005,
+              "Ca": 0.0005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 4.893526251078425e-06,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 9.410788622421137e-10,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.4767122766944948e-06,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 1.4158728955216881e-06,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.0004951064737489,
+                "phase": "solid",
+                "species": "CaCO3"
+              },
+              {
+                "moles": 2.2137073189050676,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 3.4785944345483606e-06,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "O": 2.2167107965584236,
+              "S": 0.0005,
+              "H": 4.429421593116848
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.429421593116847,
+              "O": 2.2167107965584236,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.214710796558424,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "headspace_volume": 0.5,
+          "op": "seal",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -3.887671587242793e-16,
+              "O": 2.2237902585040805,
+              "Ca": 0.0004999999999999363,
+              "C": 0.0005081748089048011,
+              "H": 4.427421593116847
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.223790258503922,
+              "charge": 0.0,
+              "C": 0.0005081748089047153,
+              "Ca": 0.0005,
+              "N": 0.03229458257807749
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.984189643836263e-06,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 3.605915447237453e-08,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.581350277331507e-05,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 7.750803662095909e-07,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 5.343562547041e-07,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.0004910158103561,
+                "phase": "solid",
+                "species": "CaCO3"
+              },
+              {
+                "moles": 2.213702587449146,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 6.047157823270422e-07,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "O": 2.2167107965584236,
+              "S": 0.0005,
+              "H": 4.429421593116848
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.429421593116847,
+              "O": 2.2167107965584236,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 2.214710796558424,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "headspace_volume": 0.5,
+          "op": "seal",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -3.887671587242793e-16,
+              "O": 2.2237902585040805,
+              "Ca": 0.0004999999999999363,
+              "C": 0.0005081748089048011,
+              "H": 4.427421593116847
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.427421593116847,
+              "O": 2.223790258503922,
+              "charge": 0.0,
+              "C": 0.0005081748089047153,
+              "Ca": 0.0005,
+              "N": 0.03229458257807749
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 8.984189643836263e-06,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 3.605915447237453e-08,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.581350277331507e-05,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 7.750803662095909e-07,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 5.343562547041e-07,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 0.0004910158103561,
+                "phase": "solid",
+                "species": "CaCO3"
+              },
+              {
+                "moles": 2.213702587449146,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 6.047157823270422e-07,
+                "phase": "aqueous",
+                "species": "base_equivalents"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.1500703351909,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -4.499439015814843e-16,
+              "O": 2.2252902585040806,
+              "Ca": 0.0004999999999999442,
+              "C": 8.174808904865377e-06,
+              "H": 4.429421593116848,
+              "S": 0.0004999999999999442
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.429421593116847,
+              "O": 2.225290258503922,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005,
+              "N": 0.03229458257807749,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0004999999999999442,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 5.031063066363113e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.3069223171562728e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 4.932693438618813e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.0004999999999999442,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 7.54100543382e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.2147106658612596,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.307020966526129e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "moles": 0.0012,
+          "op": "add",
+          "species": "HCl",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -8.669280571194093e-16,
+              "O": 2.22379025850408,
+              "Ca": 0.0004999999999998796,
+              "Cl": 0.0012000000000001894,
+              "C": 0.0005081748089047582,
+              "H": 4.428621593116848
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.428621593116847,
+              "O": 2.223790258503922,
+              "charge": 0.0,
+              "C": 0.0005081748089047153,
+              "Ca": 0.0005,
+              "N": 0.03229458257807749,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0004999999999998796,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0012000000000001894,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 3.137464912883418e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.898422524042943e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0004767962613534,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.214210792660001,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0002000038984220874,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.1500703351909,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -4.499439015814843e-16,
+              "O": 2.2252902585040806,
+              "Ca": 0.0004999999999999442,
+              "C": 8.174808904865377e-06,
+              "H": 4.429421593116848,
+              "S": 0.0004999999999999442
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.429421593116847,
+              "O": 2.225290258503922,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005,
+              "N": 0.03229458257807749,
+              "C": 8.174808904715224e-06
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0004999999999999442,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 5.031063066363113e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.3069223171562728e-07,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 4.932693438618813e-12,
+                "phase": "aqueous",
+                "species": "CO3-2"
+              },
+              {
+                "moles": 0.0004999999999999442,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 7.54100543382e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.2147106658612596,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 1.307020966526129e-07,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "moles": 0.0012,
+          "op": "add",
+          "species": "HCl",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -8.669280571194093e-16,
+              "O": 2.22379025850408,
+              "Ca": 0.0004999999999998796,
+              "Cl": 0.0012000000000001894,
+              "C": 0.0005081748089047582,
+              "H": 4.428621593116848
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.428621593116847,
+              "O": 2.223790258503922,
+              "charge": 0.0,
+              "C": 0.0005081748089047153,
+              "Ca": 0.0005,
+              "N": 0.03229458257807749,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0004999999999998796,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0012000000000001894,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 3.137464912883418e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.898422524042943e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0004767962613534,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.214210792660001,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0002000038984220874,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15006189266694,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 5.624840870854797e-16,
+              "O": 2.2252902585040806,
+              "Ca": 0.0005000000000004143,
+              "Cl": 0.001200000000000356,
+              "C": 8.174808904865296e-06,
+              "H": 4.4306215931168484,
+              "S": 0.0005000000000000153
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.430621593116847,
+              "O": 2.225290258503922,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005,
+              "N": 0.03229458257807749,
+              "C": 8.174808904715224e-06,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0005000000000004143,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001200000000000356,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.028752707911945e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.339954610193584e-11,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0005000000000000153,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 7.671920234528e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.2147107965450243,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012000000133996665,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "instrument": "pressure_gauge",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -8.669280571194093e-16,
+              "O": 2.22379025850408,
+              "Ca": 0.0004999999999998796,
+              "Cl": 0.0012000000000001894,
+              "C": 0.0005081748089047582,
+              "H": 4.428621593116848
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.428621593116847,
+              "O": 2.223790258503922,
+              "charge": 0.0,
+              "C": 0.0005081748089047153,
+              "Ca": 0.0005,
+              "N": 0.03229458257807749,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0004999999999998796,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0012000000000001894,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 3.137464912883418e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.898422524042943e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0004767962613534,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.214210792660001,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0002000038984220874,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15006189266694,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 5.624840870854797e-16,
+              "O": 2.2252902585040806,
+              "Ca": 0.0005000000000004143,
+              "Cl": 0.001200000000000356,
+              "C": 8.174808904865296e-06,
+              "H": 4.4306215931168484,
+              "S": 0.0005000000000000153
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.430621593116847,
+              "O": 2.225290258503922,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005,
+              "N": 0.03229458257807749,
+              "C": 8.174808904715224e-06,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0005000000000004143,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001200000000000356,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.028752707911945e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.339954610193584e-11,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0005000000000000153,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 7.671920234528e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.2147107965450243,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012000000133996665,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "instrument": "pressure_gauge",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -8.669280571194093e-16,
+              "O": 2.22379025850408,
+              "Ca": 0.0004999999999998796,
+              "Cl": 0.0012000000000001894,
+              "C": 0.0005081748089047582,
+              "H": 4.428621593116848
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.428621593116847,
+              "O": 2.223790258503922,
+              "charge": 0.0,
+              "C": 0.0005081748089047153,
+              "Ca": 0.0005,
+              "N": 0.03229458257807749,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0004999999999998796,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0012000000000001894,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 3.137464912883418e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.898422524042943e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0004767962613534,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.214210792660001,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0002000038984220874,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15006189266694,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 5.624840870854797e-16,
+              "O": 2.2252902585040806,
+              "Ca": 0.0005000000000004143,
+              "Cl": 0.001200000000000356,
+              "C": 8.174808904865296e-06,
+              "H": 4.4306215931168484,
+              "S": 0.0005000000000000153
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.430621593116847,
+              "O": 2.225290258503922,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005,
+              "N": 0.03229458257807749,
+              "C": 8.174808904715224e-06,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0005000000000004143,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001200000000000356,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.028752707911945e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.339954610193584e-11,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0005000000000000153,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 7.671920234528e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.2147107965450243,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012000000133996665,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -8.669280571194093e-16,
+              "O": 2.22379025850408,
+              "Ca": 0.0004999999999998796,
+              "Cl": 0.0012000000000001894,
+              "C": 0.0005081748089047582,
+              "H": 4.428621593116848
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.428621593116847,
+              "O": 2.223790258503922,
+              "charge": 0.0,
+              "C": 0.0005081748089047153,
+              "Ca": 0.0005,
+              "N": 0.03229458257807749,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0004999999999998796,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0012000000000001894,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 3.137464912883418e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.898422524042943e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0004767962613534,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.214210792660001,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0002000038984220874,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15006189266694,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 5.624840870854797e-16,
+              "O": 2.2252902585040806,
+              "Ca": 0.0005000000000004143,
+              "Cl": 0.001200000000000356,
+              "C": 8.174808904865296e-06,
+              "H": 4.4306215931168484,
+              "S": 0.0005000000000000153
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.430621593116847,
+              "O": 2.225290258503922,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005,
+              "N": 0.03229458257807749,
+              "C": 8.174808904715224e-06,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0005000000000004143,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001200000000000356,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.028752707911945e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.339954610193584e-11,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0005000000000000153,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 7.671920234528e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.2147107965450243,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012000000133996665,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -8.669280571194093e-16,
+              "O": 2.22379025850408,
+              "Ca": 0.0004999999999998796,
+              "Cl": 0.0012000000000001894,
+              "C": 0.0005081748089047582,
+              "H": 4.428621593116848
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.428621593116847,
+              "O": 2.223790258503922,
+              "charge": 0.0,
+              "C": 0.0005081748089047153,
+              "Ca": 0.0005,
+              "N": 0.03229458257807749,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0004999999999998796,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0012000000000001894,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 3.137464912883418e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.898422524042943e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0004767962613534,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.214210792660001,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0002000038984220874,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15006189266694,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 5.624840870854797e-16,
+              "O": 2.2252902585040806,
+              "Ca": 0.0005000000000004143,
+              "Cl": 0.001200000000000356,
+              "C": 8.174808904865296e-06,
+              "H": 4.4306215931168484,
+              "S": 0.0005000000000000153
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.430621593116847,
+              "O": 2.225290258503922,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005,
+              "N": 0.03229458257807749,
+              "C": 8.174808904715224e-06,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0005000000000004143,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001200000000000356,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.028752707911945e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.339954610193584e-11,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0005000000000000153,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 7.671920234528e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.2147107965450243,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012000000133996665,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 13,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 5.952044412893542e-13,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": -8.669280571194093e-16,
+              "O": 2.22379025850408,
+              "Ca": 0.0004999999999998796,
+              "Cl": 0.0012000000000001894,
+              "C": 0.0005081748089047582,
+              "H": 4.428621593116848
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.428621593116847,
+              "O": 2.223790258503922,
+              "charge": 0.0,
+              "C": 0.0005081748089047153,
+              "Ca": 0.0005,
+              "N": 0.03229458257807749,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0004999999999998796,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.0012000000000001894,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 3.137464912883418e-05,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 3.898422524042943e-09,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0004767962613534,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.214210792660001,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0002000038984220874,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15006189266694,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "N": 0.032294582578672695,
+              "charge": 5.624840870854797e-16,
+              "O": 2.2252902585040806,
+              "Ca": 0.0005000000000004143,
+              "Cl": 0.001200000000000356,
+              "C": 8.174808904865296e-06,
+              "H": 4.4306215931168484,
+              "S": 0.0005000000000000153
+            },
+            "expected_explicit_input_totals": {
+              "H": 4.430621593116847,
+              "O": 2.225290258503922,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "S": 0.0005,
+              "N": 0.03229458257807749,
+              "C": 8.174808904715224e-06,
+              "Cl": 0.0012
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.016147291289336348,
+                "phase": "gas",
+                "species": "N2"
+              },
+              {
+                "moles": 0.004281556163923509,
+                "phase": "gas",
+                "species": "O2"
+              },
+              {
+                "moles": 0.0005000000000004143,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001200000000000356,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 5.028752707911945e-07,
+                "phase": "aqueous",
+                "species": "CO2(aq)"
+              },
+              {
+                "moles": 1.339954610193584e-11,
+                "phase": "aqueous",
+                "species": "HCO3-"
+              },
+              {
+                "moles": 0.0005000000000000153,
+                "phase": "aqueous",
+                "species": "SO4-2"
+              },
+              {
+                "moles": 7.671920234528e-06,
+                "phase": "gas",
+                "species": "CO2"
+              },
+              {
+                "moles": 2.2147107965450243,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0012000000133996665,
+                "phase": "aqueous",
+                "species": "H+"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 5.952044412893542e-13,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "Carbonate contributes0.5 mmol additional inorganicC while gypsum contributes0.5 mmol sulfate; both retain separately counted airCO2. Actual gas identity/inventory, not pressure alone, distinguishes arms. Full original sealed C/Ca/S/H/O/Cl/N/charge closes every row, with actual temperature andnRT/V pressures. No carbonate dissolving trajectory or gypsum solubility equality is assumed.",
+  "independent_calculations": {
+    "carbonate_arm_total_C_mol": 0.0005081748089047582,
+    "gypsum_arm_total_C_mol": 8.174808904865296e-06,
+    "trapped_air_C_per_arm_mol": 8.174808904865889e-06,
+    "gas_CO2_mol": [
+      0.0004767962613534,
+      7.671920234528e-06
+    ],
+    "aqueous_Ca_mol": [
+      0.0004999999999998796,
+      0.0005000000000004143
+    ]
+  },
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 8,
+      "event": {
+        "event": "gas_contained",
+        "moles": 0.00047626190509869593,
+        "species": "CO2",
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 9,
+      "event": {
+        "event": "gas_contained",
+        "moles": 1.3091480070800032e-07,
+        "species": "CO2",
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 10,
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 103.64838488749672,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 11,
+      "event": {
+        "event": "measured",
+        "instrument": "pressure_gauge",
+        "unit": "kPa",
+        "value": 101.32252775463127,
+        "vessel": 1
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 13,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 2.365201762543
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.04261834782677
+            }
+          ],
+          "boiling_point_k": 373.1748287522153,
+          "boundary": "sealed",
+          "bubbling": true,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "bubbles of gas are rising through it",
+              "key": "look.bubbling"
+            }
+          ],
+          "elapsed_s": 0.0,
+          "headspace_moles": 0.020905643714613256,
+          "headspace_volume_l": 0.5,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.040009034533370035
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.040009034533370035
+          },
+          "mass_g": 40.56350741748169,
+          "melting_point_k": 273.0600492987797,
+          "pressure_pa": 103648.38488749672,
+          "solids": [],
+          "temperature_k": 298.15,
+          "volume": 0.5,
+          "words": "The liquid is colourless and clear, bubbles of gas are rising through it."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 1.684671555071
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.06049554090139
+            },
+            {
+              "confidence": "computed",
+              "key": "pe",
+              "value": 16.13436725309
+            }
+          ],
+          "boiling_point_k": 373.18897411170195,
+          "boundary": "sealed",
+          "bubbling": true,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "bubbles of gas are rising through it",
+              "key": "look.bubbling"
+            }
+          ],
+          "elapsed_s": 0.0,
+          "headspace_moles": 0.020436519373494385,
+          "headspace_volume_l": 0.5,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.040018069207380755
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.040018069207380755
+          },
+          "mass_g": 40.59955141747784,
+          "melting_point_k": 273.006370771927,
+          "pressure_pa": 101322.52775463127,
+          "solids": [],
+          "temperature_k": 298.15006189266694,
+          "volume": 0.5,
+          "words": "The liquid is colourless and clear, bubbles of gas are rising through it."
+        }
+      ]
+    }
+  }
+}

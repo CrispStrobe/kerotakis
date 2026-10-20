@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-20T08:21:34.397990+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 296,
+  "source_qualified_selected_in_target": 292,
+  "additional_selections_needed_for_401": 109,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261020-reviewed-gas-light.json",
+  "catalog_sha256": "fef9beab530026197df528e7be7de4100cbf15c8082e9f38dc68cbac50d4760f",
+  "selection_receipt": "audits/target468-20261016/selection-expansion-third-20261020/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard-20261020-reviewed-expansion.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "All original bounded criteria reviewed; all old entries exact; missing-physics demonstrations excluded; historical per-entry source bindings, no uniform current-release or empirical claim."
+}

@@ -1,0 +1,1740 @@
+{
+  "original_id": "batch3-diverse:li-006",
+  "title": "Brightness and persistence can trade off",
+  "original_forecast": "Compare reported relative intensity and decay state over time. A brighter initial display must not be described as a larger total chemical yield without an independently supported photon/energy balance.",
+  "original_limitations": [
+    "The emission rate is a bounded temperature-dependent observable. Sampling points do not guarantee equal accumulated photons or fully consumed molecular reactants."
+  ],
+  "original_script_sha256": "84ab2ce09fe6ee2d09f6e999b7bd2bd92aa2b7fca6234e941480bb9f3347f7a0",
+  "raw_member_prefix": "batch3-diverse_li-006",
+  "raw_sha256": {
+    "experiment.lab": "84ab2ce09fe6ee2d09f6e999b7bd2bd92aa2b7fca6234e941480bb9f3347f7a0",
+    "stdout.jsonl": "a1ef89045abf3516a5e632ef3429810051c1c7cf03ea187d5729d9d44578eb9a",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Does warming a chemically emitting formulation increase its immediate intensity while shortening its persistence?",
+      "original_instruction": "Compare reported relative intensity and decay state over time. A brighter initial display must not be described as a larger total chemical yield without an independently supported photon/energy balance.",
+      "assessment": "Warm prepared formulation is initially brighter with shorter declared half-life; later cold arm persists more strongly. Each sample is independently reconstructed from owned formulation,peroxide,activation lot,time andactualchangingtemperature, not nominal fixed15/40C. Separate peroxide/water/retainedO2 ledger closes; no total accumulated photons, molecular yield or glow energy balance is inferred.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Warm prepared formulation is initially brighter with shorter declared half-life; later cold arm persists more strongly. Each sample is independently reconstructed from owned formulation,peroxide,activation lot,time andactualchangingtemperature, not nominal fixed15/40C. Separate peroxide/water/retainedO2 ledger closes; no total accumulated photons, molecular yield or glow energy balance is inferred.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_instruction": "v1: cooler formulation",
+      "assessment": "Warm prepared formulation is initially brighter with shorter declared half-life; later cold arm persists more strongly. Each sample is independently reconstructed from owned formulation,peroxide,activation lot,time andactualchangingtemperature, not nominal fixed15/40C. Separate peroxide/water/retainedO2 ledger closes; no total accumulated photons, molecular yield or glow energy balance is inferred.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "at": 288.15,
+          "moles": 1.6602830974188176,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "luminol_glow_solution",
+          "op": "add_material",
+          "recipe_id": "school/luminol-glow-solution",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 3.0,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "at": 313.15,
+          "moles": 1.6602830974188176,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 313.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "luminol_glow_solution",
+          "op": "add_material",
+          "recipe_id": "school/luminol-glow-solution",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 3.0,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 313.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "H2O2",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15071232905234,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 313.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3205661948376353,
+              "O": 1.6602830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "moles": 0.0001,
+          "op": "add",
+          "species": "H2O2",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15071232905234,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 313.1489315271141,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15071232905234,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 313.1489315271141,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "instrument": "thermometer",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15071232905234,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 313.1489315271141,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15071232905234,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 313.1489315271141,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 288.15071232905234,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 313.1489315271141,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602830974188176,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 0.0001,
+                "phase": "liquid",
+                "species": "H2O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "op": "wait",
+          "seconds": 120.0
+        },
+        "max_element_or_charge_residual": 4.440892098500626e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 289.681402618067,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602831315329298,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.996588588779542e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 1.7057056102293462e-08,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.8532547038196,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376357,
+              "O": 1.6604830974188178,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602835118068886,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.958561192914238e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 2.071940354288136e-07,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 4.440892098500626e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 289.681402618067,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602831315329298,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.996588588779542e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 1.7057056102293462e-08,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.8532547038196,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376357,
+              "O": 1.6604830974188178,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602835118068886,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.958561192914238e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 2.071940354288136e-07,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 4.440892098500626e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 289.681402618067,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602831315329298,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.996588588779542e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 1.7057056102293462e-08,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 310.8532547038196,
+            "elapsed_s": 120.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376357,
+              "O": 1.6604830974188178,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602835118068886,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.958561192914238e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 2.071940354288136e-07,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "op": "wait",
+          "seconds": 480.0
+        },
+        "max_element_or_charge_residual": 4.440892098500626e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 293.79302610595727,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602832923786208,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.980504019677515e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 9.747990161242999e-08,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 304.687004940443,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376357,
+              "O": 1.6604830974188178,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602848400109593,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.825740785841374e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 8.71296070793136e-07,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 15,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 4.440892098500626e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 293.79302610595727,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602832923786208,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.980504019677515e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 9.747990161242999e-08,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 304.687004940443,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376357,
+              "O": 1.6604830974188178,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602848400109593,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.825740785841374e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 8.71296070793136e-07,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "step": 16,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 4.440892098500626e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 293.79302610595727,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602832923786208,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.980504019677515e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 9.747990161242999e-08,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 304.687004940443,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376357,
+              "O": 1.6604830974188178,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602848400109593,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.825740785841374e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 8.71296070793136e-07,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 18,
+        "step": 17,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 4.440892098500626e-16,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 293.79302610595727,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602832923786208,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.980504019677515e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 9.747990161242999e-08,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 304.687004940443,
+            "elapsed_s": 600.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 3.3207661948376357,
+              "O": 1.6604830974188178,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 3.3207661948376352,
+              "O": 1.6604830974188176,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "school/luminol-glow-solution": 3.0
+            },
+            "contents": [
+              {
+                "moles": 1.6602848400109593,
+                "phase": "liquid",
+                "species": "water"
+              },
+              {
+                "moles": 9.825740785841374e-05,
+                "phase": "liquid",
+                "species": "H2O2"
+              },
+              {
+                "moles": 8.71296070793136e-07,
+                "phase": "gas",
+                "species": "O2"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 4.440892098500626e-16,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "Warm prepared formulation is initially brighter with shorter declared half-life; later cold arm persists more strongly. Each sample is independently reconstructed from owned formulation,peroxide,activation lot,time andactualchangingtemperature, not nominal fixed15/40C. Separate peroxide/water/retainedO2 ledger closes; no total accumulated photons, molecular yield or glow energy balance is inferred.",
+  "independent_calculations": {
+    "independent_emission_model_samples": [
+      {
+        "raw_jsonl_line": 6,
+        "vessel": 0,
+        "elapsed_s": 0,
+        "half_life_s": 76.97480899091029,
+        "relative_intensity": 0.07794757893726662,
+        "oxidant_moles": 0.0001,
+        "temperature": 288.15071232905234
+      },
+      {
+        "raw_jsonl_line": 7,
+        "vessel": 1,
+        "elapsed_s": 0,
+        "half_life_s": 23.98143988826047,
+        "relative_intensity": 0.25019348412591164,
+        "oxidant_moles": 0.0001,
+        "temperature": 313.1489315271141
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessel": 0,
+        "elapsed_s": 120.0,
+        "half_life_s": 71.25640338679595,
+        "relative_intensity": 0.02619550920458141,
+        "oxidant_moles": 9.996588588779542e-05,
+        "temperature": 289.681402618067
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessel": 1,
+        "elapsed_s": 120.0,
+        "half_life_s": 26.48437187145993,
+        "relative_intensity": 0.009758860050823963,
+        "oxidant_moles": 9.958561192914238e-05,
+        "temperature": 310.8532547038196
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessel": 0,
+        "elapsed_s": 600.0,
+        "half_life_s": 58.14358324595963,
+        "relative_intensity": 8.0609955519428e-05,
+        "oxidant_moles": 9.980504019677515e-05,
+        "temperature": 293.79302610595727
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessel": 1,
+        "elapsed_s": 600.0,
+        "half_life_s": 34.83472721082446,
+        "relative_intensity": 1.1053656213469294e-06,
+        "oxidant_moles": 9.825740785841374e-05,
+        "temperature": 304.687004940443
+      }
+    ],
+    "owned_peroxide_decomposition": [
+      {
+        "raw_jsonl_line": 12,
+        "vessel": 0,
+        "peroxide_consumed_mol": 3.4114112204582775e-08,
+        "water_formed_mol": 3.41141122017774e-08,
+        "retained_O2_formed_mol": 1.7057056102293462e-08,
+        "boundary": "open"
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessel": 1,
+        "peroxide_consumed_mol": 4.143880708576208e-07,
+        "water_formed_mol": 4.143880709683856e-07,
+        "retained_O2_formed_mol": 2.071940354288136e-07,
+        "boundary": "open"
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessel": 0,
+        "peroxide_consumed_mol": 1.6084569102027633e-07,
+        "water_formed_mol": 1.608456909885092e-07,
+        "retained_O2_formed_mol": 8.042284551013652e-08,
+        "boundary": "open"
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessel": 1,
+        "peroxide_consumed_mol": 1.3282040707286431e-06,
+        "water_formed_mol": 1.3282040707274234e-06,
+        "retained_O2_formed_mol": 6.641020353643224e-07,
+        "boundary": "open"
+      }
+    ]
+  },
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 6,
+      "event": {
+        "elapsed_s": 0.0,
+        "event": "chemiluminescence_observed",
+        "half_life_s": 76.97480899091029,
+        "oxidant_moles": 0.0001,
+        "relative_intensity": 0.07794757893726662,
+        "temperature": 288.15071232905234,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 7,
+      "event": {
+        "elapsed_s": 0.0,
+        "event": "chemiluminescence_observed",
+        "half_life_s": 23.98143988826047,
+        "oxidant_moles": 0.0001,
+        "relative_intensity": 0.25019348412591164,
+        "temperature": 313.1489315271141,
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 12,
+      "event": {
+        "elapsed_s": 120.0,
+        "event": "chemiluminescence_observed",
+        "half_life_s": 71.25640338679595,
+        "oxidant_moles": 9.996588588779542e-05,
+        "relative_intensity": 0.02619550920458141,
+        "temperature": 289.681402618067,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 12,
+      "event": {
+        "elapsed_s": 120.0,
+        "event": "chemiluminescence_observed",
+        "half_life_s": 26.48437187145993,
+        "oxidant_moles": 9.958561192914238e-05,
+        "relative_intensity": 0.009758860050823963,
+        "temperature": 310.8532547038196,
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 15,
+      "event": {
+        "elapsed_s": 600.0,
+        "event": "chemiluminescence_observed",
+        "half_life_s": 58.14358324595963,
+        "oxidant_moles": 9.980504019677515e-05,
+        "relative_intensity": 8.0609955519428e-05,
+        "temperature": 293.79302610595727,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 15,
+      "event": {
+        "elapsed_s": 600.0,
+        "event": "chemiluminescence_observed",
+        "half_life_s": 34.83472721082446,
+        "oxidant_moles": 9.825740785841374e-05,
+        "relative_intensity": 1.1053656213469294e-06,
+        "temperature": 304.687004940443,
+        "vessel": 1
+      }
+    },
+    {
+      "raw_jsonl_line": 8,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 15.000712329052362,
+        "vessel": 0
+      }
+    },
+    {
+      "raw_jsonl_line": 9,
+      "event": {
+        "event": "measured",
+        "instrument": "thermometer",
+        "unit": "°C",
+        "value": 39.99893152711411,
+        "vessel": 1
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 17,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 7.071130456271973
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 8.489254308514772e-08
+            }
+          ],
+          "boiling_point_k": 373.15000008711127,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "chemiluminescence": {
+            "elapsed_s": 600.0,
+            "half_life_s": 58.14358324595963,
+            "relative_intensity": 8.0609955519428e-05,
+            "temperature_k": 293.79302610595727
+          },
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 600.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.03300306151323501
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.03300306151323501
+          },
+          "mass_g": 32.91340100077984,
+          "melting_point_k": 273.14999968428447,
+          "notes": [
+            {
+              "en": "The luminol system is glowing blue at relative intensity {intensity}; its estimated half-life here is {half_life} seconds.",
+              "key": "scene.chemiluminescence",
+              "slots": [
+                [
+                  "intensity",
+                  {
+                    "number": {
+                      "text": "0.00"
+                    }
+                  }
+                ],
+                [
+                  "half_life",
+                  {
+                    "number": {
+                      "text": "58.1"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 293.79302610595727,
+          "words": "The liquid is colourless and clear. The luminol system is glowing blue at relative intensity 0.00; its estimated half-life here is 58.1 seconds."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.892608317846087
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.2805356749474271e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001314003,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "chemiluminescence": {
+            "elapsed_s": 600.0,
+            "half_life_s": 34.83472721082446,
+            "relative_intensity": 1.1053656213469294e-06,
+            "temperature_k": 304.687004940443
+          },
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 600.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.03300304205882792
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.03300304205882792
+          },
+          "mass_g": 32.91340100697037,
+          "melting_point_k": 273.14999952376854,
+          "notes": [
+            {
+              "en": "The luminol system is glowing blue at relative intensity {intensity}; its estimated half-life here is {half_life} seconds.",
+              "key": "scene.chemiluminescence",
+              "slots": [
+                [
+                  "intensity",
+                  {
+                    "number": {
+                      "text": "0.00"
+                    }
+                  }
+                ],
+                [
+                  "half_life",
+                  {
+                    "number": {
+                      "text": "34.8"
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 304.687004940443,
+          "words": "The liquid is colourless and clear. The luminol system is glowing blue at relative intensity 0.00; its estimated half-life here is 34.8 seconds."
+        }
+      ]
+    }
+  }
+}

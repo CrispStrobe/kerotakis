@@ -1,0 +1,1939 @@
+{
+  "original_id": "batch3-diverse:li-007",
+  "title": "A sunscreen model has spectral bands, not one universal shield factor",
+  "original_forecast": "Review band-specific incident and transmitted-state information rather than assigning the UVB protection factor to every wavelength. The water-only vessel is a formulation-omission control.",
+  "original_limitations": [
+    "This is a standard-film teaching model: it does not predict applied thickness, skin exposure, safety, photostability, or the protection of any real commercial product."
+  ],
+  "original_script_sha256": "ddb9d30e7055b167f088c343eea1802e31251af3d3dc1d9ec12045865c2931ac",
+  "raw_member_prefix": "batch3-diverse_li-007",
+  "raw_sha256": {
+    "experiment.lab": "ddb9d30e7055b167f088c343eea1802e31251af3d3dc1d9ec12045865c2931ac",
+    "stdout.jsonl": "3ceb02fbfbabfb7467b658c2e6b4f0178b2fbd4983edd5de3844a5681e8c89a9",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Does the same declared formulation attenuate UVA, UVB and visible input according to different model bands?",
+      "original_instruction": "Review band-specific incident and transmitted-state information rather than assigning the UVB protection factor to every wavelength. The water-only vessel is a formulation-omission control.",
+      "assessment": "Equal incident irradiance receives distinct supportedUVB/UVA declared standard-film attenuation factors. No visible550nm attenuation or waterUV absorption is inferred from absent events. Original model-domain question is answered within280–400nm only; no measured continuous spectrum, thickness, photostability, exposure or safety claim.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Equal incident irradiance receives distinct supportedUVB/UVA declared standard-film attenuation factors. No visible550nm attenuation or waterUV absorption is inferred from absent events. Original model-domain question is answered within280–400nm only; no measured continuous spectrum, thickness, photostability, exposure or safety claim.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_instruction": "v4: no sunscreen formulation",
+      "assessment": "Equal incident irradiance receives distinct supportedUVB/UVA declared standard-film attenuation factors. No visible550nm attenuation or waterUV absorption is inferred from absent events. Original model-domain question is answered within280–400nm only; no measured continuous spectrum, thickness, photostability, exposure or safety claim.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "sunscreen",
+          "op": "add_material",
+          "recipe_id": "cosmetic/broad-spectrum-sunscreen",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "sunscreen",
+          "op": "add_material",
+          "recipe_id": "cosmetic/broad-spectrum-sunscreen",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "sunscreen",
+          "op": "add_material",
+          "recipe_id": "cosmetic/broad-spectrum-sunscreen",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 1.0,
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "moles": 0.055509297807382736,
+          "op": "add",
+          "species": "water",
+          "vessel": 3
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "irradiance_w_m2": 1.0,
+          "op": "irradiate",
+          "vessel": 0,
+          "wavelength_nm": 305.0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "irradiance_w_m2": 1.0,
+          "op": "irradiate",
+          "vessel": 1,
+          "wavelength_nm": 365.0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "irradiance_w_m2": 1.0,
+          "op": "irradiate",
+          "vessel": 2,
+          "wavelength_nm": 550.0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "irradiance_w_m2": 1.0,
+          "op": "irradiate",
+          "vessel": 3,
+          "wavelength_nm": 305.0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 3
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 15,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.06661115736885928,
+              "O": 0.03330557868442964,
+              "charge": 0.0
+            },
+            "unresolved_g": {
+              "cosmetic/broad-spectrum-sunscreen": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.03330557868442964,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 0.11101859561476547,
+              "O": 0.055509297807382736,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.055509297807382736,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 0,
+    "max_unresolved_g_residual": 0
+  },
+  "interpretation": "Equal incident irradiance receives distinct supportedUVB/UVA declared standard-film attenuation factors. No visible550nm attenuation or waterUV absorption is inferred from absent events. Original model-domain question is answered within280–400nm only; no measured continuous spectrum, thickness, photostability, exposure or safety claim.",
+  "independent_calculations": {
+    "UVB_transmitted_fraction": 0.03333333333333333,
+    "UVA_transmitted_fraction": 0.1,
+    "visible550nm": "outside declared280–400nm model; absence is not unitytransmission",
+    "water_control305nm": "no installed UVattenuation materialrole",
+    "standard_film_mg_per_cm2": 2.0
+  },
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 8,
+      "event": {
+        "event": "irradiated",
+        "irradiance_w_m2": 1.0,
+        "photolysis_coupled": false,
+        "vessel": 0,
+        "wavelength_nm": 305.0
+      }
+    },
+    {
+      "raw_jsonl_line": 9,
+      "event": {
+        "event": "irradiated",
+        "irradiance_w_m2": 1.0,
+        "photolysis_coupled": false,
+        "vessel": 1,
+        "wavelength_nm": 365.0
+      }
+    },
+    {
+      "raw_jsonl_line": 10,
+      "event": {
+        "event": "irradiated",
+        "irradiance_w_m2": 1.0,
+        "photolysis_coupled": false,
+        "vessel": 2,
+        "wavelength_nm": 550.0
+      }
+    },
+    {
+      "raw_jsonl_line": 11,
+      "event": {
+        "event": "irradiated",
+        "irradiance_w_m2": 1.0,
+        "photolysis_coupled": false,
+        "vessel": 3,
+        "wavelength_nm": 305.0
+      }
+    },
+    {
+      "raw_jsonl_line": 8,
+      "event": {
+        "band": "UV-B",
+        "event": "uv_attenuated",
+        "material": "sunscreen lotion",
+        "mechanism": "the light is attenuated, not merely absorbed: the mineral filters (zinc oxide and titanium dioxide) scatter and absorb it, the organic filters absorb it, and what reaches the skin is the labelled fraction",
+        "transmitted_fraction": 0.03333333333333333,
+        "vessel": 0,
+        "wavelength_nm": 305.0
+      }
+    },
+    {
+      "raw_jsonl_line": 9,
+      "event": {
+        "band": "UV-A",
+        "event": "uv_attenuated",
+        "material": "sunscreen lotion",
+        "mechanism": "the light is attenuated, not merely absorbed: the mineral filters (zinc oxide and titanium dioxide) scatter and absorb it, the organic filters absorb it, and what reaches the skin is the labelled fraction",
+        "transmitted_fraction": 0.1,
+        "vessel": 1,
+        "wavelength_nm": 365.0
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 15,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.0010018054162487461
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.0010018054162487461
+          },
+          "mass_g": 1.0,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.0010018054162487461
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.0010018054162487461
+          },
+          "mass_g": 1.0,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 2,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.0010018054162487461
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.0010018054162487461
+          },
+          "mass_g": 1.0,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 3,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.0010030090270812437
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.0010030090270812437
+          },
+          "mass_g": 1.0,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        }
+      ]
+    }
+  }
+}

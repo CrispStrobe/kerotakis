@@ -1,0 +1,6 @@
+{
+  "reader_sha256": "1125a51499bef04a051e5f29031220f288139739b3275b28faf8b76a39007e79",
+  "failure": "MI005 first carbonate dissolution H deficit3.4785944e\u22126mol under incomplete reader composition map",
+  "cause": "base_equivalents is a built-in analytical coordinate declared in species.rs and omitted from registry-composition records; reader wrongly treated it as a formula-free species.",
+  "correction": "Pinned species.rs explicitly assigns oneH,oneO,negativecharge per basis equivalent. Add precisely this declared coordinate, retain measured freeOH separately and do not count it twice. No output/criterion/tolerance changes."
+}

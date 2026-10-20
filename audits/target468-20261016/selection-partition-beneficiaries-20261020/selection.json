@@ -1,0 +1,29 @@
+{
+  "schema": "kerotakis.scientific-selection-expansion.v1",
+  "utc": "2026-10-20T08:38:20.475166+00:00",
+  "previous_catalog": "audits/working-experiments-20261020-reviewed-gas-light.json",
+  "previous_catalog_sha256": "fef9beab530026197df528e7be7de4100cbf15c8082e9f38dc68cbac50d4760f",
+  "new_catalog": "audits/working-experiments-20261020-reviewed-partition-beneficiaries.json",
+  "new_catalog_sha256": "c8fd4a9086221138e263a73a4745a450fd773420dadb892a15fbdde817124594",
+  "all296_previous_entries_preserved_exactly": true,
+  "new_selected_originals": [
+    "batch2:gs-014",
+    "batch2:gs-018",
+    "batch2:ki-002",
+    "batch2:tc-002",
+    "batch2:tc-009"
+  ],
+  "new_scientific_selections": 5,
+  "unique_fixed468_before": 292,
+  "unique_fixed468_after": 297,
+  "catalog_entries": 301,
+  "additional_to401": 104,
+  "remaining_unselected_originals": 171,
+  "held_original": "batch2:se-009",
+  "held_cause": "Wrong-phase drain debit, not additional dissolution: see authenticated source review and actual observation5.",
+  "review_agreement": "audits/target468-20261016/partition-beneficiaries-outcome-20261020/independent-review-agreement.json",
+  "new_original_followups": 6,
+  "new_original_followups_selected": 5,
+  "additional_engine_or_API_executions_during_selection": 0,
+  "uniform_current_release_revalidation_claim": false
+}

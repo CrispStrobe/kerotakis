@@ -1,0 +1,1 @@
+{"script": "# GS-018: Recover captured carbon from an isolated carbonate solid\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 Ca(OH)2 0.001mol\nseal v1 100mL\nadd v1 CO2 0.0005mol\ninspect v1\nnew\nfilter v1 v2\nadd v1 water 100mL\nseal v1 100mL\nadd v1 HCl 0.003mol\nmeasure v1 pressure\ninspect\n"}

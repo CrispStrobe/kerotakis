@@ -1,0 +1,26 @@
+[
+  {
+    "original_id": "batch3-diverse:co-008",
+    "assessment": "co-008.json"
+  },
+  {
+    "original_id": "batch3-diverse:en-005",
+    "assessment": "en-005.json"
+  },
+  {
+    "original_id": "batch3-diverse:li-005",
+    "assessment": "li-005.json"
+  },
+  {
+    "original_id": "batch3-diverse:li-006",
+    "assessment": "li-006.json"
+  },
+  {
+    "original_id": "batch3-diverse:li-007",
+    "assessment": "li-007.json"
+  },
+  {
+    "original_id": "batch3-diverse:mi-005",
+    "assessment": "mi-005.json"
+  }
+]

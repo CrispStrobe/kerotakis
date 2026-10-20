@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-20T08:10:40.338940+00:00",
+  "source": "78a91bd4914d7db735d71a46696783bc360e1007",
+  "ci_run": 39279318029,
+  "ci25_pass": true,
+  "native_both_platforms_reviewed": true,
+  "required_test_names": [
+    "refused_drain_creates_no_receiver_and_moves_no_material",
+    "refused_extraction_preserves_the_numerical_reason_and_inventory",
+    "globally_invalid_transfer_state_keeps_error_and_rollback_contract",
+    "ordinary_supported_drain_retains_both_solute_shares_and_total",
+    "checked_layer_detection_and_mixing_preserve_refused_state",
+    "invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory",
+    "globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract",
+    "invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter",
+    "methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures",
+    "a_partial_sample_keeps_its_supported_peak_and_missing_data_note",
+    "checked_binary_lle_preserves_invalid_coordinate_and_group_errors",
+    "phase_scan_stops_at_the_first_failed_evaluation",
+    "checked_refusals_keep_the_invalid_coordinate_typed",
+    "checked_infinite_dilution_propagates_a_missing_group_without_mutation",
+    "missing_forward_interaction_is_a_named_refusal",
+    "reverse_interaction_does_not_stand_in_for_missing_direction",
+    "decomposition_water_does_not_make_bulk_peroxide_an_aqueous_medium",
+    "direct_solver_declines_peroxide_rich_medium_without_calling_engine",
+    "external_browser_hook_is_not_asked_to_solve_peroxide_matrix",
+    "underflowed_directional_weights_refuse_even_if_final_gammas_look_finite",
+    "underflowed_weights_cannot_supply_a_phase_verdict",
+    "ordinary_directional_weights_keep_the_existing_two_phase_control",
+    "nonrepresentable_interaction_factor_keeps_its_direction",
+    "dynamic_english_temperature_and_catalyst_messages_remain_exact",
+    "dynamic_temperature_windows_are_localized_at_multiple_coordinates",
+    "missing_ph_and_catalyst_alternatives_keep_localized_reasons",
+    "medium_light_and_unknown_solvent_labels_use_localized_explanations",
+    "required_and_forbidden_group_explanations_are_localized",
+    "gate_order_english_legacy_and_machine_identity_are_preserved",
+    "shipped_family_terms_and_all_gate_labels_have_catalogue_entries",
+    "blank_ph_caveat_is_in_the_actual_german_measurement",
+    "blank_ph_caveat_is_in_the_actual_french_measurement",
+    "english_blank_reading_and_legacy_caveat_are_preserved",
+    "localization_does_not_expand_the_admitted_blank_domain"
+  ],
+  "logs": [
+    {
+      "job": 118150487843,
+      "platform": "Test (native) (macos-latest)",
+      "bytes": 605784,
+      "sha256": "85e3a11e6440cafa91f7bdcd3921bffc678978984a67f8731b11b6d5b3726e3b",
+      "all34_required_named_controls_pass": true
+    },
+    {
+      "job": 118150487995,
+      "platform": "Test (native) (ubuntu-latest)",
+      "bytes": 603443,
+      "sha256": "a66f8b54268ec5e8be7152f2da0704ac991fdd4a48c026337050d67533705d45",
+      "all34_required_named_controls_pass": true
+    }
+  ],
+  "runtime_review": "Source scope and structured-message boundaries reviewed; saved fullCPU independently accepted; no chemical domain/parameter/extent changes.",
+  "deployment_claim": false
+}

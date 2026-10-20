@@ -1,0 +1,155 @@
+{
+  "frozen_utc": "2026-10-20T08:20:21.128999+00:00",
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "accepted_engine": {
+    "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
+    "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "authenticated_artifact_receipt_sha256": "36a6c9796fd403e96b19ac2ac94b2967dd409dd160bb79a1fe9db24bd95ba8ba",
+  "bound_to_authenticated_accepted_artifact": true,
+  "execution_prerequisite": "Actual partition production browser37+targeted7 PRODUCTION-ACCEPTED receipt; API/artifact acceptance alone does not trigger these original followups.",
+  "cases": [
+    {
+      "id": "batch2:gs-014",
+      "script": "# GS-014: Release and recapture ammonia inside one closed system\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NH4Cl 0.001mol\nseal v1 100mL\nmeasure v1 pressure\nadd v1 NaOH 0.001mol\nmeasure v1 ph\nmeasure v1 pressure\ninspect v1\nadd v1 HCl 0.001mol\nmeasure v1 ph\nmeasure v1 pressure\ninspect\n",
+      "script_sha256": "6645698bc7ed13a566e400b81053b92cdf4f7a835fa19404e0449a2ea3b9b6b5",
+      "original_forecast": "Base favours NH3; subsequent acid returns nitrogen toward ammonium and lowers its gas-phase share without removing total nitrogen.",
+      "original_acceptance_checks": [
+        {
+          "id": "GS-014-C1",
+          "criterion": "Track NH3 gas separately from ammonium and dissolved ammonia.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-014-C2",
+          "criterion": "Nitrogen is conserved through the closed acid\u2013base cycle.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Neutralisation heat affects pressure; gas-species accounting is essential."
+      ]
+    },
+    {
+      "id": "batch2:gs-018",
+      "script": "# GS-018: Recover captured carbon from an isolated carbonate solid\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 Ca(OH)2 0.001mol\nseal v1 100mL\nadd v1 CO2 0.0005mol\ninspect v1\nnew\nfilter v1 v2\nadd v1 water 100mL\nseal v1 100mL\nadd v1 HCl 0.003mol\nmeasure v1 pressure\ninspect\n",
+      "script_sha256": "a84ebd056148ee1683feb853028a573a93b134438a4b81882946c3d0e0f9ca2b",
+      "original_forecast": "Captured carbonate carbon should remain with the isolated solid and reappear as CO2/dissolved carbon on acidification; uncaptured carbon stays in the earlier liquid/gas accounts.",
+      "original_acceptance_checks": [
+        {
+          "id": "GS-018-C1",
+          "criterion": "Quantify carbon in the first solid before assigning recaptured gas to it.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "GS-018-C2",
+          "criterion": "Sum carbon over both vessels and any boundary transfer during filtration.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Filtration and resealing may alter headspace inventory; the carbon ledger, not pressure alone, establishes recovery."
+      ]
+    },
+    {
+      "id": "batch2:ki-002",
+      "script": "# KI-002: Removing a solid catalyst interrupts an ongoing reaction\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 H2O2 0.001mol\nadd v1 MnO2 0.001g\nnew\nadd v2 water 100mL\nadd v2 H2O2 0.001mol\nadd v2 MnO2 0.001g\nwait 10s\nnew\nfilter v1 v3\ninspect\nwait 60s\ninspect\n",
+      "script_sha256": "56c2b530111e0cf1ec8ed7fc33f9287047be8d0f69a3011f0096ccc5c3d10498",
+      "original_forecast": "The catalyst-free filtrate should consume less additional peroxide than the unfiltered control, after correcting for their inventories at filtration.",
+      "original_acceptance_checks": [
+        {
+          "id": "KI-002-C1",
+          "criterion": "Record the post-filtration starting peroxide in v3.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KI-002-C2",
+          "criterion": "Distinguish slowed uncatalysed reaction from a claim of absolutely zero decomposition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Any catalyst transfer or dissolved catalytic species would confound ideal physical removal."
+      ]
+    },
+    {
+      "id": "batch2:se-009",
+      "script": "# SE-009: Recover three physical fractions from an immiscible liquid\u2013solid mixture\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 hexane 20mL\nadd v1 SiO2 1g\nnew\ndrain v1 v2\nnew\nfilter v1 v3\ninspect\n",
+      "script_sha256": "e1a9c24c63fc3c3eca32e6ebf76e57e5c7815e95f062df019ce0efb134a2c8cc",
+      "original_forecast": "A lower aqueous fraction, an organic liquid fraction and an insoluble solid residue should be distinguishable, subject to the operators\u2019 actual phase semantics.",
+      "original_acceptance_checks": [
+        {
+          "id": "SE-009-C1",
+          "criterion": "Identify the composition of each destination rather than assigning it from vessel number.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "SE-009-C2",
+          "criterion": "Close water, hexane, salt and silica balances across all three vessels.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Interfacial trapping, emulsions and solid entrainment may be outside the ideal model."
+      ]
+    },
+    {
+      "id": "batch2:tc-002",
+      "script": "# TC-002: Neutralisation heat is limited by the smaller reagent budget\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 50mL\nadd v1 HCl 0.001mol\nnew\nadd v2 water 50mL\nadd v2 HCl 0.002mol\nnew\nadd v3 water 50mL\nadd v3 NaOH 0.0005mol\nnew\nadd v4 water 50mL\nadd v4 NaOH 0.0005mol\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v3 thermometer\nmeasure v4 thermometer\ndecant v3 v1 1\ndecant v4 v2 1\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 calorimeter\nmeasure v2 calorimeter\nmeasure v1 ph\nmeasure v2 ph\ninspect\n",
+      "script_sha256": "0ff9a164517d2b50a0d017de533a89275be78b4c6095e49dcde6867a313fcf9b",
+      "original_forecast": "Both mixtures can neutralise approximately 0.0005 mol of hydroxide, so the neutralisation contribution should be similar rather than doubled. The second mixture retains more excess acid.",
+      "original_acceptance_checks": [
+        {
+          "id": "TC-002-C1",
+          "criterion": "Calculate temperature changes against each pair of measured pre-mixing temperatures and heat capacities.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TC-002-C2",
+          "criterion": "Confirm the same hydroxide consumption but different residual acidity.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Dilution heat and different initial solution temperatures can affect raw temperature rises; raw final temperatures are not reaction heats."
+      ]
+    },
+    {
+      "id": "batch2:tc-009",
+      "script": "# TC-009: Equal neutralisation extent, different thermal mass\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 25mL\nadd v1 HCl 0.001mol\nnew\nadd v2 water 100mL\nadd v2 HCl 0.001mol\nnew\nadd v3 water 25mL\nadd v3 NaOH 0.001mol\nnew\nadd v4 water 100mL\nadd v4 NaOH 0.001mol\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v3 thermometer\nmeasure v4 thermometer\ndecant v3 v1 1\ndecant v4 v2 1\nmeasure v1 thermometer\nmeasure v2 thermometer\nmeasure v1 calorimeter\nmeasure v2 calorimeter\ninspect\n",
+      "script_sha256": "26dc12049c8ac05bacc4cdf686dafebba6e897f7cf984d893c83db5dd3da56b6",
+      "original_forecast": "Both arms can neutralise 0.001 mol, but the less dilute arm should show the larger mixing-corrected temperature rise because it has a smaller thermal mass.",
+      "original_acceptance_checks": [
+        {
+          "id": "TC-009-C1",
+          "criterion": "Compare heat-capacity-weighted pre-mixing baselines with final temperatures.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TC-009-C2",
+          "criterion": "Distinguish approximately equal neutralisation energy from unequal temperature changes; do not demand an exact fourfold ratio.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "Different concentrations introduce activity and dilution-enthalpy effects; total solution heat capacities are not exactly proportional to water volume."
+      ]
+    }
+  ],
+  "new_original_followups": 6,
+  "prior_c446_failures_preserved": true,
+  "scientific_selection_automatic": false
+}

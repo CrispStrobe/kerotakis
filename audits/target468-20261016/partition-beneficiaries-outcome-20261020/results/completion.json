@@ -1,0 +1,49 @@
+{
+  "cases": [
+    {
+      "id": "batch2:gs-014",
+      "http_status": 200,
+      "elapsed_seconds": 3.374836267903447,
+      "response_sha256": "2d7fc5d70300ff884e5288cc77e653fa743b5f1c24eada86ebe11bda1ea7043d",
+      "attempts": 1
+    },
+    {
+      "id": "batch2:gs-018",
+      "http_status": 200,
+      "elapsed_seconds": 3.36571092531085,
+      "response_sha256": "958d5f0f20df1dd6470abeabd83c3f75721fd6e7e7d4e2b6146ba31487471695",
+      "attempts": 1
+    },
+    {
+      "id": "batch2:ki-002",
+      "http_status": 200,
+      "elapsed_seconds": 3.345446838065982,
+      "response_sha256": "99933b124810627c7d168cdf9f64ed31727dffa37ee9d692a023561da5632e7d",
+      "attempts": 1
+    },
+    {
+      "id": "batch2:se-009",
+      "http_status": 200,
+      "elapsed_seconds": 3.6646782886236906,
+      "response_sha256": "b6f571b110c035c9a5dcf84ff5ad891d21d5c863f665b8823235ebbfb1ef2d13",
+      "attempts": 1
+    },
+    {
+      "id": "batch2:tc-002",
+      "http_status": 200,
+      "elapsed_seconds": 3.417017698287964,
+      "response_sha256": "78c9a1adcdff422272cdf1f6484743c0e85e5dc13e9ad36e2d4181d9c6c73671",
+      "attempts": 1
+    },
+    {
+      "id": "batch2:tc-009",
+      "http_status": 200,
+      "elapsed_seconds": 3.213615393266082,
+      "response_sha256": "bbc771b08790996870f11e57c1f0ffb531408a72a687f20f22906b5548555fc8",
+      "attempts": 1
+    }
+  ],
+  "physical_assessment": "pending independent owned material and phase/energy review",
+  "catalog_additions": 0,
+  "no_retries": true
+}

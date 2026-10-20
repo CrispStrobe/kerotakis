@@ -1,0 +1,1 @@
+{"script": "# SE-009: Recover three physical fractions from an immiscible liquid–solid mixture\n# Design only: predictions below are not measured observations.\nregister lv3\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 hexane 20mL\nadd v1 SiO2 1g\nnew\ndrain v1 v2\nnew\nfilter v1 v3\ninspect\n"}

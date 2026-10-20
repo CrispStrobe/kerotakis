@@ -1,0 +1,2520 @@
+{
+  "original_id": "batch3-diverse:co-008",
+  "title": "Fatty soap and generic detergent are not interchangeable in hard water",
+  "original_forecast": "Only the declared fatty-soap equivalent supports the aggregate calcium-soap binding claim. A generic detergent role must not automatically be interpreted as sodium stearate.",
+  "original_limitations": [
+    "The fatty soap is an explicitly unresolved equivalent, not a complete commercial formulation. Scum mass and sodium return must be reconciled from actual output."
+  ],
+  "original_script_sha256": "250ae2b976c4442f77e91edf9a64ded4e88b3e4b924ecc410be7ca7f9d36a344",
+  "raw_member_prefix": "batch3-diverse_co-008",
+  "raw_sha256": {
+    "experiment.lab": "250ae2b976c4442f77e91edf9a64ded4e88b3e4b924ecc410be7ca7f9d36a344",
+    "stdout.jsonl": "4cda6604a21fa0d9367fac103c156a97ec93914c0a6bdfede0275a5d59305a8f",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "status": "candidate_supported_original_bounded_criteria_met_pending_parent_review",
+  "no_catalog_selection": true,
+  "criteria": {
+    "question": {
+      "original_criterion": "Does a declared fatty-carboxylate equivalent behave differently from a generic surfactant recipe in calcium-containing water?",
+      "original_instruction": "Only the declared fatty-soap equivalent supports the aggregate calcium-soap binding claim. A generic detergent role must not automatically be interpreted as sodium stearate.",
+      "assessment": "Only declaredfattysoap+Ca produces conserved aggregate scum; genericdishsoap+Ca retainsCa and no scum, fattysoapwithoutCa remains unchanged. Exactly2soap equivalents/Ca return2Na, consumedoriginalsoap+Ca−releasedNa reproduces0.303509gscum and remaining0.09354gsoap. Fullresolvedelement/charge plusCa/Na/ligand-equivalent/aggregate-mass ownership, no invented unresolved molecularformula. Controls have10/10/0s clocks; no equalstir history invented. Nominalmassoffset2microgram perCaCl2arm is separately predicted from110.98 versus110.984g/mol registryentries, not hidden in enlargedtolerance.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "inventory": {
+      "original_criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+      "original_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+      "assessment": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "coverage": {
+      "original_criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+      "original_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+      "assessment": "Only declaredfattysoap+Ca produces conserved aggregate scum; genericdishsoap+Ca retainsCa and no scum, fattysoapwithoutCa remains unchanged. Exactly2soap equivalents/Ca return2Na, consumedoriginalsoap+Ca−releasedNa reproduces0.303509gscum and remaining0.09354gsoap. Fullresolvedelement/charge plusCa/Na/ligand-equivalent/aggregate-mass ownership, no invented unresolved molecularformula. Controls have10/10/0s clocks; no equalstir history invented. Nominalmassoffset2microgram perCaCl2arm is separately predicted from110.98 versus110.984g/mol registryentries, not hidden in enlargedtolerance.",
+      "result": "candidate_met_pending_parent_review"
+    },
+    "controls": {
+      "original_criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+      "original_instruction": "v2: generic detergent; v3: soap without added calcium",
+      "assessment": "Only declaredfattysoap+Ca produces conserved aggregate scum; genericdishsoap+Ca retainsCa and no scum, fattysoapwithoutCa remains unchanged. Exactly2soap equivalents/Ca return2Na, consumedoriginalsoap+Ca−releasedNa reproduces0.303509gscum and remaining0.09354gsoap. Fullresolvedelement/charge plusCa/Na/ligand-equivalent/aggregate-mass ownership, no invented unresolved molecularformula. Controls have10/10/0s clocks; no equalstir history invented. Nominalmassoffset2microgram perCaCl2arm is separately predicted from110.98 versus110.984g/mol registryentries, not hidden in enlargedtolerance.",
+      "result": "candidate_met_pending_parent_review"
+    }
+  },
+  "inventory": {
+    "domain": "Explicit additions, pinned recipe expansion, all resolved elemental/charge ownership, exact unresolved aggregate mass, actual contained gas and sealed dry air. CO008 additionally owns allCa/Na/declared soap-ligand equivalents, with no invented aggregate molecularformula. No gas export or unknown event admitted. Free-ion readback is not counted twice over analytical basis contents.",
+    "trace": [
+      {
+        "raw_jsonl_line": 1,
+        "step": 0,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 2,
+        "step": 1,
+        "operator": {
+          "op": "new_vessel"
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 3,
+        "step": 2,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 4,
+        "step": 3,
+        "operator": {
+          "moles": 0.0005,
+          "op": "add",
+          "species": "CaCl2",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 0,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34855516560185,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 5,
+        "step": 4,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "fatty_soap",
+          "op": "add_material",
+          "recipe_id": "prepared/fatty-soap-equivalent",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.4,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34855516560185,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 6,
+        "step": 5,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34855516560185,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 7,
+        "step": 6,
+        "operator": {
+          "moles": 0.0005,
+          "op": "add",
+          "species": "CaCl2",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 0,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34855516560185,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.34855516560185,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 8,
+        "step": 7,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "dish_soap",
+          "op": "add_material",
+          "recipe_id": "household/dish-soap-surrogate",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.4,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34855516560185,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.3472887226485,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {},
+            "expected_explicit_input_totals": {},
+            "unresolved_g": {},
+            "contents": []
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 9,
+        "step": 8,
+        "operator": {
+          "moles": 2.7671384956980294,
+          "op": "add",
+          "species": "water",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34855516560185,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.3472887226485,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0
+            },
+            "unresolved_g": {},
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 10,
+        "step": 9,
+        "operator": {
+          "basis": "mass_fraction",
+          "material": "fatty_soap",
+          "op": "add_material",
+          "recipe_id": "prepared/fatty-soap-equivalent",
+          "recipe_version": 1,
+          "sample_seed": 0,
+          "total_amount": 0.4,
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34855516560185,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.3472887226485,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 11,
+        "step": 10,
+        "operator": {
+          "op": "stir",
+          "rpm": 300.0,
+          "seconds": 10.0,
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34691284823367,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.3472887226485,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 12,
+        "step": 11,
+        "operator": {
+          "op": "stir",
+          "rpm": 300.0,
+          "seconds": 10.0,
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34691284823367,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.345667245905,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 13,
+        "step": 12,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34691284823367,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.345667245905,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 14,
+        "step": 13,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 1
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34691284823367,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.345667245905,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 15,
+        "step": 14,
+        "operator": {
+          "instrument": "eyes",
+          "op": "measure",
+          "vessel": 2
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34691284823367,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.345667245905,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 16,
+        "step": 15,
+        "operator": {
+          "instrument": "conductivity_meter",
+          "op": "measure",
+          "vessel": 0
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34691284823367,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.345667245905,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "raw_jsonl_line": 17,
+        "step": 16,
+        "operator": {
+          "op": "inspect"
+        },
+        "max_element_or_charge_residual": 2.168404344971009e-19,
+        "max_unresolved_g_residual": 2.7755575615628914e-17,
+        "vessels": [
+          {
+            "id": 0,
+            "temperature_k": 298.34691284823367,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Cl": 0.001,
+              "charge": 0.0,
+              "Na": 0.0013052274358807026,
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "soap_ligand_equivalent": 0.0013052274358807026,
+              "Ca": 0.0005
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Na+"
+              },
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "temperature_k": 298.345667245905,
+            "elapsed_s": 10.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "Ca": 0.0005,
+              "charge": 0.0,
+              "Cl": 0.001,
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.5698029419927835,
+              "O": 2.7849014709963917,
+              "charge": 0.0,
+              "Ca": 0.0005,
+              "Cl": 0.001
+            },
+            "unresolved_g": {
+              "household/dish-soap-surrogate": 0.07999999999999999
+            },
+            "contents": [
+              {
+                "moles": 0.0005,
+                "phase": "aqueous",
+                "species": "Ca+2"
+              },
+              {
+                "moles": 0.001,
+                "phase": "aqueous",
+                "species": "Cl-"
+              },
+              {
+                "moles": 2.7849014709963917,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "temperature_k": 298.15,
+            "elapsed_s": 0.0,
+            "actual_elemental_and_macromolecule_carrier_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "expected_explicit_input_totals": {
+              "H": 5.534276991396059,
+              "O": 2.7671384956980294,
+              "charge": 0.0,
+              "Na": 0.0013052274358807024,
+              "soap_ligand_equivalent": 0.0013052274358807024
+            },
+            "unresolved_g": {
+              "prepared/fatty-soap-equivalent": 0.4
+            },
+            "contents": [
+              {
+                "moles": 2.7671384956980294,
+                "phase": "liquid",
+                "species": "water"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "max_element_or_charge_residual": 2.168404344971009e-19,
+    "max_unresolved_g_residual": 2.7755575615628914e-17
+  },
+  "interpretation": "Only declaredfattysoap+Ca produces conserved aggregate scum; genericdishsoap+Ca retainsCa and no scum, fattysoapwithoutCa remains unchanged. Exactly2soap equivalents/Ca return2Na, consumedoriginalsoap+Ca−releasedNa reproduces0.303509gscum and remaining0.09354gsoap. Fullresolvedelement/charge plusCa/Na/ligand-equivalent/aggregate-mass ownership, no invented unresolved molecularformula. Controls have10/10/0s clocks; no equalstir history invented. Nominalmassoffset2microgram perCaCl2arm is separately predicted from110.98 versus110.984g/mol registryentries, not hidden in enlargedtolerance.",
+  "independent_calculations": {
+    "per_row_mass_equivalent_and_metal_exchange": [
+      {
+        "raw_jsonl_line": 5,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 6,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 7,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 8,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 9,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 10,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 11,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 12,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 13,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 14,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 15,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 16,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      },
+      {
+        "raw_jsonl_line": 17,
+        "consumed_original_soap_g": 0.30645999999999995,
+        "remaining_original_soap_g": 0.09354000000000007,
+        "computed_scum_g": 0.303509,
+        "released_Na_mol": 0.001,
+        "bound_Ca_mol": 0.0005
+      }
+    ],
+    "nominal_mass_readback_offset": [
+      {
+        "raw_jsonl_line": 1,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 1,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 2,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 2,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 2,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 3,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 49.85,
+        "input_nominal_mass_g": 49.85,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 3,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 3,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 4,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 49.905492,
+        "input_nominal_mass_g": 49.90549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 4,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 4,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 5,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 5,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 5,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 6,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 6,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 49.85,
+        "input_nominal_mass_g": 49.85,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 6,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 7,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 7,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 49.905492,
+        "input_nominal_mass_g": 49.90549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 7,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 8,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 8,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 8,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 0,
+        "input_nominal_mass_g": 0.0,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 9,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 9,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 9,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 49.85,
+        "input_nominal_mass_g": 49.85,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 10,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 10,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 10,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 50.25,
+        "input_nominal_mass_g": 50.25,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 11,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 11,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 11,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 50.25,
+        "input_nominal_mass_g": 50.25,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 12,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 50.25,
+        "input_nominal_mass_g": 50.25,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 13,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 13,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 13,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 50.25,
+        "input_nominal_mass_g": 50.25,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 14,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 14,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 14,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 50.25,
+        "input_nominal_mass_g": 50.25,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 15,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 50.25,
+        "input_nominal_mass_g": 50.25,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 16,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 16,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 16,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 50.25,
+        "input_nominal_mass_g": 50.25,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      },
+      {
+        "raw_jsonl_line": 17,
+        "vessel": 0,
+        "sum_owned_nominal_mass_g": 50.305491999999994,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 1.9999999949504854e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 17,
+        "vessel": 1,
+        "sum_owned_nominal_mass_g": 50.305492,
+        "input_nominal_mass_g": 50.30549,
+        "observed_nominal_mass_offset_g": 2.0000000020559128e-06,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 2.0000000000024444e-06
+      },
+      {
+        "raw_jsonl_line": 17,
+        "vessel": 2,
+        "sum_owned_nominal_mass_g": 50.25,
+        "input_nominal_mass_g": 50.25,
+        "observed_nominal_mass_offset_g": 0.0,
+        "independently_predicted_registry_formula_versus_ion_mass_offset_g": 0.0
+      }
+    ],
+    "source_data_gap": {
+      "CaCl2_g_per_mol": 110.98,
+      "Ca_ion_plus_two_Cl_ions_g_per_mol": 110.98400000000001,
+      "offset_per_0_5_mmol_g": 2.0000000000024444e-06,
+      "interpretation": "FormalCa/Cl/Na/soap-equivalent conservation andscumexchange close. Roundedregistrymolecule/ion masses produce2microgram nominalmassoffset perarm; no exact physicalgramclosure or empiricalmasscalibration claimed."
+    }
+  },
+  "event_evidence": [
+    {
+      "raw_jsonl_line": 5,
+      "event": {
+        "aggregate_mass_g": 0.303509,
+        "divalent_ion_moles": 0.0005,
+        "event": "soap_scum_formed",
+        "vessel": 0
+      }
+    }
+  ],
+  "final_scene": {
+    "raw_jsonl_line": 16,
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.991079287981
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.02006029531817
+            }
+          ],
+          "boiling_point_k": 373.1707142861872,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 10.0,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.050093540000000006
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.050093540000000006
+          },
+          "mass_g": 50.305491999999994,
+          "melting_point_k": 273.07495044548807,
+          "pressure_pa": 101325.0,
+          "soap_scum": {
+            "aggregate_mass_g": 0.303509,
+            "divalent_ion_moles": 0.0005
+          },
+          "solids": [],
+          "temperature_k": 298.34691284823367,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.971165666616
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 0.02989844852595
+            }
+          ],
+          "boiling_point_k": 373.1654712033682,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 10.0,
+          "id": 1,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.05039863279157863
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.05039863279157863
+          },
+          "mass_g": 50.305492,
+          "melting_point_k": 273.0939418777889,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.345667245905,
+          "words": "The liquid is colourless and clear."
+        },
+        {
+          "badges": [
+            {
+              "confidence": "computed",
+              "key": "ph",
+              "value": 6.997375771104036
+            },
+            {
+              "confidence": "computed",
+              "key": "ionic_strength",
+              "value": 1.006060803128269e-07
+            }
+          ],
+          "boiling_point_k": 373.1500001032355,
+          "boundary": "open",
+          "bubbling": false,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            }
+          ],
+          "elapsed_s": 0.0,
+          "id": 2,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.0504
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0.0,
+            "colour_word": "colourless",
+            "path_length_cm": 4.0,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.0504
+          },
+          "mass_g": 50.25,
+          "melting_point_k": 273.1499996258458,
+          "pressure_pa": 101325.0,
+          "solids": [],
+          "temperature_k": 298.15,
+          "words": "The liquid is colourless and clear."
+        }
+      ]
+    }
+  }
+}

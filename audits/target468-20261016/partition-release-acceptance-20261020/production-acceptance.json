@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-20T08:20:25.273498+00:00",
+  "source": "dacf76513328c2226e2f5133a79fb9af84343431",
+  "engine": {
+    "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
+    "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "unchanged_API_controls": 11,
+  "unchanged_browser_controls": 37,
+  "fresh_targeted_browser_controls": 7,
+  "actual_five_asset_hashes_verified": true,
+  "targeted_report_sha256": "18c8242ed3bf43ab2d4a4174c4b24985a31933f120f7f272daab4b9b749340b9",
+  "targeted_manifest_sha256": "72d4067754a118c0affc2f01aa160de8b70ea8fdf55ce0b6b82401d362b40ca0",
+  "unchanged_browser_acceptance_sha256": "2640dfa09e68b9dbdaa5220ac3304508425cd7b8022ae7404f78ab216d0c7204",
+  "original_experiment_requests": 0,
+  "scientific_catalog_additions": 0,
+  "qualification": "Confirms checked methanol/phase consumer implementation, owned drain inventories and explicit peroxide medium admission; independent reference agreement is not empirical retention/activity/kinetics calibration."
+}

@@ -1,0 +1,11 @@
+# Phase-owned drain and mixing repair —2026-10-20
+
+[Source diagnosis](../aqueous-solubility-ownership-preparation-20261020/SOURCE-REVIEW.md) proves original SE009 loses solid silica when draining an existing dissolved share; no new silica dissolution occurs. Current saturation already budgets liquid water correctly. Do not retune its solubility or original protocol.
+
+[Draft PR846](https://github.com/CrispStrobe/kerotakis/pull/846) preserves the planned phase in Drain and explicitly debitsSolid at three direct mixing writers. Solution amounts, curves, parameter tables, admissions and provenance semantics remain unchanged. Tests-only baseline `23958fb6` and candidate `b4daecf7` contain identical eight controls. The first prepared baseline `0d507174`/candidate `f970a516` was superseded before any execution after independent static review required delta validation before apply; those commits remain intact.
+
+Frozen expectation: six genuine phase-inventory baseline failures, two existing positives and eight repaired passes. These are expectations, not observed results. The frozen plan/worker bind source/tree, exact fixture bytes and actual supplied lock. Hosted execution is CPU-only, bounded to two CPUs, with memory/disk checks and no original experiment calls. `review_saved.py --run-dir RUN_DIRECTORY` authenticates collected member hashes, actual baseline/fixed logs and binary bindings; a compile failure is never counted as a demonstrated regression.
+
+Acceptance remains: actual focused baseline/fixed plus formatting/Clippy, full applicable core/thermo/native/hook/500-coverage/all33-original-product validation, protected CI and actual native-platform logs, independent exact-head review, normal auto-merge and actual changed artifact/API/browser delivery. Only then run unchanged original SE009 once and review all original three-fraction criteria and every phase inventory before selecting it. The source repair itself earns no scientific selection.
+
+Separate next lanes must freeze their own controls: extraction's admitted aqueous/solid pool can debit another phase; directly added liquid neutral solute admission; delta planners spending overlapping solid budgets; immutable addition history versus transferred owned metadata. Do not globally change any-phase withdrawal or lot semantics as a shortcut.
