@@ -1,0 +1,6 @@
+{
+  "utc": "2026-10-20T09:58:00.112142+00:00",
+  "error_type": "HTTPError",
+  "error": "400 Client Error: Bad Request for url: https://api.kaggle.com/v1/kernels.KernelsApiService/SaveKernel",
+  "no_automatic_producer_retry": true
+}

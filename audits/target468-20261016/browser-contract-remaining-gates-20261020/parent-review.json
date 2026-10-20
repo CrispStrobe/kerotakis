@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-20T10:00:21.992499+00:00",
+  "source": "6b637e4d7a00847865990b259171a8f4c6c11c1e",
+  "worker_sha256": "a9f34836526525b2bfdc545cd889971ac7a488675bf859335f404cf77023e5d2",
+  "reader_sha256": "11a57f7baea1b68cf848b55396eee67eee36a44598f961cc9886fca0621f417d",
+  "metadata_sha256": "bb422091cb802bfb75a1449b6a57d48c0b552de418d567c558b9e0f648b89f9c",
+  "source_and_worker_unchanged_from_HTTP400_rejected_submission": true,
+  "metadata_title_slug_now_match_and_within_limit": true,
+  "rechecks_after_resource_wait": true,
+  "reader_checks_actual_issued_reader_bytes": true,
+  "no_job_issued": true,
+  "parent_reviewed_commands_and_source_bindings": true,
+  "parent_reviewed_metadata_limit_and_slug": true,
+  "rejected_attempt_had_no_matching_owner_version": true
+}
