@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-20T10:18:09.001529+00:00",
+  "source": "101ea2787048787d7b1dc021f3098317c9314ec4",
+  "worker_sha256": "14d05dbc2e17c232bb00213ec3b85463a5faed79e9b6c26634f945a7a8ee7727",
+  "reader_sha256": "a68af2090ddd7f9720cff73b4c4d466c22c61831ae49c974adb9be21137fd96f",
+  "metadata_sha256": "c1cef7f6e8560eaf206ca6650f724d25a3278bc6ba74cf3685936332d2630086",
+  "parent_and_independent_source_review": true,
+  "all_new_fixed_controls_and_39_18_tests_retained": true,
+  "native_only_constructor_matches_all_native_only_callers": true,
+  "no_warning_suppression": true,
+  "preceding_source_controls_receipt_keeps_original_source": true
+}
