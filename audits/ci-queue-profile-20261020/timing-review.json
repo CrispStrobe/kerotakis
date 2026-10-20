@@ -1,0 +1,243 @@
+{
+  "workflow_run": 39420200651,
+  "source": "32c5c96b2685b08ddea048861006ec486357c7a8",
+  "source_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39420200651",
+  "raw_jobs_sha256": "7f1b041861c1336572c8663ed2b81d3a3fb097bc57445bd63b9165c428726e97",
+  "definition": "Include25 jobs with nonempty steps; exclude skipped Publish the demo with empty steps. Queue proxy is job.started_at minus job.created_at (creation-to-start, not a separately exposed scheduler queue measurement). Runtime is completed_at minus started_at. Sum over jobs, not wall-clock sum. Median over25 creation-to-start durations.",
+  "jobs": [
+    {
+      "job_id": 118618956784,
+      "name": "GPU release tools (deterministic)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:55:26Z",
+      "completed_at": "2026-10-20T12:55:37Z",
+      "creation_to_start_seconds": 2726.0,
+      "execution_elapsed_seconds": 11.0
+    },
+    {
+      "job_id": 118618957148,
+      "name": "BRD-080 viewer decision spike",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:09:50Z",
+      "completed_at": "2026-10-20T13:11:27Z",
+      "creation_to_start_seconds": 3590.0,
+      "execution_elapsed_seconds": 97.0
+    },
+    {
+      "job_id": 118618957161,
+      "name": "The demo page, in a real browser",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:16:42Z",
+      "completed_at": "2026-10-20T13:29:09Z",
+      "creation_to_start_seconds": 4002.0,
+      "execution_elapsed_seconds": 747.0
+    },
+    {
+      "job_id": 118618957214,
+      "name": "Full preflight gate",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:23:59Z",
+      "completed_at": "2026-10-20T13:43:04Z",
+      "creation_to_start_seconds": 4439.0,
+      "execution_elapsed_seconds": 1145.0
+    },
+    {
+      "job_id": 118618957232,
+      "name": "The native host still compiles",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:47:18Z",
+      "completed_at": "2026-10-20T12:53:31Z",
+      "creation_to_start_seconds": 2238.0,
+      "execution_elapsed_seconds": 373.0
+    },
+    {
+      "job_id": 118618957261,
+      "name": "Test (native) (macos-latest)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:19:21Z",
+      "completed_at": "2026-10-20T12:47:30Z",
+      "creation_to_start_seconds": 561.0,
+      "execution_elapsed_seconds": 1689.0
+    },
+    {
+      "job_id": 118618957265,
+      "name": "feos adapter (aarch64-linux-android)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:16:06Z",
+      "completed_at": "2026-10-20T13:16:25Z",
+      "creation_to_start_seconds": 3966.0,
+      "execution_elapsed_seconds": 19.0
+    },
+    {
+      "job_id": 118618957273,
+      "name": "Theme contrast tokens",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:35:27Z",
+      "completed_at": "2026-10-20T13:35:33Z",
+      "creation_to_start_seconds": 5127.0,
+      "execution_elapsed_seconds": 6.0
+    },
+    {
+      "job_id": 118618957287,
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:25:14Z",
+      "completed_at": "2026-10-20T13:25:29Z",
+      "creation_to_start_seconds": 4514.0,
+      "execution_elapsed_seconds": 15.0
+    },
+    {
+      "job_id": 118618957294,
+      "name": "Test (native) (ubuntu-latest)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:28:07Z",
+      "completed_at": "2026-10-20T13:48:24Z",
+      "creation_to_start_seconds": 4687.0,
+      "execution_elapsed_seconds": 1217.0
+    },
+    {
+      "job_id": 118618957304,
+      "name": "feos adapter (aarch64-apple-ios)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:23:09Z",
+      "completed_at": "2026-10-20T12:24:17Z",
+      "creation_to_start_seconds": 789.0,
+      "execution_elapsed_seconds": 68.0
+    },
+    {
+      "job_id": 118618957313,
+      "name": "Shell payload (ubuntu-22.04)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:35:15Z",
+      "completed_at": "2026-10-20T12:35:22Z",
+      "creation_to_start_seconds": 1515.0,
+      "execution_elapsed_seconds": 7.0
+    },
+    {
+      "job_id": 118618957366,
+      "name": "Current registry source export",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:27:12Z",
+      "completed_at": "2026-10-20T13:28:20Z",
+      "creation_to_start_seconds": 4632.0,
+      "execution_elapsed_seconds": 68.0
+    },
+    {
+      "job_id": 118618957390,
+      "name": "Core and data schemas compile to wasm32",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:36:57Z",
+      "completed_at": "2026-10-20T13:37:55Z",
+      "creation_to_start_seconds": 5217.0,
+      "execution_elapsed_seconds": 58.0
+    },
+    {
+      "job_id": 118618957428,
+      "name": "Legacy BASIC oracle (development only)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:44:14Z",
+      "completed_at": "2026-10-20T13:44:43Z",
+      "creation_to_start_seconds": 5654.0,
+      "execution_elapsed_seconds": 29.0
+    },
+    {
+      "job_id": 118618957453,
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:31:54Z",
+      "completed_at": "2026-10-20T12:32:22Z",
+      "creation_to_start_seconds": 1314.0,
+      "execution_elapsed_seconds": 28.0
+    },
+    {
+      "job_id": 118618957480,
+      "name": "IPhreeqc wasm gate",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:35:47Z",
+      "completed_at": "2026-10-20T13:37:41Z",
+      "creation_to_start_seconds": 5147.0,
+      "execution_elapsed_seconds": 114.0
+    },
+    {
+      "job_id": 118618957520,
+      "name": "MY-BASIC preview (macos-latest)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:41:42Z",
+      "completed_at": "2026-10-20T12:42:14Z",
+      "creation_to_start_seconds": 1902.0,
+      "execution_elapsed_seconds": 32.0
+    },
+    {
+      "job_id": 118618957528,
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:56:27Z",
+      "completed_at": "2026-10-20T13:56:58Z",
+      "creation_to_start_seconds": 6387.0,
+      "execution_elapsed_seconds": 31.0
+    },
+    {
+      "job_id": 118618957557,
+      "name": "Presentation authority adapters",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T14:01:07Z",
+      "completed_at": "2026-10-20T14:01:42Z",
+      "creation_to_start_seconds": 6667.0,
+      "execution_elapsed_seconds": 35.0
+    },
+    {
+      "job_id": 118618957604,
+      "name": "Shell payload (windows-latest)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:43:33Z",
+      "completed_at": "2026-10-20T12:43:49Z",
+      "creation_to_start_seconds": 2013.0,
+      "execution_elapsed_seconds": 16.0
+    },
+    {
+      "job_id": 118618957621,
+      "name": "The two wasm halves, together",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T13:55:42Z",
+      "completed_at": "2026-10-20T13:59:57Z",
+      "creation_to_start_seconds": 6342.0,
+      "execution_elapsed_seconds": 255.0
+    },
+    {
+      "job_id": 118618957630,
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:29:39Z",
+      "completed_at": "2026-10-20T12:30:21Z",
+      "creation_to_start_seconds": 1179.0,
+      "execution_elapsed_seconds": 42.0
+    },
+    {
+      "job_id": 118618957649,
+      "name": "IPhreeqc under MSVC",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T12:34:55Z",
+      "completed_at": "2026-10-20T12:40:31Z",
+      "creation_to_start_seconds": 1495.0,
+      "execution_elapsed_seconds": 336.0
+    },
+    {
+      "job_id": 118618957676,
+      "name": "The bench in WebAssembly",
+      "created_at": "2026-10-20T12:10:00Z",
+      "started_at": "2026-10-20T14:08:15Z",
+      "completed_at": "2026-10-20T14:13:10Z",
+      "creation_to_start_seconds": 7095.0,
+      "execution_elapsed_seconds": 295.0
+    }
+  ],
+  "executing_jobs": 25,
+  "creation_to_start_total_seconds": 93198.0,
+  "execution_total_seconds": 6733.0,
+  "median_creation_to_start_seconds": 4002.0,
+  "rounded_minutes": {
+    "creation_to_start_job_minutes": 1553.3,
+    "execution_job_minutes": 112.2,
+    "median_creation_to_start_minutes": 66.7
+  }
+}
