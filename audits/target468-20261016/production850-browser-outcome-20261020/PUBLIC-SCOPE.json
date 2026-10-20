@@ -1,0 +1,13 @@
+{
+  "raw_producer_manifest_files": 151,
+  "public_raw_four_reports": true,
+  "private_omissions": [
+    "execution-admission and full worker because of private legacy-reader closure",
+    "full frozen-input archive",
+    "operating authorization and provider account coordinates",
+    "absolute-host command arguments and full private saved execution records"
+  ],
+  "all_omitted_bytes_retained_and_pinned_privately": true,
+  "public_receipts_unchanged_bytes": true,
+  "scientific_catalog_additions": 0
+}

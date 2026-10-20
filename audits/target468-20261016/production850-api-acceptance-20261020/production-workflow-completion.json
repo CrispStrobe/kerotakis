@@ -1,0 +1,178 @@
+{
+  "conclusion": "success",
+  "headSha": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "jobs": [
+    {
+      "completedAt": "2026-10-20T20:44:22Z",
+      "conclusion": "success",
+      "databaseId": 118842402700,
+      "name": "Deploy the web payload (production)",
+      "startedAt": "2026-10-20T20:30:03Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-20T20:30:05Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-20T20:30:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:30:05Z",
+          "conclusion": "success",
+          "name": "A token has to exist",
+          "number": 2,
+          "startedAt": "2026-10-20T20:30:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:30:11Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v6",
+          "number": 3,
+          "startedAt": "2026-10-20T20:30:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:30:21Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 4,
+          "startedAt": "2026-10-20T20:30:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:30:28Z",
+          "conclusion": "success",
+          "name": "Run Swatinem/rust-cache@v2",
+          "number": 5,
+          "startedAt": "2026-10-20T20:30:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:30:55Z",
+          "conclusion": "success",
+          "name": "Run mymindstorm/setup-emsdk@v14",
+          "number": 6,
+          "startedAt": "2026-10-20T20:30:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:30:55Z",
+          "conclusion": "success",
+          "name": "Install wasm-bindgen",
+          "number": 7,
+          "startedAt": "2026-10-20T20:30:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:30:57Z",
+          "conclusion": "success",
+          "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+          "number": 8,
+          "startedAt": "2026-10-20T20:30:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:30:57Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v6",
+          "number": 9,
+          "startedAt": "2026-10-20T20:30:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:30:57Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v5",
+          "number": 10,
+          "startedAt": "2026-10-20T20:30:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:37:33Z",
+          "conclusion": "success",
+          "name": "Build the same payload Pages serves",
+          "number": 11,
+          "startedAt": "2026-10-20T20:30:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:43:28Z",
+          "conclusion": "success",
+          "name": "Build the native engine for the serverless runtime",
+          "number": 12,
+          "startedAt": "2026-10-20T20:37:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:43:42Z",
+          "conclusion": "success",
+          "name": "Prepare and verify the isolated native image",
+          "number": 13,
+          "startedAt": "2026-10-20T20:43:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:43:45Z",
+          "conclusion": "success",
+          "name": "Preserve the native build binding",
+          "number": 14,
+          "startedAt": "2026-10-20T20:43:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:44:18Z",
+          "conclusion": "success",
+          "name": "Deploy",
+          "number": 15,
+          "startedAt": "2026-10-20T20:43:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:44:18Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v5",
+          "number": 27,
+          "startedAt": "2026-10-20T20:44:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:44:18Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v6",
+          "number": 28,
+          "startedAt": "2026-10-20T20:44:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:44:18Z",
+          "conclusion": "success",
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "number": 29,
+          "startedAt": "2026-10-20T20:44:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:44:19Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v6",
+          "number": 30,
+          "startedAt": "2026-10-20T20:44:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-20T20:44:19Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 31,
+          "startedAt": "2026-10-20T20:44:19Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39484825683/job/118842402700"
+    }
+  ],
+  "status": "completed"
+}

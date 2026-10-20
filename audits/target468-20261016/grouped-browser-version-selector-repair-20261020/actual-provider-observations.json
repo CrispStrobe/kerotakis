@@ -1,0 +1,19 @@
+{
+  "numeric_version": 1,
+  "first_selector": "1",
+  "first_three_status_HTTP_codes": [
+    404,
+    404,
+    404
+  ],
+  "continuation_selector": "v1",
+  "actual_status_after_selector_correction": "RUNNING",
+  "nonexistent_selector": "v999",
+  "nonexistent_selector_HTTP_code": 404,
+  "same_issued_producer": true,
+  "producer_mutations_after_issue": 0,
+  "original_issue_and_worker_configuration_unchanged": true,
+  "actual_provider_then_reported": "COMPLETE",
+  "collector_only_continuation": true,
+  "actual_browser_acceptance_assigned": false
+}

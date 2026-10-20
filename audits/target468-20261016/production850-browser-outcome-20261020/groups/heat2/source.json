@@ -1,0 +1,61 @@
+{
+  "harness_head": "1e44e0abdd823ad0e88eda537458c6f204be9f7a",
+  "harness_tree": "2756207309eeb401552c2b914a62cc557eeac19b",
+  "runtime_source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "harness_script_sha256": "1f0ddea0b8a9e16d78cb15cfaaa319abbe2e6cd817999d7075c4e9c235a903a0",
+  "binding_sha256": "447d3fdd88c1da5971cffa136edeb5f104cccafe201bf36613e8a800de76ed33",
+  "binding": {
+    "runtime_source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+    "engine": {
+      "source_head": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+      "binary_sha256": "428403540fb658f436c59d6e753a8da01aa624429ff1011f26cc0e971ba835f5",
+      "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+    },
+    "harness_head": "1e44e0abdd823ad0e88eda537458c6f204be9f7a",
+    "harness_tree": "2756207309eeb401552c2b914a62cc557eeac19b",
+    "never_merge_validation_ref": true,
+    "never_merge_evidence_branch": true,
+    "new_owner_keys_in_browser_or_kaggle": false,
+    "harness_script_sha256": "1f0ddea0b8a9e16d78cb15cfaaa319abbe2e6cd817999d7075c4e9c235a903a0",
+    "binding_sha256": "447d3fdd88c1da5971cffa136edeb5f104cccafe201bf36613e8a800de76ed33",
+    "binding": {
+      "status": "bound_before_browser_dispatch",
+      "expected_engine_source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+      "expected_binary_sha256": "428403540fb658f436c59d6e753a8da01aa624429ff1011f26cc0e971ba835f5",
+      "client_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+      "frontend_assets": {
+        "iphreeqc.mjs": "c56475cd941a3514c05a62ff449ae3ba86a61e5944a11c6b9654f80fc9202ef2",
+        "iphreeqc.wasm": "aca79c747b5825dcf919980f5e8055acc8567647ba42902453f7543e6d751d8c",
+        "kerotakis.mjs": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+        "kerotakis_wasm.js": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+        "kerotakis_wasm_bg.wasm": "bbf29982535dcf3e490006163af02d51fc94eb37a4e8d57067f376c96ecfa790"
+      },
+      "native_bridge_reference": {
+        "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
+        "response_sha256": "3465e1488fe9b274d1d6772a811e214d01bbcfaebb123829d676a9df2162cbc6",
+        "engine": {
+          "source_head": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+          "binary_sha256": "428403540fb658f436c59d6e753a8da01aa624429ff1011f26cc0e971ba835f5",
+          "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+        },
+        "solution": {
+          "ph": 6.975165409667,
+          "ionic_strength": 0.2708857843468
+        }
+      },
+      "producer_artifact_receipt_sha256": "13f4874a8d1c6e7db27d5862549484d119676ccf0c935edb2730e970e655d16f",
+      "protocol_design_sha256": "3eeffcb8bbd5a9b98b72684d2e02bb7fd82fe5df821d69781f9c0c2c7478d698"
+    }
+  },
+  "modules_sha256": {
+    "live-client.mjs": "1f0ddea0b8a9e16d78cb15cfaaa319abbe2e6cd817999d7075c4e9c235a903a0",
+    "targeted.mjs": "f17c5c7fe143d9930efeeafa8cf9c14c1a873ba10ea4927ca5fc30fa91cba4f9",
+    "locale-controls.mjs": "7290327a0d59d981bcc8bc0e35b5d0941c3559d14067ecdf488ae4f24c0f8819",
+    "run-locale18.mjs": "8456b089e8389c2995fd1c58bcd316c64fffcfcad4db002927f336fa58a8bd21",
+    "heat-controls.mjs": "cf19825bd6a273115eb686feab0b3242dfebb5533e571fed4765b8f49c371d6f",
+    "run-heat.mjs": "316980a04ba85c94a54665f1ad5418a310f8485892afe97b85c9ba97daa6d592"
+  },
+  "group": "heat2",
+  "entrypoint_path": "run-heat.mjs",
+  "entrypoint_sha256": "316980a04ba85c94a54665f1ad5418a310f8485892afe97b85c9ba97daa6d592"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "finite-mix-target",
+  "http_status": 200,
+  "elapsed_seconds": 3.5299796164035797,
+  "response_sha256": "58b67976ab38b8d80c9dbcbd2d6e9c8f71713ccbaeb77c06329030e2a4087001",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

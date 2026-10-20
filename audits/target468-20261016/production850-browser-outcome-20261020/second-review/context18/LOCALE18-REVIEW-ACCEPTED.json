@@ -1,0 +1,31 @@
+{
+  "state": "GROUPED_LOCALE18_SAVED_REVIEW_ACCEPTED",
+  "source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "engine": {
+    "binary_sha256": "428403540fb658f436c59d6e753a8da01aa624429ff1011f26cc0e971ba835f5",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "source_head": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f"
+  },
+  "execution_design_sha256": "75363e044e698a9c459855cceb76e0fc88685b9dd50fc0ec243e3e6d95fd8d4a",
+  "config_canonical_sha256": "4ee6baf1676244145ba979f9ec8f54236582054a53e1affbfe08be572b7952fb",
+  "top_manifest_sha256": "37dbc5c111d8f5ca4aa18bc2aac5ed7606b4cf8cc16cb7381c4ebf99af801190",
+  "group_manifest_sha256": "97570e051a875c00bc75624a050817568511f6394603158f2153b08df72e94e9",
+  "report_sha256": "a5f0056f6a57e1af6ebf304e81b8363d4454ef59b7927fff1a51bffddb29f6cd",
+  "original_reader_result_sha256": "e8e6059f86622e7714b5ede79b29407409cd9950dc716fc8782861d46ee16e57",
+  "original_reader_sha256": "84fe50ca53fb67a27bdda1d40869df70a56948b31c01daa1ad79b8c1597cec6a",
+  "original_predicates_sha256": "4b66938c88db0da8863d44a10a7e4a34e72aa578891133e72ac1818d7dd4e063",
+  "worker_sha256": "a9295585019f6dc0f19f52fac5219febd7d8bea1aced739c651e688f1f7106c2",
+  "combined_worker_sha256": "a9295585019f6dc0f19f52fac5219febd7d8bea1aced739c651e688f1f7106c2",
+  "external_issue_sha256": "6dc65e994f79163e2e7251148417479fcfdf27c36c3b543c28316aa7314a3211",
+  "verified_artifact_receipt_sha256": "13f4874a8d1c6e7db27d5862549484d119676ccf0c935edb2730e970e655d16f",
+  "api_acceptance_sha256": "5afcd83ed25cb504e53716d58d018f9f19dd1bf51657c1b7b8cb16348c9f1055",
+  "native_reference_sha256": "2bc0e03765230ffddc5ef45fbe80dceba5663f8acac2e66d6a57290d2f12ea4f",
+  "prior37_receipt_sha256": "c5764c62d223ec653c04a792085f0f037e800ffa2a6164749b39f51aa2a33328",
+  "prior44_receipt_sha256": "a30c4e5c6bb6d0821c433d3a16f55e6ceac5e8581db939b5a5ba56a468ac9fcc",
+  "postcollection_context_sha256": "47a8501eceda2e2c48eaeb551cb0d20438271e6e9c7cf26d722c26036af6fd57",
+  "retained62_accepted": true,
+  "heat2_still_separately_required": true,
+  "all64_accepted": false,
+  "scientific_catalog_additions": 0,
+  "browser_engine_provider_calls": 0
+}

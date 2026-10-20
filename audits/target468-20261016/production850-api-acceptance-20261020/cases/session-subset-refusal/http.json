@@ -1,0 +1,12 @@
+{
+  "id": "session-subset-refusal",
+  "http_status": 422,
+  "elapsed_seconds": 0.17900731414556503,
+  "response_sha256": "cff20b9b465b30f436322ee668d120d5ddc18022fd5fea6f48ddc8a52c203620",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

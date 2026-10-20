@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-20T21:23:25.680731+00:00",
+  "source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "engine": {
+    "binary_sha256": "428403540fb658f436c59d6e753a8da01aa624429ff1011f26cc0e971ba835f5",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "source_head": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f"
+  },
+  "group": "browser37",
+  "execution_design_sha256": "75363e044e698a9c459855cceb76e0fc88685b9dd50fc0ec243e3e6d95fd8d4a",
+  "top_manifest_sha256": "37dbc5c111d8f5ca4aa18bc2aac5ed7606b4cf8cc16cb7381c4ebf99af801190",
+  "combined_worker_sha256": "a9295585019f6dc0f19f52fac5219febd7d8bea1aced739c651e688f1f7106c2",
+  "external_issue_sha256": "6dc65e994f79163e2e7251148417479fcfdf27c36c3b543c28316aa7314a3211",
+  "config_canonical_sha256": "4ee6baf1676244145ba979f9ec8f54236582054a53e1affbfe08be572b7952fb",
+  "verified_artifact_receipt_sha256": "13f4874a8d1c6e7db27d5862549484d119676ccf0c935edb2730e970e655d16f",
+  "api_acceptance_sha256": "5afcd83ed25cb504e53716d58d018f9f19dd1bf51657c1b7b8cb16348c9f1055",
+  "native_reference_sha256": "2bc0e03765230ffddc5ef45fbe80dceba5663f8acac2e66d6a57290d2f12ea4f",
+  "original_assertion_AST_verified": true,
+  "original_assertion_AST_sha256": "1620105a7a9b67b0108a9c93535665edd4bc701a62310c43a8dae4c4895bd046",
+  "owner_credentials_supplied": false,
+  "scientific_catalog_additions": 0,
+  "new_browser_engine_provider_calls": 0,
+  "postcollection_saved_review": true,
+  "all64_final_acceptance_still_pending": true,
+  "unchanged_checks": 37,
+  "browser_report_sha256": "76108b244e5317f25b46c7819cd92f7099d160e6541c09b16947eee5604c4501",
+  "manifest_sha256": "8abd4d0997f5b4b9e73343a8214c96c5ac88d575e21b8a15c0ccefbfca4e4357",
+  "targeted_partition_delivery_still_pending": true,
+  "catalog_additions": 0
+}

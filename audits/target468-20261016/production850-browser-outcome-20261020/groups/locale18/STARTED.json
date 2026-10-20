@@ -1,0 +1,7 @@
+{
+  "script_sha256": "a9295585019f6dc0f19f52fac5219febd7d8bea1aced739c651e688f1f7106c2",
+  "runtime_source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "harness_source": "1e44e0abdd823ad0e88eda537458c6f204be9f7a",
+  "group": "locale18",
+  "execution_only_not_parent_acceptance": true
+}

@@ -1,0 +1,3268 @@
+{
+  "status": "ACTUAL_BROWSER_RESULT_PENDING",
+  "binding": {
+    "client_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+    "expected_binary_sha256": "428403540fb658f436c59d6e753a8da01aa624429ff1011f26cc0e971ba835f5",
+    "expected_engine_source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+    "frontend_assets": {
+      "iphreeqc.mjs": "c56475cd941a3514c05a62ff449ae3ba86a61e5944a11c6b9654f80fc9202ef2",
+      "iphreeqc.wasm": "aca79c747b5825dcf919980f5e8055acc8567647ba42902453f7543e6d751d8c",
+      "kerotakis.mjs": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "kerotakis_wasm.js": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "kerotakis_wasm_bg.wasm": "bbf29982535dcf3e490006163af02d51fc94eb37a4e8d57067f376c96ecfa790"
+    },
+    "native_bridge_reference": {
+      "engine": {
+        "binary_sha256": "428403540fb658f436c59d6e753a8da01aa624429ff1011f26cc0e971ba835f5",
+        "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+        "source_head": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f"
+      },
+      "response_sha256": "3465e1488fe9b274d1d6772a811e214d01bbcfaebb123829d676a9df2162cbc6",
+      "script_sha256": "15dab1d995c72443cda0892cfb2e4ae24694f5b4bc338c74e2b46e56d01277af",
+      "solution": {
+        "ionic_strength": 0.2708857843468,
+        "ph": 6.975165409667
+      }
+    },
+    "producer_artifact_receipt_sha256": "13f4874a8d1c6e7db27d5862549484d119676ccf0c935edb2730e970e655d16f",
+    "protocol_design_sha256": "3eeffcb8bbd5a9b98b72684d2e02bb7fd82fe5df821d69781f9c0c2c7478d698",
+    "reviewed_candidate_source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+    "status": "bound_before_browser_dispatch"
+  },
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "protocol": "register lv3\nadd v1 water 10mol\nadd v1 H2O2 0.1mol\nadd v1 KI 0.001mol\n",
+  "continuation": "wait 1s\n",
+  "raw": {
+    "de": {
+      "meta": {
+        "engine_version": "0.0.1",
+        "git_rev": "33e043e",
+        "narration": [
+          "routing"
+        ],
+        "packs": [
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0 + USGS public domain data",
+            "min_app_version": "0.0.1",
+            "pack_id": "core-aqueous",
+            "required": true,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0",
+            "min_app_version": "0.0.1",
+            "pack_id": "phase",
+            "required": false,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0 + NASA public domain data",
+            "min_app_version": "0.0.1",
+            "pack_id": "combustion",
+            "required": false,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0 + MIT (chematic)",
+            "min_app_version": "0.0.1",
+            "pack_id": "structures",
+            "required": false,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0",
+            "min_app_version": "0.0.1",
+            "pack_id": "spectra",
+            "required": false,
+            "version": "1.0.0"
+          }
+        ],
+        "registers": [
+          "lv1",
+          "lv2",
+          "lv3"
+        ]
+      },
+      "preparation": {
+        "bench": {
+          "vessels": [
+            {
+              "co2_partial_pressure_atm": null,
+              "contents": [
+                {
+                  "moles": 10,
+                  "phase": "liquid",
+                  "species": "water"
+                },
+                {
+                  "moles": 0.1,
+                  "phase": "liquid",
+                  "species": "H2O2"
+                },
+                {
+                  "moles": 0.001,
+                  "phase": "aqueous",
+                  "species": "KI"
+                }
+              ],
+              "elapsed_seconds": 0,
+              "excess_enthalpy_j": 0,
+              "foam": {
+                "peak_volume_liters": 0,
+                "trapped_gas_liters": 0,
+                "volume_liters": 0
+              },
+              "free_hydroxide": 1.8124185368355766e-8,
+              "free_proton": 1.8124185368355766e-8,
+              "headspace": {
+                "boundary": "open"
+              },
+              "id": 0,
+              "label": "beaker",
+              "lots": [
+                {
+                  "added_at": 0,
+                  "moles": 10,
+                  "particle_size_um": null,
+                  "phase": "liquid",
+                  "source": "reagent bottle",
+                  "species": "water",
+                  "suspended_fraction": null
+                },
+                {
+                  "added_at": 0,
+                  "moles": 0.1,
+                  "particle_size_um": null,
+                  "phase": "liquid",
+                  "source": "reagent bottle",
+                  "species": "H2O2",
+                  "suspended_fraction": null
+                },
+                {
+                  "added_at": 0,
+                  "moles": 0.001,
+                  "particle_size_um": null,
+                  "phase": "aqueous",
+                  "source": "reagent bottle",
+                  "species": "KI",
+                  "suspended_fraction": null
+                }
+              ],
+              "nuclides": {
+                "inventory": {}
+              },
+              "pending_co2_transfer_mol": 0,
+              "pressure": 101325,
+              "resolved": {
+                "solution": null,
+                "valid": false
+              },
+              "solute_charge": 0,
+              "solution": null,
+              "surfaces": [],
+              "temperature": 298.15,
+              "thermal_mode": "adiabatic"
+            }
+          ]
+        },
+        "scene": {
+          "scene": 1,
+          "vessels": [
+            {
+              "badges": [],
+              "boiling_point_k": 373.15,
+              "boundary": "open",
+              "bubbling": false,
+              "bulk_objects": [],
+              "clauses": [
+                {
+                  "en": "the liquid is {colour} {clarity}",
+                  "key": "look.liquid",
+                  "slots": [
+                    [
+                      "colour",
+                      {
+                        "term": {
+                          "en": "colourless",
+                          "section": "appearance"
+                        }
+                      }
+                    ],
+                    [
+                      "clarity",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "and clear",
+                            "key": "look.clarity-clear"
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "elapsed_s": 0,
+              "id": 0,
+              "label": "beaker",
+              "layers": [
+                {
+                  "colour_word": "colourless",
+                  "name": "solution",
+                  "species": "solution",
+                  "srgb": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "volume_l": 0.18375604019265002
+                }
+              ],
+              "liquid": {
+                "cloudiness": 0,
+                "colour_word": "colourless",
+                "path_length_cm": 4,
+                "srgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "volume_l": 0.18375604019265002
+              },
+              "mass_g": 183.717003,
+              "melting_point_k": 273.15,
+              "pressure_pa": 101325,
+              "solids": [],
+              "temperature_k": 298.15,
+              "words": "Die Flüssigkeit ist farblos und klar."
+            }
+          ]
+        },
+        "steps": [
+          {
+            "canonical": "add v1 water 10mol",
+            "charts": [],
+            "events": [
+              {
+                "event": "added",
+                "moles": 10,
+                "species": "water",
+                "total_after": 10,
+                "vessel": 0
+              },
+              {
+                "event": "solution_routed",
+                "provenance": {
+                  "dataset": "phreeqc.dat, wie vom USGS mitgeliefert",
+                  "dataset_phrase": {
+                    "en": "vendored USGS {file}",
+                    "key": "provenance.dataset.vendored-usgs",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "phreeqc.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  },
+                  "dataset_sources": [
+                    "USGS PHREEQC thermodynamic database"
+                  ],
+                  "engine": "Kerotakis analytic equilibrium evaluator",
+                  "model": "ideal verdünnte Autoprotolyse des Wassers (PHREEQC-Beziehung für log K mit sechs Koeffizienten)",
+                  "model_phrase": {
+                    "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                    "key": "provenance.model.water-autoionisation",
+                    "slots": [
+                      [
+                        "engine",
+                        {
+                          "text": {
+                            "text": "PHREEQC"
+                          }
+                        }
+                      ]
+                    ]
+                  },
+                  "routing": "keine dargestellte Säure, Base, kein Salz, keine Oberfläche, kein Austauscher, kein Gasübergang und kein reaktiver wässriger Gelöststoff; die Lösungsmittelbeziehung wurde ohne Aufruf von IPhreeqc ausgewertet, das gesamte Zuschauer-Inventar blieb dabei erhalten",
+                  "routing_phrase": {
+                    "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                    "key": "routing.solvent-relation-only"
+                  }
+                },
+                "vessel": 0
+              }
+            ],
+            "ionic": [],
+            "operator": {
+              "moles": 10,
+              "op": "add",
+              "species": "water",
+              "vessel": 0
+            },
+            "quest": [],
+            "rendered": [
+              "v1: +10,000000 mol Wasser (H2O, M = 18,015 g/mol)",
+              "v1: Route → Kerotakis analytic equilibrium evaluator · phreeqc.dat, wie vom USGS mitgeliefert · ideal verdünnte Autoprotolyse des Wassers (PHREEQC-Beziehung für log K mit sechs Koeffizienten) — keine dargestellte Säure, Base, kein Salz, keine Oberfläche, kein Austauscher, kein Gasübergang und kein reaktiver wässriger Gelöststoff; die Lösungsmittelbeziehung wurde ohne Aufruf von IPhreeqc ausgewertet, das gesamte Zuschauer-Inventar blieb dabei erhalten"
+            ],
+            "routes": [
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "mixing-v0",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-reactions does not apply to this vessel state",
+                "solver": "curated-reactions",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "no reaction family's pattern matches this vessel",
+                "solver": "reaction-families",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phase-routes",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "headspace-partition does not apply to this vessel state",
+                "solver": "headspace-partition",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "nonaqueous-curated does not apply to this vessel state",
+                "solver": "nonaqueous-curated",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "heat-of-mixing does not apply to this vessel state",
+                "solver": "heat-of-mixing",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "cea-thermal does not apply to this vessel state",
+                "solver": "cea-thermal",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-combustion does not apply to this vessel state",
+                "solver": "curated-combustion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "corrosion does not apply to this vessel state",
+                "solver": "corrosion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "adsorption does not apply to this vessel state",
+                "solver": "adsorption",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phreeqc-aqueous (shipped results)",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "qualitative",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "honesty",
+                "vessel": 0
+              }
+            ]
+          },
+          {
+            "canonical": "add v1 H2O2 0.1mol",
+            "charts": [],
+            "events": [
+              {
+                "event": "added",
+                "moles": 0.1,
+                "species": "H2O2",
+                "total_after": 0.1,
+                "vessel": 0
+              }
+            ],
+            "ionic": [],
+            "operator": {
+              "moles": 0.1,
+              "op": "add",
+              "species": "H2O2",
+              "vessel": 0
+            },
+            "quest": [],
+            "rendered": [
+              "v1: +0,100000 mol Wasserstoffperoxid (H2O2, M = 34,010 g/mol)"
+            ],
+            "routes": [
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "mixing-v0",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-reactions does not apply to this vessel state",
+                "solver": "curated-reactions",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "no reaction family's pattern matches this vessel",
+                "solver": "reaction-families",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phase-routes",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "headspace-partition does not apply to this vessel state",
+                "solver": "headspace-partition",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "nonaqueous-curated does not apply to this vessel state",
+                "solver": "nonaqueous-curated",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "heat-of-mixing does not apply to this vessel state",
+                "solver": "heat-of-mixing",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "cea-thermal does not apply to this vessel state",
+                "solver": "cea-thermal",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-combustion does not apply to this vessel state",
+                "solver": "curated-combustion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "corrosion does not apply to this vessel state",
+                "solver": "corrosion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "adsorption does not apply to this vessel state",
+                "solver": "adsorption",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phreeqc-aqueous (shipped results)",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "qualitative",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "honesty",
+                "vessel": 0
+              }
+            ]
+          },
+          {
+            "canonical": "add v1 KI 0.001mol",
+            "charts": [],
+            "events": [
+              {
+                "event": "hazard_warning",
+                "hazard": "ein starkes Oxidationsmittel mit einem Reduktionsmittel zu mischen kann eine heftige, möglicherweise explosive Reaktion auslösen",
+                "real_world": "Permanganat- und Sulfitlösungen reagieren heftig; in größerem Maßstab können solche Gemische detonieren.",
+                "rule": "oxidizer-reducer",
+                "severity": "danger"
+              },
+              {
+                "event": "added",
+                "moles": 0.001,
+                "species": "KI",
+                "total_after": 0.001,
+                "vessel": 0
+              },
+              {
+                "event": "dissolved",
+                "moles": 0.001,
+                "species": "KI",
+                "vessel": 0
+              },
+              {
+                "cause": "not-speciated",
+                "event": "not_yet_modeled",
+                "reason": {
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "key": "not-modeled.no-component-mapping",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "en": "KI",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "vessel": 0,
+                "what": "KI ist ein ionischer gelöster Stoff ohne Zuordnung zu einer wässrigen Komponente in diesem Labor. Seine Ionenverteilung, Acidität, Leitfähigkeit und Reaktionen sind nicht enthalten; jeder Lösungswert beschreibt nur die abgebildeten Komponenten, nicht die vollständige Mischung."
+              }
+            ],
+            "ionic": [],
+            "operator": {
+              "moles": 0.001,
+              "op": "add",
+              "species": "KI",
+              "vessel": 0
+            },
+            "quest": [],
+            "rendered": [
+              "GEFAHR [Gefahr] (L0): ein starkes Oxidationsmittel mit einem Reduktionsmittel zu mischen kann eine heftige, möglicherweise explosive Reaktion auslösen; Permanganat- und Sulfitlösungen reagieren heftig; in größerem Maßstab können solche Gemische detonieren.",
+              "v1: +0,001000 mol Kaliumiodid (KI, M = 166,003 g/mol)",
+              "v1: 0,001000 mol Kaliumiodid gelöst",
+              "v1: NICHT MODELLIERT: KI ist ein ionischer gelöster Stoff ohne Zuordnung zu einer wässrigen Komponente in diesem Labor. Seine Ionenverteilung, Acidität, Leitfähigkeit und Reaktionen sind nicht enthalten; jeder Lösungswert beschreibt nur die abgebildeten Komponenten, nicht die vollständige Mischung."
+            ],
+            "routes": [
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 1
+                  }
+                },
+                "solver": "mixing-v0",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-reactions does not apply to this vessel state",
+                "solver": "curated-reactions",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "no reaction family's pattern matches this vessel",
+                "solver": "reaction-families",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phase-routes",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "headspace-partition does not apply to this vessel state",
+                "solver": "headspace-partition",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "nonaqueous-curated does not apply to this vessel state",
+                "solver": "nonaqueous-curated",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "heat-of-mixing does not apply to this vessel state",
+                "solver": "heat-of-mixing",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "cea-thermal does not apply to this vessel state",
+                "solver": "cea-thermal",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-combustion does not apply to this vessel state",
+                "solver": "curated-combustion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "corrosion does not apply to this vessel state",
+                "solver": "corrosion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "adsorption does not apply to this vessel state",
+                "solver": "adsorption",
+                "vessel": 0
+              },
+              {
+                "chemistry": true,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phreeqc-aqueous (shipped results)",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "qualitative",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "honesty",
+                "vessel": 0
+              }
+            ]
+          }
+        ]
+      },
+      "before": {
+        "vessels": [
+          {
+            "elapsed_seconds": 0,
+            "nuclides": {
+              "inventory": {}
+            },
+            "excess_enthalpy_j": 0,
+            "id": 0,
+            "label": "beaker",
+            "contents": [
+              {
+                "species": "water",
+                "moles": 10,
+                "phase": "liquid"
+              },
+              {
+                "species": "H2O2",
+                "moles": 0.1,
+                "phase": "liquid"
+              },
+              {
+                "species": "KI",
+                "moles": 0.001,
+                "phase": "aqueous"
+              }
+            ],
+            "foam": {
+              "trapped_gas_liters": 0,
+              "volume_liters": 0,
+              "peak_volume_liters": 0
+            },
+            "temperature": 298.15,
+            "pressure": 101325,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            },
+            "surfaces": [],
+            "solute_charge": 0,
+            "free_hydroxide": 1.8124185368355766e-8,
+            "free_proton": 1.8124185368355766e-8,
+            "co2_partial_pressure_atm": null,
+            "pending_co2_transfer_mol": 0,
+            "solution": null,
+            "lots": [
+              {
+                "species": "water",
+                "moles": 10,
+                "phase": "liquid",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              },
+              {
+                "species": "H2O2",
+                "moles": 0.1,
+                "phase": "liquid",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              },
+              {
+                "species": "KI",
+                "moles": 0.001,
+                "phase": "aqueous",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              }
+            ],
+            "resolved": {
+              "valid": false,
+              "solution": null
+            }
+          }
+        ],
+        "log": [
+          {
+            "step": 0,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "water",
+              "moles": 10
+            },
+            "events": [
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "water",
+                "moles": 10,
+                "total_after": 10
+              },
+              {
+                "event": "solution_routed",
+                "vessel": 0,
+                "provenance": {
+                  "engine": "Kerotakis analytic equilibrium evaluator",
+                  "dataset": "vendored USGS phreeqc.dat",
+                  "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                  "dataset_sources": [
+                    "USGS PHREEQC thermodynamic database"
+                  ],
+                  "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "routing_phrase": {
+                    "key": "routing.solvent-relation-only",
+                    "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory"
+                  },
+                  "dataset_phrase": {
+                    "key": "provenance.dataset.vendored-usgs",
+                    "en": "vendored USGS {file}",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "phreeqc.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  },
+                  "model_phrase": {
+                    "key": "provenance.model.water-autoionisation",
+                    "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                    "slots": [
+                      [
+                        "engine",
+                        {
+                          "text": {
+                            "text": "PHREEQC"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "step": 1,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "H2O2",
+              "moles": 0.1
+            },
+            "events": [
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "H2O2",
+                "moles": 0.1,
+                "total_after": 0.1
+              }
+            ]
+          },
+          {
+            "step": 2,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "KI",
+              "moles": 0.001
+            },
+            "events": [
+              {
+                "event": "hazard_warning",
+                "severity": "danger",
+                "rule": "oxidizer-reducer",
+                "hazard": "mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction",
+                "real_world": "Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate."
+              },
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "KI",
+                "moles": 0.001,
+                "total_after": 0.001
+              },
+              {
+                "event": "dissolved",
+                "vessel": 0,
+                "species": "KI",
+                "moles": 0.001
+              },
+              {
+                "event": "not_yet_modeled",
+                "vessel": 0,
+                "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                "cause": "not-speciated",
+                "reason": {
+                  "key": "not-modeled.no-component-mapping",
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "section": "species",
+                          "en": "KI"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "spills": [],
+        "broken_vessels": []
+      },
+      "before_calls": 0,
+      "result": {
+        "bench": {
+          "vessels": [
+            {
+              "co2_partial_pressure_atm": null,
+              "contents": [
+                {
+                  "moles": 10.000188287580153,
+                  "phase": "liquid",
+                  "species": "water"
+                },
+                {
+                  "moles": 0.09981171241984603,
+                  "phase": "liquid",
+                  "species": "H2O2"
+                },
+                {
+                  "moles": 0.001,
+                  "phase": "aqueous",
+                  "species": "KI"
+                },
+                {
+                  "moles": 0.00009414379007698754,
+                  "phase": "gas",
+                  "species": "O2"
+                }
+              ],
+              "elapsed_seconds": 1,
+              "excess_enthalpy_j": 0,
+              "foam": {
+                "peak_volume_liters": 0,
+                "trapped_gas_liters": 0,
+                "volume_liters": 0
+              },
+              "free_hydroxide": 1.8124185368355766e-8,
+              "free_proton": 1.8124185368355766e-8,
+              "headspace": {
+                "boundary": "open"
+              },
+              "id": 0,
+              "label": "beaker",
+              "lots": [
+                {
+                  "added_at": 0,
+                  "moles": 10,
+                  "particle_size_um": null,
+                  "phase": "liquid",
+                  "source": "reagent bottle",
+                  "species": "water",
+                  "suspended_fraction": null
+                },
+                {
+                  "added_at": 0,
+                  "moles": 0.1,
+                  "particle_size_um": null,
+                  "phase": "liquid",
+                  "source": "reagent bottle",
+                  "species": "H2O2",
+                  "suspended_fraction": null
+                },
+                {
+                  "added_at": 0,
+                  "moles": 0.001,
+                  "particle_size_um": null,
+                  "phase": "aqueous",
+                  "source": "reagent bottle",
+                  "species": "KI",
+                  "suspended_fraction": null
+                }
+              ],
+              "nuclides": {
+                "inventory": {}
+              },
+              "pending_co2_transfer_mol": 0,
+              "pressure": 101325,
+              "resolved": {
+                "solution": null,
+                "valid": false
+              },
+              "solute_charge": 0,
+              "solution": null,
+              "surfaces": [],
+              "temperature": 298.17424445073044,
+              "thermal_mode": "adiabatic"
+            }
+          ]
+        },
+        "scene": {
+          "scene": 1,
+          "vessels": [
+            {
+              "badges": [],
+              "boiling_point_k": 373.15,
+              "boundary": "open",
+              "bubbling": true,
+              "bulk_objects": [],
+              "clauses": [
+                {
+                  "en": "the liquid is {colour} {clarity}",
+                  "key": "look.liquid",
+                  "slots": [
+                    [
+                      "colour",
+                      {
+                        "term": {
+                          "en": "colourless",
+                          "section": "appearance"
+                        }
+                      }
+                    ],
+                    [
+                      "clarity",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "and clear",
+                            "key": "look.clarity-clear"
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "en": "bubbles of gas are rising through it",
+                  "key": "look.bubbling"
+                }
+              ],
+              "elapsed_s": 1,
+              "id": 0,
+              "label": "beaker",
+              "layers": [
+                {
+                  "colour_word": "colourless",
+                  "name": "solution",
+                  "species": "solution",
+                  "srgb": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "volume_l": 0.18375367333642406
+                }
+              ],
+              "liquid": {
+                "cloudiness": 0,
+                "colour_word": "colourless",
+                "path_length_cm": 4,
+                "srgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "volume_l": 0.18375367333642406
+              },
+              "mass_g": 183.7170037531503,
+              "melting_point_k": 273.15,
+              "pressure_pa": 101325,
+              "solids": [],
+              "temperature_k": 298.17424445073044,
+              "words": "Die Flüssigkeit ist farblos und klar, Gasbläschen steigen darin auf."
+            }
+          ]
+        },
+        "steps": [
+          {
+            "canonical": "wait 1s",
+            "charts": [],
+            "events": [
+              {
+                "event": "gas_produced",
+                "moles": 0.00009414379007698754,
+                "rate_moles_per_second": 0.00009414379007698754,
+                "reaction": "peroxide-decomposition",
+                "species": "O2",
+                "vessel": 0
+              },
+              {
+                "energy_j": 18.48984037112035,
+                "event": "reaction_heat_released",
+                "reaction": "peroxide-decomposition",
+                "vessel": 0
+              },
+              {
+                "event": "temperature_changed",
+                "from": 298.15,
+                "to": 298.17424445073044,
+                "vessel": 0
+              },
+              {
+                "activation_energy": 56000,
+                "catalyst": "potassium iodide",
+                "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
+                "event": "reacted",
+                "moles": 0.00009414379007698754,
+                "reaction": "peroxide-decomposition",
+                "seconds": 1,
+                "vessel": 0
+              },
+              {
+                "cause": "not-speciated",
+                "event": "not_yet_modeled",
+                "reason": {
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "key": "not-modeled.no-component-mapping",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "en": "KI",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "vessel": 0,
+                "what": "KI ist ein ionischer gelöster Stoff ohne Zuordnung zu einer wässrigen Komponente in diesem Labor. Seine Ionenverteilung, Acidität, Leitfähigkeit und Reaktionen sind nicht enthalten; jeder Lösungswert beschreibt nur die abgebildeten Komponenten, nicht die vollständige Mischung."
+              }
+            ],
+            "ionic": [],
+            "operator": {
+              "op": "wait",
+              "seconds": 1
+            },
+            "quest": [],
+            "rendered": [
+              "v1: 0,000094 mol O2 entstanden (9,414e-5 mol/s)",
+              "v1: Peroxidzersetzung setzte 18,49 J frei",
+              "v1: T 298,150 K → 298,174 K (ΔT = +0,024 K)",
+              "v1: Umsatz 0,000094 mol über 1,0 s, Ea = 56,0 kJ/mol (Katalysator: Kaliumiodid)  —  2 H₂O₂ → 2 H₂O + O₂↑",
+              "v1: NICHT MODELLIERT: KI ist ein ionischer gelöster Stoff ohne Zuordnung zu einer wässrigen Komponente in diesem Labor. Seine Ionenverteilung, Acidität, Leitfähigkeit und Reaktionen sind nicht enthalten; jeder Lösungswert beschreibt nur die abgebildeten Komponenten, nicht die vollständige Mischung."
+            ],
+            "routes": [
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "mixing-v0",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-reactions does not apply to this vessel state",
+                "solver": "curated-reactions",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "no reaction family's pattern matches this vessel",
+                "solver": "reaction-families",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phase-routes",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "headspace-partition does not apply to this vessel state",
+                "solver": "headspace-partition",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "nonaqueous-curated does not apply to this vessel state",
+                "solver": "nonaqueous-curated",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "heat-of-mixing does not apply to this vessel state",
+                "solver": "heat-of-mixing",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "cea-thermal does not apply to this vessel state",
+                "solver": "cea-thermal",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-combustion does not apply to this vessel state",
+                "solver": "curated-combustion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "corrosion does not apply to this vessel state",
+                "solver": "corrosion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "adsorption does not apply to this vessel state",
+                "solver": "adsorption",
+                "vessel": 0
+              },
+              {
+                "chemistry": true,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phreeqc-aqueous (shipped results)",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "qualitative",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "honesty",
+                "vessel": 0
+              }
+            ]
+          }
+        ]
+      },
+      "after": {
+        "vessels": [
+          {
+            "elapsed_seconds": 1,
+            "nuclides": {
+              "inventory": {}
+            },
+            "excess_enthalpy_j": 0,
+            "id": 0,
+            "label": "beaker",
+            "contents": [
+              {
+                "species": "water",
+                "moles": 10.000188287580153,
+                "phase": "liquid"
+              },
+              {
+                "species": "H2O2",
+                "moles": 0.09981171241984603,
+                "phase": "liquid"
+              },
+              {
+                "species": "KI",
+                "moles": 0.001,
+                "phase": "aqueous"
+              },
+              {
+                "species": "O2",
+                "moles": 0.00009414379007698754,
+                "phase": "gas"
+              }
+            ],
+            "foam": {
+              "trapped_gas_liters": 0,
+              "volume_liters": 0,
+              "peak_volume_liters": 0
+            },
+            "temperature": 298.17424445073044,
+            "pressure": 101325,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            },
+            "surfaces": [],
+            "solute_charge": 0,
+            "free_hydroxide": 1.8124185368355766e-8,
+            "free_proton": 1.8124185368355766e-8,
+            "co2_partial_pressure_atm": null,
+            "pending_co2_transfer_mol": 0,
+            "solution": null,
+            "lots": [
+              {
+                "species": "water",
+                "moles": 10,
+                "phase": "liquid",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              },
+              {
+                "species": "H2O2",
+                "moles": 0.1,
+                "phase": "liquid",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              },
+              {
+                "species": "KI",
+                "moles": 0.001,
+                "phase": "aqueous",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              }
+            ],
+            "resolved": {
+              "valid": false,
+              "solution": null
+            }
+          }
+        ],
+        "log": [
+          {
+            "step": 0,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "water",
+              "moles": 10
+            },
+            "events": [
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "water",
+                "moles": 10,
+                "total_after": 10
+              },
+              {
+                "event": "solution_routed",
+                "vessel": 0,
+                "provenance": {
+                  "engine": "Kerotakis analytic equilibrium evaluator",
+                  "dataset": "vendored USGS phreeqc.dat",
+                  "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                  "dataset_sources": [
+                    "USGS PHREEQC thermodynamic database"
+                  ],
+                  "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "routing_phrase": {
+                    "key": "routing.solvent-relation-only",
+                    "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory"
+                  },
+                  "dataset_phrase": {
+                    "key": "provenance.dataset.vendored-usgs",
+                    "en": "vendored USGS {file}",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "phreeqc.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  },
+                  "model_phrase": {
+                    "key": "provenance.model.water-autoionisation",
+                    "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                    "slots": [
+                      [
+                        "engine",
+                        {
+                          "text": {
+                            "text": "PHREEQC"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "step": 1,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "H2O2",
+              "moles": 0.1
+            },
+            "events": [
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "H2O2",
+                "moles": 0.1,
+                "total_after": 0.1
+              }
+            ]
+          },
+          {
+            "step": 2,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "KI",
+              "moles": 0.001
+            },
+            "events": [
+              {
+                "event": "hazard_warning",
+                "severity": "danger",
+                "rule": "oxidizer-reducer",
+                "hazard": "mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction",
+                "real_world": "Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate."
+              },
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "KI",
+                "moles": 0.001,
+                "total_after": 0.001
+              },
+              {
+                "event": "dissolved",
+                "vessel": 0,
+                "species": "KI",
+                "moles": 0.001
+              },
+              {
+                "event": "not_yet_modeled",
+                "vessel": 0,
+                "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                "cause": "not-speciated",
+                "reason": {
+                  "key": "not-modeled.no-component-mapping",
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "section": "species",
+                          "en": "KI"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "step": 3,
+            "operator": {
+              "op": "wait",
+              "seconds": 1
+            },
+            "events": [
+              {
+                "event": "gas_produced",
+                "vessel": 0,
+                "reaction": "peroxide-decomposition",
+                "species": "O2",
+                "moles": 0.00009414379007698754,
+                "rate_moles_per_second": 0.00009414379007698754
+              },
+              {
+                "event": "reaction_heat_released",
+                "vessel": 0,
+                "reaction": "peroxide-decomposition",
+                "energy_j": 18.48984037112035
+              },
+              {
+                "event": "temperature_changed",
+                "vessel": 0,
+                "from": 298.15,
+                "to": 298.17424445073044
+              },
+              {
+                "event": "reacted",
+                "vessel": 0,
+                "reaction": "peroxide-decomposition",
+                "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
+                "moles": 0.00009414379007698754,
+                "seconds": 1,
+                "catalyst": "potassium iodide",
+                "activation_energy": 56000
+              },
+              {
+                "event": "not_yet_modeled",
+                "vessel": 0,
+                "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                "cause": "not-speciated",
+                "reason": {
+                  "key": "not-modeled.no-component-mapping",
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "section": "species",
+                          "en": "KI"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "spills": [],
+        "broken_vessels": []
+      },
+      "after_calls": 0
+    },
+    "fr": {
+      "meta": {
+        "engine_version": "0.0.1",
+        "git_rev": "33e043e",
+        "narration": [
+          "routing"
+        ],
+        "packs": [
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0 + USGS public domain data",
+            "min_app_version": "0.0.1",
+            "pack_id": "core-aqueous",
+            "required": true,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0",
+            "min_app_version": "0.0.1",
+            "pack_id": "phase",
+            "required": false,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0 + NASA public domain data",
+            "min_app_version": "0.0.1",
+            "pack_id": "combustion",
+            "required": false,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0 + MIT (chematic)",
+            "min_app_version": "0.0.1",
+            "pack_id": "structures",
+            "required": false,
+            "version": "1.0.0"
+          },
+          {
+            "compressed_size": 0,
+            "content_hash": "",
+            "licence": "AGPL-3.0",
+            "min_app_version": "0.0.1",
+            "pack_id": "spectra",
+            "required": false,
+            "version": "1.0.0"
+          }
+        ],
+        "registers": [
+          "lv1",
+          "lv2",
+          "lv3"
+        ]
+      },
+      "preparation": {
+        "bench": {
+          "vessels": [
+            {
+              "co2_partial_pressure_atm": null,
+              "contents": [
+                {
+                  "moles": 10,
+                  "phase": "liquid",
+                  "species": "water"
+                },
+                {
+                  "moles": 0.1,
+                  "phase": "liquid",
+                  "species": "H2O2"
+                },
+                {
+                  "moles": 0.001,
+                  "phase": "aqueous",
+                  "species": "KI"
+                }
+              ],
+              "elapsed_seconds": 0,
+              "excess_enthalpy_j": 0,
+              "foam": {
+                "peak_volume_liters": 0,
+                "trapped_gas_liters": 0,
+                "volume_liters": 0
+              },
+              "free_hydroxide": 1.8124185368355766e-8,
+              "free_proton": 1.8124185368355766e-8,
+              "headspace": {
+                "boundary": "open"
+              },
+              "id": 0,
+              "label": "beaker",
+              "lots": [
+                {
+                  "added_at": 0,
+                  "moles": 10,
+                  "particle_size_um": null,
+                  "phase": "liquid",
+                  "source": "reagent bottle",
+                  "species": "water",
+                  "suspended_fraction": null
+                },
+                {
+                  "added_at": 0,
+                  "moles": 0.1,
+                  "particle_size_um": null,
+                  "phase": "liquid",
+                  "source": "reagent bottle",
+                  "species": "H2O2",
+                  "suspended_fraction": null
+                },
+                {
+                  "added_at": 0,
+                  "moles": 0.001,
+                  "particle_size_um": null,
+                  "phase": "aqueous",
+                  "source": "reagent bottle",
+                  "species": "KI",
+                  "suspended_fraction": null
+                }
+              ],
+              "nuclides": {
+                "inventory": {}
+              },
+              "pending_co2_transfer_mol": 0,
+              "pressure": 101325,
+              "resolved": {
+                "solution": null,
+                "valid": false
+              },
+              "solute_charge": 0,
+              "solution": null,
+              "surfaces": [],
+              "temperature": 298.15,
+              "thermal_mode": "adiabatic"
+            }
+          ]
+        },
+        "scene": {
+          "scene": 1,
+          "vessels": [
+            {
+              "badges": [],
+              "boiling_point_k": 373.15,
+              "boundary": "open",
+              "bubbling": false,
+              "bulk_objects": [],
+              "clauses": [
+                {
+                  "en": "the liquid is {colour} {clarity}",
+                  "key": "look.liquid",
+                  "slots": [
+                    [
+                      "colour",
+                      {
+                        "term": {
+                          "en": "colourless",
+                          "section": "appearance"
+                        }
+                      }
+                    ],
+                    [
+                      "clarity",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "and clear",
+                            "key": "look.clarity-clear"
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "elapsed_s": 0,
+              "id": 0,
+              "label": "beaker",
+              "layers": [
+                {
+                  "colour_word": "colourless",
+                  "name": "solution",
+                  "species": "solution",
+                  "srgb": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "volume_l": 0.18375604019265002
+                }
+              ],
+              "liquid": {
+                "cloudiness": 0,
+                "colour_word": "colourless",
+                "path_length_cm": 4,
+                "srgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "volume_l": 0.18375604019265002
+              },
+              "mass_g": 183.717003,
+              "melting_point_k": 273.15,
+              "pressure_pa": 101325,
+              "solids": [],
+              "temperature_k": 298.15,
+              "words": "Le liquide est incolore et limpide."
+            }
+          ]
+        },
+        "steps": [
+          {
+            "canonical": "add v1 water 10mol",
+            "charts": [],
+            "events": [
+              {
+                "event": "added",
+                "moles": 10,
+                "species": "water",
+                "total_after": 10,
+                "vessel": 0
+              },
+              {
+                "event": "solution_routed",
+                "provenance": {
+                  "dataset": "phreeqc.dat, tel que fourni par l'USGS",
+                  "dataset_phrase": {
+                    "en": "vendored USGS {file}",
+                    "key": "provenance.dataset.vendored-usgs",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "phreeqc.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  },
+                  "dataset_sources": [
+                    "USGS PHREEQC thermodynamic database"
+                  ],
+                  "engine": "Kerotakis analytic equilibrium evaluator",
+                  "model": "autoprotolyse de l'eau en dilution idéale (relation PHREEQC pour log K à six coefficients)",
+                  "model_phrase": {
+                    "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                    "key": "provenance.model.water-autoionisation",
+                    "slots": [
+                      [
+                        "engine",
+                        {
+                          "text": {
+                            "text": "PHREEQC"
+                          }
+                        }
+                      ]
+                    ]
+                  },
+                  "routing": "aucun acide, aucune base, aucun sel, aucune surface, aucun échangeur, aucun transfert gazeux et aucun soluté aqueux réactif représentés ; la relation du solvant a été évaluée sans appel à IPhreeqc, et tout l'inventaire spectateur est resté conservé",
+                  "routing_phrase": {
+                    "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                    "key": "routing.solvent-relation-only"
+                  }
+                },
+                "vessel": 0
+              }
+            ],
+            "ionic": [],
+            "operator": {
+              "moles": 10,
+              "op": "add",
+              "species": "water",
+              "vessel": 0
+            },
+            "quest": [],
+            "rendered": [
+              "v1 : +10,000000 mol eau (H2O, M = 18,015 g/mol)",
+              "v1 : route → Kerotakis analytic equilibrium evaluator · phreeqc.dat, tel que fourni par l'USGS · autoprotolyse de l'eau en dilution idéale (relation PHREEQC pour log K à six coefficients) — aucun acide, aucune base, aucun sel, aucune surface, aucun échangeur, aucun transfert gazeux et aucun soluté aqueux réactif représentés ; la relation du solvant a été évaluée sans appel à IPhreeqc, et tout l'inventaire spectateur est resté conservé"
+            ],
+            "routes": [
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "mixing-v0",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-reactions does not apply to this vessel state",
+                "solver": "curated-reactions",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "no reaction family's pattern matches this vessel",
+                "solver": "reaction-families",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phase-routes",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "headspace-partition does not apply to this vessel state",
+                "solver": "headspace-partition",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "nonaqueous-curated does not apply to this vessel state",
+                "solver": "nonaqueous-curated",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "heat-of-mixing does not apply to this vessel state",
+                "solver": "heat-of-mixing",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "cea-thermal does not apply to this vessel state",
+                "solver": "cea-thermal",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-combustion does not apply to this vessel state",
+                "solver": "curated-combustion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "corrosion does not apply to this vessel state",
+                "solver": "corrosion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "adsorption does not apply to this vessel state",
+                "solver": "adsorption",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phreeqc-aqueous (shipped results)",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "qualitative",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "honesty",
+                "vessel": 0
+              }
+            ]
+          },
+          {
+            "canonical": "add v1 H2O2 0.1mol",
+            "charts": [],
+            "events": [
+              {
+                "event": "added",
+                "moles": 0.1,
+                "species": "H2O2",
+                "total_after": 0.1,
+                "vessel": 0
+              }
+            ],
+            "ionic": [],
+            "operator": {
+              "moles": 0.1,
+              "op": "add",
+              "species": "H2O2",
+              "vessel": 0
+            },
+            "quest": [],
+            "rendered": [
+              "v1 : +0,100000 mol peroxyde d'hydrogène (H2O2, M = 34,010 g/mol)"
+            ],
+            "routes": [
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "mixing-v0",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-reactions does not apply to this vessel state",
+                "solver": "curated-reactions",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "no reaction family's pattern matches this vessel",
+                "solver": "reaction-families",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phase-routes",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "headspace-partition does not apply to this vessel state",
+                "solver": "headspace-partition",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "nonaqueous-curated does not apply to this vessel state",
+                "solver": "nonaqueous-curated",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "heat-of-mixing does not apply to this vessel state",
+                "solver": "heat-of-mixing",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "cea-thermal does not apply to this vessel state",
+                "solver": "cea-thermal",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-combustion does not apply to this vessel state",
+                "solver": "curated-combustion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "corrosion does not apply to this vessel state",
+                "solver": "corrosion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "adsorption does not apply to this vessel state",
+                "solver": "adsorption",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phreeqc-aqueous (shipped results)",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "qualitative",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "honesty",
+                "vessel": 0
+              }
+            ]
+          },
+          {
+            "canonical": "add v1 KI 0.001mol",
+            "charts": [],
+            "events": [
+              {
+                "event": "hazard_warning",
+                "hazard": "mélanger un oxydant fort avec un réducteur peut provoquer une réaction violente, potentiellement explosive",
+                "real_world": "Les solutions de permanganate et de sulfite réagissent vivement ; à grande échelle, de tels mélanges peuvent détoner.",
+                "rule": "oxidizer-reducer",
+                "severity": "danger"
+              },
+              {
+                "event": "added",
+                "moles": 0.001,
+                "species": "KI",
+                "total_after": 0.001,
+                "vessel": 0
+              },
+              {
+                "event": "dissolved",
+                "moles": 0.001,
+                "species": "KI",
+                "vessel": 0
+              },
+              {
+                "cause": "not-speciated",
+                "event": "not_yet_modeled",
+                "reason": {
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "key": "not-modeled.no-component-mapping",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "en": "KI",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "vessel": 0,
+                "what": "KI est un soluté ionique sans correspondance avec une composante aqueuse de ce laboratoire. Sa spéciation ionique, son acidité, sa conductivité et ses réactions ne sont pas prises en compte ; toute valeur de la solution ne décrit que les composantes représentées, pas le mélange complet."
+              }
+            ],
+            "ionic": [],
+            "operator": {
+              "moles": 0.001,
+              "op": "add",
+              "species": "KI",
+              "vessel": 0
+            },
+            "quest": [],
+            "rendered": [
+              "DANGER [Danger] (L0) : mélanger un oxydant fort avec un réducteur peut provoquer une réaction violente, potentiellement explosive ; Les solutions de permanganate et de sulfite réagissent vivement ; à grande échelle, de tels mélanges peuvent détoner.",
+              "v1 : +0,001000 mol iodure de potassium (KI, M = 166,003 g/mol)",
+              "v1 : 0,001000 mol de iodure de potassium dissous",
+              "v1 : NON MODÉLISÉ : KI est un soluté ionique sans correspondance avec une composante aqueuse de ce laboratoire. Sa spéciation ionique, son acidité, sa conductivité et ses réactions ne sont pas prises en compte ; toute valeur de la solution ne décrit que les composantes représentées, pas le mélange complet."
+            ],
+            "routes": [
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 1
+                  }
+                },
+                "solver": "mixing-v0",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-reactions does not apply to this vessel state",
+                "solver": "curated-reactions",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "no reaction family's pattern matches this vessel",
+                "solver": "reaction-families",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phase-routes",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "headspace-partition does not apply to this vessel state",
+                "solver": "headspace-partition",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "nonaqueous-curated does not apply to this vessel state",
+                "solver": "nonaqueous-curated",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "heat-of-mixing does not apply to this vessel state",
+                "solver": "heat-of-mixing",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "cea-thermal does not apply to this vessel state",
+                "solver": "cea-thermal",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-combustion does not apply to this vessel state",
+                "solver": "curated-combustion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "corrosion does not apply to this vessel state",
+                "solver": "corrosion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "adsorption does not apply to this vessel state",
+                "solver": "adsorption",
+                "vessel": 0
+              },
+              {
+                "chemistry": true,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phreeqc-aqueous (shipped results)",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "qualitative",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "honesty",
+                "vessel": 0
+              }
+            ]
+          }
+        ]
+      },
+      "before": {
+        "vessels": [
+          {
+            "elapsed_seconds": 0,
+            "nuclides": {
+              "inventory": {}
+            },
+            "excess_enthalpy_j": 0,
+            "id": 0,
+            "label": "beaker",
+            "contents": [
+              {
+                "species": "water",
+                "moles": 10,
+                "phase": "liquid"
+              },
+              {
+                "species": "H2O2",
+                "moles": 0.1,
+                "phase": "liquid"
+              },
+              {
+                "species": "KI",
+                "moles": 0.001,
+                "phase": "aqueous"
+              }
+            ],
+            "foam": {
+              "trapped_gas_liters": 0,
+              "volume_liters": 0,
+              "peak_volume_liters": 0
+            },
+            "temperature": 298.15,
+            "pressure": 101325,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            },
+            "surfaces": [],
+            "solute_charge": 0,
+            "free_hydroxide": 1.8124185368355766e-8,
+            "free_proton": 1.8124185368355766e-8,
+            "co2_partial_pressure_atm": null,
+            "pending_co2_transfer_mol": 0,
+            "solution": null,
+            "lots": [
+              {
+                "species": "water",
+                "moles": 10,
+                "phase": "liquid",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              },
+              {
+                "species": "H2O2",
+                "moles": 0.1,
+                "phase": "liquid",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              },
+              {
+                "species": "KI",
+                "moles": 0.001,
+                "phase": "aqueous",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              }
+            ],
+            "resolved": {
+              "valid": false,
+              "solution": null
+            }
+          }
+        ],
+        "log": [
+          {
+            "step": 0,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "water",
+              "moles": 10
+            },
+            "events": [
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "water",
+                "moles": 10,
+                "total_after": 10
+              },
+              {
+                "event": "solution_routed",
+                "vessel": 0,
+                "provenance": {
+                  "engine": "Kerotakis analytic equilibrium evaluator",
+                  "dataset": "vendored USGS phreeqc.dat",
+                  "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                  "dataset_sources": [
+                    "USGS PHREEQC thermodynamic database"
+                  ],
+                  "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "routing_phrase": {
+                    "key": "routing.solvent-relation-only",
+                    "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory"
+                  },
+                  "dataset_phrase": {
+                    "key": "provenance.dataset.vendored-usgs",
+                    "en": "vendored USGS {file}",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "phreeqc.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  },
+                  "model_phrase": {
+                    "key": "provenance.model.water-autoionisation",
+                    "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                    "slots": [
+                      [
+                        "engine",
+                        {
+                          "text": {
+                            "text": "PHREEQC"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "step": 1,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "H2O2",
+              "moles": 0.1
+            },
+            "events": [
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "H2O2",
+                "moles": 0.1,
+                "total_after": 0.1
+              }
+            ]
+          },
+          {
+            "step": 2,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "KI",
+              "moles": 0.001
+            },
+            "events": [
+              {
+                "event": "hazard_warning",
+                "severity": "danger",
+                "rule": "oxidizer-reducer",
+                "hazard": "mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction",
+                "real_world": "Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate."
+              },
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "KI",
+                "moles": 0.001,
+                "total_after": 0.001
+              },
+              {
+                "event": "dissolved",
+                "vessel": 0,
+                "species": "KI",
+                "moles": 0.001
+              },
+              {
+                "event": "not_yet_modeled",
+                "vessel": 0,
+                "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                "cause": "not-speciated",
+                "reason": {
+                  "key": "not-modeled.no-component-mapping",
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "section": "species",
+                          "en": "KI"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "spills": [],
+        "broken_vessels": []
+      },
+      "before_calls": 0,
+      "result": {
+        "bench": {
+          "vessels": [
+            {
+              "co2_partial_pressure_atm": null,
+              "contents": [
+                {
+                  "moles": 10.000188287580153,
+                  "phase": "liquid",
+                  "species": "water"
+                },
+                {
+                  "moles": 0.09981171241984603,
+                  "phase": "liquid",
+                  "species": "H2O2"
+                },
+                {
+                  "moles": 0.001,
+                  "phase": "aqueous",
+                  "species": "KI"
+                },
+                {
+                  "moles": 0.00009414379007698754,
+                  "phase": "gas",
+                  "species": "O2"
+                }
+              ],
+              "elapsed_seconds": 1,
+              "excess_enthalpy_j": 0,
+              "foam": {
+                "peak_volume_liters": 0,
+                "trapped_gas_liters": 0,
+                "volume_liters": 0
+              },
+              "free_hydroxide": 1.8124185368355766e-8,
+              "free_proton": 1.8124185368355766e-8,
+              "headspace": {
+                "boundary": "open"
+              },
+              "id": 0,
+              "label": "beaker",
+              "lots": [
+                {
+                  "added_at": 0,
+                  "moles": 10,
+                  "particle_size_um": null,
+                  "phase": "liquid",
+                  "source": "reagent bottle",
+                  "species": "water",
+                  "suspended_fraction": null
+                },
+                {
+                  "added_at": 0,
+                  "moles": 0.1,
+                  "particle_size_um": null,
+                  "phase": "liquid",
+                  "source": "reagent bottle",
+                  "species": "H2O2",
+                  "suspended_fraction": null
+                },
+                {
+                  "added_at": 0,
+                  "moles": 0.001,
+                  "particle_size_um": null,
+                  "phase": "aqueous",
+                  "source": "reagent bottle",
+                  "species": "KI",
+                  "suspended_fraction": null
+                }
+              ],
+              "nuclides": {
+                "inventory": {}
+              },
+              "pending_co2_transfer_mol": 0,
+              "pressure": 101325,
+              "resolved": {
+                "solution": null,
+                "valid": false
+              },
+              "solute_charge": 0,
+              "solution": null,
+              "surfaces": [],
+              "temperature": 298.17424445073044,
+              "thermal_mode": "adiabatic"
+            }
+          ]
+        },
+        "scene": {
+          "scene": 1,
+          "vessels": [
+            {
+              "badges": [],
+              "boiling_point_k": 373.15,
+              "boundary": "open",
+              "bubbling": true,
+              "bulk_objects": [],
+              "clauses": [
+                {
+                  "en": "the liquid is {colour} {clarity}",
+                  "key": "look.liquid",
+                  "slots": [
+                    [
+                      "colour",
+                      {
+                        "term": {
+                          "en": "colourless",
+                          "section": "appearance"
+                        }
+                      }
+                    ],
+                    [
+                      "clarity",
+                      {
+                        "phrase": {
+                          "phrase": {
+                            "en": "and clear",
+                            "key": "look.clarity-clear"
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "en": "bubbles of gas are rising through it",
+                  "key": "look.bubbling"
+                }
+              ],
+              "elapsed_s": 1,
+              "id": 0,
+              "label": "beaker",
+              "layers": [
+                {
+                  "colour_word": "colourless",
+                  "name": "solution",
+                  "species": "solution",
+                  "srgb": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "volume_l": 0.18375367333642406
+                }
+              ],
+              "liquid": {
+                "cloudiness": 0,
+                "colour_word": "colourless",
+                "path_length_cm": 4,
+                "srgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "volume_l": 0.18375367333642406
+              },
+              "mass_g": 183.7170037531503,
+              "melting_point_k": 273.15,
+              "pressure_pa": 101325,
+              "solids": [],
+              "temperature_k": 298.17424445073044,
+              "words": "Le liquide est incolore et limpide, des bulles de gaz y remontent."
+            }
+          ]
+        },
+        "steps": [
+          {
+            "canonical": "wait 1s",
+            "charts": [],
+            "events": [
+              {
+                "event": "gas_produced",
+                "moles": 0.00009414379007698754,
+                "rate_moles_per_second": 0.00009414379007698754,
+                "reaction": "peroxide-decomposition",
+                "species": "O2",
+                "vessel": 0
+              },
+              {
+                "energy_j": 18.48984037112035,
+                "event": "reaction_heat_released",
+                "reaction": "peroxide-decomposition",
+                "vessel": 0
+              },
+              {
+                "event": "temperature_changed",
+                "from": 298.15,
+                "to": 298.17424445073044,
+                "vessel": 0
+              },
+              {
+                "activation_energy": 56000,
+                "catalyst": "potassium iodide",
+                "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
+                "event": "reacted",
+                "moles": 0.00009414379007698754,
+                "reaction": "peroxide-decomposition",
+                "seconds": 1,
+                "vessel": 0
+              },
+              {
+                "cause": "not-speciated",
+                "event": "not_yet_modeled",
+                "reason": {
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "key": "not-modeled.no-component-mapping",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "en": "KI",
+                          "section": "species"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                "vessel": 0,
+                "what": "KI est un soluté ionique sans correspondance avec une composante aqueuse de ce laboratoire. Sa spéciation ionique, son acidité, sa conductivité et ses réactions ne sont pas prises en compte ; toute valeur de la solution ne décrit que les composantes représentées, pas le mélange complet."
+              }
+            ],
+            "ionic": [],
+            "operator": {
+              "op": "wait",
+              "seconds": 1
+            },
+            "quest": [],
+            "rendered": [
+              "v1 : 0,000094 mol de O2 formés (9,414e-5 mol/s)",
+              "v1 : Décomposition du peroxyde a libéré 18,49 J",
+              "v1 : T 298,150 K → 298,174 K (ΔT = +0,024 K)",
+              "v1 : conversion 0,000094 mol sur 1,0 s, Ea = 56,0 kJ/mol (catalyseur : iodure de potassium)  —  2 H₂O₂ → 2 H₂O + O₂↑",
+              "v1 : NON MODÉLISÉ : KI est un soluté ionique sans correspondance avec une composante aqueuse de ce laboratoire. Sa spéciation ionique, son acidité, sa conductivité et ses réactions ne sont pas prises en compte ; toute valeur de la solution ne décrit que les composantes représentées, pas le mélange complet."
+            ],
+            "routes": [
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "mixing-v0",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-reactions does not apply to this vessel state",
+                "solver": "curated-reactions",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "no reaction family's pattern matches this vessel",
+                "solver": "reaction-families",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phase-routes",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "headspace-partition does not apply to this vessel state",
+                "solver": "headspace-partition",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "nonaqueous-curated does not apply to this vessel state",
+                "solver": "nonaqueous-curated",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "heat-of-mixing does not apply to this vessel state",
+                "solver": "heat-of-mixing",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "cea-thermal does not apply to this vessel state",
+                "solver": "cea-thermal",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "curated",
+                "outcome": "not_applicable",
+                "reason": "curated-combustion does not apply to this vessel state",
+                "solver": "curated-combustion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "corrosion does not apply to this vessel state",
+                "solver": "corrosion",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "computed",
+                "outcome": "not_applicable",
+                "reason": "adsorption does not apply to this vessel state",
+                "solver": "adsorption",
+                "vessel": 0
+              },
+              {
+                "chemistry": true,
+                "kind": "computed",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "phreeqc-aqueous (shipped results)",
+                "vessel": 0
+              },
+              {
+                "chemistry": false,
+                "kind": "qualitative",
+                "outcome": {
+                  "succeeded": {
+                    "event_count": 0
+                  }
+                },
+                "solver": "honesty",
+                "vessel": 0
+              }
+            ]
+          }
+        ]
+      },
+      "after": {
+        "vessels": [
+          {
+            "elapsed_seconds": 1,
+            "nuclides": {
+              "inventory": {}
+            },
+            "excess_enthalpy_j": 0,
+            "id": 0,
+            "label": "beaker",
+            "contents": [
+              {
+                "species": "water",
+                "moles": 10.000188287580153,
+                "phase": "liquid"
+              },
+              {
+                "species": "H2O2",
+                "moles": 0.09981171241984603,
+                "phase": "liquid"
+              },
+              {
+                "species": "KI",
+                "moles": 0.001,
+                "phase": "aqueous"
+              },
+              {
+                "species": "O2",
+                "moles": 0.00009414379007698754,
+                "phase": "gas"
+              }
+            ],
+            "foam": {
+              "trapped_gas_liters": 0,
+              "volume_liters": 0,
+              "peak_volume_liters": 0
+            },
+            "temperature": 298.17424445073044,
+            "pressure": 101325,
+            "thermal_mode": "adiabatic",
+            "headspace": {
+              "boundary": "open"
+            },
+            "surfaces": [],
+            "solute_charge": 0,
+            "free_hydroxide": 1.8124185368355766e-8,
+            "free_proton": 1.8124185368355766e-8,
+            "co2_partial_pressure_atm": null,
+            "pending_co2_transfer_mol": 0,
+            "solution": null,
+            "lots": [
+              {
+                "species": "water",
+                "moles": 10,
+                "phase": "liquid",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              },
+              {
+                "species": "H2O2",
+                "moles": 0.1,
+                "phase": "liquid",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              },
+              {
+                "species": "KI",
+                "moles": 0.001,
+                "phase": "aqueous",
+                "added_at": 0,
+                "source": "reagent bottle",
+                "particle_size_um": null,
+                "suspended_fraction": null
+              }
+            ],
+            "resolved": {
+              "valid": false,
+              "solution": null
+            }
+          }
+        ],
+        "log": [
+          {
+            "step": 0,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "water",
+              "moles": 10
+            },
+            "events": [
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "water",
+                "moles": 10,
+                "total_after": 10
+              },
+              {
+                "event": "solution_routed",
+                "vessel": 0,
+                "provenance": {
+                  "engine": "Kerotakis analytic equilibrium evaluator",
+                  "dataset": "vendored USGS phreeqc.dat",
+                  "model": "ideal-dilute water autoionisation (PHREEQC six-coefficient log K relation)",
+                  "dataset_sources": [
+                    "USGS PHREEQC thermodynamic database"
+                  ],
+                  "routing": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory",
+                  "routing_phrase": {
+                    "key": "routing.solvent-relation-only",
+                    "en": "no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory"
+                  },
+                  "dataset_phrase": {
+                    "key": "provenance.dataset.vendored-usgs",
+                    "en": "vendored USGS {file}",
+                    "slots": [
+                      [
+                        "file",
+                        {
+                          "text": {
+                            "text": "phreeqc.dat"
+                          }
+                        }
+                      ]
+                    ]
+                  },
+                  "model_phrase": {
+                    "key": "provenance.model.water-autoionisation",
+                    "en": "ideal-dilute water autoionisation ({engine} six-coefficient log K relation)",
+                    "slots": [
+                      [
+                        "engine",
+                        {
+                          "text": {
+                            "text": "PHREEQC"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "step": 1,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "H2O2",
+              "moles": 0.1
+            },
+            "events": [
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "H2O2",
+                "moles": 0.1,
+                "total_after": 0.1
+              }
+            ]
+          },
+          {
+            "step": 2,
+            "operator": {
+              "op": "add",
+              "vessel": 0,
+              "species": "KI",
+              "moles": 0.001
+            },
+            "events": [
+              {
+                "event": "hazard_warning",
+                "severity": "danger",
+                "rule": "oxidizer-reducer",
+                "hazard": "mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction",
+                "real_world": "Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate."
+              },
+              {
+                "event": "added",
+                "vessel": 0,
+                "species": "KI",
+                "moles": 0.001,
+                "total_after": 0.001
+              },
+              {
+                "event": "dissolved",
+                "vessel": 0,
+                "species": "KI",
+                "moles": 0.001
+              },
+              {
+                "event": "not_yet_modeled",
+                "vessel": 0,
+                "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                "cause": "not-speciated",
+                "reason": {
+                  "key": "not-modeled.no-component-mapping",
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "section": "species",
+                          "en": "KI"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "step": 3,
+            "operator": {
+              "op": "wait",
+              "seconds": 1
+            },
+            "events": [
+              {
+                "event": "gas_produced",
+                "vessel": 0,
+                "reaction": "peroxide-decomposition",
+                "species": "O2",
+                "moles": 0.00009414379007698754,
+                "rate_moles_per_second": 0.00009414379007698754
+              },
+              {
+                "event": "reaction_heat_released",
+                "vessel": 0,
+                "reaction": "peroxide-decomposition",
+                "energy_j": 18.48984037112035
+              },
+              {
+                "event": "temperature_changed",
+                "vessel": 0,
+                "from": 298.15,
+                "to": 298.17424445073044
+              },
+              {
+                "event": "reacted",
+                "vessel": 0,
+                "reaction": "peroxide-decomposition",
+                "equation": "2 H₂O₂ → 2 H₂O + O₂↑",
+                "moles": 0.00009414379007698754,
+                "seconds": 1,
+                "catalyst": "potassium iodide",
+                "activation_energy": 56000
+              },
+              {
+                "event": "not_yet_modeled",
+                "vessel": 0,
+                "what": "KI is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                "cause": "not-speciated",
+                "reason": {
+                  "key": "not-modeled.no-component-mapping",
+                  "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+                  "slots": [
+                    [
+                      "name",
+                      {
+                        "term": {
+                          "section": "species",
+                          "en": "KI"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "spills": [],
+        "broken_vessels": []
+      },
+      "after_calls": 0
+    }
+  },
+  "assets": {
+    "iphreeqc.mjs": {
+      "status": 200,
+      "sha256": "c56475cd941a3514c05a62ff449ae3ba86a61e5944a11c6b9654f80fc9202ef2",
+      "bytes": 30111
+    },
+    "iphreeqc.wasm": {
+      "status": 200,
+      "sha256": "aca79c747b5825dcf919980f5e8055acc8567647ba42902453f7543e6d751d8c",
+      "bytes": 1952581
+    },
+    "kerotakis.mjs": {
+      "status": 200,
+      "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "bytes": 8205
+    },
+    "kerotakis_wasm.js": {
+      "status": 200,
+      "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "bytes": 41630
+    },
+    "kerotakis_wasm_bg.wasm": {
+      "status": 200,
+      "sha256": "bbf29982535dcf3e490006163af02d51fc94eb37a4e8d57067f376c96ecfa790",
+      "bytes": 11450135
+    }
+  },
+  "checks": [
+    {
+      "name": "de actual peroxide heat per consumed molecule and localized joules",
+      "passed": true,
+      "observed": {
+        "consumed_mol": 0.00018828758015397573,
+        "heat_j": 18.48984037112035,
+        "j_per_consumed_mol": 98199.99999999965
+      }
+    },
+    {
+      "name": "fr actual peroxide heat per consumed molecule and localized joules",
+      "passed": true,
+      "observed": {
+        "consumed_mol": 0.00018828758015397573,
+        "heat_j": 18.48984037112035,
+        "j_per_consumed_mol": 98199.99999999965
+      }
+    }
+  ],
+  "scientific_selections": 0,
+  "no_owner_credentials_supplied": true,
+  "all_checks_passed": true,
+  "browser": {
+    "version": "151.0.7922.34",
+    "web_security_disabled": false
+  },
+  "client": {
+    "status": 200,
+    "sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+    "bytes": 2970
+  }
+}

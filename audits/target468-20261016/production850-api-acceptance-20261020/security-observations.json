@@ -1,0 +1,32 @@
+{
+  "auth-missing": {
+    "http_status": 401,
+    "attempts": 1,
+    "actual_response_sha256": "370184e0b2b404611d135ab27d53b40c56d8f98e42afea63a72523c67d2c47b8"
+  },
+  "auth-wrong": {
+    "http_status": 401,
+    "attempts": 1,
+    "actual_response_sha256": "1994468f256bc2a622e543cd9bb4f68d04a733639bd417f54c6f09a0ce418872"
+  },
+  "cors-approved": {
+    "http_status": 200,
+    "attempts": 1,
+    "actual_response_sha256": "565339bc4d33d72817b583024112eb7f5cdf3e5eef0252d6ec1b9c9a94e12bb3"
+  },
+  "cors-unapproved": {
+    "http_status": 400,
+    "attempts": 1,
+    "actual_response_sha256": "f80399859bbd7b2cb1cac34d88e0f01461619f351b476926e2465eea789098d4"
+  },
+  "concurrency-1": {
+    "http_status": 200,
+    "attempts": 1,
+    "actual_response_sha256": "7344197b7afd43acce321b9e9b2793b7c571a923c0dc4bf956b80bb0835d73f1"
+  },
+  "concurrency-2": {
+    "http_status": 429,
+    "attempts": 1,
+    "actual_response_sha256": "4de64c47b93e681257587cb52c79273e268a2e9f40ad0a390894a6dbca8f5333"
+  }
+}

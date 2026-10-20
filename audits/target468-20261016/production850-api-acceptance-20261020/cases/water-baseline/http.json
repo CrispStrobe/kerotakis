@@ -1,0 +1,12 @@
+{
+  "id": "water-baseline",
+  "http_status": 200,
+  "elapsed_seconds": 5.430606812238693,
+  "response_sha256": "7abefdd420c939c379eb699bda831969edad8b0266781e319e70314ebadd8bb2",
+  "response_headers": {
+    "cache-control": "no-store",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "attempts": 1
+}

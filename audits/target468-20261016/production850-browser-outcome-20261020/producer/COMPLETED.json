@@ -1,0 +1,37 @@
+{
+  "runtime_source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "harness_head": "1e44e0abdd823ad0e88eda537458c6f204be9f7a",
+  "groups": [
+    {
+      "group": "browser37",
+      "exit_status": 0,
+      "report_sha256": "76108b244e5317f25b46c7819cd92f7099d160e6541c09b16947eee5604c4501",
+      "expected_checks": 37,
+      "parent_acceptance_assigned": false
+    },
+    {
+      "group": "targeted7",
+      "exit_status": 0,
+      "report_sha256": "0fa1006e69e05e3f0ff84045fe022dd542244f919d39242f8e2208074cd87b48",
+      "expected_checks": 7,
+      "parent_acceptance_assigned": false
+    },
+    {
+      "group": "locale18",
+      "exit_status": 0,
+      "report_sha256": "a5f0056f6a57e1af6ebf304e81b8363d4454ef59b7927fff1a51bffddb29f6cd",
+      "expected_checks": 18,
+      "parent_acceptance_assigned": false
+    },
+    {
+      "group": "heat2",
+      "exit_status": 0,
+      "report_sha256": "67098a38453e9427600296f84b5ddd217b7c598827f46f0a953a969613276e97",
+      "expected_checks": 2,
+      "parent_acceptance_assigned": false
+    }
+  ],
+  "all_four_children_executed_with_zero_status": true,
+  "parent_acceptance_assigned": false,
+  "scientific_catalog_selections": 0
+}

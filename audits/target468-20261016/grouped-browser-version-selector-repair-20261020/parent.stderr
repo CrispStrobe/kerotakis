@@ -1,0 +1,12 @@
+test_actual_output_type_serializes_v1_on_all_pages (test_selector.SelectorAndName.test_actual_output_type_serializes_v1_on_all_pages) ... ok
+test_actual_status_type_serializes_v1 (test_selector.SelectorAndName.test_actual_status_type_serializes_v1) ... ok
+test_existing_and_dangling_collection_refused (test_selector.SelectorAndName.test_existing_and_dangling_collection_refused) ... ok
+test_fresh_reviewed_collection_path_no_creation (test_selector.SelectorAndName.test_fresh_reviewed_collection_path_no_creation) ... ok
+test_only_actual_numeric_version_one (test_selector.SelectorAndName.test_only_actual_numeric_version_one) ... ok
+test_parent_ready_name_mismatch (test_selector.SelectorAndName.test_parent_ready_name_mismatch) ... ok
+test_strict_single_component_name (test_selector.SelectorAndName.test_strict_single_component_name) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.006s
+
+OK

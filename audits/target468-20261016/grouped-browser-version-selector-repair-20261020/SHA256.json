@@ -1,0 +1,9 @@
+{
+  "README.md": "0de3ec592834431f9ba69d6b41595c8cef59669f3f4a3f77a45e490fd9c8478d",
+  "actual-provider-observations.json": "e1e3809038d4fb5189cdec19ae1d4c35a04698c26fc5b201f945787db712dedb",
+  "collect_once.py": "4bddb737d6cc724269e549ef133be8f9a40d9c5eab60faca6341b77f4f74c88d",
+  "parent.result.json": "97e45fd9e16a126f982267c8d0abc42e56c3331f58ec7b4fdcbe5214f5399a1a",
+  "parent.stderr": "fcfaf7c22df318b3b1fe940cdf53fcbb73b08375eb76c658b591afb7bfb15a35",
+  "parent.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_selector.py": "244aa74879ac08995632e568dedf15adaaa74b377fd2d4c78f66c52fa8893832"
+}

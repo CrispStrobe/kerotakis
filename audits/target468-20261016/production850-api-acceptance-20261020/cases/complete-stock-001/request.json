@@ -1,0 +1,1 @@
+{"script": "add v1 water 100mL @ 25C\nadd v1 HCl 0.001mol\ninspect v1\nadd v1 NaOH 0.001mol\ninspect v1\nwait 10s\ninspect v1\n"}

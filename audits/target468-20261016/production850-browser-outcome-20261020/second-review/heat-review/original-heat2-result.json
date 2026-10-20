@@ -1,0 +1,75 @@
+{
+  "state": "SAVED_HEAT_PREDICATES_ACCEPTED",
+  "reviewed_candidate_source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "report_sha256": "67098a38453e9427600296f84b5ddd217b7c598827f46f0a953a969613276e97",
+  "binding_sha256": "e6df739c08d24da78279164293e66376a26010aa02405b799b0e9b9cc9e645d2",
+  "details": {
+    "de": {
+      "consumed_H2O2_mol": 0.00018828758015397573,
+      "O2_produced_mol": 9.414379007698754e-05,
+      "exported_mol": {},
+      "heat_j": 18.48984037112035,
+      "joules_per_consumed_mol": 98199.99999999965,
+      "reference_band_J_per_mol": [
+        97690,
+        99270
+      ],
+      "atoms_charge_before": {
+        "H": 20.2,
+        "O": 10.2,
+        "K": 0.001,
+        "I": 0.001,
+        "charge": 0.0
+      },
+      "atoms_charge_after_plus_exports": {
+        "H": 20.2,
+        "O": 10.199999999999998,
+        "K": 0.001,
+        "I": 0.001,
+        "charge": 0.0
+      },
+      "elapsed_seconds": 1,
+      "localized_heat_lines": [
+        "v1: Peroxidzersetzung setzte 18,49 J frei"
+      ],
+      "temperature_before_K": 298.15,
+      "temperature_after_K": 298.17424445073044
+    },
+    "fr": {
+      "consumed_H2O2_mol": 0.00018828758015397573,
+      "O2_produced_mol": 9.414379007698754e-05,
+      "exported_mol": {},
+      "heat_j": 18.48984037112035,
+      "joules_per_consumed_mol": 98199.99999999965,
+      "reference_band_J_per_mol": [
+        97690,
+        99270
+      ],
+      "atoms_charge_before": {
+        "H": 20.2,
+        "O": 10.2,
+        "K": 0.001,
+        "I": 0.001,
+        "charge": 0.0
+      },
+      "atoms_charge_after_plus_exports": {
+        "H": 20.2,
+        "O": 10.199999999999998,
+        "K": 0.001,
+        "I": 0.001,
+        "charge": 0.0
+      },
+      "elapsed_seconds": 1,
+      "localized_heat_lines": [
+        "v1 : D\u00e9composition du peroxyde a lib\u00e9r\u00e9 18,49 J"
+      ],
+      "temperature_before_K": 298.15,
+      "temperature_after_K": 298.17424445073044
+    }
+  },
+  "scientific_selections": 0,
+  "prior62_acceptance_replaced": false,
+  "full_thermal_ledger_or_rate_calibration_claim": false,
+  "producer_archive_asset_and_source_authentication_still_requires_parent_delivery_review": true
+}

@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-20T21:23:32.473925+00:00",
+  "source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "engine": {
+    "binary_sha256": "428403540fb658f436c59d6e753a8da01aa624429ff1011f26cc0e971ba835f5",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "source_head": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f"
+  },
+  "runner_sha256": "9ea812d8a9e477b06eef99b273e0a672af79da2413fa2eb708a2dc3c3929e404",
+  "collected_receipt_sha256": "9debecdeac0f00b4515ef62fb6e15f2a15502bb842f293acb52e635b12a9292d",
+  "worker_sha256": "a9295585019f6dc0f19f52fac5219febd7d8bea1aced739c651e688f1f7106c2",
+  "external_issue_sha256": "6dc65e994f79163e2e7251148417479fcfdf27c36c3b543c28316aa7314a3211",
+  "execution_design_sha256": "75363e044e698a9c459855cceb76e0fc88685b9dd50fc0ec243e3e6d95fd8d4a",
+  "config_canonical_sha256": "4ee6baf1676244145ba979f9ec8f54236582054a53e1affbfe08be572b7952fb",
+  "top_manifest_sha256": "37dbc5c111d8f5ca4aa18bc2aac5ed7606b4cf8cc16cb7381c4ebf99af801190",
+  "actual_invocations_sha256": {
+    "second-heat2.execution.json": "021ebcb5991cec6ee7f5393afbfc0064af363f970156f004cca520be412c46d1",
+    "first-7.execution.json": "80e61d5fa604bee36706145e1d4d10be295497663e26d4be2255be3edca409cc",
+    "first-heat2.execution.json": "de004eec88f61386f51e67f6b3814214fbeb106fd7d8ba966843fdaccdf2bf4e",
+    "second-18.execution.json": "2ddf94e3483c0a1afc542ea79b302688ce2718bfb8a95d45b895e7982ee928e4",
+    "second-37.execution.json": "9cba12984b33576a10b03431d400270b92a98d982128c28972fb060f6a666c08",
+    "second-7.execution.json": "cb975232a0228e876e59a1859886f4f3710eea3d36cd48c7c182a6bb7e539747",
+    "aggregate.execution.json": "140d18296a98dade4ebb81ae966b28912afc0085e54c4ae9dc5fa41f2dd3244a",
+    "first-18.execution.json": "0859335df5994c75c0385dc8d05fea60308764dc6f85bad0f0613428b150cb3c",
+    "first-37.execution.json": "523ed37bdd5a39002be1fa93e0a1f4ab97e808ccf892ac3dbd3a85034b10e6a6"
+  },
+  "agreement_sha256": "1580a2e07df8c9c82bf75c5318c3a19b05ce376dc7cb50adc25033f174b5540d",
+  "retained_browser_controls": 62,
+  "supplemental_heat_controls": 2,
+  "saved_predicates_and_actual_invocations_verified": true,
+  "new_browser_engine_API_provider_calls": 0,
+  "scientific_selections": 0,
+  "empirical_calibration_claim": false
+}
