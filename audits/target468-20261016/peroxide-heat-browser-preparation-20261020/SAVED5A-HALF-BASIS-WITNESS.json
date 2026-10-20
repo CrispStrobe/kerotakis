@@ -1,0 +1,23 @@
+{
+  "state": "ACTUAL_SAVED_PRIOR_HEAT_BASIS_REJECTED",
+  "actual_source": "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+  "original_report_repository_path": "audits/target468-20261016/browser848-release-outcome-20261020/targeted7/actual-browser/report.json",
+  "original_report_sha256": "30b8288ac4574166bfb9f8561c413c66ea7a4de841cebb92defca0bf0aab4d7b",
+  "raw_coordinate": "raw.de.before.steps[0:4] and raw.de.before.bench.vessels[0]",
+  "new_protocol_baseline": false,
+  "new_browser_protocol_executed": false,
+  "actual_initial_H2O2_mol": 0.326375,
+  "actual_final_H2O2_mol": 0.3263696956947638,
+  "consumed_H2O2_mol": 5.3043052362089504e-06,
+  "actual_water_gain_mol": 5.304305236212017e-06,
+  "actual_O2_inventory_mol": 2.6521526181060084e-06,
+  "actual_gas_produced_mol": 2.6521526181060084e-06,
+  "actual_heat_j": 0.26044138709801,
+  "actual_J_per_consumed_mol": 49100.00000002838,
+  "independent_reference_band_J_per_mol": [
+    97690,
+    99270
+  ],
+  "passed_reference_basis": false,
+  "limits": "Different dry peroxide/HClO two-wait protocol with no added solvent or KI; only actual saved heat/stoichiometry mismatch is demonstrated, never relabeled as a new aqueous/KI control or prediction."
+}

@@ -1,0 +1,58 @@
+{
+  "state": "PREPARED_NOT_EXECUTED",
+  "source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "tree": "f77a9e82941f30a6433583e1bd417939118d13c6",
+  "protocol": "register lv3\nadd v1 water 10mol\nadd v1 H2O2 0.1mol\nadd v1 KI 0.001mol\n",
+  "continuation": "wait 1s\n",
+  "locales": [
+    "de",
+    "fr"
+  ],
+  "new_browser_cases": 2,
+  "accepted_prior_browser_cases": 62,
+  "accepted_prior_cases_replaced": false,
+  "scientific_selections": 0,
+  "expected_reference_J_per_consumed_H2O2_mol": 98480,
+  "reference_uncertainty_J_per_mol": 790,
+  "reference_url": "https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.2126.pdf",
+  "reference_pdf_sha256": "bd3be9916f25a58599f641296406d32a0eb881cd70b33c352de7f23059a9521a",
+  "reference_coordinate": "Table4-4(1), printed328/PDF337, liquid H2O2, delta_cH=-98.48\u00b10.79kJ/mol; not transition-temperature column426.40K",
+  "reference_saved_text_sha256": "c588d420e2813623d7eb2b8e696b8530c92d0284f662e51e7987567b5963e0e3",
+  "source_file_sha256": {
+    "crates/kerotakis-core/src/ops.rs": "a8ed36e723f1a6ed0f55147f81f77a41d4cef00f55d18eecb96f7060cd793bdc",
+    "crates/kerotakis-core/src/clock.rs": "a56fc7d1917f710b6a0a3a26b480a3f085f5467e8d327d9fbc9c0fb755a9fe71",
+    "crates/kerotakis-core/src/render.rs": "db361021d5aae01b6915fcf3ba4c9b080d6ac5f630fec17bfbc3cb63af06f036",
+    "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a",
+    "crates/kerotakis-core/i18n/de.toml": "ac770d3a2ef651cad819e67239cb268c4e29f919d2492bd0fcc56e0bd107212e",
+    "crates/kerotakis-core/i18n/fr.toml": "212967256ee7a5edec3f16b37d65323a42e6e69324c1749dcba1493909cda60b",
+    "crates/kerotakis-core/tests/peroxide_heat_basis.rs": "51f4d4330b9bc585b119ef80ae0cbd09d2dcb011a8d4e99b525cac68c673c65e"
+  },
+  "preconditions": [
+    "Actual full/native/platform acceptance of exact source",
+    "Actual delivered source/native producer lock and five assets/rest.html authenticated by parent",
+    "Parent review of this exact preparation and separate issue/collection/producer proof",
+    "Original62 receipt remains separate and unchanged"
+  ],
+  "forecasts": [
+    "A real one-second owned interval consumes finite positive H2O2",
+    "Actual O2 production and reaction extent each equal half independently observed consumed H2O2",
+    "Water gain including actual exports equals consumed H2O2; KI and full H/O/K/I/charge ledger close",
+    "Actual reaction heat divided by independently measured consumed H2O2 lies inside the independent literature band",
+    "DE/FR actual kinetic label and finite typed heat render in localized two-decimal joules without raw English fallback"
+  ],
+  "limits": [
+    "No empirical rate or catalyst calibration",
+    "No closed total thermal ledger: ambient cooling/open boundary/mixing/temperature correction not claimed",
+    "No aqueous solution heat-of-mixing calibration from pure-liquid reference",
+    "GasProduced is a production observable, never automatically treated as material export; actual GasEvolved/Evaporated events enter boundary ledger separately",
+    "Lots are provenance, not a second physical inventory; full contents pools and declared actual losses own atom/charge balance",
+    "Unexpected species/unowned material source/sink/spills are holds, not ignored or estimated"
+  ],
+  "program_sha256": {
+    "test_saved_predicates.py": "ff980abd88523eb70a59387194db4bc0fe946e8cda5a68e52e471d4c9fc383d4",
+    "run-heat.mjs": "c7183d0a19890bdac2e5a071141dde37b08b0a6c53bc3888b956af6f14129e2d",
+    "heat-controls.mjs": "a2bc9de3efca1090f3eecf8c90b36ef9c84759ac32fa7462cf5b3609ed9ada8d",
+    "review_saved.py": "9fd05f4785e643ec90dcfa7bc28c6d403110062467c0060d1650786612489cf1",
+    "heat_saved_predicates.py": "9c17f87c315e961f01ab5a34efe105dcf9f7bcb26bf187b2709946c2d1ef9d23"
+  }
+}

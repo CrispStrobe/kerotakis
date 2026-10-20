@@ -1,0 +1,10 @@
+{
+  "status": "PARENT_REJECTED_BEFORE_ANY_BROWSER_EXECUTION",
+  "reason": "False empty-nuclide assumption: genuine snapshot nuclides is an object {inventory:{}}; first predicate expected falsy [] and would reject all real rows",
+  "first_preparation_preserved": "first-parent-rejected-schema",
+  "actual_saved_schema_repository_path": "audits/target468-20261016/browser848-release-outcome-20261020/locale18/actual-browser/report.json",
+  "actual_saved_schema_report_sha256": "2078e4c92ad363726901d0daf61e03ff3863489dc5872ad3fd6aba6e2456f3af",
+  "coordinate": "raw.de-restored-false.original.vessels[0]",
+  "source18_snapshot_definition": "crates/kerotakis-wasm/src/lib.rs:741-745; full Bench serde serialization",
+  "new_browser_runs": 0
+}

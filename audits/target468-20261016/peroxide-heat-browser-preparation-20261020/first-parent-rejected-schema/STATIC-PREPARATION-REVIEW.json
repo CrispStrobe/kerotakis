@@ -1,0 +1,33 @@
+{
+  "state": "PREPARATION_ONLY_NOT_EXECUTED",
+  "source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "tree": "f77a9e82941f30a6433583e1bd417939118d13c6",
+  "new_browser_cases": 2,
+  "actual_browser_executions": 0,
+  "provider_API_engine_build_or_commit_calls": 0,
+  "python_AST_pass": true,
+  "JS_syntax_checks_pass": [
+    "heat-controls.mjs",
+    "run-heat.mjs"
+  ],
+  "synthetic_schema_control_tests": 17,
+  "synthetic_is_browser_acceptance": false,
+  "old5a_different_protocol_witness_reference_basis_failed": true,
+  "files_sha256": {
+    "NIST-table4-4-1-saved-text.txt": "c588d420e2813623d7eb2b8e696b8530c92d0284f662e51e7987567b5963e0e3",
+    "README.private.md": "eb44d1c20ee8e756105454ce2f3592260804509fe0b389ad35d07492fbbfeabb",
+    "SAVED5A-HALF-BASIS-WITNESS.json": "48c39445c35e21fbd69467b44aaacadf8c34522fdc6f79c0656d1f22030bd358",
+    "first-static-draft/heat_saved_predicates.py": "aaeaaca4acfe495b40ea0833063e73767efec1c93399f78a299c8a4dee92900d",
+    "first-static-draft/synthetic-tests.stderr": "9edbd7cc3c1f7c43c6a7176761d8cfbe1035f07e6b0939306c20eb760e23decf",
+    "first-static-draft/test_saved_predicates.py": "d9374cad77b9cb50d2aee984691b5a85a6921dc5f4370f88cb5761d8f33b4368",
+    "frozen-design.json": "edfd2526ba7c5a17e481dee5ca3f964fc0b198f24bc4111d9eee8081fe0d8058",
+    "heat-controls.mjs": "a2bc9de3efca1090f3eecf8c90b36ef9c84759ac32fa7462cf5b3609ed9ada8d",
+    "heat_saved_predicates.py": "9c17f87c315e961f01ab5a34efe105dcf9f7bcb26bf187b2709946c2d1ef9d23",
+    "review_saved.py": "9fd05f4785e643ec90dcfa7bc28c6d403110062467c0060d1650786612489cf1",
+    "run-heat.mjs": "c7183d0a19890bdac2e5a071141dde37b08b0a6c53bc3888b956af6f14129e2d",
+    "saved5a-different-protocol-raw.json": "c5a510cbd38266e7b3fe7d613d9d05f928a1877eec45a40fad3babba394a7171",
+    "synthetic-tests.stderr": "2c5a56acde75698aa493f70dfdb1c12f25bf0d9f489ec3f22b83875f5d61f38a",
+    "synthetic-tests.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_saved_predicates.py": "ff980abd88523eb70a59387194db4bc0fe946e8cda5a68e52e471d4c9fc383d4"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "state": "PREPARATION_REVIEWED_NO_BROWSER_EXECUTION",
+  "source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "first_parent_schema_rejection_preserved": true,
+  "actual_full_Bench_nuclide_and_optional_reservoir_shapes_reviewed": true,
+  "all25_synthetic_methods_pass_not_browser_results": true,
+  "actual5a_different_protocol_heat_basis_reproduced_J_per_consumed_mol": 49100.00000002838,
+  "frozen_design_sha256": "07f12d63fd2712c2e51112bfc254f82d5f6db21d97b70aeca1e71ab0e783e50e",
+  "saved_predicates_sha256": "2c1e09a280b4ae852c5ff9c304e89e168be53fea172eab089dc54301adafebfe",
+  "source_blob_hashes_verified": true,
+  "actual_delivery_prerequisites_pending": true
+}

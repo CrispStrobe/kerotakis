@@ -1,0 +1,30 @@
+test_bad_clock_rejected (__main__.Predicates.test_bad_clock_rejected) ... ok
+test_catalyst_loss_rejected (__main__.Predicates.test_catalyst_loss_rejected) ... ok
+test_english_leak_rejected (__main__.Predicates.test_english_leak_rejected) ... ok
+test_fake_rendered_number_rejected (__main__.Predicates.test_fake_rendered_number_rejected) ... ok
+test_foam_reservoirs_rejected (__main__.Predicates.test_foam_reservoirs_rejected) ... ok
+test_gas_stoich_rejected (__main__.Predicates.test_gas_stoich_rejected) ... ok
+test_half_heat_rejected (__main__.Predicates.test_half_heat_rejected) ... ok
+test_missing_heat_rejected (__main__.Predicates.test_missing_heat_rejected) ... ok
+test_nan_rejected (__main__.Predicates.test_nan_rejected) ... ok
+test_nonempty_nuclides_rejected (__main__.Predicates.test_nonempty_nuclides_rejected) ... ok
+test_nonfinite_cache_rejected (__main__.Predicates.test_nonfinite_cache_rejected) ... ok
+test_nonfinite_scalar_rejected (__main__.Predicates.test_nonfinite_scalar_rejected) ... ok
+test_numeric_string_rejected (__main__.Predicates.test_numeric_string_rejected) ... ok
+test_owned_list_reservoirs_rejected (__main__.Predicates.test_owned_list_reservoirs_rejected) ... ok
+test_owned_optional_reservoirs_rejected (__main__.Predicates.test_owned_optional_reservoirs_rejected) ... ok
+test_pending_co2_rejected (__main__.Predicates.test_pending_co2_rejected) ... ok
+test_reported_oxygen_export_reconciles (__main__.Predicates.test_reported_oxygen_export_reconciles) ... ok
+test_spill_boundary_rejected (__main__.Predicates.test_spill_boundary_rejected) ... ok
+test_synthetic_de_fr_schema_positive (__main__.Predicates.test_synthetic_de_fr_schema_positive) ... ok
+test_unknown_species_rejected (__main__.Predicates.test_unknown_species_rejected) ... ok
+test_unreported_export_rejected (__main__.Predicates.test_unreported_export_rejected) ... ok
+test_water_loss_rejected (__main__.Predicates.test_water_loss_rejected) ... ok
+test_wrong_empty_nuclide_schema_rejected (__main__.Predicates.test_wrong_empty_nuclide_schema_rejected) ... ok
+test_wrong_heat_owner_rejected (__main__.Predicates.test_wrong_heat_owner_rejected) ... ok
+test_wrong_reaction_rejected (__main__.Predicates.test_wrong_reaction_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.030s
+
+OK

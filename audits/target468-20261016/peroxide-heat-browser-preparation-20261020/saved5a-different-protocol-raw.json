@@ -1,0 +1,868 @@
+{
+  "meta": {
+    "engine_version": "0.0.1",
+    "git_rev": "5a2cac0",
+    "narration": [
+      "routing"
+    ],
+    "packs": [
+      {
+        "compressed_size": 0,
+        "content_hash": "",
+        "licence": "AGPL-3.0 + USGS public domain data",
+        "min_app_version": "0.0.1",
+        "pack_id": "core-aqueous",
+        "required": true,
+        "version": "1.0.0"
+      },
+      {
+        "compressed_size": 0,
+        "content_hash": "",
+        "licence": "AGPL-3.0",
+        "min_app_version": "0.0.1",
+        "pack_id": "phase",
+        "required": false,
+        "version": "1.0.0"
+      },
+      {
+        "compressed_size": 0,
+        "content_hash": "",
+        "licence": "AGPL-3.0 + NASA public domain data",
+        "min_app_version": "0.0.1",
+        "pack_id": "combustion",
+        "required": false,
+        "version": "1.0.0"
+      },
+      {
+        "compressed_size": 0,
+        "content_hash": "",
+        "licence": "AGPL-3.0 + MIT (chematic)",
+        "min_app_version": "0.0.1",
+        "pack_id": "structures",
+        "required": false,
+        "version": "1.0.0"
+      },
+      {
+        "compressed_size": 0,
+        "content_hash": "",
+        "licence": "AGPL-3.0",
+        "min_app_version": "0.0.1",
+        "pack_id": "spectra",
+        "required": false,
+        "version": "1.0.0"
+      }
+    ],
+    "registers": [
+      "lv1",
+      "lv2",
+      "lv3"
+    ]
+  },
+  "before": {
+    "bench": {
+      "vessels": [
+        {
+          "co2_partial_pressure_atm": null,
+          "contents": [
+            {
+              "moles": 0.3263696956947638,
+              "phase": "liquid",
+              "species": "H2O2"
+            },
+            {
+              "moles": 5.304305236212017e-06,
+              "phase": "liquid",
+              "species": "water"
+            },
+            {
+              "moles": 2.6521526181060084e-06,
+              "phase": "gas",
+              "species": "O2"
+            },
+            {
+              "moles": 0.019062,
+              "phase": "aqueous",
+              "species": "HClO"
+            }
+          ],
+          "elapsed_seconds": 2,
+          "excess_enthalpy_j": 0,
+          "foam": {
+            "peak_volume_liters": 0,
+            "trapped_gas_liters": 0,
+            "volume_liters": 0
+          },
+          "free_hydroxide": 0,
+          "free_proton": 0,
+          "headspace": {
+            "boundary": "open"
+          },
+          "id": 0,
+          "label": "beaker",
+          "lots": [
+            {
+              "added_at": 0,
+              "moles": 0.326375,
+              "particle_size_um": null,
+              "phase": "liquid",
+              "source": "reagent bottle",
+              "species": "H2O2",
+              "suspended_fraction": null
+            },
+            {
+              "added_at": 1,
+              "moles": 0.019062,
+              "particle_size_um": null,
+              "phase": "aqueous",
+              "source": "reagent bottle",
+              "species": "HClO",
+              "suspended_fraction": null
+            }
+          ],
+          "nuclides": {
+            "inventory": {}
+          },
+          "pending_co2_transfer_mol": 0,
+          "pressure": 101325,
+          "resolved": {
+            "solution": null,
+            "valid": false
+          },
+          "solute_charge": 0,
+          "solution": null,
+          "surfaces": [],
+          "temperature": 298.1589560261922,
+          "thermal_mode": "adiabatic"
+        }
+      ]
+    },
+    "scene": {
+      "scene": 1,
+      "vessels": [
+        {
+          "badges": [],
+          "boiling_point_k": 373.15,
+          "boundary": "open",
+          "bubbling": true,
+          "bulk_objects": [],
+          "clauses": [
+            {
+              "en": "the liquid is {colour} {clarity}",
+              "key": "look.liquid",
+              "slots": [
+                [
+                  "colour",
+                  {
+                    "term": {
+                      "en": "colourless",
+                      "section": "appearance"
+                    }
+                  }
+                ],
+                [
+                  "clarity",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "and clear",
+                        "key": "look.clarity-clear"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            {
+              "en": "bubbles of gas are rising through it",
+              "key": "look.bubbling"
+            }
+          ],
+          "elapsed_s": 2,
+          "id": 0,
+          "label": "beaker",
+          "layers": [
+            {
+              "colour_word": "colourless",
+              "name": "solution",
+              "species": "solution",
+              "srgb": [
+                255,
+                255,
+                255
+              ],
+              "volume_l": 0.009999945709979018
+            }
+          ],
+          "liquid": {
+            "cloudiness": 0,
+            "colour_word": "colourless",
+            "path_length_cm": 4,
+            "srgb": [
+              255,
+              255,
+              255
+            ],
+            "volume_l": 0.009999945709979018
+          },
+          "mass_g": 12.100006291217221,
+          "melting_point_k": 273.15,
+          "pressure_pa": 101325,
+          "solids": [],
+          "temperature_k": 298.1589560261922,
+          "words": "Die Fl\u00fcssigkeit ist farblos und klar, Gasbl\u00e4schen steigen darin auf."
+        }
+      ]
+    },
+    "steps": [
+      {
+        "canonical": "add v1 H2O2 0.326375mol",
+        "charts": [],
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.326375,
+            "species": "H2O2",
+            "total_after": 0.326375,
+            "vessel": 0
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "this peroxide-containing liquid is below the aqueous model's editorial water-majority admission boundary. A trace of water produced by a reaction does not establish an aqueous solvent. No validated activity model for this peroxide-rich medium is available: aqueous pH, ionic strength and speciation are withdrawn, the inventory is retained, and independently represented reaction progress is not a complete prediction for the mixture",
+              "key": "not-modeled.peroxide-rich-medium"
+            },
+            "vessel": 0,
+            "what": "Diese peroxidhaltige Fl\u00fcssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze f\u00fcr ein \u00fcberwiegend w\u00e4ssriges L\u00f6sungsmittel. Eine durch Reaktionen entstandene Wasserspur begr\u00fcndet noch kein w\u00e4ssriges Medium. F\u00fcr dieses peroxidreiche Medium ist kein validiertes Aktivit\u00e4tsmodell verf\u00fcgbar: w\u00e4ssriger pH, Ionenst\u00e4rke und Speziation werden zur\u00fcckgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollst\u00e4ndige Vorhersage f\u00fcr das Gemisch."
+          }
+        ],
+        "ionic": [],
+        "operator": {
+          "moles": 0.326375,
+          "op": "add",
+          "species": "H2O2",
+          "vessel": 0
+        },
+        "quest": [],
+        "rendered": [
+          "v1: +0,3264 mol Wasserstoffperoxid",
+          "v1: noch nicht modelliert \u2014 Diese peroxidhaltige Fl\u00fcssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze f\u00fcr ein \u00fcberwiegend w\u00e4ssriges L\u00f6sungsmittel. Eine durch Reaktionen entstandene Wasserspur begr\u00fcndet noch kein w\u00e4ssriges Medium. F\u00fcr dieses peroxidreiche Medium ist kein validiertes Aktivit\u00e4tsmodell verf\u00fcgbar: w\u00e4ssriger pH, Ionenst\u00e4rke und Speziation werden zur\u00fcckgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollst\u00e4ndige Vorhersage f\u00fcr das Gemisch."
+        ],
+        "routes": [
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "mixing-v0",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "curated-reactions does not apply to this vessel state",
+            "solver": "curated-reactions",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "no reaction family's pattern matches this vessel",
+            "solver": "reaction-families",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "phase-routes",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "headspace-partition does not apply to this vessel state",
+            "solver": "headspace-partition",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "nonaqueous-curated does not apply to this vessel state",
+            "solver": "nonaqueous-curated",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "heat-of-mixing does not apply to this vessel state",
+            "solver": "heat-of-mixing",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "cea-thermal does not apply to this vessel state",
+            "solver": "cea-thermal",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "curated-combustion does not apply to this vessel state",
+            "solver": "curated-combustion",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "corrosion does not apply to this vessel state",
+            "solver": "corrosion",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "adsorption does not apply to this vessel state",
+            "solver": "adsorption",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "phreeqc-aqueous (shipped results)",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "qualitative",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "honesty",
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "canonical": "wait 1s",
+        "charts": [],
+        "events": [
+          {
+            "event": "gas_produced",
+            "moles": 1.3257804810833202e-06,
+            "rate_moles_per_second": 1.3257804810833202e-06,
+            "reaction": "peroxide-decomposition",
+            "species": "O2",
+            "vessel": 0
+          },
+          {
+            "energy_j": 0.13019164324238205,
+            "event": "reaction_heat_released",
+            "reaction": "peroxide-decomposition",
+            "vessel": 0
+          },
+          {
+            "activation_energy": 75000,
+            "catalyst": null,
+            "equation": "2 H\u2082O\u2082 \u2192 2 H\u2082O + O\u2082\u2191",
+            "event": "reacted",
+            "moles": 1.3257804810833202e-06,
+            "reaction": "peroxide-decomposition",
+            "seconds": 1,
+            "vessel": 0
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "this peroxide-containing liquid is below the aqueous model's editorial water-majority admission boundary. A trace of water produced by a reaction does not establish an aqueous solvent. No validated activity model for this peroxide-rich medium is available: aqueous pH, ionic strength and speciation are withdrawn, the inventory is retained, and independently represented reaction progress is not a complete prediction for the mixture",
+              "key": "not-modeled.peroxide-rich-medium"
+            },
+            "vessel": 0,
+            "what": "Diese peroxidhaltige Fl\u00fcssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze f\u00fcr ein \u00fcberwiegend w\u00e4ssriges L\u00f6sungsmittel. Eine durch Reaktionen entstandene Wasserspur begr\u00fcndet noch kein w\u00e4ssriges Medium. F\u00fcr dieses peroxidreiche Medium ist kein validiertes Aktivit\u00e4tsmodell verf\u00fcgbar: w\u00e4ssriger pH, Ionenst\u00e4rke und Speziation werden zur\u00fcckgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollst\u00e4ndige Vorhersage f\u00fcr das Gemisch."
+          }
+        ],
+        "ionic": [],
+        "operator": {
+          "op": "wait",
+          "seconds": 1
+        },
+        "quest": [],
+        "rendered": [
+          "v1: 0,000001 mol O2 entstanden (1,326e-6 mol/s)",
+          "v1: Peroxidzersetzung setzte 0,13 J frei",
+          "v1: 1,33 \u00b5mol umgesetzt in 1 s  \u2014  2 H\u2082O\u2082 \u2192 2 H\u2082O + O\u2082\u2191",
+          "v1: noch nicht modelliert \u2014 Diese peroxidhaltige Fl\u00fcssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze f\u00fcr ein \u00fcberwiegend w\u00e4ssriges L\u00f6sungsmittel. Eine durch Reaktionen entstandene Wasserspur begr\u00fcndet noch kein w\u00e4ssriges Medium. F\u00fcr dieses peroxidreiche Medium ist kein validiertes Aktivit\u00e4tsmodell verf\u00fcgbar: w\u00e4ssriger pH, Ionenst\u00e4rke und Speziation werden zur\u00fcckgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollst\u00e4ndige Vorhersage f\u00fcr das Gemisch."
+        ],
+        "routes": [
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "mixing-v0",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "curated-reactions does not apply to this vessel state",
+            "solver": "curated-reactions",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "no reaction family's pattern matches this vessel",
+            "solver": "reaction-families",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "phase-routes",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "headspace-partition does not apply to this vessel state",
+            "solver": "headspace-partition",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "nonaqueous-curated does not apply to this vessel state",
+            "solver": "nonaqueous-curated",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "heat-of-mixing does not apply to this vessel state",
+            "solver": "heat-of-mixing",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "cea-thermal does not apply to this vessel state",
+            "solver": "cea-thermal",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "curated-combustion does not apply to this vessel state",
+            "solver": "curated-combustion",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "corrosion does not apply to this vessel state",
+            "solver": "corrosion",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "adsorption does not apply to this vessel state",
+            "solver": "adsorption",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "phreeqc-aqueous (shipped results)",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "qualitative",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "honesty",
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "canonical": "add v1 HClO 0.019062mol",
+        "charts": [],
+        "events": [
+          {
+            "event": "added",
+            "moles": 0.019062,
+            "species": "HClO",
+            "total_after": 0.019062,
+            "vessel": 0
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "this peroxide-containing liquid is below the aqueous model's editorial water-majority admission boundary. A trace of water produced by a reaction does not establish an aqueous solvent. No validated activity model for this peroxide-rich medium is available: aqueous pH, ionic strength and speciation are withdrawn, the inventory is retained, and independently represented reaction progress is not a complete prediction for the mixture",
+              "key": "not-modeled.peroxide-rich-medium"
+            },
+            "vessel": 0,
+            "what": "Diese peroxidhaltige Fl\u00fcssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze f\u00fcr ein \u00fcberwiegend w\u00e4ssriges L\u00f6sungsmittel. Eine durch Reaktionen entstandene Wasserspur begr\u00fcndet noch kein w\u00e4ssriges Medium. F\u00fcr dieses peroxidreiche Medium ist kein validiertes Aktivit\u00e4tsmodell verf\u00fcgbar: w\u00e4ssriger pH, Ionenst\u00e4rke und Speziation werden zur\u00fcckgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollst\u00e4ndige Vorhersage f\u00fcr das Gemisch."
+          }
+        ],
+        "ionic": [],
+        "operator": {
+          "moles": 0.019062,
+          "op": "add",
+          "species": "HClO",
+          "vessel": 0
+        },
+        "quest": [],
+        "rendered": [
+          "v1: +0,0191 mol hypochlorige S\u00e4ure",
+          "v1: noch nicht modelliert \u2014 Diese peroxidhaltige Fl\u00fcssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze f\u00fcr ein \u00fcberwiegend w\u00e4ssriges L\u00f6sungsmittel. Eine durch Reaktionen entstandene Wasserspur begr\u00fcndet noch kein w\u00e4ssriges Medium. F\u00fcr dieses peroxidreiche Medium ist kein validiertes Aktivit\u00e4tsmodell verf\u00fcgbar: w\u00e4ssriger pH, Ionenst\u00e4rke und Speziation werden zur\u00fcckgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollst\u00e4ndige Vorhersage f\u00fcr das Gemisch."
+        ],
+        "routes": [
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "mixing-v0",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "curated-reactions does not apply to this vessel state",
+            "solver": "curated-reactions",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "no reaction family's pattern matches this vessel",
+            "solver": "reaction-families",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "phase-routes",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "headspace-partition does not apply to this vessel state",
+            "solver": "headspace-partition",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "nonaqueous-curated does not apply to this vessel state",
+            "solver": "nonaqueous-curated",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "heat-of-mixing does not apply to this vessel state",
+            "solver": "heat-of-mixing",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "cea-thermal does not apply to this vessel state",
+            "solver": "cea-thermal",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "curated-combustion does not apply to this vessel state",
+            "solver": "curated-combustion",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "corrosion does not apply to this vessel state",
+            "solver": "corrosion",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "adsorption does not apply to this vessel state",
+            "solver": "adsorption",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "phreeqc-aqueous (shipped results)",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "qualitative",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "honesty",
+            "vessel": 0
+          }
+        ]
+      },
+      {
+        "canonical": "wait 1s",
+        "charts": [],
+        "events": [
+          {
+            "event": "gas_produced",
+            "moles": 1.3263721370226882e-06,
+            "rate_moles_per_second": 1.3263721370226882e-06,
+            "reaction": "peroxide-decomposition",
+            "species": "O2",
+            "vessel": 0
+          },
+          {
+            "energy_j": 0.130249743855628,
+            "event": "reaction_heat_released",
+            "reaction": "peroxide-decomposition",
+            "vessel": 0
+          },
+          {
+            "activation_energy": 75000,
+            "catalyst": null,
+            "equation": "2 H\u2082O\u2082 \u2192 2 H\u2082O + O\u2082\u2191",
+            "event": "reacted",
+            "moles": 1.3263721370226882e-06,
+            "reaction": "peroxide-decomposition",
+            "seconds": 1,
+            "vessel": 0
+          },
+          {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "this peroxide-containing liquid is below the aqueous model's editorial water-majority admission boundary. A trace of water produced by a reaction does not establish an aqueous solvent. No validated activity model for this peroxide-rich medium is available: aqueous pH, ionic strength and speciation are withdrawn, the inventory is retained, and independently represented reaction progress is not a complete prediction for the mixture",
+              "key": "not-modeled.peroxide-rich-medium"
+            },
+            "vessel": 0,
+            "what": "Diese peroxidhaltige Fl\u00fcssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze f\u00fcr ein \u00fcberwiegend w\u00e4ssriges L\u00f6sungsmittel. Eine durch Reaktionen entstandene Wasserspur begr\u00fcndet noch kein w\u00e4ssriges Medium. F\u00fcr dieses peroxidreiche Medium ist kein validiertes Aktivit\u00e4tsmodell verf\u00fcgbar: w\u00e4ssriger pH, Ionenst\u00e4rke und Speziation werden zur\u00fcckgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollst\u00e4ndige Vorhersage f\u00fcr das Gemisch."
+          }
+        ],
+        "ionic": [],
+        "operator": {
+          "op": "wait",
+          "seconds": 1
+        },
+        "quest": [],
+        "rendered": [
+          "v1: 0,000001 mol O2 entstanden (1,326e-6 mol/s)",
+          "v1: Peroxidzersetzung setzte 0,13 J frei",
+          "v1: 1,33 \u00b5mol umgesetzt in 1 s  \u2014  2 H\u2082O\u2082 \u2192 2 H\u2082O + O\u2082\u2191",
+          "v1: noch nicht modelliert \u2014 Diese peroxidhaltige Fl\u00fcssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze f\u00fcr ein \u00fcberwiegend w\u00e4ssriges L\u00f6sungsmittel. Eine durch Reaktionen entstandene Wasserspur begr\u00fcndet noch kein w\u00e4ssriges Medium. F\u00fcr dieses peroxidreiche Medium ist kein validiertes Aktivit\u00e4tsmodell verf\u00fcgbar: w\u00e4ssriger pH, Ionenst\u00e4rke und Speziation werden zur\u00fcckgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollst\u00e4ndige Vorhersage f\u00fcr das Gemisch."
+        ],
+        "routes": [
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "mixing-v0",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "curated-reactions does not apply to this vessel state",
+            "solver": "curated-reactions",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "no reaction family's pattern matches this vessel",
+            "solver": "reaction-families",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "phase-routes",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "headspace-partition does not apply to this vessel state",
+            "solver": "headspace-partition",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "nonaqueous-curated does not apply to this vessel state",
+            "solver": "nonaqueous-curated",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "heat-of-mixing does not apply to this vessel state",
+            "solver": "heat-of-mixing",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "cea-thermal does not apply to this vessel state",
+            "solver": "cea-thermal",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "curated",
+            "outcome": "not_applicable",
+            "reason": "curated-combustion does not apply to this vessel state",
+            "solver": "curated-combustion",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "corrosion does not apply to this vessel state",
+            "solver": "corrosion",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": "not_applicable",
+            "reason": "adsorption does not apply to this vessel state",
+            "solver": "adsorption",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "computed",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "phreeqc-aqueous (shipped results)",
+            "vessel": 0
+          },
+          {
+            "chemistry": false,
+            "kind": "qualitative",
+            "outcome": {
+              "succeeded": {
+                "event_count": 0
+              }
+            },
+            "solver": "honesty",
+            "vessel": 0
+          }
+        ]
+      }
+    ]
+  },
+  "before_calls": 0,
+  "after": null,
+  "after_calls": 0
+}

@@ -1,0 +1,44 @@
+NIST TN 2126
+December 2023
+
+                                    Table 4-4. Recommended Heats of Combustion, Formation, and Transition
+
+
+                                                         Table 4-4(1). Small Molecules
+
+      Formula   Compound                  Ttrs    Ph     SEL       cH          u        fH       u       trsH     u      M      R     Ref
+                                          [K]                                             kJ mol-1
+      Hydrogen/Oxygen
+      H2       hydrogen                   20.37   g      SEL    -285.826       0.000      0.000   0.000                     def           def
+      O2       oxygen                     90.19   g      SEL       0.000       0.000      0.000   0.000                     def           def
+      H2O2     hydrogen peroxide         426.40   l      SEL      -98.48        0.79    -187.35    0.79    51.89    0.79    TN         2021RUS
+                                         426.40   g      SEL1   -150.368       0.068   -135.458   0.063                     TN         2021RUS
+                                         272.74   s      SEL2     -86.26        0.79    -199.56    0.79    12.22    0.03   DfusH       1955GIG
+                                         272.74   sl     SEL                                               12.22    0.03     f         1951FOL
+      H2O       water                    373.12   l      SEL       0.000       0.037   -285.826   0.026    44.00    0.22    TN         2021RUS
+                                         373.12   g      SEL1    -43.994       0.037   -241.832   0.026                     TN         2021RUS
+                                        273.153   s      SEL2      6.913       0.037   -292.739   0.026     6.91            TN         2021RUS
+      Nitrogen/Hydrogen
+      N2        nitrogen                  77.36   g      SEL       0.000       0.000      0.000   0.000                    def
+      H3N       ammonia                  239.82   g      SEL    -383.181       0.029    -45.558   0.029                    TN          2021RUS
+                                         239.82   l      SEL1    -363.32        0.11     -65.42    0.11                    DvH         2021RUS
+                                         239.82   lg     SEL                                               19.87    0.10    v          2019DIK
+      ClH4NO4   ammonium perchlorate     403.15   s(d)   SEL     -442.33        0.17    -295.77    0.17                                1998CHA
+      H4N2      hydrazine                386.65   l      SEL     -622.34                  50.69    0.18   -336.51   1.00               2021RUS
+                                         386.65   g      SEL1    -669.22                   97.6     1.0                                2021RUS
+      Hydrogen Halides
+      FH       hydrogen fluoride          292.7   g      SEL             na            -272.721   0.048                     TN         2021RUS
+                                          292.7   l      SEL1            na             -302.41    0.16                     TN         2021RUS
+                hydrogen fluoride         292.7   aq     SEL             na             -321.05    0.16                     TN         2021RUS
+                (aq, 20 H2O)
+      ClH       hydrogen chloride         188.1   g      SEL             na             -92.173   0.006                     TN         2021RUS
+                hydrogen chloride         188.1   aq     SEL             na            -166.452   0.024                     TN         2021RUS
+                (aq, 600 H2O)
+      BrH       hydrogen bromide         206.77   g      SEL             na              -36.29    0.16                      R         1984COX
+                hydrogen bromide         206.77   aq     SEL             na             -120.11    0.15                     TN         2021RUS
+                (aq, 600 H2O)
+      Sulfur/Hydrogen/Oxygen
+      H2S       hydrogen sulfide         212.85   g      SEL     -867.21         0.5      -20.6     0.5                     R          1984COX
+
+                                                                         328
+
