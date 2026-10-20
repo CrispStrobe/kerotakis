@@ -21,9 +21,11 @@ mod solver_contract_tests;
 
 pub mod worker;
 
+#[cfg(test)]
+use kerotakis_core::SolverRouteOutcome;
 use kerotakis_core::{
     localize_events, render_events_narrated, render_vessel_in, Bench, Equilibrator, Event, Locale,
-    Narration, Operator, Refuses, Register, SolverRoute, SolverRouteOutcome, SolverStack,
+    Narration, Operator, Refuses, Register, SolverRoute, SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -992,6 +994,32 @@ struct CombinedSolver<'a> {
 }
 
 impl Equilibrator for CombinedSolver<'_> {
+    fn trusted_aqueous_readback(
+        &mut self,
+    ) -> Option<&mut dyn kerotakis_core::aqueous_continuation::TrustedAqueousReadback> {
+        // The externally installed adapter is the aqueous owner. Refuse an
+        // ambiguous composition rather than borrowing an arbitrary authority.
+        if self
+            .stack
+            .solvers
+            .iter_mut()
+            .any(|solver| solver.trusted_aqueous_readback().is_some())
+        {
+            return None;
+        }
+        self.aqueous.trusted_aqueous_readback()
+    }
+
+    fn record_route(&mut self, route: SolverRoute) {
+        self.stack.record_route(route);
+    }
+
+    fn time_boundaries(&self, vessel: &kerotakis_core::Vessel) -> Vec<Event> {
+        let mut events = self.stack.time_boundaries(vessel);
+        events.extend(self.aqueous.time_boundaries(vessel));
+        events
+    }
+
     fn name(&self) -> &'static str {
         "wasm-stack"
     }
@@ -1019,63 +1047,20 @@ impl Equilibrator for CombinedSolver<'_> {
             .iter()
             .position(|solver| solver.name() == "honesty")
             .unwrap_or(self.stack.solvers.len());
-        // GUI-052: the browser records the same routing evidence the native
-        // stack does. `SolverStack::equilibrate` is never called here — this
-        // method replaces it — so the routes have to be collected by hand,
-        // in the same order, or the drawer would be empty on the web and
-        // full on the desktop for one identical step.
-        let mut routes = Vec::new();
-        run_solvers(
-            &mut self.stack.solvers[..aqueous_at],
-            vessel,
-            &mut events,
-            &mut routes,
-        );
-        let mut aqueous = BrowserAqueous {
-            inner: &mut *self.aqueous,
+        // Use the native route transaction, validation and boundary bookkeeping
+        // for both installed stages and the borrowed, phase-coupled adapter.
+        self.stack.last_routes.clear();
+        events.extend(self.stack.equilibrate_range(0..aqueous_at, vessel)?);
+        let mut aqueous = BrowserPhaseCoupled {
+            inner: BrowserAqueous {
+                inner: &mut *self.aqueous,
+            },
         };
-        // The aqueous/phase-coupled pass runs unconditionally here, exactly
-        // as it did before this record existed: `equilibrate_phase_coupled`
-        // also settles freezing and boiling, which must not stop happening
-        // because the speciation engine had nothing to say. So the route is
-        // observed, never gated.
-        let chemistry = aqueous.chemistry_applies(vessel);
-        let kind = aqueous.route_kind();
-        let name = aqueous.name().to_string();
-        match kerotakis_core::equilibrate_phase_coupled(&mut aqueous, vessel) {
-            Ok(mut more) => {
-                routes.push(SolverRoute {
-                    solver: name,
-                    kind,
-                    chemistry,
-                    outcome: SolverRouteOutcome::Succeeded {
-                        event_count: kerotakis_core::solve::answer_event_count(&more),
-                    },
-                    vessel: Some(vessel.id),
-                    reason: None,
-                });
-                events.append(&mut more);
-            }
-            Err(error) => {
-                routes.push(SolverRoute {
-                    solver: name,
-                    kind,
-                    chemistry,
-                    outcome: SolverRouteOutcome::Failed,
-                    vessel: Some(vessel.id),
-                    reason: Some(error.to_string()),
-                });
-                self.stack.last_routes = routes;
-                return Err(error);
-            }
-        }
-        run_solvers(
-            &mut self.stack.solvers[aqueous_at..],
-            vessel,
-            &mut events,
-            &mut routes,
+        events.extend(self.stack.equilibrate_external(&mut aqueous, vessel));
+        events.extend(
+            self.stack
+                .equilibrate_range(aqueous_at..self.stack.solvers.len(), vessel)?,
         );
-        self.stack.last_routes = routes;
         Ok(events)
     }
 }
@@ -1113,56 +1098,31 @@ impl Equilibrator for BrowserAqueous<'_> {
     }
 }
 
-fn run_solvers(
-    solvers: &mut [Box<dyn Equilibrator>],
-    vessel: &mut kerotakis_core::Vessel,
-    events: &mut Vec<Event>,
-    routes: &mut Vec<SolverRoute>,
-) {
-    for solver in solvers {
-        let name = solver.name().to_string();
-        let kind = solver.route_kind();
-        let chemistry = solver.chemistry_applies(vessel);
-        if !solver.applies(vessel) {
-            routes.push(SolverRoute {
-                solver: name,
-                kind,
-                chemistry,
-                outcome: SolverRouteOutcome::NotApplicable,
-                vessel: Some(vessel.id),
-                reason: kerotakis_core::solve::decline_reason(&**solver, vessel),
-            });
-            continue;
-        }
-        match solver.equilibrate(vessel) {
-            Ok(mut more) => {
-                routes.push(SolverRoute {
-                    solver: name,
-                    kind,
-                    chemistry,
-                    outcome: SolverRouteOutcome::Succeeded {
-                        event_count: kerotakis_core::solve::answer_event_count(&more),
-                    },
-                    vessel: Some(vessel.id),
-                    reason: None,
-                });
-                events.append(&mut more);
-            }
-            Err(error) => {
-                routes.push(SolverRoute {
-                    solver: name.clone(),
-                    kind,
-                    chemistry,
-                    outcome: SolverRouteOutcome::Failed,
-                    vessel: Some(vessel.id),
-                    reason: Some(error.to_string()),
-                });
-                events.push(Event::SolverFailed {
-                    vessel: vessel.id,
-                    solver: name,
-                    detail: error.to_string(),
-                });
-            }
-        }
+/// The browser's borrowed aqueous adapter remains an unconditional solvent
+/// phase stage, even when aqueous characterization does not apply.
+struct BrowserPhaseCoupled<'a> {
+    inner: BrowserAqueous<'a>,
+}
+
+impl Equilibrator for BrowserPhaseCoupled<'_> {
+    fn name(&self) -> &'static str {
+        self.inner.name()
+    }
+
+    fn trusted_aqueous_readback(
+        &mut self,
+    ) -> Option<&mut dyn kerotakis_core::aqueous_continuation::TrustedAqueousReadback> {
+        self.inner.trusted_aqueous_readback()
+    }
+
+    fn chemistry_applies(&self, vessel: &kerotakis_core::Vessel) -> bool {
+        self.inner.chemistry_applies(vessel)
+    }
+
+    fn equilibrate(
+        &mut self,
+        vessel: &mut kerotakis_core::Vessel,
+    ) -> Result<Vec<Event>, kerotakis_core::SolveError> {
+        kerotakis_core::equilibrate_phase_coupled(&mut self.inner, vessel)
     }
 }
