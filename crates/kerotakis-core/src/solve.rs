@@ -298,6 +298,47 @@ impl SolverStack {
         })
     }
 
+    /// Run a contiguous installed route range with the same transaction policy
+    /// as a complete stack. Earlier route records remain available to the caller.
+    pub fn equilibrate_range(
+        &mut self,
+        range: std::ops::Range<usize>,
+        vessel: &mut Vessel,
+    ) -> Result<Vec<Event>, SolveError> {
+        let solvers = self
+            .solvers
+            .get_mut(range)
+            .ok_or_else(|| SolveError::NotConverged {
+                solver: "solver-stack".into(),
+                detail: "requested route range is outside the installed stack".into(),
+            })?;
+        let mut events = Vec::new();
+        for solver in solvers {
+            events.extend(run_solver_route(
+                solver.as_mut(),
+                vessel,
+                self.required_conservation_tolerance,
+                &mut self.last_routes,
+            ));
+        }
+        Ok(events)
+    }
+
+    /// Run a borrowed owning adapter between installed stages. This preserves
+    /// the stack's acceptance policy, route records and failed-owner rollback.
+    pub fn equilibrate_external(
+        &mut self,
+        solver: &mut dyn Equilibrator,
+        vessel: &mut Vessel,
+    ) -> Vec<Event> {
+        run_solver_route(
+            solver,
+            vessel,
+            self.required_conservation_tolerance,
+            &mut self.last_routes,
+        )
+    }
+
     // Numeric acceptance is shared with complete cloned proposals. Element
     // balance and strict owner coverage are explicit route-policy contracts.
     fn validate_result(
@@ -343,6 +384,126 @@ impl SolverStack {
     }
 }
 
+// One acceptance path for owned native routes and borrowed browser adapters.
+// Only accepted proposals own state, narration and outgoing gas bookkeeping.
+fn run_solver_route(
+    solver: &mut dyn Equilibrator,
+    vessel: &mut Vessel,
+    required: Option<f64>,
+    routes: &mut Vec<SolverRoute>,
+) -> Vec<Event> {
+    let mut events = Vec::new();
+    let solver_name = solver.name().to_string();
+    let kind = solver.route_kind();
+    let chemistry = solver.chemistry_applies(vessel);
+    if !solver.applies(vessel) {
+        routes.push(SolverRoute {
+            solver: solver_name,
+            kind,
+            chemistry,
+            outcome: SolverRouteOutcome::NotApplicable,
+            vessel: Some(vessel.id),
+            reason: decline_reason(solver, vessel),
+        });
+        return events;
+    }
+    let checkpoint = vessel.clone();
+    let result = solver.equilibrate(vessel).and_then(|more| {
+        let mut errors = SolverStack::validate_result(
+            &checkpoint,
+            vessel,
+            &more,
+            required,
+            solver.element_conservation_tolerance(),
+        );
+        if errors.is_empty() {
+            // Gas this solver sent out of the vessel, booked on the
+            // step's snapshot before the next solver runs: the
+            // aqueous tail prices the whole step's heat, and the
+            // carbon dioxide a curated row evolved ahead of it must
+            // not cease to exist on the way. `GasContained` stays a
+            // portion and is not an outward transfer.
+            if let Some(start) = vessel.step_start.as_mut() {
+                for event in &more {
+                    match event {
+                        Event::GasEvolved { species, moles, .. } => {
+                            start.note_gas_out(species, moles.0);
+                        }
+                        Event::GasAbsorbed { species, moles, .. } => {
+                            start.note_gas_out(species, -moles.0);
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            if vessel
+                .step_start
+                .as_ref()
+                .is_some_and(|start| start.gas_out.iter().any(|(_, n)| !n.0.is_finite()))
+            {
+                errors.push(crate::delta::DeltaError::InvalidState {
+                    field: "accumulated gas boundary".into(),
+                });
+            }
+        }
+        if errors.is_empty() {
+            Ok(more)
+        } else {
+            Err(SolveError::NotConverged {
+                solver: solver.name().into(),
+                detail: format!("invalid solver result: {errors:?}"),
+            })
+        }
+    });
+    match result {
+        Ok(more) => {
+            routes.push(SolverRoute {
+                solver: solver_name,
+                kind,
+                chemistry,
+                outcome: SolverRouteOutcome::Succeeded {
+                    event_count: answer_event_count(&more),
+                },
+                vessel: Some(vessel.id),
+                reason: None,
+            });
+            return more;
+        }
+        // One solver failing must not silence the rest. The stack is
+        // a sequence of independent questions — what dissolves, what
+        // burns, what state the solvent is in — and an aqueous
+        // engine that cannot answer the first has nothing to say
+        // about the third. Aborting here left water liquid at
+        // −24 °C, because the freezing pass never ran once PHREEQC
+        // had declined the solution.
+        Err(e) => {
+            *vessel = checkpoint;
+            // Roll back the failed material proposal, but do not put
+            // an earlier aqueous answer back on the instruments when
+            // its owning adapter could not characterize this state.
+            // Other model failures do not own these diagnostics.
+            if solver.trusted_aqueous_readback().is_some() {
+                vessel.invalidate_aqueous_diagnostics();
+            }
+            routes.push(SolverRoute {
+                solver: solver_name.clone(),
+                kind,
+                chemistry,
+                outcome: SolverRouteOutcome::Failed,
+                vessel: Some(vessel.id),
+                reason: Some(e.to_string()),
+            });
+            events.push(Event::SolverFailed {
+                vessel: vessel.id,
+                solver: solver_name,
+                detail: e.to_string(),
+            });
+        }
+    }
+    events
+}
+
 impl Equilibrator for SolverStack {
     fn trusted_aqueous_readback(
         &mut self,
@@ -380,117 +541,7 @@ impl Equilibrator for SolverStack {
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         self.last_routes.clear();
-        let mut events = Vec::new();
-        for solver in &mut self.solvers {
-            let solver_name = solver.name().to_string();
-            let kind = solver.route_kind();
-            let chemistry = solver.chemistry_applies(vessel);
-            if !solver.applies(vessel) {
-                self.last_routes.push(SolverRoute {
-                    solver: solver_name,
-                    kind,
-                    chemistry,
-                    outcome: SolverRouteOutcome::NotApplicable,
-                    vessel: Some(vessel.id),
-                    reason: decline_reason(&**solver, vessel),
-                });
-                continue;
-            }
-            let checkpoint = vessel.clone();
-            let result =
-                solver.equilibrate(vessel).and_then(|more| {
-                    let mut errors = Self::validate_result(
-                        &checkpoint,
-                        vessel,
-                        &more,
-                        self.required_conservation_tolerance,
-                        solver.element_conservation_tolerance(),
-                    );
-                    if errors.is_empty() {
-                        // Gas this solver sent out of the vessel, booked on the
-                        // step's snapshot before the next solver runs: the
-                        // aqueous tail prices the whole step's heat, and the
-                        // carbon dioxide a curated row evolved ahead of it must
-                        // not cease to exist on the way. `GasContained` stays a
-                        // portion and is not an outward transfer.
-                        if let Some(start) = vessel.step_start.as_mut() {
-                            for event in &more {
-                                match event {
-                                    Event::GasEvolved { species, moles, .. } => {
-                                        start.note_gas_out(species, moles.0);
-                                    }
-                                    Event::GasAbsorbed { species, moles, .. } => {
-                                        start.note_gas_out(species, -moles.0);
-                                    }
-                                    _ => {}
-                                }
-                            }
-                        }
-
-                        if vessel.step_start.as_ref().is_some_and(|start| {
-                            start.gas_out.iter().any(|(_, n)| !n.0.is_finite())
-                        }) {
-                            errors.push(crate::delta::DeltaError::InvalidState {
-                                field: "accumulated gas boundary".into(),
-                            });
-                        }
-                    }
-                    if errors.is_empty() {
-                        Ok(more)
-                    } else {
-                        Err(SolveError::NotConverged {
-                            solver: solver.name().into(),
-                            detail: format!("invalid solver result: {errors:?}"),
-                        })
-                    }
-                });
-            match result {
-                Ok(mut more) => {
-                    self.last_routes.push(SolverRoute {
-                        solver: solver_name,
-                        kind,
-                        chemistry,
-                        outcome: SolverRouteOutcome::Succeeded {
-                            event_count: answer_event_count(&more),
-                        },
-                        vessel: Some(vessel.id),
-                        reason: None,
-                    });
-                    events.append(&mut more);
-                }
-                // One solver failing must not silence the rest. The stack is
-                // a sequence of independent questions — what dissolves, what
-                // burns, what state the solvent is in — and an aqueous
-                // engine that cannot answer the first has nothing to say
-                // about the third. Aborting here left water liquid at
-                // −24 °C, because the freezing pass never ran once PHREEQC
-                // had declined the solution.
-                Err(e) => {
-                    *vessel = checkpoint;
-                    // Roll back the failed material proposal, but do not put
-                    // an earlier aqueous answer back on the instruments when
-                    // its owning adapter could not characterize this state.
-                    // Other model failures do not own these diagnostics.
-                    if solver.trusted_aqueous_readback().is_some() {
-                        vessel.invalidate_aqueous_diagnostics();
-                    }
-                    self.last_routes.push(SolverRoute {
-                        solver: solver_name.clone(),
-                        kind,
-                        chemistry,
-                        outcome: SolverRouteOutcome::Failed,
-                        vessel: Some(vessel.id),
-                        reason: Some(e.to_string()),
-                    });
-                    events.push(Event::SolverFailed {
-                        vessel: vessel.id,
-                        solver: solver_name,
-                        detail: e.to_string(),
-                    });
-                }
-            }
-        }
-        Ok(events)
+        self.equilibrate_range(0..self.solvers.len(), vessel)
     }
 
     fn mix(

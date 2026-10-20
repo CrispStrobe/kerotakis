@@ -486,6 +486,12 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: "22"
+      # Workspace native checks unify the engine feature and can hide errors
+      # in the browser's cache-only configuration. Keep this invocation separate.
+      - name: Lint the cache-only browser host
+        run: cargo clippy -p kerotakis-wasm --all-targets -- -D warnings
+      - name: Test the cache-only browser host
+        run: cargo test -p kerotakis-wasm --lib
       - name: Install wasm-bindgen
         run: cargo install wasm-bindgen-cli --version 0.2.127
       - name: Build the wasm lab

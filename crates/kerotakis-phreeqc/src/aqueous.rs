@@ -409,6 +409,7 @@ impl PathResult {
     }
 
     /// One dataset's answer, with both claims said as recipes.
+    #[cfg(feature = "engine")]
     fn new(db_tag: &str, model: crate::dbindex::ActivityModel, outcome: PathOutcome) -> PathResult {
         let dataset = dataset_phrase(db_tag);
         let model = model.phrase();
