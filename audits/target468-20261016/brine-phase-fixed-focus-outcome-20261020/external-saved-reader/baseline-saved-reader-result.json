@@ -1,0 +1,7 @@
+{
+  "exit_status": 0,
+  "source_sha256": "392c7895df7b0c257ef5a198245c7c470f180373c14d26464fb58f331426f81e",
+  "previous_reader_sha256": "99bb9b2e0ed09b1d02f7415f631c01d7584cfd7a7d8dcdbd07342cf77f760ca0",
+  "only_NaCl_aqueous_domain_extension": true,
+  "new_product_calls": 0
+}

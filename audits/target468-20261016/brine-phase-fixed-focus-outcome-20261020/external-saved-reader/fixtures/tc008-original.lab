@@ -1,0 +1,11 @@
+# TC-008: Salt-induced melting can cool an ice-water mixture
+# Design only: predictions below are not measured observations.
+register lv3
+add v1 water 50g @ 0C
+cool v1 10kJ
+measure v1 thermometer
+inspect v1
+add v1 NaCl 5g @ 0C
+measure v1 thermometer
+measure v1 conductivity
+inspect

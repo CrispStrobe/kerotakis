@@ -1,0 +1,11 @@
+{
+  "runtime_source": "1ca170cb15743d1a972e3fdfd7a290ef645a8c2c",
+  "runtime_tree": "6b6ee4a6cedc921f939e1db5060838bbcb3500d5",
+  "tests_overlay_qualification": "Exact frozen observers over unchanged runtime; not the deployed release executable",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "executable": "target/debug/deps/brine_phase_energy-47c6e1a337312437",
+  "sha256": "9b8df45663816ba4c7ddda032007aacf841465d73a19a28033307365e51b3f69",
+  "bytes": 44802664,
+  "gzip_sha256": "1c884de7643ed0ef4772e0b4940c9b561a625379e480b59b342a6af7cea00840",
+  "gzip_bytes": 10048040
+}

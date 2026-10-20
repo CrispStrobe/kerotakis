@@ -1,0 +1,17 @@
+{
+  "schema": "kerotakis.brine-focused-independent-review.v1",
+  "source": "1ca170cb15743d1a972e3fdfd7a290ef645a8c2c",
+  "worker_sha256": "15169f5ed028ce3e1408af0b164f371a4b0963af94ad1b086f72003a1ca37d9b",
+  "plan_sha256": "2fa758b55bc949b74a370fd04489a6e41d709a128f91cf720bcc876527871fed",
+  "actual_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_controls": 21,
+  "actual_test_executables": 6,
+  "parent_and_independent_review": "All manifest members, six decompressed executable SHA256/lengths, actual lock, source/tree, five unchanged frozen inputs, 21 exact test names and zero exits authenticated. Both independently reproduce saved ledger with exact reader392c.",
+  "unchanged_energy_tolerance_J": ".001",
+  "TC008_command8_residual_J": "-0.000028777081262489984497849128629754558888",
+  "material_tolerance_mol": "1e-10",
+  "observed_material_max_mol": "2e-16",
+  "scientific_selections": 0,
+  "full_platform_product_acceptance": "pending",
+  "collector_first_failure": "First collector assumed preceding producer artifact root and failed before download. Original error retained privately. Successor derives output root from the exact uploaded worker AST; same producer and test outputs collected, no reexecution."
+}

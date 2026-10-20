@@ -1,0 +1,13 @@
+
+running 8 tests
+test dilute_brine_freezing_conserves_independent_phase_energy ... ok
+test dilute_brine_melting_conserves_independent_phase_energy ... ok
+test intermediate_brine_freezing_conserves_independent_phase_energy ... ok
+test intermediate_brine_melting_conserves_independent_phase_energy ... ok
+test pure_water_freezing_conserves_independent_phase_energy ... ok
+test pure_water_melting_conserves_independent_phase_energy ... ok
+test stronger_brine_freezing_conserves_independent_phase_energy ... ok
+test stronger_brine_melting_conserves_independent_phase_energy ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.59s
+
