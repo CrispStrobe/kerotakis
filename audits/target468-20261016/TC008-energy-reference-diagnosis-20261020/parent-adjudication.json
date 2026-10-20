@@ -1,0 +1,17 @@
+{
+  "schema": "kerotakis.TC008.parent-saved-reference-adjudication.v1",
+  "utc": "2026-10-20T19:16:12.215617+00:00",
+  "parent_reproduced_analytic_Decimal45_output_exactly": true,
+  "all14_source_quotes_whole_blob_hashes_and_line_ranges_verified": true,
+  "unchanged_eight_control_fixture_hash_verified": true,
+  "original_request_script_exact_and_SHA_authenticated": true,
+  "script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+  "historical_response_sha256": "e22f64b48caba33e78d20ac2b66c7cee3361979d6062aaeda520537427e88553",
+  "assessment_sha256": "4cc5eec75711861fd2b6c67bb5ea1d7a2c5b6880c236945d3a3d7627040cb800",
+  "reader_sha256": "6a5df6cd5ddffb2bf24b5b9efe7060f4a674e858563fbcb9d49e2a0c5f984ad3",
+  "historical236J_oracle_unchanged": true,
+  "reference_correction_explains_only_part_not_a_repair": true,
+  "remaining128J_cause_not_attributed_without_actual_stage_trace": true,
+  "new_engine_API_provider_build_calls": 0,
+  "scientific_selection_assigned": false
+}

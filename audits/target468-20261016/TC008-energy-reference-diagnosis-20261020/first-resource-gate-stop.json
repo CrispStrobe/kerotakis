@@ -1,0 +1,7 @@
+{
+  "kind": "resource-gate-stop-not-physical-or-reader-calculation-failure",
+  "reader_sha256": "6a5df6cd5ddffb2bf24b5b9efe7060f4a674e858563fbcb9d49e2a0c5f984ad3",
+  "failure": "AssertionError at resource guard before larger source reads; load1 or MemAvailable outside source gate.",
+  "saved_originals_and_first_assessments_unchanged": true,
+  "engine_API_provider_build_calls": 0
+}

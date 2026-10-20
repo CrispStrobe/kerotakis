@@ -1,0 +1,15 @@
+{
+  "files_sha256": {
+    "README.md": "06f3f256ba25dc19103709a2ce621b7b1e08c2475e910d08bc2a3ed111aeb333",
+    "assessment.json": "4cc5eec75711861fd2b6c67bb5ea1d7a2c5b6880c236945d3a3d7627040cb800",
+    "crossing-source-equality.json": "892490112b59f7221481f3c204a625d629836de3450ad0b937fcd866d909e004",
+    "existing-fixture-binding.json": "4bdc9e841046191833fbeb1950c4660c36ce8a18890f86f9787f6656a224e98c",
+    "first-resource-gate-stop.json": "dd6739f3e995083db40859c1c2ca944515b338e30d3dfcfa13a04385687720f9",
+    "initial-reference-assessment.json": "af15313950ab3c65ced92eb5e74450ca7cf38341d9762e87a59bb55bc5019cbf",
+    "parent-adjudication.json": "f53ff49ab2ba47ba27f87b6210200d218647e89c90556b3ab84a67850aa5e0de",
+    "parent-assessment.json": "4cc5eec75711861fd2b6c67bb5ea1d7a2c5b6880c236945d3a3d7627040cb800",
+    "quantify_saved.py": "6a5df6cd5ddffb2bf24b5b9efe7060f4a674e858563fbcb9d49e2a0c5f984ad3",
+    "source-quotes.json": "b61d3609ea9e16defb7009dc90f658aa37f715c97912dec7486328b2958dc41c",
+    "verify_parent.py": "9893d867f1cdd2db3b33c669b9ecf80b13e2c300b8db9df9405d3a3e3d5c708f"
+  }
+}

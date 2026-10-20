@@ -1,0 +1,20 @@
+{
+  "self_consistent_freezing": {
+    "sha256": "6f8596a79493580b8ed9dbd565b3a9667c7674d65215280598b74c48745455d6",
+    "all_three_revisions_byte_identical": true,
+    "revisions": [
+      "dacf76513328c2226e2f5133a79fb9af84343431",
+      "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+      "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a"
+    ]
+  },
+  "self_consistent_melting": {
+    "sha256": "19a059d3d153e54e4fae2edbd415f2f4328a898fac6641aae9bbffee82d2cbc0",
+    "all_three_revisions_byte_identical": true,
+    "revisions": [
+      "dacf76513328c2226e2f5133a79fb9af84343431",
+      "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+      "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a"
+    ]
+  }
+}

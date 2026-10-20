@@ -1,0 +1,159 @@
+{
+  "schema": "kerotakis.TC008.source-only.energy-reference.v1",
+  "kind": "saved-mathematical-reference-audit-not-a-runtime-control",
+  "actual_response_engine": {
+    "source_head": "dacf76513328c2226e2f5133a79fb9af84343431",
+    "binary_sha256": "f6aef37ddadfa0f1163e2aff9f436ec560eae767d6d86203bfa850c04f0c9955",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "actual_response_sha256": "e22f64b48caba33e78d20ac2b66c7cee3361979d6062aaeda520537427e88553",
+  "historical_assessment_sha256": "4cd2072592402160cdbf51ef36fbceafc4c2b883978241f2c0afe721c939f02b",
+  "historical_published_oracle_residual_J": "-236.38860876735987",
+  "historical_oracle_unchanged": true,
+  "original_add_operator": {
+    "at": "273.15",
+    "moles": "0.0855534452372397",
+    "op": "add",
+    "species": "NaCl",
+    "vessel": 0
+  },
+  "source_bindings": {
+    "dacf76513328c2226e2f5133a79fb9af84343431": {
+      "crates/kerotakis-core/src/solve.rs": "653d655cefd81e2100033d037779cf02def5fd566c44d8e866bec699505a8e20",
+      "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+      "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+      "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47",
+      "crates/kerotakis-phreeqc/src/aqueous.rs": "faf5a9cca1f76a11b94171a0367db809d4cba7762672074cbcf2e45bc9b49ab5",
+      "crates/kerotakis-phreeqc/src/enthalpy.rs": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+      "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+      "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+      "crates/kerotakis-core/src/bench.rs": "5c4f5dcdaa779607340f237645b7cd4fd0bdcebd17f15a8b354375b7cb871957"
+    },
+    "5a2cac0b78c4546dae0a8900cbc797fe40b37a55": {
+      "crates/kerotakis-core/src/solve.rs": "8caf89fb2f397f998cadb336388f28c5213848ecf91d6b03d13229394d54edf3",
+      "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+      "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+      "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47",
+      "crates/kerotakis-phreeqc/src/aqueous.rs": "8d4ad7084722c2fec27008aa73931ec2e75267ee5d9b9d26ac03d5fa4b7f73bb",
+      "crates/kerotakis-phreeqc/src/enthalpy.rs": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+      "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+      "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+      "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a"
+    },
+    "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a": {
+      "crates/kerotakis-core/src/solve.rs": "8caf89fb2f397f998cadb336388f28c5213848ecf91d6b03d13229394d54edf3",
+      "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+      "crates/kerotakis-core/src/states.rs": "1edc336e89c9378c55b7836c4e19b5a441cfe18867b15c28ac4916b18c172ef3",
+      "crates/kerotakis-core/src/heat_capacity.rs": "1f340abbdb7de6495b2313d187bdba70f54f8def26cf1f4e5d49e2f7af5f8b47",
+      "crates/kerotakis-phreeqc/src/aqueous.rs": "8d4ad7084722c2fec27008aa73931ec2e75267ee5d9b9d26ac03d5fa4b7f73bb",
+      "crates/kerotakis-phreeqc/src/enthalpy.rs": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+      "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+      "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+      "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a"
+    }
+  },
+  "source_ancestry": {
+    "dacf76513328c2226e2f5133a79fb9af84343431": {
+      "tree": "76820b9c397038cd8fb6e1f267708d34c153cbe1"
+    },
+    "5a2cac0b78c4546dae0a8900cbc797fe40b37a55": {
+      "tree": "af4ca9f869e1b9718c9052cd6baf145e3c670e3e"
+    },
+    "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a": {
+      "tree": "f77a9e82941f30a6433583e1bd417939118d13c6"
+    }
+  },
+  "terms": {
+    "initial_water_H_ref273_J": "-10000.0000000000016810",
+    "final_water_H_ref273_J": "-10568.3359762872980888846094341100769178859584",
+    "water_H_change_J": "-568.3359762872964078846094341100769178859584",
+    "fixed_dissolution_energy_at_source_standard_reference_J": "331.947367520490036000",
+    "incoming_salt_sensible_ref273_J": "0E-16",
+    "incoming_salt_sensible_ref298_J": "-108.071896796577562431068036497216247755470012",
+    "source_salt_Cp_at_endpoint300_J_molK": "50.5283669158590620007691373333333333333333389",
+    "Kirchhoff_consistent_reference_correction_J": "108.071896796577562431068036497216247755470012",
+    "fixed273_oracle_reproduced_analytically_J": "-236.3886087668063718846094341100769178859584",
+    "consistent298_source_reference_residual_J": "-128.316711970228809453541397612860670130488388",
+    "latent_gap_at273_J_mol": "6010",
+    "phase_gap_at_final_T_J_mol": "5521.38549036902098261074479736424380229069274",
+    "phase_gap_at298_J_mol": "6944.09519465044254677074451494324410946748508",
+    "net_melting_mol": "0.2301442821988830567",
+    "max_final_projection_energy_for_0_05K_J": "7.71560450652922604072438402679517501141087725",
+    "excess_delta_J": "0.0"
+  },
+  "actual_phase_events": [
+    {
+      "at": "256.90323409012683",
+      "event": "state_changed",
+      "from": "solid",
+      "kind": "melting",
+      "moles": "0.25193266514823054",
+      "shifted_by": "-16.246765909873147",
+      "species": "water",
+      "to": "liquid",
+      "vessel": 0
+    },
+    {
+      "at": "260.8831697595776",
+      "event": "state_changed",
+      "from": "liquid",
+      "kind": "freezing",
+      "moles": "0.023700940631454497",
+      "shifted_by": "-12.266830240422394",
+      "species": "water",
+      "to": "solid",
+      "vessel": 0
+    },
+    {
+      "at": "260.6058104854603",
+      "event": "state_changed",
+      "from": "solid",
+      "kind": "melting",
+      "moles": "0.0019125576821070137",
+      "shifted_by": "-12.544189514539653",
+      "species": "water",
+      "to": "liquid",
+      "vessel": 0
+    }
+  ],
+  "actual_before_parts": [
+    {
+      "moles": "1.1115713795538285",
+      "phase": "liquid",
+      "species": "water"
+    },
+    {
+      "moles": "1.6638935108153081",
+      "phase": "solid",
+      "species": "water"
+    }
+  ],
+  "actual_after_parts": [
+    {
+      "moles": "1.433749228616425",
+      "phase": "solid",
+      "species": "water"
+    },
+    {
+      "moles": "0.0855534452372397",
+      "phase": "aqueous",
+      "species": "Cl-"
+    },
+    {
+      "moles": "0.0855534452372397",
+      "phase": "aqueous",
+      "species": "Na+"
+    },
+    {
+      "moles": "1.3417156617527115",
+      "phase": "liquid",
+      "species": "water"
+    }
+  ],
+  "actual_before_T": "273.15",
+  "actual_after_T": "260.6058104854603",
+  "observability_limit": "Only complete command endpoints and signed phase events are retained; intermediate per-adapter temperatures/heat counters are not raw observations. Bench rewrites final TemperatureChanged.to and final state event plateau, so these cannot stand in for an internal pass trace.",
+  "conclusion": "Reference correction does not close residual. Source fixed-Cp/constant-latent crossing and temperature projection remain concrete likely bookkeeping causes, but per-pass runtime evidence is required before attributing the remaining residual or claiming a repair.",
+  "new_engine_API_provider_build_calls": 0,
+  "scientific_selection_assigned": false
+}
