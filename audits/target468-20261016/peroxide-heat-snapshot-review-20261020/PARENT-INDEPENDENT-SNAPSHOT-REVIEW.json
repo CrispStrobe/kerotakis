@@ -1,0 +1,358 @@
+{
+  "review_scope": "Independent saved snapshot assessment; no golden mutation, engine/build/network invocation",
+  "source": "624ad076af3db39f583adcbfe6c07281ba219f48",
+  "artifacts": {
+    "linux": {
+      "artifact_id": 12276213904,
+      "artifact_name": "snapshot-differences-Linux-6f07751122d65bf7e74c3b4efbebc1e640bc6725",
+      "archive_sha256": "1165f11d6a6ef4739e0fc9b1dff60b580f85b3e70a4310c93404207f51906d8a",
+      "actual_snapshot_sha256": "a3818337bd65dd41b6a69bf1921555662ff686853edb44b2db3b607aebde4286",
+      "workflow_run": 39442323733,
+      "reported_head": "624ad076af3db39f583adcbfe6c07281ba219f48",
+      "checkout_sha_from_artifact_name": "6f07751122d65bf7e74c3b4efbebc1e640bc6725"
+    },
+    "macos": {
+      "artifact_id": 12279436718,
+      "artifact_name": "snapshot-differences-macOS-6f07751122d65bf7e74c3b4efbebc1e640bc6725",
+      "archive_sha256": "77b32ecda36103698b94d77fe24364aaeb50e61776efc1934d41f36286fa85a2",
+      "actual_snapshot_sha256": "a3818337bd65dd41b6a69bf1921555662ff686853edb44b2db3b607aebde4286",
+      "workflow_run": 39442323733,
+      "reported_head": "624ad076af3db39f583adcbfe6c07281ba219f48",
+      "checkout_sha_from_artifact_name": "6f07751122d65bf7e74c3b4efbebc1e640bc6725"
+    }
+  },
+  "paired_snapshot_bytes_equal": true,
+  "baseline_snapshot_sha256": "a5aff680831290aef2350c6314585ba83272b54a66818e9aadd9f757538d2249",
+  "lesson_count": 113,
+  "changed_lessons": [
+    "elephant-toothpaste",
+    "elephant-toothpaste-catalyst-dose",
+    "longer-waits-advance-peroxide-kinetics",
+    "luminol-temperature"
+  ],
+  "unchanged_lessons": [
+    "antacid-suspension",
+    "apple-browning",
+    "baking-powder-or-soda",
+    "balloon-pressure",
+    "blue-crystals",
+    "boiling-curve",
+    "borax-snowflake",
+    "buffer",
+    "cabbage-rainbow",
+    "calorimetry",
+    "candle-jar",
+    "chalk-vinegar",
+    "cola-shell-surrogate",
+    "conductivity",
+    "conjugate-base-shifts-buffer-ph",
+    "copper-concentration-lifts-cell-voltage",
+    "copper-patina",
+    "counting-in-fives",
+    "current-time-and-electrolysis-yield",
+    "dancing-raisins",
+    "density",
+    "density-tower-boundary",
+    "dilute-the-current-carriers",
+    "distillation-cut-controls-collection",
+    "dry-then-wet-fizz",
+    "electrode",
+    "electrolysis",
+    "electrolysis-products-follow-time",
+    "endpoint-is-not-a-full-drop",
+    "equal-charge-different-clocks",
+    "equilibrium-can-run-backward",
+    "filter-cannot-catch-dissolved",
+    "filter-then-concentrate-the-brine",
+    "fire",
+    "first-warmth",
+    "fizz",
+    "flame-colour-series",
+    "float-or-sink",
+    "follow-the-salt-through-staged-transfers",
+    "grinding-rate-boundary",
+    "grit",
+    "grouping-does-not-change-water-heat",
+    "hand-warmer",
+    "hard-water",
+    "hard-water-soap-boundary",
+    "hard-water-soap-scum",
+    "heating-proteins",
+    "hot-share-temperature",
+    "ink-chromatography",
+    "instant-snow",
+    "invisible-ink-boundary",
+    "kitchen-hot-and-cold-packs",
+    "kitchen-ph",
+    "kitchen-starch-hunt",
+    "lactase-and-milk",
+    "lemon-cell",
+    "lemonade-indicator",
+    "limewater",
+    "lipase-and-oil",
+    "liquid-nitrogen-freezes-ethanol",
+    "magic-milk",
+    "measure-twice",
+    "metal-acid-race",
+    "milk-curds",
+    "naked-egg-osmosis",
+    "neutral-moves",
+    "neutral-sugars-are-conductivity-controls",
+    "never-mix",
+    "oil-water-colour",
+    "one-thing-at-a-time",
+    "oobleck",
+    "pepper-and-soap",
+    "permanganate-standardisation",
+    "pressure-follows-gas-amount",
+    "pressure-follows-headspace",
+    "protease-and-gelatin",
+    "rates",
+    "repeated-liquid-extraction",
+    "rock-candy",
+    "rubbery-bone-boundary",
+    "rusting",
+    "saline-scaling-preserves-conductivity",
+    "salt-from-brine",
+    "salt-or-sugar-ice",
+    "sealed-gas",
+    "sealed-mass-conservation",
+    "silver-and-salt",
+    "slime",
+    "spannungsreihe",
+    "spirit-still",
+    "split-heat-same-temperature",
+    "starch-iodine-test",
+    "sugar-water-density-tower",
+    "there-and-back",
+    "three-components-one-cut",
+    "three-protons",
+    "titration",
+    "titration-manual",
+    "track-precipitate-and-filtrate-through-drying",
+    "transport-column",
+    "two-limits-one-carbon-dioxide-ledger",
+    "two-roads",
+    "vitamin-c-detective",
+    "volcano-foam",
+    "warm-the-gas-stop-before-burst",
+    "water-electrolysis",
+    "water-filter",
+    "whole-object-buoyancy",
+    "yeast-fermentation"
+  ],
+  "unchanged_lesson_value_bytes_exact": true,
+  "field_differences": [
+    {
+      "path": "/elephant-toothpaste/events_sample/12",
+      "before": "v1: peroxide-decomposition released 4374.39 J",
+      "after": "v1: peroxide-decomposition released 8748.78 J"
+    },
+    {
+      "path": "/elephant-toothpaste/events_sample/13",
+      "before": "v1: 26.6 \u00b0C \u2192 34.7 \u00b0C",
+      "after": "v1: 26.6 \u00b0C \u2192 42.9 \u00b0C"
+    },
+    {
+      "path": "/elephant-toothpaste/events_sample/15",
+      "before": "v1: 34.7 \u00b0C \u2192 34.7 \u00b0C",
+      "after": "v1: 42.9 \u00b0C \u2192 42.8 \u00b0C"
+    },
+    {
+      "path": "/elephant-toothpaste/vessels/0/temperature_k",
+      "before": 307.2908,
+      "after": 314.969
+    },
+    {
+      "path": "/elephant-toothpaste/vessels/1/temperature_k",
+      "before": 307.878,
+      "after": 316.0497
+    },
+    {
+      "path": "/elephant-toothpaste-catalyst-dose/event_count",
+      "before": 19,
+      "after": 20
+    },
+    {
+      "path": "/elephant-toothpaste-catalyst-dose/events_sample/length",
+      "before": 19,
+      "after": 20
+    },
+    {
+      "path": "/elephant-toothpaste-catalyst-dose/events_sample/11",
+      "before": "v1: peroxide-decomposition released 203.91 J",
+      "after": "v1: peroxide-decomposition released 407.81 J"
+    },
+    {
+      "path": "/elephant-toothpaste-catalyst-dose/events_sample/12",
+      "before": "v1: 25.0 \u00b0C \u2192 25.4 \u00b0C",
+      "after": "v1: 25.0 \u00b0C \u2192 25.9 \u00b0C"
+    },
+    {
+      "path": "/elephant-toothpaste-catalyst-dose/events_sample/16",
+      "before": "v2: peroxide-decomposition released 760.35 J",
+      "after": "v2: peroxide-decomposition released 1520.70 J"
+    },
+    {
+      "path": "/elephant-toothpaste-catalyst-dose/events_sample/17",
+      "before": "v2: 25.0 \u00b0C \u2192 26.7 \u00b0C",
+      "after": "v2: 25.0 \u00b0C \u2192 28.4 \u00b0C"
+    },
+    {
+      "path": "/elephant-toothpaste-catalyst-dose/events_sample/19",
+      "before": null,
+      "after": "v2: 28.4 \u00b0C \u2192 28.3 \u00b0C"
+    },
+    {
+      "path": "/elephant-toothpaste-catalyst-dose/vessels/0/temperature_k",
+      "before": 298.5991,
+      "after": 299.0483
+    },
+    {
+      "path": "/elephant-toothpaste-catalyst-dose/vessels/1/temperature_k",
+      "before": 299.8238,
+      "after": 301.4976
+    },
+    {
+      "path": "/longer-waits-advance-peroxide-kinetics/events_sample/3",
+      "before": "v1: peroxide-decomposition released 0.12 J",
+      "after": "v1: peroxide-decomposition released 0.24 J"
+    },
+    {
+      "path": "/longer-waits-advance-peroxide-kinetics/events_sample/9",
+      "before": "v1: peroxide-decomposition released 0.24 J",
+      "after": "v1: peroxide-decomposition released 0.48 J"
+    },
+    {
+      "path": "/longer-waits-advance-peroxide-kinetics/events_sample/12",
+      "before": "v2: peroxide-decomposition released 0.24 J",
+      "after": "v2: peroxide-decomposition released 0.48 J"
+    },
+    {
+      "path": "/longer-waits-advance-peroxide-kinetics/events_sample/17",
+      "before": "v1: 0.000005 mol O2 produced (4.057e-8 mol/s)",
+      "after": "v1: 0.000005 mol O2 produced (4.058e-8 mol/s)"
+    },
+    {
+      "path": "/longer-waits-advance-peroxide-kinetics/events_sample/18",
+      "before": "v1: peroxide-decomposition released 0.48 J",
+      "after": "v1: peroxide-decomposition released 0.96 J"
+    },
+    {
+      "path": "/longer-waits-advance-peroxide-kinetics/vessels/0/temperature_k",
+      "before": 298.1521,
+      "after": 298.1543
+    },
+    {
+      "path": "/longer-waits-advance-peroxide-kinetics/vessels/1/temperature_k",
+      "before": 298.152,
+      "after": 298.154
+    },
+    {
+      "path": "/longer-waits-advance-peroxide-kinetics/vessels/2/temperature_k",
+      "before": 298.1517,
+      "after": 298.1534
+    },
+    {
+      "path": "/longer-waits-advance-peroxide-kinetics/vessels/3/temperature_k",
+      "before": 298.1511,
+      "after": 298.1523
+    },
+    {
+      "path": "/luminol-temperature/events_sample/18",
+      "before": "v2: peroxide-decomposition released 70.65 J",
+      "after": "v2: peroxide-decomposition released 141.30 J"
+    },
+    {
+      "path": "/luminol-temperature/events_sample/19",
+      "before": "v2: 121.4 \u00b0C \u2192 124.7 \u00b0C",
+      "after": "v2: 121.4 \u00b0C \u2192 128.1 \u00b0C"
+    },
+    {
+      "path": "/luminol-temperature/vessels/1/contents/2/moles",
+      "before": 0.27060178,
+      "after": 0.26928144
+    }
+  ],
+  "heat_checks": [
+    {
+      "lesson": "elephant-toothpaste",
+      "vessel_index": 0,
+      "snapshot_O2_mol": 0.04454572,
+      "old_rendered_heat_J": 4374.39,
+      "new_rendered_heat_J": 8748.78,
+      "new_heat_from_consumed_2H2O2_J": 8748.779407999999,
+      "rounding_tolerance_basis": "0.005J event formatting + coefficient*5e-9mol snapshot rounding"
+    },
+    {
+      "lesson": "elephant-toothpaste-catalyst-dose",
+      "vessel_index": 0,
+      "snapshot_O2_mol": 0.00207644,
+      "old_rendered_heat_J": 203.91,
+      "new_rendered_heat_J": 407.81,
+      "new_heat_from_consumed_2H2O2_J": 407.81281600000005,
+      "rounding_tolerance_basis": "0.005J event formatting + coefficient*5e-9mol snapshot rounding"
+    },
+    {
+      "lesson": "elephant-toothpaste-catalyst-dose",
+      "vessel_index": 1,
+      "snapshot_O2_mol": 0.00774286,
+      "old_rendered_heat_J": 760.35,
+      "new_rendered_heat_J": 1520.7,
+      "new_heat_from_consumed_2H2O2_J": 1520.697704,
+      "rounding_tolerance_basis": "0.005J event formatting + coefficient*5e-9mol snapshot rounding"
+    },
+    {
+      "lesson": "luminol-temperature",
+      "vessel_index": 1,
+      "snapshot_O2_mol": 0.00071945,
+      "old_rendered_heat_J": 70.65,
+      "new_rendered_heat_J": 141.3,
+      "new_heat_from_consumed_2H2O2_J": 141.29997999999998,
+      "rounding_tolerance_basis": "0.005J event formatting + coefficient*5e-9mol snapshot rounding"
+    }
+  ],
+  "source_blobs_sha256": {
+    "crates/kerotakis-core/src/clock.rs": "a56fc7d1917f710b6a0a3a26b480a3f085f5467e8d327d9fbc9c0fb755a9fe71",
+    "crates/kerotakis-core/src/solve.rs": "8caf89fb2f397f998cadb336388f28c5213848ecf91d6b03d13229394d54edf3",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/src/kinetics.rs": "e31cbf83bbe0eacf7bafcb34c97a7ef7bba75cc15825698ed27756194a13ae94",
+    "crates/kerotakis-core/tests/frozen_behavior.rs": "9f65fe46fa6f00deb178d87edf06aed454fd33215272f90542414c4e874af529",
+    "lessons/elephant-toothpaste.lab": "47dbb71fcb24386f5b1f760e0a62c442c8574a244acc106a0c74f438cb27dac2",
+    "lessons/elephant-toothpaste-catalyst-dose.lab": "17772686b664252625f25822ebd406b37bc9a8b9d0c6e95a1264c6fc628ab4d8",
+    "lessons/longer-waits-advance-peroxide-kinetics.lab": "4eb543ecea0f924400c11bb4fc2241397cefd3a12bd72234456cd3a152394d11",
+    "lessons/luminol-temperature.lab": "39d20ebd552c244e1d102e26dde8aa0cd1ccf02e84ff3c09052aaf6c5b030de0"
+  },
+  "actual_checkout_binding": {
+    "status": "EXACT_RELEVANT_BLOBS_EQUAL",
+    "actual_checkout": "6f07751122d65bf7e74c3b4efbebc1e640bc6725",
+    "candidate_head": "624ad076af3db39f583adcbfe6c07281ba219f48",
+    "verified_paths": [
+      "crates/kerotakis-core/src/clock.rs",
+      "crates/kerotakis-core/src/solve.rs",
+      "crates/kerotakis-core/src/vessel.rs",
+      "crates/kerotakis-core/src/kinetics.rs",
+      "crates/kerotakis-core/tests/frozen_behavior.rs",
+      "lessons/elephant-toothpaste.lab",
+      "lessons/elephant-toothpaste-catalyst-dose.lab",
+      "lessons/longer-waits-advance-peroxide-kinetics.lab",
+      "lessons/luminol-temperature.lab",
+      "crates/kerotakis-core/tests/golden/lessons.json"
+    ]
+  },
+  "physical_interpretation": {
+    "heat_basis": "Extent consumes2H2O2 and produces1O2;98.2kJ/mol consumed means196.4kJ/mol extent. Event heat doubles within original formatting precision.",
+    "inventory": "All four lessons retain identical rounded substrate/O2/catalyst inventories. Only luminol hot liquid water changes; the paired cold water inventory is unchanged. No new reaction extent or arbitrary chemistry acceptance is inferred.",
+    "temperatures": "Larger heat raises adiabatic temperature; ambient relaxation follows chemistry, so final rises need not double. Catalyst-dose extra20th event is existing ambient v2 cooling crossing unchanged0.01K narration floor.",
+    "kinetic_feedback": "Later waits start slightly warmer, giving a small Arrhenius-rate change; longer-waits rate sample4.057e-8\u21924.058e-8 while8-place inventories stay identical. This is model feedback, not calibrated kinetics.",
+    "luminol_hot_water": {
+      "additional_absent_liquid_water_mol": 0.001320340000000031,
+      "latent_equivalent_J_at_40650J_per_mol": 53.67182100000126,
+      "final_temperature_K": 373.15,
+      "explanation": "Unchanged StateEquilibrator spends excess sensible enthalpy above boiling on finite water vaporization, exporting it from an open vessel. Higher reaction heat leaves less liquid; ambient exchange also changes, so extra latent energy is not asserted equal to extra reaction heat.",
+      "limit": "Only first20events are snapshotted: no complete raw export/thermal trace is available here. This review justifies a bounded regression expectation, not a new complete calorimetry or mass-transfer qualification."
+    }
+  },
+  "recommendation": "Refresh ONLY actual four-lesson snapshot fields after exact synthetic-checkout blob proof; preserve113lessons,109unchanged byte values, unchanged scripts/forecasts/test comparison and original failing artifacts. Do not bless broader changes.",
+  "new_engine_build_network_calls": 0
+}

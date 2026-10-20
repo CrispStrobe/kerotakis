@@ -1,0 +1,14 @@
+{
+  "actual_synthetic_checkout": "6f07751122d65bf7e74c3b4efbebc1e640bc6725",
+  "reported_pr_head": "624ad076af3db39f583adcbfe6c07281ba219f48",
+  "tree": "28032416caeb0a81f01f1e90b22511c66fc21083",
+  "parents": [
+    "5a2cac0b78c4546dae0a8900cbc797fe40b37a55",
+    "624ad076af3db39f583adcbfe6c07281ba219f48"
+  ],
+  "whole_tree_exactly_equal": true,
+  "initial_pending_report_sha256": "61148d7af813d4dbbb61cd713947c06d8f2cab58d0d086f5adbc36bded5c4984",
+  "bound_assessment_sha256": "336b84b877bceae2972fc748b6eaa5f230946f434f3f1f92fa0f02faa2456468",
+  "recommendation": "ACCEPT narrow actual snapshot refresh:4changedlessons/26fielddifferences only;109unaffected lesson values byte exact. Preserve first failed snapshots and original forecasts/scripts/test strictness. No fullcalorimetry or empiricalrate qualification inferred.",
+  "build_engine_network_calls_by_reviewer": 0
+}
