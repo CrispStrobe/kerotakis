@@ -194,6 +194,44 @@ pub struct CpPolynomial {
 }
 
 impl CpPolynomial {
+    /// Absolute coefficient envelope for Cp over a temperature span, J/(mol K).
+    /// Unlike net Cp this bounds the alternating terms that condition the
+    /// enthalpy integral. Endpoint holding follows the same rule as `cp`.
+    pub(crate) fn absolute_cp_bound(&self, t0: f64, t1: f64) -> Option<f64> {
+        let (lo, hi) = self.range()?;
+        let from = t0.min(t1).clamp(lo, hi);
+        let to = t0.max(t1).clamp(lo, hi);
+        let mut bound: f64 = 0.0;
+        for interval in self.intervals {
+            let a = from.max(interval.t_min);
+            let b = to.min(interval.t_max);
+            if b < a {
+                continue;
+            }
+            if a <= 0.0 || !a.is_finite() || !b.is_finite() {
+                return Some(f64::INFINITY);
+            }
+            let c = interval.coefficients.map(f64::abs);
+            let envelope = match interval.form {
+                CpForm::Nasa9 => {
+                    R * (c[0] / (a * a)
+                        + c[1] / a
+                        + c[2]
+                        + c[3] * b
+                        + c[4] * b.powi(2)
+                        + c[5] * b.powi(3)
+                        + c[6] * b.powi(4))
+                }
+                CpForm::Shomate => {
+                    let (a, b) = (a / 1000.0, b / 1000.0);
+                    c[0] + c[1] * b + c[2] * b.powi(2) + c[3] * b.powi(3) + c[4] / (a * a)
+                }
+            };
+            bound = bound.max(envelope);
+        }
+        Some(bound)
+    }
+
     /// The tabulated range, K. `None` only for a malformed empty record,
     /// which the data validator rejects.
     pub fn range(&self) -> Option<(f64, f64)> {
