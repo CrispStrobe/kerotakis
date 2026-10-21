@@ -1,0 +1,5 @@
+{
+  "original_inference": "ARCH001 first failing lesson only",
+  "actual_source": "ARCH001 is assertion ID; actual source emits every differing line of whole combined113lessonJSON, bounded600; exactly5shown",
+  "changed_actual_scripts_or_forecasts": false
+}

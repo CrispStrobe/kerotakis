@@ -1,0 +1,33 @@
+{
+  "assertion": "ARCH-001",
+  "reported_total_differing_lines": 5,
+  "all_reported_lines_included": true,
+  "source_stderr_sha256": "b09aaa8c521c949b69b889e8f0a1c0a5acd7d06cf856d573f3edfb3de9573dcf",
+  "changes": [
+    {
+      "line": 473,
+      "expected": "      \"v1: The liquid is colourless and clear.\",",
+      "actual": "      \"v1: The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin.\","
+    },
+    {
+      "line": 478,
+      "expected": "      \"v2: The liquid is colourless and clear, bubbles of gas are rising through it.\",",
+      "actual": "      \"v2: The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin.\","
+    },
+    {
+      "line": 485,
+      "expected": "      \"v3: The liquid is white and so cloudy you cannot see through it.\",",
+      "actual": "      \"v3: The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin.\","
+    },
+    {
+      "line": 4754,
+      "expected": "      \"v1: The liquid is colourless and cloudy.\",",
+      "actual": "      \"v1: The liquid is colourless and cloudy. Colour is incomplete: a finite aqueous pH is required for bromothymol_blue.\","
+    },
+    {
+      "line": 4762,
+      "expected": "      \"v2: The liquid is white and so cloudy you cannot see through it.\",",
+      "actual": "      \"v2: The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for bromothymol_blue.\","
+    }
+  ]
+}

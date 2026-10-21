@@ -1,0 +1,25 @@
+{
+  "source": "047d04513d1e55e162ad4269cbd5192e432e83e1",
+  "tree": "b5ca243cbd2996ed6e97ea752ad54e5663289534",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "stream_rehashed_binaries": [
+    {
+      "name": "debug-CLI",
+      "actual_sha256": "24e50362c755373666341eeb33c9b343791fceaa60847616c77a37144c744c65",
+      "uncompressed_bytes": 104031192,
+      "gzip_sha256": "9983c8a58641052a6a9e15f42f8cd280102125bafab7c6410da9ac590f586d63"
+    },
+    {
+      "name": "target/debug/deps/frozen_behavior-6e306d6823a42e60",
+      "actual_sha256": "5913affce02fdb2a3ca6bafaf94bc61f8d24db434202ee1b70d93a13785d59d4",
+      "uncompressed_bytes": 56047240,
+      "gzip_sha256": "9c45f620c4843c66cb1cab0bed93769c4b7e401bd92d3e60f1b258fcd82c45c8"
+    },
+    {
+      "name": "target/debug/deps/scene_golden-3e89249fa531b2a4",
+      "actual_sha256": "ea44b27a7d47c790851861f771cc065b0154d681c03aab162ce3459c0ae3d3e3",
+      "uncompressed_bytes": 56770152,
+      "gzip_sha256": "4e3cb47258cb59a5f7b3069dc2fd137cf1d6e5181aa38d89f20ad81a8ae097b8"
+    }
+  ]
+}

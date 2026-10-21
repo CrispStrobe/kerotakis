@@ -1,0 +1,762 @@
+{
+  "source": "047d04513d1e55e162ad4269cbd5192e432e83e1",
+  "expected_blob_sha256": "f38640a4339f4f343a7dc5c5f79204b9a22b66686d3cdf008dd8fe4f031212f5",
+  "actual_scene_sha256": "4bcf54336071b6bed5406e4b1d0c37b3a32bec13c706a3f2719369f8793f7280",
+  "changed_vessel_snapshots": 74,
+  "changes_per_snapshot": [
+    "liquid.optical_ph_gaps added [anthocyanin]",
+    "notes added exact typed missing-pH phrase",
+    "words old caption plus missing-pH sentence"
+  ],
+  "all_other_fields_exact_equal": true,
+  "physical_numeric_fields_and_commands_and_event_tags_unchanged": true,
+  "unchanged_lessons": [
+    "boiling-curve",
+    "rusting",
+    "slime",
+    "water-filter"
+  ],
+  "modified_snapshots": [
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 1,
+      "command": "add v1 red_cabbage_juice 10mL",
+      "line": 12,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 2,
+      "command": "measure v1 ph",
+      "line": 13,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 3,
+      "command": "look v1",
+      "line": 14,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 4,
+      "command": "new beaker",
+      "line": 18,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 5,
+      "command": "add v2 sparkling_water 100mL",
+      "line": 19,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 6,
+      "command": "add v2 red_cabbage_juice 10mL",
+      "line": 20,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 6,
+      "command": "add v2 red_cabbage_juice 10mL",
+      "line": 20,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 7,
+      "command": "measure v2 ph",
+      "line": 21,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 7,
+      "command": "measure v2 ph",
+      "line": 21,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 8,
+      "command": "look v2",
+      "line": 22,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 8,
+      "command": "look v2",
+      "line": 22,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 9,
+      "command": "new beaker",
+      "line": 25,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 9,
+      "command": "new beaker",
+      "line": 25,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 10,
+      "command": "add v3 water 100mL",
+      "line": 26,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 10,
+      "command": "add v3 water 100mL",
+      "line": 26,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 11,
+      "command": "add v3 baking_soda 2g",
+      "line": 27,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 11,
+      "command": "add v3 baking_soda 2g",
+      "line": 27,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 12,
+      "command": "add v3 red_cabbage_juice 10mL",
+      "line": 28,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 12,
+      "command": "add v3 red_cabbage_juice 10mL",
+      "line": 28,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 12,
+      "command": "add v3 red_cabbage_juice 10mL",
+      "line": 28,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 13,
+      "command": "measure v3 ph",
+      "line": 29,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 13,
+      "command": "measure v3 ph",
+      "line": 29,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 13,
+      "command": "measure v3 ph",
+      "line": 29,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 14,
+      "command": "look v3",
+      "line": 30,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 14,
+      "command": "look v3",
+      "line": 30,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 14,
+      "command": "look v3",
+      "line": 30,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 15,
+      "command": "new beaker",
+      "line": 33,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 15,
+      "command": "new beaker",
+      "line": 33,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 15,
+      "command": "new beaker",
+      "line": 33,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 16,
+      "command": "add v4 water 100mL",
+      "line": 34,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 16,
+      "command": "add v4 water 100mL",
+      "line": 34,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 16,
+      "command": "add v4 water 100mL",
+      "line": 34,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 17,
+      "command": "add v4 washing_soda 4g",
+      "line": 35,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 17,
+      "command": "add v4 washing_soda 4g",
+      "line": 35,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 17,
+      "command": "add v4 washing_soda 4g",
+      "line": 35,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 18,
+      "command": "add v4 red_cabbage_juice 10mL",
+      "line": 36,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 18,
+      "command": "add v4 red_cabbage_juice 10mL",
+      "line": 36,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 18,
+      "command": "add v4 red_cabbage_juice 10mL",
+      "line": 36,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 18,
+      "command": "add v4 red_cabbage_juice 10mL",
+      "line": 36,
+      "vessel_index": 3,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 19,
+      "command": "measure v4 ph",
+      "line": 37,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 19,
+      "command": "measure v4 ph",
+      "line": 37,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 19,
+      "command": "measure v4 ph",
+      "line": 37,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 19,
+      "command": "measure v4 ph",
+      "line": 37,
+      "vessel_index": 3,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 20,
+      "command": "look v4",
+      "line": 38,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 20,
+      "command": "look v4",
+      "line": 38,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 20,
+      "command": "look v4",
+      "line": 38,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 20,
+      "command": "look v4",
+      "line": 38,
+      "vessel_index": 3,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 21,
+      "command": "new beaker",
+      "line": 41,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 21,
+      "command": "new beaker",
+      "line": 41,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 21,
+      "command": "new beaker",
+      "line": 41,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 21,
+      "command": "new beaker",
+      "line": 41,
+      "vessel_index": 3,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 22,
+      "command": "add v5 water 100mL",
+      "line": 42,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 22,
+      "command": "add v5 water 100mL",
+      "line": 42,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 22,
+      "command": "add v5 water 100mL",
+      "line": 42,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 22,
+      "command": "add v5 water 100mL",
+      "line": 42,
+      "vessel_index": 3,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 23,
+      "command": "add v5 NaOH 0.1mol",
+      "line": 43,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 23,
+      "command": "add v5 NaOH 0.1mol",
+      "line": 43,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 23,
+      "command": "add v5 NaOH 0.1mol",
+      "line": 43,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 23,
+      "command": "add v5 NaOH 0.1mol",
+      "line": 43,
+      "vessel_index": 3,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 24,
+      "command": "add v5 red_cabbage_juice 10mL",
+      "line": 44,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 24,
+      "command": "add v5 red_cabbage_juice 10mL",
+      "line": 44,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 24,
+      "command": "add v5 red_cabbage_juice 10mL",
+      "line": 44,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 24,
+      "command": "add v5 red_cabbage_juice 10mL",
+      "line": 44,
+      "vessel_index": 3,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 24,
+      "command": "add v5 red_cabbage_juice 10mL",
+      "line": 44,
+      "vessel_index": 4,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 25,
+      "command": "measure v5 ph",
+      "line": 45,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 25,
+      "command": "measure v5 ph",
+      "line": 45,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 25,
+      "command": "measure v5 ph",
+      "line": 45,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 25,
+      "command": "measure v5 ph",
+      "line": 45,
+      "vessel_index": 3,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 25,
+      "command": "measure v5 ph",
+      "line": 45,
+      "vessel_index": 4,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 26,
+      "command": "look v5",
+      "line": 46,
+      "vessel_index": 0,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 26,
+      "command": "look v5",
+      "line": 46,
+      "vessel_index": 1,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 26,
+      "command": "look v5",
+      "line": 46,
+      "vessel_index": 2,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 26,
+      "command": "look v5",
+      "line": 46,
+      "vessel_index": 3,
+      "gap": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "frame_index": 26,
+      "command": "look v5",
+      "line": 46,
+      "vessel_index": 4,
+      "gap": [
+        "anthocyanin"
+      ]
+    }
+  ],
+  "limits": "Numerical equality is at the six-decimal presentation precision frozen by scene_golden.rs; not an independent chemistry calibration or proof of missing-pH equilibrium."
+}

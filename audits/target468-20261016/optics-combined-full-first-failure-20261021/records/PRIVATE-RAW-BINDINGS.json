@@ -1,0 +1,38 @@
+{
+  "source": "047d04513d1e55e162ad4269cbd5192e432e83e1",
+  "raw_manifest_sha256": "5506b89cabdba0110867d5f5372453bffca4278bde603e6281b540777c60c144",
+  "raw_manifest_members": 613,
+  "collection_sha256": "835d18a673a50b0605d6c8a88a63221f05e00f33e6232e3c0c0a2910df8c46a0",
+  "collected_files_including_manifest": 614,
+  "total_downloaded_bytes": 4110489393,
+  "original_private_bytes_not_republished": true,
+  "not_a_redacted_raw_bundle": true,
+  "selected_original_file_sha256": {
+    "combined-native-2.stdout": "4c2782ee6766bbd0065ff8b8eda7257b5bb64bcf522ba2588bfea0b5658d5563",
+    "combined-native-2.stderr": "6d9fe206a29a43ea7bbe4fff5a18a8ad65959b49df75ead6ecee4a8617a1e7ea",
+    "combined-native-3.stdout": "e802968f114f6efc5151946b0b4f63944b90ad9acfa6720a58221bd439b585d2",
+    "combined-native-3.stderr": "b09aaa8c521c949b69b889e8f0a1c0a5acd7d06cf856d573f3edfb3de9573dcf",
+    "STOPPED.json": "cd234af090d12e4e0d5d07edcee21e8951b07dbe686f8328a2a2fa0b1609ee39",
+    "STARTED.json": "f1033527c1ef27f98a8cbac7aebbeac1125e8ce49977c85c34b143c89da52832",
+    "debug-engine-binding.json": "cdf9c4731322ddb8af8bddd49ec41c0b2acf7a8b6688273d5bd37e42bb447a7c",
+    "debug-producer-Cargo.lock": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "additional-gate-1.stdout": "5fa284033f2bb8a5bc8cd14d7f54ee0f04ed9a7be0b8d31a9cd7149e4bf702eb",
+    "additional-gate-1.json": "0992a1cd3390896e9021cf25b92fa97e5905ce12ce8ce0a8e6e7027314c6fc3b"
+  },
+  "curiosity500_separate_check": {
+    "actual_prompts": 500,
+    "unmet_requirements": 0,
+    "failures": 0,
+    "baseline_drift": 0,
+    "actual_command_exit": 0,
+    "scientific_experiments_qualified": 0
+  },
+  "not_executed_after_first_required_failure": [
+    "remaining peroxide_medium focused command",
+    "thermo184 command",
+    "frontend21SSR and Svelte check",
+    "all33 original logical fleet jobs and release artifact producer"
+  ],
+  "logical_fleet_jobs_completed": 0,
+  "full_acceptance": false
+}

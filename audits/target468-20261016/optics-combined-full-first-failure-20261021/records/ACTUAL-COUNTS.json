@@ -1,0 +1,19 @@
+{
+  "combined-native-2": {
+    "passed": 627,
+    "failed": 0,
+    "ignored": 0,
+    "failures": [],
+    "exit_status": 0
+  },
+  "combined-native-3": {
+    "passed": 2205,
+    "failed": 2,
+    "ignored": 0,
+    "failures": [
+      "lessons_produce_stable_output",
+      "five_release_lessons_match_numeric_scene_golden"
+    ],
+    "exit_status": 101
+  }
+}

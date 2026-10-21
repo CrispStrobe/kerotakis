@@ -1,0 +1,4606 @@
+{
+  "expected_sha256": "592e4bc052507bddd224c655d0d258c9849b138d740a5be1ade523dcc1e4d0f4",
+  "actual_sha256": "4bcf54336071b6bed5406e4b1d0c37b3a32bec13c706a3f2719369f8793f7280",
+  "top_level_lessons": [
+    "boiling-curve",
+    "cabbage-rainbow",
+    "rusting",
+    "slime",
+    "water-filter"
+  ],
+  "changes": [
+    {
+      "path": [
+        "cabbage-rainbow",
+        1,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        1,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        1,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        2,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        2,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        2,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        3,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        3,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        3,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        4,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        4,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        4,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        5,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        5,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        5,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        6,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        6,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        6,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        6,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        6,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        6,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        7,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        7,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        7,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        7,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        7,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        7,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        8,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        8,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        8,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        8,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        8,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        8,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        9,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        9,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        9,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        9,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        9,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        9,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        10,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        10,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        10,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        10,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        10,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        10,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        11,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        11,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        11,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        11,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        11,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        11,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        12,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        12,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        12,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        12,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        12,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        12,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        12,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        12,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        12,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        13,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        13,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        13,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        13,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        13,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        13,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        13,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        13,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        13,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        14,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        14,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        14,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        14,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        14,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        14,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        14,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        14,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        14,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        15,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        15,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        15,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        15,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        15,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        15,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        15,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        15,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        15,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        16,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        16,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        16,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        16,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        16,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        16,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        16,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        16,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        16,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        17,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        17,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        17,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        17,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        17,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        17,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        17,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        17,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        17,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        3,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        3,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        18,
+        "scene",
+        "vessels",
+        3,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        3,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        3,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        19,
+        "scene",
+        "vessels",
+        3,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        3,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        3,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        20,
+        "scene",
+        "vessels",
+        3,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        3,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        3,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        21,
+        "scene",
+        "vessels",
+        3,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        3,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        3,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        22,
+        "scene",
+        "vessels",
+        3,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        3,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        3,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        23,
+        "scene",
+        "vessels",
+        3,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        3,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        3,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        3,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        4,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        4,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        24,
+        "scene",
+        "vessels",
+        4,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        3,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        3,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        3,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        4,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        4,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        25,
+        "scene",
+        "vessels",
+        4,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        0,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        0,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        0,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear.",
+      "actual": "The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        1,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        1,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        1,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        2,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        2,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        2,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        3,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        3,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        3,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        4,
+        "liquid",
+        "optical_ph_gaps"
+      ],
+      "kind": "added",
+      "actual": [
+        "anthocyanin"
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        4,
+        "notes"
+      ],
+      "kind": "added",
+      "actual": [
+        {
+          "en": "Colour is incomplete: a finite aqueous pH is required for {species}.",
+          "key": "look.indicator-optics-missing-ph",
+          "slots": [
+            [
+              "species",
+              {
+                "list": {
+                  "items": [
+                    {
+                      "term": {
+                        "en": "anthocyanin",
+                        "section": "species"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        26,
+        "scene",
+        "vessels",
+        4,
+        "words"
+      ],
+      "kind": "value",
+      "expected": "The liquid is white and so cloudy you cannot see through it.",
+      "actual": "The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin."
+    }
+  ],
+  "changed_field_counts": {
+    "optical_ph_gaps": 74,
+    "notes": 74,
+    "words": 74
+  }
+}

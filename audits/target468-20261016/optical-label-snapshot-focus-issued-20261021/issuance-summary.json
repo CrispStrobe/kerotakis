@@ -1,0 +1,29 @@
+{
+  "source": "e648249119e1fe028735bf31723da2867d87db77",
+  "tree": "7e025b896ca62da0d392811ec9d49aa338218e5a",
+  "baseline": "047d04513d1e55e162ad4269cbd5192e432e83e1",
+  "baseline_tree": "b5ca243cbd2996ed6e97ea752ad54e5663289534",
+  "issued_utc": "2026-10-21T11:14:55.568655+00:00",
+  "version": 1,
+  "worker_sha256": "4a217b4745f517ab65a1bd195aa87df646b57bbbacbe74cc4505ba51941066c5",
+  "worker_bytes": 250305,
+  "actual_plan_sha256": "adf7e8998620b0d3e4b35ab0894e429bb8c6af008d243bb0d3bcbf6d6683771c",
+  "parent_review_sha256": "21cca61e5854327a3ff84879c4dfa8036557c9fdefe03018be6f876224745cc7",
+  "issue_receipt_sha256": "3d35093d40c85f9aeedf65eb16ddcf2833b0cf4d3a6859a17683506e081c2366",
+  "preceding_full_terminal_sha256": "70afe7b0540f5326c6cc431efc7235fee5c9501daa934edd2c84e9ee8ef9a7a8",
+  "baseline_controls_required": 25,
+  "fixed_controls_required": 68,
+  "separate_unresolved_diagnostics": 2,
+  "expected_actual_executables": 7,
+  "actual_test_results_available": false,
+  "scientific_selections": 0,
+  "full_or_product_acceptance": false,
+  "prior43_baseline_not_reexecuted": true,
+  "provider_slug_correction": {
+    "successful_single_push_before_strict_response_assertion": true,
+    "actual_provider_source_pulled_and_byte_exact_verified": true,
+    "no_push_retry": true,
+    "collection_only_recovery": true,
+    "receipt_sha256": "e1ad71c25569b8f6fb184738f87ffab0077dcb46381c9f45ef1f34fd8b2d7278"
+  }
+}

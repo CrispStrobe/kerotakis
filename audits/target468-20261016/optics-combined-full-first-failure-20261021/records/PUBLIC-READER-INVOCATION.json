@@ -1,0 +1,28 @@
+{
+  "kind": "actual_saved_reader_invocation",
+  "reader_sha256": "e22db88de73a17395b8ea8aef6efc25862d4533a496cb72cfc5053f3105ac66c",
+  "argv_safe_projection": [
+    "python3",
+    "audits/target468-20261016/optics-combined-full-first-failure-20261021/review_public.py",
+    "--repo",
+    ".",
+    "--out",
+    "<fresh-output-directory>"
+  ],
+  "projection_omits_private_output_coordinate": true,
+  "raw_private_invocation_sha256": "5ab5dab28a61b24e4ff3adfcc96fa255a16bd0542e43f013c366d33d3773dc66",
+  "exit_status": 0,
+  "stdout": {
+    "scene_changed_vessels": 74,
+    "scene_physical_fields_equal": true,
+    "frozen_deltas": 5,
+    "frozen_changed_lessons": [
+      "cabbage-rainbow",
+      "lemonade-indicator"
+    ]
+  },
+  "stdout_sha256": "dfadf7f3a3dd758d9d72c734bd90e8c041d4ff7f29061e5a01bf9266f21b71ff",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "engine_or_provider_calls": 0,
+  "full_acceptance": false
+}

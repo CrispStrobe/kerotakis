@@ -1,0 +1,1 @@
+{"stage":"before payload rehash or numerical adjudication","first_assumption":"host compact plan bytes equal producer pretty plan bytes","actual":"Both parsed plans equal; producer pretty serialization differs. Successor authenticates compressed transport exact host bytes then compares parsed producer plan. No new producer execution."}
