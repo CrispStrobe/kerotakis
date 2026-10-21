@@ -1,0 +1,53 @@
+{
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "scope": "SOURCE_ONLY_NO_ENGINE_OR_EMPIRICAL_VALIDATION",
+  "registry_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "assumptions": [
+    "Pure ice; temperature-independent imposed water activity for comparison.",
+    "Use source liquid Cp endpoint holding below tabulated liquid interval; this is a model extension, not measured supercooled-water authority.",
+    "Use source ice NASA9 within its shipped200..273.15K interval.",
+    "Integrate ln(a_w)=integral(Tref,T) deltaHfusion(u)/(R*u^2) du.",
+    "Reference fusion6010J/mol and Tref273.15K exactly as source."
+  ],
+  "precision_refinement": "60/80 decimal digits agree within1e-50K",
+  "rows": [
+    {
+      "constant_fusion_temperature_k": "273.15",
+      "activity": "1",
+      "source_fusion_j_per_mol": "6010.0000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "source_fusion_fraction_change": "0E-76",
+      "variable_fusion_temperature_k": "273.14999999999999999999999999999999999999999999999999999999999999999283381371687",
+      "temperature_difference_k": "-7.16618628313E-66",
+      "root_log_activity_residual": "-6.9426611724648792549908306746377368024005562978563232435854395911954654282871666E-68"
+    },
+    {
+      "constant_fusion_temperature_k": "270",
+      "activity": "0.96959821912852648788428308589702109076638758618284325913699937260975513934121666",
+      "source_fusion_j_per_mol": "5889.3973393983142259918258567789301581900722469827261253727474424249666904392810",
+      "source_fusion_fraction_change": "-0.020066998436220594676900855777216279835262521300711127225832372308657788612432446",
+      "variable_fusion_temperature_k": "269.96805892291698810021205311733152193492632770328110154837696818855663924480342",
+      "temperature_difference_k": "-0.03194107708301189978794688266847806507367229671889845162303181144336075519658",
+      "root_log_activity_residual": "-1.320906939516E-69"
+    },
+    {
+      "constant_fusion_temperature_k": "260",
+      "activity": "0.87472851164984419226199775713689965394609689154758525714966865525921024746104588",
+      "source_fusion_j_per_mol": "5497.229008564415415258192258552058349192167396596503681412385608766703441651729",
+      "source_fusion_fraction_change": "-0.085319632518400097294809940340755682330754176939017690280801063433160825016351248",
+      "variable_fusion_temperature_k": "259.41132241646737340488402071104300393709230109868712452818652197446022742145357",
+      "temperature_difference_k": "-0.58867758353262659511597928895699606290769890131287547181347802553977257854643",
+      "root_log_activity_residual": "-3.685204911317E-68"
+    },
+    {
+      "constant_fusion_temperature_k": "252",
+      "activity": "0.80083513162933173862436980929176844997647525429527277106422440068575817802718290",
+      "source_fusion_j_per_mol": "5173.461955773669389809294814267742040959975385425845845903391925755230156041589",
+      "source_fusion_fraction_change": "-0.13919102233383204828464312574579999318469627530351982597281332350162559799640782",
+      "variable_fusion_temperature_k": "250.39970244044675480729889002904839309516711627003582805345999251210873501371260",
+      "temperature_difference_k": "-1.60029755955324519270110997095160690483288372996417194654000748789126498628740",
+      "root_log_activity_residual": "3.086968205052E-68"
+    }
+  ],
+  "scientific_corpus_promotions": 0,
+  "current_cap_refusal_acceptance_changed": false
+}

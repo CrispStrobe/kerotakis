@@ -1,0 +1,110 @@
+{
+  "scope": "SOURCE_MODEL_CONSISTENCY_ONLY_NO_ENGINE_NO_EMPIRICAL_CALIBRATION",
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "registry_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "method": "Independent composite Simpson Cp quadrature; exchanged-integral kernel for Gibbs/chemical-potential relation, distinct from parent Decimal analytic primitives",
+  "constants": {
+    "R_J_mol_K": 8.31446261815324,
+    "reference_K": 273.15,
+    "fusion_reference_J_mol": 6010.0
+  },
+  "phase_ranges": {
+    "solid": [
+      [
+        200.0,
+        273.15
+      ]
+    ],
+    "liquid": [
+      [
+        273.15,
+        373.15
+      ],
+      [
+        373.15,
+        600.0
+      ]
+    ]
+  },
+  "liquid_below_table": "Endpoint-held Cp at273.15K, source algorithmic extension; not measured metastable liquid data",
+  "rows": [
+    {
+      "constant_fusion_temperature_K": 273.15,
+      "source_activity": 1.0,
+      "source_fusion_J_per_mol": 6010.0,
+      "fusion_fraction_change": 0.0,
+      "variable_fusion_hypothetical_root_K": 273.15,
+      "root_shift_K": 0.0,
+      "quadrature_logaw_residual": 0.0,
+      "root_below_current252K_cap": false
+    },
+    {
+      "constant_fusion_temperature_K": 270.0,
+      "source_activity": 0.9695982191285266,
+      "source_fusion_J_per_mol": 5889.39733939821,
+      "fusion_fraction_change": -0.020066998436238048,
+      "variable_fusion_hypothetical_root_K": 269.96805892291695,
+      "root_shift_K": -0.031941077083047276,
+      "quadrature_logaw_residual": 1.249000902703301e-16,
+      "root_below_current252K_cap": false
+    },
+    {
+      "constant_fusion_temperature_K": 260.0,
+      "source_activity": 0.8747285116498442,
+      "source_fusion_J_per_mol": 5497.229008563978,
+      "fusion_fraction_change": -0.08531963251847285,
+      "variable_fusion_hypothetical_root_K": 259.41132241646676,
+      "root_shift_K": -0.5886775835332401,
+      "quadrature_logaw_residual": -3.608224830031759e-16,
+      "root_below_current252K_cap": false
+    },
+    {
+      "constant_fusion_temperature_K": 252.0,
+      "source_activity": 0.8008351316293321,
+      "source_fusion_J_per_mol": 5173.461955772965,
+      "fusion_fraction_change": -0.1391910223339493,
+      "variable_fusion_hypothetical_root_K": 250.3997024404452,
+      "root_shift_K": -1.6002975595548037,
+      "quadrature_logaw_residual": 2.7755575615628914e-16,
+      "root_below_current252K_cap": true
+    }
+  ],
+  "independent_comparisons": [
+    {
+      "old_temperature_K": 273.15,
+      "mesh_refinement_root_difference_K": 0.0,
+      "mesh_refinement_fusion_difference_J_per_mol": 0.0,
+      "independent_vs_parent_analytic_root_K": 0.0,
+      "independent_vs_parent_analytic_fusion_J_per_mol": 0.0
+    },
+    {
+      "old_temperature_K": 270.0,
+      "mesh_refinement_root_difference_K": 0.0,
+      "mesh_refinement_fusion_difference_J_per_mol": 0.0,
+      "independent_vs_parent_analytic_root_K": -5.684341886080802e-14,
+      "independent_vs_parent_analytic_fusion_J_per_mol": -1.0459189070388675e-10
+    },
+    {
+      "old_temperature_K": 260.0,
+      "mesh_refinement_root_difference_K": 0.0,
+      "mesh_refinement_fusion_difference_J_per_mol": 0.0,
+      "independent_vs_parent_analytic_root_K": -6.252776074688882e-13,
+      "independent_vs_parent_analytic_fusion_J_per_mol": -4.374669515527785e-10
+    },
+    {
+      "old_temperature_K": 252.0,
+      "mesh_refinement_root_difference_K": 0.0,
+      "mesh_refinement_fusion_difference_J_per_mol": 0.0,
+      "independent_vs_parent_analytic_root_K": -1.5631940186722204e-12,
+      "independent_vs_parent_analytic_fusion_J_per_mol": -7.048583938740194e-10
+    }
+  ],
+  "inference": "Current source constant6010 liquidus and temperature-adjusted phase-transfer enthalpy are thermodynamically inconsistent for the imposed-aw comparison. The4percent/under0.1K comment is contradicted by current registry model, not established physical data.",
+  "bounds": [
+    "No temperature-dependent real-solution aw model was supplied; activity is held fixed for each comparison.",
+    "250.3997K is below current252K model cap and is only a hypothetical mathematical root.",
+    "Current frozen cap controls intentionally validate existing constant-fusion relation and conservative energy/refusal; they are not silently changed."
+  ],
+  "current_PR_or_frozen_controls_changed": false,
+  "scientific_selections": 0
+}
