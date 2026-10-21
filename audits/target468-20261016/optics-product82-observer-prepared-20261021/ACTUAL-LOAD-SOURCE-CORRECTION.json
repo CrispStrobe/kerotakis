@@ -1,0 +1,15 @@
+{
+  "state": "PROSPECTIVE_ACTUAL_RESPONSE_CAPTURE_NOT_EXECUTED",
+  "first_observer_sha256": "44b5ce0ffdab001448d81bf5796c5358981385b2fe3ad032475d0da008ee959c",
+  "actual_loaded_response_requirements": [
+    "BrowserContext response listener before GUI navigation",
+    "actual /app/ successful document body hashes to app/index.html archive binding",
+    "all observed loaded /app/* asset bodies hash to exact archive path",
+    "await networkidle and every capture promise before final row",
+    "every retained created dedicated-worker URL requires actual matching successful captured body; unsupported Playwright worker response coverage HOLD",
+    "preserve failed captures and all currently collected partial responses on first error"
+  ],
+  "separate_GET_role": "corroboration only, not actual-load proof",
+  "body_memory_note": "Playwright response.body buffers one returned asset; per-asset16MiB rejection checked, no streamed Playwright body claim",
+  "actual_browser_runs": 0
+}

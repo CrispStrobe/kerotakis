@@ -1,0 +1,8 @@
+{
+  "state": "PRE_EXECUTION_SOURCE_SCHEMA_REJECTION",
+  "actual_browser_executions": 0,
+  "original_v3_immutable": true,
+  "cause": "session.submit register branch calls host.setRegister; actual WorkerHost uses set_register/done{} rather than run_script/bench",
+  "successor": "v4 consumes genuine set_register and explicitly observer-issued read-only public snapshot before look, including empty fresh vessel; no fabricated result",
+  "source": "e648249119e1fe028735bf31723da2867d87db77"
+}

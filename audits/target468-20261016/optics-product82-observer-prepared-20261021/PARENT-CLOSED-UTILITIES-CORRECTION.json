@@ -1,0 +1,18 @@
+{
+  "state": "PRE_EXECUTION_SOURCE_UI_CORRECTION",
+  "first_module_sha256": "5f57c9be64998718ba44175e621f84cdd7e93ac479670fc9da4e31752bc2b6cb",
+  "source": "e648249119e1fe028735bf31723da2867d87db77",
+  "actual_source_findings": {
+    "toolsOpen_initial": false,
+    "homeOpen_initial": false,
+    "roomOpen_initial": false,
+    "fresh_sandbox_work_guides_initial": false,
+    "locale_control": "header LocaleSwitcher, outside toolsOpen drawer in inspected exact source",
+    "console_toggle": "inside toolsOpen utility-drawer; data-keeps-drawer prevents delegated dismissal",
+    "lab_file_input": "inside same drawer; INPUT not a dismissal action",
+    "drawer_actions": "BUTTON/A/SELECT/OPTION dismiss unless ancestor data-keeps-drawer; locale header does not bubble through drawer"
+  },
+  "correction": "genuine utility-toggle click iff aria-expanded not true, wait actual expanded+drawer visible before locale/console/each file import; no DOM or app state injection",
+  "chemistry_protocols_and_v4_predicates_unchanged": true,
+  "browser_executions": 0
+}

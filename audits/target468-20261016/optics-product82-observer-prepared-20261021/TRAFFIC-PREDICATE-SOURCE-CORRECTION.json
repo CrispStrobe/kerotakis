@@ -1,0 +1,18 @@
+{
+  "state": "PROSPECTIVE_SAVED_READER_SOURCE_CORRECTION_NOT_EXECUTED",
+  "first_predicate_sha256": "9f0a8039d107a975b7202d2c1ff0a7b1f79b28dbfa49f31233e3d074c516b669",
+  "new_requirements": [
+    "independent raw envelope reconstruction",
+    "strict integer sequence order and worker creation ownership",
+    "unique request and terminal IDs per worker, earlier request before response",
+    "all consumed exact pairs must equal reconstructed genuine request and terminal response including origin/worker/sequences",
+    "same worker for protocol/locale/snapshot/scene/hello",
+    "app positive IDs, readonly observer negative IDs",
+    "ordered nonoverlapping protocol, locale completed first",
+    "snapshot completed after final setup before look, scene requested after actual final measure",
+    "extra incomplete or completed chemistry/register request rejects; locale/restore/reset/step during interval rejects"
+  ],
+  "v3_chemistry_words_oracle_and_protocol_bytes_unchanged": true,
+  "existing_v4_chemical_DOM_numeric_passivity_predicates_unchanged": true,
+  "validation": "ast.parse only; no manufactured raw rows or predicate/browser/engine execution"
+}
