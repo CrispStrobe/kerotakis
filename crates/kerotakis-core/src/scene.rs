@@ -519,6 +519,14 @@ pub struct SceneLiquid {
     /// what it saw before.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub spectral_gaps: Vec<String>,
+    /// A known indicator spectrum requires a finite aqueous pH. Separate
+    /// from absent spectral data so hosts can explain the actual boundary.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub optical_ph_gaps: Vec<String>,
+    /// Registry English names for known IDs in either optical gap list.
+    /// Hosts translate these names while retaining canonical gap identities.
+    #[serde(default, skip_serializing_if = "std::collections::BTreeMap::is_empty")]
+    pub optical_species_names: std::collections::BTreeMap<String, String>,
 }
 
 /// One solid species in the vessel, ready to paint.
@@ -829,6 +837,19 @@ fn liquid_transitions(v: &Vessel) -> (Option<f64>, Option<f64>) {
     (boiling, transitions.melting_k)
 }
 
+/// Registry-known display names for the canonical optical gap identities.
+fn optical_species_names(
+    seen: &appearance::Appearance,
+) -> std::collections::BTreeMap<String, String> {
+    seen.spectral_gaps
+        .iter()
+        .chain(&seen.optical_ph_gaps)
+        .filter_map(|id| {
+            crate::species::lookup_key(id).map(|data| (id.clone(), data.name.to_string()))
+        })
+        .collect()
+}
+
 /// One vessel's render model.
 pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let seen = appearance::observe(v);
@@ -855,6 +876,8 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             cloudiness: seen.cloudiness,
             path_length_cm: crate::vessel::path_cm_for(&v.label),
             spectral_gaps: seen.spectral_gaps.clone(),
+            optical_ph_gaps: seen.optical_ph_gaps.clone(),
+            optical_species_names: optical_species_names(&seen),
         })
         .or_else(|| {
             material_layers.first().map(|layer| SceneLiquid {
@@ -864,6 +887,8 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 cloudiness: 0.0,
                 path_length_cm: crate::vessel::path_cm_for(&v.label),
                 spectral_gaps: seen.spectral_gaps.clone(),
+                optical_ph_gaps: seen.optical_ph_gaps.clone(),
+                optical_species_names: optical_species_names(&seen),
             })
         });
     if let (Some(liquid), Some(emulsion)) = (&mut liquid, &emulsion_observation) {

@@ -285,9 +285,20 @@ impl Slot {
         match self {
             Slot::Text { text } => text.clone(),
             Slot::Number { text } => locale.number(text.clone()),
-            Slot::Term { section, en } => locale
-                .lookup(&format!("{section}.{en}"))
-                .map_or_else(|| en.clone(), str::to_string),
+            Slot::Term { section, en } => {
+                let source = if section == "species" {
+                    crate::species::english_name(en)
+                } else {
+                    en.as_str()
+                };
+                // Keep an explicit direct translation. Species IDs otherwise
+                // use the same registry English name as event rendering.
+                locale
+                    .lookup(&format!("{section}.{en}"))
+                    .or_else(|| locale.lookup(&format!("{section}.{source}")))
+                    .unwrap_or(source)
+                    .to_string()
+            }
             Slot::Phrase { phrase } => phrase.render(locale),
             Slot::List { items } => {
                 let parts: Vec<String> = items.iter().map(|item| item.render(locale)).collect();

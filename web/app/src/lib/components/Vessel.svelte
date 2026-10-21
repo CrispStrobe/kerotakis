@@ -352,6 +352,21 @@
      PICTURE painted a confident colour over the admission. Absent on an
      older engine, which is the same as "nothing known to be missing". */
   const spectralGaps = $derived(vessel.liquid?.spectral_gaps ?? []);
+  const opticalPhGaps = $derived(vessel.liquid?.optical_ph_gaps ?? []);
+  function tOpticalSpeciesName(id: string): string {
+    const names = vessel.liquid?.optical_species_names;
+    const source = names && Object.prototype.hasOwnProperty.call(names, id) ? names[id] : id;
+    return t(typeof source === "string" && source.length > 0 ? source : id);
+  }
+  const opticalCoverageLabel = $derived([
+    spectralGaps.length > 0 ? t("the computed colour is incomplete: no absorption spectrum for {species}", {
+      species: spectralGaps.map(tOpticalSpeciesName).join(", "),
+    }) : "",
+    opticalPhGaps.length > 0 ? t("the computed colour is incomplete: pH is missing or invalid for {species}", {
+      species: opticalPhGaps.map(tOpticalSpeciesName).join(", "),
+    }) : "",
+  ].filter(Boolean).join(" "));
+
   const persistentEnzymeReadouts = $derived(enzymeReadouts(vessel));
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
@@ -899,12 +914,12 @@
         height={liquidH}
         fill={`url(#vdepth-${vessel.id})`}
       />
-      {#if spectralGaps.length > 0}
+      {#if spectralGaps.length > 0 || opticalPhGaps.length > 0}
         <!-- The colour above is incomplete and the engine named the part
              it could not compute. The hatch covers the liquid column the
              claim was made about, and nothing else: the glass, the foam
              and the deposit are not what is in doubt. -->
-        <g class="spectral-gap" data-gaps={spectralGaps.join(",")}>
+        <g class="spectral-gap" data-gaps={spectralGaps.join(",")} data-ph-gaps={opticalPhGaps.join(",")}>
           <rect
             class="spectral-gap-hatch"
             x={INNER_X}
@@ -913,9 +928,7 @@
             height={liquidH}
             fill={`url(#vgap-${vessel.id})`}
           />
-          <title>{t("the computed colour is incomplete: no absorption spectrum for {species}", {
-            species: spectralGaps.map((name) => t(name)).join(", "),
-          })}</title>
+          <title>{opticalCoverageLabel}</title>
         </g>
       {/if}
     {/if}
@@ -3221,12 +3234,25 @@
         class="persistent-readout spectral-gap-readout"
         data-gaps={spectralGaps.join(",")}
         aria-label={t("the computed colour is incomplete: no absorption spectrum for {species}", {
-          species: spectralGaps.map((name) => t(name)).join(", "),
+          species: spectralGaps.map(tOpticalSpeciesName).join(", "),
         })}
         title={t("The hatching on the liquid marks the part of the colour the model could not compute. It says something about the model, not about the liquid.")}
       >
         <small>{t("colour incomplete")}</small>
-        <strong>{spectralGaps.map((name) => t(name)).join(", ")}</strong>
+        <strong>{spectralGaps.map(tOpticalSpeciesName).join(", ")}</strong>
+      </span>
+    {/if}
+    {#if opticalPhGaps.length > 0}
+      <span
+        class="persistent-readout optical-ph-gap-readout"
+        data-ph-gaps={opticalPhGaps.join(",")}
+        aria-label={t("the computed colour is incomplete: pH is missing or invalid for {species}", {
+          species: opticalPhGaps.map(tOpticalSpeciesName).join(", "),
+        })}
+        title={t("The hatching on the liquid marks the part of the colour the model could not compute. It says something about the model, not about the liquid.")}
+      >
+        <small>{t("colour needs pH")}</small>
+        <strong>{opticalPhGaps.map(tOpticalSpeciesName).join(", ")}</strong>
       </span>
     {/if}
     {#each persistentEnzymeReadouts as progress (progress.material + progress.family)}
@@ -3781,7 +3807,8 @@
      texture is points AT the texture, and its own title is the answer.
      The vessel's sentence is not lost — it is the figure's aria-label and
      the live observation line under the drawing. */
-  .spectral-gap-readout strong {
+  .spectral-gap-readout strong,
+  .optical-ph-gap-readout strong {
     font-weight: 600;
   }
   /* Turbidity is the engine's `cloudiness`, and light from the deposit

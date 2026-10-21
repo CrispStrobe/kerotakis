@@ -52,11 +52,11 @@ fn analytical_proton_and_hydroxide_are_not_unsupported_ionic_feeds() {
 /// permanganate, nitrate, tetraborate, thiosulfate, sulfite, sulfate,
 /// bisulfate, hypochlorite - is defined in at least one vendored database.
 /// The single registry species that IS absent from every vendored file is
-/// `methyl_orange`, an azo dye no geochemical database carries, and it
-/// cannot be this test's subject for an unrelated reason: it is flagged
-/// `dissolves_without_speciation`, so it is deliberately treated as a
-/// dissolved neutral and never raises the unmapped-ion warning at all. It
-/// would test the sugar branch below, not this one.
+/// `methyl_orange`, an azo dye no geochemical database carries. Its
+/// `dissolves_without_speciation` flag admits dissolution, not neutral
+/// chemistry: its sodium-bearing formula can also raise the unmapped-ion
+/// warning. Iodate remains this test's unchanged subject; sucrose is the
+/// independently neutral contrast below.
 ///
 /// So: the property is unchanged and still needs a subject, the subject is
 /// the best available rather than the ideal one, and the file says which.
@@ -73,8 +73,35 @@ fn unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute() {
             }
             assert!(eq.applies(&v));
             let events = eq.equilibrate(&mut v).unwrap();
-            assert!(events.iter().any(|e| matches!(e,
-                Event::NotYetModeled { what, .. } if what.contains("KIO3"))));
+            let (what, reason) = events
+                .iter()
+                .find_map(|event| match event {
+                    Event::NotYetModeled {
+                        what,
+                        cause: ops::NotModelledCause::NotSpeciated,
+                        reason: Some(reason),
+                        ..
+                    } if reason.key == "not-modeled.no-component-mapping" => Some((what, reason)),
+                    _ => None,
+                })
+                .expect("an unmapped ionic feed must retain its typed coverage warning");
+            assert_eq!(
+                reason.slots,
+                vec![("name".to_string(), Slot::term("species", "KIO3"))],
+                "canonical chemical identity belongs in the typed warning"
+            );
+            assert_eq!(*what, reason.render(i18n::Locale::EN));
+            for (code, name) in [
+                ("en", "potassium iodate"),
+                ("de", "Kaliumiodat"),
+                ("fr", "iodate de potassium"),
+            ] {
+                let displayed = reason.render(i18n::Locale::parse(code));
+                assert!(
+                    displayed.starts_with(name) && !displayed.contains("KIO3"),
+                    "{code} must display the registered localized name: {displayed}"
+                );
+            }
             assert_eq!(
                 v.solution.is_some(),
                 acid > 0.0,

@@ -666,6 +666,7 @@ fn the_inert_verdict_explains_itself_in_german() {
 fn an_appearance_without_clauses_falls_back_to_its_english() {
     let seen = appearance::Appearance {
         spectral_gaps: Vec::new(),
+        optical_ph_gaps: Vec::new(),
         liquid: None,
         cloudiness: 0.0,
         deposit: None,

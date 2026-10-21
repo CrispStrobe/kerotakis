@@ -315,6 +315,10 @@ export interface SceneLiquid {
    * of itself is missing. Absent on an older engine, and omitted when the
    * colour is whole. Never a licence to invent the missing tint. */
   spectral_gaps?: string[];
+  /** Known indicator spectra whose pH prerequisite is missing or invalid. */
+  optical_ph_gaps?: string[];
+  /** Registry English names keyed by the unchanged optical gap IDs. */
+  optical_species_names?: Record<string, string>;
 }
 
 export interface SceneSolid {

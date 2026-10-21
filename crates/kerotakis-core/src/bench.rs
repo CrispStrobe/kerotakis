@@ -4474,7 +4474,8 @@ impl Bench {
                     }
                     Instrument::Spectrophotometer => {
                         let spec = crate::instrument::Spectrophotometer::default();
-                        let gaps = crate::solution_optics::spectral_gaps(v);
+                        let coverage = crate::solution_optics::coverage(v);
+                        let gaps = coverage.missing_spectra;
                         if let Some(reading) = spec.measure(v) {
                             events.push(Event::Measured {
                                 vessel: *vessel,
@@ -4484,6 +4485,27 @@ impl Bench {
                                 note: None,
                                 note_reason: None,
                             });
+                        } else if !coverage.missing_ph.is_empty() {
+                            events.push(Event::not_modeled(
+                                *vessel,
+                                crate::ops::NotModelledCause::NoSolution,
+                                Phrase::new(
+                                    "not-modeled.indicator-optics-missing-ph",
+                                    "complete absorbance is unavailable: a finite aqueous pH is required for {species}",
+                                    vec![("species".to_string(), Slot::terms("species", coverage.missing_ph))],
+                                ),
+                            ));
+                            if !gaps.is_empty() {
+                                events.push(Event::not_modeled(
+                                    *vessel,
+                                    crate::ops::NotModelledCause::ModelBoundary,
+                                    Phrase::new(
+                                        "not-modeled.incomplete-absorbance",
+                                        "complete absorbance is unavailable: no absorption spectrum for {species}",
+                                        vec![("species".to_string(), Slot::terms("species", gaps))],
+                                    ),
+                                ));
+                            }
                         } else if gaps.is_empty() {
                             // Written out rather than folded into one push with
                             // two conditionals: `every_fixed_gap_reason_has_german`
