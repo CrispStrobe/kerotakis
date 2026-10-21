@@ -1,0 +1,24 @@
+{
+  "source": "6273bb6e04293f521ed98f80661fd8b85d6464bf",
+  "tree": "a22cda98c6dbc9aa5f4cb328b3739221c29ade3d",
+  "parent": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "exact_changed_paths": [
+    "crates/kerotakis-phreeqc/tests/partial_freezing.rs",
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/phase-energy-cap-refusal-lane-20261020.md"
+  ],
+  "only_code_change": "crates/kerotakis-phreeqc/tests/partial_freezing.rs",
+  "test_sha256": "de6bd65b7634eee22ca9ad7ae6019acf214cb590ee1299e0020c0e5bb3dc20e0",
+  "runtime_and_all_other_tracked_paths_byte_identical_except_four_named_summaries": true,
+  "frozen12_sha256": "611b13beb8b8fbaf940019f70e9ef4d83f374d5c74ca974fd0d082b0944d71de",
+  "original_protocol_commands_unchanged": true,
+  "new_compiled_test_results": null,
+  "CI_run": 39679152876,
+  "Chemistry_run": 39679152681,
+  "full_source_platform_product_acceptance": false,
+  "scientific_selections": 0,
+  "independent_final_source_review_sha256": "b4fed5f2751499a312b8263470c4af56284dfde7e528f15b9b2b089eff0f9617",
+  "independent_review_scope": "Source only; no compilation or new-head runtime acceptance"
+}
