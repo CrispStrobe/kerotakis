@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "npm",
+    "run",
+    "check"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "7fe198867bb41a277d0ed870c7f219b88db086b8b2e2919b26a523b9fde81b8a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

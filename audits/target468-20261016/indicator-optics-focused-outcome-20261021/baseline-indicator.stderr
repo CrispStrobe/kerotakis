@@ -1,0 +1,32 @@
+
+thread 'bench_and_appearance_refusals_are_localized_and_nonconsuming' (2930) panicked at crates/kerotakis-core/tests/indicator_optical_coverage.rs:178:10:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'liquid_indicator_requires_ph' (2932) panicked at crates/kerotakis-core/tests/indicator_optical_coverage.rs:146:5:
+assertion `left == right` failed
+  left: []
+ right: ["methyl_orange"]
+
+thread 'missing_ph_is_refusal_not_zero' (2933) panicked at crates/kerotakis-core/tests/indicator_optical_coverage.rs:46:5:
+assertion `left == right` failed
+  left: []
+ right: ["methyl_orange"]
+
+thread 'mixed_partial_spectrum_is_preserved_but_not_reported_complete' (2934) panicked at crates/kerotakis-core/tests/indicator_optical_coverage.rs:97:5:
+assertion failed: Spectrophotometer::default().measure(&v).is_none()
+
+thread 'native_spectrum_and_ph_gaps_both_survive' (2935) panicked at crates/kerotakis-core/tests/indicator_optical_coverage.rs:161:5:
+assertion `left == right` failed
+  left: []
+ right: ["methyl_orange"]
+
+thread 'nonfinite_ph_refuses_without_poisoning_partial_bands' (2937) panicked at crates/kerotakis-core/tests/indicator_optical_coverage.rs:60:9:
+assertion `left == right` failed
+  left: []
+ right: ["methyl_orange"]
+
+thread 'scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data' (2939) panicked at crates/kerotakis-core/tests/indicator_optical_coverage.rs:226:5:
+assertion `left == right` failed
+  left: Null
+ right: Array [String("methyl_orange")]

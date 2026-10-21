@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "npx",
+    "--no-install",
+    "vitest",
+    "run",
+    "src/lib/components/VesselSpectralGap.test.ts",
+    "src/lib/components/VesselOpticalPhGap.test.ts",
+    "--reporter=json",
+    "--outputFile=/kaggle/working/indicator-optics-focus-evidence/baseline-SSR-report.json",
+    "--maxWorkers=1"
+  ],
+  "exit_status": 1,
+  "error_type": null,
+  "stdout_sha256": "4a1d8431bc319dab60bcf9a79874bfd636b327109a0884f46b613e0f5e58cdad",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

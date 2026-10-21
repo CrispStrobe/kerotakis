@@ -1,0 +1,474 @@
+{
+  "runtime_source": "14d502b2262134b636d44504d446652c3cfe49eb",
+  "runtime_tree": "70c611796fc4c19cdfd07fcb27766f5f8cc10db6",
+  "actual_outcomes": {
+    "baseline-indicator": {
+      "exit_status": 101,
+      "observed_tests": [
+        [
+          "adsorbed_indicator_has_no_aqueous_gap",
+          "ok"
+        ],
+        [
+          "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+          "FAILED"
+        ],
+        [
+          "finite_solved_ph_has_positive_spectrum",
+          "ok"
+        ],
+        [
+          "liquid_indicator_requires_ph",
+          "FAILED"
+        ],
+        [
+          "missing_ph_is_refusal_not_zero",
+          "FAILED"
+        ],
+        [
+          "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+          "FAILED"
+        ],
+        [
+          "native_spectrum_and_ph_gaps_both_survive",
+          "FAILED"
+        ],
+        [
+          "non_ph_absorber_does_not_need_solution",
+          "ok"
+        ],
+        [
+          "nonfinite_ph_refuses_without_poisoning_partial_bands",
+          "FAILED"
+        ],
+        [
+          "scene_omits_empty_ph_gap_and_older_payloads_remain_readable",
+          "ok"
+        ],
+        [
+          "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+          "FAILED"
+        ],
+        [
+          "solid_indicator_has_no_aqueous_gap",
+          "ok"
+        ],
+        [
+          "valid_blank_stays_zero",
+          "ok"
+        ],
+        [
+          "zero_indicator_has_no_gap",
+          "ok"
+        ]
+      ],
+      "actual_summary": [
+        [
+          "7",
+          "7",
+          "0"
+        ]
+      ],
+      "expected_tests": [
+        "missing_ph_is_refusal_not_zero",
+        "nonfinite_ph_refuses_without_poisoning_partial_bands",
+        "finite_solved_ph_has_positive_spectrum",
+        "non_ph_absorber_does_not_need_solution",
+        "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+        "valid_blank_stays_zero",
+        "solid_indicator_has_no_aqueous_gap",
+        "adsorbed_indicator_has_no_aqueous_gap",
+        "zero_indicator_has_no_gap",
+        "liquid_indicator_requires_ph",
+        "native_spectrum_and_ph_gaps_both_survive",
+        "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+        "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+        "scene_omits_empty_ph_gap_and_older_payloads_remain_readable"
+      ],
+      "expected_failures": [
+        "missing_ph_is_refusal_not_zero",
+        "nonfinite_ph_refuses_without_poisoning_partial_bands",
+        "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+        "liquid_indicator_requires_ph",
+        "native_spectrum_and_ph_gaps_both_survive",
+        "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+        "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data"
+      ],
+      "matches_frozen_forecast": true
+    },
+    "baseline-native-controls": {
+      "exit_status": 0,
+      "observed_tests": [
+        [
+          "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality",
+          "ok"
+        ],
+        [
+          "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+          "ok"
+        ]
+      ],
+      "actual_summary": [
+        [
+          "2",
+          "0",
+          "0"
+        ]
+      ],
+      "expected_tests": [
+        "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+        "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality"
+      ],
+      "expected_failures": [],
+      "matches_frozen_forecast": true
+    },
+    "baseline-SSR": {
+      "exit_status": 1,
+      "actual_tests": [
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "does not hatch complete or older scene data",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "marks the liquid and names the actual missing prerequisite",
+          "status": "failed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "retains the computed partial colour rather than inventing a tint",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "keeps spectrum and pH gaps distinct while painting one coverage hatch",
+          "status": "failed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "localizes the pH explanation in de",
+          "status": "failed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "localizes the pH explanation in fr",
+          "status": "failed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "keeps complete placeholder-compatible catalogue entries",
+          "status": "failed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "draws a liquid column for the mark to sit on",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "leaves a colour the engine computed whole unmarked",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "marks the liquid when the engine reported a gap in its colour",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "names what is missing rather than only that something is",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "says it in the caption the reader already reads, not only on hover",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "treats an engine that predates the field as nothing known to be missing",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "does not repaint the liquid it marks",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "invents no colour for the species it could not compute",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "takes both hatch strokes from theme tokens, so it reads on every bench",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "tiles in the fixed viewBox's own units, so 64 px and 257 px are one drawing",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "uses no warning colour and no alarm animation",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "is in the component, so a new language is one json and no code",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "is translated in de.json",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "has an empty row waiting in the template",
+          "status": "passed"
+        }
+      ],
+      "expected_new_failure_titles": [
+        "keeps complete placeholder-compatible catalogue entries",
+        "keeps spectrum and pH gaps distinct while painting one coverage hatch",
+        "localizes the pH explanation in de",
+        "localizes the pH explanation in fr",
+        "marks the liquid and names the actual missing prerequisite"
+      ],
+      "matches_frozen_forecast": true
+    },
+    "candidate-indicator": {
+      "exit_status": 0,
+      "observed_tests": [
+        [
+          "adsorbed_indicator_has_no_aqueous_gap",
+          "ok"
+        ],
+        [
+          "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+          "ok"
+        ],
+        [
+          "finite_solved_ph_has_positive_spectrum",
+          "ok"
+        ],
+        [
+          "liquid_indicator_requires_ph",
+          "ok"
+        ],
+        [
+          "missing_ph_is_refusal_not_zero",
+          "ok"
+        ],
+        [
+          "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+          "ok"
+        ],
+        [
+          "native_spectrum_and_ph_gaps_both_survive",
+          "ok"
+        ],
+        [
+          "non_ph_absorber_does_not_need_solution",
+          "ok"
+        ],
+        [
+          "nonfinite_ph_refuses_without_poisoning_partial_bands",
+          "ok"
+        ],
+        [
+          "scene_omits_empty_ph_gap_and_older_payloads_remain_readable",
+          "ok"
+        ],
+        [
+          "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+          "ok"
+        ],
+        [
+          "solid_indicator_has_no_aqueous_gap",
+          "ok"
+        ],
+        [
+          "valid_blank_stays_zero",
+          "ok"
+        ],
+        [
+          "zero_indicator_has_no_gap",
+          "ok"
+        ]
+      ],
+      "actual_summary": [
+        [
+          "14",
+          "0",
+          "0"
+        ]
+      ],
+      "expected_tests": [
+        "missing_ph_is_refusal_not_zero",
+        "nonfinite_ph_refuses_without_poisoning_partial_bands",
+        "finite_solved_ph_has_positive_spectrum",
+        "non_ph_absorber_does_not_need_solution",
+        "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+        "valid_blank_stays_zero",
+        "solid_indicator_has_no_aqueous_gap",
+        "adsorbed_indicator_has_no_aqueous_gap",
+        "zero_indicator_has_no_gap",
+        "liquid_indicator_requires_ph",
+        "native_spectrum_and_ph_gaps_both_survive",
+        "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+        "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+        "scene_omits_empty_ph_gap_and_older_payloads_remain_readable"
+      ],
+      "expected_failures": [],
+      "matches_frozen_forecast": true
+    },
+    "candidate-native-controls": {
+      "exit_status": 0,
+      "observed_tests": [
+        [
+          "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality",
+          "ok"
+        ],
+        [
+          "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+          "ok"
+        ]
+      ],
+      "actual_summary": [
+        [
+          "2",
+          "0",
+          "0"
+        ]
+      ],
+      "expected_tests": [
+        "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+        "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality"
+      ],
+      "expected_failures": [],
+      "matches_frozen_forecast": true
+    },
+    "candidate-SSR": {
+      "exit_status": 0,
+      "actual_tests": [
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "does not hatch complete or older scene data",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "marks the liquid and names the actual missing prerequisite",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "retains the computed partial colour rather than inventing a tint",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "keeps spectrum and pH gaps distinct while painting one coverage hatch",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "localizes the pH explanation in de",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "localizes the pH explanation in fr",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "keeps complete placeholder-compatible catalogue entries",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "draws a liquid column for the mark to sit on",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "leaves a colour the engine computed whole unmarked",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "marks the liquid when the engine reported a gap in its colour",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "names what is missing rather than only that something is",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "says it in the caption the reader already reads, not only on hover",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "treats an engine that predates the field as nothing known to be missing",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "does not repaint the liquid it marks",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "invents no colour for the species it could not compute",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "takes both hatch strokes from theme tokens, so it reads on every bench",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "tiles in the fixed viewBox's own units, so 64 px and 257 px are one drawing",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "uses no warning colour and no alarm animation",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "is in the component, so a new language is one json and no code",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "is translated in de.json",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "has an empty row waiting in the template",
+          "status": "passed"
+        }
+      ],
+      "expected_new_failure_titles": [],
+      "matches_frozen_forecast": true
+    }
+  },
+  "matches_frozen_causal_forecast": true,
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_NPM_lock_sha256": "70e9a4b8d8671412ddfb2d103970908e45168ff4a38416ff8b40afdb779e7715",
+  "scientific_selections": 0,
+  "protected_checks_replaced": false,
+  "independent_saved_review_required": true
+}

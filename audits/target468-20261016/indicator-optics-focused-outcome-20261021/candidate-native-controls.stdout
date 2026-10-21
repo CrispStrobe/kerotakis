@@ -1,0 +1,7 @@
+
+running 2 tests
+test solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality ... ok
+test solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 613 filtered out; finished in 0.00s
+

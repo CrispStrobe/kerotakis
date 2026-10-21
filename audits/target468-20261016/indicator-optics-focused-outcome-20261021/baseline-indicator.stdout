@@ -1,0 +1,30 @@
+
+running 14 tests
+test adsorbed_indicator_has_no_aqueous_gap ... ok
+test bench_and_appearance_refusals_are_localized_and_nonconsuming ... FAILED
+test finite_solved_ph_has_positive_spectrum ... ok
+test liquid_indicator_requires_ph ... FAILED
+test missing_ph_is_refusal_not_zero ... FAILED
+test mixed_partial_spectrum_is_preserved_but_not_reported_complete ... FAILED
+test native_spectrum_and_ph_gaps_both_survive ... FAILED
+test non_ph_absorber_does_not_need_solution ... ok
+test nonfinite_ph_refuses_without_poisoning_partial_bands ... FAILED
+test scene_omits_empty_ph_gap_and_older_payloads_remain_readable ... ok
+test scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data ... FAILED
+test solid_indicator_has_no_aqueous_gap ... ok
+test valid_blank_stays_zero ... ok
+test zero_indicator_has_no_gap ... ok
+
+failures:
+
+failures:
+    bench_and_appearance_refusals_are_localized_and_nonconsuming
+    liquid_indicator_requires_ph
+    missing_ph_is_refusal_not_zero
+    mixed_partial_spectrum_is_preserved_but_not_reported_complete
+    native_spectrum_and_ph_gaps_both_survive
+    nonfinite_ph_refuses_without_poisoning_partial_bands
+    scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data
+
+test result: FAILED. 7 passed; 7 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

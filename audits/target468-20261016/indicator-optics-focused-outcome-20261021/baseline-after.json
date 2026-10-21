@@ -1,0 +1,48 @@
+{
+  "runtime_source": "b5a261cfbd59c9f3036985f7398d810c6baf7e1b",
+  "runtime_tree": "fe6c84257edb516d8a9b0fa7f0e7039f583e8224",
+  "actual_source_blobs_sha256": {
+    "crates/kerotakis-core/i18n/de.toml": "ac770d3a2ef651cad819e67239cb268c4e29f919d2492bd0fcc56e0bd107212e",
+    "crates/kerotakis-core/i18n/fr.toml": "212967256ee7a5edec3f16b37d65323a42e6e69324c1749dcba1493909cda60b",
+    "crates/kerotakis-core/src/appearance.rs": "df80a7e2ed557f7c9a6ee3ae84a73c66def8624912605bc5358e30ec1ba9ae91",
+    "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a",
+    "crates/kerotakis-core/src/instrument.rs": "ac74514b8dab1a8db0908ad6e5e5bf20556d46d9f0e876bc6abe4d312adcd861",
+    "crates/kerotakis-core/src/scene.rs": "f626393a74d5911b4f9acb247b610adc701466021b2eda1c712bc2a5ca217cf2",
+    "crates/kerotakis-core/src/solution_optics.rs": "b37b8bd710378e28cfe81ec984e1f4dc7e6ef70c5b5089358fa65490b779d763",
+    "crates/kerotakis-core/tests/composed_locale.rs": "d3827b2c40b95dee9298a19951341558559eca59f4045a2e331d267569eb78f7",
+    "docs/STATUS.md": "fb180884400c542039ff9c6aee14d2162774ac45781ea16f5c796e463339d5cc",
+    "docs/improvement-agenda-20261014.md": "11e6777853563be82ff2ec169ada17571d0116109f4bc69f44ad94e94a970652",
+    "docs/next-agent-handoff.md": "37913ca55694bafb8a141bec37d1616684015c8979a5b587576609e56fbc21fd",
+    "docs/peroxide-medium-and-i18n-20261019.md": "27b4ca85b5172f1f91fa81e2c3aaf5db908b5d71c78e0eccc86de3ade47e18ab",
+    "docs/post-hydrolysis-gap-lanes-20261019.md": "b6eac7905eb0089439262e5f1d6d4dfa83ac7cb983fd09dff69a11148d3622a8",
+    "docs/scientific-coverage-expansion-20261020.md": "296d7dcc34c4452a9dc096b9c5b2ce61b87dbb571ebf1e0fa7056a3f9a5548ce",
+    "docs/unifac-input-admission-20261019.md": "a0bd12fae56dd06cd1a7ca212005282cae59447e04a7344d96a3c79e74ddd94a",
+    "docs/wrap-up-and-open-lanes-20261019.md": "d5a33e289879e15f5a5957aee9acfc52fccbfe47e453a9bf65878db6081314bf",
+    "web/app/src/lib/components/Vessel.svelte": "fc514cff7fe48d4ed9c5b3c9acbe4b18d7fd5ea5f68bf6eb5c700ba9e3c305f9",
+    "web/app/src/lib/host/EngineHost.ts": "38e3732269876142e0734f8e195526f67844de0a6adbec01c925ff6ed005b2af",
+    "web/app/src/locales/_template.json": "ddfa41c190930641dc018a8468e74a1c9b9b928423c85a5a40efe4b572319c24",
+    "web/app/src/locales/de.json": "b507ecc8e1406be8a95c9e4e6bebb69e4b47ddcc50dc31dd37462dd55be69984",
+    "web/app/src/locales/fr.json": "a3a269631bd7f3dae56010069d791d5c12743fb8445f6c7c11347210a95d850b",
+    "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "crates/kerotakis-core/Cargo.toml": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7",
+    "web/app/package.json": "fea354e0ac519726f1398e433711e5596144182bc81b8289c689eba7eaba7dd4",
+    "web/app/package-lock.json": "70e9a4b8d8671412ddfb2d103970908e45168ff4a38416ff8b40afdb779e7715",
+    "web/app/src/lib/components/VesselSpectralGap.test.ts": "fdc68221c8e9e58b5d706f906933c6b85cf32492832e3f648f2bfa1840fca655",
+    "tools/fetch-sundials.sh": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38",
+    ".gitmodules": "70ac65a8b6e2acc056323f236e8e5e34cf8406a7a3b74568f5257a6fa493a1db"
+  },
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "tracked_source_unchanged": true,
+  "actual_submodule_HEADs": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "tracked_gitlinks": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "tests_only_overlays": {
+    "indicator_optical_coverage.rs": "crates/kerotakis-core/tests/indicator_optical_coverage.rs",
+    "VesselOpticalPhGap.test.ts": "web/app/src/lib/components/VesselOpticalPhGap.test.ts"
+  }
+}

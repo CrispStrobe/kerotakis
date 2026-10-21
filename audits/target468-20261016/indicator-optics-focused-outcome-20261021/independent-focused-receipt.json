@@ -1,0 +1,72 @@
+{
+  "utc": "2026-10-21T07:28:19.927295+00:00",
+  "source": "14d502b2262134b636d44504d446652c3cfe49eb",
+  "tree": "70c611796fc4c19cdfd07fcb27766f5f8cc10db6",
+  "baseline": "b5a261cfbd59c9f3036985f7398d810c6baf7e1b",
+  "baseline_tree": "fe6c84257edb516d8a9b0fa7f0e7039f583e8224",
+  "worker_sha256": "79bfff148ac2d11c1bc1a5034f9692f05e5dde72e03eaeb330f7c41466e0cab2",
+  "plan_sha256": "a7676f253ed4796b9806549af4838ae9e52681e8736e5f1dc05c208d3475ee77",
+  "closed_manifest_members": 129,
+  "actual_submodule_HEADs_all_four_source_proofs": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "mandatory_bootstrap_commands_observed": true,
+  "source_pins": 30,
+  "baseline_pins": 28,
+  "actual_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_npm_lock_sha256": "70e9a4b8d8671412ddfb2d103970908e45168ff4a38416ff8b40afdb779e7715",
+  "node_archive_sha256": "69b09dba5c8dcb05c4e4273a4340db1005abeafe3927efda2bc5b249e80437ec",
+  "actual_outcomes": {
+    "baseline-indicator": {
+      "passed": 7,
+      "failed": 7
+    },
+    "baseline-native-controls": {
+      "passed": 2,
+      "failed": 0
+    },
+    "candidate-indicator": {
+      "passed": 14,
+      "failed": 0
+    },
+    "candidate-native-controls": {
+      "passed": 2,
+      "failed": 0
+    },
+    "baseline-SSR": {
+      "passed": 16,
+      "failed": 5
+    },
+    "candidate-SSR": {
+      "passed": 21,
+      "failed": 0
+    }
+  },
+  "actual_binaries": [
+    {
+      "stage": "baseline",
+      "target": "indicator_optical_coverage",
+      "actual_binary_sha256": "a48517a4aebe812dd874e9657658adede9c29d13559fb736c9212aadb1ec25aa"
+    },
+    {
+      "stage": "baseline",
+      "target": "kerotakis_core",
+      "actual_binary_sha256": "09989da4cc53a84fa5d8d9f1a90b7e140d98fc7e6795e5570a804279aadfcdaf"
+    },
+    {
+      "stage": "candidate",
+      "target": "indicator_optical_coverage",
+      "actual_binary_sha256": "da8a0698a990feb5b95c7c05880a90d6171f088b658139251ce2e2db8b7ec59c"
+    },
+    {
+      "stage": "candidate",
+      "target": "kerotakis_core",
+      "actual_binary_sha256": "5fb55074cc27c6dc530729e8818c620fb2ec6abffee28b91ef197b2d96034a12"
+    }
+  ],
+  "all_causal_baseline_failures_and_positives_observed": true,
+  "candidate_all_controls_and_fmt_clippy_svelte_check_pass": true,
+  "scientific_selections": 0,
+  "full_or_production_acceptance": false
+}

@@ -2,6 +2,8 @@
 
 Status: demonstrated historical failure and current source gap; implementation and current-source runtime acceptance pending. Preserve the active PR852 precision head and its acceptance. This lane follows that delivery; it does not change the qualified count by itself.
 
+**Actual focused outcome —2026-10-21:** [candidate14d causal controls pass](../audits/target468-20261016/indicator-optics-focused-outcome-20261021/README.md):14 Rust+2 existing units+21 SSR, with exactly7 Rust/5 SSR baseline failures. Lane A implementation and focused validation are complete under that source; full/platform/product delivery remains after phase PR852. Lane B remains unimplemented. No original selections are earned. Earlier pending-implementation wording below scopes the preserved contract.
+
 ## Evidence and shared cause
 
 [Saved AD005 review](../audits/target468-20261016/AD005-saved-original-review-20261021/README.md) and [saved AD006 review](../audits/target468-20261016/AD006-saved-original-review-20261021/README.md) preserve disjoint original screens and limits. Historical AD001/AD002/AD003/AD004 have11 actual zero absorbance readings at405nm despite positive aqueous methyl-orange inventory. Every affected measurement has no solved aqueous state. Original protocols and raw results are in `audits/new-experiments-201-20261016/`; consult each reader's exact archive/script/output bindings rather than replaying the baseline.

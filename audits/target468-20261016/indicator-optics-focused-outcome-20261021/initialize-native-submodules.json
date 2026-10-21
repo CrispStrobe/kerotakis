@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "git",
+    "submodule",
+    "update",
+    "--init",
+    "--recursive",
+    "--depth",
+    "1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "506b14f556ca726d5c1f6bef730fff3e5e526ca71c2d74b689b3c6e131de8f75",
+  "stderr_sha256": "b384a0f6bd637eefd25f0590c0e7924ceea18c5c8bf83a1dea7dc4969e8c3bec"
+}

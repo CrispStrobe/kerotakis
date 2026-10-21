@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/kaggle/temp/indicator-optics-focus/source/target/debug/deps/indicator_optical_coverage-6cda4e68cb6a76b6",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "1ee0ddeb9d721a51cb227c0842dc4da584bfc9d57f20a8530e8e021fea4b5eec",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
