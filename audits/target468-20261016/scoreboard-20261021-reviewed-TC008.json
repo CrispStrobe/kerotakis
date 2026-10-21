@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-21T09:54:52.456689+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 339,
+  "source_qualified_selected_in_target": 335,
+  "additional_selections_needed_for_401": 66,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261021-reviewed-TC008.json",
+  "catalog_sha256": "5925578b129d9897a586f8273c3ec7281c29c4c77067141372933792e372fb5b",
+  "selection_receipt": "audits/target468-20261016/selection-TC008-20261021/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard-20261021-reviewed-AD005-AD006.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "TC008 unchanged original two native-model criteria close all nine command ledgers; ceff actual668 observer replay remains distinct from independently delivered3162 nativefafa/41bb. No empirical brine calibration, cap/eutectic closure, or deployed-original replay claim."
+}

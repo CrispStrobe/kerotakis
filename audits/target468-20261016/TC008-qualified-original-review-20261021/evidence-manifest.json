@@ -1,0 +1,15 @@
+{
+  "files_sha256": {
+    "README.md": "c2b2693685d4a2ce80338eba8cf437a6b917a44ddb6fa4e04f006c5985de4b0c",
+    "assessment.json": "6dc7afc2c416df00a7b5ce75359cc0ed3e6bf8ace11828a4bea1a41edf6618cb",
+    "energy-decomposition.json": "51cfef346ceef8b2ff2a64f0aefa0883e7b5705920c1751eae511b33c2ae3800",
+    "parent-adjudication.json": "d208b50beb582d3397a7a5b4f670e9392b09fd67965e53d79d90bc617d050f2b",
+    "qualify_closed_focus.py": "2d8432bd697b3942f4ed5001f7414a31f35e75aea20d787776b233ffdd76feca",
+    "raw-bindings.json": "de43f5473b71c3491df9a869b6fe93dd07f80c9b27a4fd57dd26d051cb51136f",
+    "review_saved.py": "710e1364ea95dbce41f11f86480df28b6a8f14c73c26bfa264af865847a2dda2",
+    "saved-verification.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "saved-verification.stdout.json": "d74e15a97616aa9bf0422e31e71bfa2623dfd798d7490f933bb5b70e7e88a81c"
+  },
+  "raw_objects_changed_or_sanitized": 0,
+  "no_engine_provider_API_build_execution": true
+}

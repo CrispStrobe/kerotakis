@@ -1,0 +1,13 @@
+{
+  "files_sha256": {
+    "README.md": "87de4acfc535dd7c2ef73eec076cecbc6231e4fc32cdb90a655bb5bed8a3a6cc",
+    "catalog-membership.json": "a56396d2669340d68b0e9651ca3e3b85d54f58f7011d2609023401ec442a187f",
+    "remaining133.json": "6535fe41a7735e314d2d98bb8d2f37ef1535af0b5679e77fc7324d55c999f3a4",
+    "saved-verification.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "saved-verification.stdout.json": "1c8739bb1b50b42326947b2ea9a963120163563a101a68f5a0520e0a59b7a2a4",
+    "selection.json": "aa9c9cbeea365f1a335d6bd85cb616d5f382f4c7b5bab10e7b1a17110e131fae",
+    "verify_catalog.py": "f648dae356e519b737eac7369e7b9814cf3e1af8a9c5154bfaa41c78df937348"
+  },
+  "raw_objects_changed_or_sanitized": 0,
+  "no_engine_provider_API_build_execution": true
+}

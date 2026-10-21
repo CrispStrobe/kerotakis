@@ -1,0 +1,36 @@
+{
+  "state": "ACTUAL_PRODUCTION_RELEASE_ACCEPTED",
+  "source": "3162ab3f5fed6336a93976ba23dc58f3e0da4675",
+  "source_tree": "d28ba030080ea4a6b2587607a02ef3245989c08a",
+  "reviewed_phase_candidate": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "engine": {
+    "binary_sha256": "fafa5569b7fe4ee4279cf6d6494e0cb38cc115aa1166a490c4d7ed58f7242e46",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "source_head": "3162ab3f5fed6336a93976ba23dc58f3e0da4675"
+  },
+  "workflow_run": 39572222270,
+  "artifact_id": 12332794907,
+  "public_evidence_binding_commit": "3592ed69d2876c1e1dc792e1a10c9e3de12105d7",
+  "public_evidence_binding_tree": "27f79f1df3180b699d7da09030daf7bfb195a8bf",
+  "binding_nevermerge": true,
+  "actual_original_API_protocols": 11,
+  "concurrency_HTTP_statuses": [
+    200,
+    429
+  ],
+  "actual_browser_groups": {
+    "unchanged": 37,
+    "targeted": 7,
+    "locale": 18,
+    "supplemental_heat": 2
+  },
+  "actual_browser_total": 64,
+  "actual_raw_saved_reviews_performed_twice": true,
+  "actual_external_invocations_authenticated": true,
+  "observations": "Delivered actual source/runtime/asset/native/lock binding; no original corpus experiment replay or new science qualification follows.",
+  "source_lock_tracked": false,
+  "actual_producer_lock_qualification": "Actual artifact producer lock bytes; no source-committed Cargo.lock resolution claim.",
+  "scientific_selections": 0,
+  "empirical_calibration_claim": false,
+  "raw_privacy_policy": "Included raw receipts are byte exact; other raw objects remain private under hashes. No sanitized object is represented as raw."
+}

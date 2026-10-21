@@ -1,0 +1,16 @@
+{
+  "state": "PARENT_ACCEPTED_ORIGINAL_MODEL_SCOPED_SELECTION",
+  "original_id": "batch2:tc-008",
+  "accepted_original_criteria": [
+    "TC-008-C1",
+    "TC-008-C2"
+  ],
+  "parent_own_closed127member_eightbinary_authentication_exit_status": 0,
+  "parent_own_392c_ledger_byte_identical": true,
+  "parent_own_qualifier_adjudication_byte_identical": true,
+  "assessment_sha256": "6dc7afc2c416df00a7b5ce75359cc0ed3e6bf8ace11828a4bea1a41edf6618cb",
+  "approved_fixed468_total": 335,
+  "production_original_script_replay_claim": false,
+  "source_lock_binary_qualifications_retained": true,
+  "raw_parent_invocation_proofs": "Private; SHA bindings are published separately, host arguments are not."
+}

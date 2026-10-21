@@ -1,0 +1,7 @@
+# Original TC008 adds one qualified fixed468 experiment
+
+The [parent-accepted original review](../TC008-qualified-original-review-20261021/README.md) adds TC008 once. All338 predecessor catalogue entries are preserved as exact JSON objects, including their commands, observations, limitations and source bindings. The successor has339 catalogue entries:335 unique fixed468 originals plus four out-of-target entries. Remaining133;66 more earned originals are needed to reach401.
+
+Both original criteria and all nine original commands remain unchanged. Actual original replay is sourceceff/test-only observerf625/actual668lock, with independently closed material/energy budgets. Delivered source3162/nativefafa/actual41bb passed11API+64browser controls, but originalTC008 was not replayed through that deployed binary. Source runtime/data equivalence is proved separately. No empirical brine calibration, eutectic/salt-precipitation or cap/refusal-energy closure is implied.
+
+Run `python3 audits/target468-20261016/selection-TC008-20261021/verify_catalog.py --repo .` to verify exact predecessor preservation, original forecasts/criteria, membership/remaining arithmetic and saved mathematical/source reproduction. Optional `--focus <saved-closed-focus-root>` additionally rehashes actual private trace/producer-lock/executable bytes. No simulator or executable runs. `evidence-manifest.json` binds the capsule; older catalogues and first failures remain immutable.

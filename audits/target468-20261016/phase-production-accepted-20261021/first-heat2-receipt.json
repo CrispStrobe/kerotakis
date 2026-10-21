@@ -1,0 +1,32 @@
+{
+  "state": "GROUPED_HEAT2_SAVED_REVIEW_ACCEPTED",
+  "source": "3162ab3f5fed6336a93976ba23dc58f3e0da4675",
+  "engine": {
+    "binary_sha256": "fafa5569b7fe4ee4279cf6d6494e0cb38cc115aa1166a490c4d7ed58f7242e46",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "source_head": "3162ab3f5fed6336a93976ba23dc58f3e0da4675"
+  },
+  "reviewed_candidate_source": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "execution_design_sha256": "5b1cb646a2c79223a3d67a5d822a9f0c1bc89279dd23709f695d041fb64509ac",
+  "config_canonical_sha256": "183d6b7466219fcd74650c692e16f64399714f042703161a7dca7fb4a981debb",
+  "top_manifest_sha256": "a75abe08c28f30003b4e2b3123c3db4ec1e8644f24b692306e508b4f9608af8e",
+  "group_manifest_sha256": "a2d8d03bac5e1323a052f91e474005e2aa5ca44522b649529a02e5e962b854f1",
+  "report_sha256": "0411287f5b78498f54b5065942a9a31c940dcc6c085b3a8dfbc3650c0e8efbb2",
+  "binding_sha256": "c4e59f54dd714ceb9a583f879acc807ff81bfe90e883a882facb6d7111a30b2c",
+  "original_reader_result_sha256": "e23843e4c511955088d701dba606073d6d200ef4a3c6b0069b18cf27ae383141",
+  "original_reader_sha256": "817d9fdf9106d5581919a5b7696658074033e6737154c1336b5cbc0f3d516252",
+  "original_predicates_sha256": "705915e2fdb218c754c69c7408d135f1432bd521343336383f9aeadee0ae9264",
+  "worker_sha256": "88b9d751ba0bb2996895060a74c1d8c7e8731eab21a1cc643fb56f652a775c71",
+  "combined_worker_sha256": "88b9d751ba0bb2996895060a74c1d8c7e8731eab21a1cc643fb56f652a775c71",
+  "external_issue_sha256": "0ed43448f373fe1a34b203fa1018713ff4b988f85a80c399454cb0a6a612c28d",
+  "verified_artifact_receipt_sha256": "0f9102a1a812d852c641ec11d5f77184752a588f896cc2e29cceca0cc9950523",
+  "api_acceptance_sha256": "ec9136f3e81a4b19864650ff348c7ab258e54cd27c0b9f137d6a365e505a469d",
+  "native_reference_sha256": "2bc0e03765230ffddc5ef45fbe80dceba5663f8acac2e66d6a57290d2f12ea4f",
+  "prior37_receipt_sha256": "550fec44da67420b8e821ed076136d8a5b78da4a526a8b7a5878ea6ef27c4a96",
+  "prior44_receipt_sha256": "fb0f1d6dd250f29cbfa844c4fc143b8675ec6151e7304c4f3770d49dff222de8",
+  "prior62_original_result_sha256": "75119ce3b1a208e3747a7411804dcca4ad971360e3d0066c3b69bf9b7d13847b",
+  "retained62_acceptance_replaced": false,
+  "all64_accepted": false,
+  "scientific_catalog_additions": 0,
+  "browser_engine_provider_calls": 0
+}

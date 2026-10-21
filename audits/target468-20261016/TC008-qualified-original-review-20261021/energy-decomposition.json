@@ -1,0 +1,10 @@
+{
+  "method": "Independent392c analytic NASA9 common-reference ledger; decomposition from actual final-temperature phase molar enthalpies, not model root function",
+  "phase_gap_at_final_T_J_mol": "5528.94775555321570354232340696162323163752010",
+  "net_phase_transfer_at_final_T_J": "1371.46361076474247092164525422358443398339852",
+  "initial_water_inventory_sensible273_to_final_J": "-1811.48290385888804591308390567858471285492410",
+  "sum_J": "-440.01929309414557499143865145500027887152558",
+  "incoming_cold_salt_H_J": "-440.019264317067598431068036497216247755470012",
+  "residual_J": "-0.000028777077976560370614957784031116055568",
+  "does_not_assign_every_joule_to_latent_heat": true
+}

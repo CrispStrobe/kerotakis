@@ -1,0 +1,145 @@
+{
+  "objects": {
+    "PRODUCTION852-ACCEPTED.json": {
+      "sha256": "416d43cdeefd0dd2b54401ce120c2a76e843f62ab24657c0d6dbc1afa68c63ca",
+      "bytes": 1031,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "verified-release.json": {
+      "sha256": "0f9102a1a812d852c641ec11d5f77184752a588f896cc2e29cceca0cc9950523",
+      "bytes": 4016,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "API-ACCEPTED.json": {
+      "sha256": "ec9136f3e81a4b19864650ff348c7ab258e54cd27c0b9f137d6a365e505a469d",
+      "bytes": 593,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "all64-agreement.json": {
+      "sha256": "294b86a271e59db92d2e85eeb9d6d50b1241719468fffb2b165793bcabc75740",
+      "bytes": 1891,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "ALL64-SAVED-INVOCATIONS-VERIFIED.json": {
+      "sha256": "c9a04c4c9927f86b3e3a323fc321ef4dca04cf89c31053b90f2dbc19684dc770",
+      "bytes": 2294,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "first-browser37-receipt.json": {
+      "sha256": "550fec44da67420b8e821ed076136d8a5b78da4a526a8b7a5878ea6ef27c4a96",
+      "bytes": 1807,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "first-targeted7-receipt.json": {
+      "sha256": "fb0f1d6dd250f29cbfa844c4fc143b8675ec6151e7304c4f3770d49dff222de8",
+      "bytes": 2285,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "first-locale18-receipt.json": {
+      "sha256": "f45577d383216c00d7d98c27338e44e4c93114cf34bc64774d20c309adb4703a",
+      "bytes": 2190,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "first-heat2-receipt.json": {
+      "sha256": "75995cfa419caaf4633965225a52c648f9436921cca248ac8cf81f0f4dfb2843",
+      "bytes": 2320,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "second-browser37-receipt.json": {
+      "sha256": "56206174cd184301d167491642029a8d809179a5cb2c7cb11180df30708d665d",
+      "bytes": 1807,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "second-targeted7-receipt.json": {
+      "sha256": "360416a0dcff8c24faef2a274cba79b08a390a9f39e3770510eb9620072582a9",
+      "bytes": 2285,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "second-locale18-receipt.json": {
+      "sha256": "84b8cd1bfb6b4dd79749dbf00c18661a31b2e686bbef11f2d6f307c4445f87a6",
+      "bytes": 2190,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "second-heat2-receipt.json": {
+      "sha256": "12edbe30631f35713169e967ff016b85a519e5cd75967a8219a49fc850b76877",
+      "bytes": 2320,
+      "publication": "BYTE_EXACT_RAW_INCLUDED"
+    },
+    "execution-admission-CONFIG": {
+      "sha256": "5b1cb646a2c79223a3d67a5d822a9f0c1bc89279dd23709f695d041fb64509ac",
+      "bytes": 468411,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "external-issue": {
+      "sha256": "0ed43448f373fe1a34b203fa1018713ff4b988f85a80c399454cb0a6a612c28d",
+      "bytes": 505,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "collection-receipt": {
+      "sha256": "2eceeb08a4f934442964a47c888806188ebb65085ae891021d50b56cd1f847d2",
+      "bytes": 29236,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "aggregate-execution": {
+      "sha256": "abea49417fea5fef427a4f3a71293a57bb34bcaff9cc10914e69c9b843073153",
+      "bytes": 1702,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "first-37-execution": {
+      "sha256": "be9d2195bdfcb51cf5944220991e213e6c79e27e3f3d9d169f7290c2e8be0bbe",
+      "bytes": 1522,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "first-7-execution": {
+      "sha256": "5cf1ad138320bfa327b16ee0480ba88f74edb901f6fff884c92dcf1ba9e6f171",
+      "bytes": 1649,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "first-18-execution": {
+      "sha256": "1df5cbe076f226b0bf595ba9ecd075b660533b64927638cc20d10aae19c7ca9f",
+      "bytes": 1959,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "first-heat2-execution": {
+      "sha256": "78fdda7eb0647d8d23c72021d19873ea2af10d9d389e91b59e83127eefed3615",
+      "bytes": 2200,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "second-37-execution": {
+      "sha256": "4c8af9558ffdab2f13e5cd768b19a5fd70468254f2468b8258e98a6cb40333d6",
+      "bytes": 1521,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "second-7-execution": {
+      "sha256": "fa36b3bb2e1fb0446e8ca373a16656d51a5124f3bf28709957b288b351bba721",
+      "bytes": 1651,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "second-18-execution": {
+      "sha256": "a3c97b1ebc1c87acb76a010208357f111d4061ce536d59881a249055de113ec6",
+      "bytes": 1962,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    },
+    "second-heat2-execution": {
+      "sha256": "56a17998c42461eccc135c18ef22015c23d759b161cb965561e296b5d3917fce",
+      "bytes": 2204,
+      "publication": "PRIVATE_RAW_HASH_ONLY",
+      "reason": "Private host paths, provider identity, execution arguments, or embedded private reader/input closure; never modified or relabeled as raw."
+    }
+  },
+  "included_raw_receipts": 13,
+  "private_raw_objects": 12,
+  "raw_archive_and_full53inputs": "Retained privately; embedded private legacy reader closure and host/provider coordinates must not be published. Raw manifest/worker/issue/config digests are retained in included acceptance records.",
+  "transformed_raw_objects": 0
+}

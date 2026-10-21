@@ -1,0 +1,105 @@
+{
+  "state": "EARNED_ORIGINAL_QUALIFICATION_PROPOSAL_NOT_CATALOG_EDIT",
+  "original_id": "batch2:tc-008",
+  "proposed_catalog_total_if_parent_selects": 335,
+  "original_forecast": "When supported by the coupled brine/ice model, salt lowers the freezing equilibrium temperature and promotes melting that consumes latent energy. Cooling and melting can therefore occur together.",
+  "original_criteria": [
+    {
+      "id": "TC-008-C1",
+      "criterion": "Compare both temperature and ice fraction before and after salt addition.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    },
+    {
+      "id": "TC-008-C2",
+      "criterion": "Include salt dissolution energy and any undissolved salt in the interpretation, rather than attributing every joule to freezing-point depression.",
+      "evaluation": "manual_review_of_saved_runtime_observations",
+      "result": null
+    }
+  ],
+  "original_limits": [
+    "This prediction requires brine/ice equilibrium coupled to dissolution and enthalpy; a missing coupling is a model-coverage result."
+  ],
+  "script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+  "commands_exactly_original": 9,
+  "criteria": {
+    "TC-008-C1": {
+      "supported": true,
+      "coordinates": "trace command_exit7/8 phase inventory; measured command_exit6/9; final11 unchanged",
+      "reason": "Actual cooling and reduced owned ice fraction are both observed; no event label is substituted for material state."
+    },
+    "TC-008-C2": {
+      "supported": true,
+      "coordinates": "trace command_enter/exit8; all native/displacement/phase adapters and every wholecommand; independent392c ledger",
+      "reason": "All salt is dissolved Na+/Cl\u2212; incoming cold solid and standard dissolution enthalpy are explicitly priced under a single reference, phase Cp/fusion and all intermediate stages retained; no hidden sink/gas/lost material."
+    }
+  },
+  "metrics": {
+    "before_temperature_K": "273.15",
+    "after_temperature_K": "260.7957251747582",
+    "thermometer_before_C": "0.0",
+    "thermometer_after_C": "-12.35427482524176",
+    "ice_before_mol": "1.6638935108153077",
+    "ice_after_mol": "1.4158420421814688",
+    "liquid_before_mol": "1.111571379553829",
+    "liquid_after_mol": "1.3596228481876678",
+    "ice_fraction_before": "0.599500831946755392480544093178035892660766938",
+    "ice_fraction_after": "0.510127887797983250990817244988569497257647679",
+    "melted_mol": "0.2480514686338389",
+    "dissolved_salt_mol": "0.0855534452372397",
+    "undissolved_salt_mol": "0",
+    "reference_endothermic_dissolution_J": "331.9473675204900360",
+    "incoming_salt_standard_reference_H_J": "-440.019264317067598431068036497216247755470012",
+    "incoming_salt_sensible298_to273_J": "-108.071896796577562431068036497216247755470012",
+    "whole_salt_command_residual_J": "-0.000028777077882453519513351931920038117688",
+    "max_exclusive_phase_residual_J": "1.4105649524958291097457900579309E-9",
+    "maximum_whole_command_atom_charge_residual_mol": "2.0E-16"
+  },
+  "actual_focus_source": "ceff11dc9d9f86efdbe33bb33af4fe45807ddb22",
+  "actual_focus_tree": "59c6c4422d15b0bb3fab0812bcbb44e3cb4b2123",
+  "actual_focus_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_trace_binary_sha256": "f6252708f5d2ec862a5ce304b3969a67042e250b2c8cfbdd715e06644834ad8d",
+  "actual_source_equivalence": {
+    "ceff_to_phase_candidate_paths": [
+      "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "crates/kerotakis-phreeqc/tests/colligative_numbers.rs",
+      "docs/STATUS.md",
+      "docs/improvement-agenda-20261014.md",
+      "docs/next-agent-handoff.md",
+      "docs/peroxide-medium-and-i18n-20261019.md",
+      "docs/post-hydrolysis-gap-lanes-20261019.md",
+      "docs/scientific-coverage-expansion-20261020.md",
+      "docs/unifac-input-admission-20261019.md",
+      "docs/wrap-up-and-open-lanes-20261019.md"
+    ],
+    "aqueous_change_test_only_same_f64_bits": "3ff3c0ca42d8b4db",
+    "colligative_change_test_only_tenfold_tighter_snapshot": true,
+    "phase_candidate_and_actual_merge_tree_identical": true,
+    "actual_merge_source": "3162ab3f5fed6336a93976ba23dc58f3e0da4675",
+    "actual_merge_tree": "d28ba030080ea4a6b2587607a02ef3245989c08a"
+  },
+  "delivery_receipt_sha256": "416d43cdeefd0dd2b54401ce120c2a76e843f62ab24657c0d6dbc1afa68c63ca",
+  "delivered_native_distinct_from_trace": {
+    "binary_sha256": "fafa5569b7fe4ee4279cf6d6494e0cb38cc115aa1166a490c4d7ed58f7242e46",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "source_head": "3162ab3f5fed6336a93976ba23dc58f3e0da4675"
+  },
+  "bindings": {
+    "trace_sha256": "cf39fe3fb709ac2c22ccada8752066542cd4b58d99ec16dbed64b35097d2adb4",
+    "actual_intake_sha256": "522be43f6f0d92e79fe2e0d2865e293f433f4a46d9ab0fa1395de2ad49bc7fac",
+    "closed_manifest_sha256": "d9732b9e3b0fe3862ee25b618e140695332c0d469cbae056947763a01e1df2c8",
+    "saved_reader_sha256": "392c7895df7b0c257ef5a198245c7c470f180373c14d26464fb58f331426f81e",
+    "new_independent_ledger_sha256": "b92c74b5746d9770f833f3eee62d817881d269cc06b6a9b0a83dff855083c85c",
+    "new_closed_focus_receipt_sha256": "8aa39eb10a63a3ec323fac521ca0401a5f6e37259ff2bc34890fe22dbd6200cd"
+  },
+  "limits": [
+    "This is supported native-model coupling and declared enthalpy bookkeeping, not measured/calibrated nonideal subzero brine calorimetry.",
+    "Actual260.795725K observation is above declared252K cap; eutectic/salt precipitation and cap/refusal energy remain separate uncovered lanes.",
+    "Actual original replay is ceff observer binary+668lock. Production3162/nativefafa+41bb passed11API+64controls; originalTC008 was NOT replayed on that deployed binary. Identical runtime/data source is proved, dependency/build identities remain distinct.",
+    "The old236.388609J residual and reference-corrected128.316712J failure are immutable separate evidence; reference correction alone was not a repair.",
+    "Conductivity was observed but no quantitative conductivity calibration is earned.",
+    "Originalforecast/criteria unchanged; no catalog selection assigned by this review."
+  ],
+  "product_engine_provider_build_calls": 0,
+  "catalog_edited": false
+}

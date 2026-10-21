@@ -1,0 +1,29 @@
+{
+  "public_files_sha256": {
+    "audits/target468-20261016/phase-resolution-30pass-full-issued-20261021/INDEPENDENT-FOCUSED-ACCEPTED.json": "8aa39eb10a63a3ec323fac521ca0401a5f6e37259ff2bc34890fe22dbd6200cd",
+    "audits/target468-20261016/phase-resolution-30pass-full-issued-20261021/FOCUSED-ACCEPTED.json": "af2d051486a01943298b25710f4dac08819b52f8d3020b4ca23f9d5e293b10e2",
+    "audits/target468-20261016/phase-resolution-30pass-full-issued-20261021/actual-stage-ledger.json": "b92c74b5746d9770f833f3eee62d817881d269cc06b6a9b0a83dff855083c85c",
+    "audits/target468-20261016/phase-resolution-30pass-full-issued-20261021/tc008_energy_trace-binary.json": "5bc71cd0b7bc1c16c39dbe93d42964e1f73d8d6442cd440c64e784dcbc4bf9f7",
+    "audits/target468-20261016/phase-resolution-30pass-full-issued-20261021/tc008_energy_trace.stdout": "b9ffbd8ea7ee2df0ecf05d33b00164cfa8bf26821029fd16c183f959642a7b11",
+    "audits/target468-20261016/phase-resolution-30pass-full-issued-20261021/tc008_energy_trace.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "audits/target468-20261016/phase-resolution-30pass-full-issued-20261021/tc008-trace/tc008-trace.jsonl": "cf39fe3fb709ac2c22ccada8752066542cd4b58d99ec16dbed64b35097d2adb4",
+    "audits/new-experiments-201-20261016/intake.json": "522be43f6f0d92e79fe2e0d2865e293f433f4a46d9ab0fa1395de2ad49bc7fac",
+    "audits/new-experiments-201-20261016/scripts/TC-008.lab": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+    "audits/target468-20261016/brine-phase-baseline-and-TC008-ledger-20261020/review_trace.py": "392c7895df7b0c257ef5a198245c7c470f180373c14d26464fb58f331426f81e",
+    "audits/target468-20261016/brine-phase-baseline-and-TC008-ledger-20261020/fixtures/tc008-original.lab": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+    "audits/target468-20261016/phase-production-accepted-20261021/PRODUCTION852-ACCEPTED.json": "416d43cdeefd0dd2b54401ce120c2a76e843f62ab24657c0d6dbc1afa68c63ca"
+  },
+  "private_raw_hashes": {
+    "original_closed_archive_verifier": "91a2a1bb7db18038b778f36496e63071d83fc681f7232bc273ac929861fe96eb",
+    "actual_qualifier": "2d8432bd697b3942f4ed5001f7414a31f35e75aea20d787776b233ffdd76feca",
+    "actual_saved_math_command": "f9e78518b51718e88f15be745e97b6344e43688da34f2e66a45c2ac16d467154",
+    "parent_closed_receipt": "8aa39eb10a63a3ec323fac521ca0401a5f6e37259ff2bc34890fe22dbd6200cd",
+    "parent_own_adjudication": "6dc7afc2c416df00a7b5ce75359cc0ed3e6bf8ace11828a4bea1a41edf6618cb"
+  },
+  "private_reason": "Original host-specific verifier argv/paths remain private, never sanitized and called raw. Public portable saved reader performs fresh math/criteria/source checks; optional --focus adds actual trace executable and lock rehash, not engine execution.",
+  "actual_closed_manifest_sha256": "d9732b9e3b0fe3862ee25b618e140695332c0d469cbae056947763a01e1df2c8",
+  "actual_source_pins": 20,
+  "actual_manifest_members": 127,
+  "actual_executables_authenticated_by_prior_independent_and_parent_reviews": 8,
+  "public_receipts_do_not_contain_actual_binary_bytes": true
+}

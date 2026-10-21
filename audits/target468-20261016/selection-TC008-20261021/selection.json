@@ -1,0 +1,27 @@
+{
+  "previous_catalog": "audits/working-experiments-20261021-reviewed-AD005-AD006.json",
+  "previous_catalog_sha256": "019a3b6ffd95324d5b3a5bc558c169e663b9142529d2e423482a26ca7398b06f",
+  "new_catalog": "audits/working-experiments-20261021-reviewed-TC008.json",
+  "new_catalog_sha256": "5925578b129d9897a586f8273c3ec7281c29c4c77067141372933792e372fb5b",
+  "new_selected_originals": [
+    "batch2:tc-008"
+  ],
+  "parent_adjudication_sha256": "d208b50beb582d3397a7a5b4f670e9392b09fd67965e53d79d90bc617d050f2b",
+  "catalog_entries": 339,
+  "qualified_fixed468": 335,
+  "remaining": 133,
+  "additional_to401": 66,
+  "actual_replay_source": {
+    "source_head": "ceff11dc9d9f86efdbe33bb33af4fe45807ddb22",
+    "source_tree": "59c6c4422d15b0bb3fab0812bcbb44e3cb4b2123",
+    "binary_sha256": "f6252708f5d2ec862a5ce304b3969a67042e250b2c8cfbdd715e06644834ad8d",
+    "cargo_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "qualification": "Actual original-script test-only observer over production stack; ceff replay remains distinct from delivered3162/nativefafa/actual41bblock. Runtime/data equivalence and delivery acceptance separately proved."
+  },
+  "delivered_source": {
+    "binary_sha256": "fafa5569b7fe4ee4279cf6d6494e0cb38cc115aa1166a490c4d7ed58f7242e46",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "source_head": "3162ab3f5fed6336a93976ba23dc58f3e0da4675"
+  },
+  "product_engine_API_provider_build_calls": 0
+}
