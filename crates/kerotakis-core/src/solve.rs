@@ -1384,16 +1384,18 @@ pub struct StateEquilibrator;
 /// The solvent. Every transition here is water's; a non-aqueous solvent is
 /// a separate problem and says so rather than borrowing water's constants.
 const SOLVENT: &str = "water";
-/// Resolution of the aqueous/ice common-temperature fixed point, K.
+/// Diagnostic tolerance for labeling a settled aqueous/ice boundary, K.
 ///
-/// PHREEQC's own temperature/enthalpy fixed point settles to 0.05 K. Once
-/// liquid and ice coexist, asking the outer phase loop for a tighter common
-/// temperature creates a two-point oscillation that additional passes cannot
-/// resolve. A converged state is projected onto the computed liquidus before
-/// it is exposed, so callers still receive a phase-consistent temperature.
-/// This tolerance is only a coupled-solver stop; an initially supercooled
-/// single liquid phase still undergoes its physical transfer.
+/// This matches the aqueous temperature iteration's resolution. It does not
+/// authorize a temperature projection or skip a real water-phase transfer:
+/// the phase pass must spend that energy, and chemistry must characterize
+/// the resulting inventory before the coupled loop can finish.
 pub const PHASE_COUPLED_TEMPERATURE_TOLERANCE_K: f64 = 0.05;
+
+/// Physical transfer resolution, matching the retained-portion numerical floor.
+/// OBSERVABLE_MOLES is a display threshold; using it here suppresses real
+/// microtransfers and can leave coexistence several microkelvin off its root.
+const PHASE_TRANSFER_RESOLUTION_MOLES: f64 = 1e-12;
 
 /// Where the vessel lands once a phase change has finished and there is
 /// energy left over, K.
@@ -1428,6 +1430,12 @@ fn liquidus_after_freezing(
     activity: crate::states::SolventActivity,
     pressure_kpa: f64,
 ) -> f64 {
+    // A pure solvent's liquidus remains defined when its last liquid freezes.
+    if particle_moles <= 0.0 {
+        return crate::states::transitions_with(activity, 0.0, pressure_kpa)
+            .0
+            .freezing_k;
+    }
     let liquid_kg = (liquid_moles - freezing) * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
     if liquid_kg <= 0.0 {
         return f64::NEG_INFINITY;
@@ -1437,106 +1445,68 @@ fn liquidus_after_freezing(
         .freezing_k
 }
 
-/// How much of a brine's water freezes in one pass, given that freezing it
-/// moves the plateau.
-///
-/// Two curves in the amount frozen, and they cross once. The vessel's
-/// temperature RISES with it, because the excess cooling is paid off by
-/// latent heat; the liquidus FALLS with it, because the residual brine is
-/// more concentrated and — through the solvent's activity — more than
-/// proportionally so. The answer is where they meet: freeze less and the
-/// vessel is still below its plateau, freeze more and it is above one it has
-/// itself created and would have to melt back.
-///
-/// Bisection rather than a formula because the liquidus side is a logarithm
-/// of an exponential of the molality, and fifty halvings of a bracket that
-/// starts at most a few moles wide is exact to far beyond the 0.05 K the
-/// coupled loop resolves. `allowed` is the bracket's top — whatever the
-/// cooling asked for, capped by any model boundary — so a case where the
-/// curves do not cross inside it simply freezes all of it, which is the old
-/// behaviour and the right one.
-#[allow(clippy::too_many_arguments)]
-fn self_consistent_freezing(
-    allowed: f64,
-    excess_j: f64,
-    cp: f64,
-    liquidus_now: f64,
-    liquid_moles: f64,
-    particle_moles: f64,
-    activity: crate::states::SolventActivity,
-    pressure_kpa: f64,
-) -> f64 {
-    // `is_nan()` first, deliberately: this guard was written as
-    // `!(allowed > 0.0)` so that a NaN allowance takes the early return
-    // rather than falling into the bisection below. `allowed <= 0.0`
-    // alone is false for NaN, so the two are not interchangeable, and
-    // `allowed.max(0.0)` then yields 0.0 for it.
-    if allowed.is_nan() || allowed <= 0.0 || particle_moles <= 0.0 || cp <= 0.0 {
-        return allowed.max(0.0);
-    }
-    // Temperature the vessel reaches having spent `x` of the excess cooling
-    // on latent heat. Linear in `x` and that is enough: it is only used to
-    // locate the crossing, and the settle that follows takes the liquidus.
-    let temperature_after =
-        |x: f64| liquidus_now - (excess_j - x * crate::states::WATER_H_FUS) / cp;
-    let gap = |x: f64| {
-        temperature_after(x)
-            - liquidus_after_freezing(x, liquid_moles, particle_moles, activity, pressure_kpa)
-    };
-    if gap(allowed) <= 0.0 {
-        return allowed;
-    }
-    let (mut lo, mut hi) = (0.0, allowed);
-    if gap(lo) > 0.0 {
-        return 0.0;
-    }
-    for _ in 0..50 {
-        let mid = 0.5 * (lo + hi);
-        if gap(mid) < 0.0 {
-            lo = mid;
-        } else {
-            hi = mid;
-        }
-    }
-    0.5 * (lo + hi)
+/// Liquid-minus-ice enthalpy at the actual coexistence temperature, J/mol.
+/// The curated fusion heat fixes the reference at 273.15 K; each phase's
+/// existing Cp curve carries that reference to a depressed liquidus. Using
+/// 6010 J/mol at every temperature loses the sensible-enthalpy difference
+/// between ice and liquid, even when both their Cp curves are integrated.
+fn water_fusion_enthalpy_at(temperature: f64) -> f64 {
+    let water = species::lookup(&SpeciesId::new(SOLVENT)).expect("registered water solvent");
+    crate::states::WATER_H_FUS
+        + crate::states::enthalpy_between(
+            water,
+            Phase::Liquid,
+            crate::states::WATER_FREEZING_K,
+            temperature,
+        )
+        - crate::states::enthalpy_between(
+            water,
+            Phase::Solid,
+            crate::states::WATER_FREEZING_K,
+            temperature,
+        )
 }
 
-/// [`self_consistent_freezing`] with the sign turned round: how much ice
-/// melts in one pass, given that melting it moves the plateau up.
+/// Solve coexistence and energy together in the amount of pure water moved.
+/// `freezing` selects liquid -> ice; melting uses the same residual with
+/// the sign reversed. Solute particles stay in the liquid compartment.
 ///
-/// The two curves still cross once and still cross the other way. The vessel
-/// COOLS as latent heat is absorbed and the liquidus RISES as the brine is
-/// diluted, so the gap that was rising in the amount frozen is falling in
-/// the amount melted, and the bracket is walked the other direction.
-#[allow(clippy::too_many_arguments)]
-fn self_consistent_melting(
+/// At a candidate liquidus T, the initial inventory costs its full integrated
+/// sensible heat to reach T. Moving x moles then changes phase enthalpy by
+/// -x*ΔH_fus(T) for freezing, or +x*ΔH_fus(T) for melting. Their sum must be
+/// zero. No trial material mutation, synthetic heat or constant-Cp temperature
+/// approximation enters the crossing. The bracket is the available phase,
+/// limited only by the declared brine model boundary.
+fn self_consistent_phase_transfer(
+    vessel: &Vessel,
     allowed: f64,
-    available_j: f64,
-    cp: f64,
-    liquidus_now: f64,
+    freezing: bool,
     liquid_moles: f64,
     particle_moles: f64,
     activity: crate::states::SolventActivity,
     pressure_kpa: f64,
 ) -> f64 {
-    // `is_nan()` first, deliberately: this guard was written as
-    // `!(allowed > 0.0)` so that a NaN allowance takes the early return
-    // rather than falling into the bisection below. `allowed <= 0.0`
-    // alone is false for NaN, so the two are not interchangeable, and
-    // `allowed.max(0.0)` then yields 0.0 for it.
-    if allowed.is_nan() || allowed <= 0.0 || particle_moles <= 0.0 || cp <= 0.0 {
+    if allowed.is_nan() || allowed <= 0.0 {
         return allowed.max(0.0);
     }
-    let temperature_after =
-        |x: f64| liquidus_now + (available_j - x * crate::states::WATER_H_FUS) / cp;
-    let gap = |x: f64| {
-        temperature_after(x)
-            - liquidus_after_freezing(-x, liquid_moles, particle_moles, activity, pressure_kpa)
+    let direction = if freezing { 1.0 } else { -1.0 };
+    let gap = |amount: f64| {
+        let transfer = direction * amount;
+        let temperature = liquidus_after_freezing(
+            transfer,
+            liquid_moles,
+            particle_moles,
+            activity,
+            pressure_kpa,
+        );
+        direction
+            * (vessel.energy_between(vessel.temperature.0, temperature)
+                - transfer * water_fusion_enthalpy_at(temperature))
     };
     if gap(allowed) >= 0.0 {
         return allowed;
     }
-    if gap(0.0) < 0.0 {
+    if gap(0.0) <= 0.0 {
         return 0.0;
     }
     let (mut lo, mut hi) = (0.0, allowed);
@@ -1775,9 +1745,8 @@ impl Equilibrator for StateEquilibrator {
         // then *stays there*, converting the rest of that energy into ice.
         // The plateau is the observation the heating curve is built on.
         //
-        // Cp is taken per species and does not vary with phase yet, so ice
-        // is warmed and cooled with water's heat capacity. That is a stated
-        // approximation, worth about a factor of two on the ice branch.
+        // The energy crossing uses each retained phase's integrated Cp.
+        // The initial total Cp is only a fallback for an empty final vessel.
         let liquid_moles: f64 = vessel
             .contents
             .iter()
@@ -1845,7 +1814,6 @@ impl Equilibrator for StateEquilibrator {
             // Energy that would have to leave to get this cold, spent on
             // freezing instead.
             let excess_j = vessel.energy_between(now, t.freezing_k);
-            let requested_freezing = (excess_j / crate::states::WATER_H_FUS).min(liquid_moles);
             // Keep enough liquid water to stay inside the explicit brine
             // boundary. Solutes remain in the liquid compartment, so their
             // particle amount is current molality times current solvent kg.
@@ -1883,59 +1851,20 @@ impl Equilibrator for StateEquilibrator {
                 0.0
             };
             let maximum_freezing = (liquid_moles - minimum_liquid_moles).max(0.0);
-            let over_the_cap = requested_freezing > maximum_freezing + 1e-12;
-            let allowed = requested_freezing.min(maximum_freezing);
-
-            // The liquidus this transfer is sized against is the one the
-            // transfer MOVES, and since 2026-09-11 it moves further than it
-            // used to.
-            //
-            // `requested_freezing` is `excess_j / ΔH_fus`: the ice the
-            // cooling would make if the plateau stood still. Under ΔT =
-            // K_f·m it very nearly did — the liquidus fell 1.86 K per molal,
-            // linearly, and freezing the requested amount left the vessel
-            // close enough to the new plateau that the coupled loop closed
-            // the rest in a pass or two. With the solvent's own activity in
-            // it the liquidus falls faster and faster: concentrating a brine
-            // raises its osmotic coefficient as well as its molality, and
-            // for a 2:1 chloride the two together move the liquidus several
-            // kelvin in one transfer. Freeze the requested amount there and
-            // the latent heat leaves the vessel WARMER than the plateau it
-            // has just created, so the next pass melts it back, and the one
-            // after re-freezes it: `th-005` ("why does calcium chloride help
-            // melt road ice?") rang between −11.6 and −14.4 °C for all 32
-            // passes and came out a solver failure.
-            //
-            // So solve the pass instead of stepping it. Both sides of
-            // coexistence are closed-form in the amount frozen — the
-            // temperature rises with it as latent heat is released, the
-            // liquidus falls with it as the brine concentrates — so their
-            // difference is monotone and one bisection lands on the crossing
-            // exactly. Where the liquidus really does stand still (pure
-            // water, or anything dilute) the crossing IS `requested_freezing`
-            // and nothing changes.
-            let freezing = self_consistent_freezing(
-                allowed,
-                excess_j,
-                cp,
-                t.freezing_k,
+            let freezing = self_consistent_phase_transfer(
+                vessel,
+                maximum_freezing,
+                true,
                 liquid_moles,
                 particle_moles,
                 activity,
                 pressure_kpa,
             );
-            // Asking for more ice than the cap allows is not the same as
-            // HITTING the cap, and it stopped being the same when the pass
-            // started solving for coexistence. A brine cooled just past its
-            // cap's worth of latent heat now meets its own falling liquidus
-            // well before the cap, and freezes there; announcing a boundary
-            // it never reached — and settling it at that boundary's
-            // temperature, which is colder than where it actually is — would
-            // be a refusal invented out of arithmetic. So the boundary is
-            // reached only when the solve itself ran into the cap.
-            let reached_boundary = over_the_cap && freezing >= maximum_freezing - 1e-12;
+            let reached_boundary = particle_moles > 0.0
+                && maximum_freezing < liquid_moles - 1e-12
+                && freezing >= maximum_freezing - 1e-12;
 
-            if freezing <= crate::OBSERVABLE_MOLES {
+            if freezing <= PHASE_TRANSFER_RESOLUTION_MOLES {
                 if reached_boundary {
                     events.push(Event::not_modeled(
                         vessel.id,
@@ -1987,7 +1916,7 @@ impl Equilibrator for StateEquilibrator {
                 // phase: 37.7 J/(mol·K) rather than liquid water's 75.3,
                 // which is the difference between −39 °C and −78 °C for a
                 // beaker cooled with 60 kJ.
-                let leftover = excess_j - freezing * crate::states::WATER_H_FUS;
+                let leftover = excess_j - freezing * water_fusion_enthalpy_at(t.freezing_k);
                 // Absolute zero is still the floor. `cool` clamps there and
                 // says how much it could not remove; re-deriving the deficit
                 // from the clamped temperature can ask for more than the
@@ -2042,18 +1971,17 @@ impl Equilibrator for StateEquilibrator {
             let available_j = vessel.energy_between(t.freezing_k, now);
             let liquid_kg = liquid_moles * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
             let particle_moles = solute_molality * liquid_kg;
-            let melting = self_consistent_melting(
-                (available_j / crate::states::WATER_H_FUS).min(frozen_moles),
-                available_j,
-                cp,
-                t.freezing_k,
+            let melting = self_consistent_phase_transfer(
+                vessel,
+                frozen_moles,
+                false,
                 liquid_moles,
                 particle_moles,
                 activity,
                 pressure_kpa,
             );
 
-            if melting <= crate::OBSERVABLE_MOLES {
+            if melting <= PHASE_TRANSFER_RESOLUTION_MOLES {
                 return Ok(events);
             }
             for p in vessel.contents.iter_mut() {
@@ -2080,7 +2008,7 @@ impl Equilibrator for StateEquilibrator {
                 Kelvin(settle_from(
                     vessel,
                     t.freezing_k,
-                    available_j - melting * crate::states::WATER_H_FUS,
+                    available_j - melting * water_fusion_enthalpy_at(t.freezing_k),
                     cp,
                 ))
             };
@@ -2303,56 +2231,6 @@ pub fn equilibrate_phase_coupled(
             }
         }
 
-        let has_liquid_water = vessel
-            .contents
-            .iter()
-            .any(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Liquid);
-        let has_ice = vessel
-            .contents
-            .iter()
-            .any(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Solid);
-        if has_liquid_water && has_ice {
-            // The vessel's OWN liquidus, activity and all — the same call
-            // `StateEquilibrator` makes. Recomputing it from the molality
-            // alone would compare the coupled solve's answer against a
-            // different model's and call the difference numerical residue.
-            let liquidus = vessel_transitions(vessel).0.freezing_k;
-            if (vessel.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K {
-                // The chemistry/enthalpy fixed point is only resolvable to
-                // the tolerance above.  Do not leak that numerical residue
-                // as physically impossible supercooled liquid beside ice:
-                // coexistence defines the final temperature exactly.
-                vessel.temperature = Kelvin(liquidus);
-                // Earlier passes report the provisional liquidus that
-                // triggered their water transfer.  Once the coupled solve
-                // settles, make the last phase event describe the final
-                // coexistence boundary rather than leaking an obsolete
-                // intermediate value to renderers and invariant checks.
-                if let Some(Event::StateChanged { at, shifted_by, .. }) =
-                    events.iter_mut().rev().find(|event| {
-                        matches!(
-                            event,
-                            Event::StateChanged {
-                                species,
-                                from: Phase::Liquid,
-                                to: Phase::Solid,
-                                ..
-                            } | Event::StateChanged {
-                                species,
-                                from: Phase::Solid,
-                                to: Phase::Liquid,
-                                ..
-                            } if species.0 == SOLVENT
-                        )
-                    })
-                {
-                    *at = Kelvin(liquidus);
-                    *shifted_by = liquidus - crate::states::WATER_FREEZING_K;
-                }
-                return Ok(events);
-            }
-        }
-
         let liquid_before: f64 = vessel
             .contents
             .iter()
@@ -2385,6 +2263,56 @@ pub fn equilibrate_phase_coupled(
         });
         events.append(&mut phase_events);
         if !transferred_water {
+            // A real chemistry answer remains current only when this phase
+            // pass did not change its solvent inventory. Near-liquidus
+            // thermal residue is spent by the same enthalpy root as every
+            // other transfer, never by a temperature-only snap.
+            let has_liquid_water = vessel
+                .contents
+                .iter()
+                .any(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Liquid);
+            let has_ice = vessel
+                .contents
+                .iter()
+                .any(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Solid);
+            if has_liquid_water && has_ice {
+                // The vessel's OWN liquidus, activity and all — the same call
+                // `StateEquilibrator` makes. Recomputing it from the molality
+                // alone would compare the coupled solve's answer against a
+                // different model's and call the difference numerical residue.
+                let liquidus = vessel_transitions(vessel).0.freezing_k;
+                if (vessel.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K
+                {
+                    // Only event presentation follows the recomputed boundary.
+                    // Never change temperature without a priced phase transfer.
+                    // Earlier passes report the provisional liquidus that
+                    // triggered their water transfer.  Once the coupled solve
+                    // settles, make the last phase event describe the final
+                    // coexistence boundary rather than leaking an obsolete
+                    // intermediate value to renderers and invariant checks.
+                    if let Some(Event::StateChanged { at, shifted_by, .. }) =
+                        events.iter_mut().rev().find(|event| {
+                            matches!(
+                                event,
+                                Event::StateChanged {
+                                    species,
+                                    from: Phase::Liquid,
+                                    to: Phase::Solid,
+                                    ..
+                                } | Event::StateChanged {
+                                    species,
+                                    from: Phase::Solid,
+                                    to: Phase::Liquid,
+                                    ..
+                                } if species.0 == SOLVENT
+                            )
+                        })
+                    {
+                        *at = Kelvin(liquidus);
+                        *shifted_by = liquidus - crate::states::WATER_FREEZING_K;
+                    }
+                }
+            }
             return Ok(events);
         }
         if pass + 1 == MAX_PASSES {
