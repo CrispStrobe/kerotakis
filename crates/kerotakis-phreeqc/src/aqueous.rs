@@ -3141,7 +3141,10 @@ impl Equilibrator for PhreeqcEquilibrator {
             Err(e) => return abandoned(e),
         };
 
-        let speciation = numerical_species_distribution(&out.report, &out.selected)?;
+        let speciation = match numerical_species_distribution(&out.report, &out.selected) {
+            Ok(speciation) => speciation,
+            Err(error) => return abandoned(error),
+        };
         let cached = Rc::new(CachedSolve {
             pe_determined: !out.pe_undetermined,
             rows: out.selected,
