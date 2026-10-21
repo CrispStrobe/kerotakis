@@ -1,0 +1,9 @@
+{
+  "scope": "Synthetic argparse/output path only, no chemistry/browser/engine calls",
+  "actual_source_sha256": "7f74ef0c3eb90ad6407c3211c25826e2a0cea46fdb06f21dc718d769c79c133b",
+  "actual_argparse_and_output_AST_used": true,
+  "existing_args_list_does_not_shadow_reader_options": true,
+  "output_json_written_and_read": true,
+  "second_write_refused_exclusively": true,
+  "reader_options_AST_store_count": 1
+}

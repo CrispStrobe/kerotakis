@@ -1,0 +1,9 @@
+# Public-reference admission before execution
+
+This repairs the source of the [saved-verifier metadata failure](../frozen-public-reference-reader-repair-20261021/README.md). The fresh unissued plan adds only the original label forecast’s immutable public commit/path. Its origin, hash and base64 bytes remain unchanged; all eight frozen inputs and162 product-source pins are preserved. Source62f and all scientific commands/criteria stay unchanged.
+
+The shared validator requires all eight records, exact schemas, canonical base64, matching content hashes and valid public coordinates. Admission verifies actual public Git bytes before issuance; the remote worker explicitly fetches every referenced public commit and checks bytes before compilation. The saved verifier checks metadata before expensive artifact hashing and retains its original later public comparisons. Missing coordinates now fail early.
+
+Nine actual metadata controls pass. One compares all eight real public Git blobs; eight deliberately invalid metadata cases test refusal. These are not experiment passes. `references.json` retains the original public input bytes. Run `python3 audits/target468-20261016/optics-public-reference-preflight-20261021/test_reference_preflight.py` from the repository with the referenced Git objects available; missing history must not be treated as a successful comparison.
+
+Both prior verifier failures remain preserved, including the first corrected reader’s final output-argument collision. A separate namespace repair retains every raw/scientific predicate and has an output-only regression; two genuine saved-data readbacks must agree before preceding acceptance. The fresh source-bound full issuer and ordinary exact-head merge guard remain gated on actual receipts and current CI. No full or browser acceptance follows from this capsule; qualified coverage stays335/468.

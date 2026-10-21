@@ -1,0 +1,9 @@
+# Preceding optics full run authenticated; current source running
+
+Two actual corrected saved reviews agree on source4d87db68/tree df4efc7c. The retained1446 files contain627 native,2216 core,184 thermo and2 hook test passes; all33 fleet groups/142 original steps/29 law reports/500 requirements,37 SSR and Svelte checks pass. Executed artifacts and raw data are rehashed. Actual native binary `b2a823e4` and generated producer lock `66886813` belong to this4d run. Complete unmodified saved receipts and actual invocation records are retained here.
+
+The original verifier metadata failure and first corrected reader’s output-name collision remain preserved in their named capsules. The final7f74 verifier retains all original scientific/raw/public checks and records its corrected source/helper identities. This repaired saved-data reading only; no experiment was rerun. Both non-timestamp receipt contents agree. Cap-domain energy closure, current TC008 replay, deployment and new scientific selections are explicitly not claimed.
+
+The separate current-source62f full validation was issued once after this preceding acceptance and all27 current CI checks passed. Its new metadata preflight normalizes only the two missing public-reference fields while preserving every forecast byte and criterion. `current62f-full-issued.json` records the actual source/worker/reader identity and reviewed merge-guard launch. The source-bound collector and dual saved review remain active; these4d receipts are not relabelled as62f results.
+
+After genuine current full and platform acceptance, the guard may mark PR854 ready and use ordinary exact-head auto-merge with branch protection unchanged. Actual changed-release API11/browser82, including visual corroboration and independent raw reviews, follows integration. The old64 modules and frozen18 protocols remain intact. Qualified coverage stays335/468.

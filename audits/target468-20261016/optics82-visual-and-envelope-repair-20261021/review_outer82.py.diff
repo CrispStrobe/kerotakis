@@ -1,0 +1,13 @@
+--- prior-prepared/review_outer82.py
++++ source-reviewed/review_outer82.py
+@@ -17 +17 @@
+- helper=E/'frozen-inputs/saved-readers/saved_envelope.py';require(digest(helper)==inputs['saved-readers/saved_envelope.py']['sha256'],'Old64 authentication helper not closed')
++ helper=E/'frozen-inputs/saved-readers/saved_envelope.py';require(digest(helper)==inputs['saved-readers/saved_envelope.py']['sha256']=='e3228a3b68ba1d3745f645d036eb2631921961894acd680a6f588a58f2459c2f','Old64 helper differs from independently frozen authority before import')
+@@ -63 +63,6 @@
+-   record={'argv':argv,'exit_status':status,'error_type':error,'stdout_sha256':digest(a.out/(label+'.stdout')),'stderr_sha256':digest(a.out/(label+'.stderr')),'actual_saved_only_invocation':True};path=a.out/(label+'.execution.json');path.write_text(json.dumps(record,indent=2)+'\n');invocations[label]=digest(path)
++   try:
++    streams={stream:(digest(a.out/(label+'.'+stream))if(a.out/(label+'.'+stream)).is_file()else None)for stream in ['stdout','stderr']}
++    record={'argv':argv,'exit_status':status,'error_type':error,'stdout_sha256':streams['stdout'],'stderr_sha256':streams['stderr'],'actual_saved_only_invocation':True};path=a.out/(label+'.execution.json');path.write_text(json.dumps(record,indent=2)+'\n');invocations[label]=digest(path)
++   except BaseException as recording_error:
++    if error is None:raise
++    print('Secondary saved-invocation recording error after preserved primary '+error+': '+repr(recording_error),file=sys.stderr)

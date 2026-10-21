@@ -1,0 +1,29 @@
+{
+  "en": {
+    "core_species": "methyl orange",
+    "ui_species": "methyl orange",
+    "core_refusal": "complete absorbance is unavailable: a finite aqueous pH is required for methyl orange",
+    "core_look": "Colour is incomplete: a finite aqueous pH is required for methyl orange.",
+    "ui_small": "colour needs pH",
+    "ui_aria": "the computed colour is incomplete: pH is missing or invalid for methyl orange",
+    "core_no_sample": "no aqueous solution for spectrophotometer"
+  },
+  "de": {
+    "core_species": "Methylorange",
+    "ui_species": "Methylorange",
+    "core_refusal": "die vollständige Absorption ist nicht verfügbar: Für Methylorange wird ein endlicher pH-Wert der wässrigen Lösung benötigt",
+    "core_look": "Die Farbe ist unvollständig: Für Methylorange wird ein endlicher pH-Wert der wässrigen Lösung benötigt.",
+    "ui_small": "Farbe benötigt pH",
+    "ui_aria": "die berechnete Farbe ist unvollständig: für Methylorange fehlt ein gültiger pH-Wert",
+    "core_no_sample": "keine wässrige Lösung für das Spektralphotometer"
+  },
+  "fr": {
+    "core_species": "orangé de méthyle",
+    "ui_species": "hélianthine",
+    "core_refusal": "l’absorbance complète est indisponible : un pH aqueux fini est nécessaire pour orangé de méthyle",
+    "core_look": "La couleur est incomplète : un pH aqueux fini est nécessaire pour orangé de méthyle.",
+    "ui_small": "la couleur nécessite un pH",
+    "ui_aria": "la couleur calculée est incomplète : le pH est absent ou invalide pour hélianthine",
+    "core_no_sample": "aucune solution aqueuse pour le spectrophotomètre"
+  }
+}

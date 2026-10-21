@@ -1,0 +1,11 @@
+{
+  "first_corrected_reader_sha256": "8c12ea6a7eb0c16cf44746fe27cc54fc53f9a2b7f8c20c33b3f429138c51e115",
+  "actual_exit_status": 1,
+  "actual_exception": "AttributeError: list object has no attribute acceptance_out",
+  "cause": "A later command loop reused args after argparse assigned it; final writer read that list.",
+  "first_corrected_stderr_sha256": "7dbea9cd80149175c5d947e97ce385f18071db509840c2fd8f7568a1b9f5c22c",
+  "corrected_output_reader_sha256": "7f74ef0c3eb90ad6407c3211c25826e2a0cea46fdb06f21dc718d769c79c133b",
+  "correction": "Separate reader_options namespace, with one AST store; scientific/raw loops unchanged.",
+  "original_and_first_corrected_failure_preserved": true,
+  "science_passes_assigned": 0
+}

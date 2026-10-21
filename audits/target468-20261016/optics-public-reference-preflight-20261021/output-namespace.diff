@@ -1,0 +1,20 @@
+--- preserved-first-corrected-reader
++++ corrected-output-namespace-reader
+@@ -72,8 +72,8 @@
+     sys.exit(75)
+ import ast,datetime,hashlib,json,pathlib,subprocess,tarfile,yaml
+ import argparse
+-parser=argparse.ArgumentParser();parser.add_argument('--run-dir',type=pathlib.Path,required=True);parser.add_argument('--repo',type=pathlib.Path,required=True);parser.add_argument('--acceptance-out',type=pathlib.Path,required=True);args=parser.parse_args()
+-B=args.run_dir;R=args.repo;E=B/'output/full-fleet-evidence';P=json.loads((B/'frozen-plan.json').read_text());sha=lambda raw:hashlib.sha256(raw).hexdigest()
++parser=argparse.ArgumentParser();parser.add_argument('--run-dir',type=pathlib.Path,required=True);parser.add_argument('--repo',type=pathlib.Path,required=True);parser.add_argument('--acceptance-out',type=pathlib.Path,required=True);reader_options=parser.parse_args()
++B=reader_options.run_dir;R=reader_options.repo;E=B/'output/full-fleet-evidence';P=json.loads((B/'frozen-plan.json').read_text());sha=lambda raw:hashlib.sha256(raw).hexdigest()
+ # Fail on unknown metadata before expensive raw artifact hashing; no schema is silently waived.
+ for frozen_name,frozen_entry in P['optics_frozen_inputs'].items():
+  public_commit,public_path=public_authority(frozen_name,frozen_entry)
+@@ -363,5 +363,5 @@
+ result['reviewer_program_sha256']=sha(pathlib.Path(__file__).read_bytes())
+ result['public_reference_helper_sha256']=sha(pathlib.Path(__file__).with_name('public_frozen_reference.py').read_bytes())
+ result['original_failed_reader_sha256']='dda55ca84dc41eade1e7d03833bc3e4d733c87a5de11d382db38363fba911934'
+-with args.acceptance_out.open('x') as f:json.dump(result,f,indent=2);f.write('\n')
++with reader_options.acceptance_out.open('x') as f:json.dump(result,f,indent=2);f.write('\n')
+ print(json.dumps(result))

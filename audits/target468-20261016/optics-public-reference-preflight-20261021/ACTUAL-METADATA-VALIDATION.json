@@ -1,0 +1,19 @@
+{
+  "utc": "2026-10-21T17:26:37.463568+00:00",
+  "scope": "Metadata admission and public Git provenance only; no engine/browser/chemistry execution",
+  "argv": [
+    "python3",
+    "audits/target468-20261016/optics-public-reference-preflight-20261021/test_reference_preflight.py"
+  ],
+  "actual_exit_status": 0,
+  "tests": 9,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "ddc05c9ac60a1499ebeecbb1130894ae21fa7b2526deba5008aca89fa86709c7",
+  "validator_sha256": "9cd374b4ac04080978c49ed9f679ef14cbc4722d38d2ef251c2c183c01de36f6",
+  "all8_reference_bytes_preserved": true,
+  "plan_change": "Two explicit public-reference fields added to original label forecast; original origin/base64/hash unchanged",
+  "current_product_source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "prepared_worker_sha256": "6fbb6914e33b910cda1dbcd48e68a443bdb5fd7313aa5d3fedd2358107fc9ab5",
+  "prepared_saved_reader_sha256": "7e9b49ff38e87f3882620495f65dac4d4b82e75b87a8d9befbc20e5578b77337",
+  "current_full_execution_acceptance_claimed": false
+}

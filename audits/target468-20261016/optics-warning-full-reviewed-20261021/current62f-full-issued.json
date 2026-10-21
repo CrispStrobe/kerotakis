@@ -1,0 +1,16 @@
+{
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "issued_utc": "2026-10-21T17:29:23.320446+00:00",
+  "version": 1,
+  "worker_sha256": "6fbb6914e33b910cda1dbcd48e68a443bdb5fd7313aa5d3fedd2358107fc9ab5",
+  "worker_bytes": 1001275,
+  "reader_sha256": "7e9b49ff38e87f3882620495f65dac4d4b82e75b87a8d9befbc20e5578b77337",
+  "source_tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+  "actual_full_validation_running": true,
+  "current_full_acceptance_claimed": false,
+  "reviewed_integration_guard_launched_utc": "2026-10-21T17:29:23.509684+00:00",
+  "integration_guard_sha256": "a7f26d87ab84e424beac0f203e27ad9b8fcf1e9a2aa0f1fe07aa643b2958eeba",
+  "ordinary_exact_head_auto_merge_only_after_genuine_current_acceptance": true,
+  "all27_current_CI_jobs_pass": true,
+  "source_binaries_not_retagged": true
+}

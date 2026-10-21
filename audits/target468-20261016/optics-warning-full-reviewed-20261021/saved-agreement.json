@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-21T17:28:51.886175+00:00",
+  "source": "4d87db686ab923415ce01af1cca78696572a030d",
+  "all_non_timestamp_fields_equal": true,
+  "no_engine_or_job_reexecution": true,
+  "actual_corrected_saved_reader_sha256": "7f74ef0c3eb90ad6407c3211c25826e2a0cea46fdb06f21dc718d769c79c133b",
+  "original_saved_review_failure_preserved": true,
+  "first_corrected_output_failure_preserved": true
+}

@@ -1,0 +1,14 @@
+test_content_hash_mismatch (__main__.ReferenceAdmission.test_content_hash_mismatch) ... ok
+test_eight_actual_public_git_blobs (__main__.ReferenceAdmission.test_eight_actual_public_git_blobs) ... ok
+test_label_authority_substitution (__main__.ReferenceAdmission.test_label_authority_substitution) ... ok
+test_legacy_missing_coordinates_refused_early (__main__.ReferenceAdmission.test_legacy_missing_coordinates_refused_early) ... ok
+test_lost_origin (__main__.ReferenceAdmission.test_lost_origin) ... ok
+test_missing_reference (__main__.ReferenceAdmission.test_missing_reference) ... ok
+test_traversal_path (__main__.ReferenceAdmission.test_traversal_path) ... ok
+test_unknown_reference (__main__.ReferenceAdmission.test_unknown_reference) ... ok
+test_wrong_public_bytes (__main__.ReferenceAdmission.test_wrong_public_bytes) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.102s
+
+OK

@@ -1,0 +1,45 @@
+{
+  "scope": "SOURCE_AND_SYNTHETIC_ERROR_HANDLING_ONLY",
+  "static_checks": [
+    {
+      "source": "grouped82.body.py",
+      "check": "ast.parse",
+      "success": true
+    },
+    {
+      "source": "review_outer82.py",
+      "check": "ast.parse",
+      "success": true
+    },
+    {
+      "source": "optics18/review_saved18.py",
+      "check": "ast.parse",
+      "success": true
+    },
+    {
+      "source": "test_recording_failures.py",
+      "check": "ast.parse",
+      "success": true
+    },
+    {
+      "source": "optics18/run-optics18.mjs",
+      "check": "node --check",
+      "success": true
+    },
+    {
+      "source": "optics18/optics-controls.mjs",
+      "check": "node --check",
+      "success": true
+    }
+  ],
+  "frozen_protocol_words_oracle_predicates_projector_unchanged": true,
+  "all_six_original64_modules_unchanged": true,
+  "actual_browser_executions": 0,
+  "actual_PNG_files_generated": 0,
+  "synthetic_setup_error_controls_passed": 3,
+  "parent_independently_rehashed_program_closure_and_ran_three_error_controls": true,
+  "outer_reviewer_sha256": "cf546607702247dd31b724a7d6980e4d942c02ab9b452776810e7df314033e99",
+  "outer_producer_sha256": "1a4116c9d3d0ba4d693401bb930bc1209942d35feaab344b3392cec983a21efa",
+  "archive_helper_checked_before_import_sha256": "e3228a3b68ba1d3745f645d036eb2631921961894acd680a6f588a58f2459c2f",
+  "original_frozen_contract_sha256": "d156da6129a5a5461754772089ce6463937cb4a3a0318a9c8e6e7ad000401061"
+}

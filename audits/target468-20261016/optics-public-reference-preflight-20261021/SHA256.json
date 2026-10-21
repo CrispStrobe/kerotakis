@@ -1,0 +1,12 @@
+{
+  "ACTUAL-METADATA-VALIDATION.json": "6f29e4327e5ad232616b054e8f1a498d64fcb405ba1caf14b8280eac569e6551",
+  "OUTPUT-NAMESPACE-REGRESSION.json": "ec41ee673893653ad6d50d9c72a5915a2f086b3665a8724cd9fe24df0666171a",
+  "OUTPUT-WRITER-FIRST-FAILURE.json": "b4f12b3f892a6c6a0a7f2399ade940cfe8c75bf1d95d48d54cdd067a8bb8d3d2",
+  "README.md": "a19483f687b861845fa42bdb59158e680a0646e2504287c365cbc2e0b71f83ad",
+  "actual-test.stderr": "ddc05c9ac60a1499ebeecbb1130894ae21fa7b2526deba5008aca89fa86709c7",
+  "actual-test.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "output-namespace.diff": "da70e38126f953d51c19620120e62a79a6b47e47c6b60a9f474aa5aeee954740",
+  "references.json": "91dc7e0cc8da235978cb3bd44eac7a5ce3ffb70c72c4cb860b1cf470a244ac62",
+  "test_reference_preflight.py": "b98844bbe0ded9e9e256556a7a85390b5aabcfef32e876b696158d9233553caf",
+  "validate_optics_references.py": "9cd374b4ac04080978c49ed9f679ef14cbc4722d38d2ef251c2c183c01de36f6"
+}
