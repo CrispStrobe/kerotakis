@@ -1,0 +1,21 @@
+--- runtime57/bind_release_inputs.py
++++ authenticated-origin/bind_release_inputs.py
+@@ -53,7 +53,8 @@
+  tree=integration['actual_tree'];require(tree==RUNTIME_TREE,'Accepted854 runtime tree differs')
+  template=loads(pinned(args.template,args.template_sha256));original=pinned(args.original_protocols,args.original_protocols_sha256)
+  binding,prior=old.checked_binding(template['binding'],raw,actual,tree,original)
+- require(binding['origin']=='https://kerotakis-web-payload.vercel.app','unreviewed product origin')
++ origin=loads(raw['bound-release-design.json'])['origin']
++ require(origin=='https://kerotakis-web-payload.vercel.app','unreviewed authenticated product origin')
+  verified=loads(raw['verified-release.json']);require(sha(args.artifact)==args.artifact_sha256==verified['artifact_sha256'],'actual artifact external digest differs')
+  projector=imported('exact_optics_archive_projector','optics18/project_app_assets.py',closure)
+  projection=projector.project(args.artifact,args.artifact_sha256,Path(metadata['files']['verified-release.json']['path']),metadata['files']['verified-release.json']['sha256'],actual)
+@@ -63,7 +64,7 @@
+  for name,want in programs['files_sha256'].items():
+   require(re.fullmatch('[A-Za-z0-9_.-]+',name)is not None,'unsafe optics alias')
+   require(sha(ROOT/'frozen-inputs/optics18'/name)==want,'frozen optics program changed')
+- optics=dict(origin=binding['origin'],expected_engine_source=actual,native_binary_sha256=prior['native_binary_sha256'],actual_producer_lock_sha256=prior['native_actual_producer_lock_sha256'],artifact_sha256=args.artifact_sha256,verified_release_sha256=prior['verified_artifact_receipt_sha256'],app_assets={name:row['sha256']for name,row in projection['app_assets'].items()},frontend_assets=prior['frontend_assets'],client_sha256=prior['client_sha256'])
++ optics=dict(origin=origin,expected_engine_source=actual,native_binary_sha256=prior['native_binary_sha256'],actual_producer_lock_sha256=prior['native_actual_producer_lock_sha256'],artifact_sha256=args.artifact_sha256,verified_release_sha256=prior['verified_artifact_receipt_sha256'],app_assets={name:row['sha256']for name,row in projection['app_assets'].items()},frontend_assets=prior['frontend_assets'],client_sha256=prior['client_sha256'])
+  projection_raw=canonical(projection);optics_raw=canonical(optics)
+  expected=dict(source=actual,tree=tree,artifact_sha256=args.artifact_sha256,api11_receipt_sha256=prior['API_receipt_sha256'],optics_binding_sha256=hashlib.sha256(optics_raw).hexdigest(),app_projection_sha256=hashlib.sha256(projection_raw).hexdigest(),optics_program_closure_sha256=hashlib.sha256(closure_raw).hexdigest())
+  authority={'state':'ACTUAL_INPUT_CONSISTENCY_BOUND_NOT_AUTHORIZED_OR_CONFIGURED','source':actual,'tree':tree,'reviewed_candidate_source':CANDIDATE,'external_integration_sha256':args.integration_sha256,'external_receipt_manifest_sha256':args.receipt_manifest_sha256,'actual_receipt_sha256':{name:row['sha256']for name,row in metadata['files'].items()},'template_sha256':args.template_sha256,'original_protocols_sha256':args.original_protocols_sha256,'artifact_sha256':args.artifact_sha256,'static_closure_sha256':sha(ROOT/'FROZEN-INPUTS.json'),'binder_sha256':sha(Path(__file__)),'configuration_generated':False,'parent_approval_or_issue_generated':False,'production_and_API_invocation_provenance_still_requires_parent_authentication':True}

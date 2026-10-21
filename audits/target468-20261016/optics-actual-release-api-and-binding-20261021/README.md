@@ -1,0 +1,9 @@
+# Actual PR854 release, API and optical input binding
+
+Actual production workflow39657891195 completed on integrated source57edd231, tree732874f2. The archive SHA is919f27950f7646bf47f46bba1804e84af82b1d43668d53ffab466f48cf41691d; deployed native74ba47dd and actual generated lock41bbdc74 are distinct from full-validation native6887654f/lock66886813. Both saved artifact/API verifiers exited0 independently and reproduced original outputs exactly. The independent review rehashed21 actual HTTP records, original11 protocols, security and concurrency[200,429]. No new requests or simulator executions were used by these reviews.
+
+The actual archive, source, API and frontend inputs now bind to the unchanged original64 controls plus frozen optical18. A real schema failure was caught before worker creation: the legacy browser binding has no origin. The narrow binder repair derives optical origin from the already digest-authenticated deployment design and retains the exact HTTPS allowlist. The original64 binding schema and scientific predicates stay unchanged. Original wrong-template and missing-origin diagnostics remain in private evidence; no product results were fabricated.
+
+**Actual browser82 execution and acceptance remain pending.** Input consistency and13 source/serialization controls are not product observations. Finish the complete original forecast/reference closure, final serialized package and one same-release observation with two saved reviews under the [delivery lane](../../../docs/optics82-delivery-lane-20261021.md). Qualified originals remain335/468, catalog339. No cap-energy closure, empirical calibration, full-i18n completion or new original selection follows.
+
+Documentation-only PR855 also merged normally as8b645220; its independently reconstructed tree and exact eight-summary scope are retained separately. It changes no deployed runtime. Private request bodies, credentials, host paths and process inventories are excluded.

@@ -1,0 +1,17 @@
+{
+  "reviewed_utc": "2026-10-21T19:22:10.807619+00:00",
+  "scope": "SOURCE_AND_ALREADY_SAVED_BINDER_OUTPUT_REVIEW_ONLY",
+  "binder_sha256": "fc6d4f6413f2e4fb955d284169e25e49ac087156e2ea0325f350cbec2473d979",
+  "diff_sha256": "5fd8e8371522f19f3c37535f8bf45ac74c7d28966da3246e070a2bd7d6fc7892",
+  "checks": [
+    "Origin authority is externally pinned raw bound-release-design.json, not absent legacy binding field",
+    "checked_binding verifies assessment.design_sha256 and returned legacy protocol_design_sha256 against same exact raw design bytes",
+    "Exact approved HTTPS origin literal still required; no fallback or relaxed comparison",
+    "Source/native/lock/API11/asset/protocol checks and legacy64 schema unchanged",
+    "Actual already-saved binder result exit0; output optics origin equals authenticated actual design; legacy binding still has no origin",
+    "Original binder errors remain preserved under first-*"
+  ],
+  "blocking_findings": [],
+  "new_binder_or_browser_requests_engine_Git_calls": 0,
+  "future_config_approval_issue_or_browser_acceptance_claimed": false
+}

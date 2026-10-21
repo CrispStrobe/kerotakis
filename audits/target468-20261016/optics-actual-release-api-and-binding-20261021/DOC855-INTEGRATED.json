@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-21T19:13:33.902578+00:00",
+  "pr": 855,
+  "head": "7ac58969eb70bfc6a9e5c1ee43b972ac261bd8ea",
+  "merge": "8b64522000f2b3130a2fd296d4dcb9777cafb206",
+  "parents": [
+    "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+    "7ac58969eb70bfc6a9e5c1ee43b972ac261bd8ea"
+  ],
+  "actual_tree": "e2e5027a501dcd268ef1a144f9a8845951888769",
+  "reconstructed_tree": "e2e5027a501dcd268ef1a144f9a8845951888769",
+  "eight_maintained_documents_only": true,
+  "base_runtime_source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "not_a_deployment_or_scientific_qualification": true
+}

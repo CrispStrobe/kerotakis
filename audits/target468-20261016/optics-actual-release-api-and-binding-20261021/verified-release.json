@@ -1,0 +1,78 @@
+{
+  "workflow_run": 39657891195,
+  "artifact_id": 12373061316,
+  "artifact_sha256": "919f27950f7646bf47f46bba1804e84af82b1d43668d53ffab466f48cf41691d",
+  "engine": {
+    "source_head": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+    "source_tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+    "build_image": "public.ecr.aws/amazonlinux/amazonlinux@sha256:c07ab0773eddf9449c0994a87d8148300db98bdf8d8dad672a9dc26321c104fc",
+    "binary_sha256": "74ba47dd8f98d54a2bad31c487d490959996571c32a8255c7eb09bc97609d57d",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "libraries": {
+      "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+      "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+      "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+      "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+      "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+    },
+    "loader": "ld-linux-x86-64.so.2",
+    "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+    "target": "x86_64-unknown-linux-gnu"
+  },
+  "actual_binary_bytes_rehashed": true,
+  "actual_producer_lock_bytes_rehashed": true,
+  "source_lock_tracked": false,
+  "producer_lock_qualification": "Cargo.lock is untracked in this source. Actual generated producer lock independently rehashed and bound to this native artifact; no source-committed dependency resolution or separate frontend-lock attestation claimed.",
+  "runtime_library_bytes_rehashed": {
+    "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+    "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+    "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+    "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+    "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+  },
+  "frontend_archive_sha256": "8332adb9763173b02fa80c632540e425f62a3505222fdc34c699f2edd5d90c03",
+  "frontend_assets": {
+    "kerotakis_wasm.js": {
+      "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+      "bytes": 41630
+    },
+    "kerotakis_wasm_bg.wasm": {
+      "sha256": "e88623b25e1f0390f353f70e2f9ec9123544d7e078330ae0e69e3ed62bd8f907",
+      "bytes": 11482346
+    },
+    "iphreeqc.mjs": {
+      "sha256": "c56475cd941a3514c05a62ff449ae3ba86a61e5944a11c6b9654f80fc9202ef2",
+      "bytes": 30111
+    },
+    "rest.html": {
+      "sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+      "bytes": 2970
+    },
+    "kerotakis.mjs": {
+      "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+      "bytes": 8205
+    },
+    "iphreeqc.wasm": {
+      "sha256": "aca79c747b5825dcf919980f5e8055acc8567647ba42902453f7543e6d751d8c",
+      "bytes": 1952581
+    }
+  },
+  "source_and_tree_equal_accepted_main": true,
+  "snapshot_and_isolation": {
+    "native_smoke_observations": 2,
+    "native_smoke_completed": true,
+    "network": "deny-all",
+    "vcpus": 1,
+    "memory_mib": 2048,
+    "probe_source_sha256": "c4a29b3cf066b0c5f014bacbd3e7e771204654726abe304604d990762ab9429c",
+    "actual_isolation_observation": {
+      "isolation_controls_pass": true
+    },
+    "vm_job_sha256": "299e61560ed46b465b666a276a78a3664e6d1dbed1e681382544419e1b2cab70",
+    "sandbox_sha256": "4e4425da74b0b451c3ee6f51204db7bae395c3d6538cea81afe0fc207f355ef7",
+    "snapshot_and_native_manifest_agree": true
+  },
+  "qualification": "Hosted producer artifact and actual bytes authenticated. Probe reviewed as actual kernel control code, not a simulator fixture. SDK cleanup return is not independent VM deletion evidence. No deployment HTTP/browser or scientific verdict follows from build receipt alone.",
+  "new_engine_executions_by_collector": 0,
+  "catalog_additions": 0
+}

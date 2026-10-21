@@ -1,0 +1,62 @@
+{
+  "reviewed_utc": "2026-10-21T19:21:08.321252+00:00",
+  "state": "INDEPENDENT_SAVED_ARTIFACT_AND_API_RELEASE_VERIFIED_NO_BROWSER_CLAIM",
+  "source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "reviewed_candidate_source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "source_tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+  "workflow_run": 39657891195,
+  "engine": {
+    "source_head": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+    "binary_sha256": "74ba47dd8f98d54a2bad31c487d490959996571c32a8255c7eb09bc97609d57d",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "actual_archive_sha256": "919f27950f7646bf47f46bba1804e84af82b1d43668d53ffab466f48cf41691d",
+  "actual_archive_bytes": 15838834,
+  "ready_program_and_input_closure_entries_checked": 26,
+  "ready_sha256": "dbef11f27fa657bfc7758274fec62cc9ae06a244e35092f180dc6828b38073ed",
+  "static_input_closure_sha256": "072234b7e4aa7f9e8dc2423cc7b90e529362ca4c7d039de8caf11b35c8f2d25b",
+  "integration_receipt_sha256": "51ce1fab0ddf9ff8f0b68f9a44007ae3e07dd148b777f7dfdbb9672ddbeb5d25",
+  "actual_source_binding_sha256": "a3d0e4c5cd6a9bb7f09c06b401d299d7a1f13282e84dfd89f01ccbf51315bc97",
+  "independent_saved_invocation_sha256": {
+    "artifact-verifier": "b798451f7dfd850209e9c2204cb676230534beda1a349e752ebf1239611d063a",
+    "API-assessor": "281c64901c5507b69f4b09680cbdf08fc463223d399bdc6ced43cde278b49e0f"
+  },
+  "artifact_verifier_actual_exit_status": 0,
+  "API_assessor_actual_exit_status": 0,
+  "independent_verifier_output_sha256": "61d404accd84ccb9d247fd5062a49f41e5624101ed850ce11cdab316b326ef8f",
+  "independent_assessor_output_sha256": "2cb6ea74efefe3b0f113fd207d949bfff7e61b43d6d5cdc48dd31e81495de8e0",
+  "independent_outputs_byte_identical_to_original": true,
+  "actual_raw_HTTP_response_request_records_rehashed": 21,
+  "original_protocol_sha256": "1539b8a581e1880fb004a17a61c7270d082cc3cf9137f403d350ed4403aab079",
+  "original_API_protocols_checked": 11,
+  "all_original_API_criteria_pass": true,
+  "actual_concurrency_statuses": [
+    200,
+    429
+  ],
+  "concurrency_qualification": "Observed one admitted/one rejected; not independent server-lease telemetry.",
+  "security_source_and_raw_status_checks": [
+    "Frozen authenticated runner SHA/actual exit0",
+    "Missing/wrong authentication actual401",
+    "Approved/unapproved CORS actual200/400 and response-origin headers",
+    "No redirects or5xx, one attempt per retained request",
+    "Vercel and Pages actual client-body SHA match release",
+    "Health before/after exact source/native/actual lock and microvm backend",
+    "Fast and separately stored archive bytes match actual saved GH artifact SHA/length"
+  ],
+  "raw_API_provenance_sha256": "512b461b4b63a241ffb42261b0c094516a6f12aafe358ef1effdfa0f28c2a3d6",
+  "actual_binary_and_producer_lock_rehashed": true,
+  "actual_runtime_libraries_and_snapshot_isolation_source_proof_rehashed": true,
+  "source_lock_tracked": false,
+  "new_HTTP_or_provider_requests": 0,
+  "new_engine_or_build_executions": 0,
+  "browser_acceptance_claimed": false,
+  "scientific_catalog_additions": 0,
+  "limits": [
+    "Artifact/source/raw HTTP verification only; no current browser controls or browser-native parity claim",
+    "Actual deployment producer lock41bb is distinct from full-fleet668 lock",
+    "Frozen runner enforced owner credential exclusion; reviewer did not read credential contents",
+    "No empirical calibration/cap-energy closure/newTC008 replay claim"
+  ],
+  "blocking_findings": []
+}

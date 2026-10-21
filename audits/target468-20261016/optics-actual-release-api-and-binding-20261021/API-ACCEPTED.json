@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-21T19:13:31.542309+00:00",
+  "reviewed_candidate_source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "engine": {
+    "source_head": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+    "binary_sha256": "74ba47dd8f98d54a2bad31c487d490959996571c32a8255c7eb09bc97609d57d",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "eleven_original_protocols_pass": true,
+  "concurrency": [
+    200,
+    429
+  ],
+  "actual_browser82_still_pending": true,
+  "catalog_additions": 0
+}

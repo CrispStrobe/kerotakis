@@ -1,0 +1,14 @@
+{
+  "API-ACCEPTED.json": "c2915fd8e650eccf1e0fa57dc1a77b85240f88ac38b3260f28f9e9cb6e902c7d",
+  "DOC855-INTEGRATED.json": "bda806e98473b7a7df1622b54393bb5c034e329eb2d77e10fd9de65c056a3126",
+  "EXPECTED_RELEASE.json": "cf364abc23d584e3866f1f3192c1ec4476132eb8b34a4e9ee9ffdfcf728431d8",
+  "INDEPENDENT-RELEASE-REVIEW.json": "d5ad2c2722b87cfbd561a0b8859c7e866f21f93440ebc27f8ba77d4479857e1b",
+  "ORIGIN-SOURCE-REVIEW.json": "8233985f5140c791d809999f4e42ae16bf22a428e67507010bb404bfa17a525f",
+  "PARENT-REPRODUCED.json": "9f9803dfe622c26a0b4afd7ca1bc4498b6e0fb56dc0b9f09aa7e11d39003b040",
+  "README.md": "4c38456516edd58eaef0c7e691be8628b980b6e982287ad88cf452fd752292c2",
+  "authenticated-origin-binder.diff": "5fd8e8371522f19f3c37535f8bf45ac74c7d28966da3246e070a2bd7d6fc7892",
+  "parent-api.stdout": "d5b45cd6139e3efd400b6b1d67db7dcbf2467d3c85296798cbade609f4b68b12",
+  "parent-artifact.stdout": "009bd0c69eca3b943e74c8d3b11b0d41370f244fcbe42374b854b34fcaf2c5b2",
+  "script-assessment.json": "2cb6ea74efefe3b0f113fd207d949bfff7e61b43d6d5cdc48dd31e81495de8e0",
+  "verified-release.json": "61d404accd84ccb9d247fd5062a49f41e5624101ed850ce11cdab316b326ef8f"
+}
