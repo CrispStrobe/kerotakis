@@ -1,0 +1,7 @@
+{
+  "error_type": "AssertionError",
+  "error": "additional-gate-1",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 214, in <module>\n    assert status==0,'additional-gate-'+str(g)\n           ^^^^^^^^^\nAssertionError: additional-gate-1\n",
+  "logical_jobs_completed": [],
+  "no_auto_retry": true
+}

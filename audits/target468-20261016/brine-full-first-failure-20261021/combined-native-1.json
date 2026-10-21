@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "cargo",
+    "clippy",
+    "-p",
+    "kerotakis-core",
+    "-p",
+    "kerotakis-thermo",
+    "-p",
+    "kerotakis-cea",
+    "-p",
+    "kerotakis-phreeqc",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "6029689a6a2f878064b309d2a9030600c93e33f31ee7148cfb1d06e0c48faafa"
+}
