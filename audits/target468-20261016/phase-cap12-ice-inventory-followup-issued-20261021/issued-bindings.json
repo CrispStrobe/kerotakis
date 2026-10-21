@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-21T20:38:12.970613+00:00",
+  "state": "ACTUAL_NECESSARY_TEST_CONTRACT_FOLLOWUP_ISSUED_OUTCOMES_PENDING",
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "tree": "31a22af93bf837d478b8f8075d0c67ec22d78021",
+  "first_fixed_source": "a64c22ce31b456ebf647ba6105ac90f8b268308e",
+  "only_followup_changed_path": "crates/kerotakis-core/tests/states.rs",
+  "runtime_and_frozen12_bytes_unchanged": true,
+  "actual_issue_sha256": "60a7da603e7e5e3175d281126e37bfe840b18dafbc8c53d66b994bfcc1a4ed5a",
+  "actual_worker_sha256": "7748664fc3b5a994b531ba0274817f7b9866216143afaa5461a191861368524c",
+  "actual_plan_sha256": "2c1712c7db27cd7651c8684ba0ec6247b54fecf34e2d2deb7eabd465467c9414",
+  "parent_issue_review_sha256": "34db9589c4c2ee296a9dcba0803675cd1f2e16206f306ea62c80bcba0c2efff5",
+  "version": 1,
+  "version_label": "v1",
+  "actual_issuer_exit_status": 0,
+  "required_named_controls": 38,
+  "real_test_executables": 6,
+  "original_sweep_points": 570,
+  "first35pass3fail_retained": true,
+  "actual_outcomes": null,
+  "full_source_validation_eligible": false,
+  "scientific_selections": 0
+}
