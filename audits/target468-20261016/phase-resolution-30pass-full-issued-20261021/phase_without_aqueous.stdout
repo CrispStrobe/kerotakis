@@ -1,0 +1,8 @@
+
+running 3 tests
+test no_transition_keeps_aqueous_failure_explicit_and_clears_stale_measurements ... ok
+test pure_water_freezes_melts_and_boils_with_conserved_latent_energy_across_scales ... ok
+test unsolved_ionic_and_unknown_mixtures_do_not_get_a_pure_water_phase_answer ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

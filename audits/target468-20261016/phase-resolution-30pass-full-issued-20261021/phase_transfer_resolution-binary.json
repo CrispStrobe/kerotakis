@@ -1,0 +1,11 @@
+{
+  "runtime_source": "ceff11dc9d9f86efdbe33bb33af4fe45807ddb22",
+  "runtime_tree": "59c6c4422d15b0bb3fab0812bcbb44e3cb4b2123",
+  "tests_overlay_qualification": "Exact frozen observers over unchanged runtime; not the deployed release executable",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "executable": "target/debug/deps/phase_transfer_resolution-a5bbf43126068d67",
+  "sha256": "d40f4d36c3cff46eee04ccbe6fc69988ff664d8a7bd383157c624d60b385f124",
+  "bytes": 44735936,
+  "gzip_sha256": "d4c01658f6db63ad938553eb67e34aa070199c42a21853efd4025d2204ab02a3",
+  "gzip_bytes": 10022066
+}

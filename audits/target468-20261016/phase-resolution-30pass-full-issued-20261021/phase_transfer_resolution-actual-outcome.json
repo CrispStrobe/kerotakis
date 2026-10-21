@@ -1,0 +1,22 @@
+{
+  "exit_status": 0,
+  "passed": 2,
+  "failed": 0,
+  "ignored": 0,
+  "observed_tests": [
+    [
+      "subobservable_freezing_is_a_real_conserved_phase_transfer",
+      "ok"
+    ],
+    [
+      "subobservable_melting_is_a_real_conserved_phase_transfer",
+      "ok"
+    ]
+  ],
+  "expected_tests": [
+    "subobservable_freezing_is_a_real_conserved_phase_transfer",
+    "subobservable_melting_is_a_real_conserved_phase_transfer"
+  ],
+  "complete_expected_test_set": true,
+  "energy_acceptance_assigned": false
+}

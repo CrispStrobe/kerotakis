@@ -1,0 +1,17 @@
+{
+  "exit_status": 0,
+  "passed": 1,
+  "failed": 0,
+  "ignored": 0,
+  "observed_tests": [
+    [
+      "partial_freezing_closes_the_transition_referenced_energy_for_different_phases",
+      "ok"
+    ]
+  ],
+  "expected_tests": [
+    "partial_freezing_closes_the_transition_referenced_energy_for_different_phases"
+  ],
+  "complete_expected_test_set": true,
+  "energy_acceptance_assigned": false
+}

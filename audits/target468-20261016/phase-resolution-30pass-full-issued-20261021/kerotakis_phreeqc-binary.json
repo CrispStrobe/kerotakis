@@ -1,0 +1,11 @@
+{
+  "runtime_source": "ceff11dc9d9f86efdbe33bb33af4fe45807ddb22",
+  "runtime_tree": "59c6c4422d15b0bb3fab0812bcbb44e3cb4b2123",
+  "tests_overlay_qualification": "Exact frozen observers over unchanged runtime; not the deployed release executable",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "executable": "target/debug/deps/kerotakis_phreeqc-b12d7ea4a9980305",
+  "sha256": "e0a4fcad257bcde6700fe641eaa343f25a242a2df1baebe11696d67df2af134c",
+  "bytes": 59112712,
+  "gzip_sha256": "97aee71081cc4ba39cfacebc56233e52ee7495b6a11c730fcb029d77f7857bc1",
+  "gzip_bytes": 14039846
+}

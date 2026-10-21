@@ -1,0 +1,11 @@
+{
+  "runtime_source": "ceff11dc9d9f86efdbe33bb33af4fe45807ddb22",
+  "runtime_tree": "59c6c4422d15b0bb3fab0812bcbb44e3cb4b2123",
+  "tests_overlay_qualification": "Exact frozen observers over unchanged runtime; not the deployed release executable",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "executable": "target/debug/deps/phase_cooling_energy-8ba07b59a4c99d6e",
+  "sha256": "08a05ab254604dd32cc9c22f511313abad36a413312a888e185a7a1a4e3f1de2",
+  "bytes": 54247328,
+  "gzip_sha256": "80ca5e06105862f797b7ab7be5e1f911bfebcf16c32643f3f29789b9a13afce2",
+  "gzip_bytes": 12661638
+}

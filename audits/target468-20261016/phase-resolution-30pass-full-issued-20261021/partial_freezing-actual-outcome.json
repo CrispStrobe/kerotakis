@@ -1,0 +1,37 @@
+{
+  "exit_status": 0,
+  "passed": 5,
+  "failed": 0,
+  "ignored": 0,
+  "observed_tests": [
+    [
+      "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+      "ok"
+    ],
+    [
+      "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+      "ok"
+    ],
+    [
+      "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+      "ok"
+    ],
+    [
+      "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+      "ok"
+    ],
+    [
+      "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+      "ok"
+    ]
+  ],
+  "expected_tests": [
+    "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+    "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+    "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+    "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+    "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles"
+  ],
+  "complete_expected_test_set": true,
+  "energy_acceptance_assigned": false
+}

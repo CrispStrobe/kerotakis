@@ -1,0 +1,58 @@
+{
+  "utc": "2026-10-21T06:18:18.844883+00:00",
+  "source": "ceff11dc9d9f86efdbe33bb33af4fe45807ddb22",
+  "tree": "59c6c4422d15b0bb3fab0812bcbb44e3cb4b2123",
+  "worker_sha256": "8f39b84156f40bd86b15175fefb0e80cc4713ea9ba732ed02f8972f70ef1f747",
+  "plan_sha256": "158a8d9c464ae16589d4aa7fcb113d36b5431c34c838dd9e6a7f52ec30902f33",
+  "actual_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_controls": 30,
+  "actual_test_executables": 8,
+  "authenticated_targets": [
+    {
+      "target": "brine_phase_energy",
+      "passed": 8,
+      "binary_sha256": "73085b9126f98db5545c76a6a889fc79c1a690c7722883c1f59c0d51dd227472"
+    },
+    {
+      "target": "tc008_energy_trace",
+      "passed": 1,
+      "binary_sha256": "f6252708f5d2ec862a5ce304b3969a67042e250b2c8cfbdd715e06644834ad8d"
+    },
+    {
+      "target": "phase_cooling_energy",
+      "passed": 1,
+      "binary_sha256": "08a05ab254604dd32cc9c22f511313abad36a413312a888e185a7a1a4e3f1de2"
+    },
+    {
+      "target": "phase_heat_capacity",
+      "passed": 4,
+      "binary_sha256": "2e1bf28c61a7f937c81026cc533425ebdcf7b12b6b96d723a5ba1d31200d3d39"
+    },
+    {
+      "target": "phase_without_aqueous",
+      "passed": 3,
+      "binary_sha256": "d22f16e65d6836a4e51e0f98f0e41b6332abb36090729c8ef326d05278a6f07d"
+    },
+    {
+      "target": "partial_freezing",
+      "passed": 5,
+      "binary_sha256": "b98d0f64290a8b71fef44c9e1e9512cf76f20c48e3fb07c2957957b0f498a87b"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "passed": 6,
+      "binary_sha256": "e0a4fcad257bcde6700fe641eaa343f25a242a2df1baebe11696d67df2af134c"
+    },
+    {
+      "target": "phase_transfer_resolution",
+      "passed": 2,
+      "binary_sha256": "d40f4d36c3cff46eee04ccbe6fc69988ff664d8a7bd383157c624d60b385f124"
+    }
+  ],
+  "actual_saved_ledger_sha256": "b92c74b5746d9770f833f3eee62d817881d269cc06b6a9b0a83dff855083c85c",
+  "TC008_command8_residual_J": "-0.000028777077882453519513351931920038117688",
+  "unchanged_TC008_energy_and_material_contracts_pass": true,
+  "scientific_selections": 0,
+  "full_source_platform_product_acceptance": false,
+  "cap_energy_closure_claimed": false
+}

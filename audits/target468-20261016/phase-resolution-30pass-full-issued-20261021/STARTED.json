@@ -1,0 +1,7 @@
+{
+  "worker_sha256": "8f39b84156f40bd86b15175fefb0e80cc4713ea9ba732ed02f8972f70ef1f747",
+  "runtime_source": "ceff11dc9d9f86efdbe33bb33af4fe45807ddb22",
+  "runtime_tree": "59c6c4422d15b0bb3fab0812bcbb44e3cb4b2123",
+  "utc": "2026-10-21T06:06:42.456091+00:00",
+  "purpose": "Necessary precision-source followup:8 frozen brine +1 original TC008 trace +15 phase regressions +6 filtered numerical/cache units; no verdict assigned"
+}

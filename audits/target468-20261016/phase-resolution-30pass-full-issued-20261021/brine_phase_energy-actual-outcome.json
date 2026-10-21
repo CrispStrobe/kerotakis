@@ -1,0 +1,52 @@
+{
+  "exit_status": 0,
+  "passed": 8,
+  "failed": 0,
+  "ignored": 0,
+  "observed_tests": [
+    [
+      "dilute_brine_freezing_conserves_independent_phase_energy",
+      "ok"
+    ],
+    [
+      "dilute_brine_melting_conserves_independent_phase_energy",
+      "ok"
+    ],
+    [
+      "intermediate_brine_freezing_conserves_independent_phase_energy",
+      "ok"
+    ],
+    [
+      "intermediate_brine_melting_conserves_independent_phase_energy",
+      "ok"
+    ],
+    [
+      "pure_water_freezing_conserves_independent_phase_energy",
+      "ok"
+    ],
+    [
+      "pure_water_melting_conserves_independent_phase_energy",
+      "ok"
+    ],
+    [
+      "stronger_brine_freezing_conserves_independent_phase_energy",
+      "ok"
+    ],
+    [
+      "stronger_brine_melting_conserves_independent_phase_energy",
+      "ok"
+    ]
+  ],
+  "expected_tests": [
+    "pure_water_freezing_conserves_independent_phase_energy",
+    "pure_water_melting_conserves_independent_phase_energy",
+    "dilute_brine_freezing_conserves_independent_phase_energy",
+    "intermediate_brine_freezing_conserves_independent_phase_energy",
+    "stronger_brine_freezing_conserves_independent_phase_energy",
+    "dilute_brine_melting_conserves_independent_phase_energy",
+    "intermediate_brine_melting_conserves_independent_phase_energy",
+    "stronger_brine_melting_conserves_independent_phase_energy"
+  ],
+  "complete_expected_test_set": true,
+  "energy_acceptance_assigned": false
+}
