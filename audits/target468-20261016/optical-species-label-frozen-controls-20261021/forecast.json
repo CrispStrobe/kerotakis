@@ -1,0 +1,185 @@
+{
+  "state": "FROZEN_BEFORE_RUNTIME_EDITS_UNEXECUTED",
+  "baseline_source": "047d04513d1e55e162ad4269cbd5192e432e83e1",
+  "candidate_source": null,
+  "core_file": "optical_species_labels.rs",
+  "core_tests": [
+    {
+      "name": "canonical_species_terms_have_declared_localized_labels",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "name": "direct_english_species_terms_keep_existing_translations",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    },
+    {
+      "name": "unknown_and_native_complex_terms_keep_exact_identity",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    },
+    {
+      "name": "non_species_sections_do_not_resolve_registry_ids",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    },
+    {
+      "name": "actual_appearance_uses_localized_species_without_changing_slots",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "name": "actual_bench_refusal_uses_localized_species_without_mutation",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "name": "scene_names_known_ph_gap_ids_without_rewriting_them",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "name": "scene_name_map_covers_both_gap_kinds_and_omits_unknown_native_ids",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "name": "blank_and_older_scene_payloads_need_no_name_map",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    }
+  ],
+  "SSR_file": "VesselOpticalSpeciesLabels.test.ts",
+  "SSR_tests": [
+    {
+      "title": "shows authoritative pH labels for en / methyl_orange",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "title": "shows authoritative pH labels for de / methyl_orange",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "title": "shows authoritative pH labels for fr / methyl_orange",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "title": "shows authoritative pH labels for en / bromothymol_blue",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "title": "shows authoritative pH labels for de / bromothymol_blue",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "title": "shows authoritative pH labels for fr / bromothymol_blue",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "title": "shows authoritative missing-spectrum labels in en",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "title": "shows authoritative missing-spectrum labels in de",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "title": "shows authoritative missing-spectrum labels in fr",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    },
+    {
+      "title": "preserves direct English legacy labels in en",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    },
+    {
+      "title": "preserves direct English legacy labels in de",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    },
+    {
+      "title": "preserves direct English legacy labels in fr",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    },
+    {
+      "title": "keeps unknown native-complex labels and canonical attributes",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    },
+    {
+      "title": "preserves older canonical payload fallback without guessing underscores",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    },
+    {
+      "title": "leaves a complete blank without coverage labels",
+      "baseline": "PASS",
+      "candidate": "PASS"
+    },
+    {
+      "title": "shares one hatch while translating both distinct gap causes",
+      "baseline": "FAIL",
+      "candidate": "PASS"
+    }
+  ],
+  "predicted_baseline": {
+    "core_pass": 4,
+    "core_fail": 5,
+    "SSR_pass": 6,
+    "SSR_fail": 10
+  },
+  "predicted_candidate": {
+    "core_pass": 9,
+    "SSR_pass": 16
+  },
+  "old43_observer_blobs_must_remain_exact": {
+    "crates/kerotakis-core/tests/indicator_optical_coverage.rs": "016f90e3cb984129bc2fa6e7a799d615d0512d873c91c2b2d5012be10a8a1cbc",
+    "crates/kerotakis-core/tests/optical_sample_admission.rs": "a6410070c615332a27c064987851654091762be53539a91940ba0786bcd136be",
+    "web/app/src/lib/components/VesselSpectralGap.test.ts": "fdc68221c8e9e58b5d706f906933c6b85cf32492832e3f648f2bfa1840fca655",
+    "web/app/src/lib/components/VesselOpticalPhGap.test.ts": "3edac37a7a9117ea26a7b0a2f2fea423b844ed7881c256ad4a481a191a27fd45",
+    "crates/kerotakis-core/src/solution_optics.rs": "5dc642c66dfdb22f07d88ff4627ea66314dc04c81a2457aa0d09007397b0ba90"
+  },
+  "new_controls_baseline_only_then_candidate_old43_plus_new25": true,
+  "core_labels": {
+    "methyl_orange": [
+      "methyl orange",
+      "Methylorange",
+      "orangé de méthyle"
+    ],
+    "bromothymol_blue": [
+      "bromothymol blue",
+      "Bromthymolblau",
+      "bleu de bromothymol"
+    ]
+  },
+  "frontend_labels": {
+    "methyl_orange": [
+      "methyl orange",
+      "Methylorange",
+      "hélianthine"
+    ],
+    "bromothymol_blue": [
+      "bromothymol blue",
+      "Bromthymolblau",
+      "bleu de bromothymol"
+    ],
+    "CuSO4": [
+      "copper sulfate",
+      "Kupfersulfat",
+      "sulfate de cuivre"
+    ]
+  },
+  "no_calibration_or_equilibrium_claim": true,
+  "actual_tests_executed": false
+}
