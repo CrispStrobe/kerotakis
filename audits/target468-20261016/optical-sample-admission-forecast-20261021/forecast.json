@@ -1,0 +1,26 @@
+{
+  "baseline_source": "14d502b2262134b636d44504d446652c3cfe49eb",
+  "candidate_source": "UNBOUND_BEFORE_FIX",
+  "test_sha256": "a6410070c615332a27c064987851654091762be53539a91940ba0786bcd136be",
+  "new_sample_controls": [
+    "liquid_blank_is_applicable_and_reads_zero",
+    "empty_dry_and_gas_samples_have_no_reading",
+    "nonfinite_or_nonpositive_portions_are_not_samples",
+    "bench_without_liquid_refuses_locally_without_mutation",
+    "bench_pure_water_blank_is_measured_without_mutation",
+    "aqueous_supported_absorber_still_measures"
+  ],
+  "predicted_baseline_failures": [
+    "liquid_blank_is_applicable_and_reads_zero",
+    "empty_dry_and_gas_samples_have_no_reading",
+    "nonfinite_or_nonpositive_portions_are_not_samples",
+    "bench_without_liquid_refuses_locally_without_mutation"
+  ],
+  "predicted_candidate_failures": [],
+  "preserve_prior14Rust_2units_21SSR": true,
+  "no_equilibrium_or_calibration_claim": true,
+  "first_actual_CLI_diagnostic_source": "3da21055bc8de53c63388f0c8ef850370546cac0",
+  "actual_CLI_failure": "empty vessel reports measured absorbance0",
+  "actual_CLI_positive": "100mL pure water reports measured absorbance0; no NaCl workaround",
+  "baseline14d_new_observer_execution_pending": true
+}

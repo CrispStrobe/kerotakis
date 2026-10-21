@@ -1,0 +1,9 @@
+{
+  "source": "3da21055bc8de53c63388f0c8ef850370546cac0",
+  "actual_binary_sha256": "ff42f30e01fa61ff846f46cb89e4b9a67468e018ea60aefa768bf001e5ba7a08",
+  "actual_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "before_any_source_fix": true,
+  "expected_empty_sample": "explicit refusal, no measured zero",
+  "expected_positive_water_blank": "measured zero without mutation",
+  "scientific_selection": false
+}

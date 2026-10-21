@@ -1,0 +1,9 @@
+# Optical sample admission: frozen forecast and actual first failure
+
+One new diagnostic on authenticated native source3da (`3da21055bc8de53c63388f0c8ef850370546cac0`), binary `ff42f30e01fa61ff846f46cb89e4b9a67468e018ea60aefa768bf001e5ba7a08`, producer lock `668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85`, establishes the failure before the sample-admission source fix: an empty vessel reports complete absorbance0. After adding100mL water, a genuine pure-water blank reports0 and its measurement preserves the whole bench. Actual peak RSS is33592KiB. This is a new diagnostic, not an original-corpus replay or qualification.
+
+Source14d's only change in Spectrophotometer measure() since3da replaces the spectral-gap predicate with complete optical coverage; both are complete for the empty vessel. Bench calls measure() directly, without gating it on applies(). Consequently the historical applies() rejection of a pure-liquid sample does not demonstrate CLI refusal: actual pure-water blank works. Preserve that positive and do not add salt to work around a nonexistent blank refusal.
+
+The six frozen Rust controls predict four14d baseline failures and two passes. They require an actual positive finite liquid/aqueous sample for a complete reading, truthful refusal for empty/dry/gas-only and nonpositive/nonfinite portions, localized passive Bench refusal, unchanged true pure-water blanks and supported aqueous absorbers. These constructed tests do not establish native equilibrium or empirical spectra. Baseline14d execution and candidate execution remain pending; the actual diagnostic above retains its3da binding.
+
+Keep all previously accepted14d14 Rust/two unit/21 SSR controls. Freeze and review a narrow shared admission guard, then execute these six observers and current-source regressions before full/platform/product acceptance. Complete phase PR852 delivery in its existing ordered lane; do not mutate its frozen source.
