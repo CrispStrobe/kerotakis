@@ -274,15 +274,23 @@ fn hot_saturated_kcl_reaches_the_strict_thermal_fixed_point() {
 
 #[test]
 fn concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles() {
-    // Original curiosity aq-099 and th-004 failed after 32 real passes.
-    // Test their actual production route without changing the scripts or limits.
-    for (salt, cooling) in [("0.05mol", "40kJ"), ("1g", "50kJ")] {
+    // Preserve the actual curiosity protocols. aq-099 has an interior root;
+    // th-004 asks for more cooling than the capped liquid/ice model can own.
+    // Requiring ice for th-004 would reinstate the unbooked cap-energy loss.
+    let inventory = |v: &Vessel| {
+        let mut contents = v.contents.clone();
+        contents.sort_by(|a, b| (&a.species, a.phase).cmp(&(&b.species, b.phase)));
+        contents
+    };
+    for (salt, cooling, requested_j, beyond_cap) in [
+        ("0.05mol", "40kJ", 40_000.0, false),
+        ("1g", "50kJ", 50_000.0, true),
+    ] {
         let mut bench = Bench::new();
         let mut solvers = production_stack();
         for command in [
             "add v1 water 100mL".to_string(),
             format!("add v1 NaCl {salt}"),
-            format!("cool v1 {cooling}"),
         ] {
             let events = step(
                 &mut bench,
@@ -296,18 +304,70 @@ fn concentrated_cooling_protocols_settle_without_report_activity_quantization_cy
                 "{command}: {events:?}"
             );
         }
+        let entering = bench.vessel(VesselId(0)).unwrap().clone();
+        let events = step(
+            &mut bench,
+            &mut solvers,
+            parse_op(&format!("cool v1 {cooling}")).unwrap().unwrap(),
+        );
+        assert!(
+            !events
+                .iter()
+                .any(|event| matches!(event, Event::SolverFailed { .. })),
+            "{salt}, {cooling}: {events:?}"
+        );
         let settled = bench.vessel(VesselId(0)).unwrap();
         assert!(water_moles(settled, Phase::Liquid) > 0.0);
-        assert!(water_moles(settled, Phase::Solid) > 0.0);
         assert!(settled.solution.is_some());
-        let liquidus = kerotakis_core::solve::vessel_transitions(settled)
-            .0
-            .freezing_k;
-        assert!(
-            (settled.temperature.0 - liquidus).abs() < 1e-6,
-            "{salt}: final temperature {} K vs native liquidus {liquidus} K",
-            settled.temperature.0
-        );
+        let cap_refusal = |events: &[Event]| {
+            events.iter().any(|event| {
+                matches!(event,
+                    Event::NotYetModeled {
+                        cause: kerotakis_core::ops::NotModelledCause::ModelBoundary,
+                        reason: Some(reason), ..
+                    } if reason.key == "not-modeled.partial-freezing-cap"
+                )
+            })
+        };
+        if beyond_cap {
+            assert!(cap_refusal(&events), "{salt}: {events:?}");
+            assert!(!events
+                .iter()
+                .any(|e| matches!(e, Event::StateChanged { .. })));
+            assert_eq!(inventory(settled), inventory(&entering));
+            assert_eq!(settled.excess_enthalpy_j, entering.excess_enthalpy_j);
+            let delivered: Vec<_> = events
+                .iter()
+                .filter_map(|event| match event {
+                    Event::EnergyTransferred {
+                        delivered_j,
+                        heating: false,
+                        ..
+                    } => Some(*delivered_j),
+                    _ => None,
+                })
+                .collect();
+            assert_eq!(delivered.len(), 1);
+            assert!((delivered[0] - requested_j).abs() < 0.001);
+            assert!(
+                (entering.energy_between(settled.temperature.0, entering.temperature.0)
+                    - delivered[0])
+                    .abs()
+                    < 0.001,
+                "{salt}: refusal must retain delivered cooling, not force the cap temperature"
+            );
+        } else {
+            assert!(!cap_refusal(&events), "{salt}: {events:?}");
+            assert!(water_moles(settled, Phase::Solid) > 0.0);
+            let liquidus = kerotakis_core::solve::vessel_transitions(settled)
+                .0
+                .freezing_k;
+            assert!(
+                (settled.temperature.0 - liquidus).abs() < 1e-6,
+                "{salt}: final temperature {} K vs native liquidus {liquidus} K",
+                settled.temperature.0
+            );
+        }
         let before = settled.clone();
         let repeat = solvers
             .equilibrate(
@@ -325,10 +385,23 @@ fn concentrated_cooling_protocols_settle_without_report_activity_quantization_cy
             )),
             "{salt}: repeat must not cycle: {repeat:?}"
         );
+        if beyond_cap {
+            assert!(
+                cap_refusal(&repeat),
+                "{salt}: repeat must retain the named boundary"
+            );
+        }
         let after = bench.vessel(VesselId(0)).unwrap();
+        if beyond_cap {
+            assert_eq!(inventory(after), inventory(&before));
+        }
         assert!((after.temperature.0 - before.temperature.0).abs() < 1e-8);
         assert!(
             (water_moles(after, Phase::Liquid) - water_moles(&before, Phase::Liquid)).abs() < 1e-10
         );
+        assert!(
+            (water_moles(after, Phase::Solid) - water_moles(&before, Phase::Solid)).abs() < 1e-10
+        );
+        assert_eq!(after.excess_enthalpy_j, before.excess_enthalpy_j);
     }
 }
