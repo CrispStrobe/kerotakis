@@ -686,6 +686,12 @@ pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {
     lookup_key(id.0.as_str())
 }
 
+/// Registry-authoritative English source name for display and localization.
+/// Unknown/native identifiers remain exact; no names are inferred from spelling.
+pub fn english_name(key: &str) -> &str {
+    lookup_key(key).map(|data| data.name).unwrap_or(key)
+}
+
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
     let key = canonical_input_key(key);
     if let Some(s) = lookup_index().get(key).copied() {

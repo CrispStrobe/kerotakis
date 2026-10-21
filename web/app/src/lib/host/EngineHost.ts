@@ -317,6 +317,8 @@ export interface SceneLiquid {
   spectral_gaps?: string[];
   /** Known indicator spectra whose pH prerequisite is missing or invalid. */
   optical_ph_gaps?: string[];
+  /** Registry English names keyed by the unchanged optical gap IDs. */
+  optical_species_names?: Record<string, string>;
 }
 
 export interface SceneSolid {
