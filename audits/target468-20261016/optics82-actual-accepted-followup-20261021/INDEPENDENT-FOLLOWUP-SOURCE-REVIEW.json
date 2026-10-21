@@ -1,0 +1,36 @@
+{
+  "scope": "Completed independent source-only review of actual derivative saved-review code; no browser, engine, provider, product requests or saved-review reruns performed for this receipt",
+  "reviewed_utc": "2026-10-21T19:52:32.680904+00:00",
+  "reviewer_files_sha256": {
+    "review_saved18_schema_followup.py": "101e6f1b811912d711edd4da46dec6f6c2704f617b413a2a9c62c81d51452657",
+    "optics_saved_predicates_schema_followup.py": "30b14360bcf6db4beea605330f25de1726d4d5137f1365db1c01f983c29c7687",
+    "passive_journal.py": "87a0c95330489a08948d7842498eead0dff302917fc4a65a6fb9a7fc6deaef2d"
+  },
+  "parent_source_review_sha256": "8ea49ff6e46c071a5a61740bd0a77395df9ff70b97b016d63a2c52a663f59cd3",
+  "independent_schema_adjudication_sha256": "a309aa2a6fa16c9871afa4af275bbfa10e8d7daf00c771f0ab8a099dd7f1e18c",
+  "original_wrapper_sha256": "6f2ec14ad84b23936ffde9213048b3378d8cc3e4ec53f824426820828eceb81c",
+  "original_predicate_sha256": "0b4a8d424320ff9fd93f126185ed203342bae164112de683059b7efcf1ab1fae",
+  "findings": {
+    "demonstrated_blockers": [],
+    "reader_science_preserved": true,
+    "predicate_diff_only_absent_notes_empty_default_with_present_list_guard": true,
+    "all_other_frozen_v4_predicates_unchanged": true,
+    "original_asset_png_traffic_visual_metadata_oracle_checks_preserved": true,
+    "all_nonlog_snapshot_fields_and_old_log_prefix_exact": true,
+    "exact_two_prescribed_indexed_measurement_journal_records": true,
+    "canonical_english_same_case_actual_journal_equality_required": true,
+    "only_source_owned_localization_fields_normalized": [
+      "Observed.appearance.words",
+      "NotYetModeled.what"
+    ],
+    "all_other_event_fields_exact": true,
+    "original_eight_file_closure_authenticated": true,
+    "all_three_derivative_hashes_match_external_parent_review": true
+  },
+  "limitations": [
+    "Source review is not product or production acceptance.",
+    "Parent must independently authenticate and aggregate actual dual saved18, prior64 and full external release/issue/manifest envelope."
+  ],
+  "scientific_selections": 0,
+  "product_acceptance_claimed": false
+}

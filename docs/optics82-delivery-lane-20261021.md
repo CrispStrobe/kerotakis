@@ -1,5 +1,8 @@
 # Optics delivery: current full validation to API11/browser82
 
+**Accepted19:55UTC:** current57edd/native74ba/lock41bb deployment, original API11 and actual browser82 now pass complete parent aggregation and both saved review chains. The [actual acceptance and adjudicated schema follow-up](../audits/target468-20261016/optics82-actual-accepted-followup-20261021/README.md) supersede every historical pending note below. Preserve first heat metadata, readonly bytecode, audit-journal and optional-notes failures; source-defined corrections retain all physical/quantitative/rendering/localization criteria. Do not repeat producer/deployment/API/browser work. Resume frozen12 cap baseline review/issue, before runtime edits.
+
+
 PR854/head62f64727 is genuinely accepted and normally integrated as57edd231. Both full saved reviews, all27 CI jobs and both108-control platform logs pass. Production workflow39657891195 completed on57edd; actual archive/native74ba/generated lock41bb, security and original API11 controls now pass two independent saved reviews. [Actual release evidence](../audits/target468-20261016/optics-actual-release-api-and-binding-20261021/README.md) preserves the real identities and narrowly repaired origin authority. Actual browser82 remains pending. Inspect existing owners/results in the private operating handoff before any execution. Do not repeat a job, rerun an unchanged original corpus or relabel a prior binary as a new release.
 
 

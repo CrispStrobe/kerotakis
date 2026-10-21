@@ -1,0 +1,44 @@
+{
+  "utc": "2026-10-21T19:54:04.869188+00:00",
+  "state": "ACTUAL_DEPLOYED_RELEASE_API11_BROWSER82_ACCEPTED_WITH_ADJUDICATED_SCHEMA_FOLLOWUP",
+  "source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "engine": {
+    "source_head": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+    "binary_sha256": "74ba47dd8f98d54a2bad31c487d490959996571c32a8255c7eb09bc97609d57d",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "artifact_sha256": "919f27950f7646bf47f46bba1804e84af82b1d43668d53ffab466f48cf41691d",
+  "actual11API_and82browser_checks_pass": true,
+  "retained_browser_controls": 64,
+  "additional_optical_rows": 18,
+  "concurrency": [
+    200,
+    429
+  ],
+  "actual_collected_files": 193,
+  "actual_collected_sha256": "df0c8928776767f2b80cc8e1c979778088493ebf7046501c007aa9bb06aeb739",
+  "producer_manifest_sha256": "927826187497c1d52b1243d36acbc811172e6482066adb7b994566e9b045b353",
+  "external_issue_sha256": "bd0e1eb7205e9d937fed39d130f4411760a6e7804836d89863bab9dd853e8389",
+  "actual_worker_sha256": "b3f95aaff65e9e1770daddb71e9ba4b7cef2a553a15ee1c083d6cdd347686a13",
+  "actual_old64_dual_saved_receipt_sha256": "f468085ff24f90dbe61809f7607ed2204f0f4d054d1fdb22f9917ab86742347e",
+  "actual_optical18_execution_sha256": [
+    "cf02e8d4e11eb1865b31143d44e00858ad7e56ec2a48b0dde454dbe3200f27eb",
+    "8df39bc64f7be00e0dcacf6e13ef1742da30f05ce9114c0eaec3b7ca56c9fe9b"
+  ],
+  "actual_optical18_result_sha256": [
+    "1b0136969802f6c22d4ccce56e658b7b3199971b0016398c2a8b0ac3aa918733",
+    "1b0136969802f6c22d4ccce56e658b7b3199971b0016398c2a8b0ac3aa918733"
+  ],
+  "independent_followup_source_review_sha256": "2e6502394334dbea09295ec685fd62e87d752b3c56acf387812b3a2e1f6fdc7a",
+  "followup_source_review_sha256": "8ea49ff6e46c071a5a61740bd0a77395df9ff70b97b016d63a2c52a663f59cd3",
+  "original_frozen_reader_failures_preserved": true,
+  "raw_193_original_file_bytes_preserved_exact": true,
+  "reviewer_bytecode_contamination_preserved_and_closed_reconstruction_used": true,
+  "journal_not_ignored_or_deleted": true,
+  "exact_canonical_journal_prefix_and_two_measures_verified": true,
+  "all_physical_optical_numeric_rendering_and_localization_expectations_retained": true,
+  "optional_empty_notes_source_schema_corrected": true,
+  "scientific_catalog_additions": 0,
+  "empirical_calibration_claim": false,
+  "cap_energy_closure_claim": false
+}

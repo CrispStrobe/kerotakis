@@ -1,0 +1,142 @@
+{
+  "state": "SAVED18_SCHEMA_FOLLOWUP_CONJUNCTIVE_REVIEW_REQUIRES_EXTERNAL_PARENT",
+  "followup_source_review_sha256": "8ea49ff6e46c071a5a61740bd0a77395df9ff70b97b016d63a2c52a663f59cd3",
+  "original_frozen_wrapper_full_snapshot_rejected": true,
+  "source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "report_sha256": "ce0114ddcaaaa193531dfe4b1109a205e689dd536a81e513c19a662fbaa75308",
+  "binding_sha256": "60e312f091a8c68376402a6d319d17cc0c1fd479022063fc4e14c8681c983b69",
+  "projection_sha256": "f035bf54338427480be4440cdcf43c0ee35ee486f4d8e351ff925e8520302fce",
+  "closure_sha256": "d68d1a853d71e9f44516aaec842468ac2f38996ac2651350a022359e1a03911b",
+  "actual_saved_rows_reviewed": 18,
+  "results": [
+    {
+      "case_id": "indicator-only",
+      "locale": "en",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "indicator-only",
+      "locale": "de",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "indicator-only",
+      "locale": "fr",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "non-ph-blue",
+      "locale": "en",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "non-ph-blue",
+      "locale": "de",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "non-ph-blue",
+      "locale": "fr",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "mixed-partial",
+      "locale": "en",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "mixed-partial",
+      "locale": "de",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "mixed-partial",
+      "locale": "fr",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "blank-pure-water",
+      "locale": "en",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "blank-pure-water",
+      "locale": "de",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "blank-pure-water",
+      "locale": "fr",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "solved-indicator",
+      "locale": "en",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "solved-indicator",
+      "locale": "de",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "solved-indicator",
+      "locale": "fr",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "empty-sample",
+      "locale": "en",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "empty-sample",
+      "locale": "de",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    },
+    {
+      "case_id": "empty-sample",
+      "locale": "fr",
+      "all_conjunctive_predicates_met": true,
+      "scientific_selections": 0,
+      "empirical_calibration_claim": false
+    }
+  ],
+  "scientific_selections": 0,
+  "product_or_production_acceptance_claimed": false,
+  "unresolved_external_acceptance": "Parent must authenticate actual issued worker/config/command security/native/API receipts/manifests, both independent review outputs and unchanged prior64 before final82 acceptance."
+}

@@ -1,0 +1,52 @@
+--- frozen/review_saved18.py
++++ adjudicated/review_saved18_schema_followup.py
+@@ -3,7 +3,7 @@
+ from pathlib import Path
+ from urllib.parse import urlsplit
+ from project_app_assets import project,digest,require
+-from optics_saved_predicates_v4 import review_case
++from optics_saved_predicates_schema_followup import review_case
+ ROOT=Path(__file__).parent
+ 
+ def pinned(path,sha):
+@@ -66,11 +66,19 @@
+   for item in visual[group]:style(item)
+  for css,layer in zip(visual['layers'],dom['layers']):require(re.sub(r'\s+','',css['fill'])==re.sub(r'\s+','',layer['fill']),'actual computed liquid fill differs from DOM fill')
+ 
++from passive_journal import check_passive_journal
++
+ def main():
+  p=argparse.ArgumentParser()
+  for name in ['report','binding','projection','closure','artifact','verified']:
+   p.add_argument('--'+name,type=Path,required=True);p.add_argument('--'+name+'-sha256',required=True)
++ p.add_argument('--followup-source-review',type=Path,required=True);p.add_argument('--followup-source-review-sha256',required=True)
+  p.add_argument('--source',required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
++ source_review=pinned(a.followup_source_review,a.followup_source_review_sha256)
++ require(set(source_review['reviewer_files_sha256'])=={'review_saved18_schema_followup.py','optics_saved_predicates_schema_followup.py','passive_journal.py'},'followup reviewer source set differs')
++ require(digest(ROOT/'review_saved18.py')==source_review['original_wrapper_sha256']and digest(ROOT/'optics_saved_predicates_v4.py')==source_review['original_predicate_sha256'],'original frozen source identity differs')
++ for name,want in source_review['reviewer_files_sha256'].items():require(digest(ROOT/name)==want,'externally reviewed followup source differs')
++ require(source_review['independent_schema_adjudication_sha256']=='a309aa2a6fa16c9871afa4af275bbfa10e8d7daf00c771f0ab8a099dd7f1e18c','missing independently adjudicated followup contract')
+  closure=pinned(a.closure,a.closure_sha256)
+  for name,sha in closure['files_sha256'].items():require(re.fullmatch('[A-Za-z0-9_.-]+',name)is not None and digest(ROOT/name)==sha,'program/protocol closure differs')
+  required={'run-optics18.mjs','optics-controls.mjs','optics_saved_predicates_v4.py','PROTOCOLS.json','EXPECTED-WORDS.json','OPTICAL-ORACLE.json','review_saved18.py','project_app_assets.py'};require(required<=set(closure['files_sha256']),'incomplete externally pinned code closure')
+@@ -87,6 +95,7 @@
+  require(not report.get('error')and not report.get('wrapper_error')and report['actual_observation_rows_complete']is True and report['product_acceptance_claimed']is False,'producer did not complete genuine observations')
+  protocols=json.loads((ROOT/'PROTOCOLS.json').read_bytes());words=json.loads((ROOT/'EXPECTED-WORDS.json').read_bytes());oracle=json.loads((ROOT/'OPTICAL-ORACLE.json').read_bytes())
+  expected={(c['id'],locale):c for c in protocols['cases']for locale in c['locales']};require(len(expected)==18 and len(report['rows'])==18,'exact frozen18 rows absent');seen=set();results=[]
++ english={r['case_id']:r['lab']for r in report['rows']if r['locale']=='en'};require(len(english)==len(protocols['cases']),'same-case canonical English corroboration absent')
+  for row in report['rows']:
+   key=(row['case_id'],row['locale']);require(key in expected and key not in seen,'unexpected/duplicate actual case');seen.add(key)
+   gui=row['gui'];loaded=gui['app_responses'];require(loaded,'actual loaded app response bodies missing')
+@@ -102,10 +111,10 @@
+   for meta in [row['lab']['meta'],json.loads(gui['hello']['response']['result_json'])]:
+    rev=meta['git_rev'];require(type(rev)is str and re.fullmatch('[a-f0-9]{7,40}',rev)is not None and a.source.startswith(rev),'actual shipped Lab/GUI source differs')
+   require(gui['external_solver_calls']is None and gui['external_solver_calls_not_exposed_by_public_GUI_protocol']is True,'GUI solver calls must not be fabricated from separate Lab')
+-  require(row['lab']['snapshot_before']==row['lab']['snapshot_after'],'passive independent Lab changed full snapshot')
++  check_passive_journal(row['lab'],english[row['case_id']],row['locale'])
+   review_visual(row,a.report,binding)
+   results.append(review_case(row,expected[key],words[row['locale']],oracle))
+  require(seen==set(expected),'missing actual frozen case')
+- result={'state':'SAVED18_CONJUNCTIVE_REVIEW_ONLY_REQUIRES_PARENT_AND_FULL_EXTERNAL_ENVELOPE','source':a.source,'report_sha256':a.report_sha256,'binding_sha256':a.binding_sha256,'projection_sha256':a.projection_sha256,'closure_sha256':a.closure_sha256,'actual_saved_rows_reviewed':18,'results':results,'scientific_selections':0,'product_or_production_acceptance_claimed':False,'unresolved_external_acceptance':'Parent must authenticate actual issued worker/config/command security/native/API receipts/manifests, both independent review outputs and unchanged prior64 before final82 acceptance.'}
++ result={'state':'SAVED18_SCHEMA_FOLLOWUP_CONJUNCTIVE_REVIEW_REQUIRES_EXTERNAL_PARENT','followup_source_review_sha256':a.followup_source_review_sha256,'original_frozen_wrapper_full_snapshot_rejected':True,'source':a.source,'report_sha256':a.report_sha256,'binding_sha256':a.binding_sha256,'projection_sha256':a.projection_sha256,'closure_sha256':a.closure_sha256,'actual_saved_rows_reviewed':18,'results':results,'scientific_selections':0,'product_or_production_acceptance_claimed':False,'unresolved_external_acceptance':'Parent must authenticate actual issued worker/config/command security/native/API receipts/manifests, both independent review outputs and unchanged prior64 before final82 acceptance.'}
+  with a.out.open('x',encoding='utf-8')as out:json.dump(result,out,indent=2);out.write('\n')
+ if __name__=='__main__':main()

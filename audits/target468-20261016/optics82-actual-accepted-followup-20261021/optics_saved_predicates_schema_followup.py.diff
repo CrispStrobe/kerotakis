@@ -1,0 +1,11 @@
+--- frozen/optics_saved_predicates_v4.py
++++ adjudicated/optics_saved_predicates_schema_followup.py
+@@ -32,7 +32,7 @@
+  if case['id']=='acidic-solved-indicator'and not ph<3:raise PrerequisiteHold('independent HCl positive did not establish acidic represented pH')
+ def review_result(case,before,result,words,oracle):
+  after=v(result);require(before==after,'passive look/UVvis changed owned state, phase, derived cache or clock');domain(case,before)
+- es=events(result);require(not any(e['event']=='solver_failed'for e in es),'actual solver failure');measured=[e for e in es if e['event']=='measured'and e['instrument']=='spectrophotometer'];reason=[e['reason']for e in es if e['event']=='not_yet_modeled'and e.get('reason',{}).get('key')=='not-modeled.indicator-optics-missing-ph'];look=[e for e in es if e['event']=='observed'];require(len(look)==1,'actual look observation required');notes=look[0]['appearance']['notes'];phnotes=[n for n in notes if n['key']=='look.indicator-optics-missing-ph'];rendered='\n'.join(x for step in result['steps']for x in step.get('rendered',[]))
++ es=events(result);require(not any(e['event']=='solver_failed'for e in es),'actual solver failure');measured=[e for e in es if e['event']=='measured'and e['instrument']=='spectrophotometer'];reason=[e['reason']for e in es if e['event']=='not_yet_modeled'and e.get('reason',{}).get('key')=='not-modeled.indicator-optics-missing-ph'];look=[e for e in es if e['event']=='observed'];require(len(look)==1,'actual look observation required');notes=look[0]['appearance'].get('notes',[]);require(type(notes)is list,'appearance notes must be a list when present');phnotes=[n for n in notes if n['key']=='look.indicator-optics-missing-ph'];rendered='\n'.join(x for step in result['steps']for x in step.get('rendered',[]))
+  if case['id']=='empty-sample':
+   no_sample=[e for e in es if e['event']=='not_yet_modeled'and e.get('reason',{}).get('key')=='not-modeled.spectrophotometer-has-no-solution'];require(len(no_sample)==1 and not measured and not reason and not phnotes,'empty sample requires typed refusal, never measured zero');require(words['core_no_sample']in rendered,'empty sample refusal not localized');return after
+  if case['expected_missing_ph']:

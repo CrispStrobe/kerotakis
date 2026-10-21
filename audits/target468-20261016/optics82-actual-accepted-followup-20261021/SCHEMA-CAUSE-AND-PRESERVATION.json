@@ -1,0 +1,19 @@
+{
+  "original_wrapper_full_snapshot_guard_rejected_expected_audit_entries": true,
+  "all18_actual_nonlog_snapshot_fields_exact": true,
+  "all18_exact_old_journal_prefix_and_two_new_measurements": true,
+  "source": "Bench::apply unchanged disposition appends LogEntry; Wasm localize_event only projects appearance.words/refusal.what",
+  "notes_schema": "Appearance.notes has serde(default,skip_serializing_if=Vec::is_empty)",
+  "original_pure_v4_attempt": {
+    "pass": 6,
+    "key_error_notes": 12
+  },
+  "followup_missing_notes_default_only": true,
+  "malformed_present_notes_reject": true,
+  "all_other_numeric_optical_physical_gui_worker_mutation_and_localization_expectations_preserved": true,
+  "bytecode_import_failure_and_original_output_preserved": true,
+  "readonly_saved_invocations_use_python_B_and_PYTHONDONTWRITEBYTECODE": true,
+  "actual_clean_reconstruction_matches_all193_original_collected_files": true,
+  "new_browser_or_engine_requests_by_followup": 0,
+  "scientific_selections": 0
+}

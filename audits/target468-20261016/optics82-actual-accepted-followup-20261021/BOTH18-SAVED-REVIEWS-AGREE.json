@@ -1,0 +1,10 @@
+{
+  "actual_two_exit_zero": true,
+  "actual_both18_results_equal": true,
+  "first_result_sha256": "1b0136969802f6c22d4ccce56e658b7b3199971b0016398c2a8b0ac3aa918733",
+  "second_result_sha256": "1b0136969802f6c22d4ccce56e658b7b3199971b0016398c2a8b0ac3aa918733",
+  "first_execution_sha256": "cf02e8d4e11eb1865b31143d44e00858ad7e56ec2a48b0dde454dbe3200f27eb",
+  "second_execution_sha256": "8df39bc64f7be00e0dcacf6e13ef1742da30f05ce9114c0eaec3b7ca56c9fe9b",
+  "product_acceptance_still_requires_parent_full82_aggregation": true,
+  "scientific_selections": 0
+}

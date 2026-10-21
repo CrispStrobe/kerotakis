@@ -1,0 +1,21 @@
+{
+  "scope": "Externally adjudicated saved-only schema/journal followup; original failures/frozen8closure/forecasts preserved",
+  "independent_schema_adjudication_sha256": "a309aa2a6fa16c9871afa4af275bbfa10e8d7daf00c771f0ab8a099dd7f1e18c",
+  "original_wrapper_sha256": "6f2ec14ad84b23936ffde9213048b3378d8cc3e4ec53f824426820828eceb81c",
+  "original_predicate_sha256": "0b4a8d424320ff9fd93f126185ed203342bae164112de683059b7efcf1ab1fae",
+  "reviewer_files_sha256": {
+    "review_saved18_schema_followup.py": "101e6f1b811912d711edd4da46dec6f6c2704f617b413a2a9c62c81d51452657",
+    "optics_saved_predicates_schema_followup.py": "30b14360bcf6db4beea605330f25de1726d4d5137f1365db1c01f983c29c7687",
+    "passive_journal.py": "87a0c95330489a08948d7842498eead0dff302917fc4a65a6fb9a7fc6deaef2d"
+  },
+  "source_owned_localization_fields_only": [
+    "Observed.appearance.words",
+    "NotYetModeled.what"
+  ],
+  "physical_snapshot_and_old_journal_prefix_exact": true,
+  "exact_two_observation_records_required": true,
+  "omitted_notes_semantics": "serde(default,skip_serializing_if=Vec::is_empty); malformed present values rejected",
+  "all_physical_optical_numeric_localization_and_rendering_forecasts_unchanged": true,
+  "new_engine_or_browser_calls": 0,
+  "scientific_selections": 0
+}
