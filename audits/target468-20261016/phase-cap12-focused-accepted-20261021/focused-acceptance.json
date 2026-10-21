@@ -1,0 +1,58 @@
+{
+  "utc": "2026-10-21T20:47:22.780296+00:00",
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "tree": "31a22af93bf837d478b8f8075d0c67ec22d78021",
+  "actual_counts": {
+    "pass": 38,
+    "fail": 0
+  },
+  "actual_per_target_counts": {
+    "phase_cap_energy": {
+      "pass": 12,
+      "fail": 0
+    },
+    "states": {
+      "pass": 10,
+      "fail": 0
+    },
+    "brine_phase_energy": {
+      "pass": 8,
+      "fail": 0
+    },
+    "phase_heat_capacity": {
+      "pass": 4,
+      "fail": 0
+    },
+    "phase_cooling_energy": {
+      "pass": 1,
+      "fail": 0
+    },
+    "phase_without_aqueous": {
+      "pass": 3,
+      "fail": 0
+    }
+  },
+  "parent_dual_saved_exits": [
+    0,
+    0
+  ],
+  "parent_dual_results_equal": true,
+  "actual_saved_result_sha256": "64c61f346e4bf451937aecf0948c80c2f8ec954890754e3c304bcd6cae893f15",
+  "independent_saved_findings_sha256": "7091881ba6071f0a8c6384001fc19ce8686502728d183a42fd974c89d0317af2",
+  "three_actual_saved_results_equal": true,
+  "source_worker_plan_issue_collection_manifest_lock_binary_bindings": "See byte-authenticated saved-review.json",
+  "actual_sweep_name": "states::the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+  "source_grid_points": 570,
+  "per_grid_logs_separately_captured": false,
+  "first_baseline8pass4fail_preserved": true,
+  "first_fixed35pass3fail_preserved": true,
+  "frozen12_bytes_unchanged": true,
+  "runtime_unchanged_from_first_fixed_candidate": true,
+  "focused_acceptance": true,
+  "full_acceptance": false,
+  "platform_acceptance": false,
+  "product_acceptance": false,
+  "beyond_cap_equilibrium_supported": false,
+  "scientific_selections": 0,
+  "qualified_unique_originals": 335
+}
