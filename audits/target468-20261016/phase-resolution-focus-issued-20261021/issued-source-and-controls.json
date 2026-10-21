@@ -1,0 +1,110 @@
+{
+  "runtime_source": "d3a7795f21dddc2e6b24eb6a832f4b87a9b0a966",
+  "worker_sha256": "ea7fdce1816ba756384cfb839f81e98f9f6034b2d95c2f3ed3c6504a97c3911f",
+  "actual_plan_sha256": "6f676085ef93bf0c25b003e9eb00d820ffb20cf1a05c659a67d64293d769c7fb",
+  "version": 1,
+  "version_label": "v1",
+  "private_CPU_only": true,
+  "one_issue_only": true,
+  "scientific_or_energy_acceptance": false,
+  "runtime_tree": "a8ee4ede499b1c8eef7d831de0780693f50b85c4",
+  "expected_controls": 30,
+  "expected_executables": 8,
+  "dependency_input_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "source_blobs_sha256": {
+    "crates/kerotakis-cli/Cargo.toml": "bf37c2974740c1d320e12a7f17b4172dcb37191a38b7c821827375c7667ae9d5",
+    "crates/kerotakis-cli/src/main.rs": "fb4d3bfb499cbd07d3bd81811142c67e8f3ec846cb9b7b8c41d83c98539010ee",
+    "crates/kerotakis-core/src/acid_endpoint.rs": "63f8b35a15a680221e0fee3853cf3c07fcc1535fc39c13ed7407ec1f9796a2e5",
+    "crates/kerotakis-core/src/aqueous_continuation.rs": "c6c12f8dcfa02720b908375d4f4395cf5ecbec8cfa985e7391c95d1513e819d7",
+    "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a",
+    "crates/kerotakis-core/src/displacement.rs": "ff7425a1c965b3f601b09b36944a899a51927f4b664a70a424ffefdff6a98d49",
+    "crates/kerotakis-core/src/script.rs": "a5e20d5b1d245de00c6053da8001936db99f809732b835f35d971aae7099b46f",
+    "crates/kerotakis-core/src/solve.rs": "ad18114aa2f9db5e920b98f58fb490694e9ed599b648f430617057e676f43370",
+    "crates/kerotakis-core/src/states.rs": "6e1b91b0eb4911da186276717602e5af3a300b97bc4bbfc4332d25bc73ad31b2",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+    "crates/kerotakis-core/tests/phase_cooling_energy.rs": "fee8f08783db3fc781b7d50c6c148d2bc13443446071764fe38de85eece8803c",
+    "crates/kerotakis-core/tests/phase_heat_capacity.rs": "c36860f3af17a2a418e84c71cb947a051a8f1aa822501ff5d4aed14ee7271c24",
+    "crates/kerotakis-core/tests/phase_without_aqueous.rs": "4c6182a201c1096faadc12883d1f926a8f4529f9082b29cb27d4015f528d54c2",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "1f3738d7b57252b15d7114fa80fc66c16c2453cf7a4c49fe0050448f193bac97",
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+    "crates/kerotakis-phreeqc/tests/partial_freezing.rs": "cf5519feb3e7b370efb13518be1585d15bd0ba1a06baffedcd0d163a6f7f7a4e",
+    "crates/kerotakis-stack/src/lib.rs": "eecb8dc4356e3f3b18bcfc13b772fca988d71c9b9b1ba6fb45ce916d1e2a6a4b",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/tests/phase_transfer_resolution.rs": "5b74b88e0999c2b47b5f0abe9a2f95d13dd5ba84bb034e9eb43cd970ea37e379"
+  },
+  "targets": [
+    {
+      "target": "brine_phase_energy",
+      "tests": [
+        "pure_water_freezing_conserves_independent_phase_energy",
+        "pure_water_melting_conserves_independent_phase_energy",
+        "dilute_brine_freezing_conserves_independent_phase_energy",
+        "intermediate_brine_freezing_conserves_independent_phase_energy",
+        "stronger_brine_freezing_conserves_independent_phase_energy",
+        "dilute_brine_melting_conserves_independent_phase_energy",
+        "intermediate_brine_melting_conserves_independent_phase_energy",
+        "stronger_brine_melting_conserves_independent_phase_energy"
+      ]
+    },
+    {
+      "target": "tc008_energy_trace",
+      "tests": [
+        "original_tc008_records_actual_stage_states_without_energy_verdict"
+      ]
+    },
+    {
+      "target": "phase_cooling_energy",
+      "tests": [
+        "partial_freezing_closes_the_transition_referenced_energy_for_different_phases"
+      ]
+    },
+    {
+      "target": "phase_heat_capacity",
+      "tests": [
+        "the_leftover_energy_chills_ice_at_ices_own_heat_capacity",
+        "ice_and_water_and_steam_each_carry_their_own_heat_capacity",
+        "sugar_water_boils_at_the_temperature_it_actually_boils_at",
+        "plain_water_is_unmoved_by_the_same_change"
+      ]
+    },
+    {
+      "target": "phase_without_aqueous",
+      "tests": [
+        "pure_water_freezes_melts_and_boils_with_conserved_latent_energy_across_scales",
+        "unsolved_ionic_and_unknown_mixtures_do_not_get_a_pure_water_phase_answer",
+        "no_transition_keeps_aqueous_failure_explicit_and_clears_stale_measurements"
+      ]
+    },
+    {
+      "target": "partial_freezing",
+      "tests": [
+        "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+        "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+        "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+        "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+        "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles"
+      ]
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "tests": [
+        "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+        "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+        "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+        "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+        "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+        "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report"
+      ]
+    },
+    {
+      "target": "phase_transfer_resolution",
+      "tests": [
+        "subobservable_freezing_is_a_real_conserved_phase_transfer",
+        "subobservable_melting_is_a_real_conserved_phase_transfer"
+      ]
+    }
+  ],
+  "prior27_assertions_unchanged": true,
+  "current_actual_outcome": "PENDING"
+}
