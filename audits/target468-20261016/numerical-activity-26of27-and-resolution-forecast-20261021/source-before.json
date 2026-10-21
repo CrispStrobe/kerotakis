@@ -1,0 +1,31 @@
+{
+  "runtime_source": "6899ceb8fb5d93e6e59c74cb43eb0d84a0aae16e",
+  "runtime_tree": "a91ad47ac1f0f3412a3357dd7e20606f5f3a34c8",
+  "unchanged_runtime_files": {
+    "crates/kerotakis-cli/Cargo.toml": "bf37c2974740c1d320e12a7f17b4172dcb37191a38b7c821827375c7667ae9d5",
+    "crates/kerotakis-cli/src/main.rs": "fb4d3bfb499cbd07d3bd81811142c67e8f3ec846cb9b7b8c41d83c98539010ee",
+    "crates/kerotakis-core/src/acid_endpoint.rs": "63f8b35a15a680221e0fee3853cf3c07fcc1535fc39c13ed7407ec1f9796a2e5",
+    "crates/kerotakis-core/src/aqueous_continuation.rs": "c6c12f8dcfa02720b908375d4f4395cf5ecbec8cfa985e7391c95d1513e819d7",
+    "crates/kerotakis-core/src/bench.rs": "81e2a1b40f9c5150c140634fd36c9502b1183237b6104ce508ebbab158028c8a",
+    "crates/kerotakis-core/src/displacement.rs": "ff7425a1c965b3f601b09b36944a899a51927f4b664a70a424ffefdff6a98d49",
+    "crates/kerotakis-core/src/script.rs": "a5e20d5b1d245de00c6053da8001936db99f809732b835f35d971aae7099b46f",
+    "crates/kerotakis-core/src/solve.rs": "30509fd310b8e45775cc9f4b8af8ca213a18978383e805403eaae2f85db2bc4a",
+    "crates/kerotakis-core/src/states.rs": "6e1b91b0eb4911da186276717602e5af3a300b97bc4bbfc4332d25bc73ad31b2",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+    "crates/kerotakis-core/tests/phase_cooling_energy.rs": "fee8f08783db3fc781b7d50c6c148d2bc13443446071764fe38de85eece8803c",
+    "crates/kerotakis-core/tests/phase_heat_capacity.rs": "c36860f3af17a2a418e84c71cb947a051a8f1aa822501ff5d4aed14ee7271c24",
+    "crates/kerotakis-core/tests/phase_without_aqueous.rs": "4c6182a201c1096faadc12883d1f926a8f4529f9082b29cb27d4015f528d54c2",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "3cab93532d2eefe829b5a687612969b31e3a84ba7edfb1e952dc99ee8d5039b6",
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+    "crates/kerotakis-phreeqc/tests/partial_freezing.rs": "cf5519feb3e7b370efb13518be1585d15bd0ba1a06baffedcd0d163a6f7f7a4e",
+    "crates/kerotakis-stack/src/lib.rs": "eecb8dc4356e3f3b18bcfc13b772fca988d71c9b9b1ba6fb45ce916d1e2a6a4b",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "tests_only_overlays": {
+    "crates/kerotakis-core/tests/brine_phase_energy.rs": "3ce054a91dd581b0d9706cbb8dfec97d9b0cdadcfa1976624de1c212e588a591",
+    "crates/kerotakis-cli/tests/fixtures/tc008-original.lab": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+    "crates/kerotakis-cli/tests/tc008_energy_trace.rs": "331651a28d225e2d64e603974063a5881aca002bc86790a950f9bd565fbc611e"
+  },
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85"
+}

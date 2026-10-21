@@ -1,0 +1,4 @@
+
+thread 'concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles' (4713) panicked at crates/kerotakis-phreeqc/tests/partial_freezing.rs:306:9:
+0.05mol: final temperature 263.37536885656147 K vs native liquidus 263.3753720594463 K
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

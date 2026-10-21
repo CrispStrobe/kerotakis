@@ -1,0 +1,2680 @@
+{
+  "schema": "kerotakis.TC008.actual-stage-ledger.v1",
+  "trace_sha256": "e709754088cb4f09c85257df175338b271dbeb2fd6768f322b74d44bc3680224",
+  "original_script_sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+  "source": "6899ceb8fb5d93e6e59c74cb43eb0d84a0aae16e",
+  "source_tree": "a91ad47ac1f0f3412a3357dd7e20606f5f3a34c8",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "thermal_fixture_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "source_binding_qualification": "Reader source argument must match separately authenticated actual producer source/tree/binary/lock receipt; no receipt is invented by this mathematical reader.",
+  "material_tolerance_mol": "1e-10",
+  "frozen_control_energy_tolerance_J": ".001",
+  "reference": "water-liquid273 zero; water-solid273 -6010J/mol; ionic-master298 zero; NaCl-solid298 -3880J/mol; independent phase-Cp integrals; explicit excess reservoir",
+  "adapter_boundaries": [
+    {
+      "call": 2,
+      "boundary": "aqueous",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 4,
+      "before_sequence": 6,
+      "after_sequence": 7,
+      "atom_charge_delta": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-16",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 1,
+      "boundary": "displacement",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 4,
+      "before_sequence": 5,
+      "after_sequence": 8,
+      "atom_charge_delta": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-16",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 0,
+      "boundary": "phase_coupled",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 4,
+      "before_sequence": 4,
+      "after_sequence": 9,
+      "atom_charge_delta": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-16",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 3,
+      "boundary": "phase_coupled",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 5,
+      "before_sequence": 12,
+      "after_sequence": 13,
+      "atom_charge_delta": {
+        "H": "2.0E-16",
+        "O": "1.0E-16",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "-3602.99999999556538624281454575702956838818188",
+            "H_J": "-9999.99999998769105501458380828529337360454702"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.99999998769105501458380828529337360454702"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "closed_adiabatic_stage_residual_J": "-1.230822198541619171470662639545298E-8",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 6,
+      "boundary": "aqueous",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 22,
+      "after_sequence": 23,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          },
+          {
+            "species": "NaCl",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6122.88224745095904699838834381731522929066042",
+            "H_J": "-10187.8240390198978441164756291397273399453963"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "-226.881744811330753612955389608707265500828264",
+            "H_J": "-252.195254075510710465776554635542475991675535"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930954085545822521837752698159370718"
+      },
+      "closed_adiabatic_stage_residual_J": "-440.0192930954092775822521837752698159370718",
+      "within_frozen_0_001J_control_contract": false,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 5,
+      "boundary": "displacement",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 21,
+      "after_sequence": 24,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          },
+          {
+            "species": "NaCl",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6122.88224745095904699838834381731522929066042",
+            "H_J": "-10187.8240390198978441164756291397273399453963"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "-226.881744811330753612955389608707265500828264",
+            "H_J": "-252.195254075510710465776554635542475991675535"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930954085545822521837752698159370718"
+      },
+      "closed_adiabatic_stage_residual_J": "-440.0192930954092775822521837752698159370718",
+      "within_frozen_0_001J_control_contract": false,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 8,
+      "boundary": "aqueous",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 26,
+      "after_sequence": 27,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.39184658060138",
+            "molar_declared_H_J_mol": "-6500.90823456128713874319074800357649500980316",
+            "H_J": "-9048.26689707748149855816240039379982438217243"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3836183097677566",
+            "molar_declared_H_J_mol": "-1005.87885126362948464698159249268553515269504",
+            "H_J": "-1391.75239601651566760786800975117544273150174"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930939971661660304101449752671136742"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.39184658060138",
+            "molar_declared_H_J_mol": "-6500.90823456128713874319074800357649500980316",
+            "H_J": "-9048.26689707748149855816240039379982438217243"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3836183097677566",
+            "molar_declared_H_J_mol": "-1005.87885126362948464698159249268553515269504",
+            "H_J": "-1391.75239601651566760786800975117544273150174"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930939971661660304101449752671136742"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 7,
+      "boundary": "displacement",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 25,
+      "after_sequence": 28,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.39184658060138",
+            "molar_declared_H_J_mol": "-6500.90823456128713874319074800357649500980316",
+            "H_J": "-9048.26689707748149855816240039379982438217243"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3836183097677566",
+            "molar_declared_H_J_mol": "-1005.87885126362948464698159249268553515269504",
+            "H_J": "-1391.75239601651566760786800975117544273150174"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930939971661660304101449752671136742"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.39184658060138",
+            "molar_declared_H_J_mol": "-6500.90823456128713874319074800357649500980316",
+            "H_J": "-9048.26689707748149855816240039379982438217243"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3836183097677566",
+            "molar_declared_H_J_mol": "-1005.87885126362948464698159249268553515269504",
+            "H_J": "-1391.75239601651566760786800975117544273150174"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930939971661660304101449752671136742"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 10,
+      "boundary": "aqueous",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 30,
+      "after_sequence": 31,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.417845126747939",
+            "molar_declared_H_J_mol": "-6467.41716001524699274411597222241386594836526",
+            "H_J": "-9169.79590297361355759304601690034224393776706"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3576197636211975",
+            "molar_declared_H_J_mol": "-935.625293736478325103455632575931483829800209",
+            "H_J": "-1270.22339012053118158745638073720506089833889"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941447391805023976375473048361060"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.417845126747939",
+            "molar_declared_H_J_mol": "-6467.41716001524699274411597222241386594836526",
+            "H_J": "-9169.79590297361355759304601690034224393776706"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3576197636211975",
+            "molar_declared_H_J_mol": "-935.625293736478325103455632575931483829800209",
+            "H_J": "-1270.22339012053118158745638073720506089833889"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941447391805023976375473048361060"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 9,
+      "boundary": "displacement",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 29,
+      "after_sequence": 32,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.417845126747939",
+            "molar_declared_H_J_mol": "-6467.41716001524699274411597222241386594836526",
+            "H_J": "-9169.79590297361355759304601690034224393776706"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3576197636211975",
+            "molar_declared_H_J_mol": "-935.625293736478325103455632575931483829800209",
+            "H_J": "-1270.22339012053118158745638073720506089833889"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941447391805023976375473048361060"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.417845126747939",
+            "molar_declared_H_J_mol": "-6467.41716001524699274411597222241386594836526",
+            "H_J": "-9169.79590297361355759304601690034224393776706"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3576197636211975",
+            "molar_declared_H_J_mol": "-935.625293736478325103455632575931483829800209",
+            "H_J": "-1270.22339012053118158745638073720506089833889"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941447391805023976375473048361060"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 12,
+      "boundary": "aqueous",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 34,
+      "after_sequence": 35,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4156727188089435",
+            "molar_declared_H_J_mol": "-6470.23582819964721228183621144890500096288709",
+            "H_J": "-9159.73634624243083234137136616120563215314027"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359792171560193",
+            "molar_declared_H_J_mol": "-941.528399433817798139276551676505219783560067",
+            "H_J": "-1280.28294685170389321427531636662447181563578"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941347255556466825278301039687760"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4156727188089435",
+            "molar_declared_H_J_mol": "-6470.23582819964721228183621144890500096288709",
+            "H_J": "-9159.73634624243083234137136616120563215314027"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359792171560193",
+            "molar_declared_H_J_mol": "-941.528399433817798139276551676505219783560067",
+            "H_J": "-1280.28294685170389321427531636662447181563578"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941347255556466825278301039687760"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 11,
+      "boundary": "displacement",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 33,
+      "after_sequence": 36,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4156727188089435",
+            "molar_declared_H_J_mol": "-6470.23582819964721228183621144890500096288709",
+            "H_J": "-9159.73634624243083234137136616120563215314027"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359792171560193",
+            "molar_declared_H_J_mol": "-941.528399433817798139276551676505219783560067",
+            "H_J": "-1280.28294685170389321427531636662447181563578"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941347255556466825278301039687760"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4156727188089435",
+            "molar_declared_H_J_mol": "-6470.23582819964721228183621144890500096288709",
+            "H_J": "-9159.73634624243083234137136616120563215314027"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359792171560193",
+            "molar_declared_H_J_mol": "-941.528399433817798139276551676505219783560067",
+            "H_J": "-1280.28294685170389321427531636662447181563578"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941347255556466825278301039687760"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 14,
+      "boundary": "aqueous",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 38,
+      "after_sequence": 39,
+      "atom_charge_delta": {
+        "Cl": "2.0E-17",
+        "H": "0E-17",
+        "Na": "2.0E-17",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158563255044945",
+            "molar_declared_H_J_mol": "-6469.99774435510439743021458765580200488179445",
+            "H_J": "-9160.58723234498588417643928546909158485168955"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359608564864642",
+            "molar_declared_H_J_mol": "-941.029715325844818989880763376984343196773127",
+            "H_J": "-1279.43206074915448155244083120725395651205038"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941403657288801166763455413637399"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158563255044945",
+            "molar_declared_H_J_mol": "-6469.99774435510439743021458765580200488179445",
+            "H_J": "-9160.58723234498588417643928546909158485168955"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359608564864642",
+            "molar_declared_H_J_mol": "-941.029715325844818989880763376984343196773127",
+            "H_J": "-1279.43206074915448155244083120725395651205038"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941403657288801166763455413637399"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 13,
+      "boundary": "displacement",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 37,
+      "after_sequence": 40,
+      "atom_charge_delta": {
+        "Cl": "2.0E-17",
+        "H": "0E-17",
+        "Na": "2.0E-17",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158563255044945",
+            "molar_declared_H_J_mol": "-6469.99774435510439743021458765580200488179445",
+            "H_J": "-9160.58723234498588417643928546909158485168955"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359608564864642",
+            "molar_declared_H_J_mol": "-941.029715325844818989880763376984343196773127",
+            "H_J": "-1279.43206074915448155244083120725395651205038"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941403657288801166763455413637399"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158563255044945",
+            "molar_declared_H_J_mol": "-6469.99774435510439743021458765580200488179445",
+            "H_J": "-9160.58723234498588417643928546909158485168955"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359608564864642",
+            "molar_declared_H_J_mol": "-941.029715325844818989880763376984343196773127",
+            "H_J": "-1279.43206074915448155244083120725395651205038"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941403657288801166763455413637399"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 16,
+      "boundary": "aqueous",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 42,
+      "after_sequence": 43,
+      "atom_charge_delta": {
+        "Cl": "0E-18",
+        "H": "0E-17",
+        "Na": "0E-18",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158408735028118",
+            "molar_declared_H_J_mol": "-6470.01778207201608226611900536191612918565054",
+            "H_J": "-9160.51562814756828582133988682668238939922694"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596240168663247",
+            "molar_declared_H_J_mol": "-941.071685314572610340293881152399642005485746",
+            "H_J": "-1279.50366494656108125311501559392430380164910"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941293670744549024206066932008760"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158408735028118",
+            "molar_declared_H_J_mol": "-6470.01778207201608226611900536191612918565054",
+            "H_J": "-9160.51562814756828582133988682668238939922694"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596240168663247",
+            "molar_declared_H_J_mol": "-941.071685314572610340293881152399642005485746",
+            "H_J": "-1279.50366494656108125311501559392430380164910"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941293670744549024206066932008760"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 15,
+      "boundary": "displacement",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 41,
+      "after_sequence": 44,
+      "atom_charge_delta": {
+        "Cl": "0E-18",
+        "H": "0E-17",
+        "Na": "0E-18",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158408735028118",
+            "molar_declared_H_J_mol": "-6470.01778207201608226611900536191612918565054",
+            "H_J": "-9160.51562814756828582133988682668238939922694"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596240168663247",
+            "molar_declared_H_J_mol": "-941.071685314572610340293881152399642005485746",
+            "H_J": "-1279.50366494656108125311501559392430380164910"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941293670744549024206066932008760"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158408735028118",
+            "molar_declared_H_J_mol": "-6470.01778207201608226611900536191612918565054",
+            "H_J": "-9160.51562814756828582133988682668238939922694"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596240168663247",
+            "molar_declared_H_J_mol": "-941.071685314572610340293881152399642005485746",
+            "H_J": "-1279.50366494656108125311501559392430380164910"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941293670744549024206066932008760"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 18,
+      "boundary": "aqueous",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 46,
+      "after_sequence": 47,
+      "atom_charge_delta": {
+        "Cl": "0E-18",
+        "H": "0E-17",
+        "Na": "0E-18",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 17,
+      "boundary": "displacement",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 45,
+      "after_sequence": 48,
+      "atom_charge_delta": {
+        "Cl": "0E-18",
+        "H": "0E-17",
+        "Na": "0E-18",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    },
+    {
+      "call": 4,
+      "boundary": "phase_coupled",
+      "method": "equilibrate",
+      "opaque_current_answer_present": null,
+      "command_index": 8,
+      "before_sequence": 20,
+      "after_sequence": 49,
+      "atom_charge_delta": {
+        "Cl": "2.0E-17",
+        "H": "-2.0E-16",
+        "Na": "2.0E-17",
+        "O": "-1.0E-16",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          },
+          {
+            "species": "NaCl",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "closed_adiabatic_stage_residual_J": "-440.0192930941260686383815328531967956301811",
+      "within_frozen_0_001J_control_contract": false,
+      "before_aqueous_heat_ownership": "WholeStep",
+      "after_aqueous_heat_ownership": "WholeStep",
+      "private_whole_step_vs_fallback_branch": "UNOBSERVABLE through public Equilibrator; public ownership flag is not a per-call heat-price receipt."
+    }
+  ],
+  "intervening_phase_remainders": [
+    {
+      "kind": "post_last_displacement_remainder",
+      "phase_call": 0,
+      "command_index": 4,
+      "before_sequence": 8,
+      "after_sequence": 9,
+      "atom_charge_delta": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-16",
+      "within_frozen_0_001J_control_contract": true,
+      "attribution": "Actual terminal remainder; may include StateEquilibrator and/or final projection. Do not label pure projection without source/event proof."
+    },
+    {
+      "kind": "between_actual_displacement_calls",
+      "phase_call": 4,
+      "command_index": 8,
+      "before_sequence": 24,
+      "after_sequence": 25,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "-2.0E-16",
+        "Na": "0E-17",
+        "O": "-1.0E-16",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6122.88224745095904699838834381731522929066042",
+            "H_J": "-10187.8240390198978441164756291397273399453963"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "-226.881744811330753612955389608707265500828264",
+            "H_J": "-252.195254075510710465776554635542475991675535"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930954085545822521837752698159370718"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.39184658060138",
+            "molar_declared_H_J_mol": "-6500.90823456128713874319074800357649500980316",
+            "H_J": "-9048.26689707748149855816240039379982438217243"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3836183097677566",
+            "molar_declared_H_J_mol": "-1005.87885126362948464698159249268553515269504",
+            "H_J": "-1391.75239601651566760786800975117544273150174"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930939971661660304101449752671136742"
+      },
+      "closed_adiabatic_stage_residual_J": "1.4113884162217736302945488233976E-9",
+      "within_frozen_0_001J_control_contract": true,
+      "attribution": "Observed between-call change; source phase-coupled control flow is reviewed separately, not an invented private heat counter."
+    },
+    {
+      "kind": "between_actual_displacement_calls",
+      "phase_call": 4,
+      "command_index": 8,
+      "before_sequence": 28,
+      "after_sequence": 29,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "-2.0E-16",
+        "Na": "0E-17",
+        "O": "-1.0E-16",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.39184658060138",
+            "molar_declared_H_J_mol": "-6500.90823456128713874319074800357649500980316",
+            "H_J": "-9048.26689707748149855816240039379982438217243"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3836183097677566",
+            "molar_declared_H_J_mol": "-1005.87885126362948464698159249268553515269504",
+            "H_J": "-1391.75239601651566760786800975117544273150174"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930939971661660304101449752671136742"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.417845126747939",
+            "molar_declared_H_J_mol": "-6467.41716001524699274411597222241386594836526",
+            "H_J": "-9169.79590297361355759304601690034224393776706"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3576197636211975",
+            "molar_declared_H_J_mol": "-935.625293736478325103455632575931483829800209",
+            "H_J": "-1270.22339012053118158745638073720506089833889"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941447391805023976375473048361060"
+      },
+      "closed_adiabatic_stage_residual_J": "-1.475730144719874925720377224318E-10",
+      "within_frozen_0_001J_control_contract": true,
+      "attribution": "Observed between-call change; source phase-coupled control flow is reviewed separately, not an invented private heat counter."
+    },
+    {
+      "kind": "between_actual_displacement_calls",
+      "phase_call": 4,
+      "command_index": 8,
+      "before_sequence": 32,
+      "after_sequence": 33,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.417845126747939",
+            "molar_declared_H_J_mol": "-6467.41716001524699274411597222241386594836526",
+            "H_J": "-9169.79590297361355759304601690034224393776706"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3576197636211975",
+            "molar_declared_H_J_mol": "-935.625293736478325103455632575931483829800209",
+            "H_J": "-1270.22339012053118158745638073720506089833889"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941447391805023976375473048361060"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4156727188089435",
+            "molar_declared_H_J_mol": "-6470.23582819964721228183621144890500096288709",
+            "H_J": "-9159.73634624243083234137136616120563215314027"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359792171560193",
+            "molar_declared_H_J_mol": "-941.528399433817798139276551676505219783560067",
+            "H_J": "-1280.28294685170389321427531636662447181563578"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941347255556466825278301039687760"
+      },
+      "closed_adiabatic_stage_residual_J": "1.00136248557151097172008673300E-11",
+      "within_frozen_0_001J_control_contract": true,
+      "attribution": "Observed between-call change; source phase-coupled control flow is reviewed separately, not an invented private heat counter."
+    },
+    {
+      "kind": "between_actual_displacement_calls",
+      "phase_call": 4,
+      "command_index": 8,
+      "before_sequence": 36,
+      "after_sequence": 37,
+      "atom_charge_delta": {
+        "Cl": "0E-17",
+        "H": "0E-17",
+        "Na": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4156727188089435",
+            "molar_declared_H_J_mol": "-6470.23582819964721228183621144890500096288709",
+            "H_J": "-9159.73634624243083234137136616120563215314027"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359792171560193",
+            "molar_declared_H_J_mol": "-941.528399433817798139276551676505219783560067",
+            "H_J": "-1280.28294685170389321427531636662447181563578"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941347255556466825278301039687760"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158563255044945",
+            "molar_declared_H_J_mol": "-6469.99774435510439743021458765580200488179445",
+            "H_J": "-9160.58723234498588417643928546909158485168955"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.0855534452372397",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359608564864642",
+            "molar_declared_H_J_mol": "-941.029715325844818989880763376984343196773127",
+            "H_J": "-1279.43206074915448155244083120725395651205038"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941403657288801166763455413637399"
+      },
+      "closed_adiabatic_stage_residual_J": "-5.6401732334341485154373949639E-12",
+      "within_frozen_0_001J_control_contract": true,
+      "attribution": "Observed between-call change; source phase-coupled control flow is reviewed separately, not an invented private heat counter."
+    },
+    {
+      "kind": "between_actual_displacement_calls",
+      "phase_call": 4,
+      "command_index": 8,
+      "before_sequence": 40,
+      "after_sequence": 41,
+      "atom_charge_delta": {
+        "Cl": "0E-18",
+        "H": "0E-17",
+        "Na": "0E-18",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158563255044945",
+            "molar_declared_H_J_mol": "-6469.99774435510439743021458765580200488179445",
+            "H_J": "-9160.58723234498588417643928546909158485168955"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.359608564864642",
+            "molar_declared_H_J_mol": "-941.029715325844818989880763376984343196773127",
+            "H_J": "-1279.43206074915448155244083120725395651205038"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941403657288801166763455413637399"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158408735028118",
+            "molar_declared_H_J_mol": "-6470.01778207201608226611900536191612918565054",
+            "H_J": "-9160.51562814756828582133988682668238939922694"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596240168663247",
+            "molar_declared_H_J_mol": "-941.071685314572610340293881152399642005485746",
+            "H_J": "-1279.50366494656108125311501559392430380164910"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941293670744549024206066932008760"
+      },
+      "closed_adiabatic_stage_residual_J": "1.09986544252142557388481628639E-11",
+      "within_frozen_0_001J_control_contract": true,
+      "attribution": "Observed between-call change; source phase-coupled control flow is reviewed separately, not an invented private heat counter."
+    },
+    {
+      "kind": "between_actual_displacement_calls",
+      "phase_call": 4,
+      "command_index": 8,
+      "before_sequence": 44,
+      "after_sequence": 45,
+      "atom_charge_delta": {
+        "Cl": "0E-18",
+        "H": "2.0E-16",
+        "Na": "0E-18",
+        "O": "1.0E-16",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158408735028118",
+            "molar_declared_H_J_mol": "-6470.01778207201608226611900536191612918565054",
+            "H_J": "-9160.51562814756828582133988682668238939922694"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596240168663247",
+            "molar_declared_H_J_mol": "-941.071685314572610340293881152399642005485746",
+            "H_J": "-1279.50366494656108125311501559392430380164910"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941293670744549024206066932008760"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "closed_adiabatic_stage_residual_J": "4.0214360733695674098975706949E-12",
+      "within_frozen_0_001J_control_contract": true,
+      "attribution": "Observed between-call change; source phase-coupled control flow is reviewed separately, not an invented private heat counter."
+    },
+    {
+      "kind": "post_last_displacement_remainder",
+      "phase_call": 4,
+      "command_index": 8,
+      "before_sequence": 48,
+      "after_sequence": 49,
+      "atom_charge_delta": {
+        "Cl": "0E-18",
+        "H": "0E-17",
+        "Na": "0E-18",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "closed_adiabatic_stage_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true,
+      "attribution": "Actual terminal remainder; may include StateEquilibrator and/or final projection. Do not label pure projection without source/event proof."
+    }
+  ],
+  "whole_commands": [
+    {
+      "command_index": 3,
+      "text": "register lv3",
+      "owned_atom_charge_residual": {},
+      "before_energy": {
+        "terms": [],
+        "excess_J": "0.0",
+        "total_H_J": "0.0"
+      },
+      "after_energy": {
+        "terms": [],
+        "excess_J": "0.0",
+        "total_H_J": "0.0"
+      },
+      "incoming_declared_species_H_J": "0",
+      "external_heat_J": "0",
+      "whole_command_residual_J": "0.0",
+      "within_frozen_0_001J_control_contract": true
+    },
+    {
+      "command_index": 4,
+      "text": "add v1 water 50g @ 0C",
+      "owned_atom_charge_residual": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [],
+        "excess_J": "0.0",
+        "total_H_J": "0.0"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "incoming_declared_species_H_J": "0E-16",
+      "external_heat_J": "0",
+      "whole_command_residual_J": "0E-16",
+      "within_frozen_0_001J_control_contract": true
+    },
+    {
+      "command_index": 5,
+      "text": "cool v1 10kJ",
+      "owned_atom_charge_residual": {
+        "H": "2.0E-16",
+        "O": "1.0E-16",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "2.7754648903691366",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-16"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "0E-16"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "incoming_declared_species_H_J": "0",
+      "external_heat_J": "-10000.0",
+      "whole_command_residual_J": "7.230E-13",
+      "within_frozen_0_001J_control_contract": true
+    },
+    {
+      "command_index": 6,
+      "text": "measure v1 thermometer",
+      "owned_atom_charge_residual": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "incoming_declared_species_H_J": "0",
+      "external_heat_J": "0",
+      "whole_command_residual_J": "0E-16",
+      "within_frozen_0_001J_control_contract": true
+    },
+    {
+      "command_index": 7,
+      "text": "inspect v1",
+      "owned_atom_charge_residual": {
+        "H": "0E-17",
+        "O": "0E-17",
+        "charge": "0E-17"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "incoming_declared_species_H_J": "0",
+      "external_heat_J": "0",
+      "whole_command_residual_J": "0E-16",
+      "within_frozen_0_001J_control_contract": true
+    },
+    {
+      "command_index": 8,
+      "text": "add v1 NaCl 5g @ 0C",
+      "owned_atom_charge_residual": {
+        "Cl": "2.0E-17",
+        "H": "-2.0E-16",
+        "Na": "2.0E-17",
+        "O": "-1.0E-16",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.111571379553829",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-15"
+          },
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.6638935108153077",
+            "molar_declared_H_J_mol": "-6010",
+            "H_J": "-9999.9999999999992770"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-9999.9999999999992770"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "incoming_declared_species_H_J": "-440.019264317067598431068036497216247755470012",
+      "external_heat_J": "0",
+      "whole_command_residual_J": "-0.000028777058470207313496355980547874711088",
+      "within_frozen_0_001J_control_contract": true
+    },
+    {
+      "command_index": 9,
+      "text": "measure v1 thermometer",
+      "owned_atom_charge_residual": {
+        "Cl": "0E-18",
+        "H": "0E-17",
+        "Na": "0E-18",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "incoming_declared_species_H_J": "0",
+      "external_heat_J": "0",
+      "whole_command_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true
+    },
+    {
+      "command_index": 10,
+      "text": "measure v1 conductivity",
+      "owned_atom_charge_residual": {
+        "Cl": "0E-18",
+        "H": "0E-17",
+        "Na": "0E-18",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "incoming_declared_species_H_J": "0",
+      "external_heat_J": "0",
+      "whole_command_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true
+    },
+    {
+      "command_index": 11,
+      "text": "inspect",
+      "owned_atom_charge_residual": {
+        "Cl": "0E-18",
+        "H": "0E-17",
+        "Na": "0E-18",
+        "O": "0E-17",
+        "charge": "0E-18"
+      },
+      "before_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "after_energy": {
+        "terms": [
+          {
+            "species": "water",
+            "phase": "solid",
+            "moles": "1.4158421229625544",
+            "molar_declared_H_J_mol": "-6470.01616181506498302016970080662479369723300",
+            "H_J": "-9160.52141814627950175337382368214639382420284"
+          },
+          {
+            "species": "Cl-",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "Na+",
+            "phase": "aqueous",
+            "moles": "0.08555344523723972",
+            "molar_declared_H_J_mol": "0",
+            "H_J": "0E-17"
+          },
+          {
+            "species": "water",
+            "phase": "liquid",
+            "moles": "1.3596227674065822",
+            "molar_declared_H_J_mol": "-941.068291602993014263655150198806659727563229",
+            "H_J": "-1279.49787494784584388500770917105040180597823"
+          }
+        ],
+        "excess_J": "0.0",
+        "total_H_J": "-10440.0192930941253456383815328531967956301811"
+      },
+      "incoming_declared_species_H_J": "0",
+      "external_heat_J": "0",
+      "whole_command_residual_J": "0E-40",
+      "within_frozen_0_001J_control_contract": true
+    }
+  ],
+  "observed_energy_contract_holds": true,
+  "new_engine_API_provider_build_calls": 0,
+  "scientific_catalog_selection_assigned": false,
+  "scope": "Collection-test success only authenticates trace completion. This reader reports actual energy residuals; a baseline may truthfully fail. No chemical heat-price branch or independently calibrated brine enthalpy is guessed."
+}

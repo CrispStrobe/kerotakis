@@ -1,0 +1,11 @@
+{
+  "runtime_source": "6899ceb8fb5d93e6e59c74cb43eb0d84a0aae16e",
+  "runtime_tree": "a91ad47ac1f0f3412a3357dd7e20606f5f3a34c8",
+  "tests_overlay_qualification": "Exact frozen observers over unchanged runtime; not the deployed release executable",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "executable": "target/debug/deps/phase_heat_capacity-7d55b69e0dd26193",
+  "sha256": "b50edd07d3926a2c9cf3d8206c867fc525425675725df27e7c1fd46fa8288a0f",
+  "bytes": 55249280,
+  "gzip_sha256": "7fb9879f04754b4b2630cac353bbf14ecba095dd306d19080c379e69999cc2de",
+  "gzip_bytes": 12967179
+}

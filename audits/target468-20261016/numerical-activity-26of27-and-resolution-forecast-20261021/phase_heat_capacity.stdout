@@ -1,0 +1,9 @@
+
+running 4 tests
+test ice_and_water_and_steam_each_carry_their_own_heat_capacity ... ok
+test plain_water_is_unmoved_by_the_same_change ... ok
+test sugar_water_boils_at_the_temperature_it_actually_boils_at ... ok
+test the_leftover_energy_chills_ice_at_ices_own_heat_capacity ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

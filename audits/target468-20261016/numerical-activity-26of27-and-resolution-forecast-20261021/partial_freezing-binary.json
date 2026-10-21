@@ -1,0 +1,11 @@
+{
+  "runtime_source": "6899ceb8fb5d93e6e59c74cb43eb0d84a0aae16e",
+  "runtime_tree": "a91ad47ac1f0f3412a3357dd7e20606f5f3a34c8",
+  "tests_overlay_qualification": "Exact frozen observers over unchanged runtime; not the deployed release executable",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "executable": "target/debug/deps/partial_freezing-6d959539546f9a37",
+  "sha256": "b4a48ffae9a506baf3932a33748b301cca8481aab9b73e871abbff95047302a0",
+  "bytes": 85715584,
+  "gzip_sha256": "2bad538a0f176210ad3ce53b2809a9ba9408d3813c8f23e7f64a810bd69c9965",
+  "gzip_bytes": 20507360
+}
