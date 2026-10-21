@@ -348,7 +348,11 @@ fn partial_freezing_stops_with_liquid_at_the_declared_model_boundary() {
     let events = coupled.equilibrate(&mut vessel).unwrap();
 
     assert!(water_phase_moles(&vessel, Phase::Liquid) > 0.0);
-    assert!(water_phase_moles(&vessel, Phase::Solid) > 0.0);
+    assert_eq!(
+        water_phase_moles(&vessel, Phase::Solid),
+        water_phase_moles(&before, Phase::Solid)
+    );
+    // This entering fixture has no ice. Refusal must not create any.
     // The former temperature-only cap assertion created unbooked heat.
     assert_eq!(vessel.temperature, before.temperature);
     assert_eq!(
@@ -383,7 +387,10 @@ fn the_ideal_route_stops_at_its_own_range_and_names_that_instead() {
     let events = coupled.equilibrate(&mut vessel).unwrap();
 
     assert!(water_phase_moles(&vessel, Phase::Liquid) > 0.0);
-    assert!(water_phase_moles(&vessel, Phase::Solid) > 0.0);
+    assert_eq!(
+        water_phase_moles(&vessel, Phase::Solid),
+        water_phase_moles(&before, Phase::Solid)
+    );
     // Preserve delivered cooling instead of forcing an unpriced liquidus.
     assert_eq!(vessel.temperature, before.temperature);
     assert_eq!(
@@ -484,7 +491,7 @@ fn the_boundary_is_announced_only_when_the_brine_actually_reached_it() {
         let events = coupled.equilibrate(&mut vessel).unwrap();
         let liquid = water_phase_moles(&vessel, Phase::Liquid);
         let ice = water_phase_moles(&vessel, Phase::Solid);
-        assert!(liquid > 0.0 && ice > 0.0, "{start} K: {liquid} / {ice}");
+        assert!(liquid > 0.0, "{start} K: {liquid} / {ice}");
 
         let refused = events.iter().any(|event| matches!(event,
             Event::NotYetModeled { cause: ops::NotModelledCause::ModelBoundary, reason: Some(reason), .. }
@@ -496,6 +503,8 @@ fn the_boundary_is_announced_only_when_the_brine_actually_reached_it() {
         if refused {
             // A refusal describes an unsupported root, not a fabricated
             // equilibrium. Keep the entering physical state and its energy.
+            assert_eq!(liquid, water_phase_moles(&before, Phase::Liquid));
+            assert_eq!(ice, water_phase_moles(&before, Phase::Solid));
             assert_eq!(vessel.temperature, before.temperature, "{start} K");
             assert_eq!(
                 serde_json::to_value(&vessel.contents).unwrap(),
@@ -511,6 +520,7 @@ fn the_boundary_is_announced_only_when_the_brine_actually_reached_it() {
             );
             announced += 1;
         } else {
+            assert!(ice > 0.0, "{start} K: supported freezing must create ice");
             let liquidus = kerotakis_core::solve::vessel_transitions(&vessel)
                 .0
                 .freezing_k;
