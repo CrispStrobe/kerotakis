@@ -283,19 +283,25 @@ impl InstrumentContract for Spectrophotometer {
         "spectrophotometer"
     }
     fn applies(&self, vessel: &Vessel) -> bool {
-        vessel
-            .contents
-            .iter()
-            .any(|p| p.phase == crate::species::Phase::Aqueous)
+        vessel.contents.iter().any(|portion| {
+            matches!(portion.phase, Phase::Liquid | Phase::Aqueous)
+                && portion.moles.0.is_finite()
+                && portion.moles.0 > 0.0
+        })
     }
     fn mode(&self) -> InstrumentMode {
         InstrumentMode::Passive
     }
     fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        // A complete zero reading needs a real liquid blank. Empty or dry
+        // inventory has no optical sample, even when no spectrum is missing.
+        if !self.applies(vessel) {
+            return None;
+        }
         let spectrum = self.measure_spectrum(vessel);
         // A partial spectrum is useful diagnostically, but is not a complete
         // instrument reading. The appearance reports the missing species.
-        if !crate::solution_optics::spectral_gaps(vessel).is_empty() {
+        if !crate::solution_optics::coverage(vessel).is_complete() {
             return None;
         }
         let peak_abs = spectrum.iter().copied().fold(0.0f64, f64::max);

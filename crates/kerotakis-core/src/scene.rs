@@ -519,6 +519,10 @@ pub struct SceneLiquid {
     /// what it saw before.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub spectral_gaps: Vec<String>,
+    /// A known indicator spectrum requires a finite aqueous pH. Separate
+    /// from absent spectral data so hosts can explain the actual boundary.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub optical_ph_gaps: Vec<String>,
 }
 
 /// One solid species in the vessel, ready to paint.
@@ -855,6 +859,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             cloudiness: seen.cloudiness,
             path_length_cm: crate::vessel::path_cm_for(&v.label),
             spectral_gaps: seen.spectral_gaps.clone(),
+            optical_ph_gaps: seen.optical_ph_gaps.clone(),
         })
         .or_else(|| {
             material_layers.first().map(|layer| SceneLiquid {
@@ -864,6 +869,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 cloudiness: 0.0,
                 path_length_cm: crate::vessel::path_cm_for(&v.label),
                 spectral_gaps: seen.spectral_gaps.clone(),
+                optical_ph_gaps: seen.optical_ph_gaps.clone(),
             })
         });
     if let (Some(liquid), Some(emulsion)) = (&mut liquid, &emulsion_observation) {

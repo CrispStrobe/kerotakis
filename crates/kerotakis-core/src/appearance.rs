@@ -33,6 +33,9 @@ pub struct Appearance {
     /// Species whose optical contribution could not be computed.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub spectral_gaps: Vec<String>,
+    /// Known indicator spectra lacking a finite aqueous pH prerequisite.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub optical_ph_gaps: Vec<String>,
     /// The liquid's colour, sRGB.
     pub liquid: Option<Colour>,
     /// 0 = clear, 1 = opaque. Suspended solid, before it settles.
@@ -312,8 +315,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         bubbling,
         vessel,
     );
-    let spectral_gaps = crate::solution_optics::spectral_gaps(vessel);
-    let notes: Vec<Phrase> = if spectral_gaps.is_empty() {
+    let coverage = crate::solution_optics::coverage(vessel);
+    let spectral_gaps = coverage.missing_spectra.clone();
+    let mut notes: Vec<Phrase> = if coverage.missing_spectra.is_empty() {
         Vec::new()
     } else {
         vec![Phrase::new(
@@ -322,7 +326,8 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             vec![(
                 "species".to_string(),
                 Slot::List {
-                    items: spectral_gaps
+                    items: coverage
+                        .missing_spectra
                         .iter()
                         .map(|name| Slot::term("species", name.clone()))
                         .collect(),
@@ -330,6 +335,16 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             )],
         )]
     };
+    if !coverage.missing_ph.is_empty() {
+        notes.push(Phrase::new(
+            "look.indicator-optics-missing-ph",
+            "Colour is incomplete: a finite aqueous pH is required for {species}.",
+            vec![(
+                "species".to_string(),
+                Slot::terms("species", coverage.missing_ph.clone()),
+            )],
+        ));
+    }
     let mut words = compose(&clauses, Locale::EN);
     for note in &notes {
         words.push(' ');
@@ -337,6 +352,7 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     }
     Appearance {
         spectral_gaps,
+        optical_ph_gaps: coverage.missing_ph,
         liquid,
         cloudiness,
         deposit,

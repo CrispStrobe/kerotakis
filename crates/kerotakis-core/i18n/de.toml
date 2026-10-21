@@ -1359,6 +1359,7 @@ white = "weiß"
 # decline. That choice lives HERE, in the data, which is the whole point:
 # a translator changes the construction without changing a line of Rust.
 [look]
+indicator-optics-missing-ph = "Die Farbe ist unvollständig: Für {species} wird ein endlicher pH-Wert der wässrigen Lösung benötigt."
 # The space between two whole sentences. It looks like typography rather
 # than language right up until the language is one that does not use it —
 # Japanese runs its sentences together after 。 — so it is a row here for
@@ -1667,6 +1668,7 @@ PVA = "PVA"
 # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
 # of each there are, with the denominator read out of the Rust.
 [not-modeled]
+indicator-optics-missing-ph = "die vollständige Absorption ist nicht verfügbar: Für {species} wird ein endlicher pH-Wert der wässrigen Lösung benötigt"
 "liquid-partition-refused" = "Die Berechnung eines endlichen Flüssig-Flüssig-Verteilungskoeffizienten für {species} bei {temperature} K ist nicht möglich: {why}; ein nicht unterstützter Stoffübergang wird nicht durchgeführt"
 "peroxide-rich-medium" = "Diese peroxidhaltige Flüssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze für ein überwiegend wässriges Lösungsmittel. Eine durch Reaktionen entstandene Wasserspur begründet noch kein wässriges Medium. Für dieses peroxidreiche Medium ist kein validiertes Aktivitätsmodell verfügbar: wässriger pH, Ionenstärke und Speziation werden zurückgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollständige Vorhersage für das Gemisch."
 "silver-ammine-ligand-inventory" = "Silber-Ammoniak-Komplexe und freie Liganden sind in der Lösungsspeziation dargestellt. Die kanonischen NH3/NH4-Anteile bleiben analytische Träger des gesamten reduzierten Stickstoffs einschließlich komplexgebundenen Ammoniaks; sie sind keine gemessenen Mengen freien NH3. Ihre Verwendung für nachfolgende Ammoniakverdampfung oder die Verfügbarkeit in kuratierten Reaktionen ist noch nicht mit dem gebundenen Liganden abgeglichen. Diese Einschränkung nimmt die berichtete Gleichgewichtsverteilung der Komplexe nicht zurück."

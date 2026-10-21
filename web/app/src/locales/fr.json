@@ -2766,6 +2766,8 @@
   "{count}×": "{count}×",
   "{material} softened at {temperature} K, {over} K past its softening point; cooling sets it in the new shape": "{material} est devenu mou à {temperature} K, {over} K au-delà de son point de ramollissement ; en refroidissant, il se fige dans sa nouvelle forme",
   "{material} charred at {temperature} K — past decomposition, and this does not undo": "{material} a carbonisé à {temperature} K — au-delà de la décomposition, et cela ne se défait pas",
-  "{material} held its shape at {temperature} K; its wall is {threshold} K": "{material} a gardé sa forme à {temperature} K ; son seuil est à {threshold} K"
+  "{material} held its shape at {temperature} K; its wall is {threshold} K": "{material} a gardé sa forme à {temperature} K ; son seuil est à {threshold} K",
+  "the computed colour is incomplete: pH is missing or invalid for {species}": "la couleur calculée est incomplète : le pH est absent ou invalide pour {species}",
+  "colour needs pH": "la couleur nécessite un pH"
  }
 }
