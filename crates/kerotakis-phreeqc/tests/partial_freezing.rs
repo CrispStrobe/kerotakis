@@ -271,3 +271,64 @@ fn hot_saturated_kcl_reaches_the_strict_thermal_fixed_point() {
         .as_ref()
         .is_some_and(|solution| solution.ph.is_finite()));
 }
+
+#[test]
+fn concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles() {
+    // Original curiosity aq-099 and th-004 failed after 32 real passes.
+    // Test their actual production route without changing the scripts or limits.
+    for (salt, cooling) in [("0.05mol", "40kJ"), ("1g", "50kJ")] {
+        let mut bench = Bench::new();
+        let mut solvers = production_stack();
+        for command in [
+            "add v1 water 100mL".to_string(),
+            format!("add v1 NaCl {salt}"),
+            format!("cool v1 {cooling}"),
+        ] {
+            let events = step(
+                &mut bench,
+                &mut solvers,
+                parse_op(&command).unwrap().unwrap(),
+            );
+            assert!(
+                !events
+                    .iter()
+                    .any(|event| matches!(event, Event::SolverFailed { .. })),
+                "{command}: {events:?}"
+            );
+        }
+        let settled = bench.vessel(VesselId(0)).unwrap();
+        assert!(water_moles(settled, Phase::Liquid) > 0.0);
+        assert!(water_moles(settled, Phase::Solid) > 0.0);
+        assert!(settled.solution.is_some());
+        let liquidus = kerotakis_core::solve::vessel_transitions(settled)
+            .0
+            .freezing_k;
+        assert!(
+            (settled.temperature.0 - liquidus).abs() < 1e-6,
+            "{salt}: final temperature {} K vs native liquidus {liquidus} K",
+            settled.temperature.0
+        );
+        let before = settled.clone();
+        let repeat = solvers
+            .equilibrate(
+                bench
+                    .vessels
+                    .iter_mut()
+                    .find(|v| v.id == VesselId(0))
+                    .unwrap(),
+            )
+            .unwrap();
+        assert!(
+            !repeat.iter().any(|event| matches!(
+                event,
+                Event::StateChanged { .. } | Event::SolverFailed { .. }
+            )),
+            "{salt}: repeat must not cycle: {repeat:?}"
+        );
+        let after = bench.vessel(VesselId(0)).unwrap();
+        assert!((after.temperature.0 - before.temperature.0).abs() < 1e-8);
+        assert!(
+            (water_moles(after, Phase::Liquid) - water_moles(&before, Phase::Liquid)).abs() < 1e-10
+        );
+    }
+}

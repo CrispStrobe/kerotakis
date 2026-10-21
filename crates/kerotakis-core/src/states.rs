@@ -593,11 +593,10 @@ pub const ION_INTERACTION_MAX_IONIC_STRENGTH: f64 = 20.0;
 /// `SolutionInfo::solvent_activity` is `Some` on precisely the vessels that
 /// cost two solves and names the dataset the activity came from.
 ///
-/// Below about 0.05 molal nothing is asked and nothing changes. There a_w
-/// rounds to 1.000 in PHREEQC's four-significant-figure species table, φ
-/// computes as zero, `from_speciation` rejects it, and the two models are
-/// within about 0.003 K of each other anyway: an engine call for a number
-/// that would be discarded and would not have moved a thermometer.
+/// Below about 0.05 molal the second opinion retains its historical
+/// admission boundary. Native water activity now uses numerical selected
+/// output rather than the rounded species report; that precision repair
+/// does not independently validate a broader domain or change this gate.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct SolventActivity {
     /// The osmotic coefficient an ion-interaction speciation computed for
@@ -659,10 +658,10 @@ impl SolventActivity {
         // outside that the number did not come from an osmotic model.
         //
         // It is also what makes a DILUTE solution safe on this path, and
-        // that is the case worth spelling out. PHREEQC's species table
-        // prints four significant figures, so a_w arrives quantised to
+        // that is the case worth spelling out. Legacy PHREEQC report rows
+        // print four significant figures, so their a_w was quantised to
         // about 1e-4 — 0.01 K on a freezing point at one molal, and
-        // meaningless below about 0.05 molal, where a_w rounds to 1.000 and
+        // meaningless below about 0.05 molal, where that a_w rounds to 1.000 and
         // φ computes as 0. Zero is outside this band, so an activity too
         // coarse to carry information returns the ideal route instead of a
         // confident zero. The guard is a precision floor as much as a

@@ -363,13 +363,9 @@ const TRACE: f64 = 1e-12;
 /// Dissolved particle molality below which asking a second dataset for the
 /// solvent's activity cannot buy anything.
 ///
-/// PHREEQC's species table prints four significant figures, so a_w arrives
-/// quantised to about 1e-4. At 0.05 mol/kgw that is already most of the
-/// departure from unity; below it a_w rounds to 1.000, phi computes as
-/// zero, and `states::SolventActivity::from_speciation` rejects the answer
-/// as too coarse to carry information. It is also where the two models stop
-/// disagreeing about anything a thermometer could see: Raoult's law and an
-/// ion-interaction a_w are within about 0.003 K of each other here.
+/// Preserve the existing dilute-model admission boundary. Water activity now
+/// comes from high-precision selected output, but that numerical improvement
+/// does not independently validate a broader solvent-activity model domain.
 const SECOND_OPINION_MIN_MOLALITY: f64 = 0.05;
 const UNTRACKED_EXCHANGE_ELEMENTS: &[&str] = &[
     "Al", "Ba", "Cd", "Cu", "Fe", "K", "Li", "Mn", "Pb", "Sr", "Zn",
@@ -1125,7 +1121,16 @@ impl PhreeqcEquilibrator {
     /// Load a pre-warmed cache. Entries already present are kept.
     pub fn import_cache(&mut self, data: CacheData) -> usize {
         let before = self.cache.len();
-        for e in data.entries {
+        for mut e in data.entries {
+            // New canonical inputs demand numerical water activity on import
+            // too. Legacy keys remain distinct and cannot answer these inputs.
+            let numerical = e.key.lines().any(|line| line.trim() == "-activities H2O")
+                || e.rows
+                    .first()
+                    .is_some_and(|header| header.iter().any(|name| name == "la_H2O"));
+            if numerical && apply_numerical_water_activity(&mut e.species, &e.rows).is_err() {
+                continue;
+            }
             self.cache.entry(e.key).or_insert_with(|| {
                 Rc::new(CachedSolve {
                     rows: e.rows,
@@ -3136,10 +3141,11 @@ impl Equilibrator for PhreeqcEquilibrator {
             Err(e) => return abandoned(e),
         };
 
+        let speciation = numerical_species_distribution(&out.report, &out.selected)?;
         let cached = Rc::new(CachedSolve {
             pe_determined: !out.pe_undetermined,
             rows: out.selected,
-            speciation: parse_species_distribution(&out.report),
+            speciation,
             saturation: parse_saturation_indices(&out.report),
             redox_adjusted: out.report.contains("Adjusted to redox equilibrium"),
         });
@@ -4313,11 +4319,9 @@ impl PhreeqcEquilibrator {
     ///    not its input totals, and the lean problem has no phase to hold
     ///    the excess;
     /// 5. dissolved particles are at or above
-    ///    [`SECOND_OPINION_MIN_MOLALITY`]. Below that a_w rounds to 1.000
-    ///    in PHREEQC's four-significant-figure species table, phi computes
-    ///    as zero, and `SolventActivity::from_speciation` rejects it and
-    ///    returns the ideal route anyway — the solve would be paid for and
-    ///    thrown away.
+    ///    [`SECOND_OPINION_MIN_MOLALITY`]. This preserves the previously
+    ///    admitted band. Numerical water activity removes report rounding,
+    ///    but is not evidence for widening the solvent model's domain.
     ///
     /// A failure is not an error: a dataset that cannot answer leaves
     /// `None`, the vessel keeps the ideal route it had before this existed,
@@ -4617,10 +4621,11 @@ impl PhreeqcEquilibrator {
                     },
                 },
             };
+            let speciation = numerical_species_distribution(&out.report, &out.selected)?;
             let cached = Rc::new(CachedSolve {
                 pe_determined: !out.pe_undetermined,
                 rows: out.selected,
-                speciation: parse_species_distribution(&out.report),
+                speciation,
                 saturation: parse_saturation_indices(&out.report),
                 redox_adjusted: out.report.contains("Adjusted to redox equilibrium"),
             });
@@ -6575,6 +6580,8 @@ fn mix_selected_output(merged: &Problem, db_tag: &str) -> String {
     writeln!(block, "    -pe       true").unwrap();
     writeln!(block, "    -ionic_strength true").unwrap();
     writeln!(block, "    -water    true").unwrap();
+    // Phase equilibrium needs numerical activity, not the four-digit report.
+    writeln!(block, "    -activities H2O").unwrap();
     // Element totals, plus the per-oxidation-state split for any redox
     // element present — the same columns the direct path asks for. Without
     // the split, an element that moves between states inside the solve is
@@ -6924,6 +6931,8 @@ fn build_input_at(
     writeln!(input, "    -pe       true").unwrap();
     writeln!(input, "    -ionic_strength true").unwrap();
     writeln!(input, "    -water    true").unwrap();
+    // Phase equilibrium needs numerical activity, not the four-digit report.
+    writeln!(input, "    -activities H2O").unwrap();
     let mut elements: Vec<String> = problem.elements.to_vec();
     // Per-oxidation-state totals for anything redox-active: the split
     // between them is what a redox experiment is *about*.
@@ -7030,6 +7039,56 @@ fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
     out
 }
 
+/// Keep the report as presentation, but obtain the phase solver's water
+/// activity from the final numerical selected-output row. Four significant
+/// report digits create a discontinuous liquidus and finite freeze/melt
+/// cycles, even when every individual phase transfer conserves enthalpy.
+/// Native direct, recast, redox and MIX results all pass this boundary.
+fn numerical_species_distribution(
+    report: &str,
+    rows: &[Vec<String>],
+) -> Result<Vec<SpeciesDetail>, SolveError> {
+    let mut species = parse_species_distribution(report);
+    apply_numerical_water_activity(&mut species, rows)?;
+    Ok(species)
+}
+
+fn apply_numerical_water_activity(
+    species: &mut [SpeciesDetail],
+    rows: &[Vec<String>],
+) -> Result<(), SolveError> {
+    let invalid = || SolveError::NotConverged {
+        solver: "phreeqc-aqueous".to_string(),
+        detail: "numerical H2O activity is missing or invalid in the final selected-output row"
+            .to_string(),
+    };
+    let header = rows.first().ok_or_else(invalid)?;
+    let columns: Vec<usize> = header
+        .iter()
+        .enumerate()
+        .filter_map(|(index, name)| (name == "la_H2O").then_some(index))
+        .collect();
+    if columns.len() != 1 || rows.len() < 2 {
+        return Err(invalid());
+    }
+    let log_activity: f64 = rows
+        .last()
+        .and_then(|row| row.get(columns[0]))
+        .and_then(|cell| cell.parse().ok())
+        .filter(|value: &f64| value.is_finite())
+        .ok_or_else(invalid)?;
+    let activity = 10.0_f64.powf(log_activity);
+    if !activity.is_finite() || activity <= 0.0 {
+        return Err(invalid());
+    }
+    let water = species
+        .iter_mut()
+        .find(|species| species.name == "H2O")
+        .ok_or_else(invalid)?;
+    water.activity = activity;
+    Ok(())
+}
+
 /// Parse the last "Distribution of species" block of a PHREEQC output
 /// report into (name, molality, activity) triples, molality > 1e-9,
 /// descending. The block's shape is stable across PHREEQC 3.x: a header,
@@ -7070,6 +7129,119 @@ pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
     }
     result.sort_by(|a, b| b.molality.total_cmp(&a.molality));
     result
+}
+
+#[cfg(test)]
+mod numerical_water_activity_tests {
+    use super::numerical_species_distribution;
+
+    const REPORT: &str = "Distribution of species\nH2O 5.551e+01 9.500e-01 1.744 -0.022 0.0\nNa+ 1.000e+00 0.7000 0 -0.15 -0.15\n-----\n";
+
+    fn rows(value: &str) -> Vec<Vec<String>> {
+        vec![vec!["la_H2O".into()], vec![value.into()]]
+    }
+
+    #[test]
+    fn numerical_activity_keeps_distinct_states_with_the_same_rounded_report() {
+        for activity in [0.950001234567_f64, 0.950004567891_f64] {
+            let precise =
+                numerical_species_distribution(REPORT, &rows(&activity.log10().to_string()))
+                    .expect("numerical water activity");
+            let water = precise.iter().find(|s| s.name == "H2O").unwrap();
+            assert!((water.activity - activity).abs() < 2e-15);
+            assert_eq!(water.molality, 55.51);
+            assert_eq!(
+                precise.iter().find(|s| s.name == "Na+").unwrap().activity,
+                0.7
+            );
+        }
+    }
+
+    #[test]
+    fn numerical_activity_uses_the_final_native_solution_row() {
+        let mut selected = rows("-0.1");
+        selected.push(vec!["-0.2".into()]);
+        let result = numerical_species_distribution(REPORT, &selected).unwrap();
+        assert!(
+            (result.iter().find(|s| s.name == "H2O").unwrap().activity - 10.0_f64.powf(-0.2)).abs()
+                < 2e-15
+        );
+    }
+
+    fn cache_entry(value: &str) -> super::CacheEntry {
+        super::CacheEntry {
+            key: "test-current-input\n    -activities H2O\n".into(),
+            rows: rows(value),
+            species: super::parse_species_distribution(REPORT),
+            saturation: vec![],
+            redox_adjusted: false,
+            pe_undetermined: false,
+        }
+    }
+
+    #[test]
+    fn imported_current_cache_normalizes_water_from_numerical_rows() {
+        let mut solver = super::PhreeqcEquilibrator::new().unwrap();
+        let activity = 0.950001234567_f64;
+        let data = super::CacheData {
+            entries: vec![cache_entry(&activity.log10().to_string())],
+            ..Default::default()
+        };
+        assert_eq!(solver.import_cache(data), 1);
+        let exported = solver.export_cache();
+        let water = exported.entries[0]
+            .species
+            .iter()
+            .find(|s| s.name == "H2O")
+            .unwrap();
+        assert!((water.activity - activity).abs() < 2e-15);
+    }
+
+    #[test]
+    fn imported_current_cache_rejects_missing_or_invalid_numerical_activity() {
+        let mut solver = super::PhreeqcEquilibrator::new().unwrap();
+        for value in ["NaN", "-999", "999"] {
+            assert_eq!(
+                solver.import_cache(super::CacheData {
+                    entries: vec![cache_entry(value)],
+                    ..Default::default()
+                }),
+                0
+            );
+        }
+        let mut entry = cache_entry("0");
+        entry.rows = vec![];
+        assert_eq!(
+            solver.import_cache(super::CacheData {
+                entries: vec![entry],
+                ..Default::default()
+            }),
+            0
+        );
+    }
+
+    #[test]
+    fn missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report() {
+        for value in ["NaN", "inf", "-inf", "invalid", "999", "-999"] {
+            assert!(
+                numerical_species_distribution(REPORT, &rows(value)).is_err(),
+                "{value}"
+            );
+        }
+        for selected in [
+            vec![],
+            vec![vec!["la_H2O".into()]],
+            vec![vec!["pH".into()], vec!["7".into()]],
+            vec![vec!["la_H2O".into()], vec![]],
+            vec![
+                vec!["la_H2O".into(), "la_H2O".into()],
+                vec!["0".into(), "0".into()],
+            ],
+        ] {
+            assert!(numerical_species_distribution(REPORT, &selected).is_err());
+        }
+        assert!(numerical_species_distribution("", &rows("0")).is_err());
+    }
 }
 
 #[cfg(test)]
