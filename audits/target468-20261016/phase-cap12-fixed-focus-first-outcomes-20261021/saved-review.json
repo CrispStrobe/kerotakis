@@ -1,0 +1,101 @@
+{
+  "state": "AUTHENTICATED_COMPLETE_FOCUSED_OBSERVATIONS_NOT_FULL_OR_PRODUCT_ACCEPTANCE",
+  "runtime_source": "a64c22ce31b456ebf647ba6105ac90f8b268308e",
+  "runtime_tree": "cad8e9ff2a4578766d4863daf283f83912e2955c",
+  "worker_sha256": "1363cc2029643220d97138694e27d8d384b3b36c39bfa44d6afd1c5682f1e02e",
+  "plan_sha256": "a912e5e547a957346315832320a497b839ee3cb90005c7dc5c1edcbc70f6e839",
+  "issue_sha256": "875b8f978794fbb4ba33c5e0709bf44a6597bdcf946f700cce66daeb7e8f898c",
+  "collected_sha256": "9be908de97b99b0f45b809b4a98e699eeba1ef3f8f7cf6f5d210f191db103158",
+  "manifest_sha256": "8b808c2003ac2091fea26b27475fc36c67402d5374ba8d62d1a99d6eca225fe9",
+  "actual_executable_sha256": {
+    "phase_cap_energy": "4d5791c043b615cf1aaa011e29d3b24d0cf0ea07115a1f189568a9e211a8d188",
+    "states": "7758167c46a9c71a94d41a5ff30fac84e51bdf397ef49e9a9b54e91c6137c4f1",
+    "brine_phase_energy": "cbfc21beee6818d5a2ba338dfa4c08b4b34eb97d065e00c1e2121fd51c904ea5",
+    "phase_heat_capacity": "4d08dbee4abe7446050ecd939735720d8ddcea31b6ad410fe3960d51d102577e",
+    "phase_cooling_energy": "2e0aff8c54d919845e2488484572ba45a0ef9d959b106137baf500ea775a236e",
+    "phase_without_aqueous": "f8e876fafa5a6be96ea472d4429a8559cd4a1f56f869e34bef1fd1cad40ad090"
+  },
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_counts": {
+    "pass": 35,
+    "fail": 3
+  },
+  "cases": {
+    "phase_cap_energy::ideal_inside_direct_conserves_without_false_refusal": "PASS",
+    "phase_cap_energy::ideal_exact_direct_commits_only_closed_boundary": "PASS",
+    "phase_cap_energy::ideal_outside_direct_refuses_before_mutation_and_repeats": "PASS",
+    "phase_cap_energy::eutectic_inside_direct_conserves_without_false_refusal": "PASS",
+    "phase_cap_energy::eutectic_exact_direct_commits_only_closed_boundary": "PASS",
+    "phase_cap_energy::eutectic_outside_direct_refuses_before_mutation_and_repeats": "PASS",
+    "phase_cap_energy::ideal_inside_real_cool_closes_delivered_energy": "PASS",
+    "phase_cap_energy::ideal_exact_real_cool_closes_delivered_energy": "PASS",
+    "phase_cap_energy::ideal_outside_real_cool_preserves_delivered_energy_and_refuses": "PASS",
+    "phase_cap_energy::eutectic_inside_real_cool_closes_delivered_energy": "PASS",
+    "phase_cap_energy::eutectic_exact_real_cool_closes_delivered_energy": "PASS",
+    "phase_cap_energy::eutectic_outside_real_cool_preserves_delivered_energy_and_refuses": "PASS",
+    "states::water_does_not_go_below_zero_while_it_is_still_freezing": "PASS",
+    "states::no_temperature_is_announced_that_the_vessel_never_reached": "PASS",
+    "states::enough_cooling_freezes_it_solid_and_then_chills_the_ice": "PASS",
+    "states::ice_melts_again_when_warmed": "PASS",
+    "states::a_frozen_vessel_has_no_ph": "PASS",
+    "states::phase_coupling_respeciates_the_residual_brine_until_both_states_agree": "PASS",
+    "states::partial_freezing_stops_with_liquid_at_the_declared_model_boundary": "FAIL",
+    "states::the_ideal_route_stops_at_its_own_range_and_names_that_instead": "FAIL",
+    "states::a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one": "PASS",
+    "states::the_boundary_is_announced_only_when_the_brine_actually_reached_it": "FAIL",
+    "brine_phase_energy::pure_water_freezing_conserves_independent_phase_energy": "PASS",
+    "brine_phase_energy::pure_water_melting_conserves_independent_phase_energy": "PASS",
+    "brine_phase_energy::dilute_brine_freezing_conserves_independent_phase_energy": "PASS",
+    "brine_phase_energy::intermediate_brine_freezing_conserves_independent_phase_energy": "PASS",
+    "brine_phase_energy::stronger_brine_freezing_conserves_independent_phase_energy": "PASS",
+    "brine_phase_energy::dilute_brine_melting_conserves_independent_phase_energy": "PASS",
+    "brine_phase_energy::intermediate_brine_melting_conserves_independent_phase_energy": "PASS",
+    "brine_phase_energy::stronger_brine_melting_conserves_independent_phase_energy": "PASS",
+    "phase_heat_capacity::the_leftover_energy_chills_ice_at_ices_own_heat_capacity": "PASS",
+    "phase_heat_capacity::ice_and_water_and_steam_each_carry_their_own_heat_capacity": "PASS",
+    "phase_heat_capacity::sugar_water_boils_at_the_temperature_it_actually_boils_at": "PASS",
+    "phase_heat_capacity::plain_water_is_unmoved_by_the_same_change": "PASS",
+    "phase_cooling_energy::partial_freezing_closes_the_transition_referenced_energy_for_different_phases": "PASS",
+    "phase_without_aqueous::pure_water_freezes_melts_and_boils_with_conserved_latent_energy_across_scales": "PASS",
+    "phase_without_aqueous::unsolved_ionic_and_unknown_mixtures_do_not_get_a_pure_water_phase_answer": "PASS",
+    "phase_without_aqueous::no_transition_keeps_aqueous_failure_explicit_and_clears_stale_measurements": "PASS"
+  },
+  "actual_per_target_counts": {
+    "phase_cap_energy": {
+      "pass": 12,
+      "fail": 0
+    },
+    "states": {
+      "pass": 7,
+      "fail": 3
+    },
+    "brine_phase_energy": {
+      "pass": 8,
+      "fail": 0
+    },
+    "phase_heat_capacity": {
+      "pass": 4,
+      "fail": 0
+    },
+    "phase_cooling_energy": {
+      "pass": 1,
+      "fail": 0
+    },
+    "phase_without_aqueous": {
+      "pass": 3,
+      "fail": 0
+    }
+  },
+  "focused_all38_assertions_pass": false,
+  "failed_actual_controls": [
+    "states::partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+    "states::the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+    "states::the_boundary_is_announced_only_when_the_brine_actually_reached_it"
+  ],
+  "scientific_selections": 0,
+  "qualifications": [
+    "Budgets asserted by byte-authenticated frozen observer; no separately captured per-state ledger claimed.",
+    "No calibration, actual native aqueous admission or scientific corpus selections.",
+    "Original baseline8/4 preserved separately; no baseline is replayed or relabeled. This is38 focused controls only."
+  ]
+}

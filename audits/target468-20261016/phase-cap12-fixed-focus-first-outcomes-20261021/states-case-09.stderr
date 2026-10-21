@@ -1,0 +1,4 @@
+
+thread 'the_boundary_is_announced_only_when_the_brine_actually_reached_it' (2965) panicked at crates/kerotakis-core/tests/states.rs:487:9:
+205 K: 5.5509 / -0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

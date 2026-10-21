@@ -1,0 +1,4 @@
+
+thread 'partial_freezing_stops_with_liquid_at_the_declared_model_boundary' (2959) panicked at crates/kerotakis-core/tests/states.rs:351:5:
+assertion failed: water_phase_moles(&vessel, Phase::Solid) > 0.0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

@@ -1,0 +1,45 @@
+{
+  "source": "a64c22ce31b456ebf647ba6105ac90f8b268308e",
+  "actual_counts": {
+    "pass": 35,
+    "fail": 3
+  },
+  "actual_per_target_counts": {
+    "phase_cap_energy": {
+      "pass": 12,
+      "fail": 0
+    },
+    "states": {
+      "pass": 7,
+      "fail": 3
+    },
+    "brine_phase_energy": {
+      "pass": 8,
+      "fail": 0
+    },
+    "phase_heat_capacity": {
+      "pass": 4,
+      "fail": 0
+    },
+    "phase_cooling_energy": {
+      "pass": 1,
+      "fail": 0
+    },
+    "phase_without_aqueous": {
+      "pass": 3,
+      "fail": 0
+    }
+  },
+  "focused_all38_assertions_pass": false,
+  "actual_dual_saved_reader_exit_status": [
+    0,
+    0
+  ],
+  "actual_dual_results_equal": true,
+  "saved_review_sha256": "a0935404755508aae86942f3ced740658d0bbb857506199c5d63770adafcd446",
+  "actual_collection_sha256": "9be908de97b99b0f45b809b4a98e699eeba1ef3f8f7cf6f5d210f191db103158",
+  "full_source_validation_eligible": false,
+  "diagnosis": "Three adjudicated historical tests still require positive ice before checking unchanged-state refusal. Actual entering fixture has zero ice; preserved refusal correctly creates none. Source test correction must compare exact initial liquid/ice, preserving supported-interior ice creation and all570 sweep points.",
+  "runtime_files_changed_by_followup": false,
+  "scientific_selections": 0
+}

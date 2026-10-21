@@ -1,0 +1,11 @@
+
+running 1 test
+test partial_freezing_stops_with_liquid_at_the_declared_model_boundary ... FAILED
+
+failures:
+
+failures:
+    partial_freezing_stops_with_liquid_at_the_declared_model_boundary
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
+

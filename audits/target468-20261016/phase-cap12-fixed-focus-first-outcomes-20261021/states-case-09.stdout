@@ -1,0 +1,11 @@
+
+running 1 test
+test the_boundary_is_announced_only_when_the_brine_actually_reached_it ... FAILED
+
+failures:
+
+failures:
+    the_boundary_is_announced_only_when_the_brine_actually_reached_it
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
+

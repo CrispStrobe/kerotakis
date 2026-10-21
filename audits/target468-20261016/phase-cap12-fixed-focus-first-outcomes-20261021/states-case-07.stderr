@@ -1,0 +1,4 @@
+
+thread 'the_ideal_route_stops_at_its_own_range_and_names_that_instead' (2961) panicked at crates/kerotakis-core/tests/states.rs:386:5:
+assertion failed: water_phase_moles(&vessel, Phase::Solid) > 0.0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
