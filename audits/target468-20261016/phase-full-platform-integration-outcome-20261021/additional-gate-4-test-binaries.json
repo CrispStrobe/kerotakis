@@ -1,0 +1,21 @@
+{
+  "source": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "tree": "d28ba030080ea4a6b2587607a02ef3245989c08a",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": [
+    {
+      "executed_path": "target/debug/deps/acid_permanganate_cache_only-f38de42dae505a4f",
+      "sha256": "d1208364e4bf53db08f8e42e5b8c06cdfc06953c6468cc4e19b8a9e88b56ab7b",
+      "bytes": 53248168,
+      "gzip": "actual-test-executables/d1208364e4bf53db08f8e42e5b8c06cdfc06953c6468cc4e19b8a9e88b56ab7b.gz",
+      "gzip_sha256": "bc899f0f5ae04b9b0caf308756d760256787ce0d418a531bbd53a6656c3cadae"
+    },
+    {
+      "executed_path": "target/debug/deps/aqueous_continuation_cache_only-8ad76ac9f7169cc2",
+      "sha256": "bcbe47dbf03482a5bfc9a947454e97e90871738c39cbfbcd1f37db7b771cc24f",
+      "bytes": 52574528,
+      "gzip": "actual-test-executables/bcbe47dbf03482a5bfc9a947454e97e90871738c39cbfbcd1f37db7b771cc24f.gz",
+      "gzip_sha256": "620d07584f5f05eb81147a70113e6d59751a91cb616e2c0a9fe4a073aa1c218a"
+    }
+  ]
+}

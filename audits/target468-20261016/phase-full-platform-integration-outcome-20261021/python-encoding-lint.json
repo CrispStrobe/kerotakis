@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python3",
+    "tools/python-encoding-lint.py",
+    "--check",
+    "tools",
+    ".github"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "ea4cc9b766a393205f3df1cadc77c4f3c9339d6ff41782aa8f26d979cb3ef754",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

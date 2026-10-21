@@ -1,0 +1,13 @@
+# Actual phase full-suite, platform and integration acceptance
+
+Candidate46e1 (`46e1e63afeea33cd6cf14189179308e92324e7be`) is normally integrated by [PR852](https://github.com/CrispStrobe/kerotakis/pull/852) as `3162ab3f5fed6336a93976ba23dc58f3e0da4675`. Actual parents and reconstructed tree match the reviewed candidate tree `d28ba030080ea4a6b2587607a02ef3245989c08a`. All27 CI checks and both native-platform logs contain the unchanged59 controls plus8 brine,2 physical-resolution and7 numerical-water-activity controls. Branch protection and exact-head auto-merge were retained.
+
+Two saved reviews independently reproduce all non-timestamp results:627 native,2187 core,184 thermo,two external-hook and18 cache-only host controls; all33 original logical fleet groups/142 steps/29 law reports/500 requirements pass. Formatting, Clippy,11 classifier controls and the exact139-file encoding gate pass. The actual fleet binary is `b99f9859c98a863ca9c622a6be13356a0fa35500ef5a72f227cb88ba1dcff6c3`, actual producer lock `668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85`. These identify this full-suite execution, not a deployed production artifact.
+
+The prior ceff30-control/TC008 receipt retains its actual source. All2529 tracked Git entries prove that46e1 differs only by an identical-binary64 test literal, the explicitly tighter colligative snapshot/comments and eight maintained summaries; runtime and focused-control assertions are unchanged. New full execution independently reaches the corrected snapshot and its following physical assertion. [First Clippy/native/setup failures](../precision-snapshot-and-optics-bootstrap-first-stops-20261021/README.md) remain preserved. The uncapped energy repair does not close the separately scoped cap-refusal domain.
+
+This capsule includes both receipts, current raw gates/native/core outputs, producer manifest,29 independently hashed law reports, both platform logs and integration proof. Large executable/archive bytes and the complete closed collection remain protected with their manifest/source/lock bindings; they are not silently represented as public files.
+
+## Pending delivery and qualification
+
+Build/deploy the actual integrated3162 source once, authenticate its own native binary/actual producer lock/frontend assets, retain11 original API controls and all64 actual browser controls, then review original TC008 qualification separately. Prior accepted production remains33e043ef until those gates pass. No experiment selection is assigned here; coverage stays334/468, catalog338. Preserve the accepted source and existing executions rather than rerunning unchanged corpus requests.

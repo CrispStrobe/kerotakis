@@ -1,0 +1,251 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "561-carbonate-acid-dose-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "562-carbonate-acid-dose-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "563-carbonate-acid-dose-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "564-carbonate-acid-dose-0.003: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "565-carbonate-dose-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "566-carbonate-dose-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "567-carbonate-dose-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "568-carbonate-dose-0.008: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "569-sealed-carbonate-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "570-sealed-carbonate-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "571-sealed-carbonate-0.003: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "572-sealed-carbonate-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "573-gas-amount-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "574-gas-amount-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "575-gas-amount-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "576-gas-amount-0.008: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "577-gas-volume-1200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "578-gas-volume-900: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "579-gas-volume-600: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "580-gas-volume-300: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "581-gas-energy-0: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "582-gas-energy-50: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "583-gas-energy-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "584-gas-energy-150: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "gas-production-transfer:gt-carbonate-acid-dose",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "check": "gas-production-transfer:gt-carbonate-acid-dose-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        0.0004102725289045,
+        0.0008272808553173,
+        0.001685294118652,
+        0.002584465929355
+      ]
+    },
+    {
+      "check": "gas-production-transfer:gt-carbonate-dose",
+      "kind": "boundary",
+      "assertion": "event-present",
+      "passed": true,
+      "evidence": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "check": "gas-production-transfer:gt-carbonate-dose-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        0.0009651933406509,
+        0.001870061159578,
+        0.003543155223698,
+        0.006547759645448
+      ]
+    },
+    {
+      "check": "gas-production-transfer:gt-sealed-carbonate",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        104.01674727341232,
+        106.71459356843978,
+        109.41124268377501,
+        112.10668153865338
+      ]
+    },
+    {
+      "check": "gas-production-transfer:gt-gas-amount",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        104.42369628694588,
+        107.52239257389175,
+        113.71978514778351,
+        126.11457029556696
+      ]
+    },
+    {
+      "check": "gas-production-transfer:gt-gas-volume",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        109.58819009852235,
+        112.34258679802977,
+        117.85138019704469,
+        134.37776039408936
+      ]
+    },
+    {
+      "check": "gas-production-transfer:gt-gas-energy",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        115.49046874032402,
+        143.87394688320242,
+        171.98065897524984,
+        199.6723079637072
+      ]
+    }
+  ],
+  "passed": 32,
+  "unmet": 0,
+  "commit": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "binary_sha256": "b99f9859c98a863ca9c622a6be13356a0fa35500ef5a72f227cb88ba1dcff6c3"
+}

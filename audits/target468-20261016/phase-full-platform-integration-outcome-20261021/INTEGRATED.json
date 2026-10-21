@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-21T08:41:12.303680+00:00",
+  "pr": 852,
+  "head": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "merge": "3162ab3f5fed6336a93976ba23dc58f3e0da4675",
+  "parents": [
+    "b5a261cfbd59c9f3036985f7398d810c6baf7e1b",
+    "46e1e63afeea33cd6cf14189179308e92324e7be"
+  ],
+  "actual_tree": "d28ba030080ea4a6b2587607a02ef3245989c08a",
+  "reconstructed_tree": "d28ba030080ea4a6b2587607a02ef3245989c08a",
+  "ci27_pass": true,
+  "both59_name_platforms_accepted": true,
+  "both8_brine_core_names_accepted": true,
+  "both2_phase_resolution_core_names_accepted": true,
+  "both7_water_activity_native_names_accepted": true,
+  "prior_ceff30_focus_receipt_sha256": "af2d051486a01943298b25710f4dac08819b52f8d3020b4ca23f9d5e293b10e2",
+  "all33_original_jobs_accepted": true,
+  "not_a_deployment_claim": true
+}

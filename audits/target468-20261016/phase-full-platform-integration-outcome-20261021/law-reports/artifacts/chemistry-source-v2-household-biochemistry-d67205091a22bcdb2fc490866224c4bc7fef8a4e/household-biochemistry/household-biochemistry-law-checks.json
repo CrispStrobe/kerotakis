@@ -1,0 +1,263 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "681-sugar-control-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "682-sugar-control-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "683-sugar-control-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "684-sugar-control-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "685-vinegar-dilution-50: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "686-vinegar-dilution-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "687-vinegar-dilution-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "688-vinegar-dilution-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "689-baking-soda-dose-1: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "690-baking-soda-dose-2: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "691-baking-soda-dose-3: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "692-baking-soda-dose-4: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "693-starch-then-iodine: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "694-iodine-then-starch: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "695-split-starch: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "696-split-iodine: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "697-milk-then-acid: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "698-acid-then-milk: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "699-split-acid-milk: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "700-split-milk-acid: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "701-lemon-dilution-25: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "702-lemon-dilution-50: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "703-lemon-dilution-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "704-lemon-dilution-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "household-biochemistry:v2b-household-biochemistry-sugar-conductivity",
+      "kind": "metamorphic",
+      "assertion": "event-scalar-equal",
+      "passed": true,
+      "evidence": [
+        0.05508761762446267,
+        0.05508761762446267,
+        0.05508761762446267,
+        0.05508761762446267
+      ]
+    },
+    {
+      "check": "household-biochemistry:v2b-household-biochemistry-vinegar-dilution",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2.806429120901,
+        2.939614835005,
+        3.081697690459,
+        3.229022159395
+      ]
+    },
+    {
+      "check": "household-biochemistry:v2b-household-biochemistry-soda-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        4.192059646318,
+        4.681680088278,
+        5.307830051273,
+        9.436858590048
+      ]
+    },
+    {
+      "check": "household-biochemistry:v2b-household-biochemistry-starch-routes",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "C": 0.0024000000000000002,
+          "I": 0.00020326474577278943,
+          "H": 22.250949764085487,
+          "O": 11.125474882042743
+        },
+        {
+          "C": 0.0024000000000000002,
+          "I": 0.00020326474577278943,
+          "H": 22.250949764085487,
+          "O": 11.125474882042743
+        },
+        {
+          "C": 0.0024,
+          "I": 0.00020326474577278943,
+          "H": 22.250949764085487,
+          "O": 11.125474882042743
+        },
+        {
+          "C": 0.0024000000000000002,
+          "I": 0.00020326474577278943,
+          "H": 22.250949764085483,
+          "O": 11.125474882042742
+        }
+      ]
+    },
+    {
+      "check": "household-biochemistry:v2b-household-biochemistry-milk-acid-routes",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "C": 0.014061638773341004,
+          "H": 10.505278843523742,
+          "O": 5.264646317251884
+        },
+        {
+          "C": 0.01406163877334264,
+          "H": 10.50527884352374,
+          "O": 5.264646317251884
+        },
+        {
+          "C": 0.014061638737367209,
+          "H": 10.50527884352374,
+          "O": 5.264646317251884
+        },
+        {
+          "C": 0.014061638773341505,
+          "H": 10.505278843523742,
+          "O": 5.264646317251884
+        }
+      ]
+    },
+    {
+      "check": "household-biochemistry:v2b-household-biochemistry-lemon-dilution",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        2.277036871338,
+        2.4201916815,
+        2.575962330766,
+        2.742171146406
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "binary_sha256": "b99f9859c98a863ca9c622a6be13356a0fa35500ef5a72f227cb88ba1dcff6c3"
+}

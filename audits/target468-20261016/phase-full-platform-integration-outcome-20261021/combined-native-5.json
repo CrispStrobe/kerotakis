@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-thermo",
+    "--lib",
+    "--tests",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "0076d6c998117c0784330ea19fd65d85a713dbd8d443560b34e25ef02c1bcd6e",
+  "stderr_sha256": "95249d93742e90d2e8c38fab8c395b8f2954ebda270b50d82a04b133c3ce1c43"
+}

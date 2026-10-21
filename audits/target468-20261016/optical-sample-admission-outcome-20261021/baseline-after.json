@@ -1,0 +1,49 @@
+{
+  "runtime_source": "14d502b2262134b636d44504d446652c3cfe49eb",
+  "runtime_tree": "70c611796fc4c19cdfd07fcb27766f5f8cc10db6",
+  "actual_source_blobs_sha256": {
+    "crates/kerotakis-core/i18n/de.toml": "b7c8c91b171fc896e123485a0350278535f1a672d945006c4de55d1e741caa3a",
+    "crates/kerotakis-core/i18n/fr.toml": "f661be0eaf7c41bb3c935cf8481b4e231c94cd514d2166dacb7d9a2dcfcf49be",
+    "crates/kerotakis-core/src/appearance.rs": "a767814a8cded804fcfe2dae5105fa1a180799fbfad711a6c8a8661ccd0b0ac6",
+    "crates/kerotakis-core/src/bench.rs": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2",
+    "crates/kerotakis-core/src/instrument.rs": "1d734a910bf10b4d92eacaa09209ba155b9ffe50c672d58728ed7af30aeddab3",
+    "crates/kerotakis-core/src/scene.rs": "17ffa16479f16987dcd08356cd2ca515317482436c2e50c8a6d91442f17f1d50",
+    "crates/kerotakis-core/src/solution_optics.rs": "5dc642c66dfdb22f07d88ff4627ea66314dc04c81a2457aa0d09007397b0ba90",
+    "crates/kerotakis-core/tests/composed_locale.rs": "fbf1bf24868a2bdc40e8dcec261e71cc98153e3faea6a9e05ecbc76fb1f9cc60",
+    "crates/kerotakis-core/tests/indicator_optical_coverage.rs": "016f90e3cb984129bc2fa6e7a799d615d0512d873c91c2b2d5012be10a8a1cbc",
+    "docs/STATUS.md": "aaf17c78b77ef6b6bff669386603363b51bef6734b599169c4b8a6756869dfad",
+    "docs/improvement-agenda-20261014.md": "f909dde8c58e78f58f6bda6c518e73e0a5e5a19fbdb3ff9cd6efdf28b493ff2a",
+    "docs/next-agent-handoff.md": "d98dfab26d79adcd25230a50afe392a56bed694d1b11b3d37b85a6342a7629fb",
+    "docs/peroxide-medium-and-i18n-20261019.md": "7e6f6faada8f8743d7bffeca56860f21e66cae6462fba342fbae0137befcbc81",
+    "docs/post-hydrolysis-gap-lanes-20261019.md": "b43c8ace9b4e929b647fb0851cff7f741a209eece1769ca32343ed127324f332",
+    "docs/scientific-coverage-expansion-20261020.md": "4b69f2d8c5f7a56e434edcc78524d2255b71c1c2134066e5d88592acff9d788b",
+    "docs/unifac-input-admission-20261019.md": "a67380fdafd6f7e77a0bb69c7b89ea61a9ecd0f3e625c214d4dc07dd6b72b258",
+    "docs/wrap-up-and-open-lanes-20261019.md": "9c68e292fad24a6856ec4d4d07fad71fc78b0cfcc8133f77a30aa6ea53a46e3c",
+    "web/app/src/lib/components/Vessel.svelte": "124218a173f07a424fdd92070a4f946cc034c18b4f3bbaf808b4848a11318dd9",
+    "web/app/src/lib/components/VesselOpticalPhGap.test.ts": "3edac37a7a9117ea26a7b0a2f2fea423b844ed7881c256ad4a481a191a27fd45",
+    "web/app/src/lib/host/EngineHost.ts": "125728897fec3486802958b19a04056148a7b4b6e6b0c7514e442bac39b08c32",
+    "web/app/src/locales/_template.json": "efbb9d1090437c1e8afb0a046c6289837f14edff99692797b104d21c51906d8c",
+    "web/app/src/locales/de.json": "3d9a744d4e7b532a97784aadd515ba44b1ec76fec60ba955a6ea9dd045f46802",
+    "web/app/src/locales/fr.json": "4c7df59c086de7ace96d4b0be385c0d39d1276ac4de1dde4501219eb64aef539",
+    "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "crates/kerotakis-core/Cargo.toml": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7",
+    "web/app/package.json": "fea354e0ac519726f1398e433711e5596144182bc81b8289c689eba7eaba7dd4",
+    "web/app/package-lock.json": "70e9a4b8d8671412ddfb2d103970908e45168ff4a38416ff8b40afdb779e7715",
+    "web/app/src/lib/components/VesselSpectralGap.test.ts": "fdc68221c8e9e58b5d706f906933c6b85cf32492832e3f648f2bfa1840fca655",
+    "tools/fetch-sundials.sh": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38",
+    ".gitmodules": "70ac65a8b6e2acc056323f236e8e5e34cf8406a7a3b74568f5257a6fa493a1db"
+  },
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "tracked_source_unchanged": true,
+  "actual_submodule_HEADs": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "tracked_gitlinks": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "tests_only_overlays": {
+    "optical_sample_admission.rs": "crates/kerotakis-core/tests/optical_sample_admission.rs"
+  }
+}

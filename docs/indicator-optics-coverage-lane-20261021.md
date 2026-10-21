@@ -2,7 +2,7 @@
 
 Status: demonstrated historical failure and current source gap; implementation and current-source runtime acceptance pending. Preserve the active PR852 precision head and its acceptance. This lane follows that delivery; it does not change the qualified count by itself.
 
-**Actual focused outcome —2026-10-21:** [candidate14d causal controls pass](../audits/target468-20261016/indicator-optics-focused-outcome-20261021/README.md):14 Rust+2 existing units+21 SSR, with exactly7 Rust/5 SSR baseline failures. Lane A implementation and focused validation are complete under that source; full/platform/product delivery remains after phase PR852. Lane B remains unimplemented. No original selections are earned. Earlier pending-implementation wording below scopes the preserved contract.
+**Actual focused outcomes —2026-10-21:** [14d causal coverage controls pass](../audits/target468-20261016/indicator-optics-focused-outcome-20261021/README.md); [1372 sample-admission repair passes43 controls](../audits/target468-20261016/optical-sample-admission-outcome-20261021/README.md), including six new controls with four actual baseline failures. Empty/dry/gas-only samples now refuse, while genuine pure-water blanks remain measured zero. These receipts retain their actual source bindings. Phase852 is integrated3162 with production delivery issued; combined optics full/platform/product acceptance follows that delivery. Lane B remains unimplemented; no original selections are earned. Earlier pending-implementation wording below scopes preserved contracts.
 
 ## Evidence and shared cause
 

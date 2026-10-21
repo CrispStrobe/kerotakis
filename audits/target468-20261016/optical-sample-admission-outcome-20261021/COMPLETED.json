@@ -1,0 +1,334 @@
+{
+  "runtime_source": "1372d7bc58d27b6bdb4e2ba0444651a8700cc9d2",
+  "runtime_tree": "7c6583caae7e58d8e3d5bc30f35afe5a39c3ad92",
+  "actual_outcomes": {
+    "baseline-sample": {
+      "exit_status": 101,
+      "observed_tests": [
+        [
+          "aqueous_supported_absorber_still_measures",
+          "ok"
+        ],
+        [
+          "bench_pure_water_blank_is_measured_without_mutation",
+          "ok"
+        ],
+        [
+          "bench_without_liquid_refuses_locally_without_mutation",
+          "FAILED"
+        ],
+        [
+          "empty_dry_and_gas_samples_have_no_reading",
+          "FAILED"
+        ],
+        [
+          "liquid_blank_is_applicable_and_reads_zero",
+          "FAILED"
+        ],
+        [
+          "nonfinite_or_nonpositive_portions_are_not_samples",
+          "FAILED"
+        ]
+      ],
+      "actual_summary": [
+        [
+          "2",
+          "4",
+          "0"
+        ]
+      ],
+      "expected_tests": [
+        "liquid_blank_is_applicable_and_reads_zero",
+        "empty_dry_and_gas_samples_have_no_reading",
+        "nonfinite_or_nonpositive_portions_are_not_samples",
+        "bench_without_liquid_refuses_locally_without_mutation",
+        "bench_pure_water_blank_is_measured_without_mutation",
+        "aqueous_supported_absorber_still_measures"
+      ],
+      "expected_failures": [
+        "liquid_blank_is_applicable_and_reads_zero",
+        "empty_dry_and_gas_samples_have_no_reading",
+        "nonfinite_or_nonpositive_portions_are_not_samples",
+        "bench_without_liquid_refuses_locally_without_mutation"
+      ],
+      "matches_frozen_forecast": true
+    },
+    "candidate-sample": {
+      "exit_status": 0,
+      "observed_tests": [
+        [
+          "aqueous_supported_absorber_still_measures",
+          "ok"
+        ],
+        [
+          "bench_pure_water_blank_is_measured_without_mutation",
+          "ok"
+        ],
+        [
+          "bench_without_liquid_refuses_locally_without_mutation",
+          "ok"
+        ],
+        [
+          "empty_dry_and_gas_samples_have_no_reading",
+          "ok"
+        ],
+        [
+          "liquid_blank_is_applicable_and_reads_zero",
+          "ok"
+        ],
+        [
+          "nonfinite_or_nonpositive_portions_are_not_samples",
+          "ok"
+        ]
+      ],
+      "actual_summary": [
+        [
+          "6",
+          "0",
+          "0"
+        ]
+      ],
+      "expected_tests": [
+        "liquid_blank_is_applicable_and_reads_zero",
+        "empty_dry_and_gas_samples_have_no_reading",
+        "nonfinite_or_nonpositive_portions_are_not_samples",
+        "bench_without_liquid_refuses_locally_without_mutation",
+        "bench_pure_water_blank_is_measured_without_mutation",
+        "aqueous_supported_absorber_still_measures"
+      ],
+      "expected_failures": [],
+      "matches_frozen_forecast": true
+    },
+    "candidate-indicator": {
+      "exit_status": 0,
+      "observed_tests": [
+        [
+          "adsorbed_indicator_has_no_aqueous_gap",
+          "ok"
+        ],
+        [
+          "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+          "ok"
+        ],
+        [
+          "finite_solved_ph_has_positive_spectrum",
+          "ok"
+        ],
+        [
+          "liquid_indicator_requires_ph",
+          "ok"
+        ],
+        [
+          "missing_ph_is_refusal_not_zero",
+          "ok"
+        ],
+        [
+          "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+          "ok"
+        ],
+        [
+          "native_spectrum_and_ph_gaps_both_survive",
+          "ok"
+        ],
+        [
+          "non_ph_absorber_does_not_need_solution",
+          "ok"
+        ],
+        [
+          "nonfinite_ph_refuses_without_poisoning_partial_bands",
+          "ok"
+        ],
+        [
+          "scene_omits_empty_ph_gap_and_older_payloads_remain_readable",
+          "ok"
+        ],
+        [
+          "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+          "ok"
+        ],
+        [
+          "solid_indicator_has_no_aqueous_gap",
+          "ok"
+        ],
+        [
+          "valid_blank_stays_zero",
+          "ok"
+        ],
+        [
+          "zero_indicator_has_no_gap",
+          "ok"
+        ]
+      ],
+      "actual_summary": [
+        [
+          "14",
+          "0",
+          "0"
+        ]
+      ],
+      "expected_tests": [
+        "missing_ph_is_refusal_not_zero",
+        "nonfinite_ph_refuses_without_poisoning_partial_bands",
+        "finite_solved_ph_has_positive_spectrum",
+        "non_ph_absorber_does_not_need_solution",
+        "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+        "valid_blank_stays_zero",
+        "solid_indicator_has_no_aqueous_gap",
+        "adsorbed_indicator_has_no_aqueous_gap",
+        "zero_indicator_has_no_gap",
+        "liquid_indicator_requires_ph",
+        "native_spectrum_and_ph_gaps_both_survive",
+        "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+        "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+        "scene_omits_empty_ph_gap_and_older_payloads_remain_readable"
+      ],
+      "expected_failures": [],
+      "matches_frozen_forecast": true
+    },
+    "candidate-native-controls": {
+      "exit_status": 0,
+      "observed_tests": [
+        [
+          "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality",
+          "ok"
+        ],
+        [
+          "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+          "ok"
+        ]
+      ],
+      "actual_summary": [
+        [
+          "2",
+          "0",
+          "0"
+        ]
+      ],
+      "expected_tests": [
+        "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+        "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality"
+      ],
+      "expected_failures": [],
+      "matches_frozen_forecast": true
+    },
+    "candidate-SSR": {
+      "exit_status": 0,
+      "actual_tests": [
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "does not hatch complete or older scene data",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "marks the liquid and names the actual missing prerequisite",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "retains the computed partial colour rather than inventing a tint",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "keeps spectrum and pH gaps distinct while painting one coverage hatch",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "localizes the pH explanation in de",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "localizes the pH explanation in fr",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+          "title": "keeps complete placeholder-compatible catalogue entries",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "draws a liquid column for the mark to sit on",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "leaves a colour the engine computed whole unmarked",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "marks the liquid when the engine reported a gap in its colour",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "names what is missing rather than only that something is",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "says it in the caption the reader already reads, not only on hover",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "treats an engine that predates the field as nothing known to be missing",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "does not repaint the liquid it marks",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "invents no colour for the species it could not compute",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "takes both hatch strokes from theme tokens, so it reads on every bench",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "tiles in the fixed viewBox's own units, so 64 px and 257 px are one drawing",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "uses no warning colour and no alarm animation",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "is in the component, so a new language is one json and no code",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "is translated in de.json",
+          "status": "passed"
+        },
+        {
+          "file": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+          "title": "has an empty row waiting in the template",
+          "status": "passed"
+        }
+      ],
+      "expected_new_failure_titles": [],
+      "matches_frozen_forecast": true
+    }
+  },
+  "matches_frozen_causal_forecast": true,
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_NPM_lock_sha256": "70e9a4b8d8671412ddfb2d103970908e45168ff4a38416ff8b40afdb779e7715",
+  "scientific_selections": 0,
+  "prior37_baseline_not_reexecuted": true,
+  "protected_checks_replaced": false,
+  "independent_saved_review_required": true
+}

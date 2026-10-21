@@ -1,0 +1,47 @@
+ Downloading crates ...
+  Downloaded csv-core v0.1.13
+  Downloaded csv v1.4.0
+   Compiling serde_core v1.0.229
+   Compiling thiserror v2.0.21
+   Compiling pest_generator v2.9.4
+   Compiling equator v0.4.2
+   Compiling pest_derive v2.9.4
+   Compiling spindle v0.2.6
+   Compiling equator v0.2.2
+   Compiling py_literal v0.4.0
+   Compiling serde v1.0.229
+   Compiling private-gemm-x86 v0.1.22
+   Compiling nano-gemm v0.2.2
+   Compiling serde_json v1.0.154
+   Compiling npyz v0.8.4
+   Compiling nalgebra v0.35.0
+   Compiling faer v0.24.4
+   Compiling kerotakis-data v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-data)
+   Compiling toml_datetime v0.6.11
+   Compiling serde_spanned v0.6.9
+   Compiling geo-types v0.7.20
+   Compiling toml_edit v0.22.27
+   Compiling contour v0.13.1
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-core)
+   Compiling yaml_serde v0.10.7
+   Compiling kerotakis-thermo v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-thermo)
+   Compiling toml v0.8.23
+   Compiling diffsol-la v0.1.1
+   Compiling diffsol-nl v0.1.1
+   Compiling diffsol v0.16.2
+   Compiling chematic-mol v0.18.0 (/kaggle/temp/kerotakis-phase-snapshot-full/source/vendor/chematic-0.18/chematic-mol-0.18.0)
+   Compiling heapless v0.7.17
+   Compiling kerotakis-phreeqc v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-phreeqc)
+   Compiling chematic v0.18.0 (/kaggle/temp/kerotakis-phase-snapshot-full/source/vendor/chematic-0.18/chematic-0.18.0)
+   Compiling cobs v0.3.0
+   Compiling postcard v1.1.3
+   Compiling kerotakis-cea v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-cea)
+   Compiling kerotakis-org v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-org)
+   Compiling csv-core v0.1.13
+   Compiling csv v1.4.0
+   Compiling kerotakis-stack v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-stack)
+   Compiling kerotakis-safety v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-safety)
+   Compiling kerotakis-codex v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-codex)
+   Compiling kerotakis-cli v0.0.1 (/kaggle/temp/kerotakis-phase-snapshot-full/source/crates/kerotakis-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 59s
+     Running unittests src/main.rs (target/debug/deps/kero-3a8eb96c0332aaa7)

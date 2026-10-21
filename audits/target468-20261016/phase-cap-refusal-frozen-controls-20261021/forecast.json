@@ -1,0 +1,246 @@
+{
+  "schema": "kerotakis.prospective-phase-cap-energy.v1",
+  "state": "PARENT_REVIEWED_FROZEN_FORECAST_UNCOMPILED_UNEXECUTED",
+  "prerequisite": "Actual full/platform acceptance of uncapped phase repair and a fresh-main review before runtime changes or baseline execution.",
+  "source_reference": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "test_source_sha256": "611b13beb8b8fbaf940019f70e9ef4d83f374d5c74ca974fd0d082b0944d71de",
+  "source_constants_sha256": "08d0e863acc45d8258ffb92a8811e3a019cb45dc0994025f58ba1ff8a39265ae",
+  "control_count": 12,
+  "baseline_prediction": {
+    "pass": 8,
+    "fail": 4,
+    "observed": false
+  },
+  "fixed_requirement": {
+    "pass": 12,
+    "observed": false
+  },
+  "energy_absolute_tolerance_J": 0.001,
+  "material_absolute_tolerance_mol": 1e-10,
+  "reference_quadrature_resolution_J": 1e-07,
+  "entry_energy_margin_J": 0.1,
+  "reference_method": "Independent Simpson quadrature of frozen NASA9 Cp (seven Cp coefficients), clamped to phase intervals, ice reference minus6010J/mol at273.15K; 4096/8192 convergence. Independent monotone fixed-inventory inverse constructs entering energy only. Final oracle never calls production energy_between, temperature_after, liquidus or phase-root helpers. Explicit physical activity/freezing relations define model limits, not empirical salt equilibrium.",
+  "cases": [
+    {
+      "test": "ideal_inside_direct_conserves_without_false_refusal",
+      "route": "ideal_activity_cap",
+      "driver": "direct_StateEquilibrator",
+      "energy_position": "inside",
+      "target_entry_energy_relative_to_independent_Hcap_J": 0.1,
+      "prospective_baseline_expectation": "PASS",
+      "baseline_expectation_basis": "Existing root should conserve inside; the genuine exact-cap root has zero remainder and may commit it. Exact metadata accepts the existing retained-brine wrapper with its typed nested boundary route. Quadrature, exact-cap classification and Bench fixture admission remain unexecuted assumptions; preserve unexpected outcomes.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Real positive water-to-ice transfer and owned finite event moles",
+        "Independent own liquidus and material budget",
+        "Inside headroom without false boundary, or exact cap amount with correct direct or typed nested retained-brine route notice",
+        "Independent energy closure within .001J"
+      ]
+    },
+    {
+      "test": "ideal_exact_direct_commits_only_closed_boundary",
+      "route": "ideal_activity_cap",
+      "driver": "direct_StateEquilibrator",
+      "energy_position": "exact",
+      "target_entry_energy_relative_to_independent_Hcap_J": 0.0,
+      "prospective_baseline_expectation": "PASS",
+      "baseline_expectation_basis": "Existing root should conserve inside; the genuine exact-cap root has zero remainder and may commit it. Exact metadata accepts the existing retained-brine wrapper with its typed nested boundary route. Quadrature, exact-cap classification and Bench fixture admission remain unexecuted assumptions; preserve unexpected outcomes.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Real positive water-to-ice transfer and owned finite event moles",
+        "Independent own liquidus and material budget",
+        "Inside headroom without false boundary, or exact cap amount with correct direct or typed nested retained-brine route notice",
+        "Independent energy closure within .001J"
+      ]
+    },
+    {
+      "test": "ideal_outside_direct_refuses_before_mutation_and_repeats",
+      "route": "ideal_activity_cap",
+      "driver": "direct_StateEquilibrator",
+      "energy_position": "outside",
+      "target_entry_energy_relative_to_independent_Hcap_J": -0.1,
+      "prospective_baseline_expectation": "FAIL",
+      "baseline_expectation_basis": "Existing capped branch changes inventory and forces cap temperature for an energy budget0.1J below Hcap; unchanged-entry/no-transition and independent energy assertions should expose it.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Full serialized States entry remains unchanged",
+        "Correct owned route-specific ModelBoundary phrase",
+        "No StateChanged event",
+        "Three identical repeat refusals",
+        "Independent energy closure within .001J"
+      ]
+    },
+    {
+      "test": "eutectic_inside_direct_conserves_without_false_refusal",
+      "route": "eutectic_model_cap",
+      "driver": "direct_StateEquilibrator",
+      "energy_position": "inside",
+      "target_entry_energy_relative_to_independent_Hcap_J": 0.1,
+      "prospective_baseline_expectation": "PASS",
+      "baseline_expectation_basis": "Existing root should conserve inside; the genuine exact-cap root has zero remainder and may commit it. Exact metadata accepts the existing retained-brine wrapper with its typed nested boundary route. Quadrature, exact-cap classification and Bench fixture admission remain unexecuted assumptions; preserve unexpected outcomes.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Real positive water-to-ice transfer and owned finite event moles",
+        "Independent own liquidus and material budget",
+        "Inside headroom without false boundary, or exact cap amount with correct direct or typed nested retained-brine route notice",
+        "Independent energy closure within .001J"
+      ]
+    },
+    {
+      "test": "eutectic_exact_direct_commits_only_closed_boundary",
+      "route": "eutectic_model_cap",
+      "driver": "direct_StateEquilibrator",
+      "energy_position": "exact",
+      "target_entry_energy_relative_to_independent_Hcap_J": 0.0,
+      "prospective_baseline_expectation": "PASS",
+      "baseline_expectation_basis": "Existing root should conserve inside; the genuine exact-cap root has zero remainder and may commit it. Exact metadata accepts the existing retained-brine wrapper with its typed nested boundary route. Quadrature, exact-cap classification and Bench fixture admission remain unexecuted assumptions; preserve unexpected outcomes.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Real positive water-to-ice transfer and owned finite event moles",
+        "Independent own liquidus and material budget",
+        "Inside headroom without false boundary, or exact cap amount with correct direct or typed nested retained-brine route notice",
+        "Independent energy closure within .001J"
+      ]
+    },
+    {
+      "test": "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+      "route": "eutectic_model_cap",
+      "driver": "direct_StateEquilibrator",
+      "energy_position": "outside",
+      "target_entry_energy_relative_to_independent_Hcap_J": -0.1,
+      "prospective_baseline_expectation": "FAIL",
+      "baseline_expectation_basis": "Existing capped branch changes inventory and forces cap temperature for an energy budget0.1J below Hcap; unchanged-entry/no-transition and independent energy assertions should expose it.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Full serialized States entry remains unchanged",
+        "Correct owned route-specific ModelBoundary phrase",
+        "No StateChanged event",
+        "Three identical repeat refusals",
+        "Independent energy closure within .001J"
+      ]
+    },
+    {
+      "test": "ideal_inside_real_cool_closes_delivered_energy",
+      "route": "ideal_activity_cap",
+      "driver": "real_Bench_Cool",
+      "energy_position": "inside",
+      "target_entry_energy_relative_to_independent_Hcap_J": 0.1,
+      "prospective_baseline_expectation": "PASS",
+      "baseline_expectation_basis": "Existing root should conserve inside; the genuine exact-cap root has zero remainder and may commit it. Exact metadata accepts the existing retained-brine wrapper with its typed nested boundary route. Quadrature, exact-cap classification and Bench fixture admission remain unexecuted assumptions; preserve unexpected outcomes.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Real positive water-to-ice transfer and owned finite event moles",
+        "Independent own liquidus and material budget",
+        "Inside headroom without false boundary, or exact cap amount with correct direct or typed nested retained-brine route notice",
+        "Independent energy closure within .001J",
+        "Actual requested/delivered cooling event closes whole-command ledger",
+        "Declared activity input is supplied after Bench invalidates SolutionInfo",
+        "Clock does not advance"
+      ]
+    },
+    {
+      "test": "ideal_exact_real_cool_closes_delivered_energy",
+      "route": "ideal_activity_cap",
+      "driver": "real_Bench_Cool",
+      "energy_position": "exact",
+      "target_entry_energy_relative_to_independent_Hcap_J": 0.0,
+      "prospective_baseline_expectation": "PASS",
+      "baseline_expectation_basis": "Existing root should conserve inside; the genuine exact-cap root has zero remainder and may commit it. Exact metadata accepts the existing retained-brine wrapper with its typed nested boundary route. Quadrature, exact-cap classification and Bench fixture admission remain unexecuted assumptions; preserve unexpected outcomes.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Real positive water-to-ice transfer and owned finite event moles",
+        "Independent own liquidus and material budget",
+        "Inside headroom without false boundary, or exact cap amount with correct direct or typed nested retained-brine route notice",
+        "Independent energy closure within .001J",
+        "Actual requested/delivered cooling event closes whole-command ledger",
+        "Declared activity input is supplied after Bench invalidates SolutionInfo",
+        "Clock does not advance"
+      ]
+    },
+    {
+      "test": "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "route": "ideal_activity_cap",
+      "driver": "real_Bench_Cool",
+      "energy_position": "outside",
+      "target_entry_energy_relative_to_independent_Hcap_J": -0.1,
+      "prospective_baseline_expectation": "FAIL",
+      "baseline_expectation_basis": "Existing capped branch changes inventory and forces cap temperature for an energy budget0.1J below Hcap; unchanged-entry/no-transition and independent energy assertions should expose it.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Full serialized States entry remains unchanged",
+        "Correct owned route-specific ModelBoundary phrase",
+        "No StateChanged event",
+        "Three identical repeat refusals",
+        "Independent energy closure within .001J",
+        "Actual requested/delivered cooling event closes whole-command ledger",
+        "Declared activity input is supplied after Bench invalidates SolutionInfo",
+        "Clock does not advance"
+      ]
+    },
+    {
+      "test": "eutectic_inside_real_cool_closes_delivered_energy",
+      "route": "eutectic_model_cap",
+      "driver": "real_Bench_Cool",
+      "energy_position": "inside",
+      "target_entry_energy_relative_to_independent_Hcap_J": 0.1,
+      "prospective_baseline_expectation": "PASS",
+      "baseline_expectation_basis": "Existing root should conserve inside; the genuine exact-cap root has zero remainder and may commit it. Exact metadata accepts the existing retained-brine wrapper with its typed nested boundary route. Quadrature, exact-cap classification and Bench fixture admission remain unexecuted assumptions; preserve unexpected outcomes.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Real positive water-to-ice transfer and owned finite event moles",
+        "Independent own liquidus and material budget",
+        "Inside headroom without false boundary, or exact cap amount with correct direct or typed nested retained-brine route notice",
+        "Independent energy closure within .001J",
+        "Actual requested/delivered cooling event closes whole-command ledger",
+        "Declared activity input is supplied after Bench invalidates SolutionInfo",
+        "Clock does not advance"
+      ]
+    },
+    {
+      "test": "eutectic_exact_real_cool_closes_delivered_energy",
+      "route": "eutectic_model_cap",
+      "driver": "real_Bench_Cool",
+      "energy_position": "exact",
+      "target_entry_energy_relative_to_independent_Hcap_J": 0.0,
+      "prospective_baseline_expectation": "PASS",
+      "baseline_expectation_basis": "Existing root should conserve inside; the genuine exact-cap root has zero remainder and may commit it. Exact metadata accepts the existing retained-brine wrapper with its typed nested boundary route. Quadrature, exact-cap classification and Bench fixture admission remain unexecuted assumptions; preserve unexpected outcomes.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Real positive water-to-ice transfer and owned finite event moles",
+        "Independent own liquidus and material budget",
+        "Inside headroom without false boundary, or exact cap amount with correct direct or typed nested retained-brine route notice",
+        "Independent energy closure within .001J",
+        "Actual requested/delivered cooling event closes whole-command ledger",
+        "Declared activity input is supplied after Bench invalidates SolutionInfo",
+        "Clock does not advance"
+      ]
+    },
+    {
+      "test": "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "route": "eutectic_model_cap",
+      "driver": "real_Bench_Cool",
+      "energy_position": "outside",
+      "target_entry_energy_relative_to_independent_Hcap_J": -0.1,
+      "prospective_baseline_expectation": "FAIL",
+      "baseline_expectation_basis": "Existing capped branch changes inventory and forces cap temperature for an energy budget0.1J below Hcap; unchanged-entry/no-transition and independent energy assertions should expose it.",
+      "prospective_fixed_expectation": "PASS",
+      "assertions": [
+        "Full serialized States entry remains unchanged",
+        "Correct owned route-specific ModelBoundary phrase",
+        "No StateChanged event",
+        "Three identical repeat refusals",
+        "Independent energy closure within .001J",
+        "Actual requested/delivered cooling event closes whole-command ledger",
+        "Declared activity input is supplied after Bench invalidates SolutionInfo",
+        "Clock does not advance"
+      ]
+    }
+  ],
+  "limitations": [
+    "All predictions unexecuted, including exact-cap classification and Bench admission. Preserve first setup/compile/math/behavior failures.",
+    "RecordedStates supplies an explicitly synthetic particle/activity input after Bench clears SolutionInfo. It is not a native aqueous solve or trusted receipt.",
+    "No salt precipitation, hydrate, eutectic composition or beyond-cap equilibrium is predicted.",
+    "No empirical calibration or new scientific corpus qualification follows.",
+    "These12 controls supplement existing uncapped8/TC008 and absence-of-aqueous/domain/warm controls; they do not replace them."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "qualification": "Parent reference math/source-input review only; no Rust compilation or product execution",
+  "source": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "registry_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "all_six_oracle_geometry_cases_checked": true,
+  "reference_comparison_limit_j": 1e-07,
+  "cases": [
+    {
+      "route": "ideal",
+      "position": "inside",
+      "cap_molality": 6,
+      "cap_liquid_moles": 0.18503099269127582,
+      "cap_temperature_k": 262.9513268912889,
+      "entry_temperature_k": 237.66383441133422,
+      "entry_energy_j": -24526.25059843806,
+      "cap_energy_j": -24526.3505984381,
+      "independent_quadrature_minus_analytic_j": 1.2369127944111824e-10,
+      "target_offset_j": 0.1
+    },
+    {
+      "route": "ideal",
+      "position": "exact",
+      "cap_molality": 6,
+      "cap_liquid_moles": 0.18503099269127582,
+      "cap_temperature_k": 262.9513268912889,
+      "entry_temperature_k": 237.66326541397336,
+      "entry_energy_j": -24526.35059843809,
+      "cap_energy_j": -24526.3505984381,
+      "independent_quadrature_minus_analytic_j": 1.4551915228366852e-10,
+      "target_offset_j": 0
+    },
+    {
+      "route": "ideal",
+      "position": "outside",
+      "cap_molality": 6,
+      "cap_liquid_moles": 0.18503099269127582,
+      "cap_temperature_k": 262.9513268912889,
+      "entry_temperature_k": 237.66269641586177,
+      "entry_energy_j": -24526.45059843803,
+      "cap_energy_j": -24526.3505984381,
+      "independent_quadrature_minus_analytic_j": -1.0913936421275139e-11,
+      "target_offset_j": -0.1
+    },
+    {
+      "route": "eutectic",
+      "position": "inside",
+      "cap_molality": 12.328625105601814,
+      "cap_liquid_moles": 0.09004945374186246,
+      "cap_temperature_k": 252.0,
+      "entry_temperature_k": 225.27667867896906,
+      "entry_energy_j": -26672.159579347695,
+      "cap_energy_j": -26672.259579347658,
+      "independent_quadrature_minus_analytic_j": 1.0186340659856796e-10,
+      "target_offset_j": 0.1
+    },
+    {
+      "route": "eutectic",
+      "position": "exact",
+      "cap_molality": 12.328625105601814,
+      "cap_liquid_moles": 0.09004945374186246,
+      "cap_temperature_k": 252.0,
+      "entry_temperature_k": 225.27609298431832,
+      "entry_energy_j": -26672.25957934766,
+      "cap_energy_j": -26672.259579347658,
+      "independent_quadrature_minus_analytic_j": 1.418811734765768e-10,
+      "target_offset_j": 0
+    },
+    {
+      "route": "eutectic",
+      "position": "outside",
+      "cap_molality": 12.328625105601814,
+      "cap_liquid_moles": 0.09004945374186246,
+      "cap_temperature_k": 252.0,
+      "entry_temperature_k": 225.27550728886115,
+      "entry_energy_j": -26672.359579347674,
+      "cap_energy_j": -26672.259579347658,
+      "independent_quadrature_minus_analytic_j": 2.1827872842550278e-10,
+      "target_offset_j": -0.1
+    }
+  ]
+}

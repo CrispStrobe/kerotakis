@@ -1,0 +1,72 @@
+{
+  "utc": "2026-10-21T08:43:56.027367+00:00",
+  "source": "1372d7bc58d27b6bdb4e2ba0444651a8700cc9d2",
+  "tree": "7c6583caae7e58d8e3d5bc30f35afe5a39c3ad92",
+  "baseline": "14d502b2262134b636d44504d446652c3cfe49eb",
+  "baseline_tree": "70c611796fc4c19cdfd07fcb27766f5f8cc10db6",
+  "worker_sha256": "51196d8ff2441c189ae2995b2bf8f9393c2d3dbeb0cdff71e5b4d87b1d817e9c",
+  "plan_sha256": "9db582b4732f2b416130c10c843e84e463bbf564edbd312026c510cd4562078b",
+  "closed_manifest_members": 129,
+  "actual_submodule_HEADs_all_four_source_proofs": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "mandatory_bootstrap_commands_observed": true,
+  "source_pins": 31,
+  "baseline_pins": 30,
+  "actual_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_npm_lock_sha256": "70e9a4b8d8671412ddfb2d103970908e45168ff4a38416ff8b40afdb779e7715",
+  "node_archive_sha256": "69b09dba5c8dcb05c4e4273a4340db1005abeafe3927efda2bc5b249e80437ec",
+  "actual_outcomes": {
+    "baseline-sample": {
+      "passed": 2,
+      "failed": 4
+    },
+    "candidate-sample": {
+      "passed": 6,
+      "failed": 0
+    },
+    "candidate-indicator": {
+      "passed": 14,
+      "failed": 0
+    },
+    "candidate-native-controls": {
+      "passed": 2,
+      "failed": 0
+    },
+    "candidate-SSR": {
+      "passed": 21,
+      "failed": 0
+    }
+  },
+  "actual_binaries": [
+    {
+      "stage": "baseline",
+      "target": "optical_sample_admission",
+      "actual_binary_sha256": "a586ac92729ca4486085a5090f26b5f7f5b01d125825b78e54b859234037b0ad"
+    },
+    {
+      "stage": "candidate",
+      "target": "optical_sample_admission",
+      "actual_binary_sha256": "afd022a367a6b648c5cec2bdf6cd7496567d2d440f45e904b722f9bf6b66b8cb"
+    },
+    {
+      "stage": "candidate",
+      "target": "indicator_optical_coverage",
+      "actual_binary_sha256": "725ef6dafdd16af109c226d3eb4370935412c544a6f5e8e20de8223bebd9d29f"
+    },
+    {
+      "stage": "candidate",
+      "target": "kerotakis_core",
+      "actual_binary_sha256": "fbf379dedecbcfd4065928de6149458bebdd967b963b03786f7d58de9fc90a98"
+    }
+  ],
+  "new6_baseline_only": true,
+  "actual_new_baseline_controls": 6,
+  "actual_candidate_controls": 43,
+  "prior37_baseline_not_reexecuted": true,
+  "all_causal_baseline_failures_and_positives_observed": true,
+  "candidate_all_controls_and_fmt_clippy_svelte_check_pass": true,
+  "scientific_selections": 0,
+  "full_or_production_acceptance": false
+}

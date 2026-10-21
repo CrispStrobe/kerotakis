@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/kaggle/temp/optical-sample-focus/source/target/debug/deps/kerotakis_core-09029db3d4cac185",
+    "solution_optics::tests::",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "936f18007ef3922e002f812d0dbd56d2c41db8c36b7ce44666a5aba4e828b842",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

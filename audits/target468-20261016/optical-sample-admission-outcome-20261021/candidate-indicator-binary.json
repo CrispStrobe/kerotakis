@@ -1,0 +1,9 @@
+{
+  "runtime_source": "1372d7bc58d27b6bdb4e2ba0444651a8700cc9d2",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "sha256": "725ef6dafdd16af109c226d3eb4370935412c544a6f5e8e20de8223bebd9d29f",
+  "bytes": 58340600,
+  "gzip_sha256": "84a91513a59c6835772153bc6edca7af8f7cb136ca986e881989cdac2dcb2bae",
+  "gzip_bytes": 13480587,
+  "qualification": "Causal observer target, not deployed release binary"
+}

@@ -1,0 +1,13 @@
+
+thread 'bench_without_liquid_refuses_locally_without_mutation' (2903) panicked at crates/kerotakis-core/tests/optical_sample_admission.rs:73:9:
+assertion failed: !events.iter().any(|event| matches!(event, Event::Measured { .. }))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'empty_dry_and_gas_samples_have_no_reading' (2904) panicked at crates/kerotakis-core/tests/optical_sample_admission.rs:40:5:
+assertion failed: instrument.measure(&empty).is_none()
+
+thread 'liquid_blank_is_applicable_and_reads_zero' (2905) panicked at crates/kerotakis-core/tests/optical_sample_admission.rs:31:5:
+assertion failed: instrument.applies(&vessel)
+
+thread 'nonfinite_or_nonpositive_portions_are_not_samples' (2906) panicked at crates/kerotakis-core/tests/optical_sample_admission.rs:57:13:
+assertion failed: !instrument.applies(&vessel)

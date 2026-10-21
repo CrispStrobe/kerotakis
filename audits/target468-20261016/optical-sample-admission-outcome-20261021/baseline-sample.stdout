@@ -1,0 +1,19 @@
+
+running 6 tests
+test aqueous_supported_absorber_still_measures ... ok
+test bench_pure_water_blank_is_measured_without_mutation ... ok
+test bench_without_liquid_refuses_locally_without_mutation ... FAILED
+test empty_dry_and_gas_samples_have_no_reading ... FAILED
+test liquid_blank_is_applicable_and_reads_zero ... FAILED
+test nonfinite_or_nonpositive_portions_are_not_samples ... FAILED
+
+failures:
+
+failures:
+    bench_without_liquid_refuses_locally_without_mutation
+    empty_dry_and_gas_samples_have_no_reading
+    liquid_blank_is_applicable_and_reads_zero
+    nonfinite_or_nonpositive_portions_are_not_samples
+
+test result: FAILED. 2 passed; 4 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

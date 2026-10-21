@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "--no-default-features",
+    "--test",
+    "peroxide_medium",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "ee840acdba783e2c318baa26e1305866141895c6664f2a5dbcaddcbba52a2ced",
+  "stderr_sha256": "6f7c0d7d37e62dc7c0e0630e38526fac73ec3ec57b8fc11bbfdd0845b092132b"
+}

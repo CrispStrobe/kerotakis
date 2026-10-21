@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-cli",
+    "--bin",
+    "kero",
+    "coverage::tests::",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 0,
+  "stdout_sha256": "51b7acaeb7aa765e3af957112416783b47564f1409518ca37dec7c148d85c9fe",
+  "stderr_sha256": "62f79665ae7d989a9394eb9f182a1e20c61ba60383c2ef19a22b7fe0a04b7435"
+}

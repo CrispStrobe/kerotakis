@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/kaggle/temp/optical-sample-focus/source/target/debug/deps/optical_sample_admission-968f827097503002",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 101,
+  "error_type": null,
+  "stdout_sha256": "bbebf17ba581602395aa3af653e963c82ab3112a2c4604c18086ff4aca994095",
+  "stderr_sha256": "d9e7dfe38004724806ebc1f61fe73966dd618d8303d2aa6c1bf571b0ecc8824f"
+}

@@ -1,0 +1,9 @@
+
+> kerotakis-app@0.0.1 check
+> svelte-check --tsconfig ./tsconfig.json --threshold error
+
+Loading svelte-check in workspace: /kaggle/temp/optical-sample-focus/source/web/app
+Getting Svelte diagnostics...
+
+====================================
+svelte-check found 0 errors and 2 warnings in 2 files

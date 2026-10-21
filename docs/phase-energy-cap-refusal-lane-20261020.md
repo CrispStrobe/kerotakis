@@ -2,6 +2,8 @@
 
 Status: scoped, not implemented or executed. Keep the active21-control focus on candidate1ca170cb unchanged. The [actual baseline and stage diagnosis](https://github.com/CrispStrobe/kerotakis/blob/f12d863e/audits/target468-20261016/brine-phase-baseline-and-TC008-ledger-20261020/README.md) and its uncapped source repair are separate prerequisites. No new selection or cap-equilibrium prediction is assigned here.
 
+**Current prerequisite —2026-10-21:** uncapped PR852 is source/platform accepted and integrated3162. Its production delivery remains pending. [Twelve parent-reviewed controls and reference inputs](../audits/target468-20261016/phase-cap-refusal-frozen-controls-20261021/README.md) are frozen, uncompiled and unexecuted; baseline8-pass/4-fail and repaired12-pass remain predictions. Execute them before runtime edits after phase delivery. The earlier active-focus annotation preserves history.
+
 ## Demonstrated source problem
 
 In `crates/kerotakis-core/src/solve.rs`, the `StateEquilibrator` freezing branch caps pure-ice transfer at `maximum_freezing`. Its `reached_boundary` branch then forces the residual brine to the cap liquidus. If the conserved-energy root lies beyond the cap, this creates energy. Let `xc` be the capped transfer and `Tc` its liquidus. The positive discrepancy is:

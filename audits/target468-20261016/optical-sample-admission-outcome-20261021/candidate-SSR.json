@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "npx",
+    "--no-install",
+    "vitest",
+    "run",
+    "src/lib/components/VesselSpectralGap.test.ts",
+    "src/lib/components/VesselOpticalPhGap.test.ts",
+    "--reporter=json",
+    "--outputFile=/kaggle/working/optical-sample-focus-evidence/candidate-SSR-report.json",
+    "--maxWorkers=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "942017376fe81899c594d0d7ac44efb0492f962e324ea6a16c83f917a145f46e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

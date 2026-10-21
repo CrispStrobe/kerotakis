@@ -1,0 +1,14 @@
+{
+  "source": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "tree": "d28ba030080ea4a6b2587607a02ef3245989c08a",
+  "lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "binaries": [
+    {
+      "executed_path": "target/debug/deps/kero-3a8eb96c0332aaa7",
+      "sha256": "bf9781538c69dfb9c36de5636a583b91c74ee09761d15965632ba36462ae2b1d",
+      "bytes": 93473704,
+      "gzip": "actual-test-executables/bf9781538c69dfb9c36de5636a583b91c74ee09761d15965632ba36462ae2b1d.gz",
+      "gzip_sha256": "a52bb61cdffbf42e2728e457b960ebce27664b05c927735e2fef3f325d0496f6"
+    }
+  ]
+}

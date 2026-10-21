@@ -1,0 +1,371 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "537-copper-activity-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "538-copper-activity-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "539-copper-activity-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "540-copper-activity-0.008: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "541-zinc-activity-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "542-zinc-activity-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "543-zinc-activity-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "544-zinc-activity-0.008: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "545-zinc-copper-salt-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "546-zinc-copper-metal-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "547-zinc-copper-split-salt: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "548-zinc-copper-split-metal: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "549-iron-copper-salt-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "550-iron-copper-metal-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "551-iron-copper-split-salt: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "552-iron-copper-split-metal: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "553-copper-silver-salt-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "554-copper-silver-metal-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "555-copper-silver-split-salt: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "556-copper-silver-split-metal: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "557-magnesium-copper-salt-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "558-magnesium-copper-metal-first: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "559-magnesium-copper-split-salt: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "560-magnesium-copper-split-metal: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "redox-cells:rc-copper-activity",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        1.0914290876886426,
+        1.0979737627374293,
+        1.1099216482721643,
+        1.1154733894462467
+      ]
+    },
+    {
+      "check": "redox-cells:rc-zinc-activity",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        1.1279521172715827,
+        1.1215105171298039,
+        1.1097591940129963,
+        1.104263003566615
+      ]
+    },
+    {
+      "check": "redox-cells:rc-zinc-copper-path",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Cu": 0.002999999997321414,
+          "Zn": 0.004,
+          "Fe": 0.0,
+          "Ag": 0.0,
+          "Mg": 0.0,
+          "S": 0.0029999999946209266,
+          "N": 0.0,
+          "O": 11.080553982792118
+        },
+        {
+          "Cu": 0.003000000000001313,
+          "Zn": 0.004,
+          "Fe": 0.0,
+          "Ag": 0.0,
+          "Mg": 0.0,
+          "S": 0.0029999999973128267,
+          "N": 0.0,
+          "O": 11.080553982792118
+        },
+        {
+          "Cu": 0.0029999999992366077,
+          "Zn": 0.0040000000000003505,
+          "Fe": 0.0,
+          "Ag": 0.0,
+          "Mg": 0.0,
+          "S": 0.0029999999959839816,
+          "N": 0.0,
+          "O": 11.080553982792116
+        },
+        {
+          "Cu": 0.0029999999939501446,
+          "Zn": 0.003999999996961941,
+          "Fe": 0.0,
+          "Ag": 0.0,
+          "Mg": 0.0,
+          "S": 0.0029999999844661515,
+          "N": 0.0,
+          "O": 11.080553982792118
+        }
+      ]
+    },
+    {
+      "check": "redox-cells:rc-iron-copper-path",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Cu": 0.0029999999973209968,
+          "Zn": 0.0,
+          "Fe": 0.004,
+          "Ag": 0.0,
+          "Mg": 0.0,
+          "S": 0.002999999994621439,
+          "N": 0.0,
+          "O": 11.080553982792118
+        },
+        {
+          "Cu": 0.0030000000000008904,
+          "Zn": 0.0,
+          "Fe": 0.004,
+          "Ag": 0.0,
+          "Mg": 0.0,
+          "S": 0.0029999999973118344,
+          "N": 0.0,
+          "O": 11.080553982792118
+        },
+        {
+          "Cu": 0.0029999999992382327,
+          "Zn": 0.0,
+          "Fe": 0.004000000000000188,
+          "Ag": 0.0,
+          "Mg": 0.0,
+          "S": 0.0029999999914000815,
+          "N": 0.0,
+          "O": 11.080553982792116
+        },
+        {
+          "Cu": 0.0029999999982169767,
+          "Zn": 0.0,
+          "Fe": 0.004,
+          "Ag": 0.0,
+          "Mg": 0.0,
+          "S": 0.002999999997312853,
+          "N": 0.0,
+          "O": 11.080553982792118
+        }
+      ]
+    },
+    {
+      "check": "redox-cells:rc-copper-silver-path",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Cu": 0.004,
+          "Zn": 0.0,
+          "Fe": 0.0,
+          "Ag": 0.003,
+          "Mg": 0.0,
+          "S": 0.0,
+          "N": 0.003,
+          "O": 11.077553982792118
+        },
+        {
+          "Cu": 0.004,
+          "Zn": 0.0,
+          "Fe": 0.0,
+          "Ag": 0.003,
+          "Mg": 0.0,
+          "S": 0.0,
+          "N": 0.003,
+          "O": 11.077553982792118
+        },
+        {
+          "Cu": 0.004,
+          "Zn": 0.0,
+          "Fe": 0.0,
+          "Ag": 0.003,
+          "Mg": 0.0,
+          "S": 0.0,
+          "N": 0.003,
+          "O": 11.077553982792118
+        },
+        {
+          "Cu": 0.004,
+          "Zn": 0.0,
+          "Fe": 0.0,
+          "Ag": 0.003,
+          "Mg": 0.0,
+          "S": 0.0,
+          "N": 0.003,
+          "O": 11.077553982792118
+        }
+      ]
+    },
+    {
+      "check": "redox-cells:rc-magnesium-copper-path",
+      "kind": "conservation",
+      "assertion": "final-elements-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "Cu": 0.002999999997320538,
+          "Zn": 0.0,
+          "Fe": 0.0,
+          "Ag": 0.0,
+          "Mg": 0.003999999997312337,
+          "S": 0.0029999999946217714,
+          "N": 0.0,
+          "O": 11.080553982792118
+        },
+        {
+          "Cu": 0.00300000000000044,
+          "Zn": 0.0,
+          "Fe": 0.0,
+          "Ag": 0.0,
+          "Mg": 0.003999999997315337,
+          "S": 0.0029999999973115755,
+          "N": 0.0,
+          "O": 11.080553982792118
+        },
+        {
+          "Cu": 0.0029999999992369525,
+          "Zn": 0.0,
+          "Fe": 0.0,
+          "Ag": 0.0,
+          "Mg": 0.003999999998279763,
+          "S": 0.0029999999975132744,
+          "N": 0.0,
+          "O": 11.080553982792116
+        },
+        {
+          "Cu": 0.0029999999976687932,
+          "Zn": 0.0,
+          "Fe": 0.0,
+          "Ag": 0.0,
+          "Mg": 0.0039999999980020375,
+          "S": 0.0029999999956606496,
+          "N": 0.0,
+          "O": 11.080553982792118
+        }
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "binary_sha256": "b99f9859c98a863ca9c622a6be13356a0fa35500ef5a72f227cb88ba1dcff6c3"
+}

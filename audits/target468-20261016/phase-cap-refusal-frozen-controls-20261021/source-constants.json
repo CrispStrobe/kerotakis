@@ -1,0 +1,190 @@
+{
+  "state": "PROSPECTIVE_REFERENCE_INPUTS_NOT_EXECUTED",
+  "source_commit": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "registry_path": "crates/kerotakis-core/tests/golden/registry.json",
+  "registry_sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+  "records": [
+    {
+      "appearance": "colourless",
+      "colour": {
+        "b": 255,
+        "g": 255,
+        "r": 255,
+        "strength": 0.0
+      },
+      "density": 0.997,
+      "dissolution_enthalpy_kj": null,
+      "dissolves_without_speciation": false,
+      "flame_colour": null,
+      "forms_only_above_k": null,
+      "formula": "H2O",
+      "heat_capacity": 75.3,
+      "heat_capacity_polys": [
+        {
+          "boundary": "Tabulated for 200 to 273.15 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+          "intervals": [
+            {
+              "coefficients": [
+                -402677.748,
+                2747.887946,
+                57.3833663,
+                -0.826791524,
+                0.00441308798,
+                -1.054251164e-05,
+                9.69449597e-09
+              ],
+              "form": "nasa9",
+              "reference": "H2O(cr): Ice. Gordon,1982.",
+              "t_max": 273.15,
+              "t_min": 200.0
+            }
+          ],
+          "method": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records H2O(cr) (1 temperature interval), unchanged in value and in order",
+          "phase": "solid",
+          "source": "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+        },
+        {
+          "boundary": "Tabulated for 273.15 to 600 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+          "intervals": [
+            {
+              "coefficients": [
+                1326371304.0,
+                -24482953.88,
+                187942.8776,
+                -767.899505,
+                1.761556813,
+                -0.002151167128,
+                1.092570813e-06
+              ],
+              "form": "nasa9",
+              "reference": "H2O(L): Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969.",
+              "t_max": 373.15,
+              "t_min": 273.15
+            },
+            {
+              "coefficients": [
+                1263631001.0,
+                -16803802.49,
+                92782.3479,
+                -272.237395,
+                0.447924376,
+                -0.000391939743,
+                1.425743266e-07
+              ],
+              "form": "nasa9",
+              "reference": "H2O(L): Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969.",
+              "t_max": 600.0,
+              "t_min": 373.15
+            }
+          ],
+          "method": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records H2O(L) (2 temperature intervals), unchanged in value and in order",
+          "phase": "liquid",
+          "source": "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+        },
+        {
+          "boundary": "Tabulated for 200 to 6000 K. Outside that range the heat capacity is held at the endpoint value rather than extrapolated, because a NASA-9 polynomial evaluated past its own interval goes to nonsense.",
+          "intervals": [
+            {
+              "coefficients": [
+                -39479.6083,
+                575.573102,
+                0.931782653,
+                0.00722271286,
+                -7.34255737e-06,
+                4.95504349e-09,
+                -1.336933246e-12
+              ],
+              "form": "nasa9",
+              "reference": "H2O: Hf:Cox,1989. Woolley,1987. TRC(10/88) tuv25.",
+              "t_max": 1000.0,
+              "t_min": 200.0
+            },
+            {
+              "coefficients": [
+                1034972.096,
+                -2412.698562,
+                4.64611078,
+                0.002291998307,
+                -6.83683048e-07,
+                9.42646893e-11,
+                -4.82238053e-15
+              ],
+              "form": "nasa9",
+              "reference": "H2O: Hf:Cox,1989. Woolley,1987. TRC(10/88) tuv25.",
+              "t_max": 6000.0,
+              "t_min": 1000.0
+            }
+          ],
+          "method": "verbatim transcription of the NASA-9 coefficients a1..a7 from the vendored NASA CEA thermo.inp records H2O (2 temperature intervals), unchanged in value and in order",
+          "phase": "gas",
+          "source": "NASA Chemical Equilibrium with Applications (CEA) thermodynamic database, thermo.inp, vendored at vendor/nasa-cea/thermo.inp and documented by NASA TP-2002-211556 (McBride, Zehe and Gordon, \"NASA Glenn Coefficients for Calculating Thermodynamic Properties of Individual Species\"). Copyright (c) United States Government as represented by the Administrator of NASA, licensed under Apache-2.0; the file is already vendored and read by kerotakis-cea, and these records are the same bytes read a second time rather than a second compilation. Each record carries its own literature reference verbatim - Gurvich, Chase (JANAF), Pankratz, Cox - and that line is kept on every interval so the reader lands on the table the coefficients came from, not on this envelope. The NASA-9 form is Cp/R = a1/T^2 + a2/T + a3 + a4*T + a5*T^2 + a6*T^3 + a7*T^4 with T in kelvin, and only a1..a7 are transcribed: the two integration constants b1 and b2 fix absolute enthalpy and entropy, which this tranche does not claim, because a bench that only needs a sensible-heat difference should not carry a formation enthalpy it never checks. What each row DOES claim is a molar heat capacity as a function of temperature over a stated interval; what it does not claim is any value outside that interval, any enthalpy of a phase or crystal transition, and any property of a real impure sample. The 298.15 K value of every curve is pinned against the constant heat capacity the registry already carried for that species, and agrees with it to better than 3 percent throughout - which is the check that these are the same substances and not merely the same names. Transcribed 2026-09-07"
+        }
+      ],
+      "inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+      "key": "water",
+      "magnetic": false,
+      "molar_mass": 18.015,
+      "name": "water",
+      "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: CODATA/standard reference values",
+      "spectrum_bands": null,
+      "standard_phase": "liquid",
+      "transitions": {
+        "boiling_k": 373.15,
+        "boundary": "the pure substance's transitions at one atmosphere. A solution's are shifted by whatever is dissolved in it, and that shift is computed elsewhere (kerotakis_core::states) rather than recorded here",
+        "melting_k": 273.15,
+        "source": "Kerotakis curated phase-transition tranche v1: normal melting, boiling, sublimation, decomposition and hydrate-dehydration temperatures at 101.325 kPa. Each value is an individually entered editorial constant, taken from the standard published values for these substances and cross-checked against general reference tables. It is NOT a transcription from a positively identified copy of any single handbook edition, and no edition-level provenance is claimed. NO PRIMARY REFERENCE IS CLAIMED FOR THESE VALUES, AND THE ONE THIS LINE USED TO NAME HAS BEEN WITHDRAWN. PLAN.md's provenance audit puts the CRC Handbook of Chemistry and Physics on the commercial row and the NIST WebBook and JANAF-online on the do-not-redistribute row, and states the remedy for an avoid-row source: the claim stops and the prose stays as commentary. Naming a reference the project may not ship from as the source behind a shipped number is a claim, not a citation, and so is saying the number agrees with it. Both are gone. The commentary that remains is worth keeping: these are the transition temperatures the general references agree on for these substances, and the editorial care in the rest of this paragraph was real. What a row here needs and does not have is its own primary measurement with a DOI, in the shape `literature/hartley-campbell-iodine-water` already uses in this registry; a cleared vendored source such as vendor/nasa-cea/thermo.inp is the acceptable second choice. Until a row has one of those it is supported by this paragraph and nothing else. (The reviewer confirmation recorded 2026-09-01 confirmed a handbook agreement, which is the claim that has just stopped; it is not evidence for the values and is no longer offered as any.) Withdrawn 2026-09-13. Values are recorded only to the precision a school apparatus resolves; where a substance decomposes or sublimes rather than melting, no melting point is claimed at all; and where two general references disagreed the value was dropped rather than averaged or guessed. Compiled 2026-08-29"
+      }
+    },
+    {
+      "appearance": null,
+      "colour": null,
+      "density": 1.0,
+      "dissolution_enthalpy_kj": null,
+      "dissolves_without_speciation": false,
+      "flame_colour": "bright yellow",
+      "forms_only_above_k": null,
+      "formula": "Na+",
+      "heat_capacity": 0.0,
+      "heat_capacity_polys": [],
+      "inchikey": "FKNQFGJONOIPTF-UHFFFAOYSA-N",
+      "key": "Na+",
+      "magnetic": false,
+      "molar_mass": 22.99,
+      "name": "sodium ion",
+      "provenance": "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
+      "spectrum_bands": null,
+      "standard_phase": "aqueous"
+    },
+    {
+      "appearance": null,
+      "colour": null,
+      "density": 1.0,
+      "dissolution_enthalpy_kj": null,
+      "dissolves_without_speciation": false,
+      "flame_colour": null,
+      "forms_only_above_k": null,
+      "formula": "Cl-",
+      "heat_capacity": 0.0,
+      "heat_capacity_polys": [],
+      "inchikey": "VEXZGXHMUGYJMC-UHFFFAOYSA-M",
+      "key": "Cl-",
+      "magnetic": false,
+      "molar_mass": 35.453,
+      "name": "chloride ion",
+      "provenance": "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
+      "spectrum_bands": null,
+      "standard_phase": "aqueous"
+    }
+  ],
+  "explicit_reference_constants": {
+    "water_molar_mass_kg_per_mol": 0.018015,
+    "gas_constant_J_per_mol_K": 8.31446261815324,
+    "fusion_J_per_mol_at_273_15K": 6010.0,
+    "reference_K": 273.15,
+    "ideal_particle_cap_mol_per_kg": 6.0,
+    "eutectic_model_floor_K": 252.0,
+    "synthetic_eutectic_phi": 1.0,
+    "synthetic_activity_ceiling_mol_per_kg": 40.0
+  },
+  "source_input_limit": "Declared synthetic activity distribution only; no native chemistry, measured pH/activity, calibration or beyond-cap equilibrium."
+}

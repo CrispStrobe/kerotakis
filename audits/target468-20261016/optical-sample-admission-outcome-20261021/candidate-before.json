@@ -1,0 +1,48 @@
+{
+  "runtime_source": "1372d7bc58d27b6bdb4e2ba0444651a8700cc9d2",
+  "runtime_tree": "7c6583caae7e58d8e3d5bc30f35afe5a39c3ad92",
+  "actual_source_blobs_sha256": {
+    "crates/kerotakis-core/i18n/de.toml": "b7c8c91b171fc896e123485a0350278535f1a672d945006c4de55d1e741caa3a",
+    "crates/kerotakis-core/i18n/fr.toml": "f661be0eaf7c41bb3c935cf8481b4e231c94cd514d2166dacb7d9a2dcfcf49be",
+    "crates/kerotakis-core/src/appearance.rs": "a767814a8cded804fcfe2dae5105fa1a180799fbfad711a6c8a8661ccd0b0ac6",
+    "crates/kerotakis-core/src/bench.rs": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2",
+    "crates/kerotakis-core/src/instrument.rs": "5d4b89633d7c56917e88f67f251e1219f16ff7f2cd1c45ec8cc5e6ce023cf36e",
+    "crates/kerotakis-core/src/scene.rs": "17ffa16479f16987dcd08356cd2ca515317482436c2e50c8a6d91442f17f1d50",
+    "crates/kerotakis-core/src/solution_optics.rs": "5dc642c66dfdb22f07d88ff4627ea66314dc04c81a2457aa0d09007397b0ba90",
+    "crates/kerotakis-core/tests/composed_locale.rs": "fbf1bf24868a2bdc40e8dcec261e71cc98153e3faea6a9e05ecbc76fb1f9cc60",
+    "crates/kerotakis-core/tests/indicator_optical_coverage.rs": "016f90e3cb984129bc2fa6e7a799d615d0512d873c91c2b2d5012be10a8a1cbc",
+    "docs/STATUS.md": "f24b3d808375b47f85d7ab7d9a68b587b223509661dc567c5968b5ac77da06a1",
+    "docs/improvement-agenda-20261014.md": "07b65f637beb0ae597cc41ed30b1431c78cbc3a08b10716178d6d485c49eea2d",
+    "docs/next-agent-handoff.md": "9e5752303ad6379aff29cc943233bee9608a4e6414d563b0cca41de13d778e35",
+    "docs/peroxide-medium-and-i18n-20261019.md": "006cfde71f57bc4ba51bb7bb54418be30f81f54a91ae3855fc36232c9b53d503",
+    "docs/post-hydrolysis-gap-lanes-20261019.md": "1387ed7e9509cc3f3e9b772d88ee56e4a0b7f400db2b76a36d180df3cd7704e1",
+    "docs/scientific-coverage-expansion-20261020.md": "2ea2657033acf283996ae804bdfd02ddc9a463313ece65e424fc8689e7ae336d",
+    "docs/unifac-input-admission-20261019.md": "e24509f15562bd3883f7d721dec41a8fe929537239a6668fe418e2908ab401da",
+    "docs/wrap-up-and-open-lanes-20261019.md": "191ed71c2b9421859d59819312d0934d766a6c28e0a3fe307ddb27784f6ab6e4",
+    "web/app/src/lib/components/Vessel.svelte": "124218a173f07a424fdd92070a4f946cc034c18b4f3bbaf808b4848a11318dd9",
+    "web/app/src/lib/components/VesselOpticalPhGap.test.ts": "3edac37a7a9117ea26a7b0a2f2fea423b844ed7881c256ad4a481a191a27fd45",
+    "web/app/src/lib/host/EngineHost.ts": "125728897fec3486802958b19a04056148a7b4b6e6b0c7514e442bac39b08c32",
+    "web/app/src/locales/_template.json": "efbb9d1090437c1e8afb0a046c6289837f14edff99692797b104d21c51906d8c",
+    "web/app/src/locales/de.json": "3d9a744d4e7b532a97784aadd515ba44b1ec76fec60ba955a6ea9dd045f46802",
+    "web/app/src/locales/fr.json": "4c7df59c086de7ace96d4b0be385c0d39d1276ac4de1dde4501219eb64aef539",
+    "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "crates/kerotakis-core/Cargo.toml": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7",
+    "web/app/package.json": "fea354e0ac519726f1398e433711e5596144182bc81b8289c689eba7eaba7dd4",
+    "web/app/package-lock.json": "70e9a4b8d8671412ddfb2d103970908e45168ff4a38416ff8b40afdb779e7715",
+    "web/app/src/lib/components/VesselSpectralGap.test.ts": "fdc68221c8e9e58b5d706f906933c6b85cf32492832e3f648f2bfa1840fca655",
+    "tools/fetch-sundials.sh": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38",
+    ".gitmodules": "70ac65a8b6e2acc056323f236e8e5e34cf8406a7a3b74568f5257a6fa493a1db",
+    "crates/kerotakis-core/tests/optical_sample_admission.rs": "a6410070c615332a27c064987851654091762be53539a91940ba0786bcd136be"
+  },
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "tracked_source_unchanged": true,
+  "actual_submodule_HEADs": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "tracked_gitlinks": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "tests_only_overlays": {}
+}
