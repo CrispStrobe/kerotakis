@@ -1237,6 +1237,7 @@ white = "blanc"
 "yellow-green, toxic" = "jaune-vert, toxique"
 
 [look]
+indicator-optics-missing-ph = "La couleur est incomplète : un pH aqueux fini est nécessaire pour {species}."
 # The space between two whole sentences. It looks like typography rather
 # than language right up until the language is one that does not use it —
 # Japanese runs its sentences together after 。 — so it is a row here for
@@ -1459,6 +1460,7 @@ PVA = "PVA"
 "muscle protein" = "protéine musculaire"
 
 [not-modeled]
+indicator-optics-missing-ph = "l’absorbance complète est indisponible : un pH aqueux fini est nécessaire pour {species}"
 "liquid-partition-refused" = "Un coefficient de partage liquide/liquide fini pour {species} à {temperature} K est indisponible : {why} ; aucun transfert de soluté non pris en charge n’est appliqué"
 "peroxide-rich-medium" = "Ce liquide contenant du peroxyde est sous le seuil éditorial d'admission d'un solvant majoritairement aqueux. Une trace d'eau produite par une réaction ne suffit pas à établir un milieu aqueux. Aucun modèle d'activité validé n'est disponible pour ce milieu riche en peroxyde : le pH aqueux, la force ionique et la spéciation sont retirés, l'inventaire est conservé, et les avancements de réaction représentés séparément ne constituent pas une prédiction complète du mélange."
 "silver-ammine-ligand-inventory" = "Les complexes argent-ammoniac et le ligand libre sont représentés dans la spéciation de la solution. Les fractions canoniques NH3/NH4 restent des porteurs analytiques de l'azote réduit total, y compris l'ammoniac lié aux complexes ; ce ne sont pas des quantités mesurées de NH3 libre. Leur utilisation pour la volatilisation ultérieure de l'ammoniac ou sa disponibilité dans les réactions organisées n'est pas encore conciliée avec le ligand lié. Cette limite ne retire pas la distribution des complexes à l'équilibre rapportée."

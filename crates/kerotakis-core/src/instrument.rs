@@ -295,7 +295,7 @@ impl InstrumentContract for Spectrophotometer {
         let spectrum = self.measure_spectrum(vessel);
         // A partial spectrum is useful diagnostically, but is not a complete
         // instrument reading. The appearance reports the missing species.
-        if !crate::solution_optics::spectral_gaps(vessel).is_empty() {
+        if !crate::solution_optics::coverage(vessel).is_complete() {
             return None;
         }
         let peak_abs = spectrum.iter().copied().fold(0.0f64, f64::max);

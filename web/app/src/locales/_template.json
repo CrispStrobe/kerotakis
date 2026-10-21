@@ -2767,6 +2767,8 @@
   "{count}×": "",
   "{material} softened at {temperature} K, {over} K past its softening point; cooling sets it in the new shape": "",
   "{material} charred at {temperature} K — past decomposition, and this does not undo": "",
-  "{material} held its shape at {temperature} K; its wall is {threshold} K": ""
-  }
+  "{material} held its shape at {temperature} K; its wall is {threshold} K": "",
+  "the computed colour is incomplete: pH is missing or invalid for {species}": "",
+  "colour needs pH": ""
+ }
 }

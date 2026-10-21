@@ -56,9 +56,52 @@ pub(crate) fn visible_moles(vessel: &Vessel, key: &str, analytical: f64) -> f64 
     })
 }
 
+/// Coverage of the supported partial spectrum. Missing prerequisites must not
+/// be presented as a complete zero-absorbance measurement.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct OpticalCoverage {
+    pub missing_spectra: Vec<String>,
+    pub missing_ph: Vec<String>,
+}
+impl OpticalCoverage {
+    pub fn is_complete(&self) -> bool {
+        self.missing_spectra.is_empty() && self.missing_ph.is_empty()
+    }
+}
+
+/// Check the actual visible aqueous/liquid inventory, not provenance or a
+/// retained solid/adsorbed pool. No missing pH is inferred to be neutral.
+pub fn coverage(vessel: &Vessel) -> OpticalCoverage {
+    let valid_ph = vessel.solution.as_ref().is_some_and(|s| s.ph.is_finite());
+    let missing_ph = if valid_ph {
+        Vec::new()
+    } else {
+        vessel
+            .contents
+            .iter()
+            .filter(|p| matches!(p.phase, Phase::Aqueous | Phase::Liquid))
+            .filter(|p| p.moles.0 > 0.0 && crate::indicator::is_ph_dependent(&p.species.0))
+            .filter(|p| visible_moles(vessel, &p.species.0, p.moles.0) > 0.0)
+            .map(|p| p.species.0.clone())
+            .collect::<std::collections::BTreeSet<_>>()
+            .into_iter()
+            .collect()
+    };
+    OpticalCoverage {
+        missing_spectra: missing_native_spectra(vessel),
+        missing_ph,
+    }
+}
+
+/// Legacy missing-spectrum list for scene consumers. Missing pH has a distinct
+/// typed cause in coverage(), not an absent spectrum.
+pub fn spectral_gaps(vessel: &Vessel) -> Vec<String> {
+    coverage(vessel).missing_spectra
+}
+
 /// Missing spectra for native species containing a known chromophore element.
 /// This is a coverage warning, not a claim that each such species is coloured.
-pub fn spectral_gaps(vessel: &Vessel) -> Vec<String> {
+fn missing_native_spectra(vessel: &Vessel) -> Vec<String> {
     let Some(solution) = &vessel.solution else {
         return Vec::new();
     };
@@ -100,6 +143,7 @@ pub fn absorbance(vessel: &Vessel, path_cm: f64) -> [f64; crate::spectrum::BANDS
             vessel
                 .solution
                 .as_ref()
+                .filter(|s| s.ph.is_finite())
                 .and_then(|s| crate::indicator::spectrum_at_ph(key, s.ph))
         } else {
             species::lookup(&portion.species)
