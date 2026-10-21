@@ -1,0 +1,9 @@
+# Actual57 optical browser observation issued once
+
+At19:27UTC one private CPU observation was issued for actual deployed57edd231/native74ba47dd/generated lock41bbdc74. It retains the original64 checks and adds the frozen18 optical rows. This is the actual new release, not a replay of prior3162. The signed never-merge evidence commit2c92bdb9 has sole parent57edd and adds exactly the unchanged browser helper plus actual release binding. It must never be merged into main.
+
+Parent and independent saved package reviews authenticate65 real input files:53 static plus12 actual-derived. All original forecast/reference bytes, including independent methanol2bc0e037, are retained. The selected worker is620891 bytes and serializes exactly CONFIG/CONFIG_SHA256/EXPECTED_RELEASE; independent AST normalization preserves every other source node. Both literal dependency tables resolve and13 source/serialization controls pass. These checks are not chemistry or browser observations.
+
+The existing version1 collector owns serial fast-filesystem validation and separately rehashed storage copies. Inspect that owner before any action; never issue a duplicate observation or alter frozen source while it runs. Actual collection, unchanged64 plus18 raw loaded-response/PNG/worker evidence and both saved review chains remain pending. Missing chemistry prerequisites stay HOLD; no counterions or pH values are invented.
+
+Qualified coverage remains335/468, catalog339. Follow [the delivery lane](../../../docs/optics82-delivery-lane-20261021.md), then frozen12 cap controls before runtime edits and disjoint remaining133 original reviews. This issue creates no scientific selections, empirical calibration or completed product acceptance. Provider account, private input paths, credentials and process inventory remain private.

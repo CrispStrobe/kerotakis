@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-21T19:25:12.640421+00:00",
+  "actual65_files_verified": true,
+  "source_aliases": 53,
+  "dynamic_aliases": 12,
+  "worker_bytes": 620891,
+  "input_bytes": 437576,
+  "all3_slots_and_non_slot_AST_verified": true,
+  "independent_host_validate_ready_pass": true,
+  "ready_sha256": "ac150bdeb522c3bcc238e88519ad10251d9c6ab2a4bfc50fdbe5722111b1318f",
+  "browser_execution": false
+}

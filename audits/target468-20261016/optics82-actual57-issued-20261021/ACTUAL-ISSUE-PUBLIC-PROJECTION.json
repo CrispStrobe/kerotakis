@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-21T19:27:04.617142+00:00",
+  "worker_sha256": "7d300680050572b144f5367d5e6c478ec8b228c1e4ea5d9440659a3398cd1932",
+  "config_sha256": "6c4f8f59d4ee49dcc121100f6c021b1d79ec8733293685bd8f09c50b48bd51c6",
+  "runtime_source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "one_issue_only": true,
+  "parent_reviewed_exact_producer_and_readers": true,
+  "version": 1,
+  "is_private": true,
+  "actual_issue_receipt_sha256": "917e655d0c3321e7115e530c875bcdd3540b6c284df0874db301073bbfc824e4",
+  "harness_head": "2c92bdb99bf2c5a6576420e43c1a6a7a6d66821b",
+  "harness_tree": "8bda0d83cc0c3d17aa75ef6cd996fd8f33cf47c8",
+  "native": "74ba47dd8f98d54a2bad31c487d490959996571c32a8255c7eb09bc97609d57d",
+  "actual_producer_lock": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "final_serialized_worker_bytes": 620891,
+  "actual_input_files": 65,
+  "original64_plus_frozen18": true,
+  "actual_result_or_browser_acceptance": false,
+  "scientific_selections": 0
+}

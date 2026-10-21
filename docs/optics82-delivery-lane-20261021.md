@@ -2,6 +2,9 @@
 
 PR854/head62f64727 is genuinely accepted and normally integrated as57edd231. Both full saved reviews, all27 CI jobs and both108-control platform logs pass. Production workflow39657891195 completed on57edd; actual archive/native74ba/generated lock41bb, security and original API11 controls now pass two independent saved reviews. [Actual release evidence](../audits/target468-20261016/optics-actual-release-api-and-binding-20261021/README.md) preserves the real identities and narrowly repaired origin authority. Actual browser82 remains pending. Inspect existing owners/results in the private operating handoff before any execution. Do not repeat a job, rerun an unchanged original corpus or relabel a prior binary as a new release.
 
+
+**Actual observation issued19:27UTC:** the [new82 issue](../audits/target468-20261016/optics82-actual57-issued-20261021/README.md) has65 checked real inputs, a620891-byte worker, exact3-slot binding and signed never-merge harness2c92bdb9 with sole57edd parent. Parent and independent final source/serialization reviews pass. Original forecast/methanol reconciliation and packaging are complete. The existing exact-version collector owns this run; actual browser output and two saved review chains remain pending. Do not repeat issue, deployment or API11.
+
 ## Lane1 — preserve completed source integration
 
 Read [current state](STATUS.md) and [current full/integration evidence](../audits/target468-20261016/optics-current-full-and-integration-20261021/README.md). Current627/2216/184/2, all33/142/29/500 and37 SSR/Svelte are genuinely accepted. Both current saved reviews agree, all108 required identities pass in each platform log and normal protected integration produced57edd231 with parents42030ca2/62f64727 and reconstructed tree732874f2. Preserve original metadata/writer/guard failures, raw source/binary/lock bindings and separate preceding4d acceptance. This lane is complete; do not issue another full or merge request.

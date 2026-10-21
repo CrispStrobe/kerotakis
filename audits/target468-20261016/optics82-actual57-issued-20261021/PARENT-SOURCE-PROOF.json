@@ -1,0 +1,9 @@
+{
+  "manifest_members": 123,
+  "unchanged_scientific_readers": true,
+  "heat_only_candidate_changed": true,
+  "both_literal_pin_tables_resolve": true,
+  "actual_template_and_synthetic_controls_exit_status": 0,
+  "controls": 13,
+  "no_worker_execution": true
+}
