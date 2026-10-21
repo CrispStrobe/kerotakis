@@ -66,7 +66,7 @@ fn check(sign: f64) {
     assert!(((liquid - 1.0) - sign * expected).abs() < 1e-12);
     assert!((liquid + solid - 2.0).abs() < 1e-12);
     assert!((vessel.temperature.0 - 273.15).abs() < 1e-12);
-    assert!(events.iter().any(|event| matches!(event, Event::StateChanged { moles, .. } if moles.0 > 0.0 && moles.0 < kerotakis_core::OBSERVABLE_MOLES)));
+    assert!(events.iter().any(|event| matches!(event, Event::StateChanged { moles: Some(moles), .. } if moles.0 > 0.0 && moles.0 < kerotakis_core::OBSERVABLE_MOLES)));
     let before = vessel.clone();
     let repeat = StateEquilibrator.equilibrate(&mut vessel).unwrap();
     assert!(!repeat
