@@ -1,0 +1,11 @@
+# AD005 bounded saved-original qualification
+
+Original `batch3-diverse:ad-005` supports adsorption is not desalination within its stated model limits. Independent parent reproduction matches all decoded saved-review values; a separate global component audit checks all13 commands. The per-command/vessel atom and formal-charge ledger includes adsorbed dye and closes to1.00030e−18mol under unchanged1e−10mol bounds.
+
+About93.8675% of dye remains with donor charcoal. Filtrate and original salt-only reference retain5mmol each Na/Cl and equal actual10904.797290155404µS/cm readings. Filtrate has actual0.4869704728670351 absorbance at465nm. The16-band editorial spectrum and installed Langmuir partition were independently reconstructed from historical source. No measured pretreatment spectrum exists; the derived7.94AU restored-dose counterfactual is outside4AU and is neither an observation nor a calibrated contrast. The actual29.89µK temperature difference is preserved.
+
+Installed adsorption parameters explicitly await provenance review. Dye ionic equilibrium is unrepresented: all four actual warnings and conductivity correction notices remain in the assessment. This earns no full-mixture speciation, complete decolourisation, empirical calibration, general water-treatment or full calorimetric claim. Binary/lock identities are producer-identified only because their raw bytes are absent. This is historicalc446 evidence, not a current-release rerun.
+
+AD001/EN001 remain held: their zero405nm optical readings fail to establish requested contrast, including the intact-starch positive control. EN002 remains held pending full milk/proton/unresolved-carrier ownership review. Earlier reader preparation mistakes and exact raw failure records remain preserved by the operator; corrected readers changed no experiment/source/criterion/tolerance. The final reader output is semantically deterministic; dictionary order can differ, so parent equality compares decoded objects and preserves both original byte hashes.
+
+`review_saved.py --repo <repository> --out-dir <fresh-output>` reproduces saved-only arithmetic and authentication without simulator/API/build calls. See `parent-adjudication.json`, actual copied AD005 raw bytes and `raw-bindings.json`. Selection is separately recorded in `../selection-AD005-20261021/`.

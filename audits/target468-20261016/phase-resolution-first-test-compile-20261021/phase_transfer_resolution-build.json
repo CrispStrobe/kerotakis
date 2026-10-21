@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "phase_transfer_resolution",
+    "--no-run",
+    "--message-format=json"
+  ],
+  "exit_status": 101,
+  "error_type": "AssertionError",
+  "owned_process_group": 4690,
+  "stdout_sha256": "62c944c91eca056f8d0c9786eb33af4c0653f3f7385582c06c4ca29e8ac7be83",
+  "stderr_sha256": "cb3453a61552551a004f95617b232f168e5a48248a8185df07a0f7d575e273b4"
+}

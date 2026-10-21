@@ -1,0 +1,7 @@
+{
+  "error_type": "AssertionError",
+  "error": "phase_transfer_resolution-build failed; preserve first compiler/setup failure",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 99, in main\n    executables={row['target']:build(row)for row in P['targets']}\n                               ~~~~~^^^^^\n  File \"/kaggle/src/script.py\", line 49, in build\n    run(target+'-build',['cargo','test','--locked','-p',package,*selector,'--no-run','--message-format=json'],cwd=R)\n    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/kaggle/src/script.py\", line 34, in run\n    if required:assert status==0,name+' failed; preserve first compiler/setup failure'\n                       ^^^^^^^^^\nAssertionError: phase_transfer_resolution-build failed; preserve first compiler/setup failure\n",
+  "first_partial_evidence_preserved": true,
+  "automatic_retry": false
+}

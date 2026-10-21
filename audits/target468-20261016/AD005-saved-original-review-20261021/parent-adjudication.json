@@ -1,0 +1,144 @@
+{
+  "accepted_originals": [
+    "batch3-diverse:ad-005"
+  ],
+  "held_originals": [
+    "batch3-diverse:ad-001",
+    "batch3-diverse:en-001",
+    "batch3-diverse:en-002"
+  ],
+  "reader_sha256": "42fdaef51a2fbb0a44843d44c53ddf5e00789e4e4b57943f6e7b64ccb97d90e9",
+  "assessment_sha256": "85b7d3ce327cee157b9ebabfab57b26d2e1ac4fdf55dad8cbcfefb48ad59785b",
+  "parent_reproduction_sha256": "59cba6d0f0816e73f4d4f2295455a4743eff5032a718736416915e2fbfcdcf66",
+  "reproduction_semantically_identical": true,
+  "byte_reproduction_qualification": "Residual dictionaries iterate sets: JSON key order differs, values and complete decoded objects are identical. First byte-equality assertion was rejected; no source/model rerun or numerical change.",
+  "parent_independent_global_component_checks": [
+    {
+      "operator": {
+        "op": "new_vessel"
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "op": "new_vessel"
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "2.7671384956980294",
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "0.00001527491797369048",
+        "op": "add",
+        "species": "methyl_orange",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "0.005",
+        "op": "add",
+        "species": "NaCl",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "0.008325701440346351",
+        "op": "add",
+        "species": "activated_charcoal",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "2.7671384956980294",
+        "op": "add",
+        "species": "water",
+        "vessel": 1
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "0.005",
+        "op": "add",
+        "species": "NaCl",
+        "vessel": 1
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "from": 0,
+        "op": "filter",
+        "to": 2
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 1
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 2
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 2
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "op": "inspect"
+      },
+      "component_ownership_holds": true
+    }
+  ],
+  "original_four_criteria_adjudication": {
+    "question": "Charcoal-held dye plus retained Na/Cl and actual matched salt-only conductivity support adsorption is not desalination; no complete decolourisation claim.",
+    "inventory": "All actual command/vessel atom/formal-charge ledgers close within unchanged1e-10mol, independent global component audit also passes. Adsorbed dye remains with donor; all filter liquid/aqueous carriers transfer.",
+    "coverage": "Actual four dye-ion mapping warnings and conductivity dilute-limit notices retained; represented NaCl-only native solution/qualitative installed adsorption and editorial spectrum boundaries explicit. No complete-mixture speciation or empirical calibration.",
+    "controls": "Original salt-only control retains equal water/Na/Cl/derived solution and actual conductivity; real29.89microK temperature difference retained. No measured pretreatment spectrum invented."
+  },
+  "not_claimed": [
+    "Current-source replay or changed release acceptance",
+    "Empirical adsorption/optical calibration",
+    "Complete decolourisation or desalination",
+    "7.94AU counterfactual as observed or in-range quantitative validation",
+    "Modelled dye ionic equilibrium",
+    "Complete calorimetry"
+  ],
+  "historical_engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "actual_binary_lock_bytes_rehashed": false,
+  "scientific_selection_performed": false,
+  "product_engine_API_provider_calls": 0
+}

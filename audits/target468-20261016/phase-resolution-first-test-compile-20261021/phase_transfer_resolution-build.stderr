@@ -1,0 +1,2 @@
+   Compiling kerotakis-core v0.0.1 (/kaggle/temp/phase-resolution-focus/source/crates/kerotakis-core)
+error: could not compile `kerotakis-core` (test "phase_transfer_resolution") due to 2 previous errors

@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-21T06:03:20.861345+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 337,
+  "source_qualified_selected_in_target": 333,
+  "additional_selections_needed_for_401": 68,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261021-reviewed-AD005.json",
+  "catalog_sha256": "c4b4424016366f2ab10073a004896c9cbba119dc762bd343c80adbe285b02b96",
+  "selection_receipt": "audits/target468-20261016/selection-AD005-20261021/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard-20261020-reviewed-PQ002-PQ003.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "AD005 original qualitative adsorption/retained salt and matched salt-only conductivity support, with full owned ledger and limited editorial465nm output. Pending adsorption provenance, unmapped dye ions, absent pretreatment optical observation and historical binary/lock byte limitations explicitly retained; no current-release or empirical calibration claim."
+}
