@@ -1,0 +1,11 @@
+{
+  "README.md": "41b0f5d09630e4ebc90bebdb278164c88789576b51d4de738a8b88a549aeff26",
+  "STOPPED.json": "bf5c797c87b8a9e7c4358a6a71ff20da1e417afda0b8f375bcd1178d2891c7f3",
+  "canonical-format.json": "55efe154ca18f2d3d77290f2edf07586be7d0fb9cbdb7926b93a89c6cc530a9d",
+  "compiler-errors.json": "e7293f27984187c8ee54b7b6038d76686c9d0dda80223c35cfc48ed7c255839d",
+  "manifest.json": "6cc3f2fc3a00feb940e4b061227087125dce9653ebeb4e7c63844a7c2b114688",
+  "serialization-continuation.json": "13596911e6119208f8e1456baf924967ffd98a8523b78aeebd6e23686cbb91c7",
+  "tc008_energy_trace-build.json": "391fccca6ce6af2d0cc55f5e786d0ba53d2d8afb61f434e8aa0d1392d9b9cac7",
+  "tc008_energy_trace-build.stderr": "894776fe8d22bf58d5cda80fe51f12634f0363f0bba75df836fe7be438943b1b",
+  "tc008_energy_trace-build.stdout": "8a7598c3d46a5fc9ab7dfee9b660804e7633379602e1865d02c74c1df08bf1ec"
+}

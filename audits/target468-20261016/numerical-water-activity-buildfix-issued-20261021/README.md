@@ -1,0 +1,9 @@
+# Corrected numerical-activity focus issued
+
+One private CPU validation is active on source6899ceb8, treea91ad47a, PR852. It retains exactly the prior27 control names across seven executables, the unchanged frozen five inputs,668 dependency-lock input and external392c independent TC008 reader. Only the reviewed MIX error-forwarding correction changes source from the preserved23acc6d4 compile stop. The input plan now uses the same exact pretty serialization as the producer.
+
+The source repair reads high-precision numerical H2O activity in native direct/MIX/cache results to address the two genuine old1ca freeze/melt cycles. It does not loosen model admission,32-pass convergence bounds, reference data or energy acceptance. The five parser/cache controls and both original cooling protocols are actual tests to run, not claimed passes. Other species' report molalities remain rounded. [First source compiler failure and collector continuation](../numerical-water-activity-first-compile-20261021/README.md) are preserved.
+
+Next: collect this exactv1 once; authenticate the closed manifest, actual source/tree/lock and seven decompressed executable identities; inspect every actual named result. Independently apply the unchanged saved reader to the new original TC008 trace and require the same0.001J/1e−10mol contracts. Only accepted focused results admit one full own-fleet validation on this exact source. Retain all33 groups/142 steps/29 law reports/500 requirements,2185 core/626 native/184 thermodynamics/two hooks/cache/classifier/UTF8/format checks, both protected platforms and normal exact-head integration, then actual changed-release acceptance.
+
+The full source preparation is unissued and has no acceptance receipt. PR852 stays draft; the old stopped integration watcher must not be restarted unchanged. Model-cap energy/refusal is a separate task. Coverage stays332/468 until a separately earned scientific selection after delivery.

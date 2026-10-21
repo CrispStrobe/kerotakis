@@ -1,0 +1,246 @@
+{
+  "STARTED.json": {
+    "sha256": "fac617d001207505c9f9ab9b5f0c4c917c40a9f3e71ea80985623c2ae1f06539",
+    "bytes": 429
+  },
+  "STOPPED.json": {
+    "sha256": "bf5c797c87b8a9e7c4358a6a71ff20da1e417afda0b8f375bcd1178d2891c7f3",
+    "bytes": 961
+  },
+  "actual-producer-Cargo.lock": {
+    "sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "bytes": 79537
+  },
+  "brine_phase_energy-binary.json": {
+    "sha256": "9e6e96747dacf4cbe7e65becde92b6668870ee991b86b47cf842507a69840245",
+    "bytes": 634
+  },
+  "brine_phase_energy-build.json": {
+    "sha256": "07f1887f76d736c7a9dbf95f173b6aab67f0f7acb448c5b845a04a957e442b47",
+    "bytes": 423
+  },
+  "brine_phase_energy-build.stderr": {
+    "sha256": "14c100c44afe6bfbc0ee1da25eba45f0732a18a84ad1c9dcd6fca53f0ef86cc4",
+    "bytes": 13225
+  },
+  "brine_phase_energy-build.stdout": {
+    "sha256": "88da6bddbd2502ca76434de74d09b13d08ba2c4d05f823718576b6d060b1f52c",
+    "bytes": 224362
+  },
+  "brine_phase_energy.gz": {
+    "sha256": "f99e370698f123ad43808604c85d10c79b85a2f228143cb8d0080515a3e0dadc",
+    "bytes": 10047915
+  },
+  "canonical-format.json": {
+    "sha256": "55efe154ca18f2d3d77290f2edf07586be7d0fb9cbdb7926b93a89c6cc530a9d",
+    "bytes": 304
+  },
+  "canonical-format.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "canonical-format.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "cargo-version.json": {
+    "sha256": "416dcfc4293d94006ea13023416aeb79f097d707965c9e2ea43f9c942812feb1",
+    "bytes": 294
+  },
+  "cargo-version.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "cargo-version.stdout": {
+    "sha256": "c35608815f43d0b8788a9b826fad2bb17384f49fb328dc4fe64da9db5f5ef4d6",
+    "bytes": 36
+  },
+  "compiler.json": {
+    "sha256": "fe3d7769c5e0647df836e10097e96b862a3f476bf31ac7ff95ebdb0782ed4404",
+    "bytes": 288
+  },
+  "compiler.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "compiler.stdout": {
+    "sha256": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+    "bytes": 196
+  },
+  "external-saved-reader/baseline-saved-reader-result.json": {
+    "sha256": "cd439c56c8450c866e321ca407a1eea9e7227bc36e3bca34d8f52df6c1632c04",
+    "bytes": 278
+  },
+  "external-saved-reader/fixtures/tc008-original.lab": {
+    "sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+    "bytes": 282
+  },
+  "external-saved-reader/review_trace.py": {
+    "sha256": "392c7895df7b0c257ef5a198245c7c470f180373c14d26464fb58f331426f81e",
+    "bytes": 12073
+  },
+  "fetch-rustup.json": {
+    "sha256": "858f5c62bcb7b41c938f20fc51b9f18b143edb77bfa069e4ae3630ebe4f6a0ad",
+    "bytes": 406
+  },
+  "fetch-rustup.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "fetch-rustup.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "fixture-source-fetch.json": {
+    "sha256": "324a311667c9e559a428ff451a3064988109cb36c3abe5c4e5a05156bafad647",
+    "bytes": 374
+  },
+  "fixture-source-fetch.stderr": {
+    "sha256": "743cb22ebfc22ccafac7800538b637c8ce3e228c298aa0024bcf919de554cf5f",
+    "bytes": 122
+  },
+  "fixture-source-fetch.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "frozen-inputs/brine_phase_energy.rs": {
+    "sha256": "3ce054a91dd581b0d9706cbb8dfec97d9b0cdadcfa1976624de1c212e588a591",
+    "bytes": 9568
+  },
+  "frozen-inputs/design.json": {
+    "sha256": "bd0e1eec1a8681c1132e4aabd5d42a214dd6d35714a1baf6d86731424e9ff0c3",
+    "bytes": 7039
+  },
+  "frozen-inputs/fixtures/tc008-original.lab": {
+    "sha256": "e4b74c4bf0faf8dcbcf0adf6957df668ae62b3a87ad716293e92c0ac4347dfd5",
+    "bytes": 282
+  },
+  "frozen-inputs/review_trace.py": {
+    "sha256": "99bb9b2e0ed09b1d02f7415f631c01d7584cfd7a7d8dcdbd07342cf77f760ca0",
+    "bytes": 11802
+  },
+  "frozen-inputs/tc008_energy_trace.rs": {
+    "sha256": "331651a28d225e2d64e603974063a5881aca002bc86790a950f9bd565fbc611e",
+    "bytes": 11011
+  },
+  "frozen-plan.json": {
+    "sha256": "fd4efce7313f6619a7fe97a7d5efae8e982740116f37b1238d4a7d635736d1c7",
+    "bytes": 186840
+  },
+  "git-checkout.json": {
+    "sha256": "bb9950ddef1a56f84f8a6ee47fbfb79b32244028396189faca02592e7d8feb20",
+    "bytes": 355
+  },
+  "git-checkout.stderr": {
+    "sha256": "7da9eae2cd2519dca65a2d653abfa79203c01ccb6712126aba5b4a03714debb5",
+    "bytes": 87
+  },
+  "git-checkout.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "git-fetch.json": {
+    "sha256": "7c6b0b55ef8dd72a2eb79f70787631a24f8bb6e92f2a4a495db89956c143dda0",
+    "bytes": 374
+  },
+  "git-fetch.stderr": {
+    "sha256": "dd430540af4c62395866c0777cc7d249125033f8ada8de16af34181effa1cb0b",
+    "bytes": 122
+  },
+  "git-fetch.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "git-init.json": {
+    "sha256": "0a99cb641bfbc3604e54d9f15043248d9a95aec49f9f402ec83d3f319d4363e5",
+    "bytes": 335
+  },
+  "git-init.stderr": {
+    "sha256": "7cc74f74cc8a8f9938bd00571e2c171ce3c59d048f2242a836ccca722182d430",
+    "bytes": 485
+  },
+  "git-init.stdout": {
+    "sha256": "6774da67c839f7decefbe00f84a997edc3d871deeb7f01c16c5f89044dbb37e6",
+    "bytes": 83
+  },
+  "git-remote.json": {
+    "sha256": "d3e65b0e19baa45cd82ba11a0cb4eaeca6e4e55fa1bcd4034a63b699601d010a",
+    "bytes": 366
+  },
+  "git-remote.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "git-remote.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "install-rust.json": {
+    "sha256": "d13cb1f96c0301668d9fc14f869246e6765b14539d911bc8448d4567423d2e77",
+    "bytes": 437
+  },
+  "install-rust.stderr": {
+    "sha256": "661d5ddf7697e8aefebd7f0f9a339eb34f7112d32bc1080685c60001bc4a22b2",
+    "bytes": 346
+  },
+  "install-rust.stdout": {
+    "sha256": "935ffb9833679b7da688a95efdcd3b71ec1381e5ff32bbc3d7cff4befb1f43ca",
+    "bytes": 1259
+  },
+  "install-rustfmt.json": {
+    "sha256": "2d134ae9a03acbab1866359c73d8be6cc979585256b617c296e15238f4be4994",
+    "bytes": 322
+  },
+  "install-rustfmt.stderr": {
+    "sha256": "eb99b4a4cac7b9133a096e4d9c50c3c06be47953bc602343afcb34913585f06a",
+    "bytes": 36
+  },
+  "install-rustfmt.stdout": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "native-submodules.json": {
+    "sha256": "6c3208007fe793077804407a167558a70426942ff104c6e2a2e91fb28bbd176c",
+    "bytes": 364
+  },
+  "native-submodules.stderr": {
+    "sha256": "705f5ceded107e5121ccb91d32923a6a53693ec58c268482de0127b070cc5aa9",
+    "bytes": 401
+  },
+  "native-submodules.stdout": {
+    "sha256": "506b14f556ca726d5c1f6bef730fff3e5e526ca71c2d74b689b3c6e131de8f75",
+    "bytes": 183
+  },
+  "parent-issue-review.json": {
+    "sha256": "bb4cb15243896da8329bdeb14a036005e19ce3f6c8afe0875a382b02bebddf30",
+    "bytes": 733
+  },
+  "runtime-git-tree.txt": {
+    "sha256": "c13213c576fe9af396ffd08f073f8ebf7502b0f61f44997787b6515696417038",
+    "bytes": 258578
+  },
+  "rustup-bootstrap.json": {
+    "sha256": "953126030ee5496b5f8fe1a0aecbba67718a95a881ab0498703058ae16e051b4",
+    "bytes": 217
+  },
+  "seed-Cargo.lock": {
+    "sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "bytes": 79537
+  },
+  "source-before.json": {
+    "sha256": "89bcd692607390dd94a26f9a4643c644f54835e9924f1ed882ae7b9a65dfcbfd",
+    "bytes": 2887
+  },
+  "tc008_energy_trace-build.json": {
+    "sha256": "391fccca6ce6af2d0cc55f5e786d0ba53d2d8afb61f434e8aa0d1392d9b9cac7",
+    "bytes": 437
+  },
+  "tc008_energy_trace-build.stderr": {
+    "sha256": "894776fe8d22bf58d5cda80fe51f12634f0363f0bba75df836fe7be438943b1b",
+    "bytes": 4294
+  },
+  "tc008_energy_trace-build.stdout": {
+    "sha256": "8a7598c3d46a5fc9ab7dfee9b660804e7633379602e1865d02c74c1df08bf1ec",
+    "bytes": 206858
+  }
+}

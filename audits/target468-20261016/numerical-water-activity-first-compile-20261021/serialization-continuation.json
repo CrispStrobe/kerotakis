@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-21T05:23:54.156663+00:00",
+  "source": "23acc6d46889e693145227010aad933e60f33336",
+  "same_issued_worker_sha256": "da742bb79fd85984c1269f6f58c45466d327d9e3adebb75826c8268d56bcd362",
+  "old_compact_plan_sha256": "dc726a72a12cb5cf5c8e50561f0bd2a2d8198b44a0888c742d45218785a9ec3a",
+  "expected_archived_producer_plan_sha256": "fd4efce7313f6619a7fe97a7d5efae8e982740116f37b1238d4a7d635736d1c7",
+  "actual_retained_spool_matches_exact_producer_serialization": true,
+  "collector_sha256": "4f8790a11a4374d681b8b3413ba7b8d35f3cb5cec461bac587b3dbcea22a8d04",
+  "body_change": "Only exact producer plan serialization expression and fresh collection/destination identity. Input plan/worker/source/tests unchanged; original failure retained.",
+  "no_engine_or_provider_reexecution": true
+}

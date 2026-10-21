@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-21T05:26:27.778235+00:00",
+  "source": "6899ceb8fb5d93e6e59c74cb43eb0d84a0aae16e",
+  "tree": "a91ad47ac1f0f3412a3357dd7e20606f5f3a34c8",
+  "reviewed_for_one_bounded_focus": true,
+  "actual_release_api11_browser64_accepted": true,
+  "actual_accepted_release_source": "33e043ef4a4a4225e5ea8d49ba93e8df99716c5f",
+  "actual_previous_compiler_failure_preserved": true,
+  "only_source_difference_from_23": "Explicit Result error forwarding into Option<Result> MIX return; no test/forecast/control/tolerance changes. Parent and helper3 reviewed.",
+  "all19_git_source_pins_rehashed": true,
+  "frozen5_inputs_and_external392c_unchanged": true,
+  "model_cap_energy_gap_still_open": true,
+  "expected_controls": 27
+}

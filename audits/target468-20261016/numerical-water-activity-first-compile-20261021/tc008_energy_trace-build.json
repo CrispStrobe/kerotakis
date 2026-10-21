@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-cli",
+    "--test",
+    "tc008_energy_trace",
+    "--no-run",
+    "--message-format=json"
+  ],
+  "exit_status": 101,
+  "error_type": "AssertionError",
+  "owned_process_group": 2820,
+  "stdout_sha256": "8a7598c3d46a5fc9ab7dfee9b660804e7633379602e1865d02c74c1df08bf1ec",
+  "stderr_sha256": "894776fe8d22bf58d5cda80fe51f12634f0363f0bba75df836fe7be438943b1b"
+}

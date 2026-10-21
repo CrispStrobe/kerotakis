@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-21T05:26:33.689373+00:00",
+  "runtime_source": "6899ceb8fb5d93e6e59c74cb43eb0d84a0aae16e",
+  "worker_sha256": "39c9cfd7ab8d7b270e7cb2204a8b35d3706d4a5049380fe596d7b946ef656834",
+  "actual_plan_sha256": "3e65fc7d4d283b5fd16d91fb2eee52e2c33a21605d353839f5794ab589b9f824",
+  "version": 1,
+  "version_label": "v1",
+  "private_CPU_only": true,
+  "one_issue_only": true,
+  "scientific_or_energy_acceptance": false,
+  "tree": "a91ad47ac1f0f3412a3357dd7e20606f5f3a34c8",
+  "control_count": 27,
+  "executable_count": 7,
+  "scope": "ISSUED; no result assigned"
+}
