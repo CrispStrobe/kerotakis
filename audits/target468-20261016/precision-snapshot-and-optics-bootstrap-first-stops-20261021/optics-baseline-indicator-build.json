@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "indicator_optical_coverage",
+    "--no-run",
+    "--message-format=json"
+  ],
+  "exit_status": 101,
+  "error_type": "AssertionError",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "bed65ef1c7a282518bff89008448da62dad7807c6ae09750cad1730ac4407f11"
+}

@@ -1,0 +1,7 @@
+{
+  "error_type": "AssertionError",
+  "error": "combined-native-2",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 224, in <module>\n    run('combined-native-'+str(n),command,cwd=base,env=env,timeout=1800)\n    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/kaggle/src/script.py\", line 74, in run\n    if required:assert p.returncode==0,name\n                       ^^^^^^^^^^^^^^^\nAssertionError: combined-native-2\n",
+  "logical_jobs_completed": [],
+  "no_auto_retry": true
+}

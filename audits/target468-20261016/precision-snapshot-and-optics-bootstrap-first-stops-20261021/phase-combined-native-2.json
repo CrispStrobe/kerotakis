@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "-p",
+    "kerotakis-cea",
+    "--lib",
+    "--tests",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "exit_status": 101,
+  "stdout_sha256": "f955ccb5fe703264fa4dc476176b211193adf0b76965a816a5eb5815d8e38521",
+  "stderr_sha256": "a8c8d3e58bf6e4e682bb4e597e0eb1391230733cc1ca4262bec3d109acbd902c"
+}

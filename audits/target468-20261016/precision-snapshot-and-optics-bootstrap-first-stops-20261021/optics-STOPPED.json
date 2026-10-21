@@ -1,0 +1,8 @@
+{
+  "stage": "baseline",
+  "error_type": "AssertionError",
+  "error": "baseline-indicator-build failed; preserve first setup/compiler failure",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 105, in main\n    baseline_exe=build('baseline-indicator');baseline_lib=build('baseline-lib',True)\n  File \"/kaggle/src/script.py\", line 51, in build\n    run(label+'-build',['cargo','test','--locked','-p','kerotakis-core',*args,'--no-run','--message-format=json'],R)\n    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/kaggle/src/script.py\", line 34, in run\n    if required:assert status==0,name+' failed; preserve first setup/compiler failure'\n                       ^^^^^^^^^\nAssertionError: baseline-indicator-build failed; preserve first setup/compiler failure\n",
+  "first_partial_evidence_preserved": true,
+  "automatic_retry": false
+}

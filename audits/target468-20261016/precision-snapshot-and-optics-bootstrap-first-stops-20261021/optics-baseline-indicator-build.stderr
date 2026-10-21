@@ -1,0 +1,4 @@
+    Updating crates.io index
+error: no matching package named `sundials` found
+location searched: /kaggle/temp/indicator-optics-focus/source/sundials-kinetics-rs/sundials
+required by package `kerotakis-sundials v0.0.1 (/kaggle/temp/indicator-optics-focus/source/crates/kerotakis-sundials)`
