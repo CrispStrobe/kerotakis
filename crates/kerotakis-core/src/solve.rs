@@ -1392,6 +1392,11 @@ const SOLVENT: &str = "water";
 /// the resulting inventory before the coupled loop can finish.
 pub const PHASE_COUPLED_TEMPERATURE_TOLERANCE_K: f64 = 0.05;
 
+/// Physical transfer resolution, matching the retained-portion numerical floor.
+/// OBSERVABLE_MOLES is a display threshold; using it here suppresses real
+/// microtransfers and can leave coexistence several microkelvin off its root.
+const PHASE_TRANSFER_RESOLUTION_MOLES: f64 = 1e-12;
+
 /// Where the vessel lands once a phase change has finished and there is
 /// energy left over, K.
 ///
@@ -1859,7 +1864,7 @@ impl Equilibrator for StateEquilibrator {
                 && maximum_freezing < liquid_moles - 1e-12
                 && freezing >= maximum_freezing - 1e-12;
 
-            if freezing <= crate::OBSERVABLE_MOLES {
+            if freezing <= PHASE_TRANSFER_RESOLUTION_MOLES {
                 if reached_boundary {
                     events.push(Event::not_modeled(
                         vessel.id,
@@ -1976,7 +1981,7 @@ impl Equilibrator for StateEquilibrator {
                 pressure_kpa,
             );
 
-            if melting <= crate::OBSERVABLE_MOLES {
+            if melting <= PHASE_TRANSFER_RESOLUTION_MOLES {
                 return Ok(events);
             }
             for p in vessel.contents.iter_mut() {

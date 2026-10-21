@@ -3120,6 +3120,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             frac_b,
             db_tag,
             &merged_problem,
+            phase_input_precision(vessel),
         );
 
         if env_dump_input_all() {
@@ -6447,6 +6448,14 @@ fn foreign_phase_definitions(phases: &[(String, f64, f64)], db_tag: &str) -> Str
     block
 }
 
+fn phase_input_precision(vessel: &Vessel) -> bool {
+    vessel.temperature.0 <= kerotakis_core::states::WATER_FREEZING_K
+        || vessel
+            .contents
+            .iter()
+            .any(|portion| portion.species.0 == "water" && portion.phase == Phase::Solid)
+}
+
 /// Build a PHREEQC input that defines two solutions and mixes them.
 ///
 /// The input defines SOLUTION 1 from vessel A and SOLUTION 2 from vessel B,
@@ -6469,9 +6478,14 @@ fn build_mix_input(
     frac_b: f64,
     db_tag: &str,
     merged: &Problem,
+    phase_precision: bool,
 ) -> String {
     use std::fmt::Write;
     let mut input = String::new();
+    // One cold/icy source or receiver makes the entire MIX transaction
+    // phase-sensitive: preserve both sources' analytical water budgets.
+    let phase_precision =
+        phase_precision || phase_input_precision(vessel_a) || phase_input_precision(vessel_b);
     // A reviewed foreign phase is defined before anything references it —
     // the same injection the direct path makes.
     input.push_str(&foreign_phase_definitions(&merged.phases, db_tag));
@@ -6515,9 +6529,17 @@ fn build_mix_input(
     let temp_a_c = vessel_a.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_a_c:.4}").unwrap();
+    if phase_precision {
+        writeln!(input, "    temp      {temp_a_c:.16e}").unwrap();
+    } else {
+        writeln!(input, "    temp      {temp_a_c:.4}").unwrap();
+    }
     writeln!(input, "    pH        7  charge").unwrap();
-    writeln!(input, "    water     {:.9}", problem_a.kgw).unwrap();
+    if phase_precision {
+        writeln!(input, "    water     {:.16e}", problem_a.kgw).unwrap();
+    } else {
+        writeln!(input, "    water     {:.9}", problem_a.kgw).unwrap();
+    }
     if vessel_a.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
     {
@@ -6536,9 +6558,17 @@ fn build_mix_input(
     let temp_b_c = vessel_b.temperature.to_celsius();
     writeln!(input, "SOLUTION 2").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_b_c:.4}").unwrap();
+    if phase_precision {
+        writeln!(input, "    temp      {temp_b_c:.16e}").unwrap();
+    } else {
+        writeln!(input, "    temp      {temp_b_c:.4}").unwrap();
+    }
     writeln!(input, "    pH        7  charge").unwrap();
-    writeln!(input, "    water     {:.9}", problem_b.kgw).unwrap();
+    if phase_precision {
+        writeln!(input, "    water     {:.16e}", problem_b.kgw).unwrap();
+    } else {
+        writeln!(input, "    water     {:.9}", problem_b.kgw).unwrap();
+    }
     if vessel_b.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
     {
@@ -6739,9 +6769,18 @@ fn build_input_at(
     let temp_c = vessel.temperature.to_celsius();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
-    writeln!(input, "    temp      {temp_c:.4}").unwrap();
+    let phase_precision = phase_input_precision(vessel);
+    if phase_precision {
+        writeln!(input, "    temp      {temp_c:.16e}").unwrap();
+    } else {
+        writeln!(input, "    temp      {temp_c:.4}").unwrap();
+    }
     writeln!(input, "    pH        7  charge").unwrap();
-    if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
+    if phase_precision {
+        // Repeated ice/speciation passes must not quantize the supplied
+        // temperature or analytical solvent budget on each round trip.
+        writeln!(input, "    water     {:.16e}", problem.kgw).unwrap();
+    } else if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
         // Totals below are n/kgw. Quantizing only kgw changes the native
         // supplied element amounts before equilibrium even begins. Preserve
         // finite gas/solution ownership with matching input precision; open
@@ -7169,6 +7208,107 @@ mod numerical_water_activity_tests {
             (result.iter().find(|s| s.name == "H2O").unwrap().activity - 10.0_f64.powf(-0.2)).abs()
                 < 2e-15
         );
+    }
+
+    #[test]
+    fn cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature() {
+        use kerotakis_core::{Kelvin, Moles, Phase, SpeciesId, Vessel, VesselId};
+        for (temperature, ice) in [(260.12345678912345, false), (285.12345678912345, true)] {
+            let mut cold = Vessel::new(VesselId(0), "phase-sensitive input");
+            cold.temperature = Kelvin(temperature);
+            cold.deposit(
+                SpeciesId::new("water"),
+                Moles(1.2345678912345678),
+                Phase::Liquid,
+            );
+            cold.deposit(SpeciesId::new("NaCl"), Moles(0.017), Phase::Solid);
+            if ice {
+                cold.deposit(SpeciesId::new("water"), Moles(0.1), Phase::Solid);
+            }
+            let mut warm = Vessel::new(VesselId(1), "warm source");
+            warm.temperature = Kelvin(298.1500375477956);
+            warm.deposit(
+                SpeciesId::new("water"),
+                Moles(2.345678912345678),
+                Phase::Liquid,
+            );
+            warm.deposit(SpeciesId::new("NaCl"), Moles(0.011), Phase::Solid);
+            let pa = super::partition(&cold).unwrap();
+            let pb = super::partition(&warm).unwrap();
+            let direct = super::build_input(&cold, &pa, "wateq4f");
+            let fields = |input: &str, field: &str| -> Vec<f64> {
+                input
+                    .lines()
+                    .filter_map(|line| line.trim().strip_prefix(field))
+                    .map(|value| value.trim().parse().unwrap())
+                    .collect()
+            };
+            assert_eq!(
+                fields(&direct, "temp "),
+                vec![cold.temperature.to_celsius()]
+            );
+            assert_eq!(fields(&direct, "water "), vec![pa.kgw]);
+            let mut combined = cold.clone();
+            for portion in &warm.contents {
+                combined.deposit(portion.species.clone(), portion.moles, portion.phase);
+            }
+            let merged = super::partition(&combined).unwrap();
+            let mixed =
+                super::build_mix_input(&cold, &pa, &warm, &pb, 1.0, 1.0, "wateq4f", &merged, false);
+            assert_eq!(
+                fields(&mixed, "temp "),
+                vec![cold.temperature.to_celsius(), warm.temperature.to_celsius()]
+            );
+            assert_eq!(fields(&mixed, "water "), vec![pa.kgw, pb.kgw]);
+            assert!(super::phase_input_precision(&cold));
+            assert!(!super::phase_input_precision(&warm));
+            // Receiver-only sensitivity must preserve both warm inputs too.
+            let mut warm_combined = warm.clone();
+            for portion in &warm.contents {
+                warm_combined.deposit(portion.species.clone(), portion.moles, portion.phase);
+            }
+            let warm_merged = super::partition(&warm_combined).unwrap();
+            let receiver_cold = super::build_mix_input(
+                &warm,
+                &pb,
+                &warm,
+                &pb,
+                1.0,
+                1.0,
+                "wateq4f",
+                &warm_merged,
+                true,
+            );
+            assert_eq!(
+                fields(&receiver_cold, "temp "),
+                vec![warm.temperature.to_celsius(); 2]
+            );
+            assert_eq!(fields(&receiver_cold, "water "), vec![pb.kgw; 2]);
+            let ordinary = super::build_mix_input(
+                &warm,
+                &pb,
+                &warm,
+                &pb,
+                1.0,
+                1.0,
+                "wateq4f",
+                &warm_merged,
+                false,
+            );
+            assert_eq!(
+                fields(&ordinary, "temp "),
+                vec![
+                    format!("{:.4}", warm.temperature.to_celsius())
+                        .parse::<f64>()
+                        .unwrap();
+                    2
+                ]
+            );
+            assert_eq!(
+                fields(&ordinary, "water "),
+                vec![format!("{:.9}", pb.kgw).parse::<f64>().unwrap(); 2]
+            );
+        }
     }
 
     fn cache_entry(value: &str) -> super::CacheEntry {
