@@ -1,0 +1,97 @@
+{
+  "utc": "2026-10-21T16:02:54.765034+00:00",
+  "scope": "Nine actual lightweight locale/workflow tools on the rename successor; no native/browser/product execution.",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "tools/i18n-surface-lint.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "0012a639ec00eeb67c225210797de6ed2ef3d1f403328219bab48045b9ed2d2d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/engine-locale-lint.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "6ce0245c070110ea92ce83ed57c7bab07748ab19f7a5abfc9e0394c38342279a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/i18n-engine-vocabulary-lint.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "6a21b01e809f961f11f17ebceb33c2d350982fcf41736c20ae860703a9b10f76",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/i18n-holes-lint.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "02a8f8d241195bfea61b09debb28a8adff2aaedc445e9b1385abb4aa479d6d32",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/console-locale-lint.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "dab9cae42b4f54ae9962e48ca825e43b6b85e5b83bf15cac0ddb6d7298180624",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/i18n-slug-lint.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "7a9f4f6af343ef7700e9265878aa75b9e1053959d16d5bb72cff7426e3385920",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/locale-collision-lint.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "d5abdb4843a37c83790b04ce870ffbff741dab7c96c61b5b8d2cc4ecc8a27a74",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/payload-toolchain-lint.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "8475d1f7380c0e6e251c6e388ee38972fe15680b4c324336e09b7bad2fe5e346",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "tools/workflow-step-lint.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "eba1bc33b98d5aee6a12b247b4ca6c96be41b11f7930f2e4f5328cbe5a572582",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05"
+}

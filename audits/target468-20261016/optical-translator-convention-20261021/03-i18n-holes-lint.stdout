@@ -1,0 +1,5 @@
+fill sites: 417
+placeholders with nothing to fill them: 0
+
+values supplied that no template asks for: 1
+   event.electrolysed.efficiency.lv2: ['name']

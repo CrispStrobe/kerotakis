@@ -1,0 +1,6 @@
+payload-toolchain-lint: 20 way(s) to reach a tomllib tool
+  appstore.yml: reaches it via 'tools/build-macos-appstore.sh' — pins python
+  ci.yml: reaches it via 'tools/build-shell-payload.sh' — pins python
+  release.yml: reaches it via 'tauri build' — pins python
+  rest-api.yml: reaches it via 'tools/build-web.sh' — pins python
+  vercel.yml: reaches it via 'tools/build-web.sh' — pins python

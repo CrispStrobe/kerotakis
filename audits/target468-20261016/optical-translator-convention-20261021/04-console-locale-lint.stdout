@@ -1,0 +1,11 @@
+console page web/index.html
+   German rows            :   60
+   text nodes swept       :   51
+   rows never looked up   :    0
+   swept, no translated row   :    6   (reported, not a failure)
+      untranslated: '(USGS).'
+      untranslated: 'PHREEQC'
+      untranslated: 'github.com/CrispStrobe/kerotakis'
+      untranslated: 'help'
+      untranslated: 'inspect v1'
+      untranslated: 'particles v1'

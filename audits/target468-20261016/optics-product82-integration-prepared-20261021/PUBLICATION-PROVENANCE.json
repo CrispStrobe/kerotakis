@@ -1,0 +1,33 @@
+{
+  "state": "SOURCE_PREPARATION_AND_SAVED_ARCHIVE_PARSER_ONLY",
+  "source_program_files_copied_byte_exact": [
+    "run-optics18.mjs",
+    "optics-controls.mjs",
+    "optics_saved_predicates_v4.py",
+    "PROTOCOLS.json",
+    "EXPECTED-WORDS.json",
+    "OPTICAL-ORACLE.json",
+    "review_saved18.py",
+    "project_app_assets.py",
+    "test_archive_header_guards.py",
+    "program-closure.json",
+    "DIRECTORY-PAYLOAD-FINAL-FREEZE.json",
+    "PAX-SPARSE-GUARD-REVIEW.json",
+    "TAR-BOUND-AND-ERROR-REVIEW.json"
+  ],
+  "source_program_closure_sha256": "f4ca4f35a328bd3d95938af0a817a1b7a02910fd20abb7f4ff1a44bc9ce385d7",
+  "private_preparation_manifest_sha256": "69fd386ca36c209a02d1179931bc0e792f6fc8cec59cc7e67545544abb3cf667",
+  "historical_saved_projection_sha256": "b35dd3fe3034b9959468954946a6c5ffd49c568839c3d2df1aaf8e90fed80885",
+  "historical_projection_copied_byte_exact": true,
+  "actual_synthetic_archiveguard_methods": 5,
+  "actual_archiveguard_exit": 0,
+  "raw_stderr_sha256": "5a1f8a39603be5154156e69e93bad1c3273a4611b1d0b113a02b1f92377858ac",
+  "private_raw_not_copied": [
+    "wrong-digest traceback contains private source coordinates",
+    "previous prospective preparation trees and correction diffs retained privately"
+  ],
+  "private_wrong_digest_stderr_sha256": "c4d8175e03a19ff173136ce688dca671d1cb7d1cdf7c17113e8160a2ed640f48",
+  "browser_engine_provider_API_executions": 0,
+  "new_product_or_scientific_passes": 0,
+  "future_changed_source_outer_binding": "UNBOUND"
+}

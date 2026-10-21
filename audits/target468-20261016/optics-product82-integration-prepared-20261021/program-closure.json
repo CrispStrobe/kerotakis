@@ -1,0 +1,16 @@
+{
+  "state": "PROSPECTIVE_SOURCE_CLOSURE_NOT_EXECUTION_AUTHORIZATION",
+  "files_sha256": {
+    "run-optics18.mjs": "b2a8cb17df8105e9062f2f047e62c230a34c9bc0a85089fc403da16c870e93f7",
+    "optics-controls.mjs": "2b39dce0a17fbfecd2ba1bf6341e7f1ce652078c94b02e3604e97126d32a5385",
+    "optics_saved_predicates_v4.py": "0b4a8d424320ff9fd93f126185ed203342bae164112de683059b7efcf1ab1fae",
+    "PROTOCOLS.json": "94736148cff6abf37c58a4d64d3f0a383c1438dd74cca2a5b8ed6b6270a4358d",
+    "EXPECTED-WORDS.json": "10491b81309198ad87c06572b80eff6fa1e5c59916bc29b799d0b0b1d028fd28",
+    "OPTICAL-ORACLE.json": "dcc0ff484e6d665559abe42fb73c4088acf709b3c36f4ef051d37177d30a032a",
+    "review_saved18.py": "b2edb6332c36c794dac618170e621d63c6768471da3347ae7018e279a76dce9d",
+    "project_app_assets.py": "96aba47f6c6f4c9f18dd3a9d4bdc3156b4138c92caa49124dba357ed1a42c764"
+  },
+  "future_release": "UNBOUND",
+  "old64_modules_modified": false,
+  "actual_browser_executions": 0
+}

@@ -1,0 +1,10 @@
+{
+  "base": "4d87db686ab923415ce01af1cca78696572a030d",
+  "file": "web/app/src/lib/components/Vessel.svelte",
+  "before_sha256": "35c96a43587c49bc35db5090ea0e5af0398f20d9f1b041bca182da71ed1241f2",
+  "after_sha256": "46bc5b87187f20c1db46aaf1bc586b9109119a6e05faa5db3b258d762b2b54f9",
+  "exactly_seven_identifier_replacements": true,
+  "checker_and_translation_function_body_unchanged": true,
+  "no_product_or_scientific_pass_claimed": true,
+  "successor": "62f647275fd800d4992f5516651dfc9e61f47a05"
+}

@@ -1,0 +1,13 @@
+{
+  "actual_changes_to_original_modules": 0,
+  "files": {
+    "live-client.mjs": "1f0ddea0b8a9e16d78cb15cfaaa319abbe2e6cd817999d7075c4e9c235a903a0",
+    "targeted.mjs": "f17c5c7fe143d9930efeeafa8cf9c14c1a873ba10ea4927ca5fc30fa91cba4f9",
+    "locale-controls.mjs": "7290327a0d59d981bcc8bc0e35b5d0941c3559d14067ecdf488ae4f24c0f8819",
+    "run-locale18.mjs": "8456b089e8389c2995fd1c58bcd316c64fffcfcad4db002927f336fa58a8bd21",
+    "heat-controls.mjs": "cf19825bd6a273115eb686feab0b3242dfebb5533e571fed4765b8f49c371d6f",
+    "run-heat.mjs": "316980a04ba85c94a54665f1ad5418a310f8485892afe97b85c9ba97daa6d592"
+  },
+  "runtime_source_used_for_interface_inspection": "e648249119e1fe028735bf31723da2867d87db77",
+  "future_source_native_lock_assets": "UNBOUND"
+}

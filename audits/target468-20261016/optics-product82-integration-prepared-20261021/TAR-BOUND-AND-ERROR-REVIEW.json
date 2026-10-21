@@ -1,0 +1,25 @@
+{
+  "state": "SAVED_PARSER_RESOURCE_GUARD_REVIEW_ONLY",
+  "actual_saved3162_projection_byte_identical": true,
+  "actual_saved3162_projection_sha256": "b35dd3fe3034b9959468954946a6c5ffd49c568839c3d2df1aaf8e90fed80885",
+  "saved3162_new_parser_exit": 0,
+  "synthetic_archive_guard_tests": 3,
+  "actual_unittest_exit_status": 0,
+  "actual_unittest_stderr_sha256": "ab5e35136bde06e3c2e9f1a4dabcfeeea8b00155f3d55fd128d6a1ad6ca94b01",
+  "negative_controls": [
+    "10001 directory physical headers rejected",
+    "oversized PAX payload header rejected before absent payload read",
+    "GNU sparse header rejected before extension processing"
+  ],
+  "new_guards": [
+    "all physical TAR headers counted before stdlib extension parsing",
+    "all logical TAR entries count including directories",
+    "metadata<=8192bytes and totalmetadata<=65536bytes before stdlib allocation",
+    "decoded name<=512UTF8bytes",
+    "fixed512byte header parser only; streaming bounded payload skips",
+    "reject sparse/link/special headers and concatenated nonzero/excess trailing data"
+  ],
+  "wrapper_error_handling": "Corrupt/missing partial JSON retained as failuremetadata without rows; original error rethrown; cleanup cannot mask primary error",
+  "new_browser_or_engine_runs": 0,
+  "product_passes": 0
+}

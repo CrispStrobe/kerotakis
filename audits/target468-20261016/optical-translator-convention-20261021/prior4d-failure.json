@@ -1,0 +1,13 @@
+{
+  "source": "4d87db686ab923415ce01af1cca78696572a030d",
+  "run": 39627136326,
+  "job": 119315249276,
+  "full_preflight_log_sha256": "67e95415d967c2373f1ae0e3643a66ae98af36c9d06c3c6a0d30eabc5150a5c3",
+  "full_preflight_log_bytes": 618664,
+  "excerpt_sha256": "f51e1ddae018facaca10e56b08a7c7d6936058ce9ad6a54e36a8a5d88cbc5439",
+  "actual_failure": "four translated joins use helper outside documented translator naming convention",
+  "linux_native": "success",
+  "macos_native": "cancelled; not accepted",
+  "original_full_log_retained": true,
+  "no_current_source_full_acceptance_claimed": true
+}

@@ -1,0 +1,19 @@
+{
+  "state": "SYNTHETIC_ARCHIVEGUARD_AND_HISTORICAL_SAVED_PARSER_ONLY",
+  "first_corrected_projector_sha256": "aaf7a8a258f45192dda9b7487965b3bf348b857be32f5e68d1b58bd80285c126",
+  "bounded_PAX_payload_inspected_before_stdlib_extensions": true,
+  "refused_keys": [
+    "GNU.sparse and GNU.sparse.*",
+    "SCHILY.sparse and SCHILY.sparse.*",
+    "SCHILY.realsize",
+    "SCHILY.filetype=sparse"
+  ],
+  "actual_synthetic_unittest_exit": 0,
+  "actual_tests": 4,
+  "PAX_sparse_subcases": 5,
+  "actual_stderr_sha256": "7d65dc1a12457168c3e68a09d049187d48ae301d8618f631a997742cda7c7ed8",
+  "actual_saved3162_parser_exit": 0,
+  "actual_saved3162_projection_byte_identical": true,
+  "browser_or_engine_runs": 0,
+  "product_passes": 0
+}

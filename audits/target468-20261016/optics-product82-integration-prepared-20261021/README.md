@@ -1,0 +1,29 @@
+# Prospective optics82 integration
+
+**Preparation only. No optics browser case, engine, API or product acceptance ran.** This capsule adds a thin prospective wrapper, authenticated saved-app asset projection and independent saved18 reader to the [reviewed observer preparation](../optics-product82-observer-prepared-20261021/README.md). The future changed-release binding and outer execution envelope remain **UNBOUND**. Existing64 controls are unchanged; the additional six protocols × EN/DE/FR give a conditional82, with zero new scientific selections.
+
+The observer, v4 predicates,18 protocol/locale combinations, expected words and independent declared-band oracle are copied byte-for-byte. `program-closure.json` pins all eight operational files; it is a source inventory, not execution authorization. `UNCHANGED64-AUTHORITIES.json` records the previous six module hashes without changing their assertions. Historical accepted64 evidence is not relabelled onto a future release.
+
+`run-optics18.mjs` requires explicit `--execute` and externally pinned binding, projection and program closure. It uses ordinary secure headless Chromium and the observer's fresh contexts, retaining genuine partial observations on failure. Missing or corrupt partial JSON produces failure metadata without substitute chemistry rows; the original exception is preserved. The wrapper returns observations and never awards product acceptance.
+
+`project_app_assets.py` reads an already externally verified release ZIP with trusted archive SHA, accepted-verifier receipt SHA and exact actual release source. It streams the frontend archive without extracting files, authenticates the existing engine/REST assets, and projects actual app HTML/JS/CSS/worker hashes and sizes. Duplicate, unsafe, linked, sparse and special paths are refused. Physical512-byte TAR header preflight counts directories and GNU/PAX metadata before stdlib extension handling; directories require zero payload, metadata and names are bounded, and sparse activation keys are rejected before processing. This operates on externally authenticated release artifacts, not as a general hostile-archive service.
+
+`review_saved18.py` independently recomputes that archive projection, checks external source/native/actual-lock/asset bindings, validates actual loaded-response hashes and sizes, requires exactly18 unique frozen rows and invokes the unchanged strict v4 predicates. Those predicates reconstruct consumed GUI pairs from original worker traffic and retain canonical identity, full-state passivity, actual clock/order, declared spectral arithmetic, localized labels, liquid-only hatch geometry, genuine water blank and empty-sample refusal. GUI pool-call counts remain explicitly unavailable; independent shipped-Lab calls are separately measured.
+
+Only these bounded parser checks occurred:
+
+- The **already saved historical3162** accepted ZIP and verifier were parsed. Its projection has5 app members and156 regular TAR files; the final projector reproduces the original projection bytes exactly, SHA `b35dd3fe3034b9959468954946a6c5ffd49c568839c3d2df1aaf8e90fed80885`.
+- Five **synthetic archiveguard methods** passed with captured exit0: directory-header flood, oversized PAX payload, GNU sparse header, bounded PAX sparse metadata and nonzero directory payload. These exercise archive parsing only.
+- A deliberately wrong archive digest was refused without producing a projection. Its traceback remains private because it contains private source coordinates; its raw hash is recorded in `PUBLICATION-PROVENANCE.json`.
+- Node syntax checking and Python AST parsing checked source syntax. The browser wrapper and saved18 scientific reader were not executed on experiment rows.
+
+The historical projection is an archive-parser fixture, **not** a future binding, new browser result or evidence that old3162 meets new optics expectations. Its native binary and actual generated producer lock remain historical identities distinct from any future build. Original prospective mistakes and intermediate preparation hashes remain preserved; public correction records identify them without publishing private coordinates.
+
+A fresh agent must finish these bounded steps before execution:
+
+1. Obtain genuinely accepted changed-source integration, actual build/archive, native binary, actual producer lock, API11 and frontend identity. The actual merge/build SHA generally differs from the reviewed PR head. Project app assets from that authenticated archive and bind the exact observer, wrapper, predicates, protocols, oracle and words.
+2. Parent-review the outer issued-worker/configuration, browser package/command/security, archive/manifests and all external receipt bindings. This capsule has no launcher, provider dispatch, READY or actual binding. Producer booleans cannot replace that evidence.
+3. Add the prospective18 as a fifth fresh process group while retaining the same-release old64 modules and raw reviews unchanged. Check genuine live-pH and empty-state prerequisites; unsupported or missing observations HOLD the group instead of changing scripts or injecting state. Missing actual dedicated-worker response-body coverage also HOLDs; corroborating GETs cannot replace actual-load evidence.
+4. After complete collection, run the independent saved18 reader twice into distinct outputs and compare raw-derived results under parent review. Authenticate actual worker/issue/raw manifest/security and all prior64 results for that same release before considering final82 acceptance. No acceptance follows from this preparation alone.
+
+The standalone synthetic guard source can be inspected or run as `python3 audits/target468-20261016/optics-product82-integration-prepared-20261021/test_archive_header_guards.py`; it performs no browser, engine or network operation. All product execution remains subject to the outstanding prerequisites above.

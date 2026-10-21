@@ -1,0 +1,8 @@
+2026-10-21T15:53:11.4792099Z [1m== i18n surfaces[0m
+2026-10-21T15:53:11.5533958Z web/app/src/lib/components/Vessel.svelte:362: a list joined into a translated sentence, with nothing translating its items
+2026-10-21T15:53:11.5535106Z web/app/src/lib/components/Vessel.svelte:365: a list joined into a translated sentence, with nothing translating its items
+2026-10-21T15:53:11.5536000Z web/app/src/lib/components/Vessel.svelte:3236: a list joined into a translated sentence, with nothing translating its items
+2026-10-21T15:53:11.5537153Z web/app/src/lib/components/Vessel.svelte:3249: a list joined into a translated sentence, with nothing translating its items
+2026-10-21T15:53:11.5537696Z 
+2026-10-21T15:53:11.5537830Z 4 surface(s) operating on untranslated text
+2026-10-21T15:53:11.5858476Z ##[error]Process completed with exit code 1.

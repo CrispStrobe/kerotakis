@@ -1,0 +1,11 @@
+{
+  "state": "TRUSTED_EXTERNALLY_VERIFIED_SAVED_ARCHIVE_SCOPE_ONLY",
+  "physical_directory_payload_required_zero": true,
+  "first_pax_projector_sha256": "97bfd0aad6a31658d626e8769c8fda3327aba6c749b5edbe9847b3b8938e8172",
+  "synthetic_archive_guard_actual_exit": 0,
+  "actual_unittest_count": 5,
+  "actual_stderr_sha256": "5a1f8a39603be5154156e69e93bad1c3273a4611b1d0b113a02b1f92377858ac",
+  "actual_saved3162_projection_still_byte_exact": true,
+  "actual_saved_parser_exit": 0,
+  "new_browser_engine_provider_operations": 0
+}
