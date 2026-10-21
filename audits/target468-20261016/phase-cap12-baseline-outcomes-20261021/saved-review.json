@@ -1,0 +1,36 @@
+{
+  "state": "AUTHENTICATED_COMPLETE_BASELINE_OBSERVATIONS_NOT_RUNTIME_ACCEPTANCE",
+  "runtime_source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "runtime_tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+  "worker_sha256": "68b975f4af49c17078301c40bc47c306f55b5ba2b132d3245d0636f32f178bc3",
+  "plan_sha256": "1faae7cd4b71152dfb1eef9d5ffbf14afbf46b369a237429beca8e5bb3b273ba",
+  "issue_sha256": "659befd420cc174cf99217ddf15823c6f1a4655a97fca8074cb5e4dc158ba090",
+  "collected_sha256": "a7fd683d8bd5385f163f1e5148d5e064aa36ece58497717b619c227239f9a9d6",
+  "manifest_sha256": "6dcae8c32cafa6f5d2973fb722db8fdfed4665814267013bc7e101648a15cbfb",
+  "actual_executable_sha256": "b8c16ca95bab402c167076b6c0a70aa38f5de980067bc781e2d0b07da761d540",
+  "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "actual_counts": {
+    "pass": 8,
+    "fail": 4
+  },
+  "cases": {
+    "ideal_inside_direct_conserves_without_false_refusal": "PASS",
+    "ideal_exact_direct_commits_only_closed_boundary": "PASS",
+    "ideal_outside_direct_refuses_before_mutation_and_repeats": "FAIL",
+    "eutectic_inside_direct_conserves_without_false_refusal": "PASS",
+    "eutectic_exact_direct_commits_only_closed_boundary": "PASS",
+    "eutectic_outside_direct_refuses_before_mutation_and_repeats": "FAIL",
+    "ideal_inside_real_cool_closes_delivered_energy": "PASS",
+    "ideal_exact_real_cool_closes_delivered_energy": "PASS",
+    "ideal_outside_real_cool_preserves_delivered_energy_and_refuses": "FAIL",
+    "eutectic_inside_real_cool_closes_delivered_energy": "PASS",
+    "eutectic_exact_real_cool_closes_delivered_energy": "PASS",
+    "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses": "FAIL"
+  },
+  "forecast_disagreements": {},
+  "qualifications": [
+    "Budgets asserted by byte-authenticated frozen observer; no separately captured per-state ledger claimed.",
+    "No calibration, actual native aqueous admission or scientific corpus selections.",
+    "Eight-pass/four-fail remain predictions until this saved reader sees actual completed evidence."
+  ]
+}

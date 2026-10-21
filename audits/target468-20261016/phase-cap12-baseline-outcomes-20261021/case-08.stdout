@@ -1,0 +1,11 @@
+
+running 1 test
+test ideal_outside_real_cool_preserves_delivered_energy_and_refuses ... FAILED
+
+failures:
+
+failures:
+    ideal_outside_real_cool_preserves_delivered_energy_and_refuses
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.08s
+
