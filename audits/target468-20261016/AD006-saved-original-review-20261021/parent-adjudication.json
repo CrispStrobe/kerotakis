@@ -1,0 +1,150 @@
+{
+  "accepted_originals": [
+    "batch3-diverse:ad-006"
+  ],
+  "held_originals": [
+    "batch3-diverse:ad-002",
+    "batch3-diverse:ad-003",
+    "batch3-diverse:ad-004"
+  ],
+  "reader_sha256": "0295d503d5f9fd1ef65055dcace76fb350d62c48ff51bfe4907be93b779ea72e",
+  "assessment_sha256": "e1bda7293b4a9c6cdb17855ca85f5e62e832758bd5ccfbf8e20ec2b6c0cee23d",
+  "parent_reproduction_sha256": "f47a014e353a7dc6ca579157791f354cfb8b38e2f7ef156ee9f21da88ceb4b97",
+  "reproduction_semantically_identical": true,
+  "parent_independent_global_component_checks": [
+    {
+      "operator": {
+        "op": "new_vessel"
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "op": "new_vessel"
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "3.3205661948376353",
+        "op": "add",
+        "species": "water",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "0.003328673190866121",
+        "op": "add",
+        "species": "SiO2",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "0.0005203725867721289",
+        "op": "add",
+        "species": "PET",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "0.00001527491797369048",
+        "op": "add",
+        "species": "methyl_orange",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "0.003",
+        "op": "add",
+        "species": "NaCl",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "from": 0,
+        "op": "filter",
+        "to": 1
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "instrument": "eyes",
+        "op": "measure",
+        "vessel": 0
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 1
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "moles": "0.008325701440346351",
+        "op": "add",
+        "species": "activated_charcoal",
+        "vessel": 1
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "from": 1,
+        "op": "filter",
+        "to": 2
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "instrument": "spectrophotometer",
+        "op": "measure",
+        "vessel": 2
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "instrument": "conductivity_meter",
+        "op": "measure",
+        "vessel": 2
+      },
+      "component_ownership_holds": true
+    },
+    {
+      "operator": {
+        "op": "inspect"
+      },
+      "component_ownership_holds": true
+    }
+  ],
+  "original_three_criteria_adjudication": {
+    "question": "Original single history tracks retained solidSiO2/PET in first filter, additional donor-held dye after charcoal and3mmolNa/Cl plus actualconductivity in final filtrate. Positive before/after465nm signals have source-reconstructed identity, but first6.617AU isoutofrange and isnot calibratedcontrast. No complete treatmentclaim.",
+    "inventory": "All command/vessel atom/formal-charge ledgers close8e-16mol underunchanged1e-10mol. Separate globaloriginalcomponent audit also closes. CanonicalaqueousSiO2 is counted distinctlyfromretainedsolidSiO2 and isnot a second native inventory.",
+    "coverage": "Allactualwarnings/source/model limitations retained. No complete dyespeciation/silicaequilibrium, calibratedadsorption, microplasticpore-size assay orpotability claim. Onlyoriginalqualitative phase-split/ownedadsorption/residualsalt question supported."
+  },
+  "historical_engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "actual_binary_lock_bytes_rehashed": false,
+  "scientific_selection_performed": false,
+  "product_engine_API_provider_calls": 0
+}

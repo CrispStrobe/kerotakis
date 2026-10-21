@@ -1,0 +1,1834 @@
+{
+  "source": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+  "engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "lock_qualification": "Producer-reported manifest hash; artifact omits raw Cargo.lock bytes.",
+  "actual_binary_or_lock_bytes_rehashed": false,
+  "archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "source_blobs_sha256": {
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+    "crates/kerotakis-core/src/adsorption.rs": "02f0a40564074153ee0da84ae6d1cba7fbe50d2c4995b6ad6e3c3d73755d6b0a",
+    "crates/kerotakis-core/src/indicator.rs": "b9da6ad8e7fbfe193220ce819b62ab488a46788578e0d1b50bff59065449625d",
+    "crates/kerotakis-core/src/spectrum.rs": "4e178c621f0561f95fb8da0cbf90d9b53a7c51c4105194faa7cee432d124d0f7",
+    "crates/kerotakis-core/src/solution_optics.rs": "b37b8bd710378e28cfe81ec984e1f4dc7e6ef70c5b5089358fa65490b779d763",
+    "crates/kerotakis-core/src/instrument.rs": "ac74514b8dab1a8db0908ad6e5e5bf20556d46d9f0e876bc6abe4d312adcd861",
+    "crates/kerotakis-core/src/relations.rs": "b2bd6fc8fb616f79eca30bfea1c74b3e2ec9975d84c76b7f072af8dc0d447c4f",
+    "crates/kerotakis-core/src/vessel.rs": "c6fb8f02fc04a6d7bae8d65955e97145398e61ebc04d302851bddf33bc4203fd",
+    "crates/kerotakis-core/src/bench.rs": "44b3fa4190093c3dfa3d0a1ddd676dcaecabd997bbd6a9fc89b191402e282f80"
+  },
+  "cases": [
+    {
+      "original_id": "batch3-diverse:ad-002",
+      "original_forecast": "Track free and adsorbed dye after the loading and sorbent-rescue steps. Finite capacity should prevent unlimited removal by a fixed mass of charcoal.",
+      "original_criteria": [
+        {
+          "id": "question",
+          "criterion": "Does additional dye expose a finite surface capacity, and can fresh sorbent restore removal?",
+          "review_instruction": "Track free and adsorbed dye after the loading and sorbent-rescue steps. Finite capacity should prevent unlimited removal by a fixed mass of charcoal.",
+          "result": null
+        },
+        {
+          "id": "inventory",
+          "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+          "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+          "result": null
+        },
+        {
+          "id": "coverage",
+          "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+          "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+          "result": null
+        }
+      ],
+      "original_limits": [
+        "The equilibrium is instantaneous in this model. Do not derive adsorption kinetics or universal milligrams-per-gram performance from the chosen points."
+      ],
+      "script_sha256": "75990fe26a302455803f3551f60cb44de6cc968a81b108448b1a689c954383ce",
+      "raw_member_prefix": "batch3-diverse_ad-002",
+      "raw_sha256": {
+        "experiment.lab": "75990fe26a302455803f3551f60cb44de6cc968a81b108448b1a689c954383ce",
+        "stdout.jsonl": "dfcc7289425b826a3e9c31b6a276a28142ae6dde871a2401e4747ba6cc9aade5",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "summary_sha256": "ba8744755c174ccf8bfc491b4d4767f47e1c60aca8088ce236aee628310bbe14",
+      "status": "HOLD_NO_PROPOSAL",
+      "reason": "All requested optical comparisons are405nmzero including controls/rescue/staging endpoints; no observed colourcontrast. Positive owned adsorption patterns remain useful source evidence, but no full ledger is certified here and no missingoptical comparison is relabeled scientificpass.",
+      "actual_optical_measurements": [
+        {
+          "raw_line": 4,
+          "event": {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "unit": "absorbance at 405 nm",
+            "value": "0.0",
+            "vessel": 0
+          }
+        },
+        {
+          "raw_line": 6,
+          "event": {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "unit": "absorbance at 405 nm",
+            "value": "0.0",
+            "vessel": 0
+          }
+        },
+        {
+          "raw_line": 9,
+          "event": {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "unit": "absorbance at 405 nm",
+            "value": "0.0",
+            "vessel": 0
+          }
+        }
+      ],
+      "actual_adsorption_events": [
+        {
+          "raw_line": 3,
+          "event": {
+            "boundary": "an equilibrium and not a rate: the split is reached in the step the carbon meets the dye, and `wait` does not move it, while a real column takes minutes to hours. The capacity is a monolayer on a nominal carbon and does not resolve pore size, activation or specific area; there is no pH term, though a real azo dye's uptake moves strongly with pH; and there is no competition, so a second dye in the same beaker would be adsorbed as if it were alone",
+            "event": "adsorbed",
+            "held": "0.000014338187102720535",
+            "loading_mg_per_g": "46.933761370819234",
+            "sorbate": "methyl_orange",
+            "sorbent": "activated_charcoal",
+            "still_dissolved": "9.367308709699453E-7",
+            "vessel": 0
+          }
+        },
+        {
+          "raw_line": 5,
+          "event": {
+            "boundary": "an equilibrium and not a rate: the split is reached in the step the carbon meets the dye, and `wait` does not move it, while a real column takes minutes to hours. The capacity is a monolayer on a nominal carbon and does not resolve pore size, activation or specific area; there is no pH term, though a real azo dye's uptake moves strongly with pH; and there is no competition, so a second dye in the same beaker would be adsorbed as if it were alone",
+            "event": "adsorbed",
+            "held": "0.00005754015351319551",
+            "loading_mg_per_g": "188.34848610088335",
+            "sorbate": "methyl_orange",
+            "sorbent": "activated_charcoal",
+            "still_dissolved": "0.000049384272302637856",
+            "vessel": 0
+          }
+        },
+        {
+          "raw_line": 8,
+          "event": {
+            "boundary": "an equilibrium and not a rate: the split is reached in the step the carbon meets the dye, and `wait` does not move it, while a real column takes minutes to hours. The capacity is a monolayer on a nominal carbon and does not resolve pore size, activation or specific area; there is no pH term, though a real azo dye's uptake moves strongly with pH; and there is no competition, so a second dye in the same beaker would be adsorbed as if it were alone",
+            "event": "adsorbed",
+            "held": "0.00010463720794639161",
+            "loading_mg_per_g": "85.62828956481036",
+            "sorbate": "methyl_orange",
+            "sorbent": "activated_charcoal",
+            "still_dissolved": "0.0000022872178694417533",
+            "vessel": 0
+          }
+        }
+      ]
+    },
+    {
+      "original_id": "batch3-diverse:ad-003",
+      "original_forecast": "Fresh wash water can allow some dye to leave a reversible adsorbed pool. Account for dye in both filtrates and the remaining charcoal rather than assuming every wash removes it completely.",
+      "original_criteria": [
+        {
+          "id": "question",
+          "criterion": "Is the charcoal-bound dye an irreversible reaction product or a reversibly partitioned inventory?",
+          "review_instruction": "Fresh wash water can allow some dye to leave a reversible adsorbed pool. Account for dye in both filtrates and the remaining charcoal rather than assuming every wash removes it completely.",
+          "result": null
+        },
+        {
+          "id": "inventory",
+          "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+          "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+          "result": null
+        },
+        {
+          "id": "coverage",
+          "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+          "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+          "result": null
+        }
+      ],
+      "original_limits": [
+        "The filtered charcoal must retain its adsorbed ledger for this coupling to work. Desorption is an equilibrium prediction, not a measured elution rate or solvent regeneration protocol."
+      ],
+      "script_sha256": "5e3f3f5933890fc59d62b1e3492435a763eb6739907733fd74b9ca2e6d011c56",
+      "raw_member_prefix": "batch3-diverse_ad-003",
+      "raw_sha256": {
+        "experiment.lab": "5e3f3f5933890fc59d62b1e3492435a763eb6739907733fd74b9ca2e6d011c56",
+        "stdout.jsonl": "2635d15cd176df78652d2bbf4f46d74d59e981d79fbd78b4595033aa48fdbc13",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "summary_sha256": "232a04cc06e1b675f9cfdaadbb0403c4dbc19bc0c40f10c347422e37d7481551",
+      "status": "HOLD_NO_PROPOSAL",
+      "reason": "All requested optical comparisons are405nmzero including controls/rescue/staging endpoints; no observed colourcontrast. Positive owned adsorption patterns remain useful source evidence, but no full ledger is certified here and no missingoptical comparison is relabeled scientificpass.",
+      "actual_optical_measurements": [
+        {
+          "raw_line": 11,
+          "event": {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "unit": "absorbance at 405 nm",
+            "value": "0.0",
+            "vessel": 1
+          }
+        },
+        {
+          "raw_line": 12,
+          "event": {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "unit": "absorbance at 405 nm",
+            "value": "0.0",
+            "vessel": 2
+          }
+        }
+      ],
+      "actual_adsorption_events": [
+        {
+          "raw_line": 5,
+          "event": {
+            "boundary": "an equilibrium and not a rate: the split is reached in the step the carbon meets the dye, and `wait` does not move it, while a real column takes minutes to hours. The capacity is a monolayer on a nominal carbon and does not resolve pore size, activation or specific area; there is no pH term, though a real azo dye's uptake moves strongly with pH; and there is no competition, so a second dye in the same beaker would be adsorbed as if it were alone",
+            "event": "adsorbed",
+            "held": "0.00002890422555922084",
+            "loading_mg_per_g": "94.61335769201993",
+            "sorbate": "methyl_orange",
+            "sorbent": "activated_charcoal",
+            "still_dissolved": "0.0000016456103881601197",
+            "vessel": 0
+          }
+        },
+        {
+          "raw_line": 8,
+          "event": {
+            "boundary": "an equilibrium and not a rate: the split is reached in the step the carbon meets the dye, and `wait` does not move it, while a real column takes minutes to hours. The capacity is a monolayer on a nominal carbon and does not resolve pore size, activation or specific area; there is no pH term, though a real azo dye's uptake moves strongly with pH; and there is no competition, so a second dye in the same beaker would be adsorbed as if it were alone",
+            "event": "adsorbed",
+            "held": "0.000024745346229515528",
+            "loading_mg_per_g": "80.99993162692235",
+            "sorbate": "methyl_orange",
+            "sorbent": "activated_charcoal",
+            "still_dissolved": "0.0000041588793297053125",
+            "vessel": 0
+          }
+        }
+      ]
+    },
+    {
+      "original_id": "batch3-diverse:ad-004",
+      "original_forecast": "Compare the single-stage filtrate with the two-stage filtrate at equal total sorbent mass. Any advantage comes from renewed equilibrium contact with fresh surface, not extra sorbent hidden in the setup.",
+      "original_criteria": [
+        {
+          "id": "question",
+          "criterion": "At equal total charcoal mass, can staged contact change the final free-dye concentration?",
+          "review_instruction": "Compare the single-stage filtrate with the two-stage filtrate at equal total sorbent mass. Any advantage comes from renewed equilibrium contact with fresh surface, not extra sorbent hidden in the setup.",
+          "result": null
+        },
+        {
+          "id": "inventory",
+          "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+          "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+          "result": null
+        },
+        {
+          "id": "coverage",
+          "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+          "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+          "result": null
+        },
+        {
+          "id": "controls",
+          "criterion": "Interpret the treatment against the stated controls rather than an unpaired absolute observation.",
+          "review_instruction": "v1 to v3: one stage, same total charcoal",
+          "result": null
+        }
+      ],
+      "original_limits": [
+        "Equilibrium stage accounting assumes adsorption ownership survives filtering. Do not assign a real treatment-plant efficiency to editorial sorption parameters."
+      ],
+      "script_sha256": "e8cff6cedef242bdb28f72ff705eba599724e9958f16fd5434ac49a7cf9f5594",
+      "raw_member_prefix": "batch3-diverse_ad-004",
+      "raw_sha256": {
+        "experiment.lab": "e8cff6cedef242bdb28f72ff705eba599724e9958f16fd5434ac49a7cf9f5594",
+        "stdout.jsonl": "e8efa626044c4365d34f6a4237184ac99c44bc6256e2d4787270781b3197115f",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "summary_sha256": "93a424fb538bf9b8b07a2139454bca9dc126037d637e63e96c6f8face93ffb73",
+      "status": "HOLD_NO_PROPOSAL",
+      "reason": "All requested optical comparisons are405nmzero including controls/rescue/staging endpoints; no observed colourcontrast. Positive owned adsorption patterns remain useful source evidence, but no full ledger is certified here and no missingoptical comparison is relabeled scientificpass.",
+      "actual_optical_measurements": [
+        {
+          "raw_line": 15,
+          "event": {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "unit": "absorbance at 405 nm",
+            "value": "0.0",
+            "vessel": 2
+          }
+        },
+        {
+          "raw_line": 16,
+          "event": {
+            "event": "measured",
+            "instrument": "spectrophotometer",
+            "unit": "absorbance at 405 nm",
+            "value": "0.0",
+            "vessel": 4
+          }
+        }
+      ],
+      "actual_adsorption_events": [
+        {
+          "raw_line": 7,
+          "event": {
+            "boundary": "an equilibrium and not a rate: the split is reached in the step the carbon meets the dye, and `wait` does not move it, while a real column takes minutes to hours. The capacity is a monolayer on a nominal carbon and does not resolve pore size, activation or specific area; there is no pH term, though a real azo dye's uptake moves strongly with pH; and there is no competition, so a second dye in the same beaker would be adsorbed as if it were alone",
+            "event": "adsorbed",
+            "held": "0.00005831135106492654",
+            "loading_mg_per_g": "95.43643894743332",
+            "sorbate": "methyl_orange",
+            "sorbent": "activated_charcoal",
+            "still_dissolved": "0.000002788320829835383",
+            "vessel": 0
+          }
+        },
+        {
+          "raw_line": 10,
+          "event": {
+            "boundary": "an equilibrium and not a rate: the split is reached in the step the carbon meets the dye, and `wait` does not move it, while a real column takes minutes to hours. The capacity is a monolayer on a nominal carbon and does not resolve pore size, activation or specific area; there is no pH term, though a real azo dye's uptake moves strongly with pH; and there is no competition, so a second dye in the same beaker would be adsorbed as if it were alone",
+            "event": "adsorbed",
+            "held": "0.00004887973751580955",
+            "loading_mg_per_g": "160.0",
+            "sorbate": "methyl_orange",
+            "sorbent": "activated_charcoal",
+            "still_dissolved": "0.00001221993437895237",
+            "vessel": 1
+          }
+        },
+        {
+          "raw_line": 13,
+          "event": {
+            "boundary": "an equilibrium and not a rate: the split is reached in the step the carbon meets the dye, and `wait` does not move it, while a real column takes minutes to hours. The capacity is a monolayer on a nominal carbon and does not resolve pore size, activation or specific area; there is no pH term, though a real azo dye's uptake moves strongly with pH; and there is no competition, so a second dye in the same beaker would be adsorbed as if it were alone",
+            "event": "adsorbed",
+            "held": "0.000011510797539251969",
+            "loading_mg_per_g": "37.678754017135034",
+            "sorbate": "methyl_orange",
+            "sorbent": "activated_charcoal",
+            "still_dissolved": "7.091368397004014E-7",
+            "vessel": 3
+          }
+        }
+      ]
+    },
+    {
+      "original_id": "batch3-diverse:ad-006",
+      "original_forecast": "Review which solids remain after the first filter, where the dye resides after charcoal contact, and which dissolved ions persist in the final filtrate. No single visual observation certifies complete treatment.",
+      "original_criteria": [
+        {
+          "id": "question",
+          "criterion": "Can physical solids removal, dye adsorption and residual-ion detection be separated in one sample history?",
+          "review_instruction": "Review which solids remain after the first filter, where the dye resides after charcoal contact, and which dissolved ions persist in the final filtrate. No single visual observation certifies complete treatment.",
+          "result": null
+        },
+        {
+          "id": "inventory",
+          "criterion": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+          "review_instruction": "Compare all reported inventories and event-level source/sink terms; a successful exit alone is not a chemistry pass.",
+          "result": null
+        },
+        {
+          "id": "coverage",
+          "criterion": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+          "review_instruction": "Check warnings, coverage labels and the per-record limitations. Do not fill missing outputs with the expected_result.",
+          "result": null
+        }
+      ],
+      "original_limits": [
+        "Filter behavior for polymer particles is a modelled phase split, not a pore-size-rated microplastic assay. The final water is not certified potable."
+      ],
+      "script_sha256": "6d2af83f83f312154f85d1216164bdb40fd9fe3bf4d4cea52ed32de2e89a8e23",
+      "raw_member_prefix": "batch3-diverse_ad-006",
+      "raw_sha256": {
+        "experiment.lab": "6d2af83f83f312154f85d1216164bdb40fd9fe3bf4d4cea52ed32de2e89a8e23",
+        "stdout.jsonl": "28bb385b0896876d9acd51f6d903ea7bd5c914835fb8cdf678a616bf6eb9385e",
+        "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "summary_sha256": "164ad6fc10f343db8414d14ddaff90fcd7a693288602226dc454bdb871ce9587",
+      "status": "BOUNDED_PROPOSAL_PENDING_PARENT_REVIEW",
+      "criterion_assessment": {
+        "question": "supported_with_limits",
+        "inventory": "supported_with_limits",
+        "coverage": "supported_with_limits"
+      },
+      "metrics": {
+        "original_feed_SiO2_mol": "0.003328673190866121",
+        "first_filter_retained_solid_SiO2_mol": "0.003316689967379003",
+        "final_aqueous_SiO2_mol": "0.000011983223487118033",
+        "PET_retained_mol": "0.0005203725867721289",
+        "dye_dose_mol": "0.00001527491797369048",
+        "charcoal_held_dye_mol": "0.000014168191513206663",
+        "final_dissolved_dye_mol": "0.0000011067264604838174",
+        "adsorbed_fraction": "0.927546160156798043142914498921000549243671381",
+        "allstep_atom_charge_max_residual_mol": "8.00000E-16",
+        "allstep_vessel_ledger": [
+          {
+            "raw_line": 1,
+            "operator": {
+              "op": "new_vessel"
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 2,
+            "operator": {
+              "op": "new_vessel"
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 3,
+            "operator": {
+              "moles": "3.3205661948376353",
+              "op": "add",
+              "species": "water",
+              "vessel": 0
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "charge": "0E-17",
+                  "H": "0E-17",
+                  "O": "0E-17"
+                },
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "3.3205661948376353",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 4,
+            "operator": {
+              "moles": "0.003328673190866121",
+              "op": "add",
+              "species": "SiO2",
+              "vessel": 0
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "H": "0E-17",
+                  "charge": "0E-22",
+                  "Si": "3.30E-20",
+                  "O": "6.60E-20"
+                },
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "3.3205661948376353",
+                    "phase": "liquid",
+                    "species": "water"
+                  },
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 5,
+            "operator": {
+              "moles": "0.0005203725867721289",
+              "op": "add",
+              "species": "PET",
+              "vessel": 0
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "O": "6.60E-20",
+                  "charge": "0E-22",
+                  "H": "0E-20",
+                  "Si": "3.30E-20",
+                  "C": "0E-20"
+                },
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "3.3205661948376353",
+                    "phase": "liquid",
+                    "species": "water"
+                  },
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 6,
+            "operator": {
+              "moles": "0.00001527491797369048",
+              "op": "add",
+              "species": "methyl_orange",
+              "vessel": 0
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "O": "6.60E-20",
+                  "S": "0E-21",
+                  "H": "0E-21",
+                  "charge": "0E-22",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "Na": "0E-21",
+                  "C": "0E-21"
+                },
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "3.3205661948376353",
+                    "phase": "liquid",
+                    "species": "water"
+                  },
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  },
+                  {
+                    "moles": "0.00001527491797369048",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 7,
+            "operator": {
+              "moles": "0.003",
+              "op": "add",
+              "species": "NaCl",
+              "vessel": 0
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "H": "8.00000E-16",
+                  "charge": "0E-22",
+                  "Cl": "5.0E-19",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "C": "0E-21",
+                  "Na": "5.00E-19",
+                  "O": "4.000660E-16"
+                },
+                "temperature_K": "298.10352514766305",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  },
+                  {
+                    "moles": "0.00001527491797369048",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Cl-"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Na+"
+                  },
+                  {
+                    "moles": "3.3205661948376357",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 8,
+            "operator": {
+              "from": 0,
+              "op": "filter",
+              "to": 1
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "charge": "0E-22",
+                  "H": "8.00000E-16",
+                  "Cl": "5.0E-19",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "C": "0E-21",
+                  "Na": "5.00E-19",
+                  "O": "4.000660E-16"
+                },
+                "temperature_K": "298.10352514766305",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "H": "0E-21",
+                  "charge": "0E-22",
+                  "Cl": "0E-20",
+                  "N": "0E-21",
+                  "Si": "0E-22",
+                  "C": "0E-21",
+                  "Na": "0E-21",
+                  "O": "0E-22"
+                },
+                "temperature_K": "298.1035235448644",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.00001527491797369048",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Cl-"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Na+"
+                  },
+                  {
+                    "moles": "3.3205661948376357",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 9,
+            "operator": {
+              "instrument": "eyes",
+              "op": "measure",
+              "vessel": 0
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "charge": "0E-22",
+                  "H": "8.00000E-16",
+                  "Cl": "5.0E-19",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "C": "0E-21",
+                  "Na": "5.00E-19",
+                  "O": "4.000660E-16"
+                },
+                "temperature_K": "298.10352514766305",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "H": "0E-21",
+                  "charge": "0E-22",
+                  "Cl": "0E-20",
+                  "N": "0E-21",
+                  "Si": "0E-22",
+                  "C": "0E-21",
+                  "Na": "0E-21",
+                  "O": "0E-22"
+                },
+                "temperature_K": "298.1035235448644",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.00001527491797369048",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Cl-"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Na+"
+                  },
+                  {
+                    "moles": "3.3205661948376357",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 10,
+            "operator": {
+              "instrument": "spectrophotometer",
+              "op": "measure",
+              "vessel": 1
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "charge": "0E-22",
+                  "H": "8.00000E-16",
+                  "Cl": "5.0E-19",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "C": "0E-21",
+                  "Na": "5.00E-19",
+                  "O": "4.000660E-16"
+                },
+                "temperature_K": "298.10352514766305",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "H": "0E-21",
+                  "charge": "0E-22",
+                  "Cl": "0E-20",
+                  "N": "0E-21",
+                  "Si": "0E-22",
+                  "C": "0E-21",
+                  "Na": "0E-21",
+                  "O": "0E-22"
+                },
+                "temperature_K": "298.1035235448644",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.00001527491797369048",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Cl-"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Na+"
+                  },
+                  {
+                    "moles": "3.3205661948376357",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 11,
+            "operator": {
+              "moles": "0.008325701440346351",
+              "op": "add",
+              "species": "activated_charcoal",
+              "vessel": 1
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "charge": "0E-22",
+                  "H": "8.00000E-16",
+                  "Cl": "5.0E-19",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "C": "0E-21",
+                  "Na": "5.00E-19",
+                  "O": "4.000660E-16"
+                },
+                "temperature_K": "298.10352514766305",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {
+                  "S": "4.0E-22",
+                  "H": "5.60E-21",
+                  "charge": "0E-23",
+                  "Cl": "0E-20",
+                  "N": "1.20E-21",
+                  "Si": "0E-22",
+                  "C": "5.60E-21",
+                  "Na": "4.0E-22",
+                  "O": "1.20E-21"
+                },
+                "temperature_K": "298.10353668655046",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0000011067264604838174",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  },
+                  {
+                    "moles": "0.008325701440346351",
+                    "phase": "solid",
+                    "species": "activated_charcoal"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Cl-"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Na+"
+                  },
+                  {
+                    "moles": "3.3205661948376357",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [
+                  {
+                    "moles": "0.000014168191513206663",
+                    "sorbate": "methyl_orange",
+                    "sorbent": "activated_charcoal"
+                  }
+                ],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {},
+                "temperature_K": "298.15",
+                "elapsed_s": "0.0",
+                "contents": [],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 12,
+            "operator": {
+              "from": 1,
+              "op": "filter",
+              "to": 2
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "charge": "0E-22",
+                  "H": "8.00000E-16",
+                  "Cl": "5.0E-19",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "C": "0E-21",
+                  "Na": "5.00E-19",
+                  "O": "4.000660E-16"
+                },
+                "temperature_K": "298.10352514766305",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {
+                  "charge": "0E-23",
+                  "H": "5.60E-21",
+                  "Si": "0E-22",
+                  "Na": "4.0E-22",
+                  "O": "1.20E-21",
+                  "S": "4.0E-22",
+                  "Cl": "0E-20",
+                  "N": "1.20E-21",
+                  "C": "5.60E-21"
+                },
+                "temperature_K": "298.10353668655046",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.008325701440346351",
+                    "phase": "solid",
+                    "species": "activated_charcoal"
+                  }
+                ],
+                "adsorbed": [
+                  {
+                    "moles": "0.000014168191513206663",
+                    "sorbate": "methyl_orange",
+                    "sorbent": "activated_charcoal"
+                  }
+                ],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {
+                  "S": "0E-23",
+                  "H": "0E-23",
+                  "charge": "0E-23",
+                  "Cl": "0E-20",
+                  "N": "0E-23",
+                  "Si": "0E-22",
+                  "C": "0E-23",
+                  "Na": "0E-23",
+                  "O": "0E-23"
+                },
+                "temperature_K": "298.1035350837519",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0000011067264604838174",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Cl-"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Na+"
+                  },
+                  {
+                    "moles": "3.3205661948376357",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 13,
+            "operator": {
+              "instrument": "spectrophotometer",
+              "op": "measure",
+              "vessel": 2
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "charge": "0E-22",
+                  "H": "8.00000E-16",
+                  "Cl": "5.0E-19",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "C": "0E-21",
+                  "Na": "5.00E-19",
+                  "O": "4.000660E-16"
+                },
+                "temperature_K": "298.10352514766305",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {
+                  "charge": "0E-23",
+                  "H": "5.60E-21",
+                  "Si": "0E-22",
+                  "Na": "4.0E-22",
+                  "O": "1.20E-21",
+                  "S": "4.0E-22",
+                  "Cl": "0E-20",
+                  "N": "1.20E-21",
+                  "C": "5.60E-21"
+                },
+                "temperature_K": "298.10353668655046",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.008325701440346351",
+                    "phase": "solid",
+                    "species": "activated_charcoal"
+                  }
+                ],
+                "adsorbed": [
+                  {
+                    "moles": "0.000014168191513206663",
+                    "sorbate": "methyl_orange",
+                    "sorbent": "activated_charcoal"
+                  }
+                ],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {
+                  "S": "0E-23",
+                  "H": "0E-23",
+                  "charge": "0E-23",
+                  "Cl": "0E-20",
+                  "N": "0E-23",
+                  "Si": "0E-22",
+                  "C": "0E-23",
+                  "Na": "0E-23",
+                  "O": "0E-23"
+                },
+                "temperature_K": "298.1035350837519",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0000011067264604838174",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Cl-"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Na+"
+                  },
+                  {
+                    "moles": "3.3205661948376357",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 14,
+            "operator": {
+              "instrument": "conductivity_meter",
+              "op": "measure",
+              "vessel": 2
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "charge": "0E-22",
+                  "H": "8.00000E-16",
+                  "Cl": "5.0E-19",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "C": "0E-21",
+                  "Na": "5.00E-19",
+                  "O": "4.000660E-16"
+                },
+                "temperature_K": "298.10352514766305",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {
+                  "charge": "0E-23",
+                  "H": "5.60E-21",
+                  "Si": "0E-22",
+                  "Na": "4.0E-22",
+                  "O": "1.20E-21",
+                  "S": "4.0E-22",
+                  "Cl": "0E-20",
+                  "N": "1.20E-21",
+                  "C": "5.60E-21"
+                },
+                "temperature_K": "298.10353668655046",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.008325701440346351",
+                    "phase": "solid",
+                    "species": "activated_charcoal"
+                  }
+                ],
+                "adsorbed": [
+                  {
+                    "moles": "0.000014168191513206663",
+                    "sorbate": "methyl_orange",
+                    "sorbent": "activated_charcoal"
+                  }
+                ],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {
+                  "S": "0E-23",
+                  "H": "0E-23",
+                  "charge": "0E-23",
+                  "Cl": "0E-20",
+                  "N": "0E-23",
+                  "Si": "0E-22",
+                  "C": "0E-23",
+                  "Na": "0E-23",
+                  "O": "0E-23"
+                },
+                "temperature_K": "298.1035350837519",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0000011067264604838174",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Cl-"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Na+"
+                  },
+                  {
+                    "moles": "3.3205661948376357",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          },
+          {
+            "raw_line": 16,
+            "operator": {
+              "op": "inspect"
+            },
+            "vessels": [
+              {
+                "vessel": 0,
+                "atoms_charge_residual": {
+                  "S": "0E-21",
+                  "charge": "0E-22",
+                  "H": "8.00000E-16",
+                  "Cl": "5.0E-19",
+                  "N": "0E-21",
+                  "Si": "3.30E-20",
+                  "C": "0E-21",
+                  "Na": "5.00E-19",
+                  "O": "4.000660E-16"
+                },
+                "temperature_K": "298.10352514766305",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.003316689967379003",
+                    "phase": "solid",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0005203725867721289",
+                    "phase": "solid",
+                    "species": "PET"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 1,
+                "atoms_charge_residual": {
+                  "charge": "0E-23",
+                  "H": "5.60E-21",
+                  "Si": "0E-22",
+                  "Na": "4.0E-22",
+                  "O": "1.20E-21",
+                  "S": "4.0E-22",
+                  "Cl": "0E-20",
+                  "N": "1.20E-21",
+                  "C": "5.60E-21"
+                },
+                "temperature_K": "298.10353668655046",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.008325701440346351",
+                    "phase": "solid",
+                    "species": "activated_charcoal"
+                  }
+                ],
+                "adsorbed": [
+                  {
+                    "moles": "0.000014168191513206663",
+                    "sorbate": "methyl_orange",
+                    "sorbent": "activated_charcoal"
+                  }
+                ],
+                "solution_is_derived_not_second_inventory": true
+              },
+              {
+                "vessel": 2,
+                "atoms_charge_residual": {
+                  "S": "0E-23",
+                  "H": "0E-23",
+                  "charge": "0E-23",
+                  "Cl": "0E-20",
+                  "N": "0E-23",
+                  "Si": "0E-22",
+                  "C": "0E-23",
+                  "Na": "0E-23",
+                  "O": "0E-23"
+                },
+                "temperature_K": "298.1035350837519",
+                "elapsed_s": "0.0",
+                "contents": [
+                  {
+                    "moles": "0.000011983223487118033",
+                    "phase": "aqueous",
+                    "species": "SiO2"
+                  },
+                  {
+                    "moles": "0.0000011067264604838174",
+                    "phase": "aqueous",
+                    "species": "methyl_orange"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Cl-"
+                  },
+                  {
+                    "moles": "0.0030000000000000005",
+                    "phase": "aqueous",
+                    "species": "Na+"
+                  },
+                  {
+                    "moles": "3.3205661948376357",
+                    "phase": "liquid",
+                    "species": "water"
+                  }
+                ],
+                "adsorbed": [],
+                "solution_is_derived_not_second_inventory": true
+              }
+            ]
+          }
+        ],
+        "optical_predictions": [
+          {
+            "raw_line": 10,
+            "actual_event": {
+              "event": "measured",
+              "instrument": "spectrophotometer",
+              "unit": "absorbance at 465 nm",
+              "value": "6.617378367950263",
+              "vessel": 1
+            },
+            "dissolved_dye_mol": "0.00001527491797369048",
+            "actual_volume_L": "0.0600000000000000071569709127382146439317953862",
+            "actual_ph": "6.989846415399",
+            "actual_temperature_K": "298.1035235448644",
+            "path_cm": 1,
+            "independent16band_peak": 6.617378367950264,
+            "within_installed4AU_range": false
+          },
+          {
+            "raw_line": 13,
+            "actual_event": {
+              "event": "measured",
+              "instrument": "spectrophotometer",
+              "unit": "absorbance at 465 nm",
+              "value": "0.4794544724533376",
+              "vessel": 2
+            },
+            "dissolved_dye_mol": "0.0000011067264604838174",
+            "actual_volume_L": "0.0600000000000000071569709127382146439317953862",
+            "actual_ph": "6.989846415399",
+            "actual_temperature_K": "298.1035350837519",
+            "path_cm": 1,
+            "independent16band_peak": 0.47945447245333767,
+            "within_installed4AU_range": true
+          }
+        ],
+        "final_conductivity_event": {
+          "event": "measured",
+          "instrument": "conductivity_meter",
+          "unit": "µS/cm",
+          "value": "5678.774265308723",
+          "vessel": 2
+        },
+        "Na_Cl_final_mol": {
+          "Na+": "0.0030000000000000005",
+          "Cl-": "0.0030000000000000005"
+        },
+        "charcoal_g": "0.100000000000000021861",
+        "final_liquid_volume_L": "0.0600000000000000071569709127382146439317953862"
+      },
+      "exact_coverage_warnings": [
+        {
+          "raw_line": 6,
+          "operator": {
+            "moles": "0.00001527491797369048",
+            "op": "add",
+            "species": "methyl_orange",
+            "vessel": 0
+          },
+          "event": {
+            "cause": "not-speciated",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+              "key": "not-modeled.no-component-mapping",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "methyl_orange",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+          }
+        },
+        {
+          "raw_line": 7,
+          "operator": {
+            "moles": "0.003",
+            "op": "add",
+            "species": "NaCl",
+            "vessel": 0
+          },
+          "event": {
+            "beside_a_visible_change": true,
+            "cause": "not-speciated",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+              "key": "not-modeled.no-component-mapping",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "methyl_orange",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+          }
+        },
+        {
+          "raw_line": 8,
+          "operator": {
+            "from": 0,
+            "op": "filter",
+            "to": 1
+          },
+          "event": {
+            "beside_a_visible_change": true,
+            "cause": "not-speciated",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+              "key": "not-modeled.no-component-mapping",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "methyl_orange",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+          }
+        },
+        {
+          "raw_line": 11,
+          "operator": {
+            "moles": "0.008325701440346351",
+            "op": "add",
+            "species": "activated_charcoal",
+            "vessel": 1
+          },
+          "event": {
+            "beside_a_visible_change": true,
+            "cause": "not-speciated",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+              "key": "not-modeled.no-component-mapping",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "methyl_orange",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+          }
+        },
+        {
+          "raw_line": 12,
+          "operator": {
+            "from": 1,
+            "op": "filter",
+            "to": 2
+          },
+          "event": {
+            "beside_a_visible_change": true,
+            "cause": "not-speciated",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+              "key": "not-modeled.no-component-mapping",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "methyl_orange",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 2,
+            "what": "methyl_orange is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+          }
+        }
+      ],
+      "limits": [
+        "Before-treatment6.617AU exceeds installed4AU calibrated range; no calibrated optical ratio or quantitative decolourisation is claimed. Independent spectrum merely authenticates editorial model/readout identity.",
+        "InstalledLangmuir200mg/g,.05L/mg parameters pending provenance review; represented qualitative split only, no treatment-plant efficiency, competition/pH-dependent capacity/adsorption kinetics.",
+        "Dyeionic mapping and aqueousSiO2 nativechemistry are not represented by fullspeciation; canonical atoms/phase ownership is distinguished from complete mixturepH/conductivity/silicaequilibrium.",
+        "FilterPET solid retention is a modeled phase split, notpore-size/microplasticassay orpotabilitycertification. No fullthermal closure/calibration forecast."
+      ]
+    }
+  ],
+  "scientific_selection_performed": false,
+  "product_engine_API_provider_build_calls": 0
+}

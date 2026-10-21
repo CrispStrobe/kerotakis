@@ -1,0 +1,12 @@
+{
+  "id": "batch3-diverse:ad-006",
+  "status": "zero_exit",
+  "exit_code": 0,
+  "elapsed_seconds": 0.11805330800001457,
+  "script_sha256": "6d2af83f83f312154f85d1216164bdb40fd9fe3bf4d4cea52ed32de2e89a8e23",
+  "stdout_sha256": "28bb385b0896876d9acd51f6d903ea7bd5c914835fb8cdf678a616bf6eb9385e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_observations": 16,
+  "stdout_parse_error": null,
+  "physical_verdict": "not_assigned"
+}

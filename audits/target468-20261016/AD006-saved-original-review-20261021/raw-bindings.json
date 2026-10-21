@@ -1,0 +1,17 @@
+{
+  "archive_reference": "audits/new-experiments-201-20261016/native-screen-results/raw-artifact.zip",
+  "archive_sha256": "7e3102c8ba72746974b0595de3f525041064e1641d55b2bcc11f546646a2f3f3",
+  "exact_copied_members": {
+    "raw/experiment.lab": "batch3-diverse_ad-006/experiment.lab",
+    "raw/stdout.jsonl": "batch3-diverse_ad-006/stdout.jsonl",
+    "raw/stderr.txt": "batch3-diverse_ad-006/stderr.txt",
+    "raw/execution.json": "batch3-diverse_ad-006/execution.json"
+  },
+  "historical_engine": {
+    "source_head": "c44692053a94c59dcf62e7fb67549f84c7d18f83",
+    "source_tree": "f17216653825f3149bb7a0e46946834ee5c7e3df",
+    "binary_sha256": "670bd3d8a5f1bf157d2f0e90e11597135183b906af48f7a0e6cdabe4cd26a54f",
+    "cargo_lock_sha256": "82f3196fe4feca05ff6eac43cfe7d46163d90e3f5c6ce0444edcf0245a023229"
+  },
+  "actual_binary_lock_bytes_present": false
+}

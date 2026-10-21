@@ -1,0 +1,21 @@
+{
+  "schema": "kerotakis.fixed-target468.selection-checkpoint.v1",
+  "recorded_utc": "2026-10-21T06:11:57.339040+00:00",
+  "declared_target_total": 468,
+  "minimum_selected_goal": 401,
+  "current_working_catalog_entries": 338,
+  "source_qualified_selected_in_target": 334,
+  "additional_selections_needed_for_401": 67,
+  "out_of_target_catalog_entries": [
+    "supplied200-repaired-protocols:014-zinc-copper",
+    "supplied200-repaired-protocols:007-water-electrolysis",
+    "supplied200-repaired-protocols:084-copper-chloride-prepared-ions",
+    "supplied200-repaired-protocols:118-acidic-oxalate-complete-stocks"
+  ],
+  "catalog": "audits/working-experiments-20261021-reviewed-AD005-AD006.json",
+  "catalog_sha256": "019a3b6ffd95324d5b3a5bc558c169e663b9142529d2e423482a26ca7398b06f",
+  "selection_receipt": "audits/target468-20261016/selection-AD006-20261021/selection.json",
+  "previous_scoreboard_preserved": "audits/target468-20261016/scoreboard-20261021-reviewed-AD005.json",
+  "latest_combined_release_pass_count": null,
+  "qualification": "AD006 original qualitative treatment-train phase/adsorption/residual-salt history closes owned ledgers. Before-charcoal absorbance exceeds4AU; no calibrated ratio. Adsorption provenance, dye/silica native chemistry, microplastic assay and historical binary/lock limitations remain explicit. No current-release replay/calibration claim."
+}
