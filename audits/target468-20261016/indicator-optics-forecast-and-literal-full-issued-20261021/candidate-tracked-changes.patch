@@ -1,0 +1,402 @@
+diff --git a/crates/kerotakis-core/i18n/de.toml b/crates/kerotakis-core/i18n/de.toml
+index e7d3ea5d..b6fd9de4 100644
+--- a/crates/kerotakis-core/i18n/de.toml
++++ b/crates/kerotakis-core/i18n/de.toml
+@@ -1359,6 +1359,7 @@ white = "weiß"
+ # decline. That choice lives HERE, in the data, which is the whole point:
+ # a translator changes the construction without changing a line of Rust.
+ [look]
++indicator-optics-missing-ph = "Die Farbe ist unvollständig: Für {species} wird ein endlicher pH-Wert der wässrigen Lösung benötigt."
+ # The space between two whole sentences. It looks like typography rather
+ # than language right up until the language is one that does not use it —
+ # Japanese runs its sentences together after 。 — so it is a row here for
+@@ -1667,6 +1668,7 @@ PVA = "PVA"
+ # falls back to `[refusal]`; `tools/engine-locale-lint.py` counts how many
+ # of each there are, with the denominator read out of the Rust.
+ [not-modeled]
++indicator-optics-missing-ph = "die vollständige Absorption ist nicht verfügbar: Für {species} wird ein endlicher pH-Wert der wässrigen Lösung benötigt"
+ "liquid-partition-refused" = "Die Berechnung eines endlichen Flüssig-Flüssig-Verteilungskoeffizienten für {species} bei {temperature} K ist nicht möglich: {why}; ein nicht unterstützter Stoffübergang wird nicht durchgeführt"
+ "peroxide-rich-medium" = "Diese peroxidhaltige Flüssigkeit liegt unter der redaktionell festgelegten Zulassungsgrenze für ein überwiegend wässriges Lösungsmittel. Eine durch Reaktionen entstandene Wasserspur begründet noch kein wässriges Medium. Für dieses peroxidreiche Medium ist kein validiertes Aktivitätsmodell verfügbar: wässriger pH, Ionenstärke und Speziation werden zurückgezogen, der Stoffbestand bleibt erhalten, und einzeln dargestellte Reaktionsfortschritte sind keine vollständige Vorhersage für das Gemisch."
+ "silver-ammine-ligand-inventory" = "Silber-Ammoniak-Komplexe und freie Liganden sind in der Lösungsspeziation dargestellt. Die kanonischen NH3/NH4-Anteile bleiben analytische Träger des gesamten reduzierten Stickstoffs einschließlich komplexgebundenen Ammoniaks; sie sind keine gemessenen Mengen freien NH3. Ihre Verwendung für nachfolgende Ammoniakverdampfung oder die Verfügbarkeit in kuratierten Reaktionen ist noch nicht mit dem gebundenen Liganden abgeglichen. Diese Einschränkung nimmt die berichtete Gleichgewichtsverteilung der Komplexe nicht zurück."
+diff --git a/crates/kerotakis-core/i18n/fr.toml b/crates/kerotakis-core/i18n/fr.toml
+index f7559bd1..6c9965bc 100644
+--- a/crates/kerotakis-core/i18n/fr.toml
++++ b/crates/kerotakis-core/i18n/fr.toml
+@@ -1237,6 +1237,7 @@ white = "blanc"
+ "yellow-green, toxic" = "jaune-vert, toxique"
+ 
+ [look]
++indicator-optics-missing-ph = "La couleur est incomplète : un pH aqueux fini est nécessaire pour {species}."
+ # The space between two whole sentences. It looks like typography rather
+ # than language right up until the language is one that does not use it —
+ # Japanese runs its sentences together after 。 — so it is a row here for
+@@ -1459,6 +1460,7 @@ PVA = "PVA"
+ "muscle protein" = "protéine musculaire"
+ 
+ [not-modeled]
++indicator-optics-missing-ph = "l’absorbance complète est indisponible : un pH aqueux fini est nécessaire pour {species}"
+ "liquid-partition-refused" = "Un coefficient de partage liquide/liquide fini pour {species} à {temperature} K est indisponible : {why} ; aucun transfert de soluté non pris en charge n’est appliqué"
+ "peroxide-rich-medium" = "Ce liquide contenant du peroxyde est sous le seuil éditorial d'admission d'un solvant majoritairement aqueux. Une trace d'eau produite par une réaction ne suffit pas à établir un milieu aqueux. Aucun modèle d'activité validé n'est disponible pour ce milieu riche en peroxyde : le pH aqueux, la force ionique et la spéciation sont retirés, l'inventaire est conservé, et les avancements de réaction représentés séparément ne constituent pas une prédiction complète du mélange."
+ "silver-ammine-ligand-inventory" = "Les complexes argent-ammoniac et le ligand libre sont représentés dans la spéciation de la solution. Les fractions canoniques NH3/NH4 restent des porteurs analytiques de l'azote réduit total, y compris l'ammoniac lié aux complexes ; ce ne sont pas des quantités mesurées de NH3 libre. Leur utilisation pour la volatilisation ultérieure de l'ammoniac ou sa disponibilité dans les réactions organisées n'est pas encore conciliée avec le ligand lié. Cette limite ne retire pas la distribution des complexes à l'équilibre rapportée."
+diff --git a/crates/kerotakis-core/src/appearance.rs b/crates/kerotakis-core/src/appearance.rs
+index 0e744df8..63990698 100644
+--- a/crates/kerotakis-core/src/appearance.rs
++++ b/crates/kerotakis-core/src/appearance.rs
+@@ -33,6 +33,9 @@ pub struct Appearance {
+     /// Species whose optical contribution could not be computed.
+     #[serde(default, skip_serializing_if = "Vec::is_empty")]
+     pub spectral_gaps: Vec<String>,
++    /// Known indicator spectra lacking a finite aqueous pH prerequisite.
++    #[serde(default, skip_serializing_if = "Vec::is_empty")]
++    pub optical_ph_gaps: Vec<String>,
+     /// The liquid's colour, sRGB.
+     pub liquid: Option<Colour>,
+     /// 0 = clear, 1 = opaque. Suspended solid, before it settles.
+@@ -312,8 +315,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
+         bubbling,
+         vessel,
+     );
+-    let spectral_gaps = crate::solution_optics::spectral_gaps(vessel);
+-    let notes: Vec<Phrase> = if spectral_gaps.is_empty() {
++    let coverage = crate::solution_optics::coverage(vessel);
++    let spectral_gaps = coverage.missing_spectra.clone();
++    let mut notes: Vec<Phrase> = if coverage.missing_spectra.is_empty() {
+         Vec::new()
+     } else {
+         vec![Phrase::new(
+@@ -322,7 +326,8 @@ pub fn observe(vessel: &Vessel) -> Appearance {
+             vec![(
+                 "species".to_string(),
+                 Slot::List {
+-                    items: spectral_gaps
++                    items: coverage
++                        .missing_spectra
+                         .iter()
+                         .map(|name| Slot::term("species", name.clone()))
+                         .collect(),
+@@ -330,6 +335,16 @@ pub fn observe(vessel: &Vessel) -> Appearance {
+             )],
+         )]
+     };
++    if !coverage.missing_ph.is_empty() {
++        notes.push(Phrase::new(
++            "look.indicator-optics-missing-ph",
++            "Colour is incomplete: a finite aqueous pH is required for {species}.",
++            vec![(
++                "species".to_string(),
++                Slot::terms("species", coverage.missing_ph.clone()),
++            )],
++        ));
++    }
+     let mut words = compose(&clauses, Locale::EN);
+     for note in &notes {
+         words.push(' ');
+@@ -337,6 +352,7 @@ pub fn observe(vessel: &Vessel) -> Appearance {
+     }
+     Appearance {
+         spectral_gaps,
++        optical_ph_gaps: coverage.missing_ph,
+         liquid,
+         cloudiness,
+         deposit,
+diff --git a/crates/kerotakis-core/src/bench.rs b/crates/kerotakis-core/src/bench.rs
+index 33f1822e..efc4a353 100644
+--- a/crates/kerotakis-core/src/bench.rs
++++ b/crates/kerotakis-core/src/bench.rs
+@@ -4474,7 +4474,8 @@ impl Bench {
+                     }
+                     Instrument::Spectrophotometer => {
+                         let spec = crate::instrument::Spectrophotometer::default();
+-                        let gaps = crate::solution_optics::spectral_gaps(v);
++                        let coverage = crate::solution_optics::coverage(v);
++                        let gaps = coverage.missing_spectra;
+                         if let Some(reading) = spec.measure(v) {
+                             events.push(Event::Measured {
+                                 vessel: *vessel,
+@@ -4484,6 +4485,27 @@ impl Bench {
+                                 note: None,
+                                 note_reason: None,
+                             });
++                        } else if !coverage.missing_ph.is_empty() {
++                            events.push(Event::not_modeled(
++                                *vessel,
++                                crate::ops::NotModelledCause::NoSolution,
++                                Phrase::new(
++                                    "not-modeled.indicator-optics-missing-ph",
++                                    "complete absorbance is unavailable: a finite aqueous pH is required for {species}",
++                                    vec![("species".to_string(), Slot::terms("species", coverage.missing_ph))],
++                                ),
++                            ));
++                            if !gaps.is_empty() {
++                                events.push(Event::not_modeled(
++                                    *vessel,
++                                    crate::ops::NotModelledCause::ModelBoundary,
++                                    Phrase::new(
++                                        "not-modeled.incomplete-absorbance",
++                                        "complete absorbance is unavailable: no absorption spectrum for {species}",
++                                        vec![("species".to_string(), Slot::terms("species", gaps))],
++                                    ),
++                                ));
++                            }
+                         } else if gaps.is_empty() {
+                             // Written out rather than folded into one push with
+                             // two conditionals: `every_fixed_gap_reason_has_german`
+diff --git a/crates/kerotakis-core/src/instrument.rs b/crates/kerotakis-core/src/instrument.rs
+index 4a404c0c..e6e1fc7e 100644
+--- a/crates/kerotakis-core/src/instrument.rs
++++ b/crates/kerotakis-core/src/instrument.rs
+@@ -295,7 +295,7 @@ impl InstrumentContract for Spectrophotometer {
+         let spectrum = self.measure_spectrum(vessel);
+         // A partial spectrum is useful diagnostically, but is not a complete
+         // instrument reading. The appearance reports the missing species.
+-        if !crate::solution_optics::spectral_gaps(vessel).is_empty() {
++        if !crate::solution_optics::coverage(vessel).is_complete() {
+             return None;
+         }
+         let peak_abs = spectrum.iter().copied().fold(0.0f64, f64::max);
+diff --git a/crates/kerotakis-core/src/scene.rs b/crates/kerotakis-core/src/scene.rs
+index 63baac7d..227488f0 100644
+--- a/crates/kerotakis-core/src/scene.rs
++++ b/crates/kerotakis-core/src/scene.rs
+@@ -519,6 +519,10 @@ pub struct SceneLiquid {
+     /// what it saw before.
+     #[serde(default, skip_serializing_if = "Vec::is_empty")]
+     pub spectral_gaps: Vec<String>,
++    /// A known indicator spectrum requires a finite aqueous pH. Separate
++    /// from absent spectral data so hosts can explain the actual boundary.
++    #[serde(default, skip_serializing_if = "Vec::is_empty")]
++    pub optical_ph_gaps: Vec<String>,
+ }
+ 
+ /// One solid species in the vessel, ready to paint.
+@@ -855,6 +859,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
+             cloudiness: seen.cloudiness,
+             path_length_cm: crate::vessel::path_cm_for(&v.label),
+             spectral_gaps: seen.spectral_gaps.clone(),
++            optical_ph_gaps: seen.optical_ph_gaps.clone(),
+         })
+         .or_else(|| {
+             material_layers.first().map(|layer| SceneLiquid {
+@@ -864,6 +869,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
+                 cloudiness: 0.0,
+                 path_length_cm: crate::vessel::path_cm_for(&v.label),
+                 spectral_gaps: seen.spectral_gaps.clone(),
++                optical_ph_gaps: seen.optical_ph_gaps.clone(),
+             })
+         });
+     if let (Some(liquid), Some(emulsion)) = (&mut liquid, &emulsion_observation) {
+diff --git a/crates/kerotakis-core/src/solution_optics.rs b/crates/kerotakis-core/src/solution_optics.rs
+index 7b5a4981..77e4dda4 100644
+--- a/crates/kerotakis-core/src/solution_optics.rs
++++ b/crates/kerotakis-core/src/solution_optics.rs
+@@ -56,9 +56,52 @@ pub(crate) fn visible_moles(vessel: &Vessel, key: &str, analytical: f64) -> f64
+     })
+ }
+ 
++/// Coverage of the supported partial spectrum. Missing prerequisites must not
++/// be presented as a complete zero-absorbance measurement.
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub struct OpticalCoverage {
++    pub missing_spectra: Vec<String>,
++    pub missing_ph: Vec<String>,
++}
++impl OpticalCoverage {
++    pub fn is_complete(&self) -> bool {
++        self.missing_spectra.is_empty() && self.missing_ph.is_empty()
++    }
++}
++
++/// Check the actual visible aqueous/liquid inventory, not provenance or a
++/// retained solid/adsorbed pool. No missing pH is inferred to be neutral.
++pub fn coverage(vessel: &Vessel) -> OpticalCoverage {
++    let valid_ph = vessel.solution.as_ref().is_some_and(|s| s.ph.is_finite());
++    let missing_ph = if valid_ph {
++        Vec::new()
++    } else {
++        vessel
++            .contents
++            .iter()
++            .filter(|p| matches!(p.phase, Phase::Aqueous | Phase::Liquid))
++            .filter(|p| p.moles.0 > 0.0 && crate::indicator::is_ph_dependent(&p.species.0))
++            .filter(|p| visible_moles(vessel, &p.species.0, p.moles.0) > 0.0)
++            .map(|p| p.species.0.clone())
++            .collect::<std::collections::BTreeSet<_>>()
++            .into_iter()
++            .collect()
++    };
++    OpticalCoverage {
++        missing_spectra: missing_native_spectra(vessel),
++        missing_ph,
++    }
++}
++
++/// Legacy missing-spectrum list for scene consumers. Missing pH has a distinct
++/// typed cause in coverage(), not an absent spectrum.
++pub fn spectral_gaps(vessel: &Vessel) -> Vec<String> {
++    coverage(vessel).missing_spectra
++}
++
+ /// Missing spectra for native species containing a known chromophore element.
+ /// This is a coverage warning, not a claim that each such species is coloured.
+-pub fn spectral_gaps(vessel: &Vessel) -> Vec<String> {
++fn missing_native_spectra(vessel: &Vessel) -> Vec<String> {
+     let Some(solution) = &vessel.solution else {
+         return Vec::new();
+     };
+@@ -100,6 +143,7 @@ pub fn absorbance(vessel: &Vessel, path_cm: f64) -> [f64; crate::spectrum::BANDS
+             vessel
+                 .solution
+                 .as_ref()
++                .filter(|s| s.ph.is_finite())
+                 .and_then(|s| crate::indicator::spectrum_at_ph(key, s.ph))
+         } else {
+             species::lookup(&portion.species)
+diff --git a/crates/kerotakis-core/tests/composed_locale.rs b/crates/kerotakis-core/tests/composed_locale.rs
+index 0b21e3c9..0608462f 100644
+--- a/crates/kerotakis-core/tests/composed_locale.rs
++++ b/crates/kerotakis-core/tests/composed_locale.rs
+@@ -666,6 +666,7 @@ fn the_inert_verdict_explains_itself_in_german() {
+ fn an_appearance_without_clauses_falls_back_to_its_english() {
+     let seen = appearance::Appearance {
+         spectral_gaps: Vec::new(),
++        optical_ph_gaps: Vec::new(),
+         liquid: None,
+         cloudiness: 0.0,
+         deposit: None,
+diff --git a/web/app/src/lib/components/Vessel.svelte b/web/app/src/lib/components/Vessel.svelte
+index 5dc6c116..fcfef185 100644
+--- a/web/app/src/lib/components/Vessel.svelte
++++ b/web/app/src/lib/components/Vessel.svelte
+@@ -352,6 +352,16 @@
+      PICTURE painted a confident colour over the admission. Absent on an
+      older engine, which is the same as "nothing known to be missing". */
+   const spectralGaps = $derived(vessel.liquid?.spectral_gaps ?? []);
++  const opticalPhGaps = $derived(vessel.liquid?.optical_ph_gaps ?? []);
++  const opticalCoverageLabel = $derived([
++    spectralGaps.length > 0 ? t("the computed colour is incomplete: no absorption spectrum for {species}", {
++      species: spectralGaps.map((name) => t(name)).join(", "),
++    }) : "",
++    opticalPhGaps.length > 0 ? t("the computed colour is incomplete: pH is missing or invalid for {species}", {
++      species: opticalPhGaps.map((name) => t(name)).join(", "),
++    }) : "",
++  ].filter(Boolean).join(" "));
++
+   const persistentEnzymeReadouts = $derived(enzymeReadouts(vessel));
+   // The layer stack in pixels, bottom-up: each layer's share of the
+   // total height is its share of the total volume, so the drawn split
+@@ -899,12 +909,12 @@
+         height={liquidH}
+         fill={`url(#vdepth-${vessel.id})`}
+       />
+-      {#if spectralGaps.length > 0}
++      {#if spectralGaps.length > 0 || opticalPhGaps.length > 0}
+         <!-- The colour above is incomplete and the engine named the part
+              it could not compute. The hatch covers the liquid column the
+              claim was made about, and nothing else: the glass, the foam
+              and the deposit are not what is in doubt. -->
+-        <g class="spectral-gap" data-gaps={spectralGaps.join(",")}>
++        <g class="spectral-gap" data-gaps={spectralGaps.join(",")} data-ph-gaps={opticalPhGaps.join(",")}>
+           <rect
+             class="spectral-gap-hatch"
+             x={INNER_X}
+@@ -913,9 +923,7 @@
+             height={liquidH}
+             fill={`url(#vgap-${vessel.id})`}
+           />
+-          <title>{t("the computed colour is incomplete: no absorption spectrum for {species}", {
+-            species: spectralGaps.map((name) => t(name)).join(", "),
+-          })}</title>
++          <title>{opticalCoverageLabel}</title>
+         </g>
+       {/if}
+     {/if}
+@@ -3229,6 +3237,19 @@
+         <strong>{spectralGaps.map((name) => t(name)).join(", ")}</strong>
+       </span>
+     {/if}
++    {#if opticalPhGaps.length > 0}
++      <span
++        class="persistent-readout optical-ph-gap-readout"
++        data-ph-gaps={opticalPhGaps.join(",")}
++        aria-label={t("the computed colour is incomplete: pH is missing or invalid for {species}", {
++          species: opticalPhGaps.map((name) => t(name)).join(", "),
++        })}
++        title={t("The hatching on the liquid marks the part of the colour the model could not compute. It says something about the model, not about the liquid.")}
++      >
++        <small>{t("colour needs pH")}</small>
++        <strong>{opticalPhGaps.map((name) => t(name)).join(", ")}</strong>
++      </span>
++    {/if}
+     {#each persistentEnzymeReadouts as progress (progress.material + progress.family)}
+       <span
+         class="persistent-readout"
+@@ -3781,7 +3802,8 @@
+      texture is points AT the texture, and its own title is the answer.
+      The vessel's sentence is not lost — it is the figure's aria-label and
+      the live observation line under the drawing. */
+-  .spectral-gap-readout strong {
++  .spectral-gap-readout strong,
++  .optical-ph-gap-readout strong {
+     font-weight: 600;
+   }
+   /* Turbidity is the engine's `cloudiness`, and light from the deposit
+diff --git a/web/app/src/lib/host/EngineHost.ts b/web/app/src/lib/host/EngineHost.ts
+index 4190c19e..01ce802e 100644
+--- a/web/app/src/lib/host/EngineHost.ts
++++ b/web/app/src/lib/host/EngineHost.ts
+@@ -315,6 +315,8 @@ export interface SceneLiquid {
+    * of itself is missing. Absent on an older engine, and omitted when the
+    * colour is whole. Never a licence to invent the missing tint. */
+   spectral_gaps?: string[];
++  /** Known indicator spectra whose pH prerequisite is missing or invalid. */
++  optical_ph_gaps?: string[];
+ }
+ 
+ export interface SceneSolid {
+diff --git a/web/app/src/locales/_template.json b/web/app/src/locales/_template.json
+index 5038f6df..a463a5cb 100644
+--- a/web/app/src/locales/_template.json
++++ b/web/app/src/locales/_template.json
+@@ -2767,6 +2767,8 @@
+   "{count}×": "",
+   "{material} softened at {temperature} K, {over} K past its softening point; cooling sets it in the new shape": "",
+   "{material} charred at {temperature} K — past decomposition, and this does not undo": "",
+-  "{material} held its shape at {temperature} K; its wall is {threshold} K": ""
+-  }
++  "{material} held its shape at {temperature} K; its wall is {threshold} K": "",
++  "the computed colour is incomplete: pH is missing or invalid for {species}": "",
++  "colour needs pH": ""
++ }
+ }
+diff --git a/web/app/src/locales/de.json b/web/app/src/locales/de.json
+index c1a81f98..17bdbd83 100644
+--- a/web/app/src/locales/de.json
++++ b/web/app/src/locales/de.json
+@@ -2767,6 +2767,8 @@
+   "{count}×": "{count}×",
+   "{material} softened at {temperature} K, {over} K past its softening point; cooling sets it in the new shape": "{material} wurde bei {temperature} K weich, {over} K über dem Erweichungspunkt; beim Abkühlen erstarrt es in der neuen Form",
+   "{material} charred at {temperature} K — past decomposition, and this does not undo": "{material} verkohlte bei {temperature} K — jenseits der Zersetzung, und das ist nicht rückgängig zu machen",
+-  "{material} held its shape at {temperature} K; its wall is {threshold} K": "{material} behielt bei {temperature} K seine Form; seine Schwelle liegt bei {threshold} K"
++  "{material} held its shape at {temperature} K; its wall is {threshold} K": "{material} behielt bei {temperature} K seine Form; seine Schwelle liegt bei {threshold} K",
++  "the computed colour is incomplete: pH is missing or invalid for {species}": "die berechnete Farbe ist unvollständig: für {species} fehlt ein gültiger pH-Wert",
++  "colour needs pH": "Farbe benötigt pH"
+  }
+-}
+\ No newline at end of file
++}
+diff --git a/web/app/src/locales/fr.json b/web/app/src/locales/fr.json
+index e21e74e5..1e62e08f 100644
+--- a/web/app/src/locales/fr.json
++++ b/web/app/src/locales/fr.json
+@@ -2766,6 +2766,8 @@
+   "{count}×": "{count}×",
+   "{material} softened at {temperature} K, {over} K past its softening point; cooling sets it in the new shape": "{material} est devenu mou à {temperature} K, {over} K au-delà de son point de ramollissement ; en refroidissant, il se fige dans sa nouvelle forme",
+   "{material} charred at {temperature} K — past decomposition, and this does not undo": "{material} a carbonisé à {temperature} K — au-delà de la décomposition, et cela ne se défait pas",
+-  "{material} held its shape at {temperature} K; its wall is {threshold} K": "{material} a gardé sa forme à {temperature} K ; son seuil est à {threshold} K"
++  "{material} held its shape at {temperature} K; its wall is {threshold} K": "{material} a gardé sa forme à {temperature} K ; son seuil est à {threshold} K",
++  "the computed colour is incomplete: pH is missing or invalid for {species}": "la couleur calculée est incomplète : le pH est absent ou invalide pour {species}",
++  "colour needs pH": "la couleur nécessite un pH"
+  }
+-}
+\ No newline at end of file
++}

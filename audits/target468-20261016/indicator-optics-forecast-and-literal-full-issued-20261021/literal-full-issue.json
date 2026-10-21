@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-21T06:41:27.186341+00:00",
+  "source": "3da21055bc8de53c63388f0c8ef850370546cac0",
+  "version": 1,
+  "worker_sha256": "70053e37b29576f45d663f3307cc31f1688b1305d43a284b3b8bae0a46093470",
+  "reader_sha256": "799c5095060ef473715e650a7b2a883e24377333bf7a8bbfee426080fba3a37b",
+  "tree": "a7b9fe47e41ca538c5b8ed8c901aab23c7107b97",
+  "plan_sha256": "e86a3f6153d88a7766acbc7bbf050fff9b4e542eb30d3bb9e8679ba68e90da84",
+  "prior_ceff30_focus_sha256": "af2d051486a01943298b25710f4dac08819b52f8d3020b4ca23f9d5e293b10e2",
+  "prior_focus_not_retagged": true,
+  "all33groups142steps29laws500requirements_retained": true,
+  "native627_core2187_minima": true,
+  "full_acceptance": false,
+  "guarded_normal_integration_active": true
+}

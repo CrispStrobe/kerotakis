@@ -1,0 +1,12 @@
+{
+  "files_sha256": {
+    "literal-Git-equivalence.json": "6e754132e779d1851da63159f88c5c34512e6a1bf6142b269445665cbba1dd37",
+    "candidate-tracked-changes.patch": "3812ccaffaebb008fcb9cc094531badb1fcb93af251496c9ae24d317a6c27582",
+    "VesselOpticalPhGap.test.ts": "3edac37a7a9117ea26a7b0a2f2fea423b844ed7881c256ad4a481a191a27fd45",
+    "indicator_optical_coverage.rs": "016f90e3cb984129bc2fa6e7a799d615d0512d873c91c2b2d5012be10a8a1cbc",
+    "forecast.json": "be59e9c6f6dbc75ba5a745c7afd7f8ab07db87d5e1173c9fbb26c9475a89074e",
+    "literal-admission-mechanical-controls.json": "e098e71f5d8e1514ab3a48cbf3b94d65486b5a435d3fbaab7af687713f46d6c7",
+    "README.md": "3149b9a3f97b55719e22a79d7a58e1c8942111dd3766725766d5d07b6066e2b6",
+    "literal-full-issue.json": "4306b51b2b0024d8c7530a19838edab48925214cb2102240286005e83018843e"
+  }
+}

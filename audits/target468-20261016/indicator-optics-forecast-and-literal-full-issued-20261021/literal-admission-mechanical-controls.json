@@ -1,0 +1,58 @@
+{
+  "helper_sha256": "f482b607ca4990eedaa80c42f641751448b2bddc62bf63eb032a5263d1909180",
+  "actual_successor_proof": {
+    "prior_focus_source": "ceff11dc9d9f86efdbe33bb33af4fe45807ddb22",
+    "new_full_source": "3da21055bc8de53c63388f0c8ef850370546cac0",
+    "prior_tree": "59c6c4422d15b0bb3fab0812bcbb44e3cb4b2123",
+    "new_tree": "a7b9fe47e41ca538c5b8ed8c901aab23c7107b97",
+    "all_tracked_entries_checked": 2529,
+    "changed_paths": [
+      "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "docs/STATUS.md",
+      "docs/improvement-agenda-20261014.md",
+      "docs/next-agent-handoff.md",
+      "docs/peroxide-medium-and-i18n-20261019.md",
+      "docs/post-hydrolysis-gap-lanes-20261019.md",
+      "docs/scientific-coverage-expansion-20261020.md",
+      "docs/unifac-input-admission-20261019.md",
+      "docs/wrap-up-and-open-lanes-20261019.md"
+    ],
+    "permitted_documentation_paths": [
+      "docs/STATUS.md",
+      "docs/improvement-agenda-20261014.md",
+      "docs/next-agent-handoff.md",
+      "docs/peroxide-medium-and-i18n-20261019.md",
+      "docs/post-hydrolysis-gap-lanes-20261019.md",
+      "docs/scientific-coverage-expansion-20261020.md",
+      "docs/unifac-input-admission-20261019.md",
+      "docs/wrap-up-and-open-lanes-20261019.md"
+    ],
+    "literal_source": "crates/kerotakis-phreeqc/src/aqueous.rs",
+    "before_source_sha256": "1f3738d7b57252b15d7114fa80fc66c16c2453cf7a4c49fe0050448f193bac97",
+    "after_source_sha256": "116f7f4d312c178eecc7dad87481bdc135103f3f74c1159a4e498290010a593c",
+    "old_literal": "1.2345678912345678",
+    "new_literal": "1.234_567_891_234_568",
+    "identical_binary64_hex": "3ff3c0ca42d8b4db",
+    "prior_focus_reused_as_prior_only": true,
+    "successor_focus_execution_claimed": false
+  },
+  "actual_temporary_Git_negative_cases": [
+    {
+      "case": "runtime_change",
+      "rejected": true
+    },
+    {
+      "case": "extra_test_source_change",
+      "rejected": true
+    },
+    {
+      "case": "unreviewed_added_path",
+      "rejected": true
+    },
+    {
+      "case": "changed_file_mode",
+      "rejected": true
+    }
+  ],
+  "no_model_engine_execution_or_scientific_verdict": true
+}
