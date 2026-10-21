@@ -7218,7 +7218,7 @@ mod numerical_water_activity_tests {
             cold.temperature = Kelvin(temperature);
             cold.deposit(
                 SpeciesId::new("water"),
-                Moles(1.2345678912345678),
+                Moles(1.234_567_891_234_568),
                 Phase::Liquid,
             );
             cold.deposit(SpeciesId::new("NaCl"), Moles(0.017), Phase::Solid);
