@@ -1,0 +1,227 @@
+{
+  "schema": "kerotakis-source-analysis-v2",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "729-conductivity-0: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "730-conductivity-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "731-conductivity-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "732-conductivity-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "733-acid-ph-0.00025: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "734-acid-ph-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "735-acid-ph-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "736-acid-ph-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "737-base-ph-0.00025: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "738-base-ph-0.0005: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "739-base-ph-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "740-base-ph-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "741-balance-water-50: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "742-balance-water-100: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "743-balance-water-200: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "744-balance-water-400: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "745-thermometer-10: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "746-thermometer-20: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "747-thermometer-40: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "748-thermometer-70: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "749-pressure-amount-0.001: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "750-pressure-amount-0.002: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "751-pressure-amount-0.003: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "752-pressure-amount-0.004: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "analytical-observables:v2b-analytical-observables-conductivity",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        0.05508761762446267,
+        446.7375308588355,
+        882.3442777833181,
+        1734.1146292997469
+      ]
+    },
+    {
+      "check": "analytical-observables:v2b-analytical-observables-acid-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        3.054226571374,
+        2.758396533009,
+        2.464163339041,
+        2.171776574946
+      ]
+    },
+    {
+      "check": "analytical-observables:v2b-analytical-observables-base-ph",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        10.94425524791,
+        11.23910296612,
+        11.53148047943,
+        11.82042382685
+      ]
+    },
+    {
+      "check": "analytical-observables:v2b-analytical-observables-balance-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        49.85,
+        99.7,
+        199.4,
+        398.8
+      ]
+    },
+    {
+      "check": "analytical-observables:v2b-analytical-observables-temperature-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        10.0,
+        20.0,
+        40.0,
+        70.0
+      ]
+    },
+    {
+      "check": "analytical-observables:v2b-analytical-observables-pressure-order",
+      "kind": "independent-law",
+      "assertion": "event-scalar-order",
+      "passed": true,
+      "evidence": [
+        105.13878004547185,
+        108.95256009094369,
+        112.76634013641555,
+        116.58012018188738
+      ]
+    }
+  ],
+  "passed": 30,
+  "unmet": 0,
+  "commit": "575e9c3c43c72d2e07e6a44db8709dbad9c62f46",
+  "binary_sha256": "ffa41cc83996bdf7339716a362e0809edec2c52a3cee7ece46b0e546e7a09728"
+}

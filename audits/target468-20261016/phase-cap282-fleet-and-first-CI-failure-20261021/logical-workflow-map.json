@@ -1,0 +1,809 @@
+{
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "workflow_sha256": "f27783836bc5b2869a32128d857efb0af8a75d2a18902320b9121b225f14b7d3",
+  "actual_logical_jobs": [
+    {
+      "key": "build-cli",
+      "family": null,
+      "name": "Build audited CLI once",
+      "steps": [
+        {
+          "index": 3,
+          "run": "cargo build --release -p kerotakis-cli"
+        },
+        {
+          "index": 4,
+          "run": "sha256sum target/release/kero > binary-sha256.txt\ngit submodule status > submodules.txt\n"
+        }
+      ]
+    },
+    {
+      "key": "sixth-fleet",
+      "family": null,
+      "name": "Frozen fleet 195-218",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "mkdir -p audit-evidence\nprintf '%s\\n' \"${GITHUB_SHA}\" > audit-evidence/revision.txt\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/analyse_sixth.py --self-test"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/sixth_batch.py --binary target/release/kero --out audit-evidence/sixth-195-218"
+        },
+        {
+          "index": 6,
+          "run": "sha256sum \\\n  tools/chemistry-audit/sixth_batch.py \\\n  tools/chemistry-audit/analyse_sixth.py \\\n  tools/chemistry-audit/SIXTH-BATCH.md \\\n  > audit-evidence/sixth-195-218/preflight-sha256.txt\n"
+        },
+        {
+          "index": 7,
+          "run": "python3 tools/chemistry-audit/analyse_sixth.py audit-evidence/sixth-195-218 --out audit-evidence/sixth-195-218/law-checks.json"
+        }
+      ]
+    },
+    {
+      "key": "seventh-fleet",
+      "family": null,
+      "name": "Frozen fleet 459-488",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "mkdir -p audit-evidence\nprintf '%s\\n' \"${GITHUB_SHA}\" > audit-evidence/revision.txt\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/analyse_seventh.py --self-test"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/seventh_batch.py --binary target/release/kero --out audit-evidence/seventh-459-488"
+        },
+        {
+          "index": 6,
+          "run": "sha256sum \\\n  tools/chemistry-audit/seventh_batch.py \\\n  tools/chemistry-audit/analyse_seventh.py \\\n  tools/chemistry-audit/SEVENTH-BATCH.md \\\n  > audit-evidence/seventh-459-488/preflight-sha256.txt\n"
+        },
+        {
+          "index": 7,
+          "run": "python3 tools/chemistry-audit/analyse_seventh.py audit-evidence/seventh-459-488 --out audit-evidence/seventh-459-488/law-checks.json"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "acid-base-buffers",
+      "name": "Source fleet acid-base-buffers",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'acid-base-buffers' --binary target/release/kero --out 'audit-evidence/acid-base-buffers'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/acid-base-buffers' --family 'acid-base-buffers' --out 'audit-evidence/acid-base-buffers/acid-base-buffers-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "solubility-precipitation",
+      "name": "Source fleet solubility-precipitation",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'solubility-precipitation' --binary target/release/kero --out 'audit-evidence/solubility-precipitation'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/solubility-precipitation' --family 'solubility-precipitation' --out 'audit-evidence/solubility-precipitation/solubility-precipitation-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "gas-boundaries",
+      "name": "Source fleet gas-boundaries",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'gas-boundaries' --binary target/release/kero --out 'audit-evidence/gas-boundaries'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/gas-boundaries' --family 'gas-boundaries' --out 'audit-evidence/gas-boundaries/gas-boundaries-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "electrochemistry",
+      "name": "Source fleet electrochemistry",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'electrochemistry' --binary target/release/kero --out 'audit-evidence/electrochemistry'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/electrochemistry' --family 'electrochemistry' --out 'audit-evidence/electrochemistry/electrochemistry-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "mixing-transfer",
+      "name": "Source fleet mixing-transfer",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'mixing-transfer' --binary target/release/kero --out 'audit-evidence/mixing-transfer'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/mixing-transfer' --family 'mixing-transfer' --out 'audit-evidence/mixing-transfer/mixing-transfer-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "filtration-evaporation",
+      "name": "Source fleet filtration-evaporation",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'filtration-evaporation' --binary target/release/kero --out 'audit-evidence/filtration-evaporation'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/filtration-evaporation' --family 'filtration-evaporation' --out 'audit-evidence/filtration-evaporation/filtration-evaporation-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "distillation",
+      "name": "Source fleet distillation",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'distillation' --binary target/release/kero --out 'audit-evidence/distillation'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/distillation' --family 'distillation' --out 'audit-evidence/distillation/distillation-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "thermal-phase-paths",
+      "name": "Source fleet thermal-phase-paths",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'thermal-phase-paths' --binary target/release/kero --out 'audit-evidence/thermal-phase-paths'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/thermal-phase-paths' --family 'thermal-phase-paths' --out 'audit-evidence/thermal-phase-paths/thermal-phase-paths-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "organic-equilibria",
+      "name": "Source fleet organic-equilibria",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'organic-equilibria' --binary target/release/kero --out 'audit-evidence/organic-equilibria'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/organic-equilibria' --family 'organic-equilibria' --out 'audit-evidence/organic-equilibria/organic-equilibria-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets",
+      "family": "observables-negative-controls",
+      "name": "Source fleet observables-negative-controls",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets.py --check\npython3 tools/chemistry-audit/generate_source_manifests_b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets.py --family 'observables-negative-controls' --binary target/release/kero --out 'audit-evidence/observables-negative-controls'"
+        },
+        {
+          "index": 5,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets.py 'audit-evidence/observables-negative-controls' --family 'observables-negative-controls' --out 'audit-evidence/observables-negative-controls/observables-negative-controls-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleet-aggregate",
+      "family": null,
+      "name": "All 240 source-informed cases",
+      "steps": [
+        {
+          "index": 2,
+          "run": "python3 tools/chemistry-audit/aggregate_source_fleets.py downloaded-evidence"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "quantitative-solutions",
+      "name": "Source fleet v2 quantitative-solutions",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'quantitative-solutions' --binary target/release/kero --out 'audit-evidence-v2/quantitative-solutions'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/quantitative-solutions.json \\\n  > 'audit-evidence-v2/quantitative-solutions/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/quantitative-solutions' --family 'quantitative-solutions' --out 'audit-evidence-v2/quantitative-solutions/quantitative-solutions-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "polyprotic-carbonate",
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'polyprotic-carbonate' --binary target/release/kero --out 'audit-evidence-v2/polyprotic-carbonate'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/polyprotic-carbonate.json \\\n  > 'audit-evidence-v2/polyprotic-carbonate/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/polyprotic-carbonate' --family 'polyprotic-carbonate' --out 'audit-evidence-v2/polyprotic-carbonate/polyprotic-carbonate-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "redox-cells",
+      "name": "Source fleet v2 redox-cells",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'redox-cells' --binary target/release/kero --out 'audit-evidence-v2/redox-cells'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/redox-cells.json \\\n  > 'audit-evidence-v2/redox-cells/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/redox-cells' --family 'redox-cells' --out 'audit-evidence-v2/redox-cells/redox-cells-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "gas-production-transfer",
+      "name": "Source fleet v2 gas-production-transfer",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'gas-production-transfer' --binary target/release/kero --out 'audit-evidence-v2/gas-production-transfer'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/gas-production-transfer.json \\\n  > 'audit-evidence-v2/gas-production-transfer/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/gas-production-transfer' --family 'gas-production-transfer' --out 'audit-evidence-v2/gas-production-transfer/gas-production-transfer-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "phase-colligative",
+      "name": "Source fleet v2 phase-colligative",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'phase-colligative' --binary target/release/kero --out 'audit-evidence-v2/phase-colligative'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/phase-colligative.json \\\n  > 'audit-evidence-v2/phase-colligative/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/phase-colligative' --family 'phase-colligative' --out 'audit-evidence-v2/phase-colligative/phase-colligative-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "crystallisation-boundaries",
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'crystallisation-boundaries' --binary target/release/kero --out 'audit-evidence-v2/crystallisation-boundaries'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/crystallisation-boundaries.json \\\n  > 'audit-evidence-v2/crystallisation-boundaries/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/crystallisation-boundaries' --family 'crystallisation-boundaries' --out 'audit-evidence-v2/crystallisation-boundaries/crystallisation-boundaries-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "separation-trains",
+      "name": "Source fleet v2 separation-trains",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'separation-trains' --binary target/release/kero --out 'audit-evidence-v2/separation-trains'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/separation-trains.json \\\n  > 'audit-evidence-v2/separation-trains/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/separation-trains' --family 'separation-trains' --out 'audit-evidence-v2/separation-trains/separation-trains-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "kinetics-boundaries",
+      "name": "Source fleet v2 kinetics-boundaries",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'kinetics-boundaries' --binary target/release/kero --out 'audit-evidence-v2/kinetics-boundaries'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/kinetics-boundaries.json \\\n  > 'audit-evidence-v2/kinetics-boundaries/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/kinetics-boundaries' --family 'kinetics-boundaries' --out 'audit-evidence-v2/kinetics-boundaries/kinetics-boundaries-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "household-biochemistry",
+      "name": "Source fleet v2 household-biochemistry",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'household-biochemistry' --binary target/release/kero --out 'audit-evidence-v2/household-biochemistry'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/household-biochemistry.json \\\n  > 'audit-evidence-v2/household-biochemistry/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/household-biochemistry' --family 'household-biochemistry' --out 'audit-evidence-v2/household-biochemistry/household-biochemistry-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "materials-transport",
+      "name": "Source fleet v2 materials-transport",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'materials-transport' --binary target/release/kero --out 'audit-evidence-v2/materials-transport'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/materials-transport.json \\\n  > 'audit-evidence-v2/materials-transport/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/materials-transport' --family 'materials-transport' --out 'audit-evidence-v2/materials-transport/materials-transport-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "analytical-observables",
+      "name": "Source fleet v2 analytical-observables",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'analytical-observables' --binary target/release/kero --out 'audit-evidence-v2/analytical-observables'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/analytical-observables.json \\\n  > 'audit-evidence-v2/analytical-observables/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/analytical-observables' --family 'analytical-observables' --out 'audit-evidence-v2/analytical-observables/analytical-observables-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v2",
+      "family": "thermochemical-paths",
+      "name": "Source fleet v2 thermochemical-paths",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_2.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_2a.py --check\npython3 tools/chemistry-audit/generate_source_fleets_2b.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_2.py --family 'thermochemical-paths' --binary target/release/kero --out 'audit-evidence-v2/thermochemical-paths'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_2.py \\\n  tools/chemistry-audit/analyse_source_fleets_2.py \\\n  tools/chemistry-audit/generate_source_fleets_2a.py \\\n  tools/chemistry-audit/generate_source_fleets_2b.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-2.md \\\n  tools/chemistry-audit/source-fleets-2/thermochemical-paths.json \\\n  > 'audit-evidence-v2/thermochemical-paths/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_2.py 'audit-evidence-v2/thermochemical-paths' --family 'thermochemical-paths' --out 'audit-evidence-v2/thermochemical-paths/thermochemical-paths-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleet-v2-aggregate",
+      "family": null,
+      "name": "All 288 source-informed v2 cases",
+      "steps": [
+        {
+          "index": 2,
+          "run": "python3 tools/chemistry-audit/aggregate_source_fleets_2.py downloaded-evidence-v2"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "family": "water-energy",
+      "name": "Source fleet v3 water-energy",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'water-energy' --binary target/release/kero --out 'audit-evidence-v3/water-energy'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/water-energy.json \\\n  > 'audit-evidence-v3/water-energy/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/water-energy' --family 'water-energy' --out 'audit-evidence-v3/water-energy/water-energy-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "family": "aqueous-selectivity",
+      "name": "Source fleet v3 aqueous-selectivity",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'aqueous-selectivity' --binary target/release/kero --out 'audit-evidence-v3/aqueous-selectivity'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/aqueous-selectivity.json \\\n  > 'audit-evidence-v3/aqueous-selectivity/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/aqueous-selectivity' --family 'aqueous-selectivity' --out 'audit-evidence-v3/aqueous-selectivity/aqueous-selectivity-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "family": "ionic-conductivity",
+      "name": "Source fleet v3 ionic-conductivity",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'ionic-conductivity' --binary target/release/kero --out 'audit-evidence-v3/ionic-conductivity'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/ionic-conductivity.json \\\n  > 'audit-evidence-v3/ionic-conductivity/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/ionic-conductivity' --family 'ionic-conductivity' --out 'audit-evidence-v3/ionic-conductivity/ionic-conductivity-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "family": "metal-ligand",
+      "name": "Source fleet v3 metal-ligand",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'metal-ligand' --binary target/release/kero --out 'audit-evidence-v3/metal-ligand'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/metal-ligand.json \\\n  > 'audit-evidence-v3/metal-ligand/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/metal-ligand' --family 'metal-ligand' --out 'audit-evidence-v3/metal-ligand/metal-ligand-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleets-v3",
+      "family": "organic-equilibrium",
+      "name": "Source fleet v3 organic-equilibrium",
+      "steps": [
+        {
+          "index": 2,
+          "run": "chmod +x target/release/kero"
+        },
+        {
+          "index": 3,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --validate\npython3 tools/chemistry-audit/analyse_source_fleets_3.py --self-test\npython3 tools/chemistry-audit/generate_source_fleets_3.py --check\n"
+        },
+        {
+          "index": 4,
+          "run": "python3 tools/chemistry-audit/source_fleets_3.py --family 'organic-equilibrium' --binary target/release/kero --out 'audit-evidence-v3/organic-equilibrium'"
+        },
+        {
+          "index": 5,
+          "run": "sha256sum \\\n  tools/chemistry-audit/source_fleets_3.py \\\n  tools/chemistry-audit/analyse_source_fleets_3.py \\\n  tools/chemistry-audit/generate_source_fleets_3.py \\\n  tools/chemistry-audit/SOURCE-FLEETS-3.md \\\n  tools/chemistry-audit/source-fleets-3/organic-equilibrium.json \\\n  > 'audit-evidence-v3/organic-equilibrium/preflight-sha256.txt'\n"
+        },
+        {
+          "index": 6,
+          "run": "python3 tools/chemistry-audit/analyse_source_fleets_3.py 'audit-evidence-v3/organic-equilibrium' --family 'organic-equilibrium' --out 'audit-evidence-v3/organic-equilibrium/organic-equilibrium-law-checks.json'"
+        }
+      ]
+    },
+    {
+      "key": "source-fleet-v3-aggregate",
+      "family": null,
+      "name": "All 120 source-informed v3 cases",
+      "steps": [
+        {
+          "index": 2,
+          "run": "python3 tools/chemistry-audit/aggregate_source_fleets_3.py downloaded-evidence-v3"
+        }
+      ]
+    }
+  ],
+  "logical_jobs": 33,
+  "original_run_steps": 142,
+  "all_original_run_commands_exact": true,
+  "actual_completion_claim": false
+}

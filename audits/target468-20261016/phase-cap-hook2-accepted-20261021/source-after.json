@@ -1,0 +1,25 @@
+{
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "tree": "31a22af93bf837d478b8f8075d0c67ec22d78021",
+  "actual_source_pins": {
+    "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "crates/kerotakis-phreeqc/Cargo.toml": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+    "crates/kerotakis-phreeqc/src/lib.rs": "2c949c443e6d8dd94e7c6b272784c8b78ba2e4a20ba8312ee3255d16a37721a0",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "116f7f4d312c178eecc7dad87481bdc135103f3f74c1159a4e498290010a593c",
+    "crates/kerotakis-phreeqc/tests/peroxide_medium.rs": "8bb2d234153291c4c73519cf9ac275d8e8292560e42842aa30b6c3a64b4b75b9",
+    "crates/kerotakis-core/src/solve.rs": "005204bf1154edebfd5bd6f381d75b4e00feef891d02ff8410d3eb24f969636c",
+    "crates/kerotakis-core/src/bench.rs": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2",
+    "crates/kerotakis-core/src/vessel.rs": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+    "crates/kerotakis-core/src/ops.rs": "a8ed36e723f1a6ed0f55147f81f77a41d4cef00f55d18eecb96f7060cd793bdc",
+    "crates/kerotakis-core/tests/golden/registry.json": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+    "tools/fetch-sundials.sh": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38",
+    ".gitmodules": "70ac65a8b6e2acc056323f236e8e5e34cf8406a7a3b74568f5257a6fa493a1db"
+  },
+  "actual_submodule_heads": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "observer_overlays": {},
+  "tracked_source_unchanged": true,
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+}

@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-21T21:12:43.770680+00:00",
+  "version": 1,
+  "version_label": "v1",
+  "worker_sha256": "385e3102e669969b9453e79dc6ec85be7c405f1bffba4278ded690139009b729",
+  "actual_plan_sha256": "aeea09e3dfebf58f1bad13b9d906c460c5f16f8ec1b7232448ad1607c1bdb61a",
+  "runtime_source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "private_CPU_only": true,
+  "one_issue_only": true,
+  "scientific_or_energy_acceptance": false,
+  "actual_issue_sha256": "c33ac460b0a831440e5c793f4299808850b176f24c1ab2cc8652f000ede68650",
+  "tree": "31a22af93bf837d478b8f8075d0c67ec22d78021",
+  "actual_GH_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "frozen_preparation_manifest_sha256": "263f6f76585514d1d76dc6d8eb32e2009646df3aac4891a7bd104e8ed176e943",
+  "parent_issue_review_sha256": "eacd7980b0a845a80a0b04a4747a7b51449e6583e0c09ff17b6cc3318adaece0",
+  "tests": [
+    "direct_solver_declines_peroxide_rich_medium_without_calling_engine",
+    "external_browser_hook_is_not_asked_to_solve_peroxide_matrix"
+  ],
+  "current_GH_Chemistry_run": 39671380305,
+  "current_GH_CI_run": 39671380308,
+  "results": null,
+  "full_source_acceptance": false
+}

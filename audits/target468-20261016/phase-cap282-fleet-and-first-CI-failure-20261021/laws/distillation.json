@@ -1,0 +1,321 @@
+{
+  "schema": "kerotakis-source-analysis-v1",
+  "families": 1,
+  "cases": 24,
+  "checks": [
+    {
+      "check": "363-still-order-1-forward: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "364-still-order-1-reverse: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "365-still-order-2-forward: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "366-still-order-2-reverse: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "367-still-order-3-forward: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "368-still-order-3-reverse: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "369-still-order-4-forward: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "370-still-order-4-reverse: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "371-still-order-5-forward: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "372-still-order-5-reverse: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "373-still-order-6-forward: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "374-still-order-6-reverse: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "375-still-duty-1-low: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "376-still-duty-1-high: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "377-still-duty-2-low: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "378-still-duty-2-high: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "379-still-duty-3-low: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "380-still-duty-3-high: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "381-still-fraction-4-low: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "382-still-fraction-4-high: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "383-still-fraction-5-low: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "384-still-fraction-5-high: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "385-still-fraction-6-low: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "386-still-fraction-6-high: complete finite registered execution",
+      "kind": "execution",
+      "passed": true,
+      "evidence": []
+    },
+    {
+      "check": "distillation:r363-01-feed-order-1",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 3.0,
+          "ethanol|liquid": 0.24,
+          "methanol|liquid": 0.08
+        },
+        {
+          "methanol|liquid": 0.08,
+          "water|liquid": 3.0,
+          "ethanol|liquid": 0.24
+        }
+      ]
+    },
+    {
+      "check": "distillation:r363-02-feed-order-2",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 3.2,
+          "methanol|liquid": 0.18,
+          "isopropanol|liquid": 0.07
+        },
+        {
+          "isopropanol|liquid": 0.07,
+          "water|liquid": 3.2,
+          "methanol|liquid": 0.18
+        }
+      ]
+    },
+    {
+      "check": "distillation:r363-03-feed-order-3",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 3.4000000000000004,
+          "ethanol|liquid": 0.13,
+          "isopropanol|liquid": 0.10999999999999999
+        },
+        {
+          "isopropanol|liquid": 0.10999999999999999,
+          "water|liquid": 3.4000000000000004,
+          "ethanol|liquid": 0.13
+        }
+      ]
+    },
+    {
+      "check": "distillation:r363-04-feed-order-4",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 3.6,
+          "ethanol|liquid": 0.2,
+          "methanol|liquid": 0.05
+        },
+        {
+          "methanol|liquid": 0.05,
+          "water|liquid": 3.6,
+          "ethanol|liquid": 0.2
+        }
+      ]
+    },
+    {
+      "check": "distillation:r363-05-feed-order-5",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 3.8,
+          "methanol|liquid": 0.14,
+          "isopropanol|liquid": 0.09
+        },
+        {
+          "isopropanol|liquid": 0.09,
+          "water|liquid": 3.8,
+          "methanol|liquid": 0.14
+        }
+      ]
+    },
+    {
+      "check": "distillation:r363-06-feed-order-6",
+      "kind": "metamorphic",
+      "assertion": "final-inventory-equal",
+      "passed": true,
+      "evidence": [
+        {
+          "water|liquid": 4.0,
+          "ethanol|liquid": 0.16,
+          "isopropanol|liquid": 0.06
+        },
+        {
+          "isopropanol|liquid": 0.06,
+          "water|liquid": 4.0,
+          "ethanol|liquid": 0.16
+        }
+      ]
+    },
+    {
+      "check": "distillation:r363-07-energy-monotone-1",
+      "kind": "metamorphic",
+      "assertion": "event-components-total-order",
+      "passed": true,
+      "evidence": [
+        0.025533863275423473,
+        0.051038733793108186
+      ]
+    },
+    {
+      "check": "distillation:r363-08-energy-monotone-2",
+      "kind": "metamorphic",
+      "assertion": "event-components-total-order",
+      "passed": true,
+      "evidence": [
+        0.03629278350390332,
+        0.0724963593983005
+      ]
+    },
+    {
+      "check": "distillation:r363-09-energy-monotone-3",
+      "kind": "metamorphic",
+      "assertion": "event-components-total-order",
+      "passed": true,
+      "evidence": [
+        0.04465453031832775,
+        0.08929789279916811
+      ]
+    },
+    {
+      "check": "distillation:r363-10-fraction-monotone-4",
+      "kind": "metamorphic",
+      "assertion": "event-components-total-order",
+      "passed": true,
+      "evidence": [
+        0.304,
+        0.6079999999999999
+      ]
+    },
+    {
+      "check": "distillation:r363-11-fraction-monotone-5",
+      "kind": "metamorphic",
+      "assertion": "event-components-total-order",
+      "passed": true,
+      "evidence": [
+        0.40299999999999964,
+        0.8059999999999996
+      ]
+    },
+    {
+      "check": "distillation:r363-12-fraction-monotone-6",
+      "kind": "metamorphic",
+      "assertion": "event-components-total-order",
+      "passed": true,
+      "evidence": [
+        0.5124,
+        1.0248
+      ]
+    }
+  ],
+  "passed": 36,
+  "unmet": 0
+}

@@ -1,0 +1,15 @@
+2026-10-21T21:18:22.5884447Z failures:
+2026-10-21T21:18:22.5884549Z 
+2026-10-21T21:18:22.5884837Z ---- concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles stdout ----
+2026-10-21T21:18:22.5885154Z 
+2026-10-21T21:18:22.5885556Z thread 'concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles' (16576) panicked at crates/kerotakis-phreeqc/tests/partial_freezing.rs:301:9:
+2026-10-21T21:18:22.5886180Z assertion failed: water_moles(settled, Phase::Solid) > 0.0
+2026-10-21T21:18:22.5886534Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-21T21:18:22.5887036Z 
+2026-10-21T21:18:22.5887039Z 
+2026-10-21T21:18:22.5887106Z failures:
+2026-10-21T21:18:22.5887382Z     concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles
+2026-10-21T21:18:22.5887642Z 
+2026-10-21T21:18:22.5887850Z test result: FAILED. 4 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.50s
+2026-10-21T21:18:22.5888115Z 
+2026-10-21T21:18:22.5932303Z [1m[91merror[0m: test failed, to rerun pass `-p kerotakis-phreeqc --test partial_freezing`

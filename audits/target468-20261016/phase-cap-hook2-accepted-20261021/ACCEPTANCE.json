@@ -1,0 +1,26 @@
+{
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "tree": "31a22af93bf837d478b8f8075d0c67ec22d78021",
+  "actual_counts": {
+    "pass": 2,
+    "fail": 0
+  },
+  "actual_features": [],
+  "worker_sha256": "385e3102e669969b9453e79dc6ec85be7c405f1bffba4278ded690139009b729",
+  "plan_sha256": "aeea09e3dfebf58f1bad13b9d906c460c5f16f8ec1b7232448ad1607c1bdb61a",
+  "actual_issue_sha256": "c33ac460b0a831440e5c793f4299808850b176f24c1ab2cc8652f000ede68650",
+  "actual_collection_sha256": "74362dbd8a04f70e12a214542fccde61b2504ea8fd9c4db29204893eef9b6915",
+  "producer_manifest_sha256": "34278e782f5425365c80f7239218a06f341df267f6d98a9eec59c764e04b3545",
+  "parent_saved_result_sha256": "89edb6b2a71d29bc24b04219c142d63ba8a65d09700ea7c6b05a90a46f083522",
+  "parent_saved_execution_receipts_sha256": "fe41c2943536bc3dc35a4a3d9762a1cc61948ad5d31cf11741e6937208d78c30",
+  "parent_actual_exits": [
+    0,
+    0
+  ],
+  "independent_findings_sha256": "b054475cfd52b41c5e5ae8533bda64fdb6ffda41220def754e46d7fd1d9e970f",
+  "independent_same_saved_result_sha256": "89edb6b2a71d29bc24b04219c142d63ba8a65d09700ea7c6b05a90a46f083522",
+  "actual_executable_sha256": "266b1942d2e030f453d2130951a6073191666ad5137ceb25fd579f0ffa924917",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "full_source_platform_product_acceptance": false,
+  "scientific_selections": 0
+}

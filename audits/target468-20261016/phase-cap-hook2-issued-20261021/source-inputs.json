@@ -1,0 +1,81 @@
+{
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "tree": "31a22af93bf837d478b8f8075d0c67ec22d78021",
+  "source_pins": {
+    "Cargo.toml": {
+      "sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+      "bytes": 5553,
+      "git_entry": "100644 blob ac217f7030a22079c14d4b420b7a753961f03b7d\tCargo.toml"
+    },
+    "crates/kerotakis-phreeqc/Cargo.toml": {
+      "sha256": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+      "bytes": 1606,
+      "git_entry": "100644 blob 12bcd1af60851e22c402c5d9cc1ce528f4cdbe17\tcrates/kerotakis-phreeqc/Cargo.toml"
+    },
+    "crates/kerotakis-phreeqc/src/lib.rs": {
+      "sha256": "2c949c443e6d8dd94e7c6b272784c8b78ba2e4a20ba8312ee3255d16a37721a0",
+      "bytes": 30929,
+      "git_entry": "100644 blob c7aa2f0fe6626c7f6ff354a88b666b105d76cbc6\tcrates/kerotakis-phreeqc/src/lib.rs"
+    },
+    "crates/kerotakis-phreeqc/src/aqueous.rs": {
+      "sha256": "116f7f4d312c178eecc7dad87481bdc135103f3f74c1159a4e498290010a593c",
+      "bytes": 364163,
+      "git_entry": "100644 blob da0e5ee9185a9aa03bdfc64e6dc89387e592b759\tcrates/kerotakis-phreeqc/src/aqueous.rs"
+    },
+    "crates/kerotakis-phreeqc/tests/peroxide_medium.rs": {
+      "sha256": "8bb2d234153291c4c73519cf9ac275d8e8292560e42842aa30b6c3a64b4b75b9",
+      "bytes": 3391,
+      "git_entry": "100644 blob 1f009fa5e1e16b6387b52c798cfa92142b0c290e\tcrates/kerotakis-phreeqc/tests/peroxide_medium.rs"
+    },
+    "crates/kerotakis-core/src/solve.rs": {
+      "sha256": "005204bf1154edebfd5bd6f381d75b4e00feef891d02ff8410d3eb24f969636c",
+      "bytes": 159535,
+      "git_entry": "100644 blob e84a0fb1ab6631e97abe7c4b6ffbbb8569b59dd5\tcrates/kerotakis-core/src/solve.rs"
+    },
+    "crates/kerotakis-core/src/bench.rs": {
+      "sha256": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2",
+      "bytes": 349648,
+      "git_entry": "100644 blob efc4a35353cc261d28c5efbdc6447463b65d5b45\tcrates/kerotakis-core/src/bench.rs"
+    },
+    "crates/kerotakis-core/src/vessel.rs": {
+      "sha256": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba",
+      "bytes": 90136,
+      "git_entry": "100644 blob 11e2e948dd8e08db87e731f20f6a99bc2a3f5c7e\tcrates/kerotakis-core/src/vessel.rs"
+    },
+    "crates/kerotakis-core/src/ops.rs": {
+      "sha256": "a8ed36e723f1a6ed0f55147f81f77a41d4cef00f55d18eecb96f7060cd793bdc",
+      "bytes": 102042,
+      "git_entry": "100644 blob 8740e9c784e24e05de007aed96e390f673c94bd0\tcrates/kerotakis-core/src/ops.rs"
+    },
+    "crates/kerotakis-core/tests/golden/registry.json": {
+      "sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4",
+      "bytes": 441638,
+      "git_entry": "100644 blob 9247e428a0a132bc8e087773b37e73b14ad88952\tcrates/kerotakis-core/tests/golden/registry.json"
+    },
+    "tools/fetch-sundials.sh": {
+      "sha256": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38",
+      "bytes": 1543,
+      "git_entry": "100755 blob 2c57afc601d00a15504d94b5101c654559339cd4\ttools/fetch-sundials.sh"
+    },
+    ".gitmodules": {
+      "sha256": "70ac65a8b6e2acc056323f236e8e5e34cf8406a7a3b74568f5257a6fa493a1db",
+      "bytes": 232,
+      "git_entry": "100644 blob d5146b94a7500081d9a6cd214ea64f391c46692b\t.gitmodules"
+    }
+  },
+  "submodule_gitlinks": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "source_unmodified": true,
+  "observer_overlays": {},
+  "worker_body_sha256": "0885493a1cc5d05510479fa26a00da4d45ab0d086e8842e779cb4bd30e474519",
+  "saved_reader_sha256": "13d64f712d319c07a82a64c211423c5fbf39b8c3db546f45e761305a893d04cc",
+  "execution_programs_sha256": {
+    "issue_once_parent.py": "05b59216660f275c04848be88b6d0221d291c6f60ce6846d67bb71ae163b42a5",
+    "collector-code/collect_focus.py": "a5b49d65d376afeae5dc32939f81849654f82c1033f7f69911cf12b00a53936d",
+    "collector-code/fast_spool.py": "e5882090a323d4ebaebe4d6a2e935047f799b592bea3c70adb6418bfedccac25"
+  },
+  "source_only_preissue_review": true,
+  "hosted_source_proof_pending": true
+}

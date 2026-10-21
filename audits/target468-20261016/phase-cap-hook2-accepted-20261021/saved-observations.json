@@ -1,0 +1,28 @@
+{
+  "state": "AUTHENTICATED_TWO_FEATURELESS_HOOK_OBSERVATIONS_ONLY",
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "tree": "31a22af93bf837d478b8f8075d0c67ec22d78021",
+  "worker_sha256": "385e3102e669969b9453e79dc6ec85be7c405f1bffba4278ded690139009b729",
+  "plan_sha256": "aeea09e3dfebf58f1bad13b9d906c460c5f16f8ec1b7232448ad1607c1bdb61a",
+  "issue_sha256": "c33ac460b0a831440e5c793f4299808850b176f24c1ab2cc8652f000ede68650",
+  "collected_sha256": "74362dbd8a04f70e12a214542fccde61b2504ea8fd9c4db29204893eef9b6915",
+  "actual_counts": {
+    "pass": 2,
+    "fail": 0
+  },
+  "actual_test_rows": [
+    [
+      "direct_solver_declines_peroxide_rich_medium_without_calling_engine",
+      "ok"
+    ],
+    [
+      "external_browser_hook_is_not_asked_to_solve_peroxide_matrix",
+      "ok"
+    ]
+  ],
+  "actual_phreeqc_features": [],
+  "actual_executable_sha256": "266b1942d2e030f453d2130951a6073191666ad5137ceb25fd579f0ffa924917",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "qualification": "GH lock41, not focused668; no full/platform/product/native-chemistry or scientific acceptance",
+  "scientific_selections": 0
+}

@@ -1,0 +1,11 @@
+{
+  "ACCEPTANCE.json": "c64cfae2198c46f8ae45db0ae8c42fc0f29ea03e1161c0c4f43a0733b610918a",
+  "README.md": "281b7c18b2db5e0b7428e29c4592704e96a707a2b82222a56f7b247066cb17e1",
+  "actual-producer-Cargo.lock": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "compiler.stdout": "f22d5e4e9ced367e774ce5bc140d9e6b1235c1882fec80d011044851f3ae6369",
+  "hook-tests.stdout": "5d5823cdf0b13e13f115eaed389f952aa773a6e637752e66828975bb4d3ce78f",
+  "list-tests.stdout": "163d7231ec77f7d754a158d18a7bfcbac211cacdeba15c4b190c49e27e09e7ac",
+  "saved-observations.json": "89edb6b2a71d29bc24b04219c142d63ba8a65d09700ea7c6b05a90a46f083522",
+  "source-after.json": "1afde9fd9e5adf39bb48d8f5751f9d2ed77c66c210bae4c7ae26e3176b235511",
+  "source-before.json": "1afde9fd9e5adf39bb48d8f5751f9d2ed77c66c210bae4c7ae26e3176b235511"
+}

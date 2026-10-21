@@ -1,0 +1,1965 @@
+{
+  "source": "28277d415b68fedda2f2efccf702811fe160fee9",
+  "run": 39671380305,
+  "jobs": [
+    {
+      "id": 119469867300,
+      "name": "Build audited CLI once",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run Swatinem/rust-cache@v2",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo build --release -p kerotakis-cli",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run sha256sum target/release/kero > binary-sha256.txt",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run Swatinem/rust-cache@v2",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828473,
+      "name": "Frozen fleet 195-218",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Prepare the evidence envelope",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify the frozen analyzer rejects missing evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record all 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply independent laws and matched controls",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828482,
+      "name": "Source fleet v3 organic-equilibrium",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v3 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v3 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v3 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828491,
+      "name": "Frozen fleet 459-488",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Prepare the evidence envelope",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify the analyzer rejects missing evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record all 30 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply independent laws and matched controls",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828559,
+      "name": "Source fleet distillation",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828584,
+      "name": "Source fleet observables-negative-controls",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828586,
+      "name": "Source fleet solubility-precipitation",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828592,
+      "name": "Source fleet electrochemistry",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828625,
+      "name": "Source fleet v3 metal-ligand",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v3 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v3 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v3 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828626,
+      "name": "Source fleet v2 quantitative-solutions",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828631,
+      "name": "Source fleet gas-boundaries",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828636,
+      "name": "Source fleet acid-base-buffers",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828643,
+      "name": "Source fleet v3 water-energy",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v3 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v3 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v3 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828651,
+      "name": "Source fleet thermal-phase-paths",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828662,
+      "name": "Source fleet v3 ionic-conductivity",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v3 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v3 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v3 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828667,
+      "name": "Source fleet v3 aqueous-selectivity",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v3 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v3 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v3 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v3 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v3 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828702,
+      "name": "Source fleet organic-equilibria",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828760,
+      "name": "Source fleet v2 gas-production-transfer",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828801,
+      "name": "Source fleet v2 phase-colligative",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828810,
+      "name": "Source fleet mixing-transfer",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828839,
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828880,
+      "name": "Source fleet filtration-evaporation",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828927,
+      "name": "Source fleet v2 separation-trains",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828928,
+      "name": "Source fleet v2 thermochemical-paths",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471828958,
+      "name": "Source fleet v2 redox-cells",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471829009,
+      "name": "Source fleet v2 household-biochemistry",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471829038,
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471829113,
+      "name": "Source fleet v2 kinetics-boundaries",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471829311,
+      "name": "Source fleet v2 analytical-observables",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119471829361,
+      "name": "Source fleet v2 materials-transport",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run chmod +x target/release/kero",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate frozen v2 manifests and analyzer mutations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record 24 process-isolated v2 experiments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bind the frozen v2 contract and harness to the evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Apply frozen v2 named relations",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve raw v2 successes and failures",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119485075300,
+      "name": "All 240 source-informed cases",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python3 tools/chemistry-audit/aggregate_source_fleets.py downloaded-evidence",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119485334533,
+      "name": "All 120 source-informed v3 cases",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python3 tools/chemistry-audit/aggregate_source_fleets_3.py downloaded-evidence-v3",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 119490594507,
+      "name": "All 288 source-informed v2 cases",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/download-artifact@v7",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python3 tools/chemistry-audit/aggregate_source_fleets_2.py downloaded-evidence-v2",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}
