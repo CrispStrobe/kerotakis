@@ -1,0 +1,9 @@
+# Heat identity repair and actual browser successor
+
+The [actual first failure](../optics82-heat-identity-first-failure-20261021/README.md) exposed two stale operational candidate guards. The new copies each replace exactly one18f2 candidate literal with the reviewed62f candidate. Four other modules remain byte-identical; all scientific protocols, functions, tolerances and original saved predicates remain unchanged. This repairs validation orchestration, not a demonstrated chemistry defect.
+
+The packer now checks both actual launcher/module candidate declarations exactly once against the reviewed external authority before harness creation/upload. Seven actual admission controls pass, rejecting stale launcher, stale module, missing/duplicate guards and absent/wrong authority. The portable helper is AST-identical to the operational function; the included tests run on the actual derivative module bytes without browser or simulator execution. Independent review authenticates the complete transitive module/reader/worker hash graph, including the outer reader preimport helper pin.
+
+The honest source-review field now says original_scientific_contracts_preserved; it no longer falsely asserts all six module bytes are unchanged. Final actual65-file packaging, exact three slots, original forecasts/methanol and621983-byte worker pass parent review. The separate signed never-merge harness3723dec3 has sole actual57edd parent and the exact two approved evidence paths.
+
+One new private CPU observation was actually issued at19:35UTC, with its own version1 collector and saved-only watcher. It uses the same authenticated actual deployment57edd/native74ba/lock41bb; no deployment/API control was repeated. **Actual successor browser82 and both saved review chains remain pending.** The first failed issue/output remains immutable. No scientific selection or product acceptance follows from packaging/source tests; qualified originals remain335/468.

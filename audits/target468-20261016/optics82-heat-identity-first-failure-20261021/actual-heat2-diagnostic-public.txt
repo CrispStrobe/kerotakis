@@ -1,0 +1,20 @@
+Public diagnostic excerpt; raw stderr SHA256 f3f80a1e99071d206b419340de3ad5b0bac3546e726f5ccb4a22b646fb7f0c34 retained privately.
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '62f647275fd800d4992f5516651dfc9e61f47a05'
+- '18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a'
+
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '62f647275fd800d4992f5516651dfc9e61f47a05',
+  expected: '18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.4

@@ -1,0 +1,12 @@
+test_actual_current_modules_match_external_candidate (__main__.HeatCandidateIdentity.test_actual_current_modules_match_external_candidate) ... ok
+test_duplicate_guard_rejected (__main__.HeatCandidateIdentity.test_duplicate_guard_rejected) ... ok
+test_missing_external_authority_rejected (__main__.HeatCandidateIdentity.test_missing_external_authority_rejected) ... ok
+test_missing_guard_rejected (__main__.HeatCandidateIdentity.test_missing_guard_rejected) ... ok
+test_stale_launcher_rejected (__main__.HeatCandidateIdentity.test_stale_launcher_rejected) ... ok
+test_stale_scientific_module_metadata_rejected (__main__.HeatCandidateIdentity.test_stale_scientific_module_metadata_rejected) ... ok
+test_wrong_external_candidate_rejected (__main__.HeatCandidateIdentity.test_wrong_external_candidate_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.004s
+
+OK

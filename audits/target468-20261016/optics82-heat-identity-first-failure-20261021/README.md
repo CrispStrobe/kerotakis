@@ -1,0 +1,9 @@
+# Actual browser82 first failure: stale heat revision guards
+
+The first actual57/native74ba/lock41bb browser82 observation ended ERROR. All164 output files were collected and independently copied through verified fast storage. Earlier37/7/18 child processes completed with zero exit, but complete product acceptance is not earned. The heat launcher rejected candidate62f because it still hard-coded18f2, before executing heat chemistry. The optical18 process was never reached. The saved outer reader correctly refused incomplete output; no result was marked accepted.
+
+Source review found a second identical stale check in heat-controls.mjs. Prior claims of preserved original module bytes were literally true and insufficient: those old operational metadata guards no longer matched the refreshed candidate. The root and independent review both missed that incompatibility. Retain the actual first error and all old module/source/input bytes.
+
+The successor refreshes exactly one candidate-identity literal in each heat launcher/module, preserving all scientific functions, protocols and numeric/localization assertions. A generic packaging preflight rejects stale, missing or duplicate guards against the externally reviewed candidate before any harness creation/upload. Seven source controls pass; two modules are metadata-only derivatives and the other four are byte-identical. Future review/projection names scientific-contract preservation explicitly instead of falsely claiming all six files remain byte-identical.
+
+Successor source/package/actual observation and dual saved acceptance remain required. Do not retag the new binding as old18f2, reuse failed acceptance, rerun deployment/API controls or change scientific expectations to turn this result green. Qualified originals remain335/468; the cap12 baseline still waits for completed optical product delivery.

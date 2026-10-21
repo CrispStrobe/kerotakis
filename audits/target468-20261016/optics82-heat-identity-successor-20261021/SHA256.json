@@ -1,0 +1,15 @@
+{
+  "ACTUAL-SUCCESSOR-ISSUE-PROJECTION.json": "da3323deeb1c6cb8b69e2785b3238c1a2e4bb5f34cfd91310bfb881f1cb978dc",
+  "INDEPENDENT-SOURCE-PIN-REVIEW.json": "b19e0e3d27c4811068cfa767263d12b88cb783ff1edc350ae030583b879ae4d1",
+  "MODULE-METADATA-REFRESH.json": "1a86ac03349e4450c3c87efd1684201fd9ea9b498a6e603a8a4fe8d987267958",
+  "PARENT-PACKAGE-VERIFIED.json": "3d9f6be6dc25c861d0f7563b24113d101e1bf1ad3e0c1749c4a8a7c404c72d55",
+  "PARENT-SOURCE-PROOF.json": "4cb819706a722e9b0ffbd0f11db0d387c2182945c2f69f3c3e31522dc3e6df31",
+  "README.md": "03e187e85ee761b0c414a95b9b1c07ec9eb104134900f70f030f6fd26ced8a3c",
+  "heat_candidate_identity.py": "bc31f62861b19c4dca5a67bff24041726298d30c4fd7a54e5477763caff09e2e",
+  "modules/heat-controls.mjs": "4f11ed90e9f8cb3c55ff2bca98add9776752eae4c1ef7c15e2a18b5d8c423852",
+  "modules/run-heat.mjs": "0b548a5b14b05fa9db03e3ac44d1994fd3265ab056ad8eefb31f41736c1e3e49",
+  "packer-metadata-preflight.diff": "e13ef6f18953a78c941d4511ca6d07a1d2765917de016c1eb83bc5ccae77eb8c",
+  "portable-controls.stderr": "4a5432c31a87dd1c2c0f47673e43a3b48b8264bf8040c9aab68d416bb0122e79",
+  "portable-controls.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_heat_candidate_identity.py": "9ebe0b45a7e5bd4594c8dcd637afd53632a3da56543f1c0f479c220b7a0b487d"
+}

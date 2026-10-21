@@ -1,0 +1,11 @@
+{
+  "utc": "2026-10-21T19:35:25.522394+00:00",
+  "actual65_input_bytes_and_slots_verified": true,
+  "new_strict_heat_candidate_preflight_pass": true,
+  "independent_source_review_sha256": "b19e0e3d27c4811068cfa767263d12b88cb783ff1edc350ae030583b879ae4d1",
+  "worker_sha256": "b3f95aaff65e9e1770daddb71e9ba4b7cef2a553a15ee1c083d6cdd347686a13",
+  "worker_bytes": 621983,
+  "ready_sha256": "f7999c0db06cc9e65d4b1258e6db0bbe96f0609ee6b56625bd4166df8635370e",
+  "harness_head": "3723dec3fdc08454b11c602449d22583b0f807f2",
+  "browser_acceptance": false
+}

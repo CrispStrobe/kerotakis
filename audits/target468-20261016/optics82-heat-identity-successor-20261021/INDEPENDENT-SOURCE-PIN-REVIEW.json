@@ -1,0 +1,45 @@
+{
+  "reviewed_utc": "2026-10-21T19:34:49.043564+00:00",
+  "scope": "SOURCE_BYTES_AST_AND_LITERAL_PIN_GRAPH_ONLY_NO_BROWSER_PROVIDER_CONFIG_ISSUE",
+  "module_sha256": {
+    "run-locale18.mjs": "8456b089e8389c2995fd1c58bcd316c64fffcfcad4db002927f336fa58a8bd21",
+    "run-heat.mjs": "0b548a5b14b05fa9db03e3ac44d1994fd3265ab056ad8eefb31f41736c1e3e49",
+    "locale-controls.mjs": "7290327a0d59d981bcc8bc0e35b5d0941c3559d14067ecdf488ae4f24c0f8819",
+    "live-client.mjs": "1f0ddea0b8a9e16d78cb15cfaaa319abbe2e6cd817999d7075c4e9c235a903a0",
+    "heat-controls.mjs": "4f11ed90e9f8cb3c55ff2bca98add9776752eae4c1ef7c15e2a18b5d8c423852",
+    "targeted.mjs": "f17c5c7fe143d9930efeeafa8cf9c14c1a873ba10ea4927ca5fc30fa91cba4f9"
+  },
+  "two_heat_modules_each_exactly_one_candidate_literal_changed": true,
+  "four_other_modules_byte_exact": true,
+  "unchanged_original_scientific_readers_and_predicates": [
+    "group37_predicates.py",
+    "group7_predicates.py",
+    "original37-full-private.py",
+    "original7-full-private.py",
+    "original-locale18-reader.py",
+    "locale18_saved_predicates.py",
+    "original-heat2-reader.py",
+    "heat_saved_predicates.py"
+  ],
+  "all_four_module_tables_match_actual_bytes": true,
+  "review_twice_PINS_and_ORIGINAL_actual_bytes_match": true,
+  "final_common_HEAT_and_LOCALE_actual_bytes_match": true,
+  "bind_stage_PINS_and_WORKER_actual_bytes_match": true,
+  "outer_preimport_helper_hardpin_matches_actual_new_helper": true,
+  "preflight_order": "bind_stage preflight calls reviewed_files before output creation/sparse Git mutation; reviewed_files validates actual approved module hashes then both exact candidate guards",
+  "new_field_truthfulness": "original_scientific_contracts_preserved replaces misleading all-six byte-identical flag; exact2literal proof and four exact modules independently checked",
+  "new_source_programs_sha256": {
+    "pack_admission.py": "9995b6543bed0f5518766fdca76e5af60b4176b05a17dde815cd8811abcfa934",
+    "saved_envelope.py": "d27ffd05c8fd1af0ad7770372bb09e68cd8ac32fef90d04c7bf50747288c641e",
+    "final_common.py": "19407d138dc7dad1325a623020b353b24e792ed3cd4375f1a3e63fa28a0360cd",
+    "review_twice.py": "f560f169dedaf82025be6027355cc00dbfc0bfe6b0803c6e58e29c914d66ad69",
+    "review_outer82.py": "0a34d42fe84a090e396db4a5f3074425d13f0d95833060dd151ac7078b04caa2",
+    "bind_stage.py": "c75c07b713ea88bd42cb0ccb0600ba97f81fdd5aa8e52eca381aa94968221e49",
+    "grouped82.body.py": "cf0ac8207e0431cec1c9fd9f91e5e743249cc507d90cb070de7e4d567d28c67e"
+  },
+  "blocking_findings": [],
+  "parent_reported_tiny_source_controls": 7,
+  "source_controls_executed_by_this_review": 0,
+  "future_closure_action": "New exact alias map/review/projection/config/worker and saved watcher source/pins must reclose; never change existingv1 raw or active watcher",
+  "new_product_or_chemistry_acceptance_claimed": false
+}

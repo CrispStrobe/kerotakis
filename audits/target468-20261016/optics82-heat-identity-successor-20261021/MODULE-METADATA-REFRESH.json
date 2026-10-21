@@ -1,0 +1,18 @@
+{
+  "old_candidate": "18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a",
+  "actual_reviewed_candidate": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "modules": {
+    "heat-controls.mjs": {
+      "before_sha256": "cf19825bd6a273115eb686feab0b3242dfebb5533e571fed4765b8f49c371d6f",
+      "after_sha256": "4f11ed90e9f8cb3c55ff2bca98add9776752eae4c1ef7c15e2a18b5d8c423852",
+      "only_one_candidate_literal_replaced": true
+    },
+    "run-heat.mjs": {
+      "before_sha256": "316980a04ba85c94a54665f1ad5418a310f8485892afe97b85c9ba97daa6d592",
+      "after_sha256": "0b548a5b14b05fa9db03e3ac44d1994fd3265ab056ad8eefb31f41736c1e3e49",
+      "only_one_candidate_literal_replaced": true
+    }
+  },
+  "all_other_four_JS_modules_exact": true,
+  "scientific_function_bodies_and_protocols_unchanged": true
+}

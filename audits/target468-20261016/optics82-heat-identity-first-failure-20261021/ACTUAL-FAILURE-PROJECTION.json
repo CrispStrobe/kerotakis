@@ -1,0 +1,18 @@
+{
+  "source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "worker_sha256": "7d300680050572b144f5367d5e6c478ec8b228c1e4ea5d9440659a3398cd1932",
+  "config_sha256": "6c4f8f59d4ee49dcc121100f6c021b1d79ec8733293685bd8f09c50b48bd51c6",
+  "actual_issue_sha256": "917e655d0c3321e7115e530c875bcdd3540b6c284df0874db301073bbfc824e4",
+  "actual_collected_sha256": "ec39f18c442d59c48c4f8afb13abcf3f2d89f72179371055a79f19776700d0c8",
+  "terminal_status": {
+    "status": "ERROR",
+    "failureMessage": ""
+  },
+  "actual_collected_files": 164,
+  "serial_ext4_before_storage_verified": true,
+  "first62_children_completed_zero_status": true,
+  "heat_checks_executed": false,
+  "optics18_executed": false,
+  "overall_browser_acceptance": false,
+  "scientific_selections": 0
+}

@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-21T19:30:57.730192+00:00",
+  "exit_status": 1,
+  "error_type": "AssertionError",
+  "actual_saved_only_invocation": true,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "40bd287b201cb57788d88ece1dd856ee1e28021ad71862e5015a59f30e214c4e"
+}

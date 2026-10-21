@@ -1,0 +1,11 @@
+{
+  "scientific_functions_protocols_tolerances_retained": true,
+  "actual_four_modules_exact_two_only_one_candidate_literal": true,
+  "generic_preflight_controls": 7,
+  "actual_control_exit_status": 0,
+  "node_syntax_checks": 2,
+  "both_actual_transitive_pin_tables_resolve": true,
+  "new_worker_template_sha256": "cf0ac8207e0431cec1c9fd9f91e5e743249cc507d90cb070de7e4d567d28c67e",
+  "new_outer_reader_sha256": "0a34d42fe84a090e396db4a5f3074425d13f0d95833060dd151ac7078b04caa2",
+  "future_observation_still_pending": true
+}

@@ -1,0 +1,8 @@
+{
+  "error_type": "AssertionError",
+  "error": "Group child failed: heat2",
+  "all_partial_outputs_preserved": true,
+  "parent_acceptance_assigned": false,
+  "public_projection_of_raw_sha256": "f4412fbea837e68d1dd475212569ca5f3e63b8a7e60645f8a88eaa38be1426e1",
+  "private_provider_paths_omitted": true
+}

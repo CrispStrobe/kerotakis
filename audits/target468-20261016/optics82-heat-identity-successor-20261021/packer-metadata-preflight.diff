@@ -1,0 +1,64 @@
+--- failed57/pack_admission.py
++++ heat-identity/pack_admission.py
+@@ -7,6 +7,7 @@
+ import base64
+ import hashlib
+ import json
++import re
+ from pathlib import Path, PurePosixPath
+ import subprocess
+ from worker_slots import render_worker
+@@ -19,8 +20,8 @@
+     'targeted.mjs': 'f17c5c7fe143d9930efeeafa8cf9c14c1a873ba10ea4927ca5fc30fa91cba4f9',
+     'locale-controls.mjs': '7290327a0d59d981bcc8bc0e35b5d0941c3559d14067ecdf488ae4f24c0f8819',
+     'run-locale18.mjs': '8456b089e8389c2995fd1c58bcd316c64fffcfcad4db002927f336fa58a8bd21',
+-    'heat-controls.mjs': 'cf19825bd6a273115eb686feab0b3242dfebb5533e571fed4765b8f49c371d6f',
+-    'run-heat.mjs': '316980a04ba85c94a54665f1ad5418a310f8485892afe97b85c9ba97daa6d592',
++    'heat-controls.mjs': '4f11ed90e9f8cb3c55ff2bca98add9776752eae4c1ef7c15e2a18b5d8c423852',
++    'run-heat.mjs': '0b548a5b14b05fa9db03e3ac44d1994fd3265ab056ad8eefb31f41736c1e3e49',
+ }
+ GROUPS = [('browser37', 'live-client.mjs', 37, 240),
+           ('targeted7', 'targeted.mjs', 7, 240),
+@@ -39,10 +40,24 @@
+     return name
+ 
+ 
++def check_heat_candidate(files, candidate):
++    """Reject stale operational JS revision guards before harness creation/upload."""
++    require(isinstance(candidate, str) and re.fullmatch('[a-f0-9]{40}', candidate),
++            'Malformed reviewed candidate authority')
++    patterns = {
++        'heat-controls.mjs': r"const REVIEWED_CANDIDATE_SOURCE='([a-f0-9]{40})';",
++        'run-heat.mjs': r"assert\.equal\(binding\.reviewed_candidate_source,'([a-f0-9]{40})'\)",
++    }
++    for name, pattern in patterns.items():
++        raw = base64.b64decode(files[name]['base64'], validate=True)
++        require(re.findall(pattern, raw.decode('utf-8')) == [candidate],
++                'Heat launcher/module reviewed candidate differs: ' + name)
++
++
+ def reviewed_files(review):
+     """Only explicitly reviewed aliases are admitted. No recursive host uploads."""
+     require(review['execution_admission_order_approved'] is True and
+-            review['original_modules_byte_identical'] is True and
++            review['original_scientific_contracts_preserved'] is True and
+             review['all64_final_acceptance_mandatory'] is True,
+             'Exact source/reader review remains incomplete')
+     files = {}
+@@ -62,6 +77,7 @@
+     require(any(n.startswith('saved-readers/') for n in files) and
+             any(n.startswith('forecasts/') for n in files),
+             'Saved-reader and forecast closure missing')
++    check_heat_candidate(files, CANDIDATE)
+     return files
+ 
+ 
+@@ -135,7 +151,7 @@
+         'worker_template_sha256': review['worker_template_sha256'],
+         'admission_programs_sha256': review['admission_programs_sha256'],
+         'execution_admission_order_approved': True,
+-        'original_modules_byte_identical': True,
++        'original_scientific_contracts_preserved': True,
+         'all64_final_acceptance_mandatory': True}) + b'\n')
+     envelope = dict(runtime_source=runtime_source,
+                     engine=json.loads(raw['API-ACCEPTED.json'])['engine'],
