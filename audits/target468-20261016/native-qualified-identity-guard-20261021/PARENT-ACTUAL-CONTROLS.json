@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-21T17:45:09.542473+00:00",
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "ci_run": 39631430316,
+  "actual_exit_status": 0,
+  "actual_test_count": 8,
+  "actual_platforms": [
+    "ubuntu-latest",
+    "macos-latest"
+  ],
+  "all108_required_identities_exactly_once_on_each_platform": true,
+  "public_reader_sha256": "1d357f6ffc704362b52cdd7b868af39479daef47276b7c4c774960b1b64a37a5",
+  "helper_sha256": "59eaa6b9271c0fa873284256142a4b05b7a5c76dda85b237e9b5d33325dc1576",
+  "guard_program_sha256": "8605273e466ac7c91d1976e2d4f294f95448d2bee4b953246889ebc758bc18fa",
+  "guard_active": true,
+  "full_current_source_acceptance_claimed": false,
+  "new_scientific_qualifications": 0,
+  "raw_logs_sha256": {
+    "119330453509.log": "95be5a947134c54b163ab5f19960dddc464962a2f65d900672e78bf5aaa6b989",
+    "119330453788.log": "3d02a99e5650a344960696fafcffa6631c1e9b4e5390b7b80e693962ed1cfa8b"
+  },
+  "public_reader_verifies_actual_log_names_hashes_and_lengths": true
+}

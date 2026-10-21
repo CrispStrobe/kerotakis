@@ -1,0 +1,1322 @@
+{
+  "scope": "saved actual logs only; not current full acceptance or merge permission",
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "logs": {
+    "119330453509.log.parent-partial": {
+      "bytes": 612526,
+      "sha256": "95be5a947134c54b163ab5f19960dddc464962a2f65d900672e78bf5aaa6b989",
+      "declared108_exact_results": [
+        {
+          "declared_fixture": "refused_drain_creates_no_receiver_and_moves_no_material",
+          "canonical_test": "refused_drain_creates_no_receiver_and_moves_no_material",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "refused_extraction_preserves_the_numerical_reason_and_inventory",
+          "canonical_test": "refused_extraction_preserves_the_numerical_reason_and_inventory",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "globally_invalid_transfer_state_keeps_error_and_rollback_contract",
+          "canonical_test": "globally_invalid_transfer_state_keeps_error_and_rollback_contract",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "ordinary_supported_drain_retains_both_solute_shares_and_total",
+          "canonical_test": "ordinary_supported_drain_retains_both_solute_shares_and_total",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "checked_layer_detection_and_mixing_preserve_refused_state",
+          "canonical_test": "checked_layer_detection_and_mixing_preserve_refused_state",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory",
+          "canonical_test": "invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract",
+          "canonical_test": "globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter",
+          "canonical_test": "invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures",
+          "canonical_test": "methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "a_partial_sample_keeps_its_supported_peak_and_missing_data_note",
+          "canonical_test": "a_partial_sample_keeps_its_supported_peak_and_missing_data_note",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "checked_binary_lle_preserves_invalid_coordinate_and_group_errors",
+          "canonical_test": "checked_binary_lle_preserves_invalid_coordinate_and_group_errors",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "phase_scan_stops_at_the_first_failed_evaluation",
+          "canonical_test": "phase_scan_stops_at_the_first_failed_evaluation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "checked_refusals_keep_the_invalid_coordinate_typed",
+          "canonical_test": "checked_refusals_keep_the_invalid_coordinate_typed",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "checked_infinite_dilution_propagates_a_missing_group_without_mutation",
+          "canonical_test": "checked_infinite_dilution_propagates_a_missing_group_without_mutation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "missing_forward_interaction_is_a_named_refusal",
+          "canonical_test": "unifac::tests::missing_forward_interaction_is_a_named_refusal",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "reverse_interaction_does_not_stand_in_for_missing_direction",
+          "canonical_test": "unifac::tests::reverse_interaction_does_not_stand_in_for_missing_direction",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "decomposition_water_does_not_make_bulk_peroxide_an_aqueous_medium",
+          "canonical_test": "decomposition_water_does_not_make_bulk_peroxide_an_aqueous_medium",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "direct_solver_declines_peroxide_rich_medium_without_calling_engine",
+          "canonical_test": "direct_solver_declines_peroxide_rich_medium_without_calling_engine",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "external_browser_hook_is_not_asked_to_solve_peroxide_matrix",
+          "canonical_test": "external_browser_hook_is_not_asked_to_solve_peroxide_matrix",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "underflowed_directional_weights_refuse_even_if_final_gammas_look_finite",
+          "canonical_test": "underflowed_directional_weights_refuse_even_if_final_gammas_look_finite",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "underflowed_weights_cannot_supply_a_phase_verdict",
+          "canonical_test": "underflowed_weights_cannot_supply_a_phase_verdict",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "ordinary_directional_weights_keep_the_existing_two_phase_control",
+          "canonical_test": "ordinary_directional_weights_keep_the_existing_two_phase_control",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "nonrepresentable_interaction_factor_keeps_its_direction",
+          "canonical_test": "nonrepresentable_interaction_factor_keeps_its_direction",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "dynamic_english_temperature_and_catalyst_messages_remain_exact",
+          "canonical_test": "dynamic_english_temperature_and_catalyst_messages_remain_exact",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "dynamic_temperature_windows_are_localized_at_multiple_coordinates",
+          "canonical_test": "dynamic_temperature_windows_are_localized_at_multiple_coordinates",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "missing_ph_and_catalyst_alternatives_keep_localized_reasons",
+          "canonical_test": "missing_ph_and_catalyst_alternatives_keep_localized_reasons",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "medium_light_and_unknown_solvent_labels_use_localized_explanations",
+          "canonical_test": "medium_light_and_unknown_solvent_labels_use_localized_explanations",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "required_and_forbidden_group_explanations_are_localized",
+          "canonical_test": "required_and_forbidden_group_explanations_are_localized",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "gate_order_english_legacy_and_machine_identity_are_preserved",
+          "canonical_test": "gate_order_english_legacy_and_machine_identity_are_preserved",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "shipped_family_terms_and_all_gate_labels_have_catalogue_entries",
+          "canonical_test": "shipped_family_terms_and_all_gate_labels_have_catalogue_entries",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "blank_ph_caveat_is_in_the_actual_german_measurement",
+          "canonical_test": "blank_ph_caveat_is_in_the_actual_german_measurement",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "blank_ph_caveat_is_in_the_actual_french_measurement",
+          "canonical_test": "blank_ph_caveat_is_in_the_actual_french_measurement",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "english_blank_reading_and_legacy_caveat_are_preserved",
+          "canonical_test": "english_blank_reading_and_legacy_caveat_are_preserved",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "localization_does_not_expand_the_admitted_blank_domain",
+          "canonical_test": "localization_does_not_expand_the_admitted_blank_domain",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "drain_preserves_solid_before_aqueous_of_same_species",
+          "canonical_test": "drain_preserves_solid_before_aqueous_of_same_species",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "drain_preserves_gas_before_aqueous_of_same_species",
+          "canonical_test": "drain_preserves_gas_before_aqueous_of_same_species",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "catalyst_promotion_debits_only_solid_inventory",
+          "canonical_test": "catalyst_promotion_debits_only_solid_inventory",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "saturation_events_match_actual_phase_changes",
+          "canonical_test": "saturation_events_match_actual_phase_changes",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "saturation_direct_and_delta_agree_on_owned_phases",
+          "canonical_test": "saturation_direct_and_delta_agree_on_owned_phases",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "iodide_assisted_iodine_debits_solid_not_existing_solution",
+          "canonical_test": "iodide_assisted_iodine_debits_solid_not_existing_solution",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "drain_ordinary_aqueous_first_keeps_both_inventories",
+          "canonical_test": "drain_ordinary_aqueous_first_keeps_both_inventories",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous_capacity_uses_liquid_water_even_in_minority_layer",
+          "canonical_test": "aqueous_capacity_uses_liquid_water_even_in_minority_layer",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::real_lab_fischer_wait_forwards_two_actual_cold_temperature_gates",
+          "canonical_test": "solver_contract_tests::real_lab_fischer_wait_forwards_two_actual_cold_temperature_gates",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::real_lab_fischer_warm_wait_forwards_real_missing_catalyst_gate",
+          "canonical_test": "solver_contract_tests::real_lab_fischer_warm_wait_forwards_real_missing_catalyst_gate",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::real_lab_successful_pressure_reading_retains_direct_model_route",
+          "canonical_test": "solver_contract_tests::real_lab_successful_pressure_reading_retains_direct_model_route",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_real_analytic_adapter_characterizes_current_water_like_concrete_adapter",
+          "canonical_test": "solver_contract_tests::combined_real_analytic_adapter_characterizes_current_water_like_concrete_adapter",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_mutating_error_rolls_back_before_later_route_like_native_stack",
+          "canonical_test": "solver_contract_tests::combined_mutating_error_rolls_back_before_later_route_like_native_stack",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_invalid_finite_temperature_rolls_back_like_native_stack",
+          "canonical_test": "solver_contract_tests::combined_invalid_finite_temperature_rolls_back_like_native_stack",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_invalid_outward_gas_event_is_rejected_like_native_stack",
+          "canonical_test": "solver_contract_tests::combined_invalid_outward_gas_event_is_rejected_like_native_stack",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_successful_outward_gas_is_booked_before_later_route_like_native_stack",
+          "canonical_test": "solver_contract_tests::combined_successful_outward_gas_is_booked_before_later_route_like_native_stack",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_installed_routes_preserve_required_material_conservation_policy",
+          "canonical_test": "solver_contract_tests::combined_installed_routes_preserve_required_material_conservation_policy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::real_lab_unmatched_wait_keeps_clock_and_inventory_without_fischer_gate",
+          "canonical_test": "solver_contract_tests::real_lab_unmatched_wait_keeps_clock_and_inventory_without_fischer_gate",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::untrusted_wrapper_cannot_get_receipt_from_existing_solution",
+          "canonical_test": "solver_contract_tests::untrusted_wrapper_cannot_get_receipt_from_existing_solution",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_refuses_ambiguous_real_aqueous_authorities",
+          "canonical_test": "solver_contract_tests::combined_refuses_ambiguous_real_aqueous_authorities",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "borrowed_adapter_cannot_bypass_required_material_conservation",
+          "canonical_test": "borrowed_adapter_cannot_bypass_required_material_conservation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "thermostatted_peroxide_heat_uses_consumed_molecules_not_extent",
+          "canonical_test": "thermostatted_peroxide_heat_uses_consumed_molecules_not_extent",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "second_loading_preserves_the_reference_heat_basis",
+          "canonical_test": "second_loading_preserves_the_reference_heat_basis",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "adiabatic_peroxide_heat_matches_independent_sensible_energy",
+          "canonical_test": "adiabatic_peroxide_heat_matches_independent_sensible_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "excluded_peroxide_path_produces_no_material_or_heat",
+          "canonical_test": "excluded_peroxide_path_produces_no_material_or_heat",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "pure_water_freezing_conserves_independent_phase_energy",
+          "canonical_test": "pure_water_freezing_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "pure_water_melting_conserves_independent_phase_energy",
+          "canonical_test": "pure_water_melting_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "dilute_brine_freezing_conserves_independent_phase_energy",
+          "canonical_test": "dilute_brine_freezing_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "intermediate_brine_freezing_conserves_independent_phase_energy",
+          "canonical_test": "intermediate_brine_freezing_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "stronger_brine_freezing_conserves_independent_phase_energy",
+          "canonical_test": "stronger_brine_freezing_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "dilute_brine_melting_conserves_independent_phase_energy",
+          "canonical_test": "dilute_brine_melting_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "intermediate_brine_melting_conserves_independent_phase_energy",
+          "canonical_test": "intermediate_brine_melting_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "stronger_brine_melting_conserves_independent_phase_energy",
+          "canonical_test": "stronger_brine_melting_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "subobservable_freezing_is_a_real_conserved_phase_transfer",
+          "canonical_test": "subobservable_freezing_is_a_real_conserved_phase_transfer",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "subobservable_melting_is_a_real_conserved_phase_transfer",
+          "canonical_test": "subobservable_melting_is_a_real_conserved_phase_transfer",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+          "canonical_test": "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+          "canonical_test": "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+          "canonical_test": "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+          "canonical_test": "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+          "canonical_test": "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+          "canonical_test": "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+          "canonical_test": "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "missing_ph_is_refusal_not_zero",
+          "canonical_test": "missing_ph_is_refusal_not_zero",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "nonfinite_ph_refuses_without_poisoning_partial_bands",
+          "canonical_test": "nonfinite_ph_refuses_without_poisoning_partial_bands",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "finite_solved_ph_has_positive_spectrum",
+          "canonical_test": "finite_solved_ph_has_positive_spectrum",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "non_ph_absorber_does_not_need_solution",
+          "canonical_test": "non_ph_absorber_does_not_need_solution",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+          "canonical_test": "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "valid_blank_stays_zero",
+          "canonical_test": "valid_blank_stays_zero",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solid_indicator_has_no_aqueous_gap",
+          "canonical_test": "solid_indicator_has_no_aqueous_gap",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "adsorbed_indicator_has_no_aqueous_gap",
+          "canonical_test": "adsorbed_indicator_has_no_aqueous_gap",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "zero_indicator_has_no_gap",
+          "canonical_test": "zero_indicator_has_no_gap",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "liquid_indicator_requires_ph",
+          "canonical_test": "liquid_indicator_requires_ph",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "native_spectrum_and_ph_gaps_both_survive",
+          "canonical_test": "native_spectrum_and_ph_gaps_both_survive",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+          "canonical_test": "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+          "canonical_test": "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "scene_omits_empty_ph_gap_and_older_payloads_remain_readable",
+          "canonical_test": "scene_omits_empty_ph_gap_and_older_payloads_remain_readable",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "liquid_blank_is_applicable_and_reads_zero",
+          "canonical_test": "liquid_blank_is_applicable_and_reads_zero",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "empty_dry_and_gas_samples_have_no_reading",
+          "canonical_test": "empty_dry_and_gas_samples_have_no_reading",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "nonfinite_or_nonpositive_portions_are_not_samples",
+          "canonical_test": "nonfinite_or_nonpositive_portions_are_not_samples",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "bench_without_liquid_refuses_locally_without_mutation",
+          "canonical_test": "bench_without_liquid_refuses_locally_without_mutation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "bench_pure_water_blank_is_measured_without_mutation",
+          "canonical_test": "bench_pure_water_blank_is_measured_without_mutation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous_supported_absorber_still_measures",
+          "canonical_test": "aqueous_supported_absorber_still_measures",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "canonical_species_terms_have_declared_localized_labels",
+          "canonical_test": "canonical_species_terms_have_declared_localized_labels",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "direct_english_species_terms_keep_existing_translations",
+          "canonical_test": "direct_english_species_terms_keep_existing_translations",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "unknown_and_native_complex_terms_keep_exact_identity",
+          "canonical_test": "unknown_and_native_complex_terms_keep_exact_identity",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "non_species_sections_do_not_resolve_registry_ids",
+          "canonical_test": "non_species_sections_do_not_resolve_registry_ids",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "actual_appearance_uses_localized_species_without_changing_slots",
+          "canonical_test": "actual_appearance_uses_localized_species_without_changing_slots",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "actual_bench_refusal_uses_localized_species_without_mutation",
+          "canonical_test": "actual_bench_refusal_uses_localized_species_without_mutation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "scene_names_known_ph_gap_ids_without_rewriting_them",
+          "canonical_test": "scene_names_known_ph_gap_ids_without_rewriting_them",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "scene_name_map_covers_both_gap_kinds_and_omits_unknown_native_ids",
+          "canonical_test": "scene_name_map_covers_both_gap_kinds_and_omits_unknown_native_ids",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "blank_and_older_scene_payloads_need_no_name_map",
+          "canonical_test": "blank_and_older_scene_payloads_need_no_name_map",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+          "canonical_test": "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality",
+          "canonical_test": "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute",
+          "canonical_test": "unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        }
+      ],
+      "old_bare_predicate_would_fail_only": [
+        "missing_forward_interaction_is_a_named_refusal",
+        "reverse_interaction_does_not_stand_in_for_missing_direction"
+      ]
+    },
+    "119330453788.log.parent-partial": {
+      "bytes": 614605,
+      "sha256": "3d02a99e5650a344960696fafcffa6631c1e9b4e5390b7b80e693962ed1cfa8b",
+      "declared108_exact_results": [
+        {
+          "declared_fixture": "refused_drain_creates_no_receiver_and_moves_no_material",
+          "canonical_test": "refused_drain_creates_no_receiver_and_moves_no_material",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "refused_extraction_preserves_the_numerical_reason_and_inventory",
+          "canonical_test": "refused_extraction_preserves_the_numerical_reason_and_inventory",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "globally_invalid_transfer_state_keeps_error_and_rollback_contract",
+          "canonical_test": "globally_invalid_transfer_state_keeps_error_and_rollback_contract",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "ordinary_supported_drain_retains_both_solute_shares_and_total",
+          "canonical_test": "ordinary_supported_drain_retains_both_solute_shares_and_total",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "checked_layer_detection_and_mixing_preserve_refused_state",
+          "canonical_test": "checked_layer_detection_and_mixing_preserve_refused_state",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory",
+          "canonical_test": "invalid_column_coordinates_refuse_without_panicking_or_mutating_inventory",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract",
+          "canonical_test": "globally_invalid_temperatures_keep_the_bench_error_and_rollback_contract",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter",
+          "canonical_test": "invalid_extraction_coordinate_refuses_without_panicking_or_moving_matter",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures",
+          "canonical_test": "methanol_column_uses_the_dedicated_subgroup_reference_at_both_temperatures",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "a_partial_sample_keeps_its_supported_peak_and_missing_data_note",
+          "canonical_test": "a_partial_sample_keeps_its_supported_peak_and_missing_data_note",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "checked_binary_lle_preserves_invalid_coordinate_and_group_errors",
+          "canonical_test": "checked_binary_lle_preserves_invalid_coordinate_and_group_errors",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "phase_scan_stops_at_the_first_failed_evaluation",
+          "canonical_test": "phase_scan_stops_at_the_first_failed_evaluation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "checked_refusals_keep_the_invalid_coordinate_typed",
+          "canonical_test": "checked_refusals_keep_the_invalid_coordinate_typed",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "checked_infinite_dilution_propagates_a_missing_group_without_mutation",
+          "canonical_test": "checked_infinite_dilution_propagates_a_missing_group_without_mutation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "missing_forward_interaction_is_a_named_refusal",
+          "canonical_test": "unifac::tests::missing_forward_interaction_is_a_named_refusal",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "reverse_interaction_does_not_stand_in_for_missing_direction",
+          "canonical_test": "unifac::tests::reverse_interaction_does_not_stand_in_for_missing_direction",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "decomposition_water_does_not_make_bulk_peroxide_an_aqueous_medium",
+          "canonical_test": "decomposition_water_does_not_make_bulk_peroxide_an_aqueous_medium",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "direct_solver_declines_peroxide_rich_medium_without_calling_engine",
+          "canonical_test": "direct_solver_declines_peroxide_rich_medium_without_calling_engine",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "external_browser_hook_is_not_asked_to_solve_peroxide_matrix",
+          "canonical_test": "external_browser_hook_is_not_asked_to_solve_peroxide_matrix",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "underflowed_directional_weights_refuse_even_if_final_gammas_look_finite",
+          "canonical_test": "underflowed_directional_weights_refuse_even_if_final_gammas_look_finite",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "underflowed_weights_cannot_supply_a_phase_verdict",
+          "canonical_test": "underflowed_weights_cannot_supply_a_phase_verdict",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "ordinary_directional_weights_keep_the_existing_two_phase_control",
+          "canonical_test": "ordinary_directional_weights_keep_the_existing_two_phase_control",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "nonrepresentable_interaction_factor_keeps_its_direction",
+          "canonical_test": "nonrepresentable_interaction_factor_keeps_its_direction",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "dynamic_english_temperature_and_catalyst_messages_remain_exact",
+          "canonical_test": "dynamic_english_temperature_and_catalyst_messages_remain_exact",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "dynamic_temperature_windows_are_localized_at_multiple_coordinates",
+          "canonical_test": "dynamic_temperature_windows_are_localized_at_multiple_coordinates",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "missing_ph_and_catalyst_alternatives_keep_localized_reasons",
+          "canonical_test": "missing_ph_and_catalyst_alternatives_keep_localized_reasons",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "medium_light_and_unknown_solvent_labels_use_localized_explanations",
+          "canonical_test": "medium_light_and_unknown_solvent_labels_use_localized_explanations",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "required_and_forbidden_group_explanations_are_localized",
+          "canonical_test": "required_and_forbidden_group_explanations_are_localized",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "gate_order_english_legacy_and_machine_identity_are_preserved",
+          "canonical_test": "gate_order_english_legacy_and_machine_identity_are_preserved",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "shipped_family_terms_and_all_gate_labels_have_catalogue_entries",
+          "canonical_test": "shipped_family_terms_and_all_gate_labels_have_catalogue_entries",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "blank_ph_caveat_is_in_the_actual_german_measurement",
+          "canonical_test": "blank_ph_caveat_is_in_the_actual_german_measurement",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "blank_ph_caveat_is_in_the_actual_french_measurement",
+          "canonical_test": "blank_ph_caveat_is_in_the_actual_french_measurement",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "english_blank_reading_and_legacy_caveat_are_preserved",
+          "canonical_test": "english_blank_reading_and_legacy_caveat_are_preserved",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "localization_does_not_expand_the_admitted_blank_domain",
+          "canonical_test": "localization_does_not_expand_the_admitted_blank_domain",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "drain_preserves_solid_before_aqueous_of_same_species",
+          "canonical_test": "drain_preserves_solid_before_aqueous_of_same_species",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "drain_preserves_gas_before_aqueous_of_same_species",
+          "canonical_test": "drain_preserves_gas_before_aqueous_of_same_species",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "catalyst_promotion_debits_only_solid_inventory",
+          "canonical_test": "catalyst_promotion_debits_only_solid_inventory",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "saturation_events_match_actual_phase_changes",
+          "canonical_test": "saturation_events_match_actual_phase_changes",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "saturation_direct_and_delta_agree_on_owned_phases",
+          "canonical_test": "saturation_direct_and_delta_agree_on_owned_phases",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "iodide_assisted_iodine_debits_solid_not_existing_solution",
+          "canonical_test": "iodide_assisted_iodine_debits_solid_not_existing_solution",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "drain_ordinary_aqueous_first_keeps_both_inventories",
+          "canonical_test": "drain_ordinary_aqueous_first_keeps_both_inventories",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous_capacity_uses_liquid_water_even_in_minority_layer",
+          "canonical_test": "aqueous_capacity_uses_liquid_water_even_in_minority_layer",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::real_lab_fischer_wait_forwards_two_actual_cold_temperature_gates",
+          "canonical_test": "solver_contract_tests::real_lab_fischer_wait_forwards_two_actual_cold_temperature_gates",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::real_lab_fischer_warm_wait_forwards_real_missing_catalyst_gate",
+          "canonical_test": "solver_contract_tests::real_lab_fischer_warm_wait_forwards_real_missing_catalyst_gate",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::real_lab_successful_pressure_reading_retains_direct_model_route",
+          "canonical_test": "solver_contract_tests::real_lab_successful_pressure_reading_retains_direct_model_route",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_real_analytic_adapter_characterizes_current_water_like_concrete_adapter",
+          "canonical_test": "solver_contract_tests::combined_real_analytic_adapter_characterizes_current_water_like_concrete_adapter",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_mutating_error_rolls_back_before_later_route_like_native_stack",
+          "canonical_test": "solver_contract_tests::combined_mutating_error_rolls_back_before_later_route_like_native_stack",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_invalid_finite_temperature_rolls_back_like_native_stack",
+          "canonical_test": "solver_contract_tests::combined_invalid_finite_temperature_rolls_back_like_native_stack",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_invalid_outward_gas_event_is_rejected_like_native_stack",
+          "canonical_test": "solver_contract_tests::combined_invalid_outward_gas_event_is_rejected_like_native_stack",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_successful_outward_gas_is_booked_before_later_route_like_native_stack",
+          "canonical_test": "solver_contract_tests::combined_successful_outward_gas_is_booked_before_later_route_like_native_stack",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_installed_routes_preserve_required_material_conservation_policy",
+          "canonical_test": "solver_contract_tests::combined_installed_routes_preserve_required_material_conservation_policy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::real_lab_unmatched_wait_keeps_clock_and_inventory_without_fischer_gate",
+          "canonical_test": "solver_contract_tests::real_lab_unmatched_wait_keeps_clock_and_inventory_without_fischer_gate",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::untrusted_wrapper_cannot_get_receipt_from_existing_solution",
+          "canonical_test": "solver_contract_tests::untrusted_wrapper_cannot_get_receipt_from_existing_solution",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solver_contract_tests::combined_refuses_ambiguous_real_aqueous_authorities",
+          "canonical_test": "solver_contract_tests::combined_refuses_ambiguous_real_aqueous_authorities",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "borrowed_adapter_cannot_bypass_required_material_conservation",
+          "canonical_test": "borrowed_adapter_cannot_bypass_required_material_conservation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "thermostatted_peroxide_heat_uses_consumed_molecules_not_extent",
+          "canonical_test": "thermostatted_peroxide_heat_uses_consumed_molecules_not_extent",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "second_loading_preserves_the_reference_heat_basis",
+          "canonical_test": "second_loading_preserves_the_reference_heat_basis",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "adiabatic_peroxide_heat_matches_independent_sensible_energy",
+          "canonical_test": "adiabatic_peroxide_heat_matches_independent_sensible_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "excluded_peroxide_path_produces_no_material_or_heat",
+          "canonical_test": "excluded_peroxide_path_produces_no_material_or_heat",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "pure_water_freezing_conserves_independent_phase_energy",
+          "canonical_test": "pure_water_freezing_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "pure_water_melting_conserves_independent_phase_energy",
+          "canonical_test": "pure_water_melting_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "dilute_brine_freezing_conserves_independent_phase_energy",
+          "canonical_test": "dilute_brine_freezing_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "intermediate_brine_freezing_conserves_independent_phase_energy",
+          "canonical_test": "intermediate_brine_freezing_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "stronger_brine_freezing_conserves_independent_phase_energy",
+          "canonical_test": "stronger_brine_freezing_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "dilute_brine_melting_conserves_independent_phase_energy",
+          "canonical_test": "dilute_brine_melting_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "intermediate_brine_melting_conserves_independent_phase_energy",
+          "canonical_test": "intermediate_brine_melting_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "stronger_brine_melting_conserves_independent_phase_energy",
+          "canonical_test": "stronger_brine_melting_conserves_independent_phase_energy",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "subobservable_freezing_is_a_real_conserved_phase_transfer",
+          "canonical_test": "subobservable_freezing_is_a_real_conserved_phase_transfer",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "subobservable_melting_is_a_real_conserved_phase_transfer",
+          "canonical_test": "subobservable_melting_is_a_real_conserved_phase_transfer",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+          "canonical_test": "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+          "canonical_test": "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+          "canonical_test": "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+          "canonical_test": "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+          "canonical_test": "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+          "canonical_test": "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+          "canonical_test": "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "missing_ph_is_refusal_not_zero",
+          "canonical_test": "missing_ph_is_refusal_not_zero",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "nonfinite_ph_refuses_without_poisoning_partial_bands",
+          "canonical_test": "nonfinite_ph_refuses_without_poisoning_partial_bands",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "finite_solved_ph_has_positive_spectrum",
+          "canonical_test": "finite_solved_ph_has_positive_spectrum",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "non_ph_absorber_does_not_need_solution",
+          "canonical_test": "non_ph_absorber_does_not_need_solution",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+          "canonical_test": "mixed_partial_spectrum_is_preserved_but_not_reported_complete",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "valid_blank_stays_zero",
+          "canonical_test": "valid_blank_stays_zero",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solid_indicator_has_no_aqueous_gap",
+          "canonical_test": "solid_indicator_has_no_aqueous_gap",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "adsorbed_indicator_has_no_aqueous_gap",
+          "canonical_test": "adsorbed_indicator_has_no_aqueous_gap",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "zero_indicator_has_no_gap",
+          "canonical_test": "zero_indicator_has_no_gap",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "liquid_indicator_requires_ph",
+          "canonical_test": "liquid_indicator_requires_ph",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "native_spectrum_and_ph_gaps_both_survive",
+          "canonical_test": "native_spectrum_and_ph_gaps_both_survive",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+          "canonical_test": "bench_and_appearance_refusals_are_localized_and_nonconsuming",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+          "canonical_test": "scene_serializes_distinct_ph_gap_without_inventing_missing_spectral_data",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "scene_omits_empty_ph_gap_and_older_payloads_remain_readable",
+          "canonical_test": "scene_omits_empty_ph_gap_and_older_payloads_remain_readable",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "liquid_blank_is_applicable_and_reads_zero",
+          "canonical_test": "liquid_blank_is_applicable_and_reads_zero",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "empty_dry_and_gas_samples_have_no_reading",
+          "canonical_test": "empty_dry_and_gas_samples_have_no_reading",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "nonfinite_or_nonpositive_portions_are_not_samples",
+          "canonical_test": "nonfinite_or_nonpositive_portions_are_not_samples",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "bench_without_liquid_refuses_locally_without_mutation",
+          "canonical_test": "bench_without_liquid_refuses_locally_without_mutation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "bench_pure_water_blank_is_measured_without_mutation",
+          "canonical_test": "bench_pure_water_blank_is_measured_without_mutation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "aqueous_supported_absorber_still_measures",
+          "canonical_test": "aqueous_supported_absorber_still_measures",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "canonical_species_terms_have_declared_localized_labels",
+          "canonical_test": "canonical_species_terms_have_declared_localized_labels",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "direct_english_species_terms_keep_existing_translations",
+          "canonical_test": "direct_english_species_terms_keep_existing_translations",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "unknown_and_native_complex_terms_keep_exact_identity",
+          "canonical_test": "unknown_and_native_complex_terms_keep_exact_identity",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "non_species_sections_do_not_resolve_registry_ids",
+          "canonical_test": "non_species_sections_do_not_resolve_registry_ids",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "actual_appearance_uses_localized_species_without_changing_slots",
+          "canonical_test": "actual_appearance_uses_localized_species_without_changing_slots",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "actual_bench_refusal_uses_localized_species_without_mutation",
+          "canonical_test": "actual_bench_refusal_uses_localized_species_without_mutation",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "scene_names_known_ph_gap_ids_without_rewriting_them",
+          "canonical_test": "scene_names_known_ph_gap_ids_without_rewriting_them",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "scene_name_map_covers_both_gap_kinds_and_omits_unknown_native_ids",
+          "canonical_test": "scene_name_map_covers_both_gap_kinds_and_omits_unknown_native_ids",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "blank_and_older_scene_payloads_need_no_name_map",
+          "canonical_test": "blank_and_older_scene_payloads_need_no_name_map",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+          "canonical_test": "solution_optics::tests::complexes_do_not_inherit_the_free_ions_absorption",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality",
+          "canonical_test": "solution_optics::tests::beer_lambert_uses_molarity_and_path_length_not_molality",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        },
+        {
+          "declared_fixture": "unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute",
+          "canonical_test": "unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute",
+          "actual_outcome": "ok",
+          "matching_rows": 1
+        }
+      ],
+      "old_bare_predicate_would_fail_only": [
+        "missing_forward_interaction_is_a_named_refusal",
+        "reverse_interaction_does_not_stand_in_for_missing_direction"
+      ]
+    }
+  }
+}

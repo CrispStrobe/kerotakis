@@ -1,0 +1,13 @@
+# Exact native platform identities in the integration guard
+
+The merge verifier expected two thermo test fixtures as bare names, but their actual Rust identities are `unifac::tests::missing_forward_interaction_is_a_named_refusal` and `unifac::tests::reverse_interaction_does_not_stand_in_for_missing_direction`. Both current platform jobs passed; the old predicate would falsely reject their logs. This was found before integration, not a product-test failure.
+
+The two explicit aliases are bound to the exact source module and source-file hashes in `EXACT-NATIVE-IDENTITY-SOURCE.json`. All other106 declared identities remain verbatim. A leaf-name comparison detects ambiguity only; it cannot admit a wrong module, a bare substitute, duplicate row, ignored test or failure. There is no suffix-based passing fallback.
+
+`ACTUAL-PLATFORM-LOG-IDENTITY-REVIEW.json` retains all108 exact results for each authentic current Ubuntu/macOS job and the downloaded raw-log hashes. The source is62f64727, workflow39631430316, jobs119330453509 and119330453788. Parent checked current GitHub job metadata and independently ran all8 controls against both retained raw logs. `PARENT-ACTUAL-CONTROLS.json` and the raw control streams record that invocation. The logs themselves stay in the authenticated operating archive; they are not manufactured fixtures.
+
+The prior merge watcher and its authorization remain preserved. Only that watcher was superseded. The replacement verifies the helper/source mapping before import, then retains every current-source full-fleet, CI, platform, source assembly, branch-protection and normal exact-head auto-merge requirement. Its own authorization and launch are recorded in the private operating handoff. Running chemistry, collection and dual saved review were not cancelled or duplicated. This receipt does not accept the pending current-source full run or add a scientific qualification.
+
+Run the seven rejection/identity controls with `python3 -B test_exact_native_identity.py`. The eighth actual-log control is explicitly skipped unless `KEROTAKIS_PLATFORM_LOG_DIR` names a directory containing the two authenticated `.log` files whose hashes appear in the receipt; with those retained logs, all8 controls run. Verify their hashes before use. Public code contains no private log location.
+
+After genuine current full acceptance, the watcher independently authenticates job/source metadata again and may complete protected integration. Changed-release API11 and same-release browser82 remain separate required delivery lanes described in [the delivery handoff](../../../docs/optics82-delivery-lane-20261021.md).

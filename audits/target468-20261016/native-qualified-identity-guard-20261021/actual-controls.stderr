@@ -1,0 +1,13 @@
+test_bare_alias_cannot_replace_qualified_identity (__main__.ExactNativeIdentity.test_bare_alias_cannot_replace_qualified_identity) ... ok
+test_both_actual_platform_logs_all108_exact_identities (__main__.ExactNativeIdentity.test_both_actual_platform_logs_all108_exact_identities) ... ok
+test_duplicate_exact_row_rejects (__main__.ExactNativeIdentity.test_duplicate_exact_row_rejects) ... ok
+test_exact_canonical_alias_and_unchanged_bare_identity_pass (__main__.ExactNativeIdentity.test_exact_canonical_alias_and_unchanged_bare_identity_pass) ... ok
+test_failed_or_conflicting_result_rejects (__main__.ExactNativeIdentity.test_failed_or_conflicting_result_rejects) ... ok
+test_ignored_is_not_pass (__main__.ExactNativeIdentity.test_ignored_is_not_pass) ... ok
+test_missing_and_case_mismatch_reject (__main__.ExactNativeIdentity.test_missing_and_case_mismatch_reject) ... ok
+test_wrong_module_rejects (__main__.ExactNativeIdentity.test_wrong_module_rejects) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.376s
+
+OK

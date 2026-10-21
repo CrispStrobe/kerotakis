@@ -1,0 +1,28 @@
+{
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "source_files": {
+    "crates/kerotakis-thermo/src/unifac.rs": {
+      "sha256": "2d8d4e8bced4b638de01f24c5b6c7190650d2b11b262acde523a2aaa9b9a9ddb",
+      "lines": {
+        "675": "mod tests {",
+        "898": "    fn missing_forward_interaction_is_a_named_refusal() {",
+        "916": "    fn reverse_interaction_does_not_stand_in_for_missing_direction() {"
+      }
+    },
+    "crates/kerotakis-thermo/src/lib.rs": {
+      "sha256": "e8404f5c03219efb5980384fe8a1b096a88620228a6a023fb90832dcb6c52247",
+      "lines": {
+        "39": "pub mod unifac;"
+      }
+    }
+  },
+  "exact_fixture_to_canonical": {
+    "missing_forward_interaction_is_a_named_refusal": "unifac::tests::missing_forward_interaction_is_a_named_refusal",
+    "reverse_interaction_does_not_stand_in_for_missing_direction": "unifac::tests::reverse_interaction_does_not_stand_in_for_missing_direction"
+  },
+  "all_other106_declared_names_preserved_verbatim": true,
+  "declared_unique_total": 108,
+  "other_bare_unique_total": 86,
+  "other_already_qualified_unique_total": 20,
+  "no_suffix_alias_admission": true
+}
