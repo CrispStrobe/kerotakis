@@ -353,17 +353,17 @@
      older engine, which is the same as "nothing known to be missing". */
   const spectralGaps = $derived(vessel.liquid?.spectral_gaps ?? []);
   const opticalPhGaps = $derived(vessel.liquid?.optical_ph_gaps ?? []);
-  function opticalSpeciesName(id: string): string {
+  function tOpticalSpeciesName(id: string): string {
     const names = vessel.liquid?.optical_species_names;
     const source = names && Object.prototype.hasOwnProperty.call(names, id) ? names[id] : id;
     return t(typeof source === "string" && source.length > 0 ? source : id);
   }
   const opticalCoverageLabel = $derived([
     spectralGaps.length > 0 ? t("the computed colour is incomplete: no absorption spectrum for {species}", {
-      species: spectralGaps.map(opticalSpeciesName).join(", "),
+      species: spectralGaps.map(tOpticalSpeciesName).join(", "),
     }) : "",
     opticalPhGaps.length > 0 ? t("the computed colour is incomplete: pH is missing or invalid for {species}", {
-      species: opticalPhGaps.map(opticalSpeciesName).join(", "),
+      species: opticalPhGaps.map(tOpticalSpeciesName).join(", "),
     }) : "",
   ].filter(Boolean).join(" "));
 
@@ -3234,12 +3234,12 @@
         class="persistent-readout spectral-gap-readout"
         data-gaps={spectralGaps.join(",")}
         aria-label={t("the computed colour is incomplete: no absorption spectrum for {species}", {
-          species: spectralGaps.map(opticalSpeciesName).join(", "),
+          species: spectralGaps.map(tOpticalSpeciesName).join(", "),
         })}
         title={t("The hatching on the liquid marks the part of the colour the model could not compute. It says something about the model, not about the liquid.")}
       >
         <small>{t("colour incomplete")}</small>
-        <strong>{spectralGaps.map(opticalSpeciesName).join(", ")}</strong>
+        <strong>{spectralGaps.map(tOpticalSpeciesName).join(", ")}</strong>
       </span>
     {/if}
     {#if opticalPhGaps.length > 0}
@@ -3247,12 +3247,12 @@
         class="persistent-readout optical-ph-gap-readout"
         data-ph-gaps={opticalPhGaps.join(",")}
         aria-label={t("the computed colour is incomplete: pH is missing or invalid for {species}", {
-          species: opticalPhGaps.map(opticalSpeciesName).join(", "),
+          species: opticalPhGaps.map(tOpticalSpeciesName).join(", "),
         })}
         title={t("The hatching on the liquid marks the part of the colour the model could not compute. It says something about the model, not about the liquid.")}
       >
         <small>{t("colour needs pH")}</small>
-        <strong>{opticalPhGaps.map(opticalSpeciesName).join(", ")}</strong>
+        <strong>{opticalPhGaps.map(tOpticalSpeciesName).join(", ")}</strong>
       </span>
     {/if}
     {#each persistentEnzymeReadouts as progress (progress.material + progress.family)}
