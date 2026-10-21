@@ -1,0 +1,50 @@
+{
+  "state": "ONE_ACTUAL_FULL_RUN_ISSUED_NOT_ACCEPTED",
+  "issued_utc": "2026-10-21T10:01:39.313395+00:00",
+  "source": "047d04513d1e55e162ad4269cbd5192e432e83e1",
+  "tree": "b5ca243cbd2996ed6e97ea752ad54e5663289534",
+  "PR": "https://github.com/CrispStrobe/kerotakis/pull/854",
+  "CI_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/39581276616",
+  "chemistry_run": "https://github.com/CrispStrobe/kerotakis/actions/runs/39581276471",
+  "version": 1,
+  "worker_sha256": "c96d7d7a7cb5223cf5396fb1507e91d5f97cda37fc1c4fc686cea1cac3cc08ab",
+  "actual_plan_sha256": "2376756174a4e0e3853831087f5503e628402b270703faff6406dfc83b384e15",
+  "saved_reader_sha256": "e9ec0e7c775d322f22392da6c4909c28968273ee1ebd3b950085fa9be6e47ded",
+  "actual_worker_bytes": 973536,
+  "source_manifest_pins": 155,
+  "required": {
+    "native": 627,
+    "core": 2207,
+    "thermo": 184,
+    "external_hook_controls": 2,
+    "cache_only": 18,
+    "classifier": 11,
+    "UTF8_files": 139,
+    "logical_fleet_groups": 33,
+    "original_steps": 142,
+    "law_reports": 29,
+    "requirements": 500,
+    "optics_new_Rust": 20,
+    "optics_existing_units": 2,
+    "SSR": 21,
+    "Svelte_check": true,
+    "existing_platform_names": 59,
+    "separate_phase_names": [
+      8,
+      2,
+      7
+    ]
+  },
+  "original_baseline_reexecutions": 0,
+  "current_TC008_replay_claimed": false,
+  "protected_checks_replaced": false,
+  "scientific_selections": 0,
+  "empirical_calibration_claim": false,
+  "private_control_receipts_sha256": {
+    "ISSUE-BINDING.json": "3151d37fb55bef8dfc1c16e445c54be211297d862cbba6f1f8d0b83718da530e",
+    "PUSH-ISSUED.json": "55550b4cf157594caef6cc5796b66edc96d03493f649d336933f1033322c419b",
+    "ROOT-PREISSUE-REVIEW.json": "5fa2c8064749ecd95d7026f7a9bd350aca49060829d41616880357dd995f03c9",
+    "LAUNCH-COMPLETED.json": "8c588d5bad07cbc0a97419f03311d4f8dd06ec27fa84785e9a0b6385c4f7d909",
+    "MANDATORY-PREISSUE-FILES.json": "da445f9fd04cd65e2c036d95e5fab11e1279c66e70c5a0a1937cc42ecc16612a"
+  }
+}
