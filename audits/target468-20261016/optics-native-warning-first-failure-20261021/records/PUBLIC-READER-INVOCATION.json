@@ -1,0 +1,32 @@
+{
+  "reader_sha256": "62dbc6b8bd355b6d5546a4ff79ae6dfc00f9d71e43d4c1c39460f7bb021a9199",
+  "argv_safe_projection": [
+    "python3",
+    "audits/target468-20261016/optics-native-warning-first-failure-20261021/review_public.py",
+    "--repo",
+    ".",
+    "--out",
+    "<fresh-output-directory>"
+  ],
+  "raw_private_invocation_sha256": "35f0bfab4407cf27f0286f779595f19a2ab132ad2ae1465e8a1edbe3d01795eb",
+  "exit_status": 0,
+  "stdout": {
+    "source": "d49b5de7c33a4cd2394ce371f7387babd5081da4",
+    "actual_saved_native_passed": 626,
+    "actual_saved_native_failed": 1,
+    "exact_failure": "unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute",
+    "failed_assertion_uses_display_substring_KIO3": true,
+    "registry_authoritative_display_name": "potassium iodate",
+    "warning_actual_text_not_captured": true,
+    "diagnosis_is_source_explanation_not_reexecuted_warning": true,
+    "scientific_assertions_after_failure_not_credited": true,
+    "private_gzip_binaries_not_reverified_by_public_capsule": true,
+    "release_engine_binding_absent": true,
+    "core_thermo_frontend_fleet_not_reached": true,
+    "full_acceptance": false,
+    "scientific_selections": 0
+  },
+  "stdout_sha256": "6f78ad4e6463b5f43dc20bd21b8efe984bbdfc02e6c62d44631ce54fc85d2ddc",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "product_calls": 0
+}

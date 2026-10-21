@@ -1,0 +1,14 @@
+{
+  "source": "d49b5de7c33a4cd2394ce371f7387babd5081da4",
+  "tree": "9013018e923ed407111a8c489e6435ecda1020be",
+  "worker_sha256": "edacc7d8068bb4d02ec27596640472b3266c71959119e9acbc6c9638b53031f2",
+  "host_plan_sha256": "be8fd8f889d9fae58e639bbc64ac1a57387e3d3cb8add758e2019a7bf09b39b2",
+  "manifest_sha256": "a623b743dd9b5d385b4e7b8a6f0e041e3aa6f4cac9ff24b75ebbf0da300cf4af",
+  "collection_sha256": "a976e7925a88bc3c782e964d0bdd900d0fd3d8331a2d2ad1872b1256052cdab7",
+  "manifest_members": 415,
+  "collected_files_including_manifest": 416,
+  "total_collected_bytes": 1748204786,
+  "all_private_raw_compressed_bytes_rehashed": true,
+  "release_engine_binding_exists": false,
+  "full_acceptance": false
+}

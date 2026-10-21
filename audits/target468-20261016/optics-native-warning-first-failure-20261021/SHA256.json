@@ -1,0 +1,13 @@
+{
+  "README.md": "774d6773f4390cd4a82af7c626a66b512a02e79a407f6d01335a081ab6d8cd5d",
+  "evidence/assertion.extracted.txt": "d5d35928bb548ed39a4ae06835e3d424b1e65057404212fa5e4602634e47eb17",
+  "evidence/native.stdout": "84a89e90d1525b13bfc0097b5083616fd48b8e47a73db60c194f4a70d7f43d62",
+  "evidence/unsupported_ionic.d49.rs": "5c9b0739f0813c671bc72883e2f3890ee0b01ae180ea42f914478f50ea48f45d",
+  "records/ACTUAL-OUTCOME-SCOPE.json": "c64ee3277877c643be97051ee2a72ca5d6c1b74d1554207b96af7238bf83ac0a",
+  "records/EXECUTABLE-OWNERSHIP.json": "98d5085d5147883aa47143b94af12af9367c3401dcdd33c2fcbbfc243c2cb81d",
+  "records/FIRST-FAILURE.json": "7585e4251ceb41d709e1a672691cdbd24a1ed6785bb581693fc94557a0b6761b",
+  "records/PUBLIC-READER-INVOCATION.json": "562ee86cc38132f945fcd20a48578591df9a9d2bfcfd4c80687590526f6e4651",
+  "records/RAW-AUTHENTICATED.json": "4d4cabdac016f16459300f17b7d266f347dff22f8b0aa0f5c3090509d10fb2f0",
+  "records/SOURCE-BINDINGS.json": "f0061601f879e41d3020d189e3a7726eb1814b529e3fcf95addf4707ee2dee2a",
+  "review_public.py": "62dbc6b8bd355b6d5546a4ff79ae6dfc00f9d71e43d4c1c39460f7bb021a9199"
+}

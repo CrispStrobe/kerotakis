@@ -1,0 +1,11 @@
+{
+  "source": "d49b5de7c33a4cd2394ce371f7387babd5081da4",
+  "blobs_sha256": {
+    "crates/kerotakis-phreeqc/tests/unsupported_ionic.rs": "5c9b0739f0813c671bc72883e2f3890ee0b01ae180ea42f914478f50ea48f45d",
+    "crates/kerotakis-core/src/species.rs": "babe480b3620c8fac121c1894847c26f7a9a51e599ea0a26d5940df0003f81a7",
+    "crates/kerotakis-core/src/phrase.rs": "676f55b3e32eb28fe6b3b00dc05656b824f602571fe42d777fe24d3d273269bf",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "diagnosis_qualification": "Raw failure proves old display-string assertion does not find KIO3. Registry/Term display bridge explains canonical display name change by source; failed trace did not print actual warning text. Typed cause/reason/canonical slot and EN/DE/FR display checks must be strengthened without changing chemistry assertions.",
+  "scientific_selections": 0
+}

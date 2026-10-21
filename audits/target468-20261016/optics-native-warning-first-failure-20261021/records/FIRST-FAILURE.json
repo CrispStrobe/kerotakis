@@ -1,0 +1,16 @@
+{
+  "source": "d49b5de7c33a4cd2394ce371f7387babd5081da4",
+  "passed": 626,
+  "failed": 1,
+  "ignored": 0,
+  "actual_failed_test": "unknown_ionic_feed_is_distinct_from_a_neutral_molecular_solute",
+  "actual_exit_status": 101,
+  "public_test_path": "crates/kerotakis-phreeqc/tests/unsupported_ionic.rs",
+  "line": 76,
+  "exact_assertion_excerpt": "assertion failed: events.iter().any(|e|\n        matches!(e, Event::NotYetModeled { what, .. } if\n            what.contains(\"KIO3\")))\n",
+  "native_stdout_sha256": "84a89e90d1525b13bfc0097b5083616fd48b8e47a73db60c194f4a70d7f43d62",
+  "native_stderr_sha256": "f3132100fb36856e26a81b3cdbc84ef209484f28e8b8999edeac298204a6ba99",
+  "scientific_assertions_after_legacy_text_check_not_reached_for_failed_case": true,
+  "core_thermo_frontend_fleet_not_reached": true,
+  "full_acceptance": false
+}

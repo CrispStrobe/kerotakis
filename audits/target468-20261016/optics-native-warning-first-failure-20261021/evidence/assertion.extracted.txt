@@ -1,0 +1,3 @@
+assertion failed: events.iter().any(|e|
+        matches!(e, Event::NotYetModeled { what, .. } if
+            what.contains("KIO3")))

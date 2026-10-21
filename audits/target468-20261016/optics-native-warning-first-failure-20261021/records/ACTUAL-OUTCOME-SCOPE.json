@@ -1,0 +1,39 @@
+{
+  "source": "d49b5de7c33a4cd2394ce371f7387babd5081da4",
+  "actual_native_command": [
+    "cargo",
+    "test",
+    "-p",
+    "kerotakis-phreeqc",
+    "-p",
+    "kerotakis-cea",
+    "--lib",
+    "--tests",
+    "--no-fail-fast",
+    "--",
+    "--nocapture"
+  ],
+  "actual_native_exit_status": 101,
+  "raw_stdout_sha256": "84a89e90d1525b13bfc0097b5083616fd48b8e47a73db60c194f4a70d7f43d62",
+  "raw_stderr_sha256": "f3132100fb36856e26a81b3cdbc84ef209484f28e8b8999edeac298204a6ba99",
+  "extracted_assertion_sha256": "d5d35928bb548ed39a4ae06835e3d424b1e65057404212fa5e4602634e47eb17",
+  "assertion_extraction_is_not_whole_stderr": true,
+  "curiosity500_separate_gate": {
+    "passed_requirements_check": true,
+    "prompts": 500,
+    "failures": 0,
+    "baseline_drift": 0,
+    "raw_stdout_sha256": "5fa284033f2bb8a5bc8cd14d7f54ee0f04ed9a7be0b8d31a9cd7149e4bf702eb"
+  },
+  "later_core2216_thermo184_frontend37_and_fleet33_not_executed": true,
+  "release_engine_binding_absent": true,
+  "debug_CLI_binding_only": {
+    "source": "d49b5de7c33a4cd2394ce371f7387babd5081da4",
+    "tree": "9013018e923ed407111a8c489e6435ecda1020be",
+    "binary_sha256": "6b42e65919ee9305ef03c41c77ef622a31454a3ea2405c7b84256db2a026db72",
+    "actual_producer_lock_sha256": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+    "gzip_sha256": "91e688aefa322a30139ae6ff859c31f4270aba451bbf76f92be155edafbc9a66"
+  },
+  "scientific_selections": 0,
+  "full_acceptance": false
+}
