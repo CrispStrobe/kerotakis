@@ -1,0 +1,21 @@
+# Canonical species labels in optical coverage messages
+
+This is a named open acceptance task for [PR854](https://github.com/CrispStrobe/kerotakis/pull/854), source047d0451. Its current full validation must finish unchanged; do not cancel it or relabel its outcomes onto a successor. The current43 focused controls verify translated sentences, but do not require translated substance names. This gap is established by source review, not an executed failing browser or test result.
+
+## Reproduction and source cause
+
+`coverage()` returns canonical `methyl_orange`. Core `Slot::Term::render` in `crates/kerotakis-core/src/phrase.rs` looks up the literal `species.methyl_orange`. German/French catalogs instead use English-source `species."methyl orange"`. Both optical refusal and appearance reasons therefore fall back to the canonical identifier. Existing `render::species_name` already resolves registry ID to English name before the locale lookup; the typed phrase path bypasses that authority.
+
+`Vessel.svelte` similarly sends raw optical gap IDs to the exact-lookup `t()` function. Frontend catalogs have `methyl orange`, but no `methyl_orange`. German expects Methylorange. Existing French core and frontend vocabularies legitimately differ: orangé de méthyle and hélianthine respectively. Preserve those catalog choices; do not assert identical spellings across the two surfaces.
+
+## Implementation contract
+
+1. Freeze strict original-source negative and positive controls before changing runtime. Test EN/DE/FR actual core refusal/appearance prose and rendered liquid coverage title/readout for independently declared substance labels, not merely a translated surrounding sentence. Keep canonical IDs in structured inventory, typed identities and DOM data attributes. Record actual baseline outcomes separately from forecasts.
+2. Share the existing registry-to-English-name authority for core species terms. Preserve explicitly supplied English terms, current direct translations, and unknown/native-complex fallback. Restrict any new resolution to species terms; other phrase sections must retain their behavior. Do not derive chemical names by replacing underscores or add one-off methyl-orange aliases to hide the mismatch.
+3. Give the GUI an explicit engine-authoritative display-name bridge for gap species (for example an optional ID-to-English-name map on the scene liquid). Translate the supplied English source term using the existing frontend catalog. Keep raw canonical gap arrays and older scene payload compatibility; unknown labels must remain faithful to their IDs. Apply the bridge to both missing-pH and missing-spectrum displays where registry authority exists.
+4. Add controls for at least two registered underscore IDs, a direct English term, an unknown/native-complex ID, a complete blank and an older scene payload. Assert proper visible labels AND unchanged canonical keys; retain the existing14 indicator/six sample/two unit/21 SSR controls unchanged. New names must not change pH, spectrum, material, clock or sample admission.
+5. Keep PR854 draft while this named gap remains. After current full validation reaches a genuine terminal state, assemble the necessary reviewed successor and execute new causal controls against the frozen predecessor plus fixed/current-source acceptance. Preserve actual047d results and every first failure. Do not claim its full results authenticate modified successor runtime. Follow ordinary protected/full/platform acceptance and exact-head integration, then actual changed-release API/browser acceptance.
+
+## Product acceptance
+
+Use real Kero commands and actual UI/engine outputs in EN/DE/FR. Require the missing-pH prerequisite to occur naturally; no SolutionInfo injection, solver disabling or salt workaround. If the route supplies finite pH or lacks a visible liquid, mark that case held and preserve why. Distinguish product observations from constructed SSR/unit controls. Original64 browser predicates remain unchanged; new optical cases must independently check complete blanks, empty-sample refusal, supported partial colour, liquid-only hatching, translated labels and passive state ownership. No original corpus selection or empirical optical calibration follows merely from correct localization.
