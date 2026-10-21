@@ -1,0 +1,128 @@
+{
+  "utc": "2026-10-21T17:09:41.654132+00:00",
+  "scope": "Public-provenance bytes and synthetic metadata refusals only; no chemistry or browser execution",
+  "actual_references": [
+    {
+      "name": "VesselOpticalPhGap.test.ts",
+      "original_keys": [
+        "base64",
+        "public_commit",
+        "public_path",
+        "sha256"
+      ],
+      "public_commit": "8fe6ea3562ce515159d74649fd7d927ef7274219",
+      "public_path": "audits/target468-20261016/indicator-optics-forecast-and-literal-full-issued-20261021/VesselOpticalPhGap.test.ts",
+      "sha256": "3edac37a7a9117ea26a7b0a2f2fea423b844ed7881c256ad4a481a191a27fd45",
+      "actual_public_bytes_equal_embedded_bytes": true
+    },
+    {
+      "name": "VesselOpticalSpeciesLabels.test.ts",
+      "original_keys": [
+        "base64",
+        "public_commit",
+        "public_path",
+        "sha256"
+      ],
+      "public_commit": "e648249119e1fe028735bf31723da2867d87db77",
+      "public_path": "web/app/src/lib/components/VesselOpticalSpeciesLabels.test.ts",
+      "sha256": "d892582875dee4b3adf6a24fabf14f9cd8e8eede872d908665a632fb6ef31aed",
+      "actual_public_bytes_equal_embedded_bytes": true
+    },
+    {
+      "name": "forecast.json",
+      "original_keys": [
+        "base64",
+        "public_commit",
+        "public_path",
+        "sha256"
+      ],
+      "public_commit": "8fe6ea3562ce515159d74649fd7d927ef7274219",
+      "public_path": "audits/target468-20261016/indicator-optics-forecast-and-literal-full-issued-20261021/forecast.json",
+      "sha256": "be59e9c6f6dbc75ba5a745c7afd7f8ab07db87d5e1173c9fbb26c9475a89074e",
+      "actual_public_bytes_equal_embedded_bytes": true
+    },
+    {
+      "name": "indicator_optical_coverage.rs",
+      "original_keys": [
+        "base64",
+        "public_commit",
+        "public_path",
+        "sha256"
+      ],
+      "public_commit": "8fe6ea3562ce515159d74649fd7d927ef7274219",
+      "public_path": "audits/target468-20261016/indicator-optics-forecast-and-literal-full-issued-20261021/indicator_optical_coverage.rs",
+      "sha256": "016f90e3cb984129bc2fa6e7a799d615d0512d873c91c2b2d5012be10a8a1cbc",
+      "actual_public_bytes_equal_embedded_bytes": true
+    },
+    {
+      "name": "label-forecast.json",
+      "original_keys": [
+        "base64",
+        "origin_kind",
+        "sha256"
+      ],
+      "public_commit": "e81b80a669de42444d20c60164965cd4d9ea9d76",
+      "public_path": "audits/target468-20261016/optical-species-label-frozen-controls-20261021/forecast.json",
+      "sha256": "eec58140902f1bdc9395479448a5dc224f718fc0eff43d02fd2b4f36d99b00de",
+      "actual_public_bytes_equal_embedded_bytes": true
+    },
+    {
+      "name": "optical_sample_admission.rs",
+      "original_keys": [
+        "base64",
+        "public_commit",
+        "public_path",
+        "sha256"
+      ],
+      "public_commit": "285c184d0d1d163dc91580f22c3f2a32b314c819",
+      "public_path": "audits/target468-20261016/optical-sample-admission-forecast-20261021/optical_sample_admission.rs",
+      "sha256": "a6410070c615332a27c064987851654091762be53539a91940ba0786bcd136be",
+      "actual_public_bytes_equal_embedded_bytes": true
+    },
+    {
+      "name": "optical_species_labels.rs",
+      "original_keys": [
+        "base64",
+        "public_commit",
+        "public_path",
+        "sha256"
+      ],
+      "public_commit": "e648249119e1fe028735bf31723da2867d87db77",
+      "public_path": "crates/kerotakis-core/tests/optical_species_labels.rs",
+      "sha256": "f5e205bf303381bb4f531c52b4585a0cbf0678a41763cb8ea33e241e5600e248",
+      "actual_public_bytes_equal_embedded_bytes": true
+    },
+    {
+      "name": "sample-forecast.json",
+      "original_keys": [
+        "base64",
+        "public_commit",
+        "public_path",
+        "sha256"
+      ],
+      "public_commit": "285c184d0d1d163dc91580f22c3f2a32b314c819",
+      "public_path": "audits/target468-20261016/optical-sample-admission-forecast-20261021/forecast.json",
+      "sha256": "25c2af242fa32c5fcad9d5782a2e654bcf94a30f0b66877a6d4c438784279f56",
+      "actual_public_bytes_equal_embedded_bytes": true
+    }
+  ],
+  "synthetic_metadata_refusals": [
+    {
+      "synthetic_metadata_control": "unknown_missing_authority",
+      "actual_refusal": true
+    },
+    {
+      "synthetic_metadata_control": "wrong_legacy_hash",
+      "actual_refusal": true
+    },
+    {
+      "synthetic_metadata_control": "wrong_legacy_origin",
+      "actual_refusal": true
+    },
+    {
+      "synthetic_metadata_control": "missing_canonical_field",
+      "actual_refusal": true
+    }
+  ],
+  "helper_sha256": "ec1018c3810aa91aa506227d267400afb308c9466608d3c823a03b679f49c530"
+}

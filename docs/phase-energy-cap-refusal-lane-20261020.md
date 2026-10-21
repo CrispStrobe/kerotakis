@@ -1,8 +1,8 @@
 # Remaining phase-energy lane: conservative refusal at the brine cap
 
-Status: scoped, not implemented or executed. Keep the active21-control focus on candidate1ca170cb unchanged. The [actual baseline and stage diagnosis](https://github.com/CrispStrobe/kerotakis/blob/f12d863e/audits/target468-20261016/brine-phase-baseline-and-TC008-ledger-20261020/README.md) and its uncapped source repair are separate prerequisites. No new selection or cap-equilibrium prediction is assigned here.
+Status: the twelve controls are frozen and unexecuted; the conservative refusal remains unimplemented. The [actual baseline and stage diagnosis](https://github.com/CrispStrobe/kerotakis/blob/f12d863e/audits/target468-20261016/brine-phase-baseline-and-TC008-ledger-20261020/README.md) and accepted uncapped repair remain prerequisites. No cap-equilibrium prediction or new selection is assigned here.
 
-**Current prerequisite —2026-10-21:** uncapped PR852 is source/platform accepted and integrated3162. Its production delivery remains pending. [Twelve parent-reviewed controls and reference inputs](../audits/target468-20261016/phase-cap-refusal-frozen-controls-20261021/README.md) are frozen, uncompiled and unexecuted; baseline8-pass/4-fail and repaired12-pass remain predictions. Execute them before runtime edits after phase delivery. The earlier active-focus annotation preserves history.
+**Current prerequisite —2026-10-21:** uncapped PR852 is integrated3162 and its production API11/browser64 acceptance is complete. The ordered agenda puts the active optics PR854 delivery first. Its current CI passes; full saved acceptance and changed-release validation remain pending. Preserve that source while validating it. After optics delivery, execute the [twelve frozen controls](../audits/target468-20261016/phase-cap-refusal-frozen-controls-20261021/README.md) on refreshed main before runtime edits. Baseline8-pass/4-fail and repaired12-pass remain predictions. Earlier active-focus and pending-production notes in frozen evidence retain history.
 
 ## Demonstrated source problem
 

@@ -1,0 +1,13 @@
+{
+  "utc": "2026-10-21T17:10:32.031696+00:00",
+  "state": "TWO_SAVED_READBACKS_ACTIVE_NO_FULL_ACCEPTANCE_YET",
+  "corrected_reader_sha256": "8c12ea6a7eb0c16cf44746fe27cc54fc53f9a2b7f8c20c33b3f429138c51e115",
+  "public_helper_sha256": "ec1018c3810aa91aa506227d267400afb308c9466608d3c823a03b679f49c530",
+  "parent_and_independent_schema_review_complete": true,
+  "original_scientific_and_raw_checks_preserved": true,
+  "actual8_public_reference_bytes_checked": true,
+  "actual4_synthetic_metadata_refusals": true,
+  "experiment_or_build_reexecutions": 0,
+  "scientific_selections": 0,
+  "full_acceptance_claimed": false
+}

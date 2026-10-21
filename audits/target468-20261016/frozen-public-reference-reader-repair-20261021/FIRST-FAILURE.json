@@ -1,0 +1,14 @@
+{
+  "source": "4d87db686ab923415ce01af1cca78696572a030d",
+  "worker_sha256": "a0ed63b97641a6529bf068d1a31e8ae4c002ee58f5ac7c57d67c21e05169e20a",
+  "original_reader_sha256": "dda55ca84dc41eade1e7d03833bc3e4d733c87a5de11d382db38363fba911934",
+  "actual_saved_review_exit_status": 1,
+  "actual_exception": "KeyError: public_commit",
+  "actual_location": "optics_frozen_inputs public Git reference comparison",
+  "collected_files": 1446,
+  "collected_bytes": 4230693463,
+  "original_stderr_sha256": "36b43b3a8bbf85f3a2c1de6601a2cae895abe9c4198f54466f21be80789f7eed",
+  "original_issued_plan_and_raw_unchanged": true,
+  "first_failure_preserved": true,
+  "new_current_source_issue_occurred": false
+}

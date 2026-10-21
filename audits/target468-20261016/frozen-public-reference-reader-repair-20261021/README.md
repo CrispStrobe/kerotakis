@@ -1,0 +1,11 @@
+# Frozen public-reference metadata repair
+
+The completed4d own-fleet job retained1446 output files. Its saved verifier stopped with `KeyError: public_commit`: seven frozen references carry public Git coordinates, while the original label forecast carries an explicit historical origin and hash. Command exits were zero; full acceptance was correctly withheld because the saved verifier failed. The original reader, issued plan, outputs, first failure and stopped conditional successor remain preserved. No experiment is rerun to repair this evidence-reading defect.
+
+The separate corrected verifier retains every scientific, raw-byte and public Git comparison. `public_frozen_reference.py` admits the historical label entry only under its exact name, schema, origin and original hash, resolving it to the already published immutable forecast. Unknown metadata is refused. Its other seven entries retain their explicit public coordinates. All eight actual Git blobs, embedded inputs and collected inputs were checked independently. Four explicitly synthetic malformed-metadata controls were refused; these are metadata checks, not science passes.
+
+`reader.diff` shows the narrow correction, early metadata preflight before expensive artifact hashing, explicit output argument and separately recorded corrected-reader/helper identities. Two sequential saved-data recomputations are active at this checkpoint; neither is assigned full acceptance here. The original failed reader is never relabelled as successful.
+
+The systematic follow-up is to normalize public-reference metadata in the still-unissued successor plan while preserving all eight forecast bytes and original origin, then validate it before issuance, before remote compilation and before saved artifact verification. Keep source62f, protocols, binary/generated-lock bindings, original33 groups/142 steps/29 law reports/500 requirements and all existing checks unchanged. A fresh successor may issue only after genuine corrected preceding acceptance, exact current CI and newly reviewed program/metadata bindings. The old stopped launcher is preserved and must not be resumed blindly.
+
+All27 current CI jobs passed; PR854 remains draft pending exact current full acceptance and subsequent delivery. Qualified scientific coverage remains335/468.
