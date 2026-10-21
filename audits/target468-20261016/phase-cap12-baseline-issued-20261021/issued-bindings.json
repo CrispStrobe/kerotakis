@@ -1,0 +1,40 @@
+{
+  "utc": "2026-10-21T20:13:50.304651+00:00",
+  "state": "ONE_ACTUAL_PRIVATE_CPU_BASELINE_ISSUED_OUTCOMES_PENDING",
+  "runtime_source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "runtime_tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+  "fixture_commit": "9321d294c6d03b12df738ce301ed8fdc94dd54f5",
+  "version": 1,
+  "version_label": "v1",
+  "actual_issue_sha256": "659befd420cc174cf99217ddf15823c6f1a4655a97fca8074cb5e4dc158ba090",
+  "actual_worker_sha256": "68b975f4af49c17078301c40bc47c306f55b5ba2b132d3245d0636f32f178bc3",
+  "actual_plan_sha256": "1faae7cd4b71152dfb1eef9d5ffbf14afbf46b369a237429beca8e5bb3b273ba",
+  "parent_issue_review_sha256": "664de122ca230da87a37a6d1da2bbf7657ecbcaa40c9b677a04f4c247ede38f5",
+  "frozen_package_manifest_sha256": "3c234b41441221495e341d48e543542009bb1710b42df0af9088d40e7c66e63b",
+  "actual_current_release_browser82_acceptance_sha256": "3a0fa4166c353cee02a3a626c467148d74a2a56814c6257f18958f40c443564b",
+  "actual_issuer_exit_status": 0,
+  "actual_owned_identity_freshness_checked": true,
+  "actual_version1_collector_running": true,
+  "first_collector_setup_failure": {
+    "error_type": "ModuleNotFoundError",
+    "missing_module": "kaggle",
+    "failure_before_provider_poll_or_download": true,
+    "raw_failure_sha256": "21f29a62230808f6fa8978f802b0aac2c386938a8f6fcff93f1e1fa4c5af2044"
+  },
+  "same_version_collection_followup": {
+    "parent_environment_correction_sha256": "1c24c4b7467e60f73e650755a121e175b9b91de4b2fcd0a147a7c28185197b53",
+    "collector_source_sha256": "e56ce63c15cae4677d5213b83cda449577a172bda6814131e7c0032c1094ae50",
+    "spool_source_sha256": "e5882090a323d4ebaebe4d6a2e935047f799b592bea3c70adb6418bfedccac25",
+    "producer_reissue": false,
+    "correction": "Use parent interpreter with its installed SDK; disable bytecode writes. Original failure retained."
+  },
+  "baseline_forecast_only": {
+    "pass": 8,
+    "fail": 4
+  },
+  "actual_test_outcomes": null,
+  "runtime_changed": false,
+  "scientific_selections": 0,
+  "qualified_unique_originals": 335,
+  "energy_acceptance_assigned": false
+}
