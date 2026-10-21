@@ -1,0 +1,11 @@
+--- previous-reviewed/grouped82.body.py
++++ locale-full-interval-successor/grouped82.body.py
+@@ -120,7 +120,7 @@
+  return inputs
+ 
+ OPTICS_PREFIX='forecasts/optics18/'
+-OPTICS_PROGRAMS={'run-optics18.mjs': 'f0b075cba3bc0f183fd0c80bd54dfb64a0f4f8e99002fbcb55e25c3257008910', 'optics-controls.mjs': 'df83d43ec03664228e8210ad1757cbb61df6fb586a6d5cf0c9fcc7eb5bc70f48', 'optics_saved_predicates_v4.py': '0b4a8d424320ff9fd93f126185ed203342bae164112de683059b7efcf1ab1fae', 'PROTOCOLS.json': '94736148cff6abf37c58a4d64d3f0a383c1438dd74cca2a5b8ed6b6270a4358d', 'EXPECTED-WORDS.json': '10491b81309198ad87c06572b80eff6fa1e5c59916bc29b799d0b0b1d028fd28', 'OPTICAL-ORACLE.json': 'dcc0ff484e6d665559abe42fb73c4088acf709b3c36f4ef051d37177d30a032a', 'review_saved18.py': '51019d163a322e8b3c801fa6d69890cbaafb73dddf859a7c8aa5f4f5f319e79c', 'project_app_assets.py': '96aba47f6c6f4c9f18dd3a9d4bdc3156b4138c92caa49124dba357ed1a42c764'}
++OPTICS_PROGRAMS={'run-optics18.mjs': 'f0b075cba3bc0f183fd0c80bd54dfb64a0f4f8e99002fbcb55e25c3257008910', 'optics-controls.mjs': '79f67818e8d411bfe0fe21b67ed882994d1449ab6bd757ba24d440e6f276e073', 'optics_saved_predicates_v4.py': '0b4a8d424320ff9fd93f126185ed203342bae164112de683059b7efcf1ab1fae', 'PROTOCOLS.json': '94736148cff6abf37c58a4d64d3f0a383c1438dd74cca2a5b8ed6b6270a4358d', 'EXPECTED-WORDS.json': '10491b81309198ad87c06572b80eff6fa1e5c59916bc29b799d0b0b1d028fd28', 'OPTICAL-ORACLE.json': 'dcc0ff484e6d665559abe42fb73c4088acf709b3c36f4ef051d37177d30a032a', 'review_saved18.py': '6f2ec14ad84b23936ffde9213048b3378d8cc3e4ec53f824426820828eceb81c', 'project_app_assets.py': '96aba47f6c6f4c9f18dd3a9d4bdc3156b4138c92caa49124dba357ed1a42c764'}
+ def validate_optics18(config,inputs):
+  def load_alias(name):return json.loads(base64.b64decode(inputs[OPTICS_PREFIX+name]['base64'],validate=True))
+  for name,h in OPTICS_PROGRAMS.items():assert inputs[OPTICS_PREFIX+name]['sha256']==h,name

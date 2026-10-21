@@ -1,0 +1,22 @@
+test_exact_prescribed_protocol_allowed (__main__.FullIntervalSourceControls.test_exact_prescribed_protocol_allowed) ... ok
+test_init_before_final_scene_rejected (__main__.FullIntervalSourceControls.test_init_before_final_scene_rejected) ... ok
+test_interleaved_readonly_preserves_exact_protocol (__main__.FullIntervalSourceControls.test_interleaved_readonly_preserves_exact_protocol) ... ok
+test_load_pack_before_final_scene_rejected (__main__.FullIntervalSourceControls.test_load_pack_before_final_scene_rejected) ... ok
+test_mutator_impostor_wrong_request_id_rejected (__main__.FullIntervalSourceControls.test_mutator_impostor_wrong_request_id_rejected) ... ok
+test_mutator_impostor_wrong_worker_rejected (__main__.FullIntervalSourceControls.test_mutator_impostor_wrong_worker_rejected) ... ok
+test_quest_start_before_final_scene_rejected (__main__.FullIntervalSourceControls.test_quest_start_before_final_scene_rejected) ... ok
+test_unknown_before_final_scene_rejected (__main__.FullIntervalSourceControls.test_unknown_before_final_scene_rejected) ... ok
+test_completed_late_step_not_hidden_by_quiescence (__main__.PostSceneSourceControls.test_completed_late_step_not_hidden_by_quiescence) ... ok
+test_locale_selection_and_recording_scope_same_drawer_owner (__main__.PostSceneSourceControls.test_locale_selection_and_recording_scope_same_drawer_owner) ... ok
+test_ordinary_unchanged_trailing_readonly_completion_allowed (__main__.PostSceneSourceControls.test_ordinary_unchanged_trailing_readonly_completion_allowed) ... ok
+test_owned_negative_readonly_scene_snapshot_allowed (__main__.PostSceneSourceControls.test_owned_negative_readonly_scene_snapshot_allowed) ... ok
+test_pending_step_rejected_at_request (__main__.PostSceneSourceControls.test_pending_step_rejected_at_request) ... ok
+test_reset_restore_locale_and_all_other_source_mutators_rejected (__main__.PostSceneSourceControls.test_reset_restore_locale_and_all_other_source_mutators_rejected) ... ok
+test_scene_worker_identity_must_match_actual_terminal (__main__.PostSceneSourceControls.test_scene_worker_identity_must_match_actual_terminal) ... ok
+test_unknown_command_holds (__main__.PostSceneSourceControls.test_unknown_command_holds) ... ok
+test_unknown_request_origin_holds (__main__.PostSceneSourceControls.test_unknown_request_origin_holds) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.003s
+
+OK

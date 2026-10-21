@@ -1,0 +1,72 @@
+--- previous-reviewed/optics18/optics-controls.mjs
++++ locale-full-interval-successor/optics18/optics-controls.mjs
+@@ -86,10 +86,44 @@
+     } finally {lab.free();}
+   }, {protocol, locale, source});
+ }
++// Only source-reviewed non-mutating worker commands are allowed after scene.
++// Unknown future commands HOLD; they are never guessed read-only.
++const POST_SCENE_READ_ONLY = new Set(["balance_exercise", "balance_mark", "balance_reveal", "calc", "catalog", "element_coverage", "grammar", "hello", "inspect", "parse", "parse_legacy", "particles", "relations", "scene", "snapshot", "species", "state"]);
++function assertProtocolCommandAdmission(entries, scene, protocol) {
++  assert(protocol.length > 0, 'owned prescribed protocol absent');
++  const allowed = new Set();
++  for (const pair of protocol) {
++    assert(pair.origin === 'app' && pair.worker === scene.worker && ['set_register','run_script'].includes(pair.request.cmd) && pair.response.type === 'done', 'prescribed protocol owner/type differs');
++    const q = entries.filter(e => e.sequence === pair.request_sequence && e.worker === pair.worker && e.direction === 'request' && e.origin === 'app');
++    const r = entries.filter(e => e.sequence === pair.response_sequence && e.worker === pair.worker && e.direction === 'response');
++    assert.equal(q.length, 1); assert.equal(r.length, 1);
++    assert.deepEqual(q[0].value, pair.request); assert.deepEqual(r[0].value, pair.response);
++    assert(pair.response.id === pair.request.id && pair.request_sequence < pair.response_sequence, 'prescribed protocol terminal differs');
++    const key = `${pair.worker}:${pair.request.id}:${pair.request_sequence}`;
++    assert(!allowed.has(key), 'duplicate prescribed request'); allowed.add(key);
++  }
++  const start = protocol[0].request_sequence;
++  for (const e of entries.filter(e => e.sequence >= start && e.direction === 'request')) {
++    assert(e.origin === 'app' || e.origin === 'observer-read-only-snapshot' || e.origin === 'observer-read-only-scene', 'unknown protected request owner');
++    if (e.origin === 'app') {
++      const key = `${e.worker}:${e.value.id}:${e.sequence}`;
++      assert(allowed.has(key) || POST_SCENE_READ_ONLY.has(e.value.cmd), 'unprescribed mutation or unknown protected command: HOLD');
++    } else assert(e.origin === 'observer-read-only-' + e.value.cmd && ['snapshot','scene'].includes(e.value.cmd) && e.value.id < 0, 'protected observer command is not owned read-only');
++  }
++}
++function assertPostSceneCommands(entries, scene) {
++  const terminal = entries.filter(e => e.sequence === scene.response_sequence && e.worker === scene.worker && e.direction === 'response' && e.value.id === scene.request.id && e.value.type === 'done');
++  assert.equal(terminal.length, 1, 'owned final scene terminal missing');
++  for (const e of entries.filter(e => e.sequence > scene.response_sequence && e.direction === 'request')) {
++    assert(e.origin === 'app' || e.origin === 'observer-read-only-snapshot' || e.origin === 'observer-read-only-scene', 'unknown trailing request owner');
++    if (e.origin === 'app') assert(POST_SCENE_READ_ONLY.has(e.value.cmd), 'late mutating or unknown app command: HOLD');
++    else assert(e.origin === 'observer-read-only-' + e.value.cmd && ['snapshot','scene'].includes(e.value.cmd) && e.value.id < 0, 'observer trailing command is not owned read-only');
++  }
++}
+ async function readDom(page) {
+   return page.locator('[data-vessel-id="0"]').evaluate(vessel => {
+     const rect = node => Object.fromEntries(['x','y','width','height'].map(k => [k, Number(node.getAttribute(k))]));
+-    return {vessel_id: vessel.getAttribute('data-vessel-id'), locale_value: document.querySelector('.locale select')?.value,
++    return {vessel_id: vessel.getAttribute('data-vessel-id'), locale_value: document.querySelector('section.utility-drawer .locale select')?.value,
+       layers: [...vessel.querySelectorAll('.scene-liquid-layer')].map(n => ({...rect(n), fill: n.getAttribute('fill'), data_srgb: n.getAttribute('data-srgb')})),
+       hatches: [...vessel.querySelectorAll('.spectral-gap-hatch')].map(n => ({...rect(n), data_ph_gaps: n.parentElement.getAttribute('data-ph-gaps'), data_gaps: n.parentElement.getAttribute('data-gaps'), title: n.querySelector('title')?.textContent ?? n.parentElement.querySelector('title')?.textContent})),
+       ph_readouts: [...vessel.querySelectorAll('.optical-ph-gap-readout')].map(n => ({small: n.querySelector('small')?.textContent, strong: n.querySelector('strong')?.textContent, aria_label: n.getAttribute('aria-label'), visible_text: n.textContent})),
+@@ -155,11 +189,11 @@
+       assert(typeof meta.git_rev === 'string' && meta.git_rev.length >= 7 && binding.expected_engine_source.startsWith(meta.git_rev));
+       const initial = await trace(gui); assert(!initial.some(e => e.direction === 'request' && ['run_script','restore'].includes(e.value.cmd)), 'fresh GUI startup already mutated/restored chemistry');
+       // Fresh app utilities start closed. Open genuine UI before settings/console.
+-      // In this source LocaleSwitcher is in the header; console/file import are
+-      // drawer-owned. Recheck before every drawer-owned operation.
++      // LocaleSwitcher exists in both header and drawer; use the genuinely
++      // opened drawer owner for locale, console and file import. Recheck before every drawer-owned operation.
+       await ensureUtilities(gui);
+       // Force a real change if initial selected locale equals target; no chemistry.
+-      const select = gui.locator('.locale select');
++      const select = gui.locator('section.utility-drawer .locale select');
+       if (await select.inputValue() === locale) {const seq = (await trace(gui)).at(-1).sequence; await select.selectOption(locale === 'en' ? 'de' : 'en'); await waitPair(gui, 'set_locale', seq);}
+       const localeSeq = (await trace(gui)).at(-1).sequence; await select.selectOption(locale);
+       const locale_request = await waitPair(gui, 'set_locale', localeSeq, {code: locale});
+@@ -222,6 +256,8 @@
+       row.gui.visual_corroboration.screenshot = {path: filename, sha256: createHash('sha256').update(png).digest('hex'), bytes: png.length, pixel_width: png.readUInt32BE(16), pixel_height: png.readUInt32BE(20), type: 'png', full_page: false, animations: 'allow', caret: 'initial', capture_started_utc: captureStartedUtc, capture_finished_utc: new Date().toISOString(), origin_url: gui.url(), stage: 'after-final-measure-and-scene', worker: scene_pair.worker, after_response_sequence: scene_pair.response_sequence};
+       row.gui.corroboration_worker_traffic_after = await trace(gui);
+       assert.deepEqual(row.gui.corroboration_worker_traffic_after, row.gui.worker_traffic, 'worker changed during visual corroboration: HOLD');
++      assertProtocolCommandAdmission(row.gui.corroboration_worker_traffic_after, scene_pair, row.gui.protocol_pairs);
++      assertPostSceneCommands(row.gui.corroboration_worker_traffic_after, scene_pair);
+       await retainPartial(report);
+     } catch (error) {
+       if (gui) row.partial_worker_traffic = await trace(gui).catch(() => null);

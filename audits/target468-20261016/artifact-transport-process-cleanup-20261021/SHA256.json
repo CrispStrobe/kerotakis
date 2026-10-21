@@ -1,0 +1,9 @@
+{
+  "PARENT-REVIEW.json": "67da620c486d63e92f77bb13bd2f709a993058a17f7898e7772f97a4c970ab19",
+  "README.md": "0eff27bfe7975dfae255ac240d02a6b119187d47dbe392aaf5527e99b3b846ee",
+  "artifact_spool.py": "31a347de849c73a2ec1cfdf8bd2246d7623fded8744799c560c3be823f7cb91c",
+  "artifact_spool.py.diff": "5a0c95b73d71d9cc27a18144190517f3f59e5d30083e79c2a2ad0c488b0808dd",
+  "process-tests.stderr": "f570ac6226461f29a034fe43087532b4273d02b59a071d60e97c3b320e49bdbc",
+  "process-tests.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_artifact_spool_processes.py": "409f3b9245bc8eb1b052e3fc1583edfa2113c72c221e5826620a1a40155d739d"
+}

@@ -1,0 +1,109 @@
+{
+  "state": "PREPARED_NOT_EXECUTED_MANDATORY_EMPTY_ADDED_PENDING_LABEL_SOURCE_REPAIR",
+  "prior15proposal_immutable": "../PROTOCOLS.json",
+  "cases": [
+    {
+      "id": "indicator-only",
+      "setup": "register lv3\nadd v1 water 100mL\nadd v1 methyl_orange 0.000001mol\n",
+      "setup_sha256": "5a19c78e76a779cd5dc1e711a75d35ce329f3ce5a21d85051e5296775e1aa29a",
+      "continuation": "look v1\nmeasure v1 uvvis\n",
+      "locales": [
+        "en",
+        "de",
+        "fr"
+      ],
+      "runtime_prerequisites_and_assertions": "REVIEW-CONTRACT.md and optics_saved_predicates.py; failed live prerequisite is HOLD, never replaced with fake state",
+      "actual_runtime_outcome": null,
+      "expected_missing_ph": true,
+      "expected_measurement": "refusal",
+      "continuation_sha256": "6ffaaa82ed1a3ef2a74ca9718a2d34516910292ed18f9785169da87fe0a09795"
+    },
+    {
+      "id": "non-ph-blue",
+      "setup": "register lv3\nadd v1 water 100mL\nadd v1 food_colour_blue 1g\n",
+      "setup_sha256": "adceec7c7870f066609e4a44f7774842a482e83d7912015c27c020648172d2e5",
+      "continuation": "look v1\nmeasure v1 uvvis\n",
+      "locales": [
+        "en",
+        "de",
+        "fr"
+      ],
+      "runtime_prerequisites_and_assertions": "REVIEW-CONTRACT.md and optics_saved_predicates.py; failed live prerequisite is HOLD, never replaced with fake state",
+      "actual_runtime_outcome": null,
+      "expected_missing_ph": false,
+      "expected_measurement": "positive",
+      "continuation_sha256": "6ffaaa82ed1a3ef2a74ca9718a2d34516910292ed18f9785169da87fe0a09795"
+    },
+    {
+      "id": "mixed-partial",
+      "setup": "register lv3\nadd v1 water 100mL\nadd v1 food_colour_blue 1g\nadd v1 methyl_orange 0.000001mol\n",
+      "setup_sha256": "78223d8bed9eb95d82632e586e9a037c44ba1cf9d1ba7a35008683e13f35df13",
+      "continuation": "look v1\nmeasure v1 uvvis\n",
+      "locales": [
+        "en",
+        "de",
+        "fr"
+      ],
+      "runtime_prerequisites_and_assertions": "REVIEW-CONTRACT.md and optics_saved_predicates.py; failed live prerequisite is HOLD, never replaced with fake state",
+      "actual_runtime_outcome": null,
+      "expected_missing_ph": true,
+      "expected_measurement": "refusal",
+      "continuation_sha256": "6ffaaa82ed1a3ef2a74ca9718a2d34516910292ed18f9785169da87fe0a09795"
+    },
+    {
+      "id": "blank-pure-water",
+      "setup": "register lv3\nadd v1 water 100mL\n",
+      "setup_sha256": "b68bd3158cefa83e1d0dcd654210ad473554de85fcc62226b100aedca247b021",
+      "continuation": "look v1\nmeasure v1 uvvis\n",
+      "locales": [
+        "en",
+        "de",
+        "fr"
+      ],
+      "runtime_prerequisites_and_assertions": "REVIEW-CONTRACT.md and optics_saved_predicates.py; failed live prerequisite is HOLD, never replaced with fake state",
+      "actual_runtime_outcome": null,
+      "expected_missing_ph": false,
+      "expected_measurement": "zero",
+      "continuation_sha256": "6ffaaa82ed1a3ef2a74ca9718a2d34516910292ed18f9785169da87fe0a09795"
+    },
+    {
+      "id": "solved-indicator",
+      "setup": "register lv3\nadd v1 water 100mL\nadd v1 NaCl 0.001mol\nadd v1 methyl_orange 0.000001mol\n",
+      "setup_sha256": "6b451da96647463b5c91a9bb5c7b43070e613c1ca0f910ea244584471c6f1831",
+      "continuation": "look v1\nmeasure v1 uvvis\n",
+      "locales": [
+        "en",
+        "de",
+        "fr"
+      ],
+      "runtime_prerequisites_and_assertions": "REVIEW-CONTRACT.md and optics_saved_predicates.py; failed live prerequisite is HOLD, never replaced with fake state",
+      "actual_runtime_outcome": null,
+      "expected_missing_ph": false,
+      "expected_measurement": "positive",
+      "continuation_sha256": "6ffaaa82ed1a3ef2a74ca9718a2d34516910292ed18f9785169da87fe0a09795"
+    },
+    {
+      "id": "empty-sample",
+      "setup": "register lv3\n",
+      "setup_sha256": "e9e83fb2a561f8bca780ac34bfbd29e423695224b2f1742fcbd6c39724af280a",
+      "continuation": "look v1\nmeasure v1 uvvis\n",
+      "continuation_sha256": "6ffaaa82ed1a3ef2a74ca9718a2d34516910292ed18f9785169da87fe0a09795",
+      "locales": [
+        "en",
+        "de",
+        "fr"
+      ],
+      "expected_missing_ph": false,
+      "expected_measurement": "no-sample-refusal",
+      "runtime_prerequisites_and_assertions": "Genuine fresh empty Lab/app; exact typed spectrophotometer-has-no-solution refusal, no measured0, no liquid/coverage overlay or persistent coverage readout; passive full-state and clock unchanged.",
+      "actual_runtime_outcome": null
+    }
+  ],
+  "preserved_existing_checks": 64,
+  "additional_locale_case_checks": 18,
+  "proposed_total": 82,
+  "source_full_tree_binary_lock_assets": "UNBOUND_FUTURE_CHANGED_RELEASE",
+  "new_scientific_selections": 0,
+  "current_source_name_localization_gap_is_blocking": true,
+  "prior_v2_first_omission_preserved": "../product82-review-v2"
+}

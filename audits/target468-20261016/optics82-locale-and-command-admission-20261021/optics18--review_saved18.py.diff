@@ -1,0 +1,43 @@
+--- previous-reviewed/optics18/review_saved18.py
++++ locale-full-interval-successor/optics18/review_saved18.py
+@@ -8,6 +8,31 @@
+ 
+ def pinned(path,sha):
+  require(re.fullmatch('[a-f0-9]{64}',sha)is not None,'malformed external pin');require(digest(path)==sha,'external input SHA mismatch');return json.loads(Path(path).read_bytes())
++POST_SCENE_READ_ONLY = frozenset(['balance_exercise', 'balance_mark', 'balance_reveal', 'calc', 'catalog', 'element_coverage', 'grammar', 'hello', 'inspect', 'parse', 'parse_legacy', 'particles', 'relations', 'scene', 'snapshot', 'species', 'state'])
++def review_protocol_command_admission(entries,scene,protocol):
++ require(type(protocol)is list and protocol,'owned prescribed protocol absent');allowed=set()
++ for pair in protocol:
++  require(pair['origin']=='app'and pair['worker']==scene['worker']and pair['request']['cmd']in ['set_register','run_script']and pair['response']['type']=='done','prescribed protocol owner/type differs')
++  q=[e for e in entries if e['sequence']==pair['request_sequence']and e['worker']==pair['worker']and e['direction']=='request'and e['origin']=='app'];r=[e for e in entries if e['sequence']==pair['response_sequence']and e['worker']==pair['worker']and e['direction']=='response']
++  require(len(q)==len(r)==1 and q[0]['value']==pair['request']and r[0]['value']==pair['response'],'prescribed pair differs from owned raw request/response')
++  require(pair['response']['id']==pair['request']['id']and pair['request_sequence']<pair['response_sequence'],'prescribed protocol terminal differs')
++  key=(pair['worker'],pair['request']['id'],pair['request_sequence']);require(key not in allowed,'duplicate prescribed request');allowed.add(key)
++ start=protocol[0]['request_sequence']
++ for entry in entries:
++  if entry['sequence']<start or entry['direction']!='request':continue
++  origin=entry['origin'];value=entry['value'];require(origin in ['app','observer-read-only-snapshot','observer-read-only-scene'],'unknown protected request owner')
++  if origin=='app':require((entry['worker'],value['id'],entry['sequence'])in allowed or value['cmd']in POST_SCENE_READ_ONLY,'unprescribed mutation or unknown protected command: HOLD')
++  else:require(origin=='observer-read-only-'+value['cmd']and value['cmd']in ['snapshot','scene']and type(value['id'])is int and value['id']<0,'protected observer command is not owned read-only')
++
++def review_post_scene_commands(entries,scene):
++ terminal=[e for e in entries if e['sequence']==scene['response_sequence']and e['worker']==scene['worker']and e['direction']=='response'and e['value']['id']==scene['request']['id']and e['value']['type']=='done']
++ require(len(terminal)==1,'owned final scene terminal missing')
++ for entry in entries:
++  if entry['sequence']<=scene['response_sequence']or entry['direction']!='request':continue
++  origin=entry['origin'];value=entry['value'];require(origin in ['app','observer-read-only-snapshot','observer-read-only-scene'],'unknown trailing request owner')
++  if origin=='app':require(value['cmd']in POST_SCENE_READ_ONLY,'late mutating or unknown app command: HOLD')
++  else:require(origin=='observer-read-only-'+value['cmd']and value['cmd']in ['snapshot','scene']and type(value['id'])is int and value['id']<0,'observer trailing command is not owned read-only')
++
+ def review_visual(row,report_path,binding):
+  # PNG/styles are corroboration; the unchanged typed-event/inventory/geometry
+  # review below remains mandatory and cannot be replaced by these objects.
+@@ -15,6 +40,8 @@
+  visual=row['gui']['visual_corroboration'];viewport=visual['viewport']
+  require(set(viewport)=={'width','height','device_pixel_ratio'}and type(viewport['width'])is int and type(viewport['height'])is int and type(viewport['device_pixel_ratio'])in[int,float] and viewport=={'width':1280,'height':960,'device_pixel_ratio':1},'actual configured viewport missing/different')
+  image=visual['screenshot'];scene=row['gui']['scene_pair']
++ review_protocol_command_admission(row['gui']['corroboration_worker_traffic_after'],scene,row['gui']['protocol_pairs'])
++ review_post_scene_commands(row['gui']['corroboration_worker_traffic_after'],scene)
+  require(image['stage']=='after-final-measure-and-scene'and image['worker']==scene['worker']and image['after_response_sequence']==scene['response_sequence'],'actual capture stage/worker sequence differs')
+  origin=urlsplit(image['origin_url']);expected_origin=urlsplit(binding['origin'])
+  require((origin.scheme,origin.netloc)==(expected_origin.scheme,expected_origin.netloc)and origin.scheme=='https'and origin.path=='/app/'and not origin.query and not origin.fragment,'actual GUI capture origin invalid')

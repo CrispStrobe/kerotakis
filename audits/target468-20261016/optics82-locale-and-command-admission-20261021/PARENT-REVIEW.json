@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-21T17:56:36.946020+00:00",
+  "input_manifest_sha256": "fa94a4829e0c887817c8a039b661ec5440c13a6e0efa6a1d48398faa2e9208cb",
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "all_manifest_members_verified": 114,
+  "unchanged_preserved_inputs": 31,
+  "original64_and_frozen18_unchanged": true,
+  "actual_synthetic_control_invocations": [
+    {
+      "control": "python17",
+      "exit_status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3d4ee3dd933d4ef39a654c952fe371ac972963d327adc87f0a00e727f61f3eb1"
+    },
+    {
+      "control": "node21",
+      "exit_status": 0,
+      "stdout_sha256": "f2a8e497b6f6480cd9efe2b114545c5394dba6c27da657b25666eefc997ebf03",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "browser_cases_executed": 0,
+  "science_qualifications_added": 0
+}

@@ -1,0 +1,92 @@
+{
+  "scope": "SYNTHETIC_WIRE_METADATA_ACTUAL_JS_HELPERS_NO_BROWSER_OR_CHEMISTRY",
+  "actual_helper_slice_sha256": "4851fecdcfe8664d530d0d4a92c14b5034c8f13a396fe4e36c3ee33e47429ac3",
+  "passed": 21,
+  "failed": 0,
+  "outcomes": [
+    {
+      "name": "exact prescribed protocol allowed",
+      "passed": true
+    },
+    {
+      "name": "in-interval load_pack rejected",
+      "passed": true
+    },
+    {
+      "name": "in-interval quest_start rejected",
+      "passed": true
+    },
+    {
+      "name": "in-interval quest_stop rejected",
+      "passed": true
+    },
+    {
+      "name": "in-interval init rejected",
+      "passed": true
+    },
+    {
+      "name": "in-interval set_announce_routing rejected",
+      "passed": true
+    },
+    {
+      "name": "in-interval future_unknown_command rejected",
+      "passed": true
+    },
+    {
+      "name": "completed late step rejected",
+      "passed": true
+    },
+    {
+      "name": "completed late reset rejected",
+      "passed": true
+    },
+    {
+      "name": "completed late restore rejected",
+      "passed": true
+    },
+    {
+      "name": "completed late set_locale rejected",
+      "passed": true
+    },
+    {
+      "name": "pending late step rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong-worker mutator impostor rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong-ID mutator impostor rejected",
+      "passed": true
+    },
+    {
+      "name": "forged prescribed pair owner rejected",
+      "passed": true
+    },
+    {
+      "name": "wrong final scene owner rejected",
+      "passed": true
+    },
+    {
+      "name": "ordinary in-interval read-only allowed",
+      "passed": true
+    },
+    {
+      "name": "ordinary trailing read-only allowed",
+      "passed": true
+    },
+    {
+      "name": "negative observer scene allowed",
+      "passed": true
+    },
+    {
+      "name": "negative observer snapshot allowed",
+      "passed": true
+    },
+    {
+      "name": "unknown trailing origin rejected",
+      "passed": true
+    }
+  ]
+}

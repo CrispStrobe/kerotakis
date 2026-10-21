@@ -1,0 +1,15 @@
+test_checksum_mismatch_retains_actual_partial (__main__.OwnedSpoolProcesses.test_checksum_mismatch_retains_actual_partial) ... ok
+test_deadline_cleans_descendant_after_leader_already_exited (__main__.OwnedSpoolProcesses.test_deadline_cleans_descendant_after_leader_already_exited) ... ok
+test_deadline_cleans_live_leader_and_inherited_stdout_descendant (__main__.OwnedSpoolProcesses.test_deadline_cleans_live_leader_and_inherited_stdout_descendant) ... ok
+test_nonzero_transport_preserves_error_and_stderr (__main__.OwnedSpoolProcesses.test_nonzero_transport_preserves_error_and_stderr) ... ok
+test_normal_authenticated_transfer (__main__.OwnedSpoolProcesses.test_normal_authenticated_transfer) ... ok
+test_real_cleanup_signal_error_does_not_mask_primary_size_error (__main__.OwnedSpoolProcesses.test_real_cleanup_signal_error_does_not_mask_primary_size_error) ... ok
+test_setup_error_remains_file_not_found_and_keeps_created_evidence (__main__.OwnedSpoolProcesses.test_setup_error_remains_file_not_found_and_keeps_created_evidence) ... ok
+test_size_bound_preserves_partial_and_primary_message (__main__.OwnedSpoolProcesses.test_size_bound_preserves_partial_and_primary_message) ... ok
+test_success_cleans_remaining_group_after_leader_exit (__main__.OwnedSpoolProcesses.test_success_cleans_remaining_group_after_leader_exit) ... ok
+test_unrelated_owned_sentinel_group_is_not_signaled (__main__.OwnedSpoolProcesses.test_unrelated_owned_sentinel_group_is_not_signaled) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.321s
+
+OK

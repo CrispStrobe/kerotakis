@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-21T17:58:42.796790+00:00",
+  "scope": "REAL_TINY_LOCAL_TRANSPORT_PROCESSES_NO_NETWORK_ENGINE_BROWSER_OR_PROVIDER",
+  "preparation_manifest_sha256": "c2a5fbf16f95e2ad2470276f7786005924a25c89905525e5cdea0072c14e9eff",
+  "helper_sha256": "31a347de849c73a2ec1cfdf8bd2246d7623fded8744799c560c3be823f7cb91c",
+  "test_sha256": "409f3b9245bc8eb1b052e3fc1583edfa2113c72c221e5826620a1a40155d739d",
+  "actual_exit_status": 0,
+  "actual_test_count": 10,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "f570ac6226461f29a034fe43087532b4273d02b59a071d60e97c3b320e49bdbc",
+  "accepted_API11_and_artifact_input_files_byte_identical": 13,
+  "publish_and_digest_ast_unchanged": true,
+  "future_activation_authorized": false,
+  "new_scientific_qualifications": 0
+}
