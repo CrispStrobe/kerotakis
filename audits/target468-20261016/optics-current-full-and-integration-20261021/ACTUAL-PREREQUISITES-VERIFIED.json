@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-21T19:00:51.489290+00:00",
+  "actual_merge": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+  "full_root_sha256": "d026576720973b82f956e9b18282939ae075f780a448ea21aa9129e938bbb227",
+  "full_parent_sha256": "02234dfebdffae548881f9860870256d71a9d71697cfa5dbc5125c8c66001428",
+  "platform_sha256": "c3ce559780cd9b43dd3977b1a15fd9255f5859aaa63854c9ae670a1e919e7293",
+  "both108_exact_platform_identities_verified": true,
+  "disjoint_source_assembly_verified": true,
+  "prior30_is_prior_only": true,
+  "cap_domain_energy_closure_claimed": false,
+  "current_TC008_replay_claimed": false,
+  "new_deployment_acceptance": false
+}

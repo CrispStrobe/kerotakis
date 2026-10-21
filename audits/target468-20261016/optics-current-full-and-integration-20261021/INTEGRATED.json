@@ -1,0 +1,31 @@
+{
+  "utc": "2026-10-21T19:00:20.015516+00:00",
+  "pr": 854,
+  "head": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "merge": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "parents": [
+    "42030ca2ee1620c4b65f55f4b88406c4693e80c5",
+    "62f647275fd800d4992f5516651dfc9e61f47a05"
+  ],
+  "actual_tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+  "reconstructed_tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+  "ci27_pass": true,
+  "ci28_total_including_only_conditional_publish_skip": true,
+  "both59_name_platforms_accepted": true,
+  "both8_brine_core_names_accepted": true,
+  "both2_phase_resolution_core_names_accepted": true,
+  "both7_water_activity_native_names_accepted": true,
+  "both29_optics_core_names_accepted": true,
+  "both_strengthened_warning_observer_names_accepted": true,
+  "both_prior2_optics_native_unit_names_accepted": true,
+  "current37SSR_and_Svelte_accepted": true,
+  "all8_public_optics_references_authenticated": true,
+  "current_i18n_surface_lint_accepted": true,
+  "exact_seven_translator_substitutions_verified": true,
+  "disjoint_source_assembly_verified": true,
+  "current_TC008_trace_replay_claimed": false,
+  "cap_domain_energy_closure_claimed": false,
+  "prior_ceff30_focus_receipt_sha256": "af2d051486a01943298b25710f4dac08819b52f8d3020b4ca23f9d5e293b10e2",
+  "all33_original_jobs_accepted": true,
+  "not_a_deployment_claim": true
+}

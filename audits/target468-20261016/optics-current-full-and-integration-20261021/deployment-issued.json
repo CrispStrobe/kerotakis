@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-21T19:00:57.460053+00:00",
+  "source": "57edd2313c226d7f12cc4de10f59e5bbf8e9af8b",
+  "source_tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+  "target": "production",
+  "one_dispatch_only": true,
+  "original_V3_protocol_sha256": "1539b8a581e1880fb004a17a61c7270d082cc3cf9137f403d350ed4403aab079"
+}

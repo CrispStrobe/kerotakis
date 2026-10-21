@@ -1,0 +1,9 @@
+{
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "validator_sha256": "9cd374b4ac04080978c49ed9f679ef14cbc4722d38d2ef251c2c183c01de36f6",
+  "all8_public_git_bytes_match": true,
+  "actual_producer_record_hashes": {
+    "OPTICS-REFERENCE-METADATA-PREFLIGHT.json": "86deab400f51146e784d7419b89fecd50d906a0565a4e6032975619687624158",
+    "OPTICS-PUBLIC-REFERENCES-VERIFIED.json": "86deab400f51146e784d7419b89fecd50d906a0565a4e6032975619687624158"
+  }
+}
