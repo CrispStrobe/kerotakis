@@ -1,0 +1,14 @@
+{
+  "prior_source": "ceff11dc9d9f86efdbe33bb33af4fe45807ddb22",
+  "file": "crates/kerotakis-phreeqc/src/aqueous.rs",
+  "old_literal": "1.2345678912345678",
+  "new_literal": "1.234_567_891_234_568",
+  "old_f64_bits": "3ff3c0ca42d8b4db",
+  "new_f64_bits": "3ff3c0ca42d8b4db",
+  "change_is_within_cfg_test_module_only": true,
+  "runtime_and_assertions_unchanged": true,
+  "prior30_receipt_must_remain_bound_to_ceff": true,
+  "new_full_must_execute_all_source_suites": true,
+  "successor_requires_actual_Git_tree_and_literal_equivalence_proof": true,
+  "source_successor_not_yet_issued": true
+}

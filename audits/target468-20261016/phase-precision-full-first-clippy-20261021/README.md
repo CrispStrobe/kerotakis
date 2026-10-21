@@ -1,0 +1,7 @@
+# Preserve full precision validation's first Clippy stop
+
+The full worker on `ceff11dc` stopped at the unchanged `-D warnings` native Clippy gate. Its new input-precision unit uses the overprecise literal `1.2345678912345678`; Clippy requests `1.234_567_891_234_568`. Format,11 classifier/139-file encoding controls and cache-only gates had passed. Full native/core,500-requirement gate and33 logical chemistry groups were not reached. No full/integration acceptance is earned; the conditional integration observer stopped. Actual raw diagnostic and original partial outputs remain preserved.
+
+The proposed spelling has identical64-bit representation `3ff3c0ca42d8b4db`. It changes a test-module token only, with no runtime/criterion/assertion change and no Clippy waiver. The earlier actual30/eight-binary focused acceptance remains attributed to ceff. A successor may reuse it only with an explicit independently reconstructed exact old/new Git tree proof: all non-summary paths identical except this file, whose complete bytes differ by this sole token with equal f64 bits. Both worker and saved reader must verify that proof, retain the old receipt's real source, and run all required full suites on the actual new head. No receipt may be relabeled as a newly executed focus.
+
+Qualified coverage stays334/468, catalog338,134 remaining. Indicator optical coverage and model-cap energy/refusal remain separate lanes; neither is closed by a literal spelling fix.

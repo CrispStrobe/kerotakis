@@ -1,0 +1,16 @@
+test_actual_required_gate_rejects_classifier_and_build_failures (__main__.ChangesTest.test_actual_required_gate_rejects_classifier_and_build_failures) ... ok
+test_all_eight_reviewed_summaries_pr_and_push (__main__.ChangesTest.test_all_eight_reviewed_summaries_pr_and_push) ... ok
+test_cli_bad_event_json_outputs_full (__main__.ChangesTest.test_cli_bad_event_json_outputs_full) ... ok
+test_delete_and_rename_are_full_even_between_allowed_paths (__main__.ChangesTest.test_delete_and_rename_are_full_even_between_allowed_paths) ... ok
+test_every_unknown_boundary_is_full (__main__.ChangesTest.test_every_unknown_boundary_is_full) ... ok
+test_invalid_utf8_path_is_full (__main__.ChangesTest.test_invalid_utf8_path_is_full) ... ok
+test_missing_zero_noncommit_empty_and_newbranch_fail_closed (__main__.ChangesTest.test_missing_zero_noncommit_empty_and_newbranch_fail_closed) ... ok
+test_mixed_change_and_complete_range_past_300_paths (__main__.ChangesTest.test_mixed_change_and_complete_range_past_300_paths) ... ok
+test_mode_change_and_symlink_are_full (__main__.ChangesTest.test_mode_change_and_symlink_are_full) ... ok
+test_native_matrix_preserves_protected_names_and_guards_every_heavy_step (__main__.ChangesTest.test_native_matrix_preserves_protected_names_and_guards_every_heavy_step) ... ok
+test_no_pr_merge_base_substitution (__main__.ChangesTest.test_no_pr_merge_base_substitution) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.174s
+
+OK
