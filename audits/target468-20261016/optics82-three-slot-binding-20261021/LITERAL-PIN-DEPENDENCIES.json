@@ -1,0 +1,101 @@
+{
+  "frozen-inputs/private64-saved-readers/read_group.py": {
+    "sha256": "327ee4aba48ab59806a971489096365ff9c6e5841a1ecd12015a78289b40a16e",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/review_twice.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/final_common.py": {
+    "sha256": "700fec14967e1519a0c004558cd2cd8cf895cfb67d0a46649a0343432b3fe868",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/review_twice.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/group7_predicates.py": {
+    "sha256": "81206e7ac27de50244effe2912469a345c1fba5bb50b1f3d0a2d52e6769d1216",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/review_twice.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/group37_predicates.py": {
+    "sha256": "2f7d23773e98068068a5d730983821a65095c90a62d6b472e2ef55e98105d944",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/review_twice.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/locale18_saved_predicates.py": {
+    "sha256": "4b66938c88db0da8863d44a10a7e4a34e72aa578891133e72ac1818d7dd4e063",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/final_common.py",
+      "frozen-inputs/private64-saved-readers/review_twice.py",
+      "frozen-inputs/private64-saved-readers/aggregate_saved.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/aggregate_saved.py": {
+    "sha256": "10c4188710702d3263b6c68e6608f66067e1e5b68cc13e16fe6d26f3306465ed",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/review_twice.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/review_heat_group.py": {
+    "sha256": "b17fd2a6fc05df1d83fc9f3b8b5f03d33b54adf9042ddeacdcccd825a442574b",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/review_twice.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/grouped_browser_template.py": {
+    "sha256": "66c850c92e083c0b3c1fa74612497b343a7741bef4e5da5b005a02c940a9a384",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/bind_stage.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/pack_admission.py": {
+    "sha256": "15a80959f1a2216cf656016c6bc755c10a657c24384b8b63f050a193aefc39f7",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/bind_stage.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/release_binding.py": {
+    "sha256": "f5f4267f7b0b4b4956e3558cd4d26cc4746c8c7ae2b2fa9e7be1ff20ada497bd",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/bind_stage.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/build_locale_context.py": {
+    "sha256": "18913cef5f83475b13efc0e7df3eb2ae9058d45529b7494ea738f062930e2813",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/review_twice.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/heat_saved_predicates.py": {
+    "sha256": "705915e2fdb218c754c69c7408d135f1432bd521343336383f9aeadee0ae9264",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/final_common.py",
+      "frozen-inputs/private64-saved-readers/review_twice.py",
+      "frozen-inputs/private64-saved-readers/aggregate_saved.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/saved_envelope.py": {
+    "sha256": "e3228a3b68ba1d3745f645d036eb2631921961894acd680a6f588a58f2459c2f",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/review_twice.py",
+      "frozen-inputs/review_outer82.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/original-locale18-reader.py": {
+    "sha256": "84fe50ca53fb67a27bdda1d40869df70a56948b31c01daa1ad79b8c1597cec6a",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/final_common.py",
+      "frozen-inputs/private64-saved-readers/review_twice.py",
+      "frozen-inputs/private64-saved-readers/aggregate_saved.py"
+    ]
+  },
+  "frozen-inputs/private64-saved-readers/original-heat2-reader.py": {
+    "sha256": "817d9fdf9106d5581919a5b7696658074033e6737154c1336b5cbc0f3d516252",
+    "literal_digest_dependents": [
+      "frozen-inputs/private64-saved-readers/final_common.py",
+      "frozen-inputs/private64-saved-readers/review_twice.py",
+      "frozen-inputs/private64-saved-readers/aggregate_saved.py"
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+--- frozen-predecessor/bind_stage.py
++++ generic-schema-successor/bind_stage.py
+@@ -12,12 +12,14 @@
+ from pathlib import Path
+ import subprocess
+ import sys
+-from release_binding import SOURCE, TREE, RECEIPTS, checked_binding, digest, canonical, require
++from worker_slots import check_bound_source as checked_three_slots
++from release_binding import RECEIPTS, checked_binding, digest, canonical, require
+ from pack_admission import reviewed_files
+-
+-PINS = {'release_binding.py': 'f5f4267f7b0b4b4956e3558cd4d26cc4746c8c7ae2b2fa9e7be1ff20ada497bd',
+-        'pack_admission.py': '15a80959f1a2216cf656016c6bc755c10a657c24384b8b63f050a193aefc39f7'}
+-WORKER = '66c850c92e083c0b3c1fa74612497b343a7741bef4e5da5b005a02c940a9a384'
++SOURCE=None
++TREE=None
++
++PINS = {'release_binding.py': 'f5f4267f7b0b4b4956e3558cd4d26cc4746c8c7ae2b2fa9e7be1ff20ada497bd', 'pack_admission.py': 'df430a40d83f354bdeea3557d2286c34b7b4f5e6569702335f0bdaf679bd69bc', 'worker_slots.py': '3dfab0217dc59b50daccf4b676bd1f68982588e1ca32fee65f9eceda58f6bfbb'}
++WORKER = '617f996958e71787d04e178ecc0887ef78d0ef750356707e147868dd959e065f'
+ PUBLIC = ('audits/live-rest-browser-20261018/live-client.mjs',
+           'audits/live-rest-browser-20261018/release-binding.json')
+ 
+@@ -74,46 +76,37 @@
+     return head
+ 
+ 
+-def check_bound_source(template_raw, bound_raw, config, config_sha):
+-    def normalized(raw):
+-        tree = ast.parse(raw)
+-        seen = set()
+-        actual_values = {}
+-        for node in tree.body:
+-            if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name) and node.targets[0].id in ('CONFIG', 'CONFIG_SHA256'):
+-                name = node.targets[0].id
+-                require(name not in seen, 'Duplicate worker assignment')
+-                seen.add(name)
+-                actual_values[name] = ast.literal_eval(node.value)
+-                node.value = ast.Constant(None)
+-        require(seen == {'CONFIG', 'CONFIG_SHA256'}, 'Worker assignment boundary changed')
+-        return ast.dump(tree, include_attributes=False), actual_values
+-    template_ast, template_values = normalized(template_raw)
+-    bound_ast, bound_values = normalized(bound_raw)
+-    require(template_values == {'CONFIG': None, 'CONFIG_SHA256': None}, 'Template is already bound')
+-    require(bound_values == {'CONFIG': config, 'CONFIG_SHA256': config_sha}, 'Bound assignments differ from actual admission')
+-    require(template_ast == bound_ast, 'Bound worker differs beyond configuration')
+-
+-
+-def validate_bound(template, bound, config, config_sha):
++def check_bound_source(template_raw,bound_raw,config,config_sha,expected_release):
++    return checked_three_slots(template_raw,bound_raw,config,config_sha,expected_release)
++
++
++def validate_bound(template, bound, config, config_sha,expected_release):
+     template_raw, bound_raw = regular(template), regular(bound)
+-    check_bound_source(template_raw, bound_raw, config, config_sha)
++    check_bound_source(template_raw, bound_raw, config, config_sha,expected_release)
+     require(digest(template_raw) == WORKER, 'Only the reviewed worker may be imported')
+     # Only the independently pinned unbound template is imported; never bound main.
+     require(digest(regular(template)) == WORKER, 'Template changed before import')
+     spec = importlib.util.spec_from_file_location('reviewed_grouped_template', template)
+     module = importlib.util.module_from_spec(spec)
+     spec.loader.exec_module(module)
++    module.EXPECTED_RELEASE=expected_release # Independently validated input, not bound worker execution.
+     module.validate_config(config, config_sha)
++    module.validate_optics18(config,config['inputs'])
+ 
+ 
+ def preflight(args):
++    global SOURCE,TREE
++    expected_raw=regular(args.expected_release)
++    require(digest(expected_raw)==args.expected_release_sha256,'Expected-release external digest differs')
++    expected_release=json.loads(expected_raw);SOURCE=expected_release['source'];TREE=expected_release['tree']
++    require(all(isinstance(value,str)and len(value)==40 and all(c in '0123456789abcdef'for c in value)for value in [SOURCE,TREE]),'Actual source/tree malformed')
+     for name, want in PINS.items():
+         require(digest(regular(Path(__file__).with_name(name))) == want, 'Admission helper changed')
+     require(digest(regular(args.worker)) == WORKER, 'Worker changed')
+     review_raw = regular(args.review)
+     require(digest(review_raw) == args.review_sha256, 'Parent review changed')
+     review = json.loads(review_raw)
++    require(review['expected_release_sha256']==args.expected_release_sha256,'Actual release not parent reviewed')
+     closure_raw = regular(args.closure)
+     require(digest(closure_raw) == args.closure_sha256, 'Static closure changed')
+     closure = json.loads(closure_raw)
+@@ -150,9 +143,9 @@
+ 
+ def main():
+     p = argparse.ArgumentParser(description=__doc__)
+-    for name in ('repo', 'production', 'template', 'original-protocols', 'closure', 'worker', 'review', 'out', 'worktree'):
++    for name in ('repo', 'production', 'template', 'original-protocols', 'closure', 'worker', 'review', 'out', 'worktree','expected-release'):
+         p.add_argument('--' + name, type=Path, required=True)
+-    for name in ('template-sha256', 'closure-sha256', 'review-sha256', 'branch'):
++    for name in ('template-sha256', 'closure-sha256', 'review-sha256', 'branch','expected-release-sha256'):
+         p.add_argument('--' + name, required=True)
+     p.add_argument('--signing-key')
+     p.add_argument('--execute', action='store_true')
+@@ -178,7 +171,7 @@
+         cmd = ['git']
+         if a.signing_key:
+             cmd += ['-c', 'gpg.format=ssh', '-c', 'user.signingkey=' + a.signing_key]
+-        cmd += ['commit', '-S', '-s', '-m', 'audit: bind reviewed PR852 release browser controls (never merge)']
++        cmd += ['commit', '-S', '-s', '-m', 'audit: bind reviewed PR854 release browser controls (never merge)']
+         subprocess.run(cmd, cwd=a.worktree, check=True, capture_output=True, timeout=120)
+         head = audit_commit(a.worktree, SOURCE, public)
+         # Branch is local now: only the remote must still be absent before push.
+@@ -187,6 +180,7 @@
+         save('PUSH-ATTEMPT.json', {'head': head, 'branch': a.branch, 'automatic_retry': False})
+         git(a.worktree, 'push', 'origin', 'HEAD:refs/heads/' + a.branch)
+         command = [sys.executable, str(Path(__file__).with_name('pack_admission.py')),
++                   '--expected-release',str(a.expected_release),'--expected-release-sha256',a.expected_release_sha256,
+                    '--production', str(a.production), '--template', str(a.template), '--template-sha256', a.template_sha256,
+                    '--original-protocols', str(a.original_protocols), '--review', str(a.review), '--review-sha256', a.review_sha256,
+                    '--harness-repo', str(a.worktree), '--worker-template', str(a.worker), '--out', str(a.out / 'bound')]
+@@ -198,7 +192,7 @@
+         config_raw = regular(a.out / 'bound/CONFIG.json')
+         config = json.loads(config_raw)
+         require(config_raw == canonical(config) + b'\n', 'Admission is not canonical immutable bytes')
+-        validate_bound(a.worker, a.out / 'bound/grouped_browser.py', config, digest(canonical(config)))
++        validate_bound(a.worker, a.out / 'bound/grouped_browser.py', config, digest(canonical(config)),json.loads(regular(a.expected_release)))
+         save('BOUND-NOT-ISSUED.json', {'state': 'BOUND_READY_FOR_PARENT_REVIEW_NOT_ISSUED', 'runtime_source': SOURCE, 'runtime_tree': TREE, 'harness_head': head,
+                                      'config_sha256': digest(canonical(config)), 'worker_sha256': digest(regular(a.out / 'bound/grouped_browser.py')),
+                                      'provider_calls': 0, 'browser_acceptance_claim': False})

@@ -1,0 +1,11 @@
+--- frozen-predecessor/grouped82.body.py
++++ generic-schema-successor/grouped82.body.py
+@@ -90,7 +90,7 @@
+ 
+ def validate_config(config,expected_sha):
+  assert type(config)is dict and re.fullmatch('[a-f0-9]{64}',expected_sha or '')and hashlib.sha256(canonical(config)).hexdigest()==expected_sha,'Actual immutable execution admission missing/unbound'
+- assert config['reviewed_candidate_source']=='18f2bebd6f9aafe85d3ba1d76e2c2f9cd5d11e9a'
++ assert config['reviewed_candidate_source']=='62f647275fd800d4992f5516651dfc9e61f47a05'
+  for k in ['runtime_source','runtime_tree','harness_head','harness_tree']:assert re.fullmatch('[a-f0-9]{40}',config[k])
+  assert type(EXPECTED_RELEASE)is dict,'Future accepted release remains UNBOUND'
+  assert config['runtime_source']==EXPECTED_RELEASE['source']and config['runtime_tree']==EXPECTED_RELEASE['tree']

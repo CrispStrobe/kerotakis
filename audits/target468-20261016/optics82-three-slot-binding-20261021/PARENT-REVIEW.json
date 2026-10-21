@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-21T18:55:50.045760+00:00",
+  "scope": "SYNTHETIC_SERIALIZATION_AND_ACTUAL_TEMPLATE_AST_ONLY_NO_WORKER_EXECUTION",
+  "preparation_manifest_sha256": "9bd831af44b81c1ba850ae69684eb74912f3d684339ca4e26dc53ed925e79c87",
+  "binder_sha256": "5a37744db7f12b185a71337310f6af0f37074976d2fc44ae73de071c6ee7d148",
+  "slot_helper_sha256": "3dfab0217dc59b50daccf4b676bd1f68982588e1ca32fee65f9eceda58f6bfbb",
+  "packer_sha256": "df430a40d83f354bdeea3557d2286c34b7b4f5e6569702335f0bdaf679bd69bc",
+  "stage_checker_sha256": "c028be532966c084f7d38950d8cd9b31d6e463e4557e56dc3dfbf958cd550d6d",
+  "actual_template_sha256": "617f996958e71787d04e178ecc0887ef78d0ef750356707e147868dd959e065f",
+  "test_program_sha256": "b34f56d1633dc633e043594ba407a1dc863e5c8498f85681eaf27ebe065bf3a3",
+  "actual_test_count": 13,
+  "actual_exit_status": 0,
+  "stderr_sha256": "9d5873ee8648eddc65e4a3349bd88c1da2e83288e2c91ec25a0af7a73af335c7",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "all_manifest_members_verified": 73,
+  "new_runtime_binding_or_acceptance_assigned": false,
+  "old64_identity_closure_and_final_package_still_pending": true
+}

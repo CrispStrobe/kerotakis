@@ -1,0 +1,105 @@
+--- frozen-predecessor/pack_admission.py
++++ generic-schema-successor/pack_admission.py
+@@ -9,9 +9,11 @@
+ import json
+ from pathlib import Path, PurePosixPath
+ import subprocess
+-from release_binding import (SOURCE, TREE, CANDIDATE, RECEIPTS,
++from worker_slots import render_worker
++from release_binding import (RECEIPTS,
+                              checked_binding, canonical, digest, require)
+ 
++CANDIDATE='62f647275fd800d4992f5516651dfc9e61f47a05'
+ MODULES = {
+     'live-client.mjs': '1f0ddea0b8a9e16d78cb15cfaaa319abbe2e6cd817999d7075c4e9c235a903a0',
+     'targeted.mjs': 'f17c5c7fe143d9930efeeafa8cf9c14c1a873ba10ea4927ca5fc30fa91cba4f9',
+@@ -66,6 +68,8 @@
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+     parser.add_argument('--production', type=Path, required=True)
++    parser.add_argument('--expected-release',type=Path,required=True)
++    parser.add_argument('--expected-release-sha256',required=True)
+     parser.add_argument('--template', type=Path, required=True)
+     parser.add_argument('--template-sha256', required=True)
+     parser.add_argument('--original-protocols', type=Path, required=True)
+@@ -78,17 +82,21 @@
+     review_raw = args.review.read_bytes()
+     require(digest(review_raw) == args.review_sha256, 'Parent source review changed')
+     review = json.loads(review_raw)
++    expected_raw=args.expected_release.read_bytes()
++    require(digest(expected_raw)==args.expected_release_sha256==review['expected_release_sha256'],'Actual expected-release authority differs')
++    expected_release=json.loads(expected_raw);runtime_source=expected_release['source'];runtime_tree=expected_release['tree']
++    require(all(isinstance(value,str)and len(value)==40 and all(c in '0123456789abcdef'for c in value)for value in [runtime_source,runtime_tree]),'Actual source/tree malformed')
+     inputs = reviewed_files(review)
+     worker = args.worker_template.read_bytes()
+     require(digest(worker) == review['worker_template_sha256'], 'Unreviewed worker template')
+-    for name in ('release_binding.py', 'pack_admission.py'):
++    for name in ('release_binding.py', 'pack_admission.py','worker_slots.py'):
+         require(digest(Path(__file__).with_name(name).read_bytes()) ==
+                 review['admission_programs_sha256'][name], 'Unreviewed admission helper')
+     template_raw = args.template.read_bytes()
+     require(digest(template_raw) == args.template_sha256, 'Binding template changed')
+     raw = {n: (args.production / n).read_bytes() for n in RECEIPTS}
+     original = args.original_protocols.read_bytes()
+-    binding, prior = checked_binding(json.loads(template_raw)['binding'], raw, SOURCE, TREE, original)
++    binding, prior = checked_binding(json.loads(template_raw)['binding'], raw, runtime_source, runtime_tree, original)
+ 
+     def git(*argv):
+         return subprocess.check_output(['git', '--no-replace-objects', *argv],
+@@ -99,10 +107,10 @@
+     # Inspect the actual commit object; shallow graph traversal hides parents.
+     header = git('cat-file', '-p', head).split(b'\n\n', 1)[0].splitlines()
+     parents = [s.split()[1].decode('ascii') for s in header if s.startswith(b'parent ')]
+-    require(parents == [SOURCE], 'Evidence commit must have the exact runtime parent')
+-    require(git('rev-parse', SOURCE + '^{tree}').decode().strip() == TREE,
++    require(parents == [runtime_source], 'Evidence commit must have the exact runtime parent')
++    require(git('rev-parse', runtime_source + '^{tree}').decode().strip() == runtime_tree,
+             'Actual integration tree differs')
+-    changed = set(git('diff', '--name-only', SOURCE, head).decode('utf-8').splitlines())
++    changed = set(git('diff', '--name-only', runtime_source, head).decode('utf-8').splitlines())
+     require(changed == {'audits/live-rest-browser-20261018/live-client.mjs',
+                         'audits/live-rest-browser-20261018/release-binding.json'},
+             'Evidence commit changed unrelated source')
+@@ -128,7 +136,7 @@
+         'execution_admission_order_approved': True,
+         'original_modules_byte_identical': True,
+         'all64_final_acceptance_mandatory': True}) + b'\n')
+-    envelope = dict(runtime_source=SOURCE,
++    envelope = dict(runtime_source=runtime_source,
+                     engine=json.loads(raw['API-ACCEPTED.json'])['engine'],
+                     harness_head=head, harness_tree=tree,
+                     never_merge_validation_ref=True,
+@@ -136,25 +144,23 @@
+                     new_owner_keys_in_browser_or_kaggle=False,
+                     harness_script_sha256=MODULES['live-client.mjs'],
+                     binding_sha256=digest(bind_raw), binding=binding)
+-    config = dict(reviewed_candidate_source=CANDIDATE, runtime_source=SOURCE,
+-                  runtime_tree=TREE, harness_head=head, harness_tree=tree,
++    config = dict(reviewed_candidate_source=CANDIDATE, runtime_source=runtime_source,
++                  runtime_tree=runtime_tree, harness_head=head, harness_tree=tree,
+                   binding_sha256=digest(bind_raw),
+                   heat_binding_sha256=inputs['heat-release-binding.json']['sha256'],
+                   inputs=inputs, groups=[dict(zip(('id', 'entry', 'expected_checks', 'timeout_seconds'), g)) for g in GROUPS],
+                   prior_release=prior, binding=envelope)
++    require(expected_release['source']==runtime_source and expected_release['tree']==runtime_tree and expected_release['artifact_sha256']==json.loads(raw['verified-release.json'])['artifact_sha256']and expected_release['api11_receipt_sha256']==prior['API_receipt_sha256'],'Actual release proof chain differs')
++    for alias,key in [('forecasts/optics18/binding.json','optics_binding_sha256'),('forecasts/optics18/app-projection.json','app_projection_sha256'),('forecasts/optics18/program-closure.json','optics_program_closure_sha256')]:require(inputs[alias]['sha256']==expected_release[key],'Actual fifth-group input differs: '+alias)
+     config_sha = digest(canonical(config))
+-    text = worker.decode('utf-8')
+-    require(text.count('\nCONFIG=None\n') == text.count('\nCONFIG_SHA256=None\n') == 1,
+-            'Reviewed worker placeholders changed')
+-    bound = text.replace('\nCONFIG=None\n', '\nCONFIG=' + repr(config) + '\n').replace(
+-        '\nCONFIG_SHA256=None\n', '\nCONFIG_SHA256=' + repr(config_sha) + '\n').encode('utf-8')
+-    compile(bound, 'bound-grouped-browser.py', 'exec')  # Syntax only; no import or execution.
++    bound=render_worker(worker,config,config_sha,expected_release)
++    require(len(bound)<1024**2,'Final serialized worker must stay below1MiB before output/issue')
+     args.out.mkdir(mode=0o700, exist_ok=False)
+-    for name, content in [('CONFIG.json', canonical(config) + b'\n'),
++    for name, content in [('EXPECTED_RELEASE.json',canonical(expected_release)+b'\n'),('CONFIG.json', canonical(config) + b'\n'),
+                           ('grouped_browser.py', bound),
+                           ('BOUND-NOT-ISSUED.json', canonical({
+                               'state': 'BOUND_ONLY_PARENT_ISSUE_REVIEW_STILL_REQUIRED',
+-                              'runtime_source': SOURCE, 'runtime_tree': TREE,
++                              'runtime_source': runtime_source, 'runtime_tree': runtime_tree,
+                               'worker_sha256': digest(bound), 'config_sha256': config_sha,
+                               'worker_template_sha256': digest(worker),
+                               'parent_source_review_sha256': args.review_sha256,

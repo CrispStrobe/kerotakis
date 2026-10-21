@@ -1,0 +1,15 @@
+{
+  "state": "SOURCE_ONLY_PREPARATION_NOT_RUNTIME_ACCEPTANCE",
+  "narrow_actual_receipt_binder_invoked": false,
+  "packer_three_slots_wired": true,
+  "bind_stage_three_slots_independently_wired": true,
+  "schema_programs_AST_parse": true,
+  "dependent_admission_helper_pins_match": true,
+  "six_original_modules_byte_identical": true,
+  "nine_optics_files_byte_identical": true,
+  "synthetic_controls_actual": 12,
+  "actual_template_optin_default_skip": 1,
+  "old64_source_identity_refresh_pending": true,
+  "actual_runtime_source_and_receipts_absent": true,
+  "actual_serialized_worker_size_unmeasured": true
+}

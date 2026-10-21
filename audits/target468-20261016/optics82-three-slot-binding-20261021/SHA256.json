@@ -1,0 +1,16 @@
+{
+  "FIELD-AUTHORITY-MAP.json": "f7d8d6921bed4c748963a9deeb98786509d795160eb5817138eba6fbf3472d0e",
+  "LITERAL-PIN-DEPENDENCIES.json": "3b27dd79fa112e12e107db080b36fe4b5bdb1db1e9e96afd4b6f5b9366283a73",
+  "PARENT-REVIEW.json": "073a81c82a3f019a2176fecc12bcc97760d15a7ecf43e3b5ee0319657193aa0b",
+  "README.md": "31edd140cb34c828277f00c9df0a5084ff8b6fe43d9426ab0badf2413b8b4fa8",
+  "REFRESH-ORDER.md": "747f104c4dd4fdad7cffdf87c74a45039955193b9fb73e77220624cfde7cc344",
+  "SOURCE-FREEZE.json": "54877c1cd6e1b16bc74bf74fc9431aa3b65bcde0bf15a99f1eb2c2316d5033ab",
+  "bind_release_inputs.py": "5a37744db7f12b185a71337310f6af0f37074976d2fc44ae73de071c6ee7d148",
+  "bind_stage.py.diff": "8292e578c33f8fd77e35d43d80176cf3413df566d8aa6e45b7753478f0ca8473",
+  "grouped82.body.py.diff": "6b30e534f05afd457d5233a567b06fd1454317c55ebeade969ab3f1df3d46615",
+  "pack_admission.py.diff": "7d70d2b30fee81634d9da1d92507de4b4c266465bdc8a19f74629a048b084dac",
+  "slot-controls.stderr": "9d5873ee8648eddc65e4a3349bd88c1da2e83288e2c91ec25a0af7a73af335c7",
+  "slot-controls.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_worker_slots.py": "b34f56d1633dc633e043594ba407a1dc863e5c8498f85681eaf27ebe065bf3a3",
+  "worker_slots.py": "3dfab0217dc59b50daccf4b676bd1f68982588e1ca32fee65f9eceda58f6bfbb"
+}
