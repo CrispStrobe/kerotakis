@@ -1,0 +1,7 @@
+{
+  "error_type": "KeyError",
+  "error": "'base64'",
+  "traceback": "Traceback (most recent call last):\n  File \"/kaggle/src/script.py\", line 70, in main\n    auth=P['issue_authorization'];raw=base64.b64decode(auth['base64'],validate=True);assert sha(raw)==auth['sha256'];approved=json.loads(raw);assert approved['source']==P['source']and approved['tree']==P['tree']and approved['reviewed_for_one_bounded_focus']is True and approved['actual_release_api11_browser64_accepted']is True and approved['actual_accepted_release_source']==P['baseline_actual_source']\n                                                       ~~~~^^^^^^^^^^\nKeyError: 'base64'\n",
+  "first_partial_evidence_preserved": true,
+  "automatic_retry": false
+}

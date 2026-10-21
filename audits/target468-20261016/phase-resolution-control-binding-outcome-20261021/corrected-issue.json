@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-21T05:52:43.631344+00:00",
+  "runtime_source": "d3a7795f21dddc2e6b24eb6a832f4b87a9b0a966",
+  "worker_sha256": "f99124c78ab23c609c9d2f555e7443919e3598d2f5a62aee810bd4d36b3dc507",
+  "actual_plan_sha256": "b1edca148784549a3734ba90cb42a125fe95c93129466ac99da2bfa85650ad64",
+  "version": 1,
+  "version_label": "v1",
+  "private_CPU_only": true,
+  "one_issue_only": true,
+  "scientific_or_energy_acceptance": false,
+  "runtime_tree": "a8ee4ede499b1c8eef7d831de0780693f50b85c4",
+  "expected_controls": 30,
+  "expected_executables": 8,
+  "source_and_all30_assertions_unchanged_from_first_issue": true,
+  "producer_body_unchanged": true,
+  "correction": "Embed exact reviewed receipt bytes as required base64/sha256 instead of an incompatible receipt object.",
+  "actual_outcome": "PENDING"
+}
