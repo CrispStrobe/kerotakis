@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-21T16:20:09.709599+00:00",
+  "state": "BOUND_CURRENT_SOURCE_NOT_ISSUED",
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "tree": "732874f2de5d4375808be49c6f8b43a2a234a29a",
+  "worker_sha256": "d26d5352ea424a041ef8764c1a644fe982e5d9ee5b18486d8b0ea1b602d7b8a3",
+  "worker_bytes": 998754,
+  "saved_reader_sha256": "bc32bd9b1914e2c7485b10214028abbd58704728947bff2bc3882c79ea777ca2",
+  "assembly_helper_sha256": "4d83fb6af23c6309d56d2854c53889506836533817177fd40a15a59f7d24e9b9",
+  "actual_source_pins": 162,
+  "preserved_logical_groups": 33,
+  "preserved_original_steps": 142,
+  "preserved_law_reports": 29,
+  "preserved_requirements": 500,
+  "required_native_tests": 627,
+  "required_core_tests": 2216,
+  "required_thermo_tests": 184,
+  "required_hook_tests": 2,
+  "required_SSR_tests": 37,
+  "required_Svelte_check": true,
+  "only_added_command": [
+    "python3",
+    "tools/i18n-surface-lint.py",
+    "--check"
+  ],
+  "before_costly_compilation": true,
+  "genuine_source_review_sha256": "4dabcfa6ad8043787eddd62dd9d24cac3ae60bc6d6033458eaea2639e9213721",
+  "future_full_acceptance_claimed": false,
+  "future_product_acceptance_claimed": false,
+  "original_experiment_replays": 0,
+  "scientific_selections": 0
+}

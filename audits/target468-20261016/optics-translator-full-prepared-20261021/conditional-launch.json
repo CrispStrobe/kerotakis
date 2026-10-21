@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-21T16:20:50.088515+00:00",
+  "source": "62f647275fd800d4992f5516651dfc9e61f47a05",
+  "state": "ONE_CONDITIONAL_WAITER_ACTIVE_FULL_NOT_ISSUED",
+  "waiter_sha256": "490ee50cadbf2cb6017be6ffd43b568cd37ffa3fdae045eedca3c3e007730f6c",
+  "approval_sha256": "d5bcb9a5d16903bf260d626e015b8a59af0bc6311bf89d3f3dd5624c1e8e6303",
+  "parent_and_independent_source_review_complete": true,
+  "latest_observation": {
+    "utc": "2026-10-21T16:21:53.372317+00:00",
+    "preceding_closed_acceptance_files_present": false,
+    "current_ci_status": "in_progress",
+    "current_ci_conclusion": null
+  },
+  "only_one_full_issue_permitted": true,
+  "prior_actual_acceptance_and_current_CI_required": true,
+  "full_execution_acceptance_claimed": false
+}

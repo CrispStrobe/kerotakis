@@ -1,0 +1,13 @@
+{
+  "README.md": "d88b268aad70d83b1fea7ed638b300d4b1eef22463dd9f9ee0caaa8a471dea7d",
+  "actual-light-checks.json": "0178cc5eeceea702099ffec191acad79973ef2fa50919d82d40aa0d022659127",
+  "classifier.stderr": "343c0db2934f5ebd83e92c4def043afe0fdac07e9216b5554f44f35c8f9f6e52",
+  "classifier.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "conditional-launch.json": "aeb177f0291071a9631abdc40dcccbcd1505c4bf36e1d6bc9af7cf395d6017c7",
+  "encoding.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "encoding.stdout": "ea4cc9b766a393205f3df1cadc77c4f3c9339d6ff41782aa8f26d979cb3ef754",
+  "i18n_surface.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "i18n_surface.stdout": "0012a639ec00eeb67c225210797de6ed2ef3d1f403328219bab48045b9ed2d2d",
+  "prepared-source.json": "30329e3aa428c24be3e8ce7198e3ee0daff7610ec4d7e9d0dec7d53fd35f8e32",
+  "source-assembly.json": "50ebf8d066f55ea3b8cc94d14fb9e09ade990fa9c3c5c41204f1eb85a7d61d24"
+}
