@@ -1,0 +1,61 @@
+{
+  "source": "e648249119e1fe028735bf31723da2867d87db77",
+  "actual_scene_sha256": "980f4699d3643c6517fb73ecbf8d3f07303dfd0847cdb3b5e53c2cf3405869e0",
+  "old_scene_sha256": "f38640a4339f4f343a7dc5c5f79204b9a22b66686d3cdf008dd8fe4f031212f5",
+  "actual_lessons_sha256": "3e559557ee3afc11d8392970d4641e775cd52d3bb304799ae1dcaeffc1e65829",
+  "old_lessons_sha256": "a3818337bd65dd41b6a69bf1921555662ff686853edb44b2db3b607aebde4286",
+  "actual_scene_changes": 296,
+  "scene_changed_snapshots": 74,
+  "scene_exact_allowed_additions_per_snapshot": [
+    "optical_ph_gaps",
+    "optical_species_names",
+    "typed notes",
+    "words suffix"
+  ],
+  "all_other_scene_fields_equal": true,
+  "physical_numeric_material_command_fields_equal_at_snapshot_precision": true,
+  "complete_lessons": 113,
+  "five_actual_caption_changes": [
+    {
+      "lesson": "cabbage-rainbow",
+      "index": 3,
+      "expected": "v1: The liquid is colourless and clear.",
+      "actual": "v1: The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin (red-cabbage pigment)."
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "index": 8,
+      "expected": "v2: The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "v2: The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin (red-cabbage pigment)."
+    },
+    {
+      "lesson": "cabbage-rainbow",
+      "index": 15,
+      "expected": "v3: The liquid is white and so cloudy you cannot see through it.",
+      "actual": "v3: The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin (red-cabbage pigment)."
+    },
+    {
+      "lesson": "lemonade-indicator",
+      "index": 4,
+      "expected": "v1: The liquid is colourless and cloudy.",
+      "actual": "v1: The liquid is colourless and cloudy. Colour is incomplete: a finite aqueous pH is required for bromothymol blue."
+    },
+    {
+      "lesson": "lemonade-indicator",
+      "index": 12,
+      "expected": "v2: The liquid is white and so cloudy you cannot see through it.",
+      "actual": "v2: The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for bromothymol blue."
+    }
+  ],
+  "all_other_lesson_fields_equal": true,
+  "test_bodies_criteria_tolerances_unchanged": true,
+  "source_files": {
+    "crates/kerotakis-core/src/species.rs": "babe480b3620c8fac121c1894847c26f7a9a51e599ea0a26d5940df0003f81a7",
+    "crates/kerotakis-core/src/scene.rs": "836873f0e9637aff81c169779d8c60de6592a72ec88200038d21fe73443c6bb1",
+    "crates/kerotakis-core/src/phrase.rs": "676f55b3e32eb28fe6b3b00dc05656b824f602571fe42d777fe24d3d273269bf",
+    "crates/kerotakis-core/tests/frozen_behavior.rs": "9f65fe46fa6f00deb178d87edf06aed454fd33215272f90542414c4e874af529",
+    "crates/kerotakis-core/tests/scene_golden.rs": "4a6f8b44874eee5ef3178784a8069dad3df4ed3c0cd643b22df17615216c8244"
+  },
+  "scientific_selections": 0,
+  "full_acceptance": false
+}

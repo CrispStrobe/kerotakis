@@ -1,0 +1,9 @@
+{
+  "cause": "Provider returned a title-derived slug different from requested metadata. First returned-ref assertion stopped after the single successful push.",
+  "actual_pulled_worker_sha256": "4a217b4745f517ab65a1bd195aa87df646b57bbbacbe74cc4505ba51941066c5",
+  "actual_worker_matches_reviewed_upload": true,
+  "original_prepared_metadata_preserved": true,
+  "no_push_retry": true,
+  "collection_only_recovery": true,
+  "original_private_recovery_record_sha256": "e1ad71c25569b8f6fb184738f87ffab0077dcb46381c9f45ef1f34fd8b2d7278"
+}

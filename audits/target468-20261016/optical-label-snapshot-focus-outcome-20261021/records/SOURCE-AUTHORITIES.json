@@ -1,0 +1,88 @@
+{
+  "source": "e648249119e1fe028735bf31723da2867d87db77",
+  "registry_display_names": {
+    "anthocyanin": "anthocyanin (red-cabbage pigment)",
+    "bromothymol_blue": "bromothymol blue"
+  },
+  "blobs": {
+    "crates/kerotakis-core/src/species.rs": {
+      "sha256": "babe480b3620c8fac121c1894847c26f7a9a51e599ea0a26d5940df0003f81a7",
+      "coordinates": [
+        {
+          "line": 691,
+          "text": "pub fn english_name(key: &str) -> &str {"
+        }
+      ]
+    },
+    "crates/kerotakis-core/src/phrase.rs": {
+      "sha256": "676f55b3e32eb28fe6b3b00dc05656b824f602571fe42d777fe24d3d273269bf",
+      "coordinates": [
+        {
+          "line": 290,
+          "text": "crate::species::english_name(en)"
+        }
+      ]
+    },
+    "crates/kerotakis-core/src/render.rs": {
+      "sha256": "65125af3d6d725cdbb0a83e276e0c840f6e3c91f45cffd348214e064a77bab7e",
+      "coordinates": [
+        {
+          "line": 259,
+          "text": "let english = species::english_name(id.0.as_str());"
+        }
+      ]
+    },
+    "crates/kerotakis-core/src/scene.rs": {
+      "sha256": "836873f0e9637aff81c169779d8c60de6592a72ec88200038d21fe73443c6bb1",
+      "coordinates": [
+        {
+          "line": 529,
+          "text": "pub optical_species_names: std::collections::BTreeMap<String, String>,"
+        },
+        {
+          "line": 841,
+          "text": "fn optical_species_names("
+        },
+        {
+          "line": 880,
+          "text": "optical_species_names: optical_species_names(&seen),"
+        },
+        {
+          "line": 891,
+          "text": "optical_species_names: optical_species_names(&seen),"
+        }
+      ]
+    },
+    "crates/kerotakis-core/src/appearance.rs": {
+      "sha256": "a767814a8cded804fcfe2dae5105fa1a180799fbfad711a6c8a8661ccd0b0ac6",
+      "coordinates": [
+        {
+          "line": 340,
+          "text": "\"look.indicator-optics-missing-ph\","
+        }
+      ]
+    },
+    "crates/kerotakis-core/tests/scene_golden.rs": {
+      "sha256": "4a6f8b44874eee5ef3178784a8069dad3df4ed3c0cd643b22df17615216c8244",
+      "coordinates": [
+        {
+          "line": 25,
+          "text": "let rounded = (value * 1_000_000.0).round() / 1_000_000.0;"
+        }
+      ]
+    },
+    "data/registry/registry-source-v1.json": {
+      "sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+      "coordinates": [
+        {
+          "line": 2860,
+          "text": "\"name\": \"bromothymol blue\","
+        },
+        {
+          "line": 3984,
+          "text": "\"name\": \"anthocyanin (red-cabbage pigment)\","
+        }
+      ]
+    }
+  }
+}

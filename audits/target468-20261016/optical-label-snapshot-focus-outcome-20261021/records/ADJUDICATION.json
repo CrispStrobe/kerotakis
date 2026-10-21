@@ -1,0 +1,18 @@
+{
+  "source": "e648249119e1fe028735bf31723da2867d87db77",
+  "scene_changed_paths": 296,
+  "changed_scene_vessel_snapshots": 74,
+  "scene_only_cabbage_changed": true,
+  "all_other_scene_fields_including_numbers_material_commands_events_exact_equal": true,
+  "numeric_precision_limit": "scene_golden independently rounds floats to6decimal places; this is presentation equality, not calibration",
+  "lessons_total": 113,
+  "actual_complete_lesson_diagnostic_captured": true,
+  "changed_lesson_strings": 5,
+  "all_other_lesson_fields_exact_equal": true,
+  "new_names_map_registry_authoritative": true,
+  "canonical_species_ids_and_typed_phrase_slots_preserved": true,
+  "unresolved_snapshot_tests": 2,
+  "all_gates_pass": false,
+  "source_goldens_modified": false,
+  "scientific_selections": 0
+}

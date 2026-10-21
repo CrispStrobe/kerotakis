@@ -1,0 +1,14 @@
+{
+  "original_reader_sha256": "3acb38283f0165e492bcb03b50b483edef12ac46bced6295733c8c39ef780345",
+  "second_reader_sha256": "2c61e8da19a3e8586e57704d9ac797dfae6c136dea8b47db809eb4c77ff41029",
+  "only_changed_bytes": "D output directory saved-actual-review\u2192second-saved-review",
+  "AST_equal_except_D_assignment": true,
+  "actual_external_exit_status": 0,
+  "actual_stdout_sha256": "db407c9e1ee445bd3ccfe486636cdbe8459be4ca5f10fa3afc07437c12fc74ef",
+  "actual_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "raw_private_invocation_record_sha256": "56cd33b2f6f863b98a8f1b919120ca868a874cbf24c36291f5a511d895653875",
+  "both_independent_receipts_equal_except_utc": true,
+  "first_receipt_sha256": "ab5b46b4fa6647565f6696ec3ae46f2c15e2a58ef93d27ec917a60ac42b1912a",
+  "second_receipt_sha256": "7db976a3eac203229c208092e58c7d525867686c6b38667a8e9d273728236271",
+  "actual_product_reexecutions": 0
+}

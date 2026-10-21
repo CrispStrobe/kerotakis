@@ -1,0 +1,58 @@
+{
+  "source": "e648249119e1fe028735bf31723da2867d87db77",
+  "actual_file_captured_in_complete_diagnostic": true,
+  "actual_captured_sha256": "3e559557ee3afc11d8392970d4641e775cd52d3bb304799ae1dcaeffc1e65829",
+  "expected_sha256": "a3818337bd65dd41b6a69bf1921555662ff686853edb44b2db3b607aebde4286",
+  "changes": [
+    {
+      "path": [
+        "cabbage-rainbow",
+        "events_sample",
+        3
+      ],
+      "kind": "value",
+      "expected": "v1: The liquid is colourless and clear.",
+      "actual": "v1: The liquid is colourless and clear. Colour is incomplete: a finite aqueous pH is required for anthocyanin (red-cabbage pigment)."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        "events_sample",
+        8
+      ],
+      "kind": "value",
+      "expected": "v2: The liquid is colourless and clear, bubbles of gas are rising through it.",
+      "actual": "v2: The liquid is colourless and clear, bubbles of gas are rising through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin (red-cabbage pigment)."
+    },
+    {
+      "path": [
+        "cabbage-rainbow",
+        "events_sample",
+        15
+      ],
+      "kind": "value",
+      "expected": "v3: The liquid is white and so cloudy you cannot see through it.",
+      "actual": "v3: The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for anthocyanin (red-cabbage pigment)."
+    },
+    {
+      "path": [
+        "lemonade-indicator",
+        "events_sample",
+        4
+      ],
+      "kind": "value",
+      "expected": "v1: The liquid is colourless and cloudy.",
+      "actual": "v1: The liquid is colourless and cloudy. Colour is incomplete: a finite aqueous pH is required for bromothymol blue."
+    },
+    {
+      "path": [
+        "lemonade-indicator",
+        "events_sample",
+        12
+      ],
+      "kind": "value",
+      "expected": "v2: The liquid is white and so cloudy you cannot see through it.",
+      "actual": "v2: The liquid is white and so cloudy you cannot see through it. Colour is incomplete: a finite aqueous pH is required for bromothymol blue."
+    }
+  ]
+}
