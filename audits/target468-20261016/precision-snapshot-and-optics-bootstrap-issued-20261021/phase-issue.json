@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-21T07:18:34.558178+00:00",
+  "source": "46e1e63afeea33cd6cf14189179308e92324e7be",
+  "version": 1,
+  "worker_sha256": "4f0d1507e5ecfef03ed57395432d5d364184afcc910f2e0e7516d8d8515a0909",
+  "reader_sha256": "1aeb27d034cb9d7b0ca2d3532d35cdf5d70f52a1f6b3ea95f2fc6f715019d1d1",
+  "actual_plan_sha256": "83f8e0a583980f6941afd7852ce5b8ed88b7964f9c8f64a351a9253f3c787710",
+  "pending": "Exact-head full suite, both platforms, normal integration and changed-release acceptance"
+}

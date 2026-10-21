@@ -1,0 +1,24 @@
+{
+  "state": "PREPARED_UNISSUED_SETUP_ONLY",
+  "old_worker_sha256": "309e1151924083cd278c84d34115f25688aac865d12fcce520dcc0581ea4ef6e",
+  "new_worker_sha256": "2c7ff822bbcd1a44784623680cc0dabdd1bf8c45bbed5964495ea2b463b1b684",
+  "new_plan_sha256": "aeb7581efff9b8399ab365b08e2f2262f1465d35b3cd8979e8f905e191938312",
+  "runtime_source": "14d502b2262134b636d44504d446652c3cfe49eb",
+  "runtime_tree": "70c611796fc4c19cdfd07fcb27766f5f8cc10db6",
+  "baseline": "b5a261cfbd59c9f3036985f7398d810c6baf7e1b",
+  "unchanged_frozen_forecast_and_test_inputs": true,
+  "unchanged_Cargo_seed": "668868136fa9ee1ebd6433d59eb68d5fa46224d874fd96c4036f7614b3c4cd85",
+  "submodule_gitlinks_equal_both_sources": {
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa",
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
+  },
+  "canonical_format_command_unchanged": [
+    "cargo",
+    "fmt",
+    "--check"
+  ],
+  "first_actual_failure": "Missing Rust sundials-kinetics-rs/sundials manifest; zero controls executed. Original issue and failure untouched.",
+  "mandatory_setup": "Recursive pinned Rust/native submodules before first Cargo; standard checksum-pinned Sundials C fetch follows; actual submodule HEADs verified against both sources in each stage proof.",
+  "worker_parse_only": true,
+  "provider_or_build_invocations": 0
+}

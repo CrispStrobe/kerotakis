@@ -1,0 +1,28 @@
+--- previous-worker.body.py
++++ successor-worker.body.py
+@@ -39,13 +39,15 @@
+  def proof(label,source,tree,pins,overlay=False):
+   assert git('rev-parse','HEAD').decode().strip()==source and git('rev-parse','HEAD^{tree}').decode().strip()==tree
+   observed={p:digest(R/p)for p in pins};assert observed==pins
++  links={line.split('\t',1)[1]:line.split()[2]for line in git('ls-tree','-r','HEAD').decode().splitlines()if line.startswith('160000 ')};assert links==P['submodule_gitlinks']
++  actual_submodules={path:subprocess.check_output(['git','rev-parse','HEAD'],cwd=R/path,env=env,timeout=min(30,remaining())).decode().strip()for path in links};assert actual_submodules==links
+   assert git('diff','--name-only','HEAD')==b'' and git('diff','--cached','--name-only')==b'','Tracked files changed'
+   assert digest(R/'Cargo.lock')==P['dependency_lock_sha256']
+   if overlay:
+    assert set(git('ls-files','--others','--exclude-standard').decode().splitlines())==set(P['overlays'].values())
+    for name,target in P['overlays'].items():assert digest(R/target)==P['files'][name]['sha256']
+   else:assert git('ls-files','--others','--exclude-standard')==b''
+-  save(label+'.json',{'runtime_source':source,'runtime_tree':tree,'actual_source_blobs_sha256':observed,'actual_producer_lock_sha256':digest(R/'Cargo.lock'),'tracked_source_unchanged':True,'tests_only_overlays':P['overlays']if overlay else {}})
++  save(label+'.json',{'runtime_source':source,'runtime_tree':tree,'actual_source_blobs_sha256':observed,'actual_producer_lock_sha256':digest(R/'Cargo.lock'),'tracked_source_unchanged':True,'actual_submodule_HEADs':actual_submodules,'tracked_gitlinks':links,'tests_only_overlays':P['overlays']if overlay else {}})
+  def build(label,lib=False):
+   target='kerotakis_core'if lib else'indicator_optical_coverage';kind='lib'if lib else'test';args=['--lib']if lib else['--test',target]
+   run(label+'-build',['cargo','test','--locked','-p','kerotakis-core',*args,'--no-run','--message-format=json'],R)
+@@ -94,6 +96,8 @@
+   run('git-init',['git','init',str(R)]);run('git-remote',['git','remote','add','origin',P['repository']],R)
+   for label,ref in [('baseline',P['baseline']),('candidate',P['source']),('fixture',P['fixture_commit'])]:run('git-fetch-'+label,['git','fetch','--depth','1','origin',ref],R)
+   run('baseline-checkout',['git','checkout','--detach',P['baseline']],R);stage='baseline'
++  run('initialize-native-submodules',['git','submodule','update','--init','--recursive','--depth','1'],R,maximum=240)
++  run('fetch-sundials',['bash','tools/fetch-sundials.sh'],R,maximum=180)
+   frozen=O/'frozen-inputs';frozen.mkdir()
+   for name,row in P['files'].items():
+    raw=base64.b64decode(row['base64'],validate=True);assert sha(raw)==row['sha256']and git('show',P['fixture_commit']+':'+P['fixture_public_prefix']+name)==raw;(frozen/name).write_bytes(raw)

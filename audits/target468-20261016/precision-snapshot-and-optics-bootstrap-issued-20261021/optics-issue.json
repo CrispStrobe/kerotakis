@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-21T07:19:03.459263+00:00",
+  "worker_sha256": "79bfff148ac2d11c1bc1a5034f9692f05e5dde72e03eaeb330f7c41466e0cab2",
+  "actual_plan_sha256": "a7676f253ed4796b9806549af4838ae9e52681e8736e5f1dc05c208d3475ee77",
+  "runtime_source": "14d502b2262134b636d44504d446652c3cfe49eb",
+  "version": 1,
+  "version_label": "v1",
+  "private_CPU_only": true,
+  "one_issue_only": true,
+  "scientific_or_energy_acceptance": false,
+  "pending": "Actual baseline/fixed causal controls and static gates, independently authenticated; full/product acceptance separate"
+}

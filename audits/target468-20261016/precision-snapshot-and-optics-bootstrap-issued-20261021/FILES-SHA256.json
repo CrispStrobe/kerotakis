@@ -1,0 +1,11 @@
+{
+  "optics-issue.json": "903428aed20f0fdc8d99a2ea9c0cc03dd93545b9c8858196a75d90e3a317c6e6",
+  "phase-literal_equivalence.py": "61384c26d252a4eef071c607db63f74da78ce06855849d09715a8e0d8ccc3468",
+  "optics-SETUP-ONLY-PROOF.json": "fc8938024af754ad4ec9df61df3090dabe72b2060ac1df5f655a04e2ff9b6946",
+  "phase-review_saved.py.diff": "d23827db791c1996b08be82c4e4bfd209b5c513a6794e498a861e70c33ff0591",
+  "phase-worker.body.py.diff": "10e20b7e907cd52bd52a041a1d9dfa3331da0a860b54166447cf80ea787090d1",
+  "optics-worker-setup-only.diff": "fa341204613252fc6016231c245900ce624592f25ba20adea622595574892fc3",
+  "README.md": "6f02d8a292b3161c650686eb7c7d8bda4a899ef408900289ae68a7860311d531",
+  "phase-issue.json": "419837e4132e3da3e1db4dd18ee51275a801ee8d2530702a1bc59716b647658d",
+  "phase-ACTUAL-GIT-SOURCE-EQUIVALENCE.json": "8d38497b7d8668b96699c417170c4645fca3da35c0cd49da53e4f2d7905c6a85"
+}
