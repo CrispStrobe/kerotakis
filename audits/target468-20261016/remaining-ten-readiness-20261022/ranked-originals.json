@@ -1,0 +1,275 @@
+{
+  "state": "TEN_AUTHENTICATED_ORIGINALS_ACTIONABLE_READINESS",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "candidate_selections": [],
+  "next_small_original_followup_cohort": [
+    "new120:or-007",
+    "new120:or-008",
+    "new120:or-009"
+  ],
+  "followup_prerequisite": "Parent actual changed-release API11/browser82 acceptance; separate source/script/forecast/raw bound once-only execution authorization. No requests prepared or issued here.",
+  "ranked_cases": [
+    {
+      "id": "new120:or-007",
+      "priority": 1,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "source_repaired_historical_failure_needs_original_followup",
+      "actual_saved_observation": "Requested saponification refuses not-modeled.no-limiting-reactant; all0.005mol ester remains,0.01mol base equivalents.",
+      "next_owned_task": "After actual changed-release acceptance, freeze and issue each unchanged original once; independently close every vessel/step carbon/H/O/Na/charge and counterions. OR007 must exhaust ester with0.005mol net reserve; OR008 must show hydrolysis before acidification without unrequested ester regeneration; OR009 must track both explicit transformations and remaining base. Preserve old no-limiting-reactant first failures. No model or protocol repair is needed unless actual new evidence fails.",
+      "current_source_authority": "beff core bench.rs named saponification arm calls named_alkaline::saponify instead of literal NaOH matching; helper source hash bound in assessment.",
+      "original_script_sha256": "4b571c0aca6376b5effa185a39035cc9eca60996fdd40e1081e2fc094025fe77",
+      "stdout_sha256": "61c9c2783260305fe4a4ba777b5554206a82a3713743ac963ca46f81f7519724",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "OR-007-C1",
+          "criterion": "The ester inventory approaches its modelled completion limit with appropriate acetate and ethanol formation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-007-C2",
+          "criterion": "The remaining base budget differs from the base-limited case; inspect acid/base speciation rather than looking for a NaOH molecule count alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "new120:or-008",
+      "priority": 1,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "source_repaired_historical_failure_needs_original_followup",
+      "actual_saved_observation": "Requested saponification refuses; all0.001mol ester remains even after HCl. No demonstrated prior hydrolysis.",
+      "next_owned_task": "After actual changed-release acceptance, freeze and issue each unchanged original once; independently close every vessel/step carbon/H/O/Na/charge and counterions. OR007 must exhaust ester with0.005mol net reserve; OR008 must show hydrolysis before acidification without unrequested ester regeneration; OR009 must track both explicit transformations and remaining base. Preserve old no-limiting-reactant first failures. No model or protocol repair is needed unless actual new evidence fails.",
+      "current_source_authority": "beff core bench.rs named saponification arm calls named_alkaline::saponify instead of literal NaOH matching; helper source hash bound in assessment.",
+      "original_script_sha256": "3140524cc1fe16128b100b3c42ac9948c45bf6373dc3c57e6219d960085af4b4",
+      "stdout_sha256": "4b963813ace0979adccde2535fa62a3e95686882a9e2f0cf1bc809ef08377c84",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "OR-008-C1",
+          "criterion": "The acetic-acid fraction increases after acid addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-008-C2",
+          "criterion": "Separate proton-transfer changes from any actual C\u2013O bond-forming esterification; no automatic reversed saponification is assumed.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "new120:or-009",
+      "priority": 1,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "source_repaired_historical_failure_needs_original_followup",
+      "actual_saved_observation": "Esterification produces0.0066666667mol ester; later saponification refuses and ester remains with0.0166666667mol base equivalents.",
+      "next_owned_task": "After actual changed-release acceptance, freeze and issue each unchanged original once; independently close every vessel/step carbon/H/O/Na/charge and counterions. OR007 must exhaust ester with0.005mol net reserve; OR008 must show hydrolysis before acidification without unrequested ester regeneration; OR009 must track both explicit transformations and remaining base. Preserve old no-limiting-reactant first failures. No model or protocol repair is needed unless actual new evidence fails.",
+      "current_source_authority": "beff core bench.rs named saponification arm calls named_alkaline::saponify instead of literal NaOH matching; helper source hash bound in assessment.",
+      "original_script_sha256": "6a0478e5ed4f7b0e9a5397b9a03af1316c2fec43bacabc4fe15874d9815e5b3a",
+      "stdout_sha256": "1d9b895a9758da3ed6181e74d39cba1ab3e3b0edc39ca7c866e2e5808b99d442",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "OR-009-C1",
+          "criterion": "Compute carbon across acid/acetate, ethanol and ester before and after both transformations.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-009-C2",
+          "criterion": "Do not assign all added base to ester cleavage: neutralisation of residual acetic acid is a separate demand.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "new120:th-015",
+      "priority": 2,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "historical_missing_neutralisation_heat_current_path_changed",
+      "actual_saved_observation": "Pre-mix298.1500013447K/299.2139002929K; mixture298.6814748550K, approximately sensible baseline; no neutralisation heat event.",
+      "next_owned_task": "Audit current PHREEQC chemical-state enthalpy ownership through mix, including implicit free H/OH and solvent generation; independently integrate Cp no-reaction baseline and charge cancellation before any once-only original follow-up. Require actual excess heat beyond mixing; do not charge NaOH dissolution twice.",
+      "current_source_authority": "beff phreeqc enthalpy.rs documents single state-function basis and hydroxide55.81kJ/mol. Current runtime outcome not executed here.",
+      "original_script_sha256": "fa6a1a489c244a4af3ef9765e150234a6121a825d0850fc4a57d8c57f0370063",
+      "stdout_sha256": "8844edb1c39b0d1764ac46533d9a6ecf83fb132440595d844ce5bd286d3dde84",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "TH-015-C1",
+          "criterion": "Compare the mixed temperature with a heat-capacity-weighted no-reaction mixing baseline computed from the two pre-mix states.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TH-015-C2",
+          "criterion": "Do not charge the earlier acid/base dissolution heat again as neutralisation heat; verify proton/hydroxide consumption.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "new120:sp-003",
+      "priority": 3,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "historical_numerical_refusal_current_algorithm_changed",
+      "actual_saved_observation": "One-stage receiver populated; four-stage command emits still-condensate-precision and receiver3 is empty.",
+      "next_owned_task": "First source-compare actual current still positive-component integration/accumulation to historical implementation. If repaired, freeze unchanged original follow-up only after release acceptance. Require equal split-feed and cut, nonempty both receivers, staged enrichment, all residues/solvent/energy ownership. Never fewer stages or smaller cut substituted.",
+      "current_source_authority": "beff thermo vle.rs contains explicit positive-trace integration and UnrepresentableCondensate guards; this is not proof original succeeds.",
+      "original_script_sha256": "203a94f77d183e9be5adfd54dcb62a1024bd25979e94d036cba16e97c52df085",
+      "stdout_sha256": "54123256e498c021885b08e30a764bc2ebab3f5d116eaa11551a78b94e3d6af2",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "SP-003-C1",
+          "criterion": "Compare product compositions at equal cut fractions from the split feed.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "SP-003-C2",
+          "criterion": "No extra ethanol is created by increasing stage count; inventory closure includes both residues.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "new120:th-008",
+      "priority": 4,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "missing_hydrate_thermal_authority",
+      "actual_saved_observation": "Anhydrous arm299.902899548K; hydrate298.15K. Hydrate water enters and antlerite formation consumes some; no hydrate heat demonstrated.",
+      "next_owned_task": "Curate independently sourced hydrate dissociation/formation enthalpy and complete hydration-water stoichiometry with source/domain/temperature conventions; validate both hydrate and anhydrous matched dose controls, secondary antlerite, carrier water and thermal closure before original follow-up. Do not assign missing hydrate heat zero.",
+      "current_source_authority": "beff phreeqc enthalpy.rs DISSOCIATION includes CuSO4 but no chalcanthite; Solid branch refuses absent products. Registry absence versus actual missing step must be traced explicitly.",
+      "original_script_sha256": "10e03efbe28230a7332e7f8d62f0c1e22aa44c45de699bb434e2c629740d90ac",
+      "stdout_sha256": "15424cc8685200d5bbb164c4e9378b4376c546eec336ccd7427e0544ca5a1bf8",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "TH-008-C1",
+          "criterion": "The pentahydrate contributes five waters per formula unit to the material balance.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TH-008-C2",
+          "criterion": "Compare thermal changes against each initial-water baseline; the anhydrous salt is expected to warm more, subject to the declared enthalpy data.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "new120:th-009",
+      "priority": 4,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "historical_hydration_energy_authority_missing",
+      "actual_saved_observation": "CaO becomes dissolvedCa+2 and0.00796735mol solidCa(OH)2; temperature falls298.15\u2192297.831845254K.",
+      "next_owned_task": "Trace actual current CaO hydration versus Ca(OH)2 dissolution state-function authority. If absent, curate single reference-balanced CaO+water\u2192hydroxide enthalpy, retain dissolution contribution without double count. Require material/phase/thermal matched controls and original follow-up.",
+      "current_source_authority": "beff enthalpy DISSOCIATION has Ca(OH)2 but no CaO; cannot infer present total hydration path solely from that table.",
+      "original_script_sha256": "5c4083f34fb598efd55f74e22574dbee2bf655a3e14f0435eda68aa57e370403",
+      "stdout_sha256": "9e53e45260628b6c769e92a2d86187bccefbaf014d42d7acc6a8ed7a4145ad46",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "TH-009-C1",
+          "criterion": "Verify conversion of oxide into hydroxide/dissolved calcium species, not merely warming by an input-temperature difference.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TH-009-C2",
+          "criterion": "A thermal claim requires an implemented heat contribution; missing reaction enthalpy is not evidence of an endothermic reaction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "new120:th-010",
+      "priority": 5,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "historical_solver_failure_and_thermal_boundary",
+      "actual_saved_observation": "100J raises to394.0484K; carbonate0.00595188496mol and outwardCO2 same amount; retainedwater same. Solver then fails C/H/Na/ionic convergence on tiny self-generatedwater.",
+      "next_owned_task": "Audit current aqueous solvent/admission/convergence path and explicit reaction heat boundary. Preserve solver_failed evidence. A carbonate/export ledger alone is not an earned complete endpoint. Separate supported dry thermal transformation from unvalidated scant-water equilibrium; no hidden water additions.",
+      "current_source_authority": "Current phase/aqueous admission source differs from c446; actual current failure not established. Reaction enthalpy absence is explicitly original limitation, not a number to invent.",
+      "original_script_sha256": "c534f8b359b3801265494d3a4c91390487f966adf4038947b8a2051e59f97681",
+      "stdout_sha256": "519e6f54a3e76272dee35cf7b4d0815f576ec3832f7577cc41a061e7ffdc1aed",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "TH-010-C1",
+          "criterion": "Identify a carbonate product and account for carbon among retained solid and released CO2.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "TH-010-C2",
+          "criterion": "Mass loss depends on whether generated water also leaves; do not equate it automatically with CO2 alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "new120:sp-012",
+      "priority": 5,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "historical_missing_retention_support",
+      "actual_saved_observation": "Chromatogram only ethanol, retention68.2533s; ethyl_acetate andglucose remain0.001mol each but no peaks or outside_method entries.",
+      "next_owned_task": "Audit present supported partition coefficients and refusal/partial coverage. If retention data still missing, curate exact method parameters with source and positive/mixed unsupported controls; do not create guessed peak positions. Require unchanged pre/post inventory and alloriginal supported-peak criteria.",
+      "current_source_authority": "beff bench Chromatograph branch now separates outside, unparameterised and refused species. Improved refusal is not missing spectral/chromatographic support.",
+      "original_script_sha256": "3e410d636ad2a6b264a2db66f378935d9700aff474ef6bc6e338279974c45a8e",
+      "stdout_sha256": "da56364d0b9bb8bb2d34c259d8ac181c69c341d81196de6fabdba3a30ff8c9d3",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "SP-012-C1",
+          "criterion": "Require identified supported peaks and distinguish absent model parameters from absence of a compound.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "SP-012-C2",
+          "criterion": "Before/after inventories are unchanged by the analytical measurement; reported relative peak area is not automatically a calibrated mass fraction.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    },
+    {
+      "id": "new120:kn-013",
+      "priority": 6,
+      "verdict": "HOLD_NO_SCIENTIFIC_SELECTION",
+      "category": "original_protocol_does_not_exhaust_acid",
+      "actual_saved_observation": "After30sH+=0.000424036872382; after330sH+=0.000099508859236, not exhausted; replenishment then resumes fasterconversion.",
+      "next_owned_task": "Preserve unchanged original HOLD. Independently quantify finite-acid kinetics and actual reserve threshold versus original criterion before proposing any follow-up. A new separately designed sufficiently long clock could test depletion, but cannot replace or qualify this original. Do not speed the model to force exhaustion.",
+      "current_source_authority": "Historical saved controlled finite-acid source note; no present rate bug inferred.",
+      "original_script_sha256": "881d4418e4c0910f513e29104895329b8875f3f1e1746364111e2817879ce2e7",
+      "stdout_sha256": "fcbb087a82c77f028c9dad0fb231b4562e8c081cb4fb03229cbd029f08d42170",
+      "all_original_criteria_preserved_in": "ranked-originals.json (verbatim criteria in each case)",
+      "criteria": [
+        {
+          "id": "KN-013-C1",
+          "criterion": "Residual thiosulfate coexists with a depleted acid reserve before the second acid addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "KN-013-C2",
+          "criterion": "Further sulfur is generated after acid replenishment; account for SO2/bisulfite acidity rather than imposing an oversimplified fixed proton ceiling.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ]
+    }
+  ],
+  "no_pass_from_clean_exit_or_global_ledger": true,
+  "new_model_executions": 0
+}
