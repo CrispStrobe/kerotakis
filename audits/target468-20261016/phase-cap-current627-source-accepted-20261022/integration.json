@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-22T04:11:00.151379+00:00",
+  "pr": 857,
+  "candidate": "6273bb6e04293f521ed98f80661fd8b85d6464bf",
+  "merge": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "parents": [
+    "bc31b3498f5ffb5fa305f3ab86efed33297f45d2",
+    "6273bb6e04293f521ed98f80661fd8b85d6464bf"
+  ],
+  "actual_tree": "a22cda98c6dbc9aa5f4cb328b3739221c29ade3d",
+  "normal_merge_verified": true,
+  "no_admin_or_force_or_protection_bypass": true,
+  "actual_pr": {
+    "baseRefOid": "bc31b3498f5ffb5fa305f3ab86efed33297f45d2",
+    "headRefOid": "6273bb6e04293f521ed98f80661fd8b85d6464bf",
+    "mergeCommit": {
+      "oid": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4"
+    },
+    "mergedAt": "2026-10-22T04:10:34Z",
+    "state": "MERGED"
+  },
+  "source_acceptance_sha256": "4aa0d97a0ceb152a1a981a7b571e0b2e0215fdf1b5b5211afec06214173dbf24"
+}

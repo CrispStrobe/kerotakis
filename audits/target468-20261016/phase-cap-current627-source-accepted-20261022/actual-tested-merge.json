@@ -1,0 +1,10 @@
+{
+  "source": "6273bb6e04293f521ed98f80661fd8b85d6464bf",
+  "tested_merge": "5ef26b899a800538ff125e978a9d8a933aa8f135",
+  "parents": [
+    "bc31b3498f5ffb5fa305f3ab86efed33297f45d2",
+    "6273bb6e04293f521ed98f80661fd8b85d6464bf"
+  ],
+  "tree": "a22cda98c6dbc9aa5f4cb328b3739221c29ade3d",
+  "complete_tree_equals_candidate": true
+}

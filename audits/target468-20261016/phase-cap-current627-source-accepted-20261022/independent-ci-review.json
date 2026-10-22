@@ -1,0 +1,453 @@
+{
+  "state": "INDEPENDENT_CURRENT627_SAVED_CI_COMPONENT_REVIEW_NOT_MONOLITHIC_ROOT_OR_PRODUCT",
+  "source": "6273bb6e04293f521ed98f80661fd8b85d6464bf",
+  "tree": "a22cda98c6dbc9aa5f4cb328b3739221c29ade3d",
+  "tested_merge": "5ef26b899a800538ff125e978a9d8a933aa8f135",
+  "tested_merge_parents": [
+    "bc31b3498f5ffb5fa305f3ab86efed33297f45d2",
+    "6273bb6e04293f521ed98f80661fd8b85d6464bf"
+  ],
+  "ci_run": 39679152876,
+  "ci_metadata_sha256": {
+    "run": "e9c14a9ecf799827a65683f585aaca86e52aa2de457e5cbd1fb8e4b5f38133e2",
+    "jobs": "a7080ef04f76a80082ee5004dba5c5acc27f7ed9d6d8b771350af8e94f674a8e"
+  },
+  "exact28_jobs_27_success_only_Publish_skipped": true,
+  "all27_success_logs_independently_rehashed": {
+    "Classify complete change range": {
+      "job": 119498155019,
+      "sha256": "e22a125852ae6255c1385df425af00851720fa9c1e2abb640648c9006b7bcf16",
+      "bytes": 28256
+    },
+    "IPhreeqc wasm gate": {
+      "job": 119499908988,
+      "sha256": "26253b9e668654df53b395ec579bc6e9bfca7da5ebba0c8a0f4da7a454adfcdc",
+      "bytes": 47267
+    },
+    "feos adapter (aarch64-apple-ios)": {
+      "job": 119499909453,
+      "sha256": "7086eb412a18b1b33b5c5272e2b24d91557990616b63e79f9b9102efaff1a098",
+      "bytes": 38280
+    },
+    "MY-BASIC preview (ubuntu-latest)": {
+      "job": 119499908981,
+      "sha256": "d8f0be79c678319c8a30df5c1eac6e1c21e93e837c3eb156fd5f388e43e531a2",
+      "bytes": 46271
+    },
+    "Legacy BASIC oracle (development only)": {
+      "job": 119499908696,
+      "sha256": "7f5481a93d942bde7920868977ab8748fe65c916db640c2c06136c5f5f3cd275",
+      "bytes": 45933
+    },
+    "The bench in WebAssembly": {
+      "job": 119499909142,
+      "sha256": "7d2a35740d7ca56c7bd27e4b89e78ad086460b8596dc25fd80fab59242c09ce5",
+      "bytes": 93138
+    },
+    "The demo page, in a real browser": {
+      "job": 119499908923,
+      "sha256": "b665f48053e528822bd79d28aeb2058b9203fe66842b3a0baccd8214599c73bc",
+      "bytes": 171897
+    },
+    "The two wasm halves, together": {
+      "job": 119499909050,
+      "sha256": "9e70ad3874a382e2003d5cfe35106b9ea721e0ea206d78ec4799af5f55401b38",
+      "bytes": 88775
+    },
+    "Presentation authority adapters": {
+      "job": 119499909029,
+      "sha256": "ec30d4854a354a84003849a9fab3d9ced57e2ad8b901913f511b8b0d20b824a1",
+      "bytes": 65153
+    },
+    "BRD-080 viewer decision spike": {
+      "job": 119499908886,
+      "sha256": "31d2f6c34ee799ec681928316f02cbb962570be8abe6688e5acc1cfeda6443f2",
+      "bytes": 32692
+    },
+    "Full preflight gate": {
+      "job": 119508232708,
+      "sha256": "9fac5cf6b45eaad47946e1855956e3a8eb8977fae98ef57b7be49986d072aaee",
+      "bytes": 2849
+    },
+    "feos adapter (aarch64-apple-darwin)": {
+      "job": 119499909011,
+      "sha256": "0ed5cf88000055f5d9098858315a3421d4795d70aed83bce5b38f5ab1d66deb0",
+      "bytes": 35721
+    },
+    "feos adapter (x86_64-pc-windows-msvc)": {
+      "job": 119499909227,
+      "sha256": "759c96f752fa9221206f622f5b16f4c8e3086de05c3691186affbe6f5be3e80a",
+      "bytes": 36556
+    },
+    "Test (native) (macos-latest)": {
+      "job": 119499908955,
+      "sha256": "f052fffee2f4681daf72c4884e4806afe3d67095fab651e118de26e64a7812cc",
+      "bytes": 617368
+    },
+    "Core and data schemas compile to wasm32": {
+      "job": 119499908863,
+      "sha256": "bc309927890ea22077712522adeb2fafb6c311412d82a1845891cf1122460ed3",
+      "bytes": 50724
+    },
+    "Theme contrast tokens": {
+      "job": 119499908875,
+      "sha256": "8acd125de8064d071ff2ea9f98b53bc24502795d79598d43f93de7b7d8867500",
+      "bytes": 15666
+    },
+    "The native host still compiles": {
+      "job": 119499909338,
+      "sha256": "d755ca028b21d2713c87c814cbf0d272bd6c8834fa64994af1accb9a2a20603d",
+      "bytes": 50701
+    },
+    "Current registry source export": {
+      "job": 119499909349,
+      "sha256": "9bd37b49ae7408a8647d18878cddca757888c5a136bce4b9cd14e0a323fe1ada",
+      "bytes": 54207
+    },
+    "feos adapter (aarch64-linux-android)": {
+      "job": 119499909287,
+      "sha256": "ad18e601f918e5b36b981f89b31a777ecfb2e67644a9b0c4b81b1ddf657254d2",
+      "bytes": 35532
+    },
+    "MY-BASIC preview (macos-latest)": {
+      "job": 119499908873,
+      "sha256": "071a7595950b7467fef8a3f084297f83ea5928f2df9457b35a82e2a7d12749f5",
+      "bytes": 46284
+    },
+    "Full preflight execution": {
+      "job": 119499908993,
+      "sha256": "428ca43fc2e9fb7b8ffcd8290d6994b5098bad111461bfbe61408cc31beccfdd",
+      "bytes": 766893
+    },
+    "feos adapter (wasm32-unknown-unknown)": {
+      "job": 119499909118,
+      "sha256": "85df83d3541bf7587afa8e402532f95d8a16c2b3568954549924f86feb3c6bd3",
+      "bytes": 38504
+    },
+    "IPhreeqc under MSVC": {
+      "job": 119499908945,
+      "sha256": "d7b95da2455409b00eaee0d5db1ed089559a4a5751c0cdd73fdac46574a7b951",
+      "bytes": 66487
+    },
+    "Shell payload (ubuntu-22.04)": {
+      "job": 119499909084,
+      "sha256": "b38cb453099f88d46a53f6f3d40225140aa592ce9b3bcc0f65ddb893a1d2fd9e",
+      "bytes": 29014
+    },
+    "GPU release tools (deterministic)": {
+      "job": 119499908860,
+      "sha256": "d67771794c21677a37c9776a05c48d8f1692781fb3f2a0df92d026dd077fa609",
+      "bytes": 27769
+    },
+    "Test (native) (ubuntu-latest)": {
+      "job": 119499908869,
+      "sha256": "fb8c53899bd0e76bae4ac628f638393198c5ebcd1b68a5360fcaf52aeb423f96",
+      "bytes": 613973
+    },
+    "Shell payload (windows-latest)": {
+      "job": 119499909148,
+      "sha256": "cd31090b2647f90fdf063555ec8877d483fb687c2ac80f6c7f94ad9ed681f8fd",
+      "bytes": 28756
+    }
+  },
+  "native_platforms": {
+    "Test (native) (ubuntu-latest)": {
+      "job": 119499908869,
+      "raw_sha256": "fb8c53899bd0e76bae4ac628f638393198c5ebcd1b68a5360fcaf52aeb423f96",
+      "bytes": 613973,
+      "combined_native": 627,
+      "package_counts": {
+        "kerotakis_core": {
+          "passed": 2228,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "binaries": 205
+        },
+        "kerotakis_phreeqc": {
+          "passed": 547,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "binaries": 101
+        },
+        "kerotakis_cea": {
+          "passed": 80,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "binaries": 14
+        },
+        "kerotakis_thermo": {
+          "passed": 184,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "binaries": 21
+        }
+      },
+      "all120_exact_names_once_ok": true,
+      "all5_current_partial_freezing_names_once_ok": true,
+      "curiosity500_unmet0": true,
+      "rustc": "1.99.1 (58cf8f9c3 2026-10-13)",
+      "actual_tested_merge": "5ef26b899a800538ff125e978a9d8a933aa8f135",
+      "test_executable_bytes_not_archived": true
+    },
+    "Test (native) (macos-latest)": {
+      "job": 119499908955,
+      "raw_sha256": "f052fffee2f4681daf72c4884e4806afe3d67095fab651e118de26e64a7812cc",
+      "bytes": 617368,
+      "combined_native": 627,
+      "package_counts": {
+        "kerotakis_core": {
+          "passed": 2228,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "binaries": 205
+        },
+        "kerotakis_phreeqc": {
+          "passed": 547,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "binaries": 101
+        },
+        "kerotakis_cea": {
+          "passed": 80,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "binaries": 14
+        },
+        "kerotakis_thermo": {
+          "passed": 184,
+          "failed": 0,
+          "ignored": 0,
+          "measured": 0,
+          "filtered": 0,
+          "binaries": 21
+        }
+      },
+      "all120_exact_names_once_ok": true,
+      "all5_current_partial_freezing_names_once_ok": true,
+      "curiosity500_unmet0": true,
+      "rustc": "1.99.1 (58cf8f9c3 2026-10-13)",
+      "actual_tested_merge": "5ef26b899a800538ff125e978a9d8a933aa8f135",
+      "test_executable_bytes_not_archived": true
+    }
+  },
+  "cache18": {
+    "job": 119499909142,
+    "raw_sha256": "7d2a35740d7ca56c7bd27e4b89e78ad086460b8596dc25fd80fab59242c09ce5",
+    "actual18_names": [
+      "solver_contract_tests::combined_invalid_outward_gas_event_is_rejected_like_native_stack",
+      "solver_contract_tests::combined_invalid_finite_temperature_rolls_back_like_native_stack",
+      "solver_contract_tests::combined_mutating_error_rolls_back_before_later_route_like_native_stack",
+      "solver_contract_tests::combined_refuses_ambiguous_real_aqueous_authorities",
+      "solver_contract_tests::combined_installed_routes_preserve_required_material_conservation_policy",
+      "solver_contract_tests::combined_successful_outward_gas_is_booked_before_later_route_like_native_stack",
+      "solver_contract_tests::real_lab_successful_pressure_reading_retains_direct_model_route",
+      "solver_contract_tests::combined_real_analytic_adapter_characterizes_current_water_like_concrete_adapter",
+      "solver_contract_tests::untrusted_wrapper_cannot_get_receipt_from_existing_solution",
+      "worker::tests::cancel_command_serializes",
+      "worker::tests::core_packs_has_required",
+      "worker::tests::offline_verify_rejects_missing_required",
+      "worker::tests::parse_command_serializes",
+      "worker::tests::worker_command_serializes",
+      "worker::tests::worker_response_serializes",
+      "solver_contract_tests::real_lab_unmatched_wait_keeps_clock_and_inventory_without_fischer_gate",
+      "solver_contract_tests::real_lab_fischer_warm_wait_forwards_real_missing_catalyst_gate",
+      "solver_contract_tests::real_lab_fischer_wait_forwards_two_actual_cold_temperature_gates"
+    ],
+    "actual18_all_pass": true,
+    "standalone_package_default_graph_no_workspace_engine_unification": true,
+    "phreeqc_default_features_disabled_in_source_manifest": true,
+    "wasm_Cargo_source_sha256": "7f70d594546b89aadd8aa2bcaa64f4be4387af282aabef677706a05d0585ad75"
+  },
+  "SSR37_fullsuite_source_inference": {
+    "job": 119499909029,
+    "raw_sha256": "ec30d4854a354a84003849a9fab3d9ced57e2ad8b901913f511b8b0d20b824a1",
+    "actual_suite_test_files": 125,
+    "actual_suite_tests": 1704,
+    "actual_Node": "v22.23.3",
+    "all_tracked_default_test_candidates": [
+      "web/app/src/lib/aboutNotice.test.ts",
+      "web/app/src/lib/adsorptionReadouts.test.ts",
+      "web/app/src/lib/amounts.test.ts",
+      "web/app/src/lib/appSave.test.ts",
+      "web/app/src/lib/appSaveRepository.test.ts",
+      "web/app/src/lib/appSaveStorage.test.ts",
+      "web/app/src/lib/apparatus.test.ts",
+      "web/app/src/lib/apparatusAssembly.test.ts",
+      "web/app/src/lib/apparatusInstallation.test.ts",
+      "web/app/src/lib/apparatusRun.test.ts",
+      "web/app/src/lib/apparatusTarget.test.ts",
+      "web/app/src/lib/balancing.test.ts",
+      "web/app/src/lib/benchEquation.test.ts",
+      "web/app/src/lib/benchFooting.test.ts",
+      "web/app/src/lib/benchLayout.test.ts",
+      "web/app/src/lib/browserGpuEnvironment.test.ts",
+      "web/app/src/lib/capabilities.i18n.test.ts",
+      "web/app/src/lib/capabilities.test.ts",
+      "web/app/src/lib/capabilityFacets.test.ts",
+      "web/app/src/lib/catalogEntry.test.ts",
+      "web/app/src/lib/catalogProgress.test.ts",
+      "web/app/src/lib/catalogRunner.test.ts",
+      "web/app/src/lib/catalogScope.test.ts",
+      "web/app/src/lib/catalogSearch.test.ts",
+      "web/app/src/lib/catalogWindow.test.ts",
+      "web/app/src/lib/chart.test.ts",
+      "web/app/src/lib/codex.test.ts",
+      "web/app/src/lib/codexProse.test.ts",
+      "web/app/src/lib/codexTerms.test.ts",
+      "web/app/src/lib/comparisonResults.test.ts",
+      "web/app/src/lib/completions.test.ts",
+      "web/app/src/lib/components/BenchGpuOwner.test.ts",
+      "web/app/src/lib/components/CommandBar.test.ts",
+      "web/app/src/lib/components/CompleteIonicLine.test.ts",
+      "web/app/src/lib/components/Feed.test.ts",
+      "web/app/src/lib/components/IgnitionFlameCanvas.test.ts",
+      "web/app/src/lib/components/JournalHeader.test.ts",
+      "web/app/src/lib/components/LatestResultCard.test.ts",
+      "web/app/src/lib/components/PeriodicTable.test.ts",
+      "web/app/src/lib/components/Shelf.test.ts",
+      "web/app/src/lib/components/ToolIcon.test.ts",
+      "web/app/src/lib/components/UtilityStation.test.ts",
+      "web/app/src/lib/components/VesselActionDock.test.ts",
+      "web/app/src/lib/components/VesselComputedMotion.test.ts",
+      "web/app/src/lib/components/VesselGlassOptics.test.ts",
+      "web/app/src/lib/components/VesselGpuEndpoint.test.ts",
+      "web/app/src/lib/components/VesselInstrumentReadout.test.ts",
+      "web/app/src/lib/components/VesselMaterialObservations.test.ts",
+      "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+      "web/app/src/lib/components/VesselOpticalSpeciesLabels.test.ts",
+      "web/app/src/lib/components/VesselSpectralGap.test.ts",
+      "web/app/src/lib/conceptLinks.test.ts",
+      "web/app/src/lib/corrosionReadouts.test.ts",
+      "web/app/src/lib/directActions.test.ts",
+      "web/app/src/lib/discoveryRouting.test.ts",
+      "web/app/src/lib/effectVisibility.test.ts",
+      "web/app/src/lib/effectWindows.test.ts",
+      "web/app/src/lib/elements.test.ts",
+      "web/app/src/lib/engineText.test.ts",
+      "web/app/src/lib/equipmentCatalogue.test.ts",
+      "web/app/src/lib/expectationLabel.test.ts",
+      "web/app/src/lib/fluid.test.ts",
+      "web/app/src/lib/fluidScene.test.ts",
+      "web/app/src/lib/glassMask.test.ts",
+      "web/app/src/lib/glassware.test.ts",
+      "web/app/src/lib/host/EngineHost.test.ts",
+      "web/app/src/lib/i18n.test.ts",
+      "web/app/src/lib/ignitionBenchApproval.test.ts",
+      "web/app/src/lib/ignitionFlameShader.test.ts",
+      "web/app/src/lib/ignitionFlameUniforms.test.ts",
+      "web/app/src/lib/ignitionPresentation.test.ts",
+      "web/app/src/lib/incidents.test.ts",
+      "web/app/src/lib/instrumentRecents.test.ts",
+      "web/app/src/lib/instruments.test.ts",
+      "web/app/src/lib/ionic.test.ts",
+      "web/app/src/lib/journalFeed.test.ts",
+      "web/app/src/lib/kidsCatalog.test.ts",
+      "web/app/src/lib/kidsEquipment.test.ts",
+      "web/app/src/lib/kidsSandbox.test.ts",
+      "web/app/src/lib/learnerWording.test.ts",
+      "web/app/src/lib/learningAccessibilityIntegration.test.ts",
+      "web/app/src/lib/lesson.test.ts",
+      "web/app/src/lib/lessonBenchGate.test.ts",
+      "web/app/src/lib/lessonProse.test.ts",
+      "web/app/src/lib/lessonProseParity.test.ts",
+      "web/app/src/lib/localeBundles.test.ts",
+      "web/app/src/lib/localizedContract.test.ts",
+      "web/app/src/lib/magnitudes.test.ts",
+      "web/app/src/lib/missionJournal.test.ts",
+      "web/app/src/lib/modeIsolation.test.ts",
+      "web/app/src/lib/modeSessionConformance.test.ts",
+      "web/app/src/lib/notebook.test.ts",
+      "web/app/src/lib/outcomeMission.test.ts",
+      "web/app/src/lib/overflowMenu.test.ts",
+      "web/app/src/lib/overlayStacking.test.ts",
+      "web/app/src/lib/particleCensus.test.ts",
+      "web/app/src/lib/partitionReadouts.test.ts",
+      "web/app/src/lib/persistentReadouts.test.ts",
+      "web/app/src/lib/pour.test.ts",
+      "web/app/src/lib/provenance.test.ts",
+      "web/app/src/lib/reagentRoles.test.ts",
+      "web/app/src/lib/registerText.test.ts",
+      "web/app/src/lib/relationArgs.test.ts",
+      "web/app/src/lib/replay.test.ts",
+      "web/app/src/lib/resultCardImage.test.ts",
+      "web/app/src/lib/resultSummary.test.ts",
+      "web/app/src/lib/rigidIntent.test.ts",
+      "web/app/src/lib/runningCaption.test.ts",
+      "web/app/src/lib/searchLocalized.test.ts",
+      "web/app/src/lib/session.test.ts",
+      "web/app/src/lib/shelfStock.test.ts",
+      "web/app/src/lib/stepAmount.test.ts",
+      "web/app/src/lib/stepProse.test.ts",
+      "web/app/src/lib/storyChapter.test.ts",
+      "web/app/src/lib/storyProgress.test.ts",
+      "web/app/src/lib/storyStock.test.ts",
+      "web/app/src/lib/titration.test.ts",
+      "web/app/src/lib/verticalSlice.test.ts",
+      "web/app/src/lib/visualBackend.test.ts",
+      "web/app/src/lib/webGpuLifecycle.test.ts",
+      "web/app/src/lib/webGpuMetrics.test.ts",
+      "web/app/src/lib/webGpuMetricsRegistry.test.ts",
+      "web/app/src/lib/webGpuRenderer.test.ts",
+      "web/app/src/lib/worldSaveIntegration.test.ts",
+      "web/app/src/lib/worldState.test.ts"
+    ],
+    "vite_config_sha256": "bfddd3531652c1d8a1fa6ec1773741e67618c500d9b99a8e2d648336bcb2a4e8",
+    "no_test_include_exclude_override_in_config": true,
+    "required37_sources": [
+      {
+        "path": "web/app/src/lib/components/VesselSpectralGap.test.ts",
+        "sha256": "fdc68221c8e9e58b5d706f906933c6b85cf32492832e3f648f2bfa1840fca655",
+        "frozen_declared_test_count": 14,
+        "byte_identical_to_previous_accepted37_source": true,
+        "tracked_default_discovery_member": true
+      },
+      {
+        "path": "web/app/src/lib/components/VesselOpticalPhGap.test.ts",
+        "sha256": "3edac37a7a9117ea26a7b0a2f2fea423b844ed7881c256ad4a481a191a27fd45",
+        "frozen_declared_test_count": 7,
+        "byte_identical_to_previous_accepted37_source": true,
+        "tracked_default_discovery_member": true
+      },
+      {
+        "path": "web/app/src/lib/components/VesselOpticalSpeciesLabels.test.ts",
+        "sha256": "d892582875dee4b3adf6a24fabf14f9cd8e8eede872d908665a632fb6ef31aed",
+        "frozen_declared_test_count": 16,
+        "byte_identical_to_previous_accepted37_source": true,
+        "tracked_default_discovery_member": true
+      }
+    ],
+    "qualified_inference": "All125 tracked default-discovery files passed; frozen3 sources14+7+16 unchanged with no skip/todo/only; current37 coverage inferred from source universe plus full-suite file/test totals, not fabricated per-title JSON or per-file reporter rows."
+  },
+  "Svelte_actual_errors": 0,
+  "Svelte_actual_warnings": 2,
+  "preflight_utf139_zero_surface0_and_clean_actual": true,
+  "classifier11_actual_OK": true,
+  "no_test_executable_archives_available_or_claimed": true,
+  "actual_test_Cargo_locks_not_archived": "No native CI test Cargo.lock artifact; preserve separately from actual chemistry CLI41bb and focused668.",
+  "unmapped_scientific_obligations_in_reviewed_CI_scope": [],
+  "remaining_source_acceptance_components": [
+    "Current627 chemistry33 logical jobs/all142 actual runsteps/29 law raw saved-analysis closure and CLI binding are parent/other-agent scope; not assigned by this CI review.",
+    "Source282 hook2 and38focus remain under genuine source identities; any use for627 requires exact selected-source/config equivalence proof, not relabeling.",
+    "No monolithic ROOT, actual CI test executable rehash, merged production or empirical calibration is claimed."
+  ],
+  "parser_first_stops_preserved": [
+    "first-analysis-stop (analysis TypeError, fixed source parser only)",
+    "first-group-parser-stop (doctest names contain spaces; strict row grammar fixed without weakening required120 identity helper)"
+  ],
+  "scientific_selections": 0,
+  "product_acceptance_claimed": false
+}

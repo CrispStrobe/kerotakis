@@ -1,0 +1,34 @@
+{
+  "parent-both-platforms.json": {
+    "sha256": "e9225b7e1d764f4f695ad79118ab544ab0a68d16a0560a31d174591e2ec75869",
+    "bytes": 69096
+  },
+  "independent-fleet-review.json": {
+    "sha256": "36cd81fc9f7009cfc32d7c8c0665b5207727055e2f5a53d7fca5758fcbf970e5",
+    "bytes": 24497
+  },
+  "integration.json": {
+    "sha256": "c73d092a38f70c9e4422aa7326f59aac6ee2f1e169bed5f0c0c76a31958ada48",
+    "bytes": 824
+  },
+  "independent-composition-review.json": {
+    "sha256": "96e734b58d289dc68f8a8533965801defe978f598c1e38a9be7fd96078d591e6",
+    "bytes": 2181
+  },
+  "actual-tested-merge.json": {
+    "sha256": "2ec5bd127ce87732a5cbf44b471fff78893d914454f18dc1d9cfc3cb2d8675bb",
+    "bytes": 332
+  },
+  "independent-ci-review.json": {
+    "sha256": "fac47d18fb222f16fc093911534199c79889222a939550865fddf2dab0a46e89",
+    "bytes": 19269
+  },
+  "README.md": {
+    "sha256": "844c056196a178d8daa58ff25d3868235ac1b7a1a53815075fe47746b5b673c2",
+    "bytes": 2374
+  },
+  "source-acceptance.json": {
+    "sha256": "e59a86aba685ae65a3878228ac4ff33a21e24b0e323c2ae26c8c7bbe12342a07",
+    "bytes": 9613
+  }
+}

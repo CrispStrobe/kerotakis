@@ -1,0 +1,39 @@
+{
+  "state": "INDEPENDENT_COMPOSED_SOURCE_ACCEPTANCE_REVIEW_PASS",
+  "source": "6273bb6e04293f521ed98f80661fd8b85d6464bf",
+  "source_acceptance_sha256": "4aa0d97a0ceb152a1a981a7b571e0b2e0215fdf1b5b5211afec06214173dbf24",
+  "composition_program_sha256": "ffde7faa961939ae57dbee2e886cddc2611943958e1bd4c0ab45d6bd3d0f75af",
+  "authenticated_component_receipts": {
+    "independent_ci": "fac47d18fb222f16fc093911534199c79889222a939550865fddf2dab0a46e89",
+    "independent_fleet": "36cd81fc9f7009cfc32d7c8c0665b5207727055e2f5a53d7fca5758fcbf970e5",
+    "parent_both120": "e9225b7e1d764f4f695ad79118ab544ab0a68d16a0560a31d174591e2ec75869",
+    "actual_tested_merge": "2ec5bd127ce87732a5cbf44b471fff78893d914454f18dc1d9cfc3cb2d8675bb",
+    "retained_focus38": "261ff459dbe0b182d982d52eff436630baa2fcaacee0b4a12dedda167542a85f",
+    "retained_noengine2": "c64cfae2198c46f8ae45db0ae8c42fc0f29ea03e1161c0c4f43a0733b610918a",
+    "collector": "009c6d0a1a26a70d5ac1c1036a0eb7dd1fdfe859e72a580b8f82b528ce931b0b"
+  },
+  "all27_current_CI_raw_logs_rehashed": true,
+  "both_platform_native_package_counts_independently_reparsed": true,
+  "current33_fleet_review": true,
+  "retained_configuration_proofs_not_relabelled": {
+    "executed_source": "28277d415b68fedda2f2efccf702811fe160fee9",
+    "focus38": 38,
+    "featureless_hooks": 2,
+    "whole_tree_delta": [
+      "crates/kerotakis-phreeqc/tests/partial_freezing.rs",
+      "docs/STATUS.md",
+      "docs/improvement-agenda-20261014.md",
+      "docs/next-agent-handoff.md",
+      "docs/phase-energy-cap-refusal-lane-20261020.md"
+    ]
+  },
+  "limits": [
+    "SSR37 inclusion is explicitly source/default-discovery plus complete125-file suite inference, not per-title retained JSON.",
+    "Current native test executable/lock archives unavailable; actual named CI raw logs are execution authority, not invented binary hashes.",
+    "Old focused/generated668 and current chemistry41bb locks remain distinct identities.",
+    "Normal merge and changed-release API11/browser82 are future gates, not satisfied by this source receipt."
+  ],
+  "source_obligation_blockers": [],
+  "no_product_or_engine_execution": true,
+  "no_source_mutation": true
+}

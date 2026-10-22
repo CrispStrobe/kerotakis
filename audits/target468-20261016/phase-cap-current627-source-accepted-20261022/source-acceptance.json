@@ -1,0 +1,269 @@
+{
+  "state": "CI_COMPOSED_SOURCE_ACCEPTED",
+  "utc": "2026-10-22T04:09:31.455971+00:00",
+  "source": "6273bb6e04293f521ed98f80661fd8b85d6464bf",
+  "tree": "a22cda98c6dbc9aa5f4cb328b3739221c29ade3d",
+  "tested_merge": "5ef26b899a800538ff125e978a9d8a933aa8f135",
+  "tested_parents": [
+    "bc31b3498f5ffb5fa305f3ab86efed33297f45d2",
+    "6273bb6e04293f521ed98f80661fd8b85d6464bf"
+  ],
+  "all_scientific_obligations_satisfied": true,
+  "unmapped_scientific_obligations": [],
+  "ci_run": 39679152876,
+  "chemistry_run": 39679152681,
+  "native_per_platform": {
+    "core": 2228,
+    "phreeqc": 547,
+    "cea": 80,
+    "combined_phreeqc_cea": 627,
+    "thermo": 184,
+    "required_exact_controls": 120,
+    "corrected_partial_freezing": 5
+  },
+  "fleet": {
+    "jobs": 33,
+    "original_steps": 142,
+    "law_reports": 29,
+    "cases": 702,
+    "passed_checks": 991,
+    "actual_saved_parent_reviews": 2,
+    "independent_review": true
+  },
+  "other_controls": {
+    "cache_only_host": 18,
+    "classifier": 11,
+    "utf8_files": 139,
+    "curiosity_requirements": 500,
+    "curiosity_unmet": 0,
+    "frontend_files": 125,
+    "frontend_tests": 1704,
+    "SSR_required": 37,
+    "SSR_evidence": "unchanged3 source files14/7/16, complete125-file default-discovery suite; inference, no per-title JSON",
+    "svelte_errors": 0,
+    "svelte_warnings": 2
+  },
+  "actual_toolchains": {
+    "CI_Rust": "1.99.1 (58cf8f9c3 2026-10-13)",
+    "frontend_Node": "v22.23.3"
+  },
+  "actual_chemistry_cli_sha256": "ffa41cc83996bdf7339716a362e0809edec2c52a3cee7ece46b0e546e7a09728",
+  "actual_chemistry_cli_generated_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "retained_configuration_proofs": {
+    "executed_source": "28277d415b68fedda2f2efccf702811fe160fee9",
+    "focus38_sha256": "261ff459dbe0b182d982d52eff436630baa2fcaacee0b4a12dedda167542a85f",
+    "no_engine2_sha256": "c64cfae2198c46f8ae45db0ae8c42fc0f29ea03e1161c0c4f43a0733b610918a",
+    "current_source_selected_closure_equivalent": true,
+    "entire_tree_differences": [
+      "crates/kerotakis-phreeqc/tests/partial_freezing.rs",
+      "docs/STATUS.md",
+      "docs/improvement-agenda-20261014.md",
+      "docs/next-agent-handoff.md",
+      "docs/phase-energy-cap-refusal-lane-20261020.md"
+    ],
+    "scope": "selected runtime/manifests/fixtures/configuration unchanged; these remain source282 executions, not current627 reruns"
+  },
+  "all_test_executable_archives_available": false,
+  "CI_native_test_executable_and_generated_lock_archives_available": false,
+  "provenance_limit": "Current named CI tests are authenticated log execution evidence. Archived chemistryCLI and focused/no-engine binaries have their own real hashes/locks and are not assigned to other tests. Producer-specific monolithic archive schema is not synthesized.",
+  "raw_ci_logs": [
+    {
+      "name": "Classify complete change range",
+      "job": 119498155019,
+      "sha256": "e22a125852ae6255c1385df425af00851720fa9c1e2abb640648c9006b7bcf16",
+      "bytes": 28256
+    },
+    {
+      "name": "IPhreeqc wasm gate",
+      "job": 119499908988,
+      "sha256": "26253b9e668654df53b395ec579bc6e9bfca7da5ebba0c8a0f4da7a454adfcdc",
+      "bytes": 47267
+    },
+    {
+      "name": "feos adapter (aarch64-apple-ios)",
+      "job": 119499909453,
+      "sha256": "7086eb412a18b1b33b5c5272e2b24d91557990616b63e79f9b9102efaff1a098",
+      "bytes": 38280
+    },
+    {
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "job": 119499908981,
+      "sha256": "d8f0be79c678319c8a30df5c1eac6e1c21e93e837c3eb156fd5f388e43e531a2",
+      "bytes": 46271
+    },
+    {
+      "name": "Legacy BASIC oracle (development only)",
+      "job": 119499908696,
+      "sha256": "7f5481a93d942bde7920868977ab8748fe65c916db640c2c06136c5f5f3cd275",
+      "bytes": 45933
+    },
+    {
+      "name": "The bench in WebAssembly",
+      "job": 119499909142,
+      "sha256": "7d2a35740d7ca56c7bd27e4b89e78ad086460b8596dc25fd80fab59242c09ce5",
+      "bytes": 93138
+    },
+    {
+      "name": "The demo page, in a real browser",
+      "job": 119499908923,
+      "sha256": "b665f48053e528822bd79d28aeb2058b9203fe66842b3a0baccd8214599c73bc",
+      "bytes": 171897
+    },
+    {
+      "name": "The two wasm halves, together",
+      "job": 119499909050,
+      "sha256": "9e70ad3874a382e2003d5cfe35106b9ea721e0ea206d78ec4799af5f55401b38",
+      "bytes": 88775
+    },
+    {
+      "name": "Presentation authority adapters",
+      "job": 119499909029,
+      "sha256": "ec30d4854a354a84003849a9fab3d9ced57e2ad8b901913f511b8b0d20b824a1",
+      "bytes": 65153
+    },
+    {
+      "name": "BRD-080 viewer decision spike",
+      "job": 119499908886,
+      "sha256": "31d2f6c34ee799ec681928316f02cbb962570be8abe6688e5acc1cfeda6443f2",
+      "bytes": 32692
+    },
+    {
+      "name": "Full preflight gate",
+      "job": 119508232708,
+      "sha256": "9fac5cf6b45eaad47946e1855956e3a8eb8977fae98ef57b7be49986d072aaee",
+      "bytes": 2849
+    },
+    {
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "job": 119499909011,
+      "sha256": "0ed5cf88000055f5d9098858315a3421d4795d70aed83bce5b38f5ab1d66deb0",
+      "bytes": 35721
+    },
+    {
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "job": 119499909227,
+      "sha256": "759c96f752fa9221206f622f5b16f4c8e3086de05c3691186affbe6f5be3e80a",
+      "bytes": 36556
+    },
+    {
+      "name": "Test (native) (macos-latest)",
+      "job": 119499908955,
+      "sha256": "f052fffee2f4681daf72c4884e4806afe3d67095fab651e118de26e64a7812cc",
+      "bytes": 617368
+    },
+    {
+      "name": "Core and data schemas compile to wasm32",
+      "job": 119499908863,
+      "sha256": "bc309927890ea22077712522adeb2fafb6c311412d82a1845891cf1122460ed3",
+      "bytes": 50724
+    },
+    {
+      "name": "Theme contrast tokens",
+      "job": 119499908875,
+      "sha256": "8acd125de8064d071ff2ea9f98b53bc24502795d79598d43f93de7b7d8867500",
+      "bytes": 15666
+    },
+    {
+      "name": "The native host still compiles",
+      "job": 119499909338,
+      "sha256": "d755ca028b21d2713c87c814cbf0d272bd6c8834fa64994af1accb9a2a20603d",
+      "bytes": 50701
+    },
+    {
+      "name": "Current registry source export",
+      "job": 119499909349,
+      "sha256": "9bd37b49ae7408a8647d18878cddca757888c5a136bce4b9cd14e0a323fe1ada",
+      "bytes": 54207
+    },
+    {
+      "name": "feos adapter (aarch64-linux-android)",
+      "job": 119499909287,
+      "sha256": "ad18e601f918e5b36b981f89b31a777ecfb2e67644a9b0c4b81b1ddf657254d2",
+      "bytes": 35532
+    },
+    {
+      "name": "MY-BASIC preview (macos-latest)",
+      "job": 119499908873,
+      "sha256": "071a7595950b7467fef8a3f084297f83ea5928f2df9457b35a82e2a7d12749f5",
+      "bytes": 46284
+    },
+    {
+      "name": "Full preflight execution",
+      "job": 119499908993,
+      "sha256": "428ca43fc2e9fb7b8ffcd8290d6994b5098bad111461bfbe61408cc31beccfdd",
+      "bytes": 766893
+    },
+    {
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "job": 119499909118,
+      "sha256": "85df83d3541bf7587afa8e402532f95d8a16c2b3568954549924f86feb3c6bd3",
+      "bytes": 38504
+    },
+    {
+      "name": "IPhreeqc under MSVC",
+      "job": 119499908945,
+      "sha256": "d7b95da2455409b00eaee0d5db1ed089559a4a5751c0cdd73fdac46574a7b951",
+      "bytes": 66487
+    },
+    {
+      "name": "Shell payload (ubuntu-22.04)",
+      "job": 119499909084,
+      "sha256": "b38cb453099f88d46a53f6f3d40225140aa592ce9b3bcc0f65ddb893a1d2fd9e",
+      "bytes": 29014
+    },
+    {
+      "name": "GPU release tools (deterministic)",
+      "job": 119499908860,
+      "sha256": "d67771794c21677a37c9776a05c48d8f1692781fb3f2a0df92d026dd077fa609",
+      "bytes": 27769
+    },
+    {
+      "name": "Test (native) (ubuntu-latest)",
+      "job": 119499908869,
+      "sha256": "fb8c53899bd0e76bae4ac628f638393198c5ebcd1b68a5360fcaf52aeb423f96",
+      "bytes": 613973
+    },
+    {
+      "name": "Shell payload (windows-latest)",
+      "job": 119499909148,
+      "sha256": "cd31090b2647f90fdf063555ec8877d483fb687c2ac80f6c7f94ad9ed681f8fd",
+      "bytes": 28756
+    }
+  ],
+  "evidence": {
+    "independent_ci": {
+      "sha256": "fac47d18fb222f16fc093911534199c79889222a939550865fddf2dab0a46e89",
+      "repository_evidence": "independent-ci-review.json"
+    },
+    "independent_fleet": {
+      "sha256": "36cd81fc9f7009cfc32d7c8c0665b5207727055e2f5a53d7fca5758fcbf970e5",
+      "repository_evidence": "independent-fleet-review.json"
+    },
+    "parent_both120": {
+      "sha256": "e9225b7e1d764f4f695ad79118ab544ab0a68d16a0560a31d174591e2ec75869",
+      "repository_evidence": "parent-both-platforms.json"
+    },
+    "actual_tested_merge": {
+      "sha256": "2ec5bd127ce87732a5cbf44b471fff78893d914454f18dc1d9cfc3cb2d8675bb",
+      "repository_evidence": "actual-tested-merge.json"
+    },
+    "retained_focus38": {
+      "sha256": "261ff459dbe0b182d982d52eff436630baa2fcaacee0b4a12dedda167542a85f",
+      "repository_evidence": "../phase-cap12-focused-accepted-20261021/focused-acceptance.json"
+    },
+    "retained_noengine2": {
+      "sha256": "c64cfae2198c46f8ae45db0ae8c42fc0f29ea03e1161c0c4f43a0733b610918a",
+      "repository_evidence": "../phase-cap-hook2-accepted-20261021/ACCEPTANCE.json"
+    },
+    "collector": {
+      "sha256": "009c6d0a1a26a70d5ac1c1036a0eb7dd1fdfe859e72a580b8f82b528ce931b0b"
+    }
+  },
+  "first_failures_preserved": true,
+  "normal_integration_pending": true,
+  "changed_release_API11_browser82_pending": true,
+  "scientific_selections": 0,
+  "qualified_originals": 335,
+  "target_originals": 468,
+  "private_original_receipt_sha256": "4aa0d97a0ceb152a1a981a7b571e0b2e0215fdf1b5b5211afec06214173dbf24"
+}
