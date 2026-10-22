@@ -1467,6 +1467,79 @@ fn water_fusion_enthalpy_at(temperature: f64) -> f64 {
         )
 }
 
+/// Arithmetic uncertainty of the capped energy comparison, not permission to
+/// discard heat. NASA9's large alternating terms require an absolute coefficient
+/// scale; net sensible/latent heat alone would understate their cancellation.
+fn cap_energy_roundoff_j(
+    vessel: &Vessel,
+    freezing: f64,
+    liquid_moles: f64,
+    particle_moles: f64,
+    activity: crate::states::SolventActivity,
+    temperature: f64,
+) -> f64 {
+    let absolute_cp = |data: &species::SpeciesData, phase, t0, t1| {
+        crate::states::heat_capacity_curve(data, phase)
+            .and_then(|curve| curve.absolute_cp_bound(t0, t1))
+            .unwrap_or_else(|| {
+                crate::states::constant_heat_capacity_in(data.key, phase, data.heat_capacity).abs()
+            })
+    };
+    let now = vessel.temperature.0;
+    let reference = crate::states::WATER_FREEZING_K;
+    let water = species::lookup(&SpeciesId::new(SOLVENT)).expect("registered water solvent");
+    let phase_cp = absolute_cp(water, Phase::Liquid, temperature, reference)
+        + absolute_cp(water, Phase::Solid, temperature, reference);
+    let latent_scale =
+        crate::states::WATER_H_FUS.abs() + (temperature - reference).abs() * phase_cp;
+    let mut sensible_cp = crate::plastics::unresolved_heat_capacity(vessel).abs();
+    let mut segments = 0;
+    for portion in &vessel.contents {
+        if let Some(data) = species::lookup(&portion.species) {
+            let cv = if portion.phase == Phase::Gas && vessel.is_sealed() {
+                crate::constants::GAS_CONSTANT
+            } else {
+                0.0
+            };
+            sensible_cp += portion.moles.0.abs()
+                * (absolute_cp(
+                    data,
+                    portion.phase,
+                    now.min(temperature),
+                    now.max(reference),
+                ) + cv);
+            segments += crate::states::heat_capacity_curve(data, portion.phase)
+                .map_or(1, |curve| curve.intervals.len());
+        }
+    }
+    // Includes each primitive's <64 arithmetic operations, endpoint clamps,
+    // fusion subtraction and actual inventory/interval summations. ln1p's
+    // integrated absolute scale is bounded by |span|/min(T), as in the Cp
+    // envelope. This is a conservative floating-point guard, not calibration.
+    let operations = (256 + 16 * segments) as f64;
+    let gamma = operations * f64::EPSILON / (1.0 - operations * f64::EPSILON);
+    let scale = (temperature - now).abs() * sensible_cp + freezing.abs() * latent_scale;
+    let remaining = liquid_moles - freezing;
+    if remaining <= 0.0 {
+        return f64::INFINITY;
+    }
+    // The subtraction forming the cap is conditioned by INITIAL water, not
+    // merely by the small transferred amount. Propagate it through molality
+    // and the liquidus: |dT/d ln L| <= T² R/Hfus * phi*particles/L.
+    // For Raoult, particles/(L+particles) <= particles/L.
+    let input_gamma = 64.0 * f64::EPSILON;
+    let amount_error = input_gamma * (liquid_moles.abs() + remaining.abs());
+    let log_activity_scale =
+        activity.osmotic_coefficient.unwrap_or(1.0).abs() * particle_moles.abs() / remaining;
+    let temperature_error = input_gamma * temperature.abs()
+        + temperature.powi(2) * crate::constants::GAS_CONSTANT / crate::states::WATER_H_FUS
+            * log_activity_scale
+            * (input_gamma + amount_error / remaining);
+    gamma * scale
+        + amount_error * latent_scale
+        + temperature_error * (sensible_cp + freezing.abs() * phase_cp)
+}
+
 /// Solve coexistence and energy together in the amount of pure water moved.
 /// `freezing` selects liquid -> ice; melting uses the same residual with
 /// the sign reversed. Solute particles stay in the liquid compartment.
@@ -1851,6 +1924,42 @@ impl Equilibrator for StateEquilibrator {
                 0.0
             };
             let maximum_freezing = (liquid_moles - minimum_liquid_moles).max(0.0);
+            if particle_moles > 0.0 && maximum_freezing < liquid_moles {
+                let cap_temperature = liquidus_after_freezing(
+                    maximum_freezing,
+                    liquid_moles,
+                    particle_moles,
+                    activity,
+                    pressure_kpa,
+                );
+                let residual = vessel.energy_between(now, cap_temperature)
+                    - maximum_freezing * water_fusion_enthalpy_at(cap_temperature);
+                let uncertainty = cap_energy_roundoff_j(
+                    vessel,
+                    maximum_freezing,
+                    liquid_moles,
+                    particle_moles,
+                    activity,
+                    cap_temperature,
+                );
+                // A positive endpoint residual asks for more freezing than
+                // this model permits. Refuse BEFORE mutation: cooling has
+                // already been delivered and belongs to this entering state.
+                // Never turn an unresolved comparison into an energy sink or
+                // widen the independent millijoule conservation contract.
+                if !residual.is_finite()
+                    || !uncertainty.is_finite()
+                    || (residual >= -uncertainty && uncertainty >= 1e-3)
+                    || residual > uncertainty
+                {
+                    events.push(Event::not_modeled(
+                        vessel.id,
+                        crate::ops::NotModelledCause::ModelBoundary,
+                        boundary_reason.clone(),
+                    ));
+                    return Ok(events);
+                }
+            }
             let freezing = self_consistent_phase_transfer(
                 vessel,
                 maximum_freezing,

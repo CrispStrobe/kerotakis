@@ -344,34 +344,36 @@ fn partial_freezing_stops_with_liquid_at_the_declared_model_boundary() {
     // would freeze past the declared concentration boundary. At 240 K this
     // fixture instead reaches an ordinary, warmer partial-freezing balance.
     let mut vessel = partially_frozen_test_vessel(200.0);
+    let before = vessel.clone();
     let events = coupled.equilibrate(&mut vessel).unwrap();
 
     assert!(water_phase_moles(&vessel, Phase::Liquid) > 0.0);
-    assert!(water_phase_moles(&vessel, Phase::Solid) > 0.0);
-    assert!((vessel.temperature.0 - kerotakis_core::states::BRINE_MODEL_MIN_K).abs() < 1e-9);
+    assert_eq!(
+        water_phase_moles(&vessel, Phase::Solid),
+        water_phase_moles(&before, Phase::Solid)
+    );
+    // This entering fixture has no ice. Refusal must not create any.
+    // The former temperature-only cap assertion created unbooked heat.
+    assert_eq!(vessel.temperature, before.temperature);
+    assert_eq!(
+        serde_json::to_value(&vessel.contents).unwrap(),
+        serde_json::to_value(&before.contents).unwrap()
+    );
+    assert_eq!(vessel.excess_enthalpy_j, before.excess_enthalpy_j);
+    assert!(!events
+        .iter()
+        .any(|event| matches!(event, Event::StateChanged { .. })));
+
     assert!(events.iter().any(|event| matches!(
         event,
         Event::NotYetModeled { what, .. } if what.contains("partial-freezing model boundary")
     )));
 }
 
-/// The OTHER boundary, and it has to name itself differently.
-///
-/// The same fixture with no solvent activity to its name freeze-concentrates
-/// on Raoult's law, and Raoult's law is carried to six molal and no further.
-/// It stops warmer than 252 K, because that is where its own range runs out
-/// rather than where the phase diagram does — and the refusal must say so,
-/// because "salt crystallisation and a eutectic phase diagram" would be a
-/// confident wrong reason for a syrup.
-///
-/// `particle_moles` is 0.3 and not the 0.6 its brine sibling uses, and the
-/// difference is the test rather than a detail. 0.6 in this fixture's
-/// 0.1 kg of water is 6.0 mol/kgw — the ideal ceiling EXACTLY — so a first
-/// draft of this test froze nothing at all and asserted that it had: with
-/// no headroom left there is no ice to make, and `freezing` comes out zero
-/// before any of the boundary prose is reached. Starting at 3.0 mol/kgw
-/// leaves half the water free to leave, which is what makes the stop
-/// observable.
+/// Beyond the ideal activity cap, refuse with that route's own reason.
+/// Preserve the entering energy and phase inventory rather than snapping to
+/// the warmer cap liquidus. The 0.3 mol particle input starts within the
+/// six-molal range, so this checks a root beyond the cap, not initial admission.
 #[test]
 fn the_ideal_route_stops_at_its_own_range_and_names_that_instead() {
     let chemistry = ParticleBalanceSolver {
@@ -381,26 +383,24 @@ fn the_ideal_route_stops_at_its_own_range_and_names_that_instead() {
     };
     let mut coupled = PhaseEquilibrator::wrapping(Box::new(chemistry));
     let mut vessel = partially_frozen_test_vessel(200.0);
+    let before = vessel.clone();
     let events = coupled.equilibrate(&mut vessel).unwrap();
 
     assert!(water_phase_moles(&vessel, Phase::Liquid) > 0.0);
-    assert!(water_phase_moles(&vessel, Phase::Solid) > 0.0);
-    // Warmer than the eutectic boundary, and exactly the liquidus of a
-    // six molal ideal solution.
-    assert!(
-        vessel.temperature.0 > kerotakis_core::states::BRINE_MODEL_MIN_K + 5.0,
-        "{} K",
-        vessel.temperature.0
+    assert_eq!(
+        water_phase_moles(&vessel, Phase::Solid),
+        water_phase_moles(&before, Phase::Solid)
     );
-    let ideal = kerotakis_core::states::SolventActivity::ideal();
-    let expected = kerotakis_core::states::freezing_point_from_activity(
-        ideal.water_activity(kerotakis_core::states::IDEAL_MAX_PARTICLE_MOLALITY),
+    // Preserve delivered cooling instead of forcing an unpriced liquidus.
+    assert_eq!(vessel.temperature, before.temperature);
+    assert_eq!(
+        serde_json::to_value(&vessel.contents).unwrap(),
+        serde_json::to_value(&before.contents).unwrap()
     );
-    assert!(
-        (vessel.temperature.0 - expected).abs() < 1e-6,
-        "{} K against {expected} K",
-        vessel.temperature.0
-    );
+    assert_eq!(vessel.excess_enthalpy_j, before.excess_enthalpy_j);
+    assert!(!events
+        .iter()
+        .any(|event| matches!(event, Event::StateChanged { .. })));
     assert!(
         events.iter().any(|event| matches!(
             event,
@@ -469,34 +469,12 @@ fn a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_on
     );
 }
 
-/// Announcing the boundary is a claim about where the brine ENDED UP, and
-/// it has to stay one now that the pass solves for coexistence.
-///
-/// Asking for more ice than the eutectic cap allows is not the same as
-/// hitting that cap. Under ΔT = K_f·m the two were near enough the same
-/// thing: the plateau barely moved, so a cooling that demanded the cap's
-/// worth of latent heat spent it. With the solvent's activity in it the
-/// liquidus runs away from the pass, and a brine cooled just past the cap's
-/// worth meets its own falling plateau well before the cap and freezes
-/// there — while `requested > maximum` still reads true. The first draft of
-/// this branch settled that vessel at the cap's temperature, which is
-/// COLDER than the coexistence it actually reached, and told the learner
-/// about salt crystallisation it never got near.
-///
-/// So the invariant, swept rather than pinned at one lucky temperature:
-/// every start in the sweep either announces the boundary AND really is at
-/// it — the residual brine concentrated to the cap, the vessel on the cap's
-/// own liquidus — or announces nothing and sits on its own liquidus with ice
-/// beside it. There is no third state, and the bug was exactly the third
-/// state.
-///
-/// **The grid's ends are the physics', not the solver's.** The warm end is
-/// this brine's own liquidus, 262.4 K: above it nothing freezes and there is
-/// no pass to check. The cold end is 205 K, well past where the cap bites
-/// from the first transfer — the existing boundary test starts at 200 and
-/// nothing new happens between them. A grid that stopped where a solver
-/// stopped agreeing with itself would read stronger than it is, so these two
-/// are named rather than tuned.
+/// Sweep all original570 initial temperatures. An unsupported beyond-cap
+/// root preserves the entering physical state; an interior solution reaches
+/// its own liquidus. A genuinely closed exact-cap root may commit the boundary
+/// with the existing typed retained-brine notice. Keep that success distinct
+/// from the direct refusal, even if no gridpoint happens to land exactly on it.
+/// The original205..262K range is retained, including both populated regimes.
 #[test]
 fn the_boundary_is_announced_only_when_the_brine_actually_reached_it() {
     let mut announced = 0;
@@ -509,45 +487,71 @@ fn the_boundary_is_announced_only_when_the_brine_actually_reached_it() {
             ion_interaction: true,
         }));
         let mut vessel = partially_frozen_test_vessel(start);
+        let before = vessel.clone();
         let events = coupled.equilibrate(&mut vessel).unwrap();
         let liquid = water_phase_moles(&vessel, Phase::Liquid);
         let ice = water_phase_moles(&vessel, Phase::Solid);
-        assert!(liquid > 0.0 && ice > 0.0, "{start} K: {liquid} / {ice}");
+        assert!(liquid > 0.0, "{start} K: {liquid} / {ice}");
 
-        let boundary = events.iter().any(
-            |event| matches!(event, Event::NotYetModeled { what, .. } if what.contains("eutectic")),
-        );
-        // Whatever happened, the vessel is on ITS OWN liquidus: the brine
-        // that is actually there, through the route it actually took.
-        let liquidus = kerotakis_core::solve::vessel_transitions(&vessel)
-            .0
-            .freezing_k;
-        assert!(
-            (vessel.temperature.0 - liquidus).abs() < 1e-6,
-            "{start} K: settled at {} K, liquidus {liquidus} K",
-            vessel.temperature.0
-        );
-        if boundary {
-            // …and if the boundary was announced, that liquidus is the
-            // boundary's own. A refusal that fires anywhere warmer is a
-            // refusal invented out of arithmetic.
+        let refused = events.iter().any(|event| matches!(event,
+            Event::NotYetModeled { cause: ops::NotModelledCause::ModelBoundary, reason: Some(reason), .. }
+                if reason.key == "not-modeled.partial-freezing-cap"));
+        let committed_cap = events.iter().any(|event| matches!(event,
+            Event::NotYetModeled { cause: ops::NotModelledCause::ModelBoundary, reason: Some(reason), .. }
+                if reason.key == "not-modeled.brine-retained-at-boundary"));
+        assert!(!(refused && committed_cap), "{start} K: {events:?}");
+        if refused {
+            // A refusal describes an unsupported root, not a fabricated
+            // equilibrium. Keep the entering physical state and its energy.
+            assert_eq!(liquid, water_phase_moles(&before, Phase::Liquid));
+            assert_eq!(ice, water_phase_moles(&before, Phase::Solid));
+            assert_eq!(vessel.temperature, before.temperature, "{start} K");
+            assert_eq!(
+                serde_json::to_value(&vessel.contents).unwrap(),
+                serde_json::to_value(&before.contents).unwrap(),
+                "{start} K"
+            );
+            assert_eq!(vessel.excess_enthalpy_j, before.excess_enthalpy_j);
             assert!(
-                (vessel.temperature.0 - kerotakis_core::states::BRINE_MODEL_MIN_K).abs() < 1e-6,
-                "{start} K: announced the boundary at {} K",
-                vessel.temperature.0
+                !events
+                    .iter()
+                    .any(|event| matches!(event, Event::StateChanged { .. })),
+                "{start} K: {events:?}"
             );
             announced += 1;
         } else {
+            assert!(ice > 0.0, "{start} K: supported freezing must create ice");
+            let liquidus = kerotakis_core::solve::vessel_transitions(&vessel)
+                .0
+                .freezing_k;
             assert!(
-                vessel.temperature.0 > kerotakis_core::states::BRINE_MODEL_MIN_K,
-                "{start} K: silent at {} K",
+                (vessel.temperature.0 - liquidus).abs() < 1e-6,
+                "{start} K: settled at {} K, liquidus {liquidus} K",
                 vessel.temperature.0
             );
+            if committed_cap {
+                assert!(
+                    (vessel.temperature.0 - kerotakis_core::states::BRINE_MODEL_MIN_K).abs() < 1e-6,
+                    "{start} K"
+                );
+                assert!(
+                    events
+                        .iter()
+                        .any(|event| matches!(event, Event::StateChanged { .. })),
+                    "{start} K"
+                );
+            } else {
+                assert!(
+                    vessel.temperature.0 > kerotakis_core::states::BRINE_MODEL_MIN_K,
+                    "{start} K: silent at {} K",
+                    vessel.temperature.0
+                );
+            }
             coexisting += 1;
         }
     }
     // Both halves of the sweep have to be populated or the invariant was
-    // never tested: the cold end must reach the cap and the warm end must
+    // never tested: the cold end must refuse beyond the cap and the warm end must
     // stop short of it.
     assert!(
         announced > 0 && coexisting > 0,
