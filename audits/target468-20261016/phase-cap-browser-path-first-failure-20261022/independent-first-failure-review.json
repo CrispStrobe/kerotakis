@@ -1,0 +1,25 @@
+{
+  "scope": "AUTHENTICATED_ACTUAL_FIRST_OPERATIONAL_FAILURE_NOT_APP_SCIENCE_REGRESSION",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "issue_sha256": "d9f97aadd6d379acc1851d6d87f482b8dce9061a4006b47467b56b2b5108fe32",
+  "collected_sha256": "32f6bb51a6a482e87dfbf8e0052348244185832899e5830cffc15867fe42c31a",
+  "worker_sha256": "e17371805292a9e9b4483ed47aed3e801f6bbcf84b5a73456846fbf1b57d19a6",
+  "config_sha256": "13016f31bf7ebadad1606c1d810ad1c90d7f73d745a10d362efeb696a63fe145",
+  "top_manifest_sha256": "3f8a4ceabdbf45040ef6f88a0e47fa0c497c5d9669753fd6f797e87489d77973",
+  "actual_collected_files_verified": 124,
+  "closed_producer_manifest_members": 123,
+  "producer_error": "Frozen browser37 reads old public release-binding path; harness wrote new857 path. ENOENT before any scientific control output.",
+  "producer_stderr_sha256": "2d7c24475a3cfe9aa0c6792eba83c93cf9700ff773c3f7c33b1a89e102b292e4",
+  "reader_error": "Wrong external native-reference CLI argument selected API uncached-water response; it is not the independently frozen methanol oracle.",
+  "reader_stderr_sha256": "3f3f9212b6b8fe6e1c9da7eb01befecd7003dd9fe1a2223c977b80aaf4003058",
+  "correct_native_reference": {
+    "alias": "forecasts/methanol-reference.json",
+    "sha256": "2bc0e03765230ffddc5ef45fbe80dceba5663f8acac2e66d6a57290d2f12ea4f",
+    "historical_reviewed_head": "d67205091a22bcdb2fc490866224c4bc7fef8a4e",
+    "reference_fixture": "crates/kerotakis-thermo/tests/fixtures/thermo_oracle.tsv",
+    "fixture_sha256": "8e75e54cdbdac960b2c725e772904bc54ca7518968146370f3ebf7d718f6ec80",
+    "native_release_oracle_distinct": true
+  },
+  "application_scientific_passes_or_failures_inferred": 0,
+  "replay_or_provider_calls": 0
+}

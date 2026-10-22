@@ -1,0 +1,106 @@
+{
+  "cases": [
+    {
+      "id": "new120:or-007",
+      "script": "# OR-007: Ester-limited hydrolysis leaves excess base\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 20mL\nadd v1 ethyl_acetate 0.005mol\nadd v1 NaOH 0.01mol\nreact v1 saponification\ninspect v1\nmeasure v1 ph\ninspect\n",
+      "script_sha256": "4b571c0aca6376b5effa185a39035cc9eca60996fdd40e1081e2fc094025fe77",
+      "original_forecast": "A sufficiently large hydroxide budget can exhaust the ester while leaving an alkaline product solution.",
+      "original_criteria": [
+        {
+          "id": "OR-007-C1",
+          "criterion": "The ester inventory approaches its modelled completion limit with appropriate acetate and ethanol formation.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-007-C2",
+          "criterion": "The remaining base budget differs from the base-limited case; inspect acid/base speciation rather than looking for a NaOH molecule count alone.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "The react command requests a named teaching transformation; it does not demonstrate spontaneous room-temperature chemistry, a real mechanism, or a reaction rate.",
+        "The aqueous solver may distribute acid/base inventory among ions and neutral forms before react. Check named-transformation ownership explicitly; no successful execution has been inferred from the reaction table alone."
+      ],
+      "historical_stdout_sha256": "61c9c2783260305fe4a4ba777b5554206a82a3713743ac963ca46f81f7519724"
+    },
+    {
+      "id": "new120:or-008",
+      "script": "# OR-008: Acidifying a saponification product does not automatically remake ester\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 20mL\nadd v1 ethyl_acetate 0.001mol\nadd v1 NaOH 0.001mol\nreact v1 saponification\ninspect v1\nadd v1 HCl 0.001mol\ninspect v1\nmeasure v1 ph\ninspect\n",
+      "script_sha256": "3140524cc1fe16128b100b3c42ac9948c45bf6373dc3c57e6219d960085af4b4",
+      "original_forecast": "Acidification shifts acetate toward acetic acid. Without a new esterification request, that protonation is not itself evidence of ester re-formation.",
+      "original_criteria": [
+        {
+          "id": "OR-008-C1",
+          "criterion": "The acetic-acid fraction increases after acid addition.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-008-C2",
+          "criterion": "Separate proton-transfer changes from any actual C–O bond-forming esterification; no automatic reversed saponification is assumed.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "The react command requests a named teaching transformation; it does not demonstrate spontaneous room-temperature chemistry, a real mechanism, or a reaction rate.",
+        "The aqueous solver may distribute acid/base inventory among ions and neutral forms before react. Check named-transformation ownership explicitly; no successful execution has been inferred from the reaction table alone."
+      ],
+      "historical_stdout_sha256": "4b963813ace0979adccde2535fa62a3e95686882a9e2f0cf1bc809ef08377c84"
+    },
+    {
+      "id": "new120:or-009",
+      "script": "# OR-009: Follow carbon through esterification and alkaline cleavage\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 CH3COOH 0.01mol\nadd v1 ethanol 0.01mol\nreact v1 esterification\ninspect v1\nadd v1 water 20mL\nadd v1 NaOH 0.02mol\nreact v1 saponification\ninspect v1\n",
+      "script_sha256": "6a0478e5ed4f7b0e9a5397b9a03af1316c2fec43bacabc4fe15874d9815e5b3a",
+      "original_forecast": "Ester made in the first transformation is cleaved in the second; initially unreacted acid also consumes part of the hydroxide budget.",
+      "original_criteria": [
+        {
+          "id": "OR-009-C1",
+          "criterion": "Compute carbon across acid/acetate, ethanol and ester before and after both transformations.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        },
+        {
+          "id": "OR-009-C2",
+          "criterion": "Do not assign all added base to ester cleavage: neutralisation of residual acetic acid is a separate demand.",
+          "evaluation": "manual_review_of_saved_runtime_observations",
+          "result": null
+        }
+      ],
+      "original_limitations": [
+        "The react command requests a named teaching transformation; it does not demonstrate spontaneous room-temperature chemistry, a real mechanism, or a reaction rate.",
+        "The aqueous solver may distribute acid/base inventory among ions and neutral forms before react. Check named-transformation ownership explicitly; no successful execution has been inferred from the reaction table alone."
+      ],
+      "historical_stdout_sha256": "1d9b895a9758da3ed6181e74d39cba1ab3e3b0edc39ca7c866e2e5808b99d442"
+    }
+  ],
+  "accepted_engine": {
+    "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+    "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "actual_source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "artifact_receipt_sha256": "2cb61a273053b4d79e097a9f4095aed542c7824d8e7d0a2a5b2cd8a662aab228",
+  "API11_receipt_sha256": "2a05ed0079604686335d1cf5e337d28acdda368bbbf99bcc1150d8f28ec96546",
+  "browser82_receipt_sha256": "5337e5159eb4e151a72b74e47f4e25c75dd8a02ad0ec57b13d2597e3ec63a4e0",
+  "source_hint_files_sha256": {
+    "crates/kerotakis-core/src/named_alkaline.rs": "5d0260e78827f5dc6d47693db31624e3a78666a51e06f8ef62de1c11c6005099",
+    "crates/kerotakis-core/src/bench.rs": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "actual_source_files_sha256": {
+    "crates/kerotakis-core/src/named_alkaline.rs": "5d0260e78827f5dc6d47693db31624e3a78666a51e06f8ef62de1c11c6005099",
+    "crates/kerotakis-core/src/bench.rs": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2",
+    "crates/kerotakis-core/src/curated.rs": "eaa1e5b21641f28498da5464de248c193b024bb8f5896a4af3678ab7d250b113",
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6",
+    "data/registry/registry-source-v1.json": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132"
+  },
+  "thermal_scope": "No original thermal criterion. Named templates explicitly omit curated reaction heat. Record actual per-step temperature/excess and any heat/phase/export events; reject any asserted total physical energy closure absent all chemical enthalpies. Source-characterized solvent/aqueous heat can be independently budgeted separately but may not stand in for uncurated reaction heat.",
+  "origin": "https://kerotakis-web-payload.vercel.app",
+  "original_corpus_sha256": "8e9fb7a92c20ad4de747d43540e417684ba398ff3896ab9d3de270e5a99b1fdd",
+  "projection_notice": "Public scientific design projection; private raw-bound-design object is retained by hash separately. Original cases/criteria/scripts/source and release bindings are exact."
+}

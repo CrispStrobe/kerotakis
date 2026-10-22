@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-22T04:53:49.081146+00:00",
+  "design_sha256": "971dd92fe5a3d34046ac024c0cdaa80fcb00f49a178c25a0ea7ecfc2d1bd015b",
+  "runner_sha256": "e141f481d9773a3b1c861926de7359d780692fb9e9ee604ea0a15e53e1272d1c",
+  "accepted_engine": {
+    "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+    "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "bindings": {
+    "API11_receipt_sha256": "2a05ed0079604686335d1cf5e337d28acdda368bbbf99bcc1150d8f28ec96546",
+    "browser82_receipt_sha256": "5337e5159eb4e151a72b74e47f4e25c75dd8a02ad0ec57b13d2597e3ec63a4e0",
+    "artifact_receipt_sha256": "2cb61a273053b4d79e097a9f4095aed542c7824d8e7d0a2a5b2cd8a662aab228",
+    "original_corpus_sha256": "8e9fb7a92c20ad4de747d43540e417684ba398ff3896ab9d3de270e5a99b1fdd"
+  },
+  "attempts": 1,
+  "no_retries": true
+}

@@ -1,0 +1,42 @@
+{
+  "state": "SAVED_RAW_PROVENANCE_ONLY_NOT_SCIENTIFIC_ACCEPTANCE",
+  "runner_sha256": "e141f481d9773a3b1c861926de7359d780692fb9e9ee604ea0a15e53e1272d1c",
+  "design_sha256": "971dd92fe5a3d34046ac024c0cdaa80fcb00f49a178c25a0ea7ecfc2d1bd015b",
+  "accepted_engine": {
+    "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+    "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "cases": [
+    {
+      "id": "new120:or-007",
+      "request_sha256": "8d7f2cd2593473b2635a58103fe7c183a88e527d48a56a5fc5d7fd46633e29d4",
+      "response_sha256": "236ecb614b5812a37aba98593ab5a02bc1383d6be24d927c78244b2001211d7a",
+      "http_sha256": "a0966fb9ff35d5dfbeb8d021255f3262e93f28e6903d2bcb23b71fc4b4992ff0",
+      "issue_sha256": "993eb30d3058edf3a110ce0ba8c2cf6fc129c63f149547a1305bb7aa9eaaf9c5",
+      "execution_status": "completed",
+      "exit_status": 0
+    },
+    {
+      "id": "new120:or-008",
+      "request_sha256": "521deaf625e5f1aedf7ce877e452df19051e9c7508e1efc53bdb01874dfad573",
+      "response_sha256": "e9ed0d1222bb7849bf107c066d20581e6b9260c10211c0d46748b59ecb59fb83",
+      "http_sha256": "ecccf0ec506dd9fad1b3e44caa82d342c5c822ffec1525f867a976d37eaa3d70",
+      "issue_sha256": "5df27af7db3b43405fa5b80bc74cc6e535e481150fe3e2b0a9afda726e912a3a",
+      "execution_status": "completed",
+      "exit_status": 0
+    },
+    {
+      "id": "new120:or-009",
+      "request_sha256": "8be34b9009befb1e71b034df20e26cddf21146d0a35e191b2a3aaefcdd87e7c3",
+      "response_sha256": "09c75f02b99148dc7c4836c9b222f6427753e66fe514e5be179db03ab0304243",
+      "http_sha256": "11a464035448254c0352639d09ffee367047f6b4382229aa003a6feea6c8aa0b",
+      "issue_sha256": "dca963793272df2ad3d63a3022bd53bfada3b475b66c4bd0adc23c0f23cff140",
+      "execution_status": "completed",
+      "exit_status": 0
+    }
+  ],
+  "new_requests": 0,
+  "scientific_selection": false,
+  "limits": "Genuine externally reviewed release/browser receipt authentication is performed before issue by source-bound runner; this saved verifier authenticates recorded bindings/raw bytes, not receipt authorship or scientific criteria."
+}

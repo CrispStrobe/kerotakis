@@ -1,0 +1,30 @@
+{
+  "independent-saved82.json": {
+    "sha256": "e8351499cf8cacfa095917b768ee89a63f7d9370987470e842e9d60ca9033722",
+    "bytes": 1206
+  },
+  "release-acceptance.json": {
+    "sha256": "5337e5159eb4e151a72b74e47f4e25c75dd8a02ad0ec57b13d2597e3ec63a4e0",
+    "bytes": 2793
+  },
+  "actual-optical18-results.json": {
+    "sha256": "7ce6856f19d86dee12cb02796fc48bf0028e36c3b727f1f94c8cd468411470f1",
+    "bytes": 4483
+  },
+  "parent-saved82.json": {
+    "sha256": "5ff7dffbc1cc2ffce7ba7d8c4a8824f4e7122e5eedae671420353004744cc97b",
+    "bytes": 1675
+  },
+  "source-and-execution-summary.json": {
+    "sha256": "c71a1663cd366d82a7bd5d2606309c6a31edc934a20c5ae2eb6c66499b2fa2c9",
+    "bytes": 991
+  },
+  "README.md": {
+    "sha256": "e9efacfd266677134607472af582041e1ef567ffab17f867332db00242dc2eaa",
+    "bytes": 2608
+  },
+  "independent-path-source-review.json": {
+    "sha256": "972e876239bd1539238ae7b701b6c273319a360d5e26873c652170248f9b9ada",
+    "bytes": 1186
+  }
+}

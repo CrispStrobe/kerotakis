@@ -1,0 +1,20 @@
+{
+  "scope": "INDEPENDENT_FROZEN_S2_PATH_REPAIR_SOURCE_REVIEW_NOT_BROWSER_OR_RELEASE_ACCEPTANCE",
+  "source_manifest_sha256": "b7d3dbd3558523209fd14c0b494290ac2a83dffcb4fcee75457097163e958212",
+  "manifest_files_verified": 65,
+  "static55_all_current_own_folder_and_SHA_verified": true,
+  "named_dependency_maps_independently_verified": 11,
+  "optical_source_closure_entries": 12,
+  "same_six_JS_and_frozen18_and_three_accepted_derivatives": true,
+  "actual_beff_old_paths_absent": {
+    "audits/live-rest-browser-20261018/live-client.mjs": true,
+    "audits/live-rest-browser-20261018/release-binding.json": true
+  },
+  "preGit_admission_guard": "Exact3readpath literals and digests match two-public-file destination before branch mutation",
+  "actual_static_controls_stderr_sha256": "35649ccb7621214ac024bd31428022d326fb76b6926043ad7d6527b41cd3c0f8",
+  "actual_static_controls": 8,
+  "prior_source_review_sha256": "5692bbc5e4fa79df817e88abe447c8ccf4b7edfa435d2047ed77dd48cae1d45e",
+  "correct_future_savedwatch_sha256": "e2789a704cdbf1069710829b42467670eb7baead60d0335ae6a5fca2095879a2",
+  "new_browser_engine_provider_executions": 0,
+  "remaining_demonstrated_source_blockers": []
+}

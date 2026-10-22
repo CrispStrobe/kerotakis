@@ -1,0 +1,10 @@
+# OR-007: Ester-limited hydrolysis leaves excess base
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 20mL
+add v1 ethyl_acetate 0.005mol
+add v1 NaOH 0.01mol
+react v1 saponification
+inspect v1
+measure v1 ph
+inspect

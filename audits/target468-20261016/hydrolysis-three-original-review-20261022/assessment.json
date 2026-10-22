@@ -1,0 +1,360 @@
+{
+  "state": "PREPARED_ORIGINAL_CRITERIA_REVIEW_ONLY",
+  "results": [
+    {
+      "id": "new120:or-007",
+      "response_sha256": "236ecb614b5812a37aba98593ab5a02bc1383d6be24d927c78244b2001211d7a",
+      "criteria_passed": [
+        "OR-007-C1",
+        "OR-007-C2"
+      ],
+      "ester_consumed_mol": "0.005",
+      "ethanol_increment_mol": "0.005",
+      "acetate_family_increment_mol": "0.00500000000000000039500395",
+      "restricted_strong_base_reserve_after_reaction_mol": "0.00499999999999999960499605",
+      "maximum_every_step_atom_charge_residual": "1.07419984200E-16",
+      "thermal_diagnostics": [
+        {
+          "row": 0,
+          "operator": {
+            "moles": "1.1068553982792118",
+            "op": "add",
+            "species": "water",
+            "vessel": 0
+          },
+          "temperature_K": "298.15",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 1,
+          "operator": {
+            "moles": "0.005",
+            "op": "add",
+            "species": "ethyl_acetate",
+            "vessel": 0
+          },
+          "temperature_K": "298.15",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 2,
+          "operator": {
+            "moles": "0.01",
+            "op": "add",
+            "species": "NaOH",
+            "vessel": 0
+          },
+          "temperature_K": "303.43142376497747",
+          "excess_energy_J": "0.0",
+          "events": [
+            {
+              "event": "temperature_changed",
+              "from": "298.15",
+              "to": "303.43142376497747",
+              "vessel": 0
+            }
+          ]
+        },
+        {
+          "row": 3,
+          "operator": {
+            "op": "react",
+            "reaction": "saponification",
+            "vessel": 0
+          },
+          "temperature_K": "303.43142376497747",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "temperature_K": "303.43142376497747",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 5,
+          "operator": {
+            "instrument": "ph_meter",
+            "op": "measure",
+            "vessel": 0
+          },
+          "temperature_K": "303.43142376497747",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 6,
+          "operator": {
+            "op": "inspect"
+          },
+          "temperature_K": "303.43142376497747",
+          "excess_energy_J": "0.0",
+          "events": []
+        }
+      ],
+      "thermal_limit": "No curated named-reaction heat; these diagnostics do not establish complete physical energy closure or kinetics.",
+      "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+      "acidification_comparison": null
+    },
+    {
+      "id": "new120:or-008",
+      "response_sha256": "e9ed0d1222bb7849bf107c066d20581e6b9260c10211c0d46748b59ecb59fb83",
+      "criteria_passed": [
+        "OR-008-C1",
+        "OR-008-C2"
+      ],
+      "ester_consumed_mol": "0.0009999999999999991326382620115965",
+      "ethanol_increment_mol": "0.0009999999999999992",
+      "acetate_family_increment_mol": "0.00099999999999999923934",
+      "restricted_strong_base_reserve_after_reaction_mol": "7.6066E-19",
+      "maximum_every_step_atom_charge_residual": "2.4233840609609277200E-16",
+      "thermal_diagnostics": [
+        {
+          "row": 0,
+          "operator": {
+            "moles": "1.1068553982792118",
+            "op": "add",
+            "species": "water",
+            "vessel": 0
+          },
+          "temperature_K": "298.15",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 1,
+          "operator": {
+            "moles": "0.001",
+            "op": "add",
+            "species": "ethyl_acetate",
+            "vessel": 0
+          },
+          "temperature_K": "298.15",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 2,
+          "operator": {
+            "moles": "0.001",
+            "op": "add",
+            "species": "NaOH",
+            "vessel": 0
+          },
+          "temperature_K": "298.6824699032421",
+          "excess_energy_J": "0.0",
+          "events": [
+            {
+              "event": "temperature_changed",
+              "from": "298.15",
+              "to": "298.6824699032421",
+              "vessel": 0
+            }
+          ]
+        },
+        {
+          "row": 3,
+          "operator": {
+            "op": "react",
+            "reaction": "saponification",
+            "vessel": 0
+          },
+          "temperature_K": "298.6823966983012",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 4,
+          "operator": {
+            "op": "inspect"
+          },
+          "temperature_K": "298.6823966983012",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 5,
+          "operator": {
+            "moles": "0.001",
+            "op": "add",
+            "species": "HCl",
+            "vessel": 0
+          },
+          "temperature_K": "298.6769107406616",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 6,
+          "operator": {
+            "op": "inspect"
+          },
+          "temperature_K": "298.6769107406616",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 7,
+          "operator": {
+            "instrument": "ph_meter",
+            "op": "measure",
+            "vessel": 0
+          },
+          "temperature_K": "298.6769107406616",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 8,
+          "operator": {
+            "op": "inspect"
+          },
+          "temperature_K": "298.6769107406616",
+          "excess_energy_J": "0.0",
+          "events": []
+        }
+      ],
+      "thermal_limit": "No curated named-reaction heat; these diagnostics do not establish complete physical energy closure or kinetics.",
+      "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+      "acidification_comparison": {
+        "acetic_acid_before_mol": "1.1102279397873934E-7",
+        "acetic_acid_after_mol": "0.0009777110361617273",
+        "fraction_before": "0.000111022793978739424450598467867930602592230568",
+        "fraction_after": "0.977711036161728088035095146352838956286687960"
+      }
+    },
+    {
+      "id": "new120:or-009",
+      "response_sha256": "09c75f02b99148dc7c4836c9b222f6427753e66fe514e5be179db03ab0304243",
+      "criteria_passed": [
+        "OR-009-C1",
+        "OR-009-C2"
+      ],
+      "ester_consumed_mol": "0.0066666666666666645",
+      "ethanol_increment_mol": "0.0066666666666666643",
+      "acetate_family_increment_mol": "0.00666666666666666255013527",
+      "restricted_strong_base_reserve_after_reaction_mol": "0.01000000000000000160535967",
+      "maximum_every_step_atom_charge_residual": "2.61421979760E-16",
+      "thermal_diagnostics": [
+        {
+          "row": 0,
+          "operator": {
+            "moles": "0.01",
+            "op": "add",
+            "species": "CH3COOH",
+            "vessel": 0
+          },
+          "temperature_K": "298.15",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 1,
+          "operator": {
+            "moles": "0.01",
+            "op": "add",
+            "species": "ethanol",
+            "vessel": 0
+          },
+          "temperature_K": "298.15",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 2,
+          "operator": {
+            "op": "react",
+            "reaction": "esterification",
+            "vessel": 0
+          },
+          "temperature_K": "298.15",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 3,
+          "operator": {
+            "op": "inspect"
+          },
+          "temperature_K": "298.15",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 4,
+          "operator": {
+            "moles": "1.1068553982792118",
+            "op": "add",
+            "species": "water",
+            "vessel": 0
+          },
+          "temperature_K": "298.1501703463607",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 5,
+          "operator": {
+            "moles": "0.02",
+            "op": "add",
+            "species": "NaOH",
+            "vessel": 0
+          },
+          "temperature_K": "310.7266617324301",
+          "excess_energy_J": "0.0",
+          "events": [
+            {
+              "event": "temperature_changed",
+              "from": "298.1501703463607",
+              "to": "298.15016801537536",
+              "vessel": 0
+            },
+            {
+              "event": "temperature_changed",
+              "from": "298.15016801537536",
+              "to": "310.7266617324301",
+              "vessel": 0
+            }
+          ]
+        },
+        {
+          "row": 6,
+          "operator": {
+            "op": "react",
+            "reaction": "saponification",
+            "vessel": 0
+          },
+          "temperature_K": "310.7266617324301",
+          "excess_energy_J": "0.0",
+          "events": []
+        },
+        {
+          "row": 7,
+          "operator": {
+            "op": "inspect"
+          },
+          "temperature_K": "310.7266617324301",
+          "excess_energy_J": "0.0",
+          "events": []
+        }
+      ],
+      "thermal_limit": "No curated named-reaction heat; these diagnostics do not establish complete physical energy closure or kinetics.",
+      "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+      "acidification_comparison": null
+    }
+  ],
+  "engine": {
+    "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+    "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "scientific_catalog_selection": false,
+  "external_issue_release_receipt_authentication": "Not performed by this narrow scientific reader; must separately be authenticated before invocation.",
+  "new_model_executions": 0
+}

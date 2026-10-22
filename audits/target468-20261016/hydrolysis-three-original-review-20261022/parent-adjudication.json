@@ -1,0 +1,22 @@
+{
+  "state": "PARENT_APPROVED_THREE_ORIGINAL_SELECTIONS_CONDITIONAL_ON_PORTABLE_VERIFICATION",
+  "approved_originals": [
+    "new120:or-007",
+    "new120:or-008",
+    "new120:or-009"
+  ],
+  "approved_fixed468_total": 338,
+  "catalog_entries": 342,
+  "remaining": 130,
+  "additional_to401": 63,
+  "independent_qualification_sha256": "7758fa3177dfb090c0be8460d3e27a0aa276641ed627cd133c617de349b12322",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "engine": {
+    "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+    "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "actual_all6criteria_and_owned_budgets_accepted": true,
+  "conditions": "All339 predecessors exact, portable saved verifier/source/raw proof succeeds before publication.",
+  "scope": "Named teaching transformations only; no spontaneous kinetics, measured yields, full chemical reaction heat, mechanism or empirical calibration. OR009 dry initial mixture carries no aqueous pH/speciation claim."
+}

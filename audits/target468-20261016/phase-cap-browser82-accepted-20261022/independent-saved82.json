@@ -1,0 +1,22 @@
+{
+  "state": "INDEPENDENT_SAVED_ALL82_ACTUAL_CHECKS_PASS_REQUIRES_PARENT_AGGREGATION",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "engine": {
+    "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4"
+  },
+  "issue_sha256": "43a6f2e121143b250be9a439c439da32bfbcf9a1160ea8b15d5e48e1a70ad932",
+  "collected_sha256": "c26c4dff015ed224316996f55131066c2b20107287d6359e8ad8ac1bf8c4ce12",
+  "closed_raw_members": 196,
+  "collected_files_verified": 197,
+  "worker_sha256": "3aca84babf5d5e2ba5b9a8949c158c6a7b1871386a28b751ff0f9189ace5f279",
+  "all82_saved_scientific_checks_reexecuted": true,
+  "all18_results_byte_equal_parent": true,
+  "old64_dual_actual_predicates_reexecuted": true,
+  "independent_result_sha256": "cb4474cafd9f4a024c74de08722a913d1f6a1f9e3c607dc702c07cedf6e76b24",
+  "parent_result_sha256": "5ff7dffbc1cc2ffce7ba7d8c4a8824f4e7122e5eedae671420353004744cc97b",
+  "original_first_path_failure_preserved": true,
+  "actual_new_browser_engine_provider_executions": 0,
+  "scientific_selections": 0
+}

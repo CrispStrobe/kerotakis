@@ -1,0 +1,9 @@
+{
+  "files_sha256": {
+    "README.md": "f3c3e7b5f3732f0a73289c172cdcac19ee1464d2ea02680c211165acdfc37784",
+    "catalog-membership.json": "fb9e082f201699eca8fed9f615ff6bcdb00e1b893eaea3ae91964d62776ff653",
+    "remaining130.json": "45ebd5fd4bb2915504e58bfb9456bf3d032d29a208e761dbef18202b235d45fa",
+    "selection.json": "f09cc16ceeabdc94865f740a49d141002bfb4cdbaaea3e486e7b80d0e51c38b6",
+    "verify_catalog.py": "faa2bdc319e729365b2fd6b30623d87c6e1c38c1c60427912e5fb22f31890dfc"
+  }
+}

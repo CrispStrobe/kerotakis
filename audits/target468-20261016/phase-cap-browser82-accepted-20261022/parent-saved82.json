@@ -1,0 +1,30 @@
+{
+  "state": "ALL82_SAVED_REVIEW_COMPLETE_REQUIRES_EXTERNAL_PARENT_ACCEPTANCE",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "engine": {
+    "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4"
+  },
+  "worker_sha256": "3aca84babf5d5e2ba5b9a8949c158c6a7b1871386a28b751ff0f9189ace5f279",
+  "external_issue_sha256": "43a6f2e121143b250be9a439c439da32bfbcf9a1160ea8b15d5e48e1a70ad932",
+  "top_manifest_sha256": "b652bfbfd4051933446ff05850ad9011ac2ad6eac5754db258d50dac85f31e8c",
+  "old64_invocations_receipt_sha256": "6a8c5951ca7b19c7b2cf81ea5e67f839ba06c29575ad8f1220683a5599b500c5",
+  "optics18_result_sha256": [
+    "7ce6856f19d86dee12cb02796fc48bf0028e36c3b727f1f94c8cd468411470f1",
+    "7ce6856f19d86dee12cb02796fc48bf0028e36c3b727f1f94c8cd468411470f1"
+  ],
+  "actual_outer_saved_invocations_sha256": {
+    "old64": "2d8e1eb4ad8881077d8b9613bb9fe2534c25cf5e75e0c73279482499c776dad6",
+    "first-optics18": "b3e08873ae190e6823971d7f96c190c9a54c2388046a7cea24642a5d5ce56f76",
+    "second-optics18": "49de973d7b03a13dfb363386398d7b0e1a3baf05ec0e47fb77df56a2b820b5aa"
+  },
+  "retained64_controls": 64,
+  "additional18_rows": 18,
+  "prospective_total": 82,
+  "actual_package_lock_sha256": "16b12aab09e8b727da10f6a286714ec08acb2e86a21116b474732d9ac6c62dc7",
+  "actual_security_command_and_fresh_process_checked": true,
+  "dedicated_worker_loaded_response_coverage_required_by_unchanged_v4": true,
+  "product_or_production_acceptance_claimed": false,
+  "scientific_selections": 0
+}

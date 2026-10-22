@@ -1,0 +1,1 @@
+{"script": "# OR-007: Ester-limited hydrolysis leaves excess base\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 20mL\nadd v1 ethyl_acetate 0.005mol\nadd v1 NaOH 0.01mol\nreact v1 saponification\ninspect v1\nmeasure v1 ph\ninspect\n"}

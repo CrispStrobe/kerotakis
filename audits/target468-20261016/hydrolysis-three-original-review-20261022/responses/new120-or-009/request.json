@@ -1,0 +1,1 @@
+{"script": "# OR-009: Follow carbon through esterification and alkaline cleavage\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 CH3COOH 0.01mol\nadd v1 ethanol 0.01mol\nreact v1 esterification\ninspect v1\nadd v1 water 20mL\nadd v1 NaOH 0.02mol\nreact v1 saponification\ninspect v1\n"}

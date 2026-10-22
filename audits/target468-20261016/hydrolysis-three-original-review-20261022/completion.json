@@ -1,0 +1,28 @@
+{
+  "cases": [
+    {
+      "id": "new120:or-007",
+      "http_status": 200,
+      "elapsed_seconds": 6.670597331598401,
+      "response_sha256": "236ecb614b5812a37aba98593ab5a02bc1383d6be24d927c78244b2001211d7a",
+      "attempts": 1
+    },
+    {
+      "id": "new120:or-008",
+      "http_status": 200,
+      "elapsed_seconds": 3.2443479113280773,
+      "response_sha256": "e9ed0d1222bb7849bf107c066d20581e6b9260c10211c0d46748b59ecb59fb83",
+      "attempts": 1
+    },
+    {
+      "id": "new120:or-009",
+      "http_status": 200,
+      "elapsed_seconds": 3.3273036535829306,
+      "response_sha256": "09c75f02b99148dc7c4836c9b222f6427753e66fe514e5be179db03ab0304243",
+      "attempts": 1
+    }
+  ],
+  "physical_assessment": "pending independent original criteria, every-phase material/charge and declared thermal-domain review",
+  "catalog_additions": 0,
+  "no_retries": true
+}

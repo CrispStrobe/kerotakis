@@ -1,0 +1,22 @@
+{
+  "scope": "STATIC_PREDICATE_PRESERVATION_NOT_RUNTIME_EVIDENCE",
+  "frozen_reader_sha256": "e9932b011995b702627080a91f02e0af6f9620dbd382de3e4055a75f6203e18e",
+  "derivative_reader_sha256": "f6a8f2783a88dc7d24dc782d5e4992ac2301d3e7e671ffacdf8ba856a26e83a4",
+  "identical_original_assertion_count": 26,
+  "sole_changed_original_assertion": "Forbidden event set strict superset; original6 forbidden event names all retained",
+  "original_event_refusals": [
+    "evaporated",
+    "gas_absorbed",
+    "gas_evolved",
+    "gas_vented",
+    "solver_failed",
+    "state_changed"
+  ],
+  "additional_strict_predicates": [
+    "Exact original limitations",
+    "Owned pre/post acidification fraction increase, ester/ethanol/acetate conservation, no org_reacted on HCl add",
+    "Finite actual excess_enthalpy_j and temperature",
+    "Source-beff physical pool/refusal schema and current source vessel byte hash"
+  ],
+  "response_execution": false
+}

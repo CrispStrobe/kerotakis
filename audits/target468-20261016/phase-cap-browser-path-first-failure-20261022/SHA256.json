@@ -1,0 +1,14 @@
+{
+  "independent-first-failure-review.json": {
+    "sha256": "b7f5302675c0af77de83b298dbec9c94f2c70aa303b4ef00b019f01524d66597",
+    "bytes": 1727
+  },
+  "README.md": {
+    "sha256": "c1d97f86522b69dd4ff952799bff4ea2466dc3d03025792b492a6e6b53633376",
+    "bytes": 1677
+  },
+  "first-failure.json": {
+    "sha256": "6d136d77f1b9de60365db870bdbf0fc621ffa25a821bf6464f8b6cdfc990cbc9",
+    "bytes": 1575
+  }
+}

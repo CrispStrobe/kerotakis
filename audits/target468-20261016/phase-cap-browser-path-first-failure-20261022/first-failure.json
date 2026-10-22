@@ -1,0 +1,26 @@
+{
+  "state": "AUTHENTICATED_BROWSER_PRODUCER_PATH_SETUP_FAILURE_NOT_SCIENTIFIC_RESULT",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "actual_worker_sha256": "e17371805292a9e9b4483ed47aed3e801f6bbcf84b5a73456846fbf1b57d19a6",
+  "config_sha256": "13016f31bf7ebadad1606c1d810ad1c90d7f73d745a10d362efeb696a63fe145",
+  "actual_issue_sha256": "d9f97aadd6d379acc1851d6d87f482b8dce9061a4006b47467b56b2b5108fe32",
+  "actual_collection_sha256": "32f6bb51a6a482e87dfbf8e0052348244185832899e5830cffc15867fe42c31a",
+  "raw_manifest_sha256": "3f8a4ceabdbf45040ef6f88a0e47fa0c497c5d9669753fd6f797e87489d77973",
+  "all_collected_raw_files_rehashed": 124,
+  "actual_child_exit_status": 1,
+  "child_stderr_sha256": "2d7c24475a3cfe9aa0c6792eba83c93cf9700ff773c3f7c33b1a89e102b292e4",
+  "actual_node_version": "v22.23.4",
+  "error": "ENOENT: unchanged JS requested the original repository release-binding path, while harness committed another path.",
+  "requested_repository_path": "audits/live-rest-browser-20261018/release-binding.json",
+  "actual_harness_binding_path": "audits/live-rest-browser-857-20261022/release-binding.json",
+  "later_groups_not_executed": [
+    "targeted7",
+    "locale18",
+    "heat2",
+    "optics18"
+  ],
+  "browser_scientific_checks_reached": false,
+  "first_saved_review_additional_failure": "Wrong external native-reference argument: current API water response instead of frozen independent methanol reference. Both are retained separately; no scientific pass.",
+  "deployed_artifact_API11_acceptance_unchanged": true,
+  "scientific_selections": 0
+}

@@ -1,0 +1,1 @@
+{"script": "# OR-008: Acidifying a saponification product does not automatically remake ester\n# Candidate experiment; expected observations are not measured results.\nregister lv3\nadd v1 water 20mL\nadd v1 ethyl_acetate 0.001mol\nadd v1 NaOH 0.001mol\nreact v1 saponification\ninspect v1\nadd v1 HCl 0.001mol\ninspect v1\nmeasure v1 ph\ninspect\n"}

@@ -1,0 +1,12 @@
+# OR-008: Acidifying a saponification product does not automatically remake ester
+# Candidate experiment; expected observations are not measured results.
+register lv3
+add v1 water 20mL
+add v1 ethyl_acetate 0.001mol
+add v1 NaOH 0.001mol
+react v1 saponification
+inspect v1
+add v1 HCl 0.001mol
+inspect v1
+measure v1 ph
+inspect

@@ -1,0 +1,16 @@
+{
+  "state": "ACTUAL_PATH_CORRECTED_PRODUCER_ACCEPTED_WITH_FIRST_FAILURE_PRESERVED",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "harness_head": "ef9c740232d3ee26588412353b3314630fd4ef95",
+  "source_manifest_sha256": "b7d3dbd3558523209fd14c0b494290ac2a83dffcb4fcee75457097163e958212",
+  "actual_config_sha256": "fbd1096972bb0c1f0f42d8f672fe2320f4a0ed8a8ff2a5bad5b66346789a6840",
+  "actual_worker_sha256": "3aca84babf5d5e2ba5b9a8949c158c6a7b1871386a28b751ff0f9189ace5f279",
+  "actual_worker_bytes": 674667,
+  "exact_input_count": 69,
+  "actual_three_JS_consumers_and_planned_public_binding_path": "audits/live-rest-browser-20261018/release-binding.json",
+  "static_admission_negative_positive_controls_passed": 8,
+  "independent_methanol_reference_sha256": "2bc0e03765230ffddc5ef45fbe80dceba5663f8acac2e66d6a57290d2f12ea4f",
+  "methanol_reference_not_retagged_as_current_release": true,
+  "new_deployment_or_API_replay_for_harness_repair": false,
+  "scientific_selections": 0
+}

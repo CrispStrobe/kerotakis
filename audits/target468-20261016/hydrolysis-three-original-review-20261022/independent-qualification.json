@@ -1,0 +1,824 @@
+{
+  "state": "INDEPENDENT_THREE_UNCHANGED_ORIGINALS_QUALIFIED_BOUNDED_TEACHING_SCOPE",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "engine": {
+    "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+    "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "design_sha256": "971dd92fe5a3d34046ac024c0cdaa80fcb00f49a178c25a0ea7ecfc2d1bd015b",
+  "runner_sha256": "e141f481d9773a3b1c861926de7359d780692fb9e9ee604ea0a15e53e1272d1c",
+  "actual_browser82_receipt_sha256": "5337e5159eb4e151a72b74e47f4e25c75dd8a02ad0ec57b13d2597e3ec63a4e0",
+  "actual_API11_receipt_sha256": "2a05ed0079604686335d1cf5e337d28acdda368bbbf99bcc1150d8f28ec96546",
+  "all_six_original_criteria_earned": true,
+  "original_scripts_forecasts_criteria_limitations_unchanged": true,
+  "both_saved_verifiers_reproduced_exact": true,
+  "independent_allphase_Decimal_atoms_charge_water_and_stoich_pass": true,
+  "current_auxiliary_schema_source_and_empty_reservoir_guards_pass": true,
+  "no_hidden_clock_or_exports": true,
+  "metrics": [
+    {
+      "id": "new120:or-007",
+      "maximum_allstep_atom_charge_residual": "1.0741998420E-16",
+      "consumed_ester": "0.005",
+      "restricted_remaining_reserve": "0.00499999999999999960499605",
+      "acidification": null,
+      "allphase_book": [
+        {
+          "row": 0,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ]
+          ],
+          "atom_charge_residual": "0E-16",
+          "water_mol": "1.1068553982792118"
+        },
+        {
+          "row": 1,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ],
+            [
+              "liquid",
+              "ethyl_acetate",
+              "0.005"
+            ]
+          ],
+          "atom_charge_residual": "0.000",
+          "water_mol": "1.1068553982792118"
+        },
+        {
+          "row": 2,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethyl_acetate",
+              "0.005"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.01"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "0.009999999999999998"
+            ]
+          ],
+          "atom_charge_residual": "2E-18",
+          "water_mol": "1.1068553982792118"
+        },
+        {
+          "row": 3,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethanol",
+              "0.005"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "1.920574539500395E-11"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.004999999980794255"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.01"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.106855398260006"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "0.005000000019205746"
+            ]
+          ],
+          "atom_charge_residual": "1.0741998420E-16",
+          "water_mol": "1.106855398260006"
+        },
+        {
+          "row": 4,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethanol",
+              "0.005"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "1.920574539500395E-11"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.004999999980794255"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.01"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.106855398260006"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "0.005000000019205746"
+            ]
+          ],
+          "atom_charge_residual": "1.0741998420E-16",
+          "water_mol": "1.106855398260006"
+        },
+        {
+          "row": 5,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethanol",
+              "0.005"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "1.920574539500395E-11"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.004999999980794255"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.01"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.106855398260006"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "0.005000000019205746"
+            ]
+          ],
+          "atom_charge_residual": "1.0741998420E-16",
+          "water_mol": "1.106855398260006"
+        },
+        {
+          "row": 6,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethanol",
+              "0.005"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "1.920574539500395E-11"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.004999999980794255"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.01"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.106855398260006"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "0.005000000019205746"
+            ]
+          ],
+          "atom_charge_residual": "1.0741998420E-16",
+          "water_mol": "1.106855398260006"
+        }
+      ]
+    },
+    {
+      "id": "new120:or-008",
+      "maximum_allstep_atom_charge_residual": "2.423384060960927720E-16",
+      "consumed_ester": "0.0009999999999999991326382620115965",
+      "restricted_remaining_reserve": "7.6066E-19",
+      "acidification": {
+        "fraction_before": "0.000111022793978739424450598467867930602592230568",
+        "fraction_after": "0.977711036161728088035095146352838956286687960",
+        "acetic_before": "1.1102279397873934E-7",
+        "acetic_after": "0.0009777110361617273"
+      },
+      "allphase_book": [
+        {
+          "row": 0,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ]
+          ],
+          "atom_charge_residual": "0E-16",
+          "water_mol": "1.1068553982792118"
+        },
+        {
+          "row": 1,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ],
+            [
+              "liquid",
+              "ethyl_acetate",
+              "0.001"
+            ]
+          ],
+          "atom_charge_residual": "0.000",
+          "water_mol": "1.1068553982792118"
+        },
+        {
+          "row": 2,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethyl_acetate",
+              "0.001"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.001"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "0.0009999999999999992"
+            ]
+          ],
+          "atom_charge_residual": "8E-19",
+          "water_mol": "1.1068553982792118"
+        },
+        {
+          "row": 3,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethyl_acetate",
+              "8.673617379884035E-19"
+            ],
+            [
+              "liquid",
+              "ethanol",
+              "0.0009999999999999992"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "1.1102279397873934E-7"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.0009998889772060205"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.001"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1068552872564177"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "1.1102279397906534E-7"
+            ]
+          ],
+          "atom_charge_residual": "2.423384060960927720E-16",
+          "water_mol": "1.1068552872564177"
+        },
+        {
+          "row": 4,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethyl_acetate",
+              "8.673617379884035E-19"
+            ],
+            [
+              "liquid",
+              "ethanol",
+              "0.0009999999999999992"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "1.1102279397873934E-7"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.0009998889772060205"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.001"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1068552872564177"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "1.1102279397906534E-7"
+            ]
+          ],
+          "atom_charge_residual": "2.423384060960927720E-16",
+          "water_mol": "1.1068552872564177"
+        },
+        {
+          "row": 5,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethyl_acetate",
+              "8.673617379884035E-19"
+            ],
+            [
+              "liquid",
+              "ethanol",
+              "0.0009999999999999992"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "0.0009777110361617273"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.000022288963838271894"
+            ],
+            [
+              "aqueous",
+              "Cl-",
+              "0.001"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.001"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ],
+            [
+              "aqueous",
+              "H+",
+              "0.000022288963838271864"
+            ]
+          ],
+          "atom_charge_residual": "1.1151060960927720E-18",
+          "water_mol": "1.1068553982792118"
+        },
+        {
+          "row": 6,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethyl_acetate",
+              "8.673617379884035E-19"
+            ],
+            [
+              "liquid",
+              "ethanol",
+              "0.0009999999999999992"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "0.0009777110361617273"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.000022288963838271894"
+            ],
+            [
+              "aqueous",
+              "Cl-",
+              "0.001"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.001"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ],
+            [
+              "aqueous",
+              "H+",
+              "0.000022288963838271864"
+            ]
+          ],
+          "atom_charge_residual": "1.1151060960927720E-18",
+          "water_mol": "1.1068553982792118"
+        },
+        {
+          "row": 7,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethyl_acetate",
+              "8.673617379884035E-19"
+            ],
+            [
+              "liquid",
+              "ethanol",
+              "0.0009999999999999992"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "0.0009777110361617273"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.000022288963838271894"
+            ],
+            [
+              "aqueous",
+              "Cl-",
+              "0.001"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.001"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ],
+            [
+              "aqueous",
+              "H+",
+              "0.000022288963838271864"
+            ]
+          ],
+          "atom_charge_residual": "1.1151060960927720E-18",
+          "water_mol": "1.1068553982792118"
+        },
+        {
+          "row": 8,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethyl_acetate",
+              "8.673617379884035E-19"
+            ],
+            [
+              "liquid",
+              "ethanol",
+              "0.0009999999999999992"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "0.0009777110361617273"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.000022288963838271894"
+            ],
+            [
+              "aqueous",
+              "Cl-",
+              "0.001"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.001"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1068553982792118"
+            ],
+            [
+              "aqueous",
+              "H+",
+              "0.000022288963838271864"
+            ]
+          ],
+          "atom_charge_residual": "1.1151060960927720E-18",
+          "water_mol": "1.1068553982792118"
+        }
+      ]
+    },
+    {
+      "id": "new120:or-009",
+      "maximum_allstep_atom_charge_residual": "2.6142197976E-16",
+      "consumed_ester": "0.0066666666666666645",
+      "restricted_remaining_reserve": "0.01000000000000000160535967",
+      "acidification": null,
+      "allphase_book": [
+        {
+          "row": 0,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "CH3COOH",
+              "0.01"
+            ]
+          ],
+          "atom_charge_residual": "0.00",
+          "water_mol": "0"
+        },
+        {
+          "row": 1,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "CH3COOH",
+              "0.01"
+            ],
+            [
+              "liquid",
+              "ethanol",
+              "0.01"
+            ]
+          ],
+          "atom_charge_residual": "0.00",
+          "water_mol": "0"
+        },
+        {
+          "row": 2,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "CH3COOH",
+              "0.0033333333333333357"
+            ],
+            [
+              "liquid",
+              "ethanol",
+              "0.0033333333333333357"
+            ],
+            [
+              "liquid",
+              "ethyl_acetate",
+              "0.0066666666666666645"
+            ],
+            [
+              "liquid",
+              "water",
+              "0.0066666666666666645"
+            ]
+          ],
+          "atom_charge_residual": "2.0E-18",
+          "water_mol": "0.0066666666666666645"
+        },
+        {
+          "row": 3,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "CH3COOH",
+              "0.0033333333333333357"
+            ],
+            [
+              "liquid",
+              "ethanol",
+              "0.0033333333333333357"
+            ],
+            [
+              "liquid",
+              "ethyl_acetate",
+              "0.0066666666666666645"
+            ],
+            [
+              "liquid",
+              "water",
+              "0.0066666666666666645"
+            ]
+          ],
+          "atom_charge_residual": "2.0E-18",
+          "water_mol": "0.0066666666666666645"
+        },
+        {
+          "row": 4,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethanol",
+              "0.0033333333333333357"
+            ],
+            [
+              "liquid",
+              "ethyl_acetate",
+              "0.0066666666666666645"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "0.003297677437497047"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.00003565589583628867"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1135220649458784"
+            ],
+            [
+              "aqueous",
+              "H+",
+              "0.00003565589583626877"
+            ]
+          ],
+          "atom_charge_residual": "1.4702E-16",
+          "water_mol": "1.1135220649458784"
+        },
+        {
+          "row": 5,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethanol",
+              "0.0033333333333333357"
+            ],
+            [
+              "liquid",
+              "ethyl_acetate",
+              "0.0066666666666666645"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "7.53057084450506E-12"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.003333333325802765"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.02"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1168553982716811"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "0.01666666667419723"
+            ]
+          ],
+          "atom_charge_residual": "2.6142197976E-16",
+          "water_mol": "1.1168553982716811"
+        },
+        {
+          "row": 6,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethanol",
+              "0.01"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "3.666532539464033E-11"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.009999999963334673"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.02"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1168553982425464"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "0.010000000036665315"
+            ]
+          ],
+          "atom_charge_residual": "1.6442143868E-16",
+          "water_mol": "1.1168553982425464"
+        },
+        {
+          "row": 7,
+          "phases_species_mol": [
+            [
+              "liquid",
+              "ethanol",
+              "0.01"
+            ],
+            [
+              "aqueous",
+              "CH3COOH",
+              "3.666532539464033E-11"
+            ],
+            [
+              "aqueous",
+              "CH3COO-",
+              "0.009999999963334673"
+            ],
+            [
+              "aqueous",
+              "Na+",
+              "0.02"
+            ],
+            [
+              "liquid",
+              "water",
+              "1.1168553982425464"
+            ],
+            [
+              "aqueous",
+              "base_equivalents",
+              "0.010000000036665315"
+            ]
+          ],
+          "atom_charge_residual": "1.6442143868E-16",
+          "water_mol": "1.1168553982425464"
+        }
+      ]
+    }
+  ],
+  "qualification": "Explicitly requested teaching transformations and this analytical inventory only; no spontaneous reaction, kinetics, full chemical energy/heat, activity-model calibration or mechanism inference. All original limitations remain intact.",
+  "new_engine_API_or_browser_requests": 0,
+  "catalog_selection_assigned": false
+}
