@@ -1,0 +1,192 @@
+{
+  "state": "INDEPENDENT_ACTUAL_RELEASE_API11_ACCEPTED_BROWSER82_PENDING",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "engine": {
+    "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+    "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+    "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+  },
+  "workflow_run": 39720943879,
+  "artifact_sha256": "bff213b2417a40c80eec431c2c1bf75158ace2395bf502137578384c58ea27dc",
+  "source_acceptance_sha256": "4aa0d97a0ceb152a1a981a7b571e0b2e0215fdf1b5b5211afec06214173dbf24",
+  "integration_sha256": "c73d092a38f70c9e4422aa7326f59aac6ee2f1e169bed5f0c0c76a31958ada48",
+  "launcher_sha256": "fb401c302743c104f1e7d6a7d97c33facb65c831320b62686313a9f5a50cf349",
+  "API_receipt_sha256": "2a05ed0079604686335d1cf5e337d28acdda368bbbf99bcc1150d8f28ec96546",
+  "actual_archive_and_NAS_readback_rehashed": true,
+  "frozen_artifact_reader_reproduced_exact": true,
+  "frozen_API_assessor_reproduced_exact": true,
+  "actual_HTTP_controls": {
+    "concurrency-1": {
+      "http_status": 429,
+      "response_sha256": "4de64c47b93e681257587cb52c79273e268a2e9f40ad0a390894a6dbca8f5333"
+    },
+    "complete-stock-001": {
+      "http_status": 200,
+      "response_sha256": "73a21af14b4ba999ccc4fa61f02cf398fa7963dfaf44dcb0ded4ae2316aefb31"
+    },
+    "duration-aggregate-refusal": {
+      "http_status": 422,
+      "response_sha256": "fe46872464929096c00669feba197f72b7073d23cc70ff48e46a73274fdedfdc"
+    },
+    "finite-phase-wait-cycle": {
+      "http_status": 200,
+      "response_sha256": "023205f624c5b2d37ccaca3492e735907842bcfa954c4f8d079f3b8b9af51daa"
+    },
+    "health-before": {
+      "http_status": 200,
+      "response_sha256": "12e5909aad0f7459f592198986e069a6e591970c867344fde4b7b6eaf467cdb5"
+    },
+    "uncached-native-browser-reference": {
+      "http_status": 200,
+      "response_sha256": "8e926437cebea8451151e1d7094841ab44f65ee913085d0d36ff1ca78c041a34"
+    },
+    "pages-client": {
+      "http_status": 200,
+      "response_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21"
+    },
+    "nonfinite-energy-refusal": {
+      "http_status": 200,
+      "response_sha256": "292912c21c8d2c0259a7778904cc7c41823eb6ad3facb4f9b7708b71c1e53307"
+    },
+    "duration-command-refusal": {
+      "http_status": 422,
+      "response_sha256": "44e4b8b1e20ee4a5e550f625676127140e105de35bf0ff8522adc29f78ed179c"
+    },
+    "auth-missing": {
+      "http_status": 401,
+      "response_sha256": "370184e0b2b404611d135ab27d53b40c56d8f98e42afea63a72523c67d2c47b8"
+    },
+    "auth-wrong": {
+      "http_status": 401,
+      "response_sha256": "1994468f256bc2a622e543cd9bb4f68d04a733639bd417f54c6f09a0ce418872"
+    },
+    "vercel-client": {
+      "http_status": 200,
+      "response_sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21"
+    },
+    "trailing-heat-refusal": {
+      "http_status": 200,
+      "response_sha256": "4c4aa5021a147f280e6e437762c78d0885c13c759a2bcdbd8f33783e1e500b0c"
+    },
+    "finite-mix-target": {
+      "http_status": 200,
+      "response_sha256": "4465020302efffc343653e00830a62a40db957137aaea823a320117fbd06afc2"
+    },
+    "cors-approved": {
+      "http_status": 200,
+      "response_sha256": "565339bc4d33d72817b583024112eb7f5cdf3e5eef0252d6ec1b9c9a94e12bb3"
+    },
+    "session-subset-refusal": {
+      "http_status": 422,
+      "response_sha256": "cff20b9b465b30f436322ee668d120d5ddc18022fd5fea6f48ddc8a52c203620"
+    },
+    "concurrency-2": {
+      "http_status": 200,
+      "response_sha256": "5ff3d7e69749e162455709091e32208423785e48c650464511e9cad0bac80b18"
+    },
+    "cors-unapproved": {
+      "http_status": 400,
+      "response_sha256": "f80399859bbd7b2cb1cac34d88e0f01461619f351b476926e2465eea789098d4"
+    },
+    "comment-and-spaced-wait": {
+      "http_status": 200,
+      "response_sha256": "d795863a3208692946e7126781272ac8d8ea7161260efcefc1d4ec115f1c5fb6"
+    },
+    "health-after": {
+      "http_status": 200,
+      "response_sha256": "12e5909aad0f7459f592198986e069a6e591970c867344fde4b7b6eaf467cdb5"
+    },
+    "water-baseline": {
+      "http_status": 200,
+      "response_sha256": "03a744f9e2848988440f184bd6889c6f8d3e2c7f7a1931b71305b4025a58e378"
+    }
+  },
+  "HTTP_controls_count": 21,
+  "original_script_protocols": 11,
+  "concurrency_actual": [
+    200,
+    429
+  ],
+  "native_and_frontend_artifact": {
+    "workflow_run": 39720943879,
+    "artifact_id": 12401522328,
+    "artifact_sha256": "bff213b2417a40c80eec431c2c1bf75158ace2395bf502137578384c58ea27dc",
+    "engine": {
+      "source_head": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+      "source_tree": "a22cda98c6dbc9aa5f4cb328b3739221c29ade3d",
+      "build_image": "public.ecr.aws/amazonlinux/amazonlinux@sha256:d9b4c61f49de68d41e43af1c0ef89c5600b0ad51da024406a15f5d014720c998",
+      "binary_sha256": "2c91d7923d80e7927778e22e67a07dd23d9bb5e322862375d477e7eabe6672d4",
+      "cargo_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+      "libraries": {
+        "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+        "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+        "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+        "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+        "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+      },
+      "loader": "ld-linux-x86-64.so.2",
+      "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)",
+      "target": "x86_64-unknown-linux-gnu"
+    },
+    "actual_binary_bytes_rehashed": true,
+    "actual_producer_lock_bytes_rehashed": true,
+    "source_lock_tracked": false,
+    "producer_lock_qualification": "Cargo.lock is untracked in this source. Actual generated producer lock independently rehashed and bound to this native artifact; no source-committed dependency resolution or separate frontend-lock attestation claimed.",
+    "runtime_library_bytes_rehashed": {
+      "ld-linux-x86-64.so.2": "5022436ff15df9e54e79ee0a0ca8b3422a0dcb0c11920d9901ded30eccbf8638",
+      "libc.so.6": "fdf84d7d72db18bb3996a7b24f3eb473e7efbc8f994af7b159f76d61d1b4c978",
+      "libgcc_s.so.1": "9460b5f230d3f66554ec259e8e0890b0946dfde7cc83f95d1ac8d4dca3d3f9bb",
+      "libm.so.6": "f7cb1097b97353d994fe191e5fafc81f0171935792311a157c3082213fc704e0",
+      "libstdc++.so.6": "846b43f9f1429cc67ae7ffd24f4ccdd7a17d652765aaf3e6f9d2ca54178b369d"
+    },
+    "frontend_archive_sha256": "d87d8a8111268c798dc7f65fcad53a5d9e21eb4b28416168bdbb68615011e572",
+    "frontend_assets": {
+      "iphreeqc.wasm": {
+        "sha256": "aca79c747b5825dcf919980f5e8055acc8567647ba42902453f7543e6d751d8c",
+        "bytes": 1952581
+      },
+      "rest.html": {
+        "sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21",
+        "bytes": 2970
+      },
+      "kerotakis_wasm_bg.wasm": {
+        "sha256": "add205a248fb97ed9c973bb77254ef3702878c8e2e32e7ab57db3b50e39b21aa",
+        "bytes": 11484341
+      },
+      "kerotakis_wasm.js": {
+        "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead",
+        "bytes": 41630
+      },
+      "iphreeqc.mjs": {
+        "sha256": "c56475cd941a3514c05a62ff449ae3ba86a61e5944a11c6b9654f80fc9202ef2",
+        "bytes": 30111
+      },
+      "kerotakis.mjs": {
+        "sha256": "24b54432d4b66051b619fcc1f6e0d1c845eaabce8d89de452cd23886d09b6b44",
+        "bytes": 8205
+      }
+    },
+    "source_and_tree_equal_accepted_main": true,
+    "snapshot_and_isolation": {
+      "native_smoke_observations": 2,
+      "native_smoke_completed": true,
+      "network": "deny-all",
+      "vcpus": 1,
+      "memory_mib": 2048,
+      "probe_source_sha256": "c4a29b3cf066b0c5f014bacbd3e7e771204654726abe304604d990762ab9429c",
+      "actual_isolation_observation": {
+        "isolation_controls_pass": true
+      },
+      "vm_job_sha256": "299e61560ed46b465b666a276a78a3664e6d1dbed1e681382544419e1b2cab70",
+      "sandbox_sha256": "4e4425da74b0b451c3ee6f51204db7bae395c3d6538cea81afe0fc207f355ef7",
+      "snapshot_and_native_manifest_agree": true
+    },
+    "qualification": "Hosted producer artifact and actual bytes authenticated. Probe reviewed as actual kernel control code, not a simulator fixture. SDK cleanup return is not independent VM deletion evidence. No deployment HTTP/browser or scientific verdict follows from build receipt alone.",
+    "new_engine_executions_by_collector": 0,
+    "catalog_additions": 0
+  },
+  "invocation_qualification": "Independent saved readers have actual argv/exit/stdout/stderr records here. Original launcher records source-bound program/result/stdout/stderr but no separate external argv record; do not invent that record.",
+  "no_new_product_or_engine_requests": true,
+  "browser82_pending": true,
+  "scientific_selections": 0
+}

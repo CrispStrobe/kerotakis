@@ -1,0 +1,26 @@
+{
+  "verified-release.json": {
+    "sha256": "2cb61a273053b4d79e097a9f4095aed542c7824d8e7d0a2a5b2cd8a662aab228",
+    "bytes": 4016
+  },
+  "independent-release-api-review.json": {
+    "sha256": "c155433e427e1f460d8887f030147b8f4bef1855b9f8e72fadb9add334e806b2",
+    "bytes": 8939
+  },
+  "README.md": {
+    "sha256": "117659152e31c26fcb0e4b5c013455600bcafd820c2acb057d6c1c38557bc10d",
+    "bytes": 2083
+  },
+  "script-assessment.json": {
+    "sha256": "ef51982bc167d96445d0a75e23272f5fadf3901ed18720adb24d7f6a202e2c1b",
+    "bytes": 10258
+  },
+  "API-ACCEPTED.json": {
+    "sha256": "2a05ed0079604686335d1cf5e337d28acdda368bbbf99bcc1150d8f28ec96546",
+    "bytes": 593
+  },
+  "browser-issued-summary.json": {
+    "sha256": "f2d32d9716a19e820ee91b3c966ad3754061f91380fc6663eed761b869c87ba0",
+    "bytes": 702
+  }
+}

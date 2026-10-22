@@ -1,0 +1,14 @@
+{
+  "state": "ACTUAL_BROWSER82_ISSUED_RESULTS_PENDING",
+  "source": "beffb001b1fa2b73128ab0bce7d8776dab9edeb4",
+  "harness_head": "5c674d26d39e7644e44a5abaaafb79054cba632d",
+  "actual_worker_sha256": "e17371805292a9e9b4483ed47aed3e801f6bbcf84b5a73456846fbf1b57d19a6",
+  "actual_config_sha256": "13016f31bf7ebadad1606c1d810ad1c90d7f73d745a10d362efeb696a63fe145",
+  "actual_issue_receipt_sha256": "d9f97aadd6d379acc1851d6d87f482b8dce9061a4006b47467b56b2b5108fe32",
+  "actual_version": 1,
+  "actual_private_CPU_issue": true,
+  "once_only": true,
+  "API_receipt_sha256": "2a05ed0079604686335d1cf5e337d28acdda368bbbf99bcc1150d8f28ec96546",
+  "all82_acceptance_pending": true,
+  "scientific_selections": 0
+}
