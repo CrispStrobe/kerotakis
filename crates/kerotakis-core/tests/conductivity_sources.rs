@@ -158,6 +158,7 @@ fn solved(ionic_strength: f64, species: Vec<SpeciesDetail>) -> SolutionInfo {
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,
+        particle_molality: None,
         pe: None,
         redox: Vec::new(),
         ph: 7.0,

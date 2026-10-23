@@ -23,6 +23,7 @@ fn iodide_peroxide_vessel(celsius: f64, ki: f64, h2o2: f64) -> Vessel {
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,
+        particle_molality: None,
         redox: Vec::new(),
         pe: None,
         ph: 1.7,

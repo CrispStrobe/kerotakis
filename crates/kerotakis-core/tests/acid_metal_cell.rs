@@ -8,6 +8,7 @@ fn acidic_metal(id: usize, metal: &str, ph: f64) -> Vessel {
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,
+        particle_molality: None,
         ph,
         pe: None,
         redox: Vec::new(),

@@ -146,6 +146,7 @@ fn check(salt_moles: f64, temperature: f64, freezing: bool) {
         vessel.solution = Some(kerotakis_core::vessel::SolutionInfo {
             scope: Default::default(),
             solvent_kg: Some(0.018_015),
+            particle_molality: None,
             pe: None,
             redox: Vec::new(),
             ph: 7.0, // unused placeholder; no acid/base prediction is tested

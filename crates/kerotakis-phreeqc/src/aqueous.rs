@@ -1131,6 +1131,16 @@ impl PhreeqcEquilibrator {
             if numerical && apply_numerical_water_activity(&mut e.species, &e.rows).is_err() {
                 continue;
             }
+            let census = e
+                .key
+                .lines()
+                .any(|line| line.trim() == "-headings particle_molality")
+                || e.rows
+                    .first()
+                    .is_some_and(|header| header.iter().any(|name| name == "particle_molality"));
+            if census && numerical_particle_molality(&e.rows).is_err() {
+                continue;
+            }
             self.cache.entry(e.key).or_insert_with(|| {
                 Rc::new(CachedSolve {
                     rows: e.rows,
@@ -1465,6 +1475,7 @@ fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveErr
         solvent_activity: None,
         scope: SolutionScope::SolventOnly,
         solvent_kg,
+        particle_molality: None,
         pe: None,
         redox: Vec::new(),
         ph,
@@ -3264,6 +3275,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
+            particle_molality: value("particle_molality"),
             // MIX itself does not solve the lab's electron-budget root.
             pe: None,
             redox: redox_distribution(&merged_problem, db_tag, &value),
@@ -3480,6 +3492,7 @@ impl PhreeqcEquilibrator {
             return;
         };
         info.solvent_kg = Some(solvent_kg);
+        info.particle_molality = value("particle_molality");
         info.ph = ph;
         info.ionic_strength = mu;
         info.species = cached.speciation.clone();
@@ -4508,12 +4521,9 @@ impl PhreeqcEquilibrator {
         let Some(water) = cached.speciation.iter().find(|sp| sp.name == "H2O") else {
             return decline("the second speciation reported no H2O row");
         };
-        let particle_molality: f64 = cached
-            .speciation
-            .iter()
-            .filter(|sp| sp.name != "H2O")
-            .map(|sp| sp.molality)
-            .sum();
+        let Ok(particle_molality) = numerical_particle_molality(&cached.rows) else {
+            return decline("the second solve reported no numerical particle census");
+        };
         if !particle_molality.is_finite() || particle_molality < SECOND_OPINION_MIN_MOLALITY {
             return decline("the second speciation reported too few particles");
         }
@@ -5741,6 +5751,7 @@ impl PhreeqcEquilibrator {
         let info = SolutionInfo {
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
+            particle_molality: value("particle_molality"),
             redox,
             pe: pe_constrained.then(|| value("pe")).flatten(),
             ph,
@@ -6652,6 +6663,7 @@ fn mix_selected_output(merged: &Problem, db_tag: &str) -> String {
         let names: Vec<&str> = merged.phases.iter().map(|(p, ..)| p.as_str()).collect();
         writeln!(block, "    -equilibrium_phases {}", names.join(" ")).unwrap();
     }
+    append_particle_census(&mut block);
     block
 }
 
@@ -7043,8 +7055,42 @@ fn build_input_at(
     if !problem.solid_solutions.is_empty() {
         writeln!(input, "    -solid_solutions Aragonite Strontianite").unwrap();
     }
+    append_particle_census(&mut input);
     writeln!(input, "END").unwrap();
     input
+}
+
+/// Numerical aqueous particle census on the native solvent-mass basis.
+/// USGS SYS("aq", ...) enumerates aqueous species, excluding solvent water,
+/// surface/exchange species and held solids (pinned IPhreeqc system_total_aq).
+/// A scalar avoids using rounded report molalities or a second engine solve.
+fn append_particle_census(input: &mut String) {
+    input.push_str("USER_PUNCH 1\n    -headings particle_molality\n    -start\n10 particles = SYS(\"aq\", count, names$, types$, amounts)\n20 PUNCH particles / TOT(\"water\")\n    -end\n");
+}
+
+/// Require one finite nonnegative numerical particle census from a new solve.
+/// Rounded report rows remain presentation data, never this scalar's source.
+fn numerical_particle_molality(rows: &[Vec<String>]) -> Result<f64, SolveError> {
+    let invalid = || {
+        SolveError::NotConverged {
+        solver: "phreeqc-aqueous".to_string(),
+        detail: "numerical aqueous particle molality is missing or invalid in the final selected-output row".to_string(),
+    }
+    };
+    let header = rows.first().ok_or_else(invalid)?;
+    let columns: Vec<_> = header
+        .iter()
+        .enumerate()
+        .filter_map(|(index, name)| (name == "particle_molality").then_some(index))
+        .collect();
+    if columns.len() != 1 || rows.len() < 2 {
+        return Err(invalid());
+    }
+    rows.last()
+        .and_then(|row| row.get(columns[0]))
+        .and_then(|cell| cell.parse::<f64>().ok())
+        .filter(|value| value.is_finite() && *value >= 0.0)
+        .ok_or_else(invalid)
 }
 
 /// Parse the report's "Saturation indices" block into (phase, SI) pairs.
@@ -7082,8 +7128,8 @@ fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
 }
 
 /// Keep the report as presentation, but obtain the phase solver's water
-/// activity from the final numerical selected-output row. Four significant
-/// report digits create a discontinuous liquidus and finite freeze/melt
+/// activity and particle census from final numerical selected output. Four
+/// significant report digits create a discontinuous liquidus and freeze/melt
 /// cycles, even when every individual phase transfer conserves enthalpy.
 /// Native direct, recast, redox and MIX results all pass this boundary.
 fn numerical_species_distribution(
@@ -7092,6 +7138,7 @@ fn numerical_species_distribution(
 ) -> Result<Vec<SpeciesDetail>, SolveError> {
     let mut species = parse_species_distribution(report);
     apply_numerical_water_activity(&mut species, rows)?;
+    numerical_particle_molality(rows)?;
     Ok(species)
 }
 
@@ -7180,7 +7227,60 @@ mod numerical_water_activity_tests {
     const REPORT: &str = "Distribution of species\nH2O 5.551e+01 9.500e-01 1.744 -0.022 0.0\nNa+ 1.000e+00 0.7000 0 -0.15 -0.15\n-----\n";
 
     fn rows(value: &str) -> Vec<Vec<String>> {
-        vec![vec!["la_H2O".into()], vec![value.into()]]
+        vec![
+            vec!["la_H2O".into(), "particle_molality".into()],
+            vec![value.into(), "1.0".into()],
+        ]
+    }
+
+    #[test]
+    fn numerical_particle_census_uses_final_precise_native_value() {
+        let mut selected = rows("-0.1");
+        selected.push(vec!["-0.2".into(), "1.234567891234".into()]);
+        assert_eq!(
+            super::numerical_particle_molality(&selected).unwrap(),
+            1.234567891234
+        );
+        assert_eq!(
+            super::parse_species_distribution(REPORT)
+                .iter()
+                .filter(|species| species.name != "H2O")
+                .map(|species| species.molality)
+                .sum::<f64>(),
+            1.0
+        );
+        assert_eq!(
+            super::numerical_particle_molality(&vec![
+                vec!["particle_molality".into()],
+                vec!["0".into()]
+            ])
+            .unwrap(),
+            0.0
+        );
+    }
+
+    #[test]
+    fn invalid_particle_census_refuses_without_report_fallback() {
+        for bad in ["NaN", "inf", "-inf", "-0.001", "invalid"] {
+            let mut selected = rows("-0.1");
+            selected[1][1] = bad.into();
+            assert!(
+                numerical_species_distribution(REPORT, &selected).is_err(),
+                "{bad}"
+            );
+        }
+        for selected in [
+            vec![],
+            vec![vec!["particle_molality".into()]],
+            vec![vec!["particle_molality".into()], vec![]],
+            vec![
+                vec!["particle_molality".into(), "particle_molality".into()],
+                vec!["1".into(), "2".into()],
+            ],
+            vec![vec!["la_H2O".into()], vec!["0".into()]],
+        ] {
+            assert!(super::numerical_particle_molality(&selected).is_err());
+        }
     }
 
     #[test]
@@ -7202,7 +7302,7 @@ mod numerical_water_activity_tests {
     #[test]
     fn numerical_activity_uses_the_final_native_solution_row() {
         let mut selected = rows("-0.1");
-        selected.push(vec!["-0.2".into()]);
+        selected.push(vec!["-0.2".into(), "1.0".into()]);
         let result = numerical_species_distribution(REPORT, &selected).unwrap();
         assert!(
             (result.iter().find(|s| s.name == "H2O").unwrap().activity - 10.0_f64.powf(-0.2)).abs()
@@ -7313,13 +7413,39 @@ mod numerical_water_activity_tests {
 
     fn cache_entry(value: &str) -> super::CacheEntry {
         super::CacheEntry {
-            key: "test-current-input\n    -activities H2O\n".into(),
+            key: "test-current-input\n    -activities H2O\n    -headings particle_molality\n"
+                .into(),
             rows: rows(value),
             species: super::parse_species_distribution(REPORT),
             saturation: vec![],
             redox_adjusted: false,
             pe_undetermined: false,
         }
+    }
+
+    #[test]
+    fn current_cache_cannot_bypass_numeric_particle_validation() {
+        let mut solver = super::PhreeqcEquilibrator::new().unwrap();
+        for bad in ["NaN", "inf", "-1", "invalid"] {
+            let mut entry = cache_entry("-0.1");
+            entry.rows[1][1] = bad.into();
+            assert_eq!(
+                solver.import_cache(super::CacheData {
+                    entries: vec![entry],
+                    ..Default::default()
+                }),
+                0
+            );
+        }
+        let mut entry = cache_entry("-0.1");
+        entry.rows = vec![vec!["la_H2O".into()], vec!["-0.1".into()]];
+        assert_eq!(
+            solver.import_cache(super::CacheData {
+                entries: vec![entry],
+                ..Default::default()
+            }),
+            0
+        );
     }
 
     #[test]

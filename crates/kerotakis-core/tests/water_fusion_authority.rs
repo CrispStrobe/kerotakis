@@ -169,6 +169,7 @@ fn below_domain_state_emits_a_typed_refusal_without_inventory_mutation() {
     v.solution = Some(kerotakis_core::vessel::SolutionInfo {
         scope: Default::default(),
         solvent_kg: Some(0.018_015),
+        particle_molality: None,
         pe: None,
         redox: vec![],
         ph: 7.0,

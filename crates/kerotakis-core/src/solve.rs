@@ -1689,11 +1689,13 @@ fn solvent_activity_of(
 /// `(speciated, unspeciated)`, both mol per kg of the vessel's liquid water.
 fn dissolved_particles(vessel: &Vessel) -> (f64, f64) {
     let speciated: f64 = vessel.solution.as_ref().map_or(0.0, |info| {
-        info.species
-            .iter()
-            .filter(|species| species.name != "H2O")
-            .map(|species| species.molality)
-            .sum()
+        info.particle_molality.unwrap_or_else(|| {
+            info.species
+                .iter()
+                .filter(|species| species.name != "H2O")
+                .map(|species| species.molality)
+                .sum()
+        })
     });
     // A colligative property counts particles, and the commonest particle
     // a kitchen dissolves is one no aqueous engine lists: sucrose is a
@@ -2431,8 +2433,7 @@ pub fn equilibrate_phase_coupled(
             return Ok(events);
         }
         if pass + 1 == MAX_PASSES {
-            events.push(Event::SolverFailed {
-                vessel: vessel.id,
+            return Err(SolveError::NotConverged {
                 solver: "phase-coupled".to_string(),
                 detail: format!(
                     "aqueous/ice state did not settle within {MAX_PASSES} bounded passes (last water transfer {last_transfer_moles:.3e} mol at {:.6} K)",

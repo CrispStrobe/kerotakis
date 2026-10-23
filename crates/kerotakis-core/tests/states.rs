@@ -8,6 +8,130 @@ use kerotakis_core::*;
 use std::cell::Cell;
 use std::rc::Rc;
 
+fn census_vessel(reported_each: f64) -> Vessel {
+    let mut vessel = Vessel::new(VesselId(0), "particle-census control");
+    vessel.deposit(SpeciesId::new("water"), Moles(5.5509), Phase::Liquid);
+    vessel.solution = Some(
+        serde_json::from_value(serde_json::json!({
+            "ph": 7.0,
+            "ionic_strength": reported_each,
+            "species": [
+                {"name": "Na+", "molality": reported_each, "activity": reported_each},
+                {"name": "Cl-", "molality": reported_each, "activity": reported_each}
+            ]
+        }))
+        .expect("historical solution shape"),
+    );
+    vessel
+}
+
+#[test]
+fn native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows() {
+    let mut rounded = census_vessel(0.5);
+    rounded.solution.as_mut().unwrap().particle_molality = Some(1.001);
+    let precise_rows = census_vessel(0.5005);
+    let old_rows = census_vessel(0.5);
+
+    let numeric_liquidus = kerotakis_core::solve::vessel_transitions(&rounded)
+        .0
+        .freezing_k;
+    let precise_liquidus = kerotakis_core::solve::vessel_transitions(&precise_rows)
+        .0
+        .freezing_k;
+    let rounded_liquidus = kerotakis_core::solve::vessel_transitions(&old_rows)
+        .0
+        .freezing_k;
+    assert!((numeric_liquidus - precise_liquidus).abs() < 1e-10);
+    assert!((numeric_liquidus - rounded_liquidus).abs() > 1e-4);
+}
+
+#[test]
+fn historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape() {
+    let historical = census_vessel(0.5);
+    let info = historical.solution.as_ref().unwrap();
+    assert_eq!(info.particle_molality, None);
+    let wire = serde_json::to_value(info).unwrap();
+    assert!(wire.get("particle_molality").is_none());
+    let reread: SolutionInfo = serde_json::from_value(wire).unwrap();
+    assert_eq!(reread.particle_molality, None);
+
+    let mut restored = historical.clone();
+    restored.solution = Some(reread);
+    assert_eq!(
+        kerotakis_core::solve::vessel_transitions(&historical)
+            .0
+            .freezing_k,
+        kerotakis_core::solve::vessel_transitions(&restored)
+            .0
+            .freezing_k
+    );
+}
+
+struct AlternatingThermalChemistry {
+    calls: Rc<Cell<usize>>,
+    solution: SolutionInfo,
+}
+
+impl Equilibrator for AlternatingThermalChemistry {
+    fn name(&self) -> &'static str {
+        "alternating-thermal-chemistry"
+    }
+
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        let call = self.calls.get() + 1;
+        self.calls.set(call);
+        // Deliberately never settle: each chemistry answer pushes a real
+        // water-phase pass to the other side of this solution's liquidus.
+        vessel.solution = Some(self.solution.clone());
+        vessel.temperature = Kelvin(if call % 2 == 0 { 272.0 } else { 270.0 });
+        Ok(Vec::new())
+    }
+}
+
+#[test]
+fn exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state() {
+    let mut vessel = census_vessel(0.5);
+    vessel.deposit(SpeciesId::new("water"), Moles(1.0), Phase::Solid);
+    vessel.deposit(SpeciesId::new("NaCl"), Moles(0.05), Phase::Aqueous);
+    let before = vessel.clone();
+    let calls = Rc::new(Cell::new(0));
+    let chemistry = AlternatingThermalChemistry {
+        calls: calls.clone(),
+        solution: vessel.solution.as_ref().unwrap().clone(),
+    };
+    let mut solvers = SolverStack::new(vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
+        chemistry,
+    )))]);
+
+    let events = solvers.equilibrate(&mut vessel).unwrap();
+    assert_eq!(
+        calls.get(),
+        32,
+        "the bounded coupling path must be exercised"
+    );
+    assert!(matches!(
+        &solvers.last_routes[0].outcome,
+        SolverRouteOutcome::Failed
+    ));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::SolverFailed { solver, detail, .. }
+            if solver == "phase-coupled" && detail.contains("did not settle within 32 bounded passes")
+    )));
+    assert_eq!(
+        vessel.contents, before.contents,
+        "partial ice transfer committed"
+    );
+    assert_eq!(
+        vessel.temperature, before.temperature,
+        "partial heat committed"
+    );
+    assert_eq!(
+        vessel.solution, before.solution,
+        "partial chemistry committed"
+    );
+}
+
 fn stack() -> SolverStack {
     SolverStack::new(vec![
         Box::new(MixingEquilibrator),
@@ -193,6 +317,7 @@ impl Equilibrator for ParticleBalanceSolver {
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: None,
+            particle_molality: None,
             pe: None,
             redox: Vec::new(),
             ph: 7.0,

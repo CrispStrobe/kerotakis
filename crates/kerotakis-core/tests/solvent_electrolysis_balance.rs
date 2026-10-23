@@ -213,6 +213,7 @@ fn resolve_copper_activity(bench: &mut Bench, water_moles: f64) {
     bench.vessels[0].solution = Some(kerotakis_core::vessel::SolutionInfo {
         scope: Default::default(),
         solvent_kg: Some(water_moles * 18.015 / 1000.0),
+        particle_molality: None,
         ph: 4.0,
         pe: None,
         redox: vec![],

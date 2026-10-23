@@ -264,6 +264,7 @@ fn declare_activity(v: &mut Vessel, route: Route) {
     v.solution = Some(SolutionInfo {
         scope: Default::default(),
         solvent_kg: Some(kg),
+        particle_molality: None,
         pe: None,
         redox: vec![],
         ph: 7.0,
