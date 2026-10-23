@@ -2270,6 +2270,308 @@ impl Equilibrator for StateEquilibrator {
     }
 }
 
+// Sum represented material by species and phase. A phase-coupling certificate
+// must count redistribution, not merely the net elemental balance.
+fn phase_inventory_delta(a: &Vessel, b: &Vessel, exclude_water: bool) -> Option<f64> {
+    let mut amounts = std::collections::BTreeMap::<(String, Phase), f64>::new();
+    for (sign, vessel) in [(1.0, a), (-1.0, b)] {
+        for portion in &vessel.contents {
+            if !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
+                return None;
+            }
+            if exclude_water && portion.species.0 == SOLVENT {
+                continue;
+            }
+            *amounts
+                .entry((portion.species.0.clone(), portion.phase))
+                .or_default() += sign * portion.moles.0;
+        }
+    }
+    let total: f64 = amounts.values().map(|amount| amount.abs()).sum();
+    total.is_finite().then_some(total)
+}
+
+// ConservedLedger covers every element and formal charge. Its general
+// observer deliberately skips unknown formulas; a stopping certificate may
+// not, so validate the entire simple-vessel inventory before using it.
+fn phase_ledger_delta(a: &Vessel, b: &Vessel) -> Option<f64> {
+    for vessel in [a, b] {
+        for portion in &vessel.contents {
+            let data = species::lookup(&portion.species)?;
+            crate::stoich::parse_formula(data.formula).ok()?;
+        }
+    }
+    let before = crate::ledger::ConservedLedger::from_vessel(a);
+    let after = crate::ledger::ConservedLedger::from_vessel(b);
+    let mut delta = (before.charge - after.charge).abs();
+    let elements: std::collections::BTreeSet<_> = before
+        .elements
+        .keys()
+        .chain(after.elements.keys())
+        .collect();
+    for element in elements {
+        delta += (before.elements.get(element).copied().unwrap_or(0.0)
+            - after.elements.get(element).copied().unwrap_or(0.0))
+        .abs();
+    }
+    delta.is_finite().then_some(delta)
+}
+
+fn phase_water_moles(vessel: &Vessel, phase: Phase) -> f64 {
+    vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == SOLVENT && portion.phase == phase)
+        .map(|portion| portion.moles.0)
+        .sum()
+}
+
+fn phase_certificate_domain(vessel: &Vessel) -> bool {
+    let Some(info) = vessel.solution.as_ref() else {
+        return false;
+    };
+    let valid_number = |number: f64| number.is_finite() && number >= 0.0;
+    info.scope == crate::vessel::SolutionScope::Complete
+        && info.provenance.is_some()
+        && info.solvent_kg.is_some_and(|kg| kg.is_finite() && kg > 0.0)
+        && info.particle_molality.is_some_and(valid_number)
+        && info.ph.is_finite()
+        && valid_number(info.ionic_strength)
+        && info
+            .species
+            .iter()
+            .all(|species| valid_number(species.molality) && valid_number(species.activity))
+        && vessel.temperature.0.is_finite()
+        && vessel.pressure.0.is_finite()
+        && vessel.pressure.0 > 0.0
+        && vessel.excess_enthalpy_j.is_finite()
+        && [
+            vessel.free_proton,
+            vessel.free_hydroxide,
+            vessel.solute_charge,
+        ]
+        .into_iter()
+        .all(f64::is_finite)
+        && phase_water_moles(vessel, Phase::Liquid) > 0.0
+        && phase_water_moles(vessel, Phase::Solid) > 0.0
+        && matches!(vessel.headspace, crate::vessel::Headspace::Open)
+        && matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+        && vessel.unresolved_materials.is_empty()
+        && vessel.material_objects.is_empty()
+        && vessel.soap_scum.is_none()
+        && vessel.lemon_paper_mark.is_none()
+        && vessel.surface_particles.is_none()
+        && vessel.surface_colours.is_empty()
+        && vessel.emulsion.is_none()
+        && vessel.charred_materials.is_empty()
+        && vessel.foam.trapped_gas_liters == 0.0
+        && vessel.foam.volume_liters == 0.0
+        && vessel.surfaces.is_empty()
+        && vessel.electrodes.is_empty()
+        && vessel.exchanges.is_empty()
+        && vessel.adsorbed.is_empty()
+        && vessel.solid_solutions.is_empty()
+        && vessel.nuclides.inventory.is_empty()
+        && vessel.contents.iter().all(|portion| {
+            if portion.species.0 == SOLVENT {
+                matches!(portion.phase, Phase::Liquid | Phase::Solid)
+            } else {
+                matches!(portion.phase, Phase::Aqueous | Phase::Solid)
+            }
+        })
+}
+
+/// A strict numerical fixed-point certificate. The proposed phase pass is
+/// inspected but never committed: its solution is stale after moving water.
+/// The caller retains the exact fresh chemistry vessel on success.
+fn certified_phase_residual(
+    previous: &Vessel,
+    fresh: &Vessel,
+    trial: &Vessel,
+    trial_events: &[Event],
+    prior_events: &[Event],
+    trusted_aqueous: bool,
+) -> Option<f64> {
+    const TEMPERATURE_K: f64 = 1e-6;
+    const MATERIAL_MOLES: f64 = 1e-10;
+    const ENERGY_J: f64 = 0.001;
+    if !trusted_aqueous
+        || !phase_certificate_domain(previous)
+        || !phase_certificate_domain(fresh)
+        || previous.id != fresh.id
+        || fresh.id != trial.id
+        || previous.label != fresh.label
+        || fresh.label != trial.label
+        || previous.pressure != fresh.pressure
+        || fresh.pressure != trial.pressure
+        || previous.headspace != fresh.headspace
+        || fresh.headspace != trial.headspace
+        || previous.thermal_mode != fresh.thermal_mode
+        || fresh.thermal_mode != trial.thermal_mode
+        || prior_events.iter().any(|event| {
+            matches!(
+                event,
+                Event::SolverFailed { .. } | Event::NotYetModeled { .. }
+            )
+        })
+    {
+        return None;
+    }
+    let earlier = vessel_transitions(previous).0;
+    let current = vessel_transitions(fresh).0;
+    let temperatures = [
+        previous.temperature.0,
+        fresh.temperature.0,
+        earlier.freezing_k,
+        current.freezing_k,
+    ];
+    if !temperatures.iter().all(|t| t.is_finite())
+        || !(crate::states::BRINE_MODEL_MIN_K..=crate::states::WATER_FREEZING_K)
+            .contains(&earlier.freezing_k)
+        || !(crate::states::BRINE_MODEL_MIN_K..=crate::states::WATER_FREEZING_K)
+            .contains(&current.freezing_k)
+        || !earlier.within_model_range()
+        || !current.within_model_range()
+        || temperatures
+            .iter()
+            .copied()
+            .fold(f64::NEG_INFINITY, f64::max)
+            - temperatures.iter().copied().fold(f64::INFINITY, f64::min)
+            > TEMPERATURE_K
+    {
+        return None;
+    }
+    let before_solution = previous.solution.as_ref()?;
+    let after_solution = fresh.solution.as_ref()?;
+    let before_source = before_solution.provenance.as_ref()?;
+    let after_source = after_solution.provenance.as_ref()?;
+    if before_source.engine != after_source.engine
+        || before_source.dataset != after_source.dataset
+        || before_source.model != after_source.model
+        || vessel_solvent_activity(previous).route() != vessel_solvent_activity(fresh).route()
+    {
+        return None;
+    }
+    let kg = before_solution.solvent_kg?.max(after_solution.solvent_kg?);
+    if (before_solution.ph - after_solution.ph).abs() > TEMPERATURE_K
+        || (before_solution.ionic_strength - after_solution.ionic_strength).abs() > MATERIAL_MOLES
+        || (before_solution.ionic_strength - after_solution.ionic_strength).abs() * kg
+            > MATERIAL_MOLES
+        || (before_solution.particle_molality? - after_solution.particle_molality?).abs() * kg
+            > MATERIAL_MOLES
+    {
+        return None;
+    }
+    let represented_change = phase_inventory_delta(previous, fresh, false)?
+        + (previous.free_proton - fresh.free_proton).abs()
+        + (previous.free_hydroxide - fresh.free_hydroxide).abs()
+        + (previous.solute_charge - fresh.solute_charge).abs();
+    let conserved_change = phase_ledger_delta(previous, fresh)?;
+    // Bound thermal drift between the two fresh states. This does not price
+    // chemical reaction heat; the certificate is only a phase residual.
+    let sensible_drift = previous
+        .energy_between(previous.temperature.0, fresh.temperature.0)
+        .abs()
+        + (previous.excess_enthalpy_j - fresh.excess_enthalpy_j).abs();
+    if !represented_change.is_finite()
+        || represented_change > MATERIAL_MOLES
+        || conserved_change > MATERIAL_MOLES
+        || !sensible_drift.is_finite()
+        || sensible_drift > ENERGY_J
+        || phase_inventory_delta(fresh, trial, true)? != 0.0
+        || phase_ledger_delta(fresh, trial)? > MATERIAL_MOLES
+        || phase_water_moles(fresh, Phase::Aqueous) != phase_water_moles(trial, Phase::Aqueous)
+        || phase_water_moles(fresh, Phase::Gas) != phase_water_moles(trial, Phase::Gas)
+        || fresh.free_proton != trial.free_proton
+        || fresh.free_hydroxide != trial.free_hydroxide
+        || fresh.solute_charge != trial.solute_charge
+        || fresh.excess_enthalpy_j != trial.excess_enthalpy_j
+    {
+        return None;
+    }
+    let liquid_change =
+        phase_water_moles(fresh, Phase::Liquid) - phase_water_moles(trial, Phase::Liquid);
+    let ice_change =
+        phase_water_moles(trial, Phase::Solid) - phase_water_moles(fresh, Phase::Solid);
+    if !liquid_change.is_finite()
+        || !ice_change.is_finite()
+        || liquid_change.abs() <= PHASE_TRANSFER_RESOLUTION_MOLES
+        || liquid_change.abs() > MATERIAL_MOLES
+        || (liquid_change - ice_change).abs() > PHASE_TRANSFER_RESOLUTION_MOLES
+        || trial_events.len() != 1
+    {
+        return None;
+    }
+    let Event::StateChanged {
+        vessel: owner,
+        species,
+        from,
+        to,
+        at,
+        kind: Some(kind),
+        moles: Some(amount),
+        ..
+    } = &trial_events[0]
+    else {
+        return None;
+    };
+    if *owner != fresh.id
+        || species.0 != SOLVENT
+        || !at.0.is_finite()
+        || (at.0 - current.freezing_k).abs() > TEMPERATURE_K
+        || !matches!(
+            (*from, *to),
+            (Phase::Liquid, Phase::Solid) | (Phase::Solid, Phase::Liquid)
+        )
+        || amount.0 <= 0.0
+        || !amount.0.is_finite()
+        || *kind != crate::ops::PhaseTransition::between(*from, *to)?
+        || (amount.0 - liquid_change.abs()).abs() > PHASE_TRANSFER_RESOLUTION_MOLES
+        || (liquid_change > 0.0) != (*from == Phase::Liquid)
+    {
+        return None;
+    }
+    let latent = crate::water_fusion::enthalpy_at(at.0)?;
+    let sensible = fresh
+        .energy_between(fresh.temperature.0, trial.temperature.0)
+        .abs();
+    let zero_transfer = fresh
+        .energy_between(fresh.temperature.0, current.freezing_k)
+        .abs();
+    if !sensible.is_finite()
+        || !zero_transfer.is_finite()
+        || sensible + amount.0 * latent > ENERGY_J
+        || zero_transfer > ENERGY_J
+    {
+        return None;
+    }
+    Some(current.freezing_k)
+}
+
+fn annotate_last_water_boundary(events: &mut [Event], liquidus: f64) {
+    if let Some(Event::StateChanged { at, shifted_by, .. }) =
+        events.iter_mut().rev().find(|event| {
+            matches!(
+                event,
+                Event::StateChanged {
+                    species,
+                    from: Phase::Liquid,
+                    to: Phase::Solid,
+                    ..
+                } | Event::StateChanged {
+                    species,
+                    from: Phase::Solid,
+                    to: Phase::Liquid,
+                    ..
+                } if species.0 == SOLVENT
+            )
+        })
+    {
+        *at = Kelvin(liquidus);
+        *shifted_by = liquidus - crate::states::WATER_FREEZING_K;
+    }
+}
+
 /// Couples an aqueous/speciation solver to the solvent phase pass until the
 /// liquid composition and ice fraction describe the same state.
 ///
@@ -2285,6 +2587,8 @@ pub fn equilibrate_phase_coupled(
     const MAX_PASSES: usize = 32;
     let mut events = Vec::new();
     let mut states = StateEquilibrator;
+    let trusted_aqueous = chemistry.trusted_aqueous_readback().is_some();
+    let mut previous_fresh: Option<Vessel> = None;
 
     // A phase transition of independent pure water is a solvent-state
     // question, not an aqueous-speciation question. Probe that transition on
@@ -2348,6 +2652,7 @@ pub fn equilibrate_phase_coupled(
             }
         }
 
+        let fresh = trusted_aqueous.then(|| vessel.clone());
         let liquid_before: f64 = vessel
             .contents
             .iter()
@@ -2378,6 +2683,23 @@ pub fn equilibrate_phase_coupled(
                 } if species.0 == SOLVENT
             )
         });
+        if transferred_water {
+            if let (Some(previous), Some(current)) = (previous_fresh.as_ref(), fresh.as_ref()) {
+                if let Some(liquidus) = certified_phase_residual(
+                    previous,
+                    current,
+                    vessel,
+                    &phase_events,
+                    &events,
+                    trusted_aqueous,
+                ) {
+                    *vessel = current.clone();
+                    annotate_last_water_boundary(&mut events, liquidus);
+                    return Ok(events);
+                }
+            }
+            previous_fresh = fresh;
+        }
         events.append(&mut phase_events);
         if !transferred_water {
             // A real chemistry answer remains current only when this phase
@@ -2407,27 +2729,7 @@ pub fn equilibrate_phase_coupled(
                     // settles, make the last phase event describe the final
                     // coexistence boundary rather than leaking an obsolete
                     // intermediate value to renderers and invariant checks.
-                    if let Some(Event::StateChanged { at, shifted_by, .. }) =
-                        events.iter_mut().rev().find(|event| {
-                            matches!(
-                                event,
-                                Event::StateChanged {
-                                    species,
-                                    from: Phase::Liquid,
-                                    to: Phase::Solid,
-                                    ..
-                                } | Event::StateChanged {
-                                    species,
-                                    from: Phase::Solid,
-                                    to: Phase::Liquid,
-                                    ..
-                                } if species.0 == SOLVENT
-                            )
-                        })
-                    {
-                        *at = Kelvin(liquidus);
-                        *shifted_by = liquidus - crate::states::WATER_FREEZING_K;
-                    }
+                    annotate_last_water_boundary(&mut events, liquidus);
                 }
             }
             return Ok(events);
@@ -3650,5 +3952,154 @@ mod route_trace_tests {
         let wire = serde_json::to_value(&stack.last_routes[0]).expect("route serialises");
         assert!(wire.get("reason").is_none(), "{wire}");
         assert_eq!(wire["vessel"], serde_json::json!(0));
+    }
+}
+
+#[cfg(test)]
+mod phase_residual_certificate_tests {
+    use super::*;
+    use crate::vessel::{Provenance, SolutionInfo, SpeciesDetail, VesselId};
+
+    // Frozen independent Decimal/Simpson references in
+    // audits/water-fusion-authority-20261023/references.json, T=270 K.
+    const ACTIVITY_270: f64 = 0.969_899_189_624_049_9;
+    const FUSION_270_J_MOL: f64 = 5889.397_339_398_314;
+
+    fn fresh_brine() -> Vessel {
+        let kg = 5.0 * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
+        let particles = (1.0 / ACTIVITY_270 - 1.0) / crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
+        let mut vessel = Vessel::new(VesselId(0), "frozen-reference brine");
+        vessel.temperature = Kelvin(270.0);
+        vessel.deposit(SpeciesId::new(SOLVENT), Moles(5.0), Phase::Liquid);
+        vessel.deposit(SpeciesId::new(SOLVENT), Moles(1.0), Phase::Solid);
+        for name in ["Na+", "Cl-"] {
+            vessel.deposit(
+                SpeciesId::new(name),
+                Moles(particles * kg / 2.0),
+                Phase::Aqueous,
+            );
+        }
+        vessel.solution = Some(SolutionInfo {
+            scope: crate::vessel::SolutionScope::Complete,
+            solvent_kg: Some(kg),
+            particle_molality: Some(particles),
+            pe: None,
+            redox: vec![],
+            ph: 7.0,
+            ionic_strength: particles / 2.0,
+            species: ["Na+", "Cl-"]
+                .into_iter()
+                .map(|name| SpeciesDetail {
+                    name: name.into(),
+                    molality: particles / 2.0,
+                    activity: particles / 2.0,
+                })
+                .collect(),
+            provenance: Some(Provenance {
+                engine: "synthetic certified-residual test".into(),
+                dataset: "frozen independent reference".into(),
+                model: "declared ideal activity".into(),
+                dataset_sources: vec![],
+                routing: "unit control".into(),
+                routing_phrase: None,
+                dataset_phrase: None,
+                model_phrase: None,
+            }),
+            solvent_activity: None,
+        });
+        assert!((vessel_transitions(&vessel).0.freezing_k - 270.0).abs() < 1e-9);
+        assert!((crate::water_fusion::enthalpy_at(270.0).unwrap() - FUSION_270_J_MOL).abs() < 2e-6);
+        vessel
+    }
+
+    fn tiny_trial(fresh: &Vessel) -> (Vessel, Vec<Event>) {
+        // A predeclared 10 nJ latent proposal, priced with the independent
+        // reference above. It is not taken from a failed native trace.
+        let transfer = 1e-8 / FUSION_270_J_MOL;
+        let mut trial = fresh.clone();
+        for portion in &mut trial.contents {
+            if portion.species.0 == SOLVENT && portion.phase == Phase::Liquid {
+                portion.moles = Moles(portion.moles.0 - transfer);
+            }
+        }
+        trial.deposit(SpeciesId::new(SOLVENT), Moles(transfer), Phase::Solid);
+        trial.temperature = Kelvin(fresh.temperature_after(1e-8));
+        trial.solution = None;
+        let event = Event::state_changed(
+            fresh.id,
+            SpeciesId::new(SOLVENT),
+            Phase::Liquid,
+            Phase::Solid,
+            Kelvin(270.0),
+            -3.15,
+            Moles(transfer),
+        );
+        (trial, vec![event])
+    }
+
+    #[test]
+    fn frozen_reference_microproposal_has_a_joint_material_and_energy_certificate() {
+        let fresh = fresh_brine();
+        let (trial, events) = tiny_trial(&fresh);
+        let liquidus = certified_phase_residual(&fresh, &fresh, &trial, &events, &[], true)
+            .expect("frozen-reference residual is within every budget");
+        assert!((liquidus - 270.0).abs() < 1e-9);
+        assert!(certified_phase_residual(&fresh, &fresh, &trial, &events, &[], false).is_none());
+    }
+
+    #[test]
+    fn small_water_proposal_cannot_hide_chemical_drift_or_invalid_native_state() {
+        let fresh = fresh_brine();
+        let (trial, events) = tiny_trial(&fresh);
+        let mut changed = fresh.clone();
+        changed.deposit(SpeciesId::new("Na+"), Moles(1e-5), Phase::Aqueous);
+        assert!(certified_phase_residual(&changed, &fresh, &trial, &events, &[], true).is_none());
+
+        // Moving a represented ion between phases conserves every element
+        // and formal charge, but is still a real chemistry-state change.
+        let mut redistributed = fresh.clone();
+        redistributed
+            .contents
+            .iter_mut()
+            .find(|portion| portion.species.0 == "Na+")
+            .unwrap()
+            .phase = Phase::Solid;
+        assert!(phase_ledger_delta(&redistributed, &fresh).unwrap() <= 1e-10);
+        assert!(phase_inventory_delta(&redistributed, &fresh, false).unwrap() > 1e-10);
+        assert!(
+            certified_phase_residual(&redistributed, &fresh, &trial, &events, &[], true).is_none()
+        );
+
+        let mut diagnostic_drift = fresh.clone();
+        diagnostic_drift.solution.as_mut().unwrap().ph += 0.1;
+        assert!(
+            certified_phase_residual(&diagnostic_drift, &fresh, &trial, &events, &[], true)
+                .is_none()
+        );
+
+        let mut missing = fresh.clone();
+        missing.solution.as_mut().unwrap().particle_molality = None;
+        assert!(certified_phase_residual(&fresh, &missing, &trial, &events, &[], true).is_none());
+        missing.solution.as_mut().unwrap().particle_molality = Some(f64::NAN);
+        assert!(certified_phase_residual(&fresh, &missing, &trial, &events, &[], true).is_none());
+
+        let mut outside_liquidus = fresh.clone();
+        outside_liquidus
+            .solution
+            .as_mut()
+            .unwrap()
+            .particle_molality = Some(50.0);
+        assert!(!vessel_transitions(&outside_liquidus)
+            .0
+            .freezing_k
+            .is_finite());
+        assert!(
+            certified_phase_residual(&fresh, &outside_liquidus, &trial, &events, &[], true)
+                .is_none()
+        );
+
+        let mut outside = fresh.clone();
+        outside.temperature = Kelvin(251.0);
+        assert!(certified_phase_residual(&fresh, &outside, &trial, &events, &[], true).is_none());
     }
 }
