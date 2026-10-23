@@ -1,0 +1,11 @@
+# Trace material ownership — prospective source repair
+
+Source inspected: c8171c4ebcf8961840605f2e925b6b8265b80c8a. These are source-level counterexamples, not claimed executed Rust failures and not a proven cause of the carbonate oscillations. Independent review confirmed both paths before implementation.
+
+1. In `PhreeqcEquilibrator::rebuild_contents_and_events`, a represented major native element total is split across canonical protonation species, but every positive share at or below1e−12mol is discarded. For0.02mol N(-3), fractions2.5e−11 NH3 and1−2.5e−11 NH4+ are normalized and physically representable; the positive5e−13mol NH3 share is skipped. Reconstructed nitrogen is therefore short by5e−13mol, despite the stated authoritative total. Preserve every finite positive canonical split share; do not use a reporting threshold as a physical deletion rule. This scope does not claim complete tiny-only element/input domain support.
+
+2. Water freezing, melting and boiling each globally retain only portions above1e−12mol after moving water. This also deletes unrelated non-water inventory. Scope exhaustion pruning to water portions owned by the phase transfer; retain unrelated reagent portions exactly. Keep the water-transfer resolution and all numerical/physical model boundaries unchanged.
+
+Before implementation, freeze a pure adapter-bookkeeping regression with the explicit N(-3) split above; require the positive NH3 share and full0.02mol nitrogen within floating arithmetic, with no native-chemistry/calibration claim. Add actual StateEquilibrator freezing, melting and boiling controls containing a known5e−13mol non-water aqueous trace; prove each water transition occurs and the unrelated quantity/phase is unchanged exactly. These controls are generic and must not reference the two carbonate failures.
+
+Retain the independent joint-residual predicate checks: a certificate cannot replace these direct material-ownership repairs, and small lost mass is not justified merely by a larger acceptance budget. Run the new controls, all predecessor source/phase/native/material guards, three exact CLI diagnostics and the full1536-state sweep. Preserve prior outcomes under their actual source identities. No full-source/product or original experiment qualification follows from source inspection alone.
