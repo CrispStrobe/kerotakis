@@ -1,0 +1,18 @@
+{
+  "FORECAST.md": {
+    "sha256": "5dee82f872013777732a31e7233f9fc858902c16b5d3726321f4daf5e39a194b",
+    "bytes": 2540
+  },
+  "corrected-cli-protocol.kero": {
+    "sha256": "a95e59408c36731599dcdf2a95457be77ddbfd1c6282a720fc80e0c2a5ec1ec8",
+    "bytes": 86
+  },
+  "corrected-cli-repro.stdout": {
+    "sha256": "bd4acc26a30e1e7b02eafe37d83c4635e6e3b545c3d5cd134f864be8f331c107",
+    "bytes": 32652
+  },
+  "first-failure.json": {
+    "sha256": "2f89a3fe98cd0c3ef35496ff462afc99babd72c9274eed54cadfcc2693101d77",
+    "bytes": 1830
+  }
+}

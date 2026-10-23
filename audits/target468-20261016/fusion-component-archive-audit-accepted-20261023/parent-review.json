@@ -1,0 +1,17 @@
+{
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "worker_sha256": "5f61b3ae740cf7ddba01031f98c4580caa3059f2af998c8a588feef929aafebf",
+  "actual_remote_result_sha256": "b4987153f91c4eb5d6464c88b0405b042b2aea2697435b4af93bd4b0702c6b4f",
+  "original_manifest_sha256": "cd630e766ee6ea0382515606a0e357197f86dbc353a98f46145815a68151d7fd",
+  "collector_receipt_sha256": "a7841cce7a902801938c49f7a9674090373f19fe8a9c1ff739671ab2e7311fc0",
+  "independent_review_sha256": "2ce076d5495529f2c509225665bba2b2560552dcdfdec2fbe46968cca252e01b",
+  "archive_count": 342,
+  "all_342_remote_digests_lengths_match_manifest_bound_metadata": true,
+  "compressed_archive_bytes": 4092069492,
+  "decompressed_executable_bytes": 17528073296,
+  "parent_read_original_gzip_bodies": false,
+  "no_native_tests_reexecuted": true,
+  "original_3044_passes_three_failures_preserved": true,
+  "full_source_and_product_accepted": false
+}

@@ -1,0 +1,18 @@
+{
+  "README.md": {
+    "sha256": "7f8c16147e9a70d35a86df3fce7b3ef66d311fb3a97ef8952c822613a5ebffba",
+    "bytes": 1128
+  },
+  "actual-remote-result.json": {
+    "sha256": "b4987153f91c4eb5d6464c88b0405b042b2aea2697435b4af93bd4b0702c6b4f",
+    "bytes": 115407
+  },
+  "independent-review.json": {
+    "sha256": "2ce076d5495529f2c509225665bba2b2560552dcdfdec2fbe46968cca252e01b",
+    "bytes": 140003
+  },
+  "parent-review.json": {
+    "sha256": "c7f3772a2e6deff1d1e556aeeea14eb76f5bd709d2e74f1f7f0ec5dd12d019f0",
+    "bytes": 967
+  }
+}

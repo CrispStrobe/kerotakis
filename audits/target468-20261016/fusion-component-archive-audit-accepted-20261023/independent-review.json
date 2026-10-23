@@ -1,0 +1,3137 @@
+{
+  "archive_count": 342,
+  "archive_records": [
+    {
+      "compressed_bytes": 13487568,
+      "compressed_sha256": "1505d4e6c83680552cf0d71875d2feaf05a491ecdfc1b967eed92baa7fbeb0ec",
+      "executable_bytes": 57265456,
+      "executable_sha256": "aecea0bd3f459d7753de8866fadcdf76295f63aaeb9c313fa38e3c79a5ede3f4",
+      "key": "kerotakis-cea--ambient_after_flame",
+      "package": "kerotakis-cea",
+      "target": "ambient_after_flame"
+    },
+    {
+      "compressed_bytes": 10279096,
+      "compressed_sha256": "404c4db8d650a6814cca98ce1f67287b8a99e8ed8fd316a6c52e69aab40bcaa7",
+      "executable_bytes": 45324520,
+      "executable_sha256": "211d91fe1996e4d5ad560569ea7b572c0d9611fcbfdef20962f920b0532d4a3b",
+      "key": "kerotakis-cea--autoignition",
+      "package": "kerotakis-cea",
+      "target": "autoignition"
+    },
+    {
+      "compressed_bytes": 13615164,
+      "compressed_sha256": "2cb9fe31e1b776ad80ce97a58770b11319de318a65939ebb0412d08566428d4e",
+      "executable_bytes": 57717408,
+      "executable_sha256": "9fd98a2490c85c5f9f7da95035a88d20fb1bbc267116921ecedc793a645b6090",
+      "key": "kerotakis-cea--bench_thermal",
+      "package": "kerotakis-cea",
+      "target": "bench_thermal"
+    },
+    {
+      "compressed_bytes": 13488259,
+      "compressed_sha256": "b82ee68bc0d77e5ec8937be6beec2ea41c000ac48b2b043eeb3de7e356400fcc",
+      "executable_bytes": 57268184,
+      "executable_sha256": "e91546a0caf674b5f261e4b33e3fd7c5b8656627271b29b30d3ce462b5a097ad",
+      "key": "kerotakis-cea--did_not_ignite",
+      "package": "kerotakis-cea",
+      "target": "did_not_ignite"
+    },
+    {
+      "compressed_bytes": 9095637,
+      "compressed_sha256": "abff97c20fa93a2c6fe54d1170f1a1dcaec8a96ed56790aa2563f1a03b363682",
+      "executable_bytes": 41110240,
+      "executable_sha256": "d83df89e8e9a8352437e95532e45af1f94bd9ae1a3696fd2984c923eff34910f",
+      "key": "kerotakis-cea--equilibrium",
+      "package": "kerotakis-cea",
+      "target": "equilibrium"
+    },
+    {
+      "compressed_bytes": 10537257,
+      "compressed_sha256": "c2c97b0ee78bb52e61d8977a741691de9e24ecf30300d226c4c0ecddcc82cec1",
+      "executable_bytes": 45971672,
+      "executable_sha256": "b90db6093eec5b3bc154073a3cb265b35f30521908b95db50df1861c35c25560",
+      "key": "kerotakis-cea--gas_mechanism_endpoint",
+      "package": "kerotakis-cea",
+      "target": "gas_mechanism_endpoint"
+    },
+    {
+      "compressed_bytes": 2271920,
+      "compressed_sha256": "13cda6ad5f02291333aa0c36f4348224527ccb676b54879f9c3ff7997bba9b4d",
+      "executable_bytes": 7201256,
+      "executable_sha256": "35e675c18f36ed9c847eb7ab5b8cff6291c7c64536e6fe783b3242bfbdb7ee12",
+      "key": "kerotakis-cea--generate-cea-subset",
+      "package": "kerotakis-cea",
+      "target": "generate-cea-subset"
+    },
+    {
+      "compressed_bytes": 9064025,
+      "compressed_sha256": "b2c3a9201190d1ea20bb6519604dcd51d7885ba563d70416e8430f010523f1b1",
+      "executable_bytes": 41047880,
+      "executable_sha256": "a0464f4def123289f40be932099279fb2e1dbc1156f7c352a348259a914e11be",
+      "key": "kerotakis-cea--heat_capacity_curves_are_the_vendored_file",
+      "package": "kerotakis-cea",
+      "target": "heat_capacity_curves_are_the_vendored_file"
+    },
+    {
+      "compressed_bytes": 13736164,
+      "compressed_sha256": "1e76e9e6036890e4aecad312d60b301917fd618c98ce4a3712cede71409e22a4",
+      "executable_bytes": 58005544,
+      "executable_sha256": "db9836ff9b2f7cb1d541c83446079b75f9bba5ac32e4605676666fb2f7595b13",
+      "key": "kerotakis-cea--heat_source_ceiling",
+      "package": "kerotakis-cea",
+      "target": "heat_source_ceiling"
+    },
+    {
+      "compressed_bytes": 9265196,
+      "compressed_sha256": "489222dc3cc5b4e2aa0aab3be1c8ff78b1af5000b29b5415e221a5b9c76d749b",
+      "executable_bytes": 41687488,
+      "executable_sha256": "a1f56944b043fd0f85ed5f5fe667f90680145c052602f3b4d152b2036437da66",
+      "key": "kerotakis-cea--kerotakis_cea",
+      "package": "kerotakis-cea",
+      "target": "kerotakis_cea"
+    },
+    {
+      "compressed_bytes": 8964312,
+      "compressed_sha256": "459bf630135f9a016de5b4a6fa56b2bae43dbe2dd99d25b8513c6e8f1be217e7",
+      "executable_bytes": 40690552,
+      "executable_sha256": "a0c2f9be5dbee0ebaa320d0c008b0f347b5d0edea0f65bad446af854c677e04a",
+      "key": "kerotakis-cea--latent_heats_are_the_vendored_file",
+      "package": "kerotakis-cea",
+      "target": "latent_heats_are_the_vendored_file"
+    },
+    {
+      "compressed_bytes": 13498459,
+      "compressed_sha256": "a1d206ab4d4cb03e0988a640a296a18456d6af3c03ff3edeb10ff145960fdd48",
+      "executable_bytes": 57325480,
+      "executable_sha256": "18f396182e6894b84d9c3d3f01a3659fc3caf48ec7ee2033a1e8cae109a8f970",
+      "key": "kerotakis-cea--paid_phase_fractions",
+      "package": "kerotakis-cea",
+      "target": "paid_phase_fractions"
+    },
+    {
+      "compressed_bytes": 10279656,
+      "compressed_sha256": "65c08880d2a9b9419afb6b96232337db32c093f6cfd2ffe0eba649616406888c",
+      "executable_bytes": 45335680,
+      "executable_sha256": "c93ed0ba0275a5762182e33d7149955b87dd0b0892b884810c7c2cfafb58571f",
+      "key": "kerotakis-cea--thermal_boundary_refusal",
+      "package": "kerotakis-cea",
+      "target": "thermal_boundary_refusal"
+    },
+    {
+      "compressed_bytes": 13730906,
+      "compressed_sha256": "a9c01e09a01d9cbb368a230948a52f299555188ea3896759ecbe0e80a43d02b2",
+      "executable_bytes": 57995624,
+      "executable_sha256": "a729cb18a987b18cf48ffe4bb2bea45d0d6a691dc5819a9cccc1e308b789ffcb",
+      "key": "kerotakis-cea--vented_products",
+      "package": "kerotakis-cea",
+      "target": "vented_products"
+    },
+    {
+      "compressed_bytes": 3680633,
+      "compressed_sha256": "27c520cb33d70c12cd3f6fc14ab3f6c5422a861d3164b9e9e993b6cb2d7e74a7",
+      "executable_bytes": 13778576,
+      "executable_sha256": "892afd25d4b13e3237d7e84a01d997a21864cbf95201c7fd8369698018598299",
+      "key": "kerotakis-core--accuracy_corpus",
+      "package": "kerotakis-core",
+      "target": "accuracy_corpus"
+    },
+    {
+      "compressed_bytes": 8364129,
+      "compressed_sha256": "249861355270112ffd73b27e4a9f0696476fb79c19d9814f919c1aad29985694",
+      "executable_bytes": 38726600,
+      "executable_sha256": "62105df1afd9deac044cbad4a51f296a84e3dee824db4cebd5261d08641ebd5c",
+      "key": "kerotakis-core--acid_metal_cell",
+      "package": "kerotakis-core",
+      "target": "acid_metal_cell"
+    },
+    {
+      "compressed_bytes": 10307964,
+      "compressed_sha256": "75c992a2df7a509a8fecfc329ccd9e53ea98613cfa05bb9ef3a00bbc2940cd28",
+      "executable_bytes": 45660992,
+      "executable_sha256": "4595332665cbff96140e34dcb917ceb8f4933a77d14f31922381301ab3dd79a4",
+      "key": "kerotakis-core--acid_permanganate_endpoint",
+      "package": "kerotakis-core",
+      "target": "acid_permanganate_endpoint"
+    },
+    {
+      "compressed_bytes": 10516557,
+      "compressed_sha256": "3792b5563e024b67777ee645192a9fd2e24c673d5a5c553f70ca2344a45f5c09",
+      "executable_bytes": 46313352,
+      "executable_sha256": "56c51f71326485385fa0357c4499657d3826faa0582cf57c40eecb3eb248ed69",
+      "key": "kerotakis-core--adsorption",
+      "package": "kerotakis-core",
+      "target": "adsorption"
+    },
+    {
+      "compressed_bytes": 9631178,
+      "compressed_sha256": "c2b57797bafd67e3bf5d8f10be20b36a92694890788f2c8fa1615d8d8136032d",
+      "executable_bytes": 43645768,
+      "executable_sha256": "0848e0f17e47860997df3ed00c190ffdf4cf037c0dc0f7dae9a57daad99cc331",
+      "key": "kerotakis-core--adsorption_delta",
+      "package": "kerotakis-core",
+      "target": "adsorption_delta"
+    },
+    {
+      "compressed_bytes": 10758012,
+      "compressed_sha256": "e271391604dfa492d869a07728c5ab5aaf23fd1abfec9ae374d361ff151f92c0",
+      "executable_bytes": 47266544,
+      "executable_sha256": "77391c52ff61190a5e9b1f640a841383d502f6c128e101db64d03ffaf07502e0",
+      "key": "kerotakis-core--allocation_profile",
+      "package": "kerotakis-core",
+      "target": "allocation_profile"
+    },
+    {
+      "compressed_bytes": 12792858,
+      "compressed_sha256": "f07ae66d23e321ac6e369ccaa7645b987914387fc1ea57e7dbbd3796a681bd6d",
+      "executable_bytes": 54812696,
+      "executable_sha256": "c8a68210afdb2e572f3ba6a03cc5660d56950dd7d1591e41349a8b67267f5ae5",
+      "key": "kerotakis-core--ambient_heat",
+      "package": "kerotakis-core",
+      "target": "ambient_heat"
+    },
+    {
+      "compressed_bytes": 8590307,
+      "compressed_sha256": "ab24cd57534f81bf558f72bbdb7bf136fe27d905c9298b748d63f44a1a182eeb",
+      "executable_bytes": 39298432,
+      "executable_sha256": "1cfefb23ae70a1b74c4b758b7186461513f775cc6b5565eb4c3f91870e2465ba",
+      "key": "kerotakis-core--amount_foundation",
+      "package": "kerotakis-core",
+      "target": "amount_foundation"
+    },
+    {
+      "compressed_bytes": 13036224,
+      "compressed_sha256": "231bba15aeb99c4125e10f2d039fa4ff204936184ef0d286f516a6b144ca298f",
+      "executable_bytes": 55573864,
+      "executable_sha256": "dc9ab32fd0141f4ca08dcc22b970b9568d73257b87a6a8bbd9a93a813533e93f",
+      "key": "kerotakis-core--amylase",
+      "package": "kerotakis-core",
+      "target": "amylase"
+    },
+    {
+      "compressed_bytes": 13046499,
+      "compressed_sha256": "dc574fb8d26be45e0a1aa4c377fa6d6d2c5bac778ff9503c035bdcb0c1c5e44c",
+      "executable_bytes": 55918208,
+      "executable_sha256": "68e390c9e81dfff576f7ffa4a47ccd303b612366515be0d5060437eff1f2489a",
+      "key": "kerotakis-core--aqueous_continuation",
+      "package": "kerotakis-core",
+      "target": "aqueous_continuation"
+    },
+    {
+      "compressed_bytes": 12844747,
+      "compressed_sha256": "32e9254ad1dc75b257dfca7460897435b71032dbceda88106f10a71a250256f6",
+      "executable_bytes": 55149376,
+      "executable_sha256": "2c6a2f4f5f20784fe762f2599cabd1edcb679cdf12c700ce71fe5ea8629c7530",
+      "key": "kerotakis-core--aqueous_transfer_snapshot",
+      "package": "kerotakis-core",
+      "target": "aqueous_transfer_snapshot"
+    },
+    {
+      "compressed_bytes": 13024374,
+      "compressed_sha256": "3fbbf0eb59477bb3189f77f20c04625be085c22bac3a87555eba6ee41b985701",
+      "executable_bytes": 55853960,
+      "executable_sha256": "6c37591e3c41ff5fb64f6695168b095617e31daafdf246e6638312828e4ae8a8",
+      "key": "kerotakis-core--atomic_distil_refusal",
+      "package": "kerotakis-core",
+      "target": "atomic_distil_refusal"
+    },
+    {
+      "compressed_bytes": 12920667,
+      "compressed_sha256": "9581c9432368e45319a3cfc8dc02099dc124759991149c98b2e199ceeee5abee",
+      "executable_bytes": 55272064,
+      "executable_sha256": "aa99688a0528cdfe24f230c2f3e05fdefb06d8dc65c04ff7ada1943732c288d7",
+      "key": "kerotakis-core--batteries",
+      "package": "kerotakis-core",
+      "target": "batteries"
+    },
+    {
+      "compressed_bytes": 9473281,
+      "compressed_sha256": "a80a2cbb4653c8ae2e072d03d06087f904a80eb754fbc1acedb6aa70e7673bbf",
+      "executable_bytes": 42806976,
+      "executable_sha256": "5c8914bd5e617dc6bc44aa1392f40a55e536a5b72848860cd81f9e5984a13f25",
+      "key": "kerotakis-core--borrowed_solver_routes",
+      "package": "kerotakis-core",
+      "target": "borrowed_solver_routes"
+    },
+    {
+      "compressed_bytes": 10068585,
+      "compressed_sha256": "feeb59686423cd4c430de71a98f6c4d3e55c197fc283072ccbfd741bc629ce3f",
+      "executable_bytes": 44906280,
+      "executable_sha256": "435a1751207f565a541bdb891834569106b3a1bdde6bd438e3e4c2f6d7300375",
+      "key": "kerotakis-core--brine_phase_energy",
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy"
+    },
+    {
+      "compressed_bytes": 12877319,
+      "compressed_sha256": "391a981dd0d65265bd51eaf169e63832d29410d42c87e0c10985a5a1d3e8a1e0",
+      "executable_bytes": 55147696,
+      "executable_sha256": "0a4d67d3edee4e22ff906f868d75cd3f34a2891fb9b3d7a9963df22e5a0cc3f7",
+      "key": "kerotakis-core--buoyancy",
+      "package": "kerotakis-core",
+      "target": "buoyancy"
+    },
+    {
+      "compressed_bytes": 13041449,
+      "compressed_sha256": "836e3a084760ec4744cd5e4799273654f42357fa7cfa37132ded7b71e2374bc4",
+      "executable_bytes": 55830016,
+      "executable_sha256": "c59ae866a331fab792862cd451e8cf81d527129ca8c316ad90605b8846f95e3a",
+      "key": "kerotakis-core--centrifuging",
+      "package": "kerotakis-core",
+      "target": "centrifuging"
+    },
+    {
+      "compressed_bytes": 12962333,
+      "compressed_sha256": "7c71e8573c6a721256d6731e7d2d67c4fbf7eddf0c9c8925bf34c0a6574e7982",
+      "executable_bytes": 55402976,
+      "executable_sha256": "87c4c4831c6f5201e75243cafff8136a03f48d7641cb4c386fbeee35601c58a5",
+      "key": "kerotakis-core--chromatograph",
+      "package": "kerotakis-core",
+      "target": "chromatograph"
+    },
+    {
+      "compressed_bytes": 9115442,
+      "compressed_sha256": "c1dae6f63a333f07ccde998d88272f2837537e1c9a2014c33109e9771ad10a23",
+      "executable_bytes": 41578240,
+      "executable_sha256": "f5f2d8ebe39f6ca43e60b55dce4d61b2202203bfa27f671590463384dc54cd3a",
+      "key": "kerotakis-core--column_breakthrough",
+      "package": "kerotakis-core",
+      "target": "column_breakthrough"
+    },
+    {
+      "compressed_bytes": 12877922,
+      "compressed_sha256": "fdc9b3c6665bc3980ab1d6adf826a72b44b7c7dd4ae6a76efe70ee58c5930993",
+      "executable_bytes": 55112840,
+      "executable_sha256": "544775db5206d2295e2bdbaaaf700a78a6d9c1ba0fa25635018ee33875234d87",
+      "key": "kerotakis-core--combustion",
+      "package": "kerotakis-core",
+      "target": "combustion"
+    },
+    {
+      "compressed_bytes": 2710876,
+      "compressed_sha256": "3fbbe1df7b8a82c77de39c61b3c6d08bb4dba1b1089c8751d8267c51104228ac",
+      "executable_bytes": 8516176,
+      "executable_sha256": "08d487da521412e47d67f302b6fac682a075b67935d718dde44257af037bc4fc",
+      "key": "kerotakis-core--compensated_amount_contracts",
+      "package": "kerotakis-core",
+      "target": "compensated_amount_contracts"
+    },
+    {
+      "compressed_bytes": 11287473,
+      "compressed_sha256": "f97cced3e7f002187dc692dbf6f264988ce612b798f8486d6fd9cd84e6157c8e",
+      "executable_bytes": 54337936,
+      "executable_sha256": "7e60d7b1e8b2e0b10465c3493c03140e13b630adc06756aefcf467f597c27328",
+      "key": "kerotakis-core--compensated_stock_contracts",
+      "package": "kerotakis-core",
+      "target": "compensated_stock_contracts"
+    },
+    {
+      "compressed_bytes": 9134108,
+      "compressed_sha256": "5499344ed4c545f50c516091f5937f28f0e570c0c6ca30342ea565775e54ba0d",
+      "executable_bytes": 41562776,
+      "executable_sha256": "c38f00b6c57d35cf0e6a3820c4e482243cc08704235709f1b1f102a2b823be33",
+      "key": "kerotakis-core--compensated_stock_precision_boundaries",
+      "package": "kerotakis-core",
+      "target": "compensated_stock_precision_boundaries"
+    },
+    {
+      "compressed_bytes": 11442143,
+      "compressed_sha256": "90918704506655058eb16360d94d521bd78d04fc826d55a8ed2261bb23849f9e",
+      "executable_bytes": 49272048,
+      "executable_sha256": "4088b42191d127c4df7f0369af1f06d33cbaa95a2913a8146dfba2d5e9b97eab",
+      "key": "kerotakis-core--composed_locale",
+      "package": "kerotakis-core",
+      "target": "composed_locale"
+    },
+    {
+      "compressed_bytes": 8410939,
+      "compressed_sha256": "198a4143ad7fc1d0840a145c23e7d6f782f807c5fd64435c45222d00ac301d34",
+      "executable_bytes": 38847632,
+      "executable_sha256": "e4a8fb8f637d5cb610fa4f8d63ecccab15737ba90e01832bedbdd9f0c1e64d3f",
+      "key": "kerotakis-core--conductivity_sources",
+      "package": "kerotakis-core",
+      "target": "conductivity_sources"
+    },
+    {
+      "compressed_bytes": 13898052,
+      "compressed_sha256": "2c79e8b7434749fb58d58c894cac5f6d6e6cd8ba317581d7fe24bc11ef37eba7",
+      "executable_bytes": 59219832,
+      "executable_sha256": "15b52b27a7fc2612a4ccfe7126729e3c25f6ec9cd919d3072ead4e710090c10d",
+      "key": "kerotakis-core--conservation",
+      "package": "kerotakis-core",
+      "target": "conservation"
+    },
+    {
+      "compressed_bytes": 12904643,
+      "compressed_sha256": "f0168a4748499fb561492633bcbeb8648767db1a8249de27af732d1ad465008c",
+      "executable_bytes": 55231032,
+      "executable_sha256": "4ede857de73cfe91ac3b9f6f5b97d823de7f04ae72474a16d7cf6438eb03f2d2",
+      "key": "kerotakis-core--corrosion",
+      "package": "kerotakis-core",
+      "target": "corrosion"
+    },
+    {
+      "compressed_bytes": 10251027,
+      "compressed_sha256": "f5800ce4294645aa2871c882e17806e12f339a2b44e8812ca426ebbe3d907bac",
+      "executable_bytes": 45235160,
+      "executable_sha256": "f6f492638274c29933fd279ab81e8cd9548fa061f019ca9c2d7f6f6d0de49b44",
+      "key": "kerotakis-core--dataset_model_locale",
+      "package": "kerotakis-core",
+      "target": "dataset_model_locale"
+    },
+    {
+      "compressed_bytes": 9462873,
+      "compressed_sha256": "5e386554215cc0a5ab2b9a4460eb8a8bd5f6ed52d87c4a4598a0b5113eb368d0",
+      "executable_bytes": 42861944,
+      "executable_sha256": "415aad04a554601b87d729e390168d93bcd67c562af58789eb134f4232ad5272",
+      "key": "kerotakis-core--delta_inventory_contracts",
+      "package": "kerotakis-core",
+      "target": "delta_inventory_contracts"
+    },
+    {
+      "compressed_bytes": 9430839,
+      "compressed_sha256": "1b3053c71bfdbdaeea89ef3f2d7f080d55d50e158cd069f8afc23247f885a9e9",
+      "executable_bytes": 42741976,
+      "executable_sha256": "442c4a491ab04b3dc81d9be65115c8756c788dd4fc7d3cb53c4ba15cd18cc96e",
+      "key": "kerotakis-core--delta_thermal_contracts",
+      "package": "kerotakis-core",
+      "target": "delta_thermal_contracts"
+    },
+    {
+      "compressed_bytes": 12875721,
+      "compressed_sha256": "bc1f381cd762ee602a5fb06d73174f23d71a29b618180d48e26d96a7ee880b8a",
+      "executable_bytes": 55133400,
+      "executable_sha256": "649ebbf8eb667e97a325d5eee3e0b06c1fb7861be050db7d307198cfbf040882",
+      "key": "kerotakis-core--density",
+      "package": "kerotakis-core",
+      "target": "density"
+    },
+    {
+      "compressed_bytes": 12740234,
+      "compressed_sha256": "6203dfad261c89a70e112b72cf014e601e1f7b1d48b1b8f29994750a2672b8cc",
+      "executable_bytes": 54600000,
+      "executable_sha256": "bca3c9cf2beb79f84a2895280870eb6d846813a8e662671b9bcb2c98b1812309",
+      "key": "kerotakis-core--did_not_ignite",
+      "package": "kerotakis-core",
+      "target": "did_not_ignite"
+    },
+    {
+      "compressed_bytes": 12887253,
+      "compressed_sha256": "45537c8d1e1d15d9a1421198817122955525739ac2c7688f8a46da743a4a79b9",
+      "executable_bytes": 55169264,
+      "executable_sha256": "9cbf832adc10fa9e473ff0ce448877660c89d040edd2e40a2b2790191f4f60b4",
+      "key": "kerotakis-core--dilute",
+      "package": "kerotakis-core",
+      "target": "dilute"
+    },
+    {
+      "compressed_bytes": 12671157,
+      "compressed_sha256": "a2fea65beec5b3c1e5bc20bef1b9d78b031735bfc2983c5912b5457924a8371b",
+      "executable_bytes": 54346840,
+      "executable_sha256": "3ae67ed2cf403810ffc2e89243ec2486bb947de7c78e054b6c46a288d8fe4305",
+      "key": "kerotakis-core--direct_model_routes",
+      "package": "kerotakis-core",
+      "target": "direct_model_routes"
+    },
+    {
+      "compressed_bytes": 14795632,
+      "compressed_sha256": "394520ab7d249a3a642d72dc59381caa0ace99e2752bd81bf9e73077e360b54a",
+      "executable_bytes": 66535520,
+      "executable_sha256": "796c5bff5b3654d6477a8e5e848c40ab1fc5de1d575d14683b99d20d5e7e3af4",
+      "key": "kerotakis-core--discard_verb",
+      "package": "kerotakis-core",
+      "target": "discard_verb"
+    },
+    {
+      "compressed_bytes": 12821363,
+      "compressed_sha256": "45599508e87248d8d453ea28fdb5c5d9d73d629aad6eb78f72122b959cd9f71d",
+      "executable_bytes": 54905080,
+      "executable_sha256": "490cf6913fd31c728927f81067ba0ccb82bbe7e5bf5cd1cab8938eba20bcbf89",
+      "key": "kerotakis-core--distil",
+      "package": "kerotakis-core",
+      "target": "distil"
+    },
+    {
+      "compressed_bytes": 9446817,
+      "compressed_sha256": "738cba3a2d745ceb20badcab825cf4b6d09a53ccded28eecdd3abf86c5799b3a",
+      "executable_bytes": 42600848,
+      "executable_sha256": "de85a5f19a580b8ae518da2ca72594a23f80de41fabe068c24e19ec60ccd4e2d",
+      "key": "kerotakis-core--element_coverage",
+      "package": "kerotakis-core",
+      "target": "element_coverage"
+    },
+    {
+      "compressed_bytes": 13096880,
+      "compressed_sha256": "9aaaee1e90335502935b5d4aa2f2a337723d3636149d4362eeb790e6ed781b55",
+      "executable_bytes": 55801936,
+      "executable_sha256": "d1896f63209dc69a628418b4be31238f4947c0705956357918a6547f32a539df",
+      "key": "kerotakis-core--energy_transfer",
+      "package": "kerotakis-core",
+      "target": "energy_transfer"
+    },
+    {
+      "compressed_bytes": 15162282,
+      "compressed_sha256": "a42ba35ef3c9a79fe1014b2b6e9c1deda2a6ebc1f2cbc787786e0fb4f6ed48ac",
+      "executable_bytes": 68148552,
+      "executable_sha256": "378a64467eb9075b9b42bf6c58057ccc0a765ce170c3ff0d3ac7051631a03ceb",
+      "key": "kerotakis-core--english_input_alias",
+      "package": "kerotakis-core",
+      "target": "english_input_alias"
+    },
+    {
+      "compressed_bytes": 12931374,
+      "compressed_sha256": "80e15086c7d2559ee4712eb53211f69b2120b531c9b10f1b5d35af623c6afc03",
+      "executable_bytes": 55308760,
+      "executable_sha256": "2f0d6544cff79089306fb8c24e9a5ef1eac9e55aa5fb901fb457359b394ddd2d",
+      "key": "kerotakis-core--enzyme_activity",
+      "package": "kerotakis-core",
+      "target": "enzyme_activity"
+    },
+    {
+      "compressed_bytes": 12875576,
+      "compressed_sha256": "c4a13942038254abf3d818c3983367675ce0fe3450bd880af37f127712641917",
+      "executable_bytes": 55128840,
+      "executable_sha256": "1e440114c777d7ae51a9b15aa4fef1f95cfed9930829698aa8bbb22b0492650c",
+      "key": "kerotakis-core--enzyme_families",
+      "package": "kerotakis-core",
+      "target": "enzyme_families"
+    },
+    {
+      "compressed_bytes": 9572618,
+      "compressed_sha256": "86e56a5743ee828111d6137c4494f29b45c807a29564b1ce50ddbf5056a2bf98",
+      "executable_bytes": 44031664,
+      "executable_sha256": "b27845c28fc5096e89dcae6fce5037fa42ee529c41f60f69e6765bb76b720d2f",
+      "key": "kerotakis-core--exchange",
+      "package": "kerotakis-core",
+      "target": "exchange"
+    },
+    {
+      "compressed_bytes": 9401843,
+      "compressed_sha256": "91b847f98f31c1e1a96dd6dc9285fbde56c8ff11ceba13e44bbc9c6f4a4b3a25",
+      "executable_bytes": 42113536,
+      "executable_sha256": "5a41b34287f63172f6e25d293889db953dc7884d29c7cbb3d8f1677391905f6b",
+      "key": "kerotakis-core--family_gate_legacy",
+      "package": "kerotakis-core",
+      "target": "family_gate_legacy"
+    },
+    {
+      "compressed_bytes": 9678805,
+      "compressed_sha256": "7ac75b992dfd9d80b2bd37da3a026378905cc69af823cbe7e76ad895b88dad37",
+      "executable_bytes": 43228888,
+      "executable_sha256": "752f471beaff82f5e9d2fea708d10164f1f157efc1a4f5497cc4748d14e7e457",
+      "key": "kerotakis-core--family_gate_locale",
+      "package": "kerotakis-core",
+      "target": "family_gate_locale"
+    },
+    {
+      "compressed_bytes": 9324439,
+      "compressed_sha256": "691b6685cf796d6631e5f3f9f19a57113e3573a82b77bd5140c77344065ca494",
+      "executable_bytes": 42237008,
+      "executable_sha256": "bf300c8017d5fb6f11662ace3f2752dd037f0cae0b060872713aad0cff2111db",
+      "key": "kerotakis-core--family_gate_registry_locale",
+      "package": "kerotakis-core",
+      "target": "family_gate_registry_locale"
+    },
+    {
+      "compressed_bytes": 12931840,
+      "compressed_sha256": "d81bcedb5b34bf614bad53b0980a5aef6bfb310db81ec8cd560d0bf2ebfddcc3",
+      "executable_bytes": 55296432,
+      "executable_sha256": "bde6c9585cc52f93ee7c1fcc5eb14af3853ed0a3fa590ca1c95333bd778c01ca",
+      "key": "kerotakis-core--fermentation",
+      "package": "kerotakis-core",
+      "target": "fermentation"
+    },
+    {
+      "compressed_bytes": 10353847,
+      "compressed_sha256": "0963a4e26746edefbbdcdb8362e8438b22508ed849fe4b35308cf59930a5a834",
+      "executable_bytes": 46618776,
+      "executable_sha256": "700af46ba2d4f21f979257eed359eb9d68bb13d907b0833ca4d909315dec3945",
+      "key": "kerotakis-core--finite_script_quantities",
+      "package": "kerotakis-core",
+      "target": "finite_script_quantities"
+    },
+    {
+      "compressed_bytes": 12876207,
+      "compressed_sha256": "492d69a51fb1a306ecd47d166db086f62a03b7e2f83853b030bf5e8ad06da246",
+      "executable_bytes": 55142336,
+      "executable_sha256": "29263d8254c285abf5f12e24d37030a75c26746965a4e7597c3fc643e135be16",
+      "key": "kerotakis-core--float_or_sink",
+      "package": "kerotakis-core",
+      "target": "float_or_sink"
+    },
+    {
+      "compressed_bytes": 8444960,
+      "compressed_sha256": "ee2c8bc99bffd03756a3581988bf2b12d350637482d53c9bec85f7d5cb318936",
+      "executable_bytes": 38986888,
+      "executable_sha256": "8ae550e56f9c9c17c073f5427a7945a315d64ce6b138846808973e13f14d79a1",
+      "key": "kerotakis-core--fluid_pack_identity",
+      "package": "kerotakis-core",
+      "target": "fluid_pack_identity"
+    },
+    {
+      "compressed_bytes": 12891103,
+      "compressed_sha256": "c0c5835ba181cd966560aaeba57d72da8c604ac44199452a749109e8f1049db7",
+      "executable_bytes": 55190808,
+      "executable_sha256": "46a3df59167fa1e04d2ff0d7acb4ca43a1a0aca76a2a7e22d641a52ef2cc6400",
+      "key": "kerotakis-core--foam_observable",
+      "package": "kerotakis-core",
+      "target": "foam_observable"
+    },
+    {
+      "compressed_bytes": 12877490,
+      "compressed_sha256": "f7568d9a8de4793f6a10e6169df88c84d0683c76856eaf1c369a296c7101eccb",
+      "executable_bytes": 55129408,
+      "executable_sha256": "37afe4a68e92eee40c2dff2e3dbf6f9550231e66945e0098886da48d0bbf6b12",
+      "key": "kerotakis-core--food_colour",
+      "package": "kerotakis-core",
+      "target": "food_colour"
+    },
+    {
+      "compressed_bytes": 13213146,
+      "compressed_sha256": "7597b164b32d61a57ce63a95947e41630027fe5c294a5a2aa40f845d382e7ee8",
+      "executable_bytes": 56117208,
+      "executable_sha256": "0973fb3c54c4f48fc4e029e99499a31bbd41d0e16ed870b28658d1add6bfe273",
+      "key": "kerotakis-core--frozen_behavior",
+      "package": "kerotakis-core",
+      "target": "frozen_behavior"
+    },
+    {
+      "compressed_bytes": 12977005,
+      "compressed_sha256": "1d483525908530dc6506ab2853e24a579c3a5bda4bbd46b03104306c33f4fe38",
+      "executable_bytes": 55305096,
+      "executable_sha256": "8c92afa4c4bfad2e7dbd0b46fa68d29f6b89e0cf950d7c2025f6bb52270c69bd",
+      "key": "kerotakis-core--gap_beside_a_colour_change",
+      "package": "kerotakis-core",
+      "target": "gap_beside_a_colour_change"
+    },
+    {
+      "compressed_bytes": 11438749,
+      "compressed_sha256": "df822d8db3abf6e5ae482dcdea0fd5a158ba11844c8f7d0bd37a86381a5e454c",
+      "executable_bytes": 49490128,
+      "executable_sha256": "be6886de2d6f4567df748cbac83f5aa28a52d278985c8d345d134727464b3ca4",
+      "key": "kerotakis-core--gas_mechanism_clock",
+      "package": "kerotakis-core",
+      "target": "gas_mechanism_clock"
+    },
+    {
+      "compressed_bytes": 10008293,
+      "compressed_sha256": "22f5f28fac9cf4477b33694c245e16f2a8ef3f234f188289d651358de95b029f",
+      "executable_bytes": 44156152,
+      "executable_sha256": "6566b7c2a83d8d4800e4f84ee16ff7ad4561615122f99877613d18ca4ab9851f",
+      "key": "kerotakis-core--gas_mechanism_packs",
+      "package": "kerotakis-core",
+      "target": "gas_mechanism_packs"
+    },
+    {
+      "compressed_bytes": 12930720,
+      "compressed_sha256": "9a72d3c480b98a1684c5971257e652a7679d15ee9c13cf199a31d09abdbf14fc",
+      "executable_bytes": 55298936,
+      "executable_sha256": "d1b65e73bcaab3a8c674931572b15b19704c29884609a7afcd1daeb5ca699ffb",
+      "key": "kerotakis-core--gas_tests",
+      "package": "kerotakis-core",
+      "target": "gas_tests"
+    },
+    {
+      "compressed_bytes": 12925166,
+      "compressed_sha256": "51af1c62fec3fa5e36f6851a05194734d0a4c0244c62fa9e78d17e92e02d7506",
+      "executable_bytes": 55288496,
+      "executable_sha256": "814d0c6fa27ec6f4da35328f878fb0f3d75863ad3901e4762eedeae830270b48",
+      "key": "kerotakis-core--grinding",
+      "package": "kerotakis-core",
+      "target": "grinding"
+    },
+    {
+      "compressed_bytes": 10823280,
+      "compressed_sha256": "0d877a4b33391f7463c71167c9d7b079dadf791d0f2ea3598b9ab60845811b2b",
+      "executable_bytes": 47424760,
+      "executable_sha256": "bdfe4276bee816f854262a3d0f3a9fb70c6fc0ca7280cd78f2f4defe5f12167c",
+      "key": "kerotakis-core--hair_bleach",
+      "package": "kerotakis-core",
+      "target": "hair_bleach"
+    },
+    {
+      "compressed_bytes": 9344063,
+      "compressed_sha256": "c4b994e5c17b343f3d510460d059d70976dba0614c745a43e1954f0f9e70233e",
+      "executable_bytes": 41912024,
+      "executable_sha256": "270c8ea6b6b267c15c5cb43086a1b28d528395a862126523429edcb6c46bb1b9",
+      "key": "kerotakis-core--hazard_locale",
+      "package": "kerotakis-core",
+      "target": "hazard_locale"
+    },
+    {
+      "compressed_bytes": 13417048,
+      "compressed_sha256": "60da0ae053edb092b5ea122873a2a6776cc1e192246696cc5a47db8a84e1306f",
+      "executable_bytes": 57847744,
+      "executable_sha256": "795e0f181b6d7512c587202ae0a0ac9c7fbb2010e90ee7a6cc2fd2d1a9652a4e",
+      "key": "kerotakis-core--headspace",
+      "package": "kerotakis-core",
+      "target": "headspace"
+    },
+    {
+      "compressed_bytes": 8446281,
+      "compressed_sha256": "6fd729ee6b7ccd41dfe464acdb9d27129cc627eda05cf56a6460d2de90862353",
+      "executable_bytes": 39003256,
+      "executable_sha256": "fbe0cb17c371953d1e32a2ce795a286eb31ed1761d5dcd1630922d6112ef14cc",
+      "key": "kerotakis-core--heat_capacity_curves",
+      "package": "kerotakis-core",
+      "target": "heat_capacity_curves"
+    },
+    {
+      "compressed_bytes": 12874728,
+      "compressed_sha256": "3af9bdc79c04a6ff68aebb02a38d589da89953c5a513daeb6299c36d077a10b6",
+      "executable_bytes": 55127848,
+      "executable_sha256": "f0a3279c0ac41aaa9d0e86e320f2423eb159a6abce5d652a31a4d3db6c93c4d5",
+      "key": "kerotakis-core--heat_capacity_ledger",
+      "package": "kerotakis-core",
+      "target": "heat_capacity_ledger"
+    },
+    {
+      "compressed_bytes": 12796042,
+      "compressed_sha256": "100cc750048e1126932a85e425fcca8642ac003a3bfe594a41875c14ac6b9b86",
+      "executable_bytes": 54857656,
+      "executable_sha256": "0d8ba97037dd923423b10f694214a1838b0f9581e35e576721767893f68546a6",
+      "key": "kerotakis-core--heat_of_mixing",
+      "package": "kerotakis-core",
+      "target": "heat_of_mixing"
+    },
+    {
+      "compressed_bytes": 8466450,
+      "compressed_sha256": "a98376ed86cc3dc94184e978dd2848c8daca7c42f4c231e559ddf8efaede48a1",
+      "executable_bytes": 38959264,
+      "executable_sha256": "9762f9fef71289c5e7d2ecf3dbe73e83683f0229f70575b8376842d5326d65dc",
+      "key": "kerotakis-core--henry_oracle",
+      "package": "kerotakis-core",
+      "target": "henry_oracle"
+    },
+    {
+      "compressed_bytes": 12776982,
+      "compressed_sha256": "a5260c92ece3b61881d5f13311c8845a62b47318abc04dc57a089f4934109ad6",
+      "executable_bytes": 54768600,
+      "executable_sha256": "2a2ed52aa15af31c33ca38d79ff24ee05acf0908ae8dbcfb38d03bed2993e712",
+      "key": "kerotakis-core--honesty",
+      "package": "kerotakis-core",
+      "target": "honesty"
+    },
+    {
+      "compressed_bytes": 12907461,
+      "compressed_sha256": "98afb7447fb118ba65da05e093428dc1bece6b9f9c249c1dfddb6b1c7cc9dd6e",
+      "executable_bytes": 55223768,
+      "executable_sha256": "fdc2d2713f51dfa81e31048679891aaaa602a090de09d026692c9c9d74113697",
+      "key": "kerotakis-core--household_fizz",
+      "package": "kerotakis-core",
+      "target": "household_fizz"
+    },
+    {
+      "compressed_bytes": 11516589,
+      "compressed_sha256": "f2a888c21e0d7a057f02e5d9a7fa9cba2aa72b3b0cb15bfa49cb22c17b69d251",
+      "executable_bytes": 52293128,
+      "executable_sha256": "ce0e62a5d35d0413572451fd900d18d6f5d1a889867b3216257a43b1609e2f90",
+      "key": "kerotakis-core--i18n_coverage",
+      "package": "kerotakis-core",
+      "target": "i18n_coverage"
+    },
+    {
+      "compressed_bytes": 13010822,
+      "compressed_sha256": "385e4bbcc3a801b008d6ae189325299b57bfca189850503dca515181ac10a174",
+      "executable_bytes": 55809024,
+      "executable_sha256": "082ddd9797e9a2e1d009e3efc037150be5f34e72a0c5917215641dff803aa6ce",
+      "key": "kerotakis-core--ideal_still_portion_validation",
+      "package": "kerotakis-core",
+      "target": "ideal_still_portion_validation"
+    },
+    {
+      "compressed_bytes": 13019637,
+      "compressed_sha256": "8987795274d2fbb97568c6bac3e9d6eb21d9052a70a095c4b461643ee12297bc",
+      "executable_bytes": 55862816,
+      "executable_sha256": "4419c83c0c244bc2708428674775b35e802c078a10790fd7560ac81976a561b3",
+      "key": "kerotakis-core--ideal_still_refusal_diagnostics",
+      "package": "kerotakis-core",
+      "target": "ideal_still_refusal_diagnostics"
+    },
+    {
+      "compressed_bytes": 13514240,
+      "compressed_sha256": "bd9e62d3ceff5a5f119fe8ad614735e26f1ee0bfb53a333249f96b97c9f12411",
+      "executable_bytes": 58558376,
+      "executable_sha256": "b5c733f7b658a06b810935eea82ee718c92259de397457fb8d3d1669f1f8542d",
+      "key": "kerotakis-core--indicator_optical_coverage",
+      "package": "kerotakis-core",
+      "target": "indicator_optical_coverage"
+    },
+    {
+      "compressed_bytes": 13029155,
+      "compressed_sha256": "83db9e5daf681ed8ab198084fe1f6fb76a590c95ac200e0b1a3d71c953437f1b",
+      "executable_bytes": 55526312,
+      "executable_sha256": "8c4ba76c83663f143c7a51ae8f6e51c90791ce4c638818ba0308a6dde6b205d0",
+      "key": "kerotakis-core--inert_and_dissolved",
+      "package": "kerotakis-core",
+      "target": "inert_and_dissolved"
+    },
+    {
+      "compressed_bytes": 8395070,
+      "compressed_sha256": "59c7a743239b5e927d83e814b34bebc6aa82ea99820604d806ada812942629bf",
+      "executable_bytes": 38793664,
+      "executable_sha256": "e6a32a1f496ff041b348249e0ed95fcbfd7d8c6a0a3466a0a736ddf867687b83",
+      "key": "kerotakis-core--inference_validation",
+      "package": "kerotakis-core",
+      "target": "inference_validation"
+    },
+    {
+      "compressed_bytes": 12760185,
+      "compressed_sha256": "baf54d720536d81bbc3b8d2c4e74248d8e571413c5b4ff7f6a1b7587e75d3889",
+      "executable_bytes": 54729688,
+      "executable_sha256": "8f39f370d58fa2ef94c67ba69fc6e4b085e7e15ce68b1a3f21c29a774a009326",
+      "key": "kerotakis-core--instrument_oracle",
+      "package": "kerotakis-core",
+      "target": "instrument_oracle"
+    },
+    {
+      "compressed_bytes": 9239893,
+      "compressed_sha256": "7755c12f6734d5ed3bd1a67baa5e696e2e8396141c85ec71b2cd564c0e992288",
+      "executable_bytes": 41614064,
+      "executable_sha256": "0f8362eb812f481a4f959b4d6f847879c76c8be33373aa62eec3b234f4a32966",
+      "key": "kerotakis-core--iodine_clock",
+      "package": "kerotakis-core",
+      "target": "iodine_clock"
+    },
+    {
+      "compressed_bytes": 9443840,
+      "compressed_sha256": "5f31d80b170023a674a49fe1430caef16b6fc656f73a9d03f04166d5db7ee537",
+      "executable_bytes": 42273728,
+      "executable_sha256": "d39e93067584463b2717bc8bc22eced494ce2b859e19eb7cc191a3d44ac6603b",
+      "key": "kerotakis-core--ionic_render",
+      "package": "kerotakis-core",
+      "target": "ionic_render"
+    },
+    {
+      "compressed_bytes": 13094402,
+      "compressed_sha256": "ea833b59ebc82ffc628e338697ed2d67f9fbf712aa14e848df1529941955537e",
+      "executable_bytes": 55796920,
+      "executable_sha256": "25e46bc843fdb6ef860e2718c6870500cde53bc1469e5a883a399d4322879ec8",
+      "key": "kerotakis-core--irradiation",
+      "package": "kerotakis-core",
+      "target": "irradiation"
+    },
+    {
+      "compressed_bytes": 17489074,
+      "compressed_sha256": "a70c442df39bf6afeeee148f934a6d72fd90790cb03c70800d5b8ac6bb859d17",
+      "executable_bytes": 75257352,
+      "executable_sha256": "5b7170c269a137f2b4a8b5efb590680879977443045cfb30444e0e26ad35ef5c",
+      "key": "kerotakis-core--kerotakis_core",
+      "package": "kerotakis-core",
+      "target": "kerotakis_core"
+    },
+    {
+      "compressed_bytes": 13015316,
+      "compressed_sha256": "82c9cc93f5155f4b6a3c9240c46e68a2a035c6c1a12e4319bd5754161b7bd4d8",
+      "executable_bytes": 55742552,
+      "executable_sha256": "02cbdb573623186613d95c90cf98bde5d5c9c10a00d911a8c18648e3ed975b3c",
+      "key": "kerotakis-core--kids_luminol_temperature",
+      "package": "kerotakis-core",
+      "target": "kids_luminol_temperature"
+    },
+    {
+      "compressed_bytes": 13018490,
+      "compressed_sha256": "36e0486f189dd834e3a89ed932e2e0d219f12002cdb942f0a4ca3be936ea13eb",
+      "executable_bytes": 55748728,
+      "executable_sha256": "ffc58b3a8f2b759dbcdfc96aedcad495d58b05a6f067f8ea30e24552e111f263",
+      "key": "kerotakis-core--kids_water_filter",
+      "package": "kerotakis-core",
+      "target": "kids_water_filter"
+    },
+    {
+      "compressed_bytes": 8333564,
+      "compressed_sha256": "a8dfd7915de7cf66bf5a081e90efc7a15a375cc53c4b9497dc08f64d9ee4a490",
+      "executable_bytes": 38603032,
+      "executable_sha256": "3757ddd4488f2b2b8f9159a1f4a5f8177fb1f19acdd766f10ec5edd947d31dcd",
+      "key": "kerotakis-core--kitchen_biology",
+      "package": "kerotakis-core",
+      "target": "kitchen_biology"
+    },
+    {
+      "compressed_bytes": 10191519,
+      "compressed_sha256": "1909b34630b7fbc88dfa75182a6b9395e1e9c3441a6e5fb654ed86750943abc7",
+      "executable_bytes": 45411664,
+      "executable_sha256": "1bdc86313f86386972a9d6a2e8b064611f48bba48ba783d2960e7e57bc57536f",
+      "key": "kerotakis-core--layer_admission",
+      "package": "kerotakis-core",
+      "target": "layer_admission"
+    },
+    {
+      "compressed_bytes": 14854711,
+      "compressed_sha256": "dfa7c992f30df1b2239023f3eda21919737723665d9e14d0e79a5b2712a13b70",
+      "executable_bytes": 66715008,
+      "executable_sha256": "704614f2291baa5d5ce7b5e2d8a9329722cdad585c74c440e47243ae4d0b638d",
+      "key": "kerotakis-core--layers",
+      "package": "kerotakis-core",
+      "target": "layers"
+    },
+    {
+      "compressed_bytes": 15411584,
+      "compressed_sha256": "a7ba23ccb371cfdbbd6a20cbee374d72ef4acfb2cfdb579408e1e66b33b39fd9",
+      "executable_bytes": 69965352,
+      "executable_sha256": "8aa5d6e41273a8e398afafb950a7348ecc5e4d3af3d560781ba90a3e82abb2f7",
+      "key": "kerotakis-core--lemon_paper_mark",
+      "package": "kerotakis-core",
+      "target": "lemon_paper_mark"
+    },
+    {
+      "compressed_bytes": 13014791,
+      "compressed_sha256": "0d395456a6aadf7c6429b332702d3952c5df840fcbf96287cc77fa4bc4e97359",
+      "executable_bytes": 55492760,
+      "executable_sha256": "fe1ac5c2e16909c719f7c3d8c29055f72c4f4501779d58f5277a903c82a6c329",
+      "key": "kerotakis-core--liquid_contact",
+      "package": "kerotakis-core",
+      "target": "liquid_contact"
+    },
+    {
+      "compressed_bytes": 13402041,
+      "compressed_sha256": "2e7fa31e62f76e3a044748291429239a9af2b339a3e0db3b95aaaffa67444dab",
+      "executable_bytes": 57407392,
+      "executable_sha256": "1df703211e101894530f6044104e6ec5435bbe58727537f1a791545b40283c38",
+      "key": "kerotakis-core--liquid_extraction",
+      "package": "kerotakis-core",
+      "target": "liquid_extraction"
+    },
+    {
+      "compressed_bytes": 13018106,
+      "compressed_sha256": "e0f905c1244347000edce8c06bcb12323e7da329b3331d734e5b0521970f8ba6",
+      "executable_bytes": 55852432,
+      "executable_sha256": "ef660de0f1f1392a0a310a5c61f539a87e840bf1192b5c380022e590a09984bb",
+      "key": "kerotakis-core--liquid_partition_refusals",
+      "package": "kerotakis-core",
+      "target": "liquid_partition_refusals"
+    },
+    {
+      "compressed_bytes": 9226264,
+      "compressed_sha256": "fa4cc4863dbfeb94c3bf7a158a27236d68568d37ebb53c597b9ef927da708018",
+      "executable_bytes": 41555368,
+      "executable_sha256": "689d6498b8bc1b6ed23e4070ba3a3d925c3ae0f7bef0e54da37cf72123f08aec",
+      "key": "kerotakis-core--list_grammar",
+      "package": "kerotakis-core",
+      "target": "list_grammar"
+    },
+    {
+      "compressed_bytes": 9227415,
+      "compressed_sha256": "dc14d2996c0fdb30e8f79118c84c2ebb7d256f1014b4d7c2fc1fdf6f349d8f5e",
+      "executable_bytes": 41883472,
+      "executable_sha256": "0ec5bcea0253b845bdad21463ddfef9241137fa66b8a94a4ee7c98882a2e3c66",
+      "key": "kerotakis-core--loader_fidelity",
+      "package": "kerotakis-core",
+      "target": "loader_fidelity"
+    },
+    {
+      "compressed_bytes": 13016485,
+      "compressed_sha256": "3ca20d6692445ff89f5d890c11f9913b129423694557320171d00a3e371ee9d6",
+      "executable_bytes": 55742376,
+      "executable_sha256": "b04a9361d20cf19e165d243599e1213d1514eb203fc896c05a28c1859e390f54",
+      "key": "kerotakis-core--magic_milk",
+      "package": "kerotakis-core",
+      "target": "magic_milk"
+    },
+    {
+      "compressed_bytes": 12876426,
+      "compressed_sha256": "02af7d9203e68168d0b1852b2c48e6d27619fef5f17ee0d24a8e2c047d6a2c43",
+      "executable_bytes": 55129608,
+      "executable_sha256": "79b8c46842c9290815c0a111b077a4fc61acaf29ad588526f1632b653f4e03d6",
+      "key": "kerotakis-core--magnetic_materials",
+      "package": "kerotakis-core",
+      "target": "magnetic_materials"
+    },
+    {
+      "compressed_bytes": 10111383,
+      "compressed_sha256": "628ba89d1297cafa7c53aeac54a6d83375e7b632ea866fa710812f7792b5db1e",
+      "executable_bytes": 47113144,
+      "executable_sha256": "e1d52698d1dc06b3a99b9de4e7924002b667f4f4892af7a40df27f7b6ed4cc08",
+      "key": "kerotakis-core--material_object_state",
+      "package": "kerotakis-core",
+      "target": "material_object_state"
+    },
+    {
+      "compressed_bytes": 13947599,
+      "compressed_sha256": "0a7b1553500a51d7c74924bc86bf20fe78fdcade8066bf4537ec44f0feae5e44",
+      "executable_bytes": 60162640,
+      "executable_sha256": "81f7844577cb13196ce14d6f30deade53ab8b2c2e63bd5f09189905e8958833a",
+      "key": "kerotakis-core--material_recipe",
+      "package": "kerotakis-core",
+      "target": "material_recipe"
+    },
+    {
+      "compressed_bytes": 13052107,
+      "compressed_sha256": "2051ea015a855444e06ed49f7cbee403ccc406ac3ec8908d733847f46e0de8c4",
+      "executable_bytes": 55605416,
+      "executable_sha256": "56447910eed6ece9610498d2dc20dd320a55b940293e2011d7cdad8752a57099",
+      "key": "kerotakis-core--measurement",
+      "package": "kerotakis-core",
+      "target": "measurement"
+    },
+    {
+      "compressed_bytes": 8586008,
+      "compressed_sha256": "5b6ec27f628d4125549076dda858c9645344b4b877cc100dbfd5d84567e79f89",
+      "executable_bytes": 39297624,
+      "executable_sha256": "3a2a48ed0c847efa60755ecc3f43996375e6e275a0b1f845fbcc3f8fc05c83de",
+      "key": "kerotakis-core--measurement_validation",
+      "package": "kerotakis-core",
+      "target": "measurement_validation"
+    },
+    {
+      "compressed_bytes": 9144744,
+      "compressed_sha256": "733f0b849d491072a258761ab08d3ffae4834bc692e17ffd4250dda0461bb051",
+      "executable_bytes": 41161824,
+      "executable_sha256": "04225d5f0f12e21760ed444ea4f6fcd2111f445547d7609042deaa9b79c9866c",
+      "key": "kerotakis-core--mechanism_cantera_audit",
+      "package": "kerotakis-core",
+      "target": "mechanism_cantera_audit"
+    },
+    {
+      "compressed_bytes": 13121858,
+      "compressed_sha256": "758a16efb6005016bffa4b38481e5efa8a412006d332d1d6f3e7a85aa0510f38",
+      "executable_bytes": 55867448,
+      "executable_sha256": "25e7a1cb7f9dceb7311cfcbaa63f3a4b626764763f3fc1dadc60264fb2359cf1",
+      "key": "kerotakis-core--melting_point",
+      "package": "kerotakis-core",
+      "target": "melting_point"
+    },
+    {
+      "compressed_bytes": 13014707,
+      "compressed_sha256": "2c92059da34a325e3204e65f5dead53de88c6fa55b49eb541959bfd5103142d1",
+      "executable_bytes": 55746064,
+      "executable_sha256": "422a3926781f6985fbce01d4ab0ef365c57922f98265b27170df196a03ac16e7",
+      "key": "kerotakis-core--milk_colloid",
+      "package": "kerotakis-core",
+      "target": "milk_colloid"
+    },
+    {
+      "compressed_bytes": 13008510,
+      "compressed_sha256": "62f194ee2a8731b16c34eb230b5c76fabdf991ff9661de49e19a73e7ed304ee3",
+      "executable_bytes": 55714960,
+      "executable_sha256": "efbf550651f2051362386fa8bd47fe9c8b66e3a36d814276216bf7136a8bcc0f",
+      "key": "kerotakis-core--milk_curdling",
+      "package": "kerotakis-core",
+      "target": "milk_curdling"
+    },
+    {
+      "compressed_bytes": 12893180,
+      "compressed_sha256": "4284774b95e33c011db66ef59691a09f25135c392821442f8c81674dd47ddae4",
+      "executable_bytes": 55184712,
+      "executable_sha256": "6fb7b00dd44a008a1bc417f447bb5eaf87a93fadf65715116bd6a76918539ade",
+      "key": "kerotakis-core--mix",
+      "package": "kerotakis-core",
+      "target": "mix"
+    },
+    {
+      "compressed_bytes": 13360164,
+      "compressed_sha256": "9d8f65be27c7441280daf3af9a395a08438f508246024d8cdaa491c1b2b45bee",
+      "executable_bytes": 58029176,
+      "executable_sha256": "2cec81aa974b73ae85cc5b4ea5956d5c9843b31efeae1f1a01e07a34bc73833f",
+      "key": "kerotakis-core--named_alkaline",
+      "package": "kerotakis-core",
+      "target": "named_alkaline"
+    },
+    {
+      "compressed_bytes": 9114380,
+      "compressed_sha256": "f67ea095bf4f12997ef095fef84f331bfd81dee8808fdcc38331f847386c066f",
+      "executable_bytes": 41084288,
+      "executable_sha256": "db8d665f18c54de507c9271d8cee09db23c0c29cee73c5220f587e9ae1e3d7aa",
+      "key": "kerotakis-core--nested_rate_admission_contracts",
+      "package": "kerotakis-core",
+      "target": "nested_rate_admission_contracts"
+    },
+    {
+      "compressed_bytes": 13243263,
+      "compressed_sha256": "479e7f7c0fc9afe353ce740fd419fc3382c65c05c9c23292cbc137ed1d127531",
+      "executable_bytes": 56517688,
+      "executable_sha256": "66a29f2c55ec26cebe1a7478496ecd7d1aa7a9edfe792aa0e11c70754d7e36cd",
+      "key": "kerotakis-core--neutral_blank_note_locale",
+      "package": "kerotakis-core",
+      "target": "neutral_blank_note_locale"
+    },
+    {
+      "compressed_bytes": 13073767,
+      "compressed_sha256": "48fa48ecebb7ed2e378e7c9eaea17a07e0324360497234083b41986c6b86e814",
+      "executable_bytes": 55690632,
+      "executable_sha256": "8fc6cad0351b4a3ae201ba23f81fed2d2ffca5d00be7856c050747a61b8e0f8b",
+      "key": "kerotakis-core--nonaqueous",
+      "package": "kerotakis-core",
+      "target": "nonaqueous"
+    },
+    {
+      "compressed_bytes": 10088631,
+      "compressed_sha256": "17b577a37e164b011f47f93363e40af6ae3a35a1e840369bb064ceeb4c6e5b92",
+      "executable_bytes": 44844944,
+      "executable_sha256": "c19b342ae83b7c0f5cb7a73494161de213b358b3cb6e8e0a1668355fadb8fc00",
+      "key": "kerotakis-core--nonaqueous_routing",
+      "package": "kerotakis-core",
+      "target": "nonaqueous_routing"
+    },
+    {
+      "compressed_bytes": 12923102,
+      "compressed_sha256": "9995ea97800c6dc2a03d821f03f35fad542c7d40c49cd275e7b720a1a0a4c653",
+      "executable_bytes": 55278520,
+      "executable_sha256": "a5b2dd232e2987ac64a694635f58f2bb5f0d4b154d9a81d7aa3701d2ae928dce",
+      "key": "kerotakis-core--nuclear",
+      "package": "kerotakis-core",
+      "target": "nuclear"
+    },
+    {
+      "compressed_bytes": 9292022,
+      "compressed_sha256": "5bfff32bac3224503af664788ab8d82210ae477aff15af4b7d5ec7a8f727c753",
+      "executable_bytes": 43143808,
+      "executable_sha256": "e32d2d6b3ad8ec212d18bf755d3ecefc6f181cdd5b2e93dfbf66d8d46f9458a5",
+      "key": "kerotakis-core--nuclide_inventory_serde_contracts",
+      "package": "kerotakis-core",
+      "target": "nuclide_inventory_serde_contracts"
+    },
+    {
+      "compressed_bytes": 9718066,
+      "compressed_sha256": "898f186b122cbe360b52beba85d8fca7598e6b87ef77fdeab179cb803061e000",
+      "executable_bytes": 43966720,
+      "executable_sha256": "0455d556c7248fb4a210745da391b2ac8b7e376cbc77c655bf26f71b7a0c23cc",
+      "key": "kerotakis-core--nuclide_state_validation_contracts",
+      "package": "kerotakis-core",
+      "target": "nuclide_state_validation_contracts"
+    },
+    {
+      "compressed_bytes": 13012093,
+      "compressed_sha256": "f73aed5e00af44eac16fd39effcb8ed23bc324f0c29da91c0f09a8842039ba92",
+      "executable_bytes": 55724920,
+      "executable_sha256": "c0f166d7bb019c0c7c66237a931e38ec93ef47ff80c2fdb57f72b6179a0daea0",
+      "key": "kerotakis-core--oil_emulsion",
+      "package": "kerotakis-core",
+      "target": "oil_emulsion"
+    },
+    {
+      "compressed_bytes": 8630079,
+      "compressed_sha256": "636c42fddd5d92bbdb15318c7ab1f571e93edd511e3457ae8824a614a0c9f92a",
+      "executable_bytes": 39466632,
+      "executable_sha256": "275c0093627b887b0008cd7dcfcbf3bfa2d05d12734fb5deae482b36b13ff9de",
+      "key": "kerotakis-core--one_value",
+      "package": "kerotakis-core",
+      "target": "one_value"
+    },
+    {
+      "compressed_bytes": 12819936,
+      "compressed_sha256": "a4a6819b29ac4821aae11827826bcabe666c8874580d4b798cc14092609dd034",
+      "executable_bytes": 55077696,
+      "executable_sha256": "cff7502b10f703fcdf84e6e46bc70f3755cb2c6ed7a34c85bcedd2c7cca35bd9",
+      "key": "kerotakis-core--optical_sample_admission",
+      "package": "kerotakis-core",
+      "target": "optical_sample_admission"
+    },
+    {
+      "compressed_bytes": 13495502,
+      "compressed_sha256": "efba598bff8751cf997fdad85b81b625ecc14459776a45a2d5c556dc58f7114e",
+      "executable_bytes": 58465000,
+      "executable_sha256": "29ff385e0849d519591d8c6077e5353c5e9f66a70faef2fb2919411a3c44d812",
+      "key": "kerotakis-core--optical_species_labels",
+      "package": "kerotakis-core",
+      "target": "optical_species_labels"
+    },
+    {
+      "compressed_bytes": 9451484,
+      "compressed_sha256": "36bd023f40e3263d72d609f30da40690af22464871108c0532dd07246806819c",
+      "executable_bytes": 42802792,
+      "executable_sha256": "317426beede9c3ec2b6374f3cb12fca5877c03ca65e927d68e61c628c5c235d1",
+      "key": "kerotakis-core--ordinary_delta_state_contracts",
+      "package": "kerotakis-core",
+      "target": "ordinary_delta_state_contracts"
+    },
+    {
+      "compressed_bytes": 12947257,
+      "compressed_sha256": "fc057ea2e7c16b6837349c369369dda60c2a1e625939c8bfb746b6f772f865d7",
+      "executable_bytes": 55352192,
+      "executable_sha256": "64875a9182f4a69da8c3de2b461a90e044de29a8544f349e02d977c3f19ef510",
+      "key": "kerotakis-core--org_react",
+      "package": "kerotakis-core",
+      "target": "org_react"
+    },
+    {
+      "compressed_bytes": 12669673,
+      "compressed_sha256": "06551ba213067ecc5480a0d3ef3003b155fc948ea85e8a12543f1fc5f6be7777",
+      "executable_bytes": 54337504,
+      "executable_sha256": "3457fb66ffb5abdc3e6aff147c8f6386bb162bf2f07fa902c9239ad5925082ba",
+      "key": "kerotakis-core--organic_equilibrium_grid",
+      "package": "kerotakis-core",
+      "target": "organic_equilibrium_grid"
+    },
+    {
+      "compressed_bytes": 12877062,
+      "compressed_sha256": "b5575cbd07c9f661ea2f4081504c8b3f4210a50bdeac4a9372b0d19a4819ed32",
+      "executable_bytes": 55122864,
+      "executable_sha256": "fcb46549bb27d21bef8d526e5fa487f706be2c155ab048c99989e50bd40f47af",
+      "key": "kerotakis-core--paint_colour",
+      "package": "kerotakis-core",
+      "target": "paint_colour"
+    },
+    {
+      "compressed_bytes": 10457821,
+      "compressed_sha256": "52bab8dcab64578bba622c6013292a96b8b3c8cfaae8fadfe6e78db693f52a8f",
+      "executable_bytes": 47146784,
+      "executable_sha256": "a730391c9f90b54355a7bbfcf242547b04df1dbbf2cecd108522ce8e31e7d193",
+      "key": "kerotakis-core--parse_roundtrip",
+      "package": "kerotakis-core",
+      "target": "parse_roundtrip"
+    },
+    {
+      "compressed_bytes": 12884233,
+      "compressed_sha256": "902c6c8dd3802a02c34103e1b5f30204d4c37c9a4779027fce38ef006a23e774",
+      "executable_bytes": 55170328,
+      "executable_sha256": "9283fd6fe3635cfb62b18415533bab78f256646af2c3d5e771a943e96dd70eef",
+      "key": "kerotakis-core--particles_operator",
+      "package": "kerotakis-core",
+      "target": "particles_operator"
+    },
+    {
+      "compressed_bytes": 13032645,
+      "compressed_sha256": "da802b0dad6b47457fbe34168630decd74dd7649f54cb74ee2798df9896f3e0f",
+      "executable_bytes": 55894184,
+      "executable_sha256": "6b9477267066b3ab76de41dc30d69126ffea4cc382a4a2fe70486e46d2f8c938",
+      "key": "kerotakis-core--partition_consumer_admission",
+      "package": "kerotakis-core",
+      "target": "partition_consumer_admission"
+    },
+    {
+      "compressed_bytes": 13040012,
+      "compressed_sha256": "b36f68c02d9cb58a5ae1611e6609e98ca0f41c2388afe69baaf2b8136b686af6",
+      "executable_bytes": 55589976,
+      "executable_sha256": "81ee11a4ca975b9040decc15fd9f70de35a9bd3c295188e91cba14ecb8752e86",
+      "key": "kerotakis-core--permanganate",
+      "package": "kerotakis-core",
+      "target": "permanganate"
+    },
+    {
+      "compressed_bytes": 10703338,
+      "compressed_sha256": "004a4cd9d5496ad77bb4b12034d9513c677143704b763bdfa6db37340b374060",
+      "executable_bytes": 47143704,
+      "executable_sha256": "027074a96b5bf514b67c1dccad7f8b036a999d95b27a967bbc69d7bae9efe7f7",
+      "key": "kerotakis-core--peroxide_heat_basis",
+      "package": "kerotakis-core",
+      "target": "peroxide_heat_basis"
+    },
+    {
+      "compressed_bytes": 12970152,
+      "compressed_sha256": "af3b30a773c31b0e8792ed0079317bd522f319793e0a84e3c0f4e74f72cb1087",
+      "executable_bytes": 55738016,
+      "executable_sha256": "17c3463744b3783c2b948a75f1d5f66b45181fb773fbc35432c3d1d68441259e",
+      "key": "kerotakis-core--phase_cap_energy",
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy"
+    },
+    {
+      "compressed_bytes": 12677627,
+      "compressed_sha256": "620282eab3b673cc487b06ab64e5bb020e171b9b81d8e976347d67c198543e7e",
+      "executable_bytes": 54370200,
+      "executable_sha256": "d1f9e57ecedfa721a221b43348dde4cf47f5cd769778e648aee1b25c866f03f3",
+      "key": "kerotakis-core--phase_cooling_energy",
+      "package": "kerotakis-core",
+      "target": "phase_cooling_energy"
+    },
+    {
+      "compressed_bytes": 12983916,
+      "compressed_sha256": "ecef25faf8bc174bc2f6c5b568e9a06b8aa86c5b097114ddc82ca12d0ef415b1",
+      "executable_bytes": 55372968,
+      "executable_sha256": "81b47b16a91a2701f722b0e56178ec494b9154bedd08cb2843205862bbdd64c5",
+      "key": "kerotakis-core--phase_heat_capacity",
+      "package": "kerotakis-core",
+      "target": "phase_heat_capacity"
+    },
+    {
+      "compressed_bytes": 12712734,
+      "compressed_sha256": "5abc6fa41fa2b48e10da7998d1018ee820675d2be070a29595bf49aeaeef9203",
+      "executable_bytes": 54506272,
+      "executable_sha256": "0dd56c4b129e6a5fd6b6902aa2ddee752cfe22aba4a2f76fb18b07a38c6db73c",
+      "key": "kerotakis-core--phase_owned_transfers",
+      "package": "kerotakis-core",
+      "target": "phase_owned_transfers"
+    },
+    {
+      "compressed_bytes": 12856407,
+      "compressed_sha256": "b9267efceb5c1e69b80b3af0402b1236a5502126a45a67c4e71b0e94217e768c",
+      "executable_bytes": 55020200,
+      "executable_sha256": "925824a565877a50343092154dc4bbf5368e2dc4aa4126894281366d7b611087",
+      "key": "kerotakis-core--phase_routes",
+      "package": "kerotakis-core",
+      "target": "phase_routes"
+    },
+    {
+      "compressed_bytes": 10046969,
+      "compressed_sha256": "64840951d514e7f35f7539f1da113745d4383c5a39d6c045c357457ec52dcbcc",
+      "executable_bytes": 44825224,
+      "executable_sha256": "7d3b65cafb3a4a70dec9d23a6c7986b211aabbc4ea121bfcf67a4bac5ef6e894",
+      "key": "kerotakis-core--phase_transfer_resolution",
+      "package": "kerotakis-core",
+      "target": "phase_transfer_resolution"
+    },
+    {
+      "compressed_bytes": 10196692,
+      "compressed_sha256": "23ff10ab19351679523dc265fc0c1bef7a5fd55c10122a084a0e8ef7f9fc63ea",
+      "executable_bytes": 45428288,
+      "executable_sha256": "c91edebdeb9ebb63d08cc198e165f8404b021a912be11878169387a39539ddc5",
+      "key": "kerotakis-core--phase_without_aqueous",
+      "package": "kerotakis-core",
+      "target": "phase_without_aqueous"
+    },
+    {
+      "compressed_bytes": 12879294,
+      "compressed_sha256": "7c7618456d2524a174fc79091dad4c311eb68953a3261fd64d2f5973031a7fa8",
+      "executable_bytes": 55148520,
+      "executable_sha256": "83e18e268297836b2ec2e8b8f5c7eb53c5dcbbe5e43e2b88079a904bc1f87292",
+      "key": "kerotakis-core--physical_solid_settling",
+      "package": "kerotakis-core",
+      "target": "physical_solid_settling"
+    },
+    {
+      "compressed_bytes": 12875563,
+      "compressed_sha256": "378bfdbf1dc3dec3cf756b0f4f1a3e416ea59a24906f1a9fc5b8aa1b6c26d788",
+      "executable_bytes": 55093088,
+      "executable_sha256": "4adfc9ecdf3991433bbd24f35c0cdcdd7edb09d1ef837b6e96f8f186855b4faa",
+      "key": "kerotakis-core--plastics",
+      "package": "kerotakis-core",
+      "target": "plastics"
+    },
+    {
+      "compressed_bytes": 15805370,
+      "compressed_sha256": "0eba3185ed81e73e7fb6f21bd3a8b70a7e3d0a62b5dedb112d17e8c0f62051e9",
+      "executable_bytes": 72118480,
+      "executable_sha256": "078d6be980256a3f0b01b5c008f505182feb33e7d4a57aab237db2ecc7525812",
+      "key": "kerotakis-core--prepared_kitchen_objects",
+      "package": "kerotakis-core",
+      "target": "prepared_kitchen_objects"
+    },
+    {
+      "compressed_bytes": 8955843,
+      "compressed_sha256": "db75009e284dabd76dacf919336b67e72b64686405bb64a730366d7410f65b4f",
+      "executable_bytes": 41036096,
+      "executable_sha256": "22d037c82e1e9bd8d0507232340d0ecaf5dcbce3785639083bcadab7cb80f231",
+      "key": "kerotakis-core--prepared_material_identity",
+      "package": "kerotakis-core",
+      "target": "prepared_material_identity"
+    },
+    {
+      "compressed_bytes": 12754317,
+      "compressed_sha256": "7bb6d74a9913b0185cb4b9efc7e9fdc88dd23fe70b35c8e6f0ce39f1d1db3e97",
+      "executable_bytes": 54678544,
+      "executable_sha256": "1e06c1ce66c7854c06c041437d3cb12b2905cb101d606e922a8664c30b57de0c",
+      "key": "kerotakis-core--pressure_boiling",
+      "package": "kerotakis-core",
+      "target": "pressure_boiling"
+    },
+    {
+      "compressed_bytes": 12879369,
+      "compressed_sha256": "bb472b4ff82483e8809f8a92495fd718ebf89f0c90d49b15973edd9e59720443",
+      "executable_bytes": 55152880,
+      "executable_sha256": "87ba5753a016608186d5acb8b2d8e35281f0b0476a6fc1e77d50d08a5ea88f5d",
+      "key": "kerotakis-core--proportional_transfer",
+      "package": "kerotakis-core",
+      "target": "proportional_transfer"
+    },
+    {
+      "compressed_bytes": 14894381,
+      "compressed_sha256": "81eb6862ee49e8b91268454d0b54da4b1f43297aa21ee31934097035e11a7da5",
+      "executable_bytes": 66964688,
+      "executable_sha256": "8b2a8aedbe8fe219896b1a1fcca9c82af216f36bf907b142b04262a367c62b38",
+      "key": "kerotakis-core--protein_denaturation",
+      "package": "kerotakis-core",
+      "target": "protein_denaturation"
+    },
+    {
+      "compressed_bytes": 14995577,
+      "compressed_sha256": "3b8aaa3d1c6769c3187868ae05fe5a2cdb4573c296188f924939b7c09b6d31d8",
+      "executable_bytes": 67470704,
+      "executable_sha256": "b70f8902796fb950bc1c1a720df6de4318a4f53223fc8c52e583cfe640d7996d",
+      "key": "kerotakis-core--proven_input_alias",
+      "package": "kerotakis-core",
+      "target": "proven_input_alias"
+    },
+    {
+      "compressed_bytes": 12711173,
+      "compressed_sha256": "e517a42714b40771f61015e0e139600b10bdc0dac795139dc8e832b9dc44ae39",
+      "executable_bytes": 54466896,
+      "executable_sha256": "1dd60cee18db34a4cf773eb8c206d5c41e63869d59aa6fbbd7405576d15d9db1",
+      "key": "kerotakis-core--react_diagnostics",
+      "package": "kerotakis-core",
+      "target": "react_diagnostics"
+    },
+    {
+      "compressed_bytes": 13541447,
+      "compressed_sha256": "f46b3c6e8ad2a928481021adab32890a59f08ea94727654d6be9407bf98f84ff",
+      "executable_bytes": 58247776,
+      "executable_sha256": "d88aa6f4611c1180afc775d4aec787adec07c831abdbc88b1728e94982ee23bd",
+      "key": "kerotakis-core--redox_titrimetry",
+      "package": "kerotakis-core",
+      "target": "redox_titrimetry"
+    },
+    {
+      "compressed_bytes": 9236618,
+      "compressed_sha256": "54aa58fd876deed567071041f85e442997c78f7484a1cf5af9df10059c149308",
+      "executable_bytes": 41507640,
+      "executable_sha256": "05089d9ef52faefd8cecde19f032b361784df7366c98b4edad7568965e24cce3",
+      "key": "kerotakis-core--refusal_locale",
+      "package": "kerotakis-core",
+      "target": "refusal_locale"
+    },
+    {
+      "compressed_bytes": 12958771,
+      "compressed_sha256": "f87e72b99c0941395939e20f27662b3c935add0f5ff02b22d1306597830d7240",
+      "executable_bytes": 55635984,
+      "executable_sha256": "f0e662a65599f1598f16d62ed248a7f93e96821630929cac371f20208629a32a",
+      "key": "kerotakis-core--refusal_missing_vessel",
+      "package": "kerotakis-core",
+      "target": "refusal_missing_vessel"
+    },
+    {
+      "compressed_bytes": 13038536,
+      "compressed_sha256": "f5ee22b058cbe26faf92dfc83d8695c0b85008eb0cd98dadc8675990d2f6f342",
+      "executable_bytes": 55925288,
+      "executable_sha256": "a8e9e9a6aed73e74bb1efee427d9861123aeee278596c808bcc4b33fb9c283ee",
+      "key": "kerotakis-core--refusal_preflight_atomicity",
+      "package": "kerotakis-core",
+      "target": "refusal_preflight_atomicity"
+    },
+    {
+      "compressed_bytes": 9909034,
+      "compressed_sha256": "481ce597bc68b3e579130efe78582edc91f925a60ce431d67f815339f58baa50",
+      "executable_bytes": 46578824,
+      "executable_sha256": "6f6b5fa0cf18c0b7afeb524c203a4850e574f7482a1daf57f1f7b28550e3728e",
+      "key": "kerotakis-core--registry_applicability_runtime_route_contracts",
+      "package": "kerotakis-core",
+      "target": "registry_applicability_runtime_route_contracts"
+    },
+    {
+      "compressed_bytes": 8900628,
+      "compressed_sha256": "818fc4459ee24eaebee1cb9d7a14de7d98212c43adbdbe8234cbb1bd21fc0f55",
+      "executable_bytes": 41878160,
+      "executable_sha256": "5bcddd0903aa2d1baa88622b265582104493b8538b8f54ca9d2ac2c0c5d540f7",
+      "key": "kerotakis-core--registry_consistent_phase_selection_contracts",
+      "package": "kerotakis-core",
+      "target": "registry_consistent_phase_selection_contracts"
+    },
+    {
+      "compressed_bytes": 9964288,
+      "compressed_sha256": "971346104cd375a24866e49214082be50155faf1632c32089ec6ec8ac4c5d96c",
+      "executable_bytes": 46739696,
+      "executable_sha256": "2690b720d023ba574023c0f9eacbc8e5af5378605847692b68b64de2980db1f5",
+      "key": "kerotakis-core--registry_loader_applicability_contracts",
+      "package": "kerotakis-core",
+      "target": "registry_loader_applicability_contracts"
+    },
+    {
+      "compressed_bytes": 8903619,
+      "compressed_sha256": "6d9fe807da9725c38be4a499fc1319c9a210cf33a43984f77799e4ca2bea2050",
+      "executable_bytes": 41897336,
+      "executable_sha256": "4d13b0b45ba3a0b7f7d65ee1ee105670e2d503ae2c00c5be267c1822575d42f8",
+      "key": "kerotakis-core--registry_loader_phase_selection_contracts",
+      "package": "kerotakis-core",
+      "target": "registry_loader_phase_selection_contracts"
+    },
+    {
+      "compressed_bytes": 8657743,
+      "compressed_sha256": "75c223c0723a6339c45970b44673894e6969417721731e0227287ac163a84211",
+      "executable_bytes": 39495568,
+      "executable_sha256": "992af6384a1ae412f6b848ae8023131a36d81a5f0b56b33c31cd8cc86aec600e",
+      "key": "kerotakis-core--registry_loader_property_contracts",
+      "package": "kerotakis-core",
+      "target": "registry_loader_property_contracts"
+    },
+    {
+      "compressed_bytes": 9907831,
+      "compressed_sha256": "66806c9d2f9fbdb0fd3eb8ea70d029f446a573ba07d631a7910e0309002bc6a0",
+      "executable_bytes": 46558424,
+      "executable_sha256": "323294b482fe2909936af019af80ef44f18ebc90d3b05ece707f84287448cc7f",
+      "key": "kerotakis-core--registry_loader_unit_contracts",
+      "package": "kerotakis-core",
+      "target": "registry_loader_unit_contracts"
+    },
+    {
+      "compressed_bytes": 8646480,
+      "compressed_sha256": "57a295c9728fbf814efc335f5b54b7d9d6ffbaba11583d81abcb7d8e0dfdbcb8",
+      "executable_bytes": 39454344,
+      "executable_sha256": "2c072e6e611aab3d569ac5b6703a66f4a504c4e44e36d99bdbbc968a65eb9610",
+      "key": "kerotakis-core--registry_neutral_zero_cp_contracts",
+      "package": "kerotakis-core",
+      "target": "registry_neutral_zero_cp_contracts"
+    },
+    {
+      "compressed_bytes": 9900911,
+      "compressed_sha256": "8e5acb4bda10ea83a1b554f2955bfb3f7161a217ce1b995daec83587aa66f818",
+      "executable_bytes": 46537128,
+      "executable_sha256": "12e349280651158cd907a6469a79c995541745e6a3c2848ce59268a9d27295d5",
+      "key": "kerotakis-core--registry_scaled_pack_metadata_contracts",
+      "package": "kerotakis-core",
+      "target": "registry_scaled_pack_metadata_contracts"
+    },
+    {
+      "compressed_bytes": 8503296,
+      "compressed_sha256": "59b9c2cbdf10d8e828cd80e3766a684aeb3870afdbac50103edd1cff68a444db",
+      "executable_bytes": 39162304,
+      "executable_sha256": "28ee43e464b73aae950410373eacc1808ca51700ebdc10a2016e4c3b8e67b871",
+      "key": "kerotakis-core--registry_snapshot",
+      "package": "kerotakis-core",
+      "target": "registry_snapshot"
+    },
+    {
+      "compressed_bytes": 8878381,
+      "compressed_sha256": "6a07364ae8aa2aee2c4c33bc491508c90db10e22a7d39492766bc7624f4eb395",
+      "executable_bytes": 41830464,
+      "executable_sha256": "72532c32e406e1d8c3197a18d989a3ffff56acd50c24546c337865e8ab7a5406",
+      "key": "kerotakis-core--registry_unit_alias_equivalence_contracts",
+      "package": "kerotakis-core",
+      "target": "registry_unit_alias_equivalence_contracts"
+    },
+    {
+      "compressed_bytes": 12768824,
+      "compressed_sha256": "695820a16a490b678a101dfa9684c72c8a18297b303a013dca4a4577025b0965",
+      "executable_bytes": 54769136,
+      "executable_sha256": "c6903b274e1d1b7434dcd57cfd965025dc650e6cd592384d3240a2f65c658bf9",
+      "key": "kerotakis-core--remove_vessel",
+      "package": "kerotakis-core",
+      "target": "remove_vessel"
+    },
+    {
+      "compressed_bytes": 10346849,
+      "compressed_sha256": "0ac34ca076c4aec755f32261abca6dcaffbed2fbc162a6c14712b03271a82771",
+      "executable_bytes": 45557256,
+      "executable_sha256": "983b32196b542ea4b7f6593bf362bc3b65b4ef6102307ec4bf5efe98b2f71512",
+      "key": "kerotakis-core--render_locale",
+      "package": "kerotakis-core",
+      "target": "render_locale"
+    },
+    {
+      "compressed_bytes": 13028728,
+      "compressed_sha256": "9877f99745552e5d04c39f0876bf724ebfe72f1ebd7ab2b0b1c46f059313a57b",
+      "executable_bytes": 55524176,
+      "executable_sha256": "b0e78a4743a24c88a3937316e9047e67db53e623ccb3f2d9cf032998e0c6048b",
+      "key": "kerotakis-core--repeated_honesty",
+      "package": "kerotakis-core",
+      "target": "repeated_honesty"
+    },
+    {
+      "compressed_bytes": 10148577,
+      "compressed_sha256": "3ed83ff71690023605fbb7653c3d8d14679ef9b357e290e6853db1d2695ddd9e",
+      "executable_bytes": 46546728,
+      "executable_sha256": "023670f499573ef22d4cf8f22daeaa71011770b1a962f6796501ae74f2def4c4",
+      "key": "kerotakis-core--required_solid_solution_contracts",
+      "package": "kerotakis-core",
+      "target": "required_solid_solution_contracts"
+    },
+    {
+      "compressed_bytes": 9628785,
+      "compressed_sha256": "ac5e418271e2deff411bb17b53ea13b372e155285d7136046ec29cb3bf0ad721",
+      "executable_bytes": 43585800,
+      "executable_sha256": "e4dc54efbb9a6b348ea595d6af938e411ab7c00b991030d5a5540820693007c4",
+      "key": "kerotakis-core--required_solver_conservation_contracts",
+      "package": "kerotakis-core",
+      "target": "required_solver_conservation_contracts"
+    },
+    {
+      "compressed_bytes": 9873885,
+      "compressed_sha256": "c3f62f86d4767a309fb3b7394cda9b1a40f60f052da898f28392820618952730",
+      "executable_bytes": 44836832,
+      "executable_sha256": "8d56aefa559f38007a03adf9a8016de837a4dc4e64ebf61465a136c5856e9339",
+      "key": "kerotakis-core--required_solver_ledger_boundaries",
+      "package": "kerotakis-core",
+      "target": "required_solver_ledger_boundaries"
+    },
+    {
+      "compressed_bytes": 9631630,
+      "compressed_sha256": "3827aaa469be6e173f6d1da7663f0d312963bb877fd7f4f21d265ce5311a748c",
+      "executable_bytes": 43596232,
+      "executable_sha256": "459046f7b772f8dc63ff35ec20d11be8c93b7989512f1b18b24dfdd519916bb7",
+      "key": "kerotakis-core--required_solver_ledger_supplement",
+      "package": "kerotakis-core",
+      "target": "required_solver_ledger_supplement"
+    },
+    {
+      "compressed_bytes": 9494850,
+      "compressed_sha256": "86b09addd22c214045ce77018b50479afce62714abb30ebfabea0869e739c730",
+      "executable_bytes": 42880672,
+      "executable_sha256": "93d909bd1050cbed8932818880d3f4510fe17fd99d925c9c3f983da30c8272ef",
+      "key": "kerotakis-core--required_solver_policy_controls",
+      "package": "kerotakis-core",
+      "target": "required_solver_policy_controls"
+    },
+    {
+      "compressed_bytes": 12940023,
+      "compressed_sha256": "7a86a549d06f8714a023b93b2f4f62c8e1fd1d8d655402ab9bf0247f9bc94965",
+      "executable_bytes": 55329856,
+      "executable_sha256": "9cfe4ce968334fd677838dbfbd88524bfb6453d6192f3a90698182250e706ae0",
+      "key": "kerotakis-core--resistivity",
+      "package": "kerotakis-core",
+      "target": "resistivity"
+    },
+    {
+      "compressed_bytes": 10221851,
+      "compressed_sha256": "eb10f805ad32e350a46fe22bbd1c14d19274658ad26f83505493b9353a65a79a",
+      "executable_bytes": 45088472,
+      "executable_sha256": "66c82897982d7ff215396ff7206c1ebbed3e4de3468948ae3d4d96bebcc3736d",
+      "key": "kerotakis-core--routing_locale",
+      "package": "kerotakis-core",
+      "target": "routing_locale"
+    },
+    {
+      "compressed_bytes": 13013952,
+      "compressed_sha256": "f9d684220e476add94eb3a77fdaff242c38b41b3502cae11401538b9476d5f96",
+      "executable_bytes": 55825008,
+      "executable_sha256": "c55f4216ac7df027f40faadce3255a962d50bee65d30196cec285a714beb4581",
+      "key": "kerotakis-core--safety_veto_atomicity",
+      "package": "kerotakis-core",
+      "target": "safety_veto_atomicity"
+    },
+    {
+      "compressed_bytes": 12900303,
+      "compressed_sha256": "1e425b432254df21aaf1e0625599e621a8d79f85d09c484c1176ddde2d839a17",
+      "executable_bytes": 55240008,
+      "executable_sha256": "7df4cb7f34a5f8d98786ccadbdbbd39f60a1eedc3b25c8efa23dd436b08196f9",
+      "key": "kerotakis-core--scene_authority",
+      "package": "kerotakis-core",
+      "target": "scene_authority"
+    },
+    {
+      "compressed_bytes": 13004664,
+      "compressed_sha256": "7e8361e32cef59e7cbd0117b6b2a5ec91263ee78ea48a767d1f204713c5f7543",
+      "executable_bytes": 55686128,
+      "executable_sha256": "29a18f3ee2dc3a3b4c92b8248d9543eec5e17b93c6c43ad8863804856790ecd2",
+      "key": "kerotakis-core--scene_bulk_objects",
+      "package": "kerotakis-core",
+      "target": "scene_bulk_objects"
+    },
+    {
+      "compressed_bytes": 13291147,
+      "compressed_sha256": "143512c91a4cff0fa7715a523e98bdab59fac8e4804cac3b3ed738b4f9ff238b",
+      "executable_bytes": 56936168,
+      "executable_sha256": "b02b40091e481aa06b3a50320029accb0fbccdcd1647b6d4a36d0f692b5ea083",
+      "key": "kerotakis-core--scene_golden",
+      "package": "kerotakis-core",
+      "target": "scene_golden"
+    },
+    {
+      "compressed_bytes": 13474197,
+      "compressed_sha256": "1193aec63af0947faa967dbcc4c0098a9c400ad90cc1ed81ed37005cbfa24135",
+      "executable_bytes": 58237352,
+      "executable_sha256": "108b0fc36bf662e967bfc84f04d3b23ce736946fcc71f06420fea87aba916409",
+      "key": "kerotakis-core--scene_numbers",
+      "package": "kerotakis-core",
+      "target": "scene_numbers"
+    },
+    {
+      "compressed_bytes": 12889022,
+      "compressed_sha256": "3e53339248f02fbb4432d0fa36a868ca9d33c6e87a0822691dc9a28020446e32",
+      "executable_bytes": 55184328,
+      "executable_sha256": "22d4310cdad1763f768f79efda8f9dd661c66ed660d0d667912936b36c4df3e3",
+      "key": "kerotakis-core--selectivity",
+      "package": "kerotakis-core",
+      "target": "selectivity"
+    },
+    {
+      "compressed_bytes": 12916463,
+      "compressed_sha256": "6c889ffba34721837ec76286e03ebc6d784b772661d5e1a8975c365bad931e15",
+      "executable_bytes": 55284048,
+      "executable_sha256": "fcfe3dbfb14f532b48b10c110341e7a6c3039af00be4ca125fd7f4ab31109820",
+      "key": "kerotakis-core--senses",
+      "package": "kerotakis-core",
+      "target": "senses"
+    },
+    {
+      "compressed_bytes": 13075556,
+      "compressed_sha256": "388a2dce7db783279e59937a50a4e0c815fcd4d8153f79b42d8879d5293ab957",
+      "executable_bytes": 55685352,
+      "executable_sha256": "6dabc31bd2eb9f001552fe70269bd9c65a94ac77951bdd7c79d80f093bd86b52",
+      "key": "kerotakis-core--silver_metathesis",
+      "package": "kerotakis-core",
+      "target": "silver_metathesis"
+    },
+    {
+      "compressed_bytes": 10350627,
+      "compressed_sha256": "c674341d0ccfc9637ef840eb5b5a9ca207b8abcb2edf015e4222a20b5adbf23a",
+      "executable_bytes": 46623536,
+      "executable_sha256": "f9a1c5822efba37503e8841555bd0f8623b151ecd5eb9eec7f0543e665038959",
+      "key": "kerotakis-core--solid_solution",
+      "package": "kerotakis-core",
+      "target": "solid_solution"
+    },
+    {
+      "compressed_bytes": 8336745,
+      "compressed_sha256": "436441e096d0f20f5621371ee944c3c5cbdcb2c45b3c351a29f6838abc588ee7",
+      "executable_bytes": 38637024,
+      "executable_sha256": "e4bfb8841ea41c8c103167a78662f2087dd72bab684c21ad6defec94d3ddd53d",
+      "key": "kerotakis-core--solid_solution_aggregate_validity",
+      "package": "kerotakis-core",
+      "target": "solid_solution_aggregate_validity"
+    },
+    {
+      "compressed_bytes": 9572273,
+      "compressed_sha256": "ab80bc08e02e85e63595453c09388fe45e04f33526254edc1cef85401a48d7b8",
+      "executable_bytes": 43215736,
+      "executable_sha256": "daa31eb616d839dc67bbfbadb754fc9c03577dc11eb1f87943d4852acf2e3c7b",
+      "key": "kerotakis-core--solid_solution_state_contracts",
+      "package": "kerotakis-core",
+      "target": "solid_solution_state_contracts"
+    },
+    {
+      "compressed_bytes": 13157569,
+      "compressed_sha256": "c996b0e2dcfc4c4a739c0b105df870582e3bbef85103496816dbfe335ad0b2df",
+      "executable_bytes": 56450648,
+      "executable_sha256": "f9de0f5afc6d9ed02114329667884507bfd51516b447a8e087f0a01dc20a5c44",
+      "key": "kerotakis-core--solvent_electrolysis_balance",
+      "package": "kerotakis-core",
+      "target": "solvent_electrolysis_balance"
+    },
+    {
+      "compressed_bytes": 9520335,
+      "compressed_sha256": "2d83777acfd3ef9a74b1b3e69e3016ffd9638ab5532f25050d6f8fd0780bc723",
+      "executable_bytes": 43029416,
+      "executable_sha256": "114064fd18cfe7df5287a6059e9403355ea45d6b1f37adc84ff78cbe0d21c74a",
+      "key": "kerotakis-core--solver_boundary_contracts",
+      "package": "kerotakis-core",
+      "target": "solver_boundary_contracts"
+    },
+    {
+      "compressed_bytes": 9584271,
+      "compressed_sha256": "fce831e7ac17a01a91d92af0f39330b04e5d2b7cb5f0d5203315ce0dfca20bd0",
+      "executable_bytes": 43251000,
+      "executable_sha256": "ebea0b97d82464205cf8eb0d8ba31e9197df83b93dac11f7781eaab7a9d75c67",
+      "key": "kerotakis-core--solver_electrode_schema_contracts",
+      "package": "kerotakis-core",
+      "target": "solver_electrode_schema_contracts"
+    },
+    {
+      "compressed_bytes": 9628165,
+      "compressed_sha256": "c430e13f67170b3b82892fdb50215be1fba433b4768026bd94b2d4a605e37546",
+      "executable_bytes": 43535288,
+      "executable_sha256": "8098eb56c1008581a38eb654e3a0e54c2176636e2422d6381f217bf6e27cf69a",
+      "key": "kerotakis-core--solver_snapshot_contracts",
+      "package": "kerotakis-core",
+      "target": "solver_snapshot_contracts"
+    },
+    {
+      "compressed_bytes": 9446788,
+      "compressed_sha256": "8a3ae01a4e9bb7b309530254ea3c39f124d6dc4f0b84af125081bd047358d25f",
+      "executable_bytes": 42808136,
+      "executable_sha256": "98216abac5c54f278b7c0999ee5a1ff9d40d9388d203d3c07c8c5c2aef3ca8b1",
+      "key": "kerotakis-core--solver_snapshot_edit_contracts",
+      "package": "kerotakis-core",
+      "target": "solver_snapshot_edit_contracts"
+    },
+    {
+      "compressed_bytes": 9496344,
+      "compressed_sha256": "20a9bcd5e97ff6f995eec863e28604ad61273741048661435df0aed46d041d24",
+      "executable_bytes": 42892704,
+      "executable_sha256": "977168fa21b67fb7ea103480467060df5dc784ab74516b8ac60efb4f96c2e672",
+      "key": "kerotakis-core--solver_stack_atomic_contracts",
+      "package": "kerotakis-core",
+      "target": "solver_stack_atomic_contracts"
+    },
+    {
+      "compressed_bytes": 13582365,
+      "compressed_sha256": "9f6b8b772501e1458251fd44dee07c90c809276cc62dcf4ff37c3690e89e544c",
+      "executable_bytes": 58841264,
+      "executable_sha256": "1ee5e5e0a3eae87da03c889fd0cb45eebfe5b46561ed7a9dc7825873e3ad72fa",
+      "key": "kerotakis-core--solver_transactions",
+      "package": "kerotakis-core",
+      "target": "solver_transactions"
+    },
+    {
+      "compressed_bytes": 15327026,
+      "compressed_sha256": "a97dc4e6f0327937e392cdfd784bdf3b249e9cf45c414963b3ab55024bb9a6eb",
+      "executable_bytes": 69630176,
+      "executable_sha256": "9cb087067037f05b25229e6371731c5b82e8e4d8697b4c2d9b1de00c2545998a",
+      "key": "kerotakis-core--spill_breakage",
+      "package": "kerotakis-core",
+      "target": "spill_breakage"
+    },
+    {
+      "compressed_bytes": 15319862,
+      "compressed_sha256": "f054805eda6ce92c7ae5aba65b6f9456a312e5f01f317050bcd46c2d27733609",
+      "executable_bytes": 69667136,
+      "executable_sha256": "e4fdfa706fc9c41df470ea5b784fbf042cc3f431354ae30d61419396cda13012",
+      "key": "kerotakis-core--spill_persistence",
+      "package": "kerotakis-core",
+      "target": "spill_persistence"
+    },
+    {
+      "compressed_bytes": 13280615,
+      "compressed_sha256": "c72151f3d68e2a3653b1db613fddec1585a31436484359fce8a68439d24e3481",
+      "executable_bytes": 58190592,
+      "executable_sha256": "cc109056626073b7b99be89f3c87b49784356b5514803d1c1199efa698370b69",
+      "key": "kerotakis-core--starch_iodine",
+      "package": "kerotakis-core",
+      "target": "starch_iodine"
+    },
+    {
+      "compressed_bytes": 12856548,
+      "compressed_sha256": "2fbd77706bc20c25e1b2c99865e01a0aac35268e17f5c24f084913e9dff5f3ee",
+      "executable_bytes": 55019512,
+      "executable_sha256": "49e35cd46f398e590cf18560d353e098cb998bfece30dd456a881f16b05a06a6",
+      "key": "kerotakis-core--states",
+      "package": "kerotakis-core",
+      "target": "states"
+    },
+    {
+      "compressed_bytes": 12999569,
+      "compressed_sha256": "93e43549fe0a1374e91d9e49643006f3d4b7d2879a6004b7b97a573684625ba4",
+      "executable_bytes": 55765144,
+      "executable_sha256": "bb7767f57506ad063aef0773c3eb55023d64abe82876897149103f47951e0981",
+      "key": "kerotakis-core--still_refusal_diagnostics",
+      "package": "kerotakis-core",
+      "target": "still_refusal_diagnostics"
+    },
+    {
+      "compressed_bytes": 13114474,
+      "compressed_sha256": "41d567aa7465679de2415a3457c66d6bfe3fb58bd511a1b56a00af7359aaeffd",
+      "executable_bytes": 55850616,
+      "executable_sha256": "930dbdfd6736b1c62ef55e8c0ad866ea0cac33fe7e9d973e7af80ef4756fd44e",
+      "key": "kerotakis-core--stirring",
+      "package": "kerotakis-core",
+      "target": "stirring"
+    },
+    {
+      "compressed_bytes": 15080008,
+      "compressed_sha256": "c76a59ee5ffca04a932d399fe17e9d5688b7eb72ad6613cb046cd1766b3e037d",
+      "executable_bytes": 67276272,
+      "executable_sha256": "845f235edde36e42b722f01cbadced14519cec4107ad94b41548e11c780c89aa",
+      "key": "kerotakis-core--stock",
+      "package": "kerotakis-core",
+      "target": "stock"
+    },
+    {
+      "compressed_bytes": 9349457,
+      "compressed_sha256": "b6f1d0e8e44353e3a1b23b52c19dcd12b54f13b4683321103a26047550f313dc",
+      "executable_bytes": 42418872,
+      "executable_sha256": "eb0377be92d4945a6c85ebf8b5878eef5d072f2adaad1af3cb80ec974c16216a",
+      "key": "kerotakis-core--stock_precision_contracts",
+      "package": "kerotakis-core",
+      "target": "stock_precision_contracts"
+    },
+    {
+      "compressed_bytes": 12872064,
+      "compressed_sha256": "cbb82c343fe9504a0d8f4dd7446e8b6d1367f5c19dfc79eb35c5af1ab2424e0c",
+      "executable_bytes": 55229592,
+      "executable_sha256": "fe31ffd1cb4b1bab4dd5983e4e7db899bdbffdb782c4e09c22a40ddf6d37cd9e",
+      "key": "kerotakis-core--stock_refusal_short_circuit",
+      "package": "kerotakis-core",
+      "target": "stock_refusal_short_circuit"
+    },
+    {
+      "compressed_bytes": 12912316,
+      "compressed_sha256": "6278598793f040734229027b5cf6772231a871f72cd0645f328ac18b6fe3e557",
+      "executable_bytes": 55261448,
+      "executable_sha256": "00014c045fab9df163caebde7f8509eca5540d7fe37b0952da3eedf196d1db10",
+      "key": "kerotakis-core--sucrose_dissolution",
+      "package": "kerotakis-core",
+      "target": "sucrose_dissolution"
+    },
+    {
+      "compressed_bytes": 12906241,
+      "compressed_sha256": "fa63012b867ef7ccd17d6f1b6ed3ae0e038daf00d1ededa91b3d7561ef1e42f5",
+      "executable_bytes": 55227536,
+      "executable_sha256": "d5df453cc3e67e0f5bb4e43728d93f8b2e75667bc53153fa747723d4d875b232",
+      "key": "kerotakis-core--sunscreen",
+      "package": "kerotakis-core",
+      "target": "sunscreen"
+    },
+    {
+      "compressed_bytes": 9571802,
+      "compressed_sha256": "e14bb51ab1c7727e0f11cda1a722a874ace5d0c016d8b26d626e8f5abd58a09e",
+      "executable_bytes": 44027712,
+      "executable_sha256": "4ff95ba1da900665d85d6e83bcd857c95b4ecccfd2e1401d51e980b6b2eb2b5e",
+      "key": "kerotakis-core--surface",
+      "package": "kerotakis-core",
+      "target": "surface"
+    },
+    {
+      "compressed_bytes": 13010149,
+      "compressed_sha256": "384d478ceaa0bde3b8d9f47b6a1356290f1bb80b390e7c004d19be2e51295e96",
+      "executable_bytes": 55724640,
+      "executable_sha256": "e27e1b4ac4fa7afad3897bd5f24e3496afb94502bfa7a1b383924f090360b38b",
+      "key": "kerotakis-core--surface_spread",
+      "package": "kerotakis-core",
+      "target": "surface_spread"
+    },
+    {
+      "compressed_bytes": 10111965,
+      "compressed_sha256": "73ae2837e7c2d5f928ee064c12eb534cc2e11649ac6542ed2197774f284ad5f4",
+      "executable_bytes": 44778848,
+      "executable_sha256": "2b624114c02a3f1ee59236a10ea1c7a93411fff3eda2a7201c2d22642f60caab",
+      "key": "kerotakis-core--terminal_command_grammar",
+      "package": "kerotakis-core",
+      "target": "terminal_command_grammar"
+    },
+    {
+      "compressed_bytes": 13156274,
+      "compressed_sha256": "48e62b21c9e3924f24878c3b06e425631ad792b361bd0659c09abf01a6ba7c46",
+      "executable_bytes": 55985888,
+      "executable_sha256": "9d66df0a6ca0e2ee8ac84e012064ffbb305e37de0295f8ae2cadd2552d37d320",
+      "key": "kerotakis-core--thermal_decomp",
+      "package": "kerotakis-core",
+      "target": "thermal_decomp"
+    },
+    {
+      "compressed_bytes": 13047096,
+      "compressed_sha256": "dfd6ddc503c3d520bffe4110ddf4478d566c7ea36c380076f0f59d2a681b6b7f",
+      "executable_bytes": 55960224,
+      "executable_sha256": "442665f4889cc3697303f360ac28d7f02b734107f6e77fff190e9b3fdf17ea5a",
+      "key": "kerotakis-core--titration_trial_admission_contracts",
+      "package": "kerotakis-core",
+      "target": "titration_trial_admission_contracts"
+    },
+    {
+      "compressed_bytes": 12811461,
+      "compressed_sha256": "734dad6ef7b0f00b346d93ab927a923082b3d1d23e27c43c4618d20cafa590f3",
+      "executable_bytes": 54864640,
+      "executable_sha256": "90e5038e26ca7c51e4bad24b112aabe488f775acf3cc9d26b4ca0e48d504b589",
+      "key": "kerotakis-core--titration_trial_publication_contracts",
+      "package": "kerotakis-core",
+      "target": "titration_trial_publication_contracts"
+    },
+    {
+      "compressed_bytes": 12792727,
+      "compressed_sha256": "a68c6d27de24274dc8505e0c9070774c98b698369ed552a7b0e0600383429d60",
+      "executable_bytes": 54813064,
+      "executable_sha256": "d9577bc6c7d39d9d088f882e468ec081706b87f55b2113ab25c015737b04e2b9",
+      "key": "kerotakis-core--transitions_beyond_water",
+      "package": "kerotakis-core",
+      "target": "transitions_beyond_water"
+    },
+    {
+      "compressed_bytes": 9382688,
+      "compressed_sha256": "a21e30a841f30ff3fca82c94128f9b20851fd6472d9911ccb594705184d9e3b4",
+      "executable_bytes": 42700184,
+      "executable_sha256": "cda5f052732fcbb8a095591edda6a5241676ca975707d6827fc9aa5890528a88",
+      "key": "kerotakis-core--transport",
+      "package": "kerotakis-core",
+      "target": "transport"
+    },
+    {
+      "compressed_bytes": 12963899,
+      "compressed_sha256": "bde81b20dbfea7f1ca3b185ff3c9fbd677546acb37ed594ae9484e91bc78a3a6",
+      "executable_bytes": 55642280,
+      "executable_sha256": "18565e0e085f37236558b20d3bc319a9a24f13f174ea5283b0c686f350d53b38",
+      "key": "kerotakis-core--transport_effluent_ownership",
+      "package": "kerotakis-core",
+      "target": "transport_effluent_ownership"
+    },
+    {
+      "compressed_bytes": 12775637,
+      "compressed_sha256": "c1ba6f26196097f49a0b6d8e87e2341935c3e43fe08eac5e8570ed1d0902361a",
+      "executable_bytes": 54771912,
+      "executable_sha256": "86b768764d87727873d08754c8064647c4a863e357693bf614a796b12ddfb9c3",
+      "key": "kerotakis-core--transport_verb",
+      "package": "kerotakis-core",
+      "target": "transport_verb"
+    },
+    {
+      "compressed_bytes": 13013745,
+      "compressed_sha256": "83ff753608a8ddb3046a9fc1bc5ac20ae51c76661f62369e221a48d12a0b1c76",
+      "executable_bytes": 55740096,
+      "executable_sha256": "3ecf99148a23408156b98bc092231a3f5df1fe31a59e8ae24c77d6adc906939c",
+      "key": "kerotakis-core--vegetable_oil_layers",
+      "package": "kerotakis-core",
+      "target": "vegetable_oil_layers"
+    },
+    {
+      "compressed_bytes": 13037405,
+      "compressed_sha256": "60b091a900c21abcf202afb5d8b82f1a46913e919b07301c05f948e899aeff60",
+      "executable_bytes": 55577408,
+      "executable_sha256": "96d9203a41b9e9ffe93a2bd180f323c574b8eeafa329923ccb7dae027cdaf0a9",
+      "key": "kerotakis-core--vitamin_c",
+      "package": "kerotakis-core",
+      "target": "vitamin_c"
+    },
+    {
+      "compressed_bytes": 10166876,
+      "compressed_sha256": "bd4d1598bda54e3444492e1a2cf42ec4ad38c88da58e73ce38fcdaef31ab32cd",
+      "executable_bytes": 45423048,
+      "executable_sha256": "e1823c6c2d8b563a7673ebcd57ecd5e71b62b2755ade9741595f3ed951f2f926",
+      "key": "kerotakis-core--water_fusion_authority",
+      "package": "kerotakis-core",
+      "target": "water_fusion_authority"
+    },
+    {
+      "compressed_bytes": 15025479,
+      "compressed_sha256": "31118a8885e5311a129d180a2a7dd799afe4af009c2c943e50914fa03c366023",
+      "executable_bytes": 67642216,
+      "executable_sha256": "4162c4857982fe5bb4cd15e59c2fcae73d21d9873c4e4feb98da3d601f79724a",
+      "key": "kerotakis-core--water_input_alias",
+      "package": "kerotakis-core",
+      "target": "water_input_alias"
+    },
+    {
+      "compressed_bytes": 12976431,
+      "compressed_sha256": "485571ef02c075d93e0991f059c3a4352e9a87283ddc039cdfab0e51adff8a27",
+      "executable_bytes": 55478520,
+      "executable_sha256": "23d7c05302e980948220b5ec0e9ef2b579ba2aa00e70f9c02bd8f674d12c6567",
+      "key": "kerotakis-core--watercolour_revision",
+      "package": "kerotakis-core",
+      "target": "watercolour_revision"
+    },
+    {
+      "compressed_bytes": 8613032,
+      "compressed_sha256": "d7b6e1bda6db908c3bfb4f3f42cec392ef7d20af76808aa346f79226dce558f1",
+      "executable_bytes": 39735800,
+      "executable_sha256": "f0d9b9b728c556a61d3a940262eefbab2ad40e63ff1dc67d7ea4a63ce3269022",
+      "key": "kerotakis-core--withdrawal_trace",
+      "package": "kerotakis-core",
+      "target": "withdrawal_trace"
+    },
+    {
+      "compressed_bytes": 9113641,
+      "compressed_sha256": "27385b70748b68cdaf49857ccf420b5578094a3c0f582fd24faa582159e6476c",
+      "executable_bytes": 41098432,
+      "executable_sha256": "a071da1d6e5069b07b0184e451ec592ed9da3965392c1a23fe6edfdd4f0f8f88",
+      "key": "kerotakis-core--yaml_mechanism_parser_contracts",
+      "package": "kerotakis-core",
+      "target": "yaml_mechanism_parser_contracts"
+    },
+    {
+      "compressed_bytes": 15953378,
+      "compressed_sha256": "66fe2959cbf4f629d2468029f9747b3ce6760756c2aa15d0fbd5b722489d1512",
+      "executable_bytes": 65247000,
+      "executable_sha256": "722dac0404e53128474205cf9c598ccddb0e2aa4947c7c4faaf18ef5e42f0db2",
+      "key": "kerotakis-phreeqc--acid_base",
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base"
+    },
+    {
+      "compressed_bytes": 2271838,
+      "compressed_sha256": "d2a7982d88f7e5706877c16ec17581c1731de707240ff3f13cef55f40718404a",
+      "executable_bytes": 7201368,
+      "executable_sha256": "a3badb7215a24cf17f2e65b4c5b527d2faf41554c769923a65469894e1374968",
+      "key": "kerotakis-phreeqc--acid_permanganate_cache_only",
+      "package": "kerotakis-phreeqc",
+      "target": "acid_permanganate_cache_only"
+    },
+    {
+      "compressed_bytes": 20469330,
+      "compressed_sha256": "406a671936aea7dc2765cde4b37ff3ebbc512a6e685552eb6eec992b415f4dc1",
+      "executable_bytes": 84794160,
+      "executable_sha256": "4ad7557ac8267422cd3455ad92cbcaf1a67b6742e3ab7b7d4db432fad5bec747",
+      "key": "kerotakis-phreeqc--acid_permanganate_endpoint",
+      "package": "kerotakis-phreeqc",
+      "target": "acid_permanganate_endpoint"
+    },
+    {
+      "compressed_bytes": 10573824,
+      "compressed_sha256": "b972f1d3e0d38e2fecab2ce3ec1d2935cb59322fcac68b63245f0bdec11cff9b",
+      "executable_bytes": 45540624,
+      "executable_sha256": "21f41e9c17cb0d74896169dde6c1f0ff253bfef5acd81ad238e34e7bdda8f7e5",
+      "key": "kerotakis-phreeqc--agcl",
+      "package": "kerotakis-phreeqc",
+      "target": "agcl"
+    },
+    {
+      "compressed_bytes": 13208047,
+      "compressed_sha256": "a411ab85fd2b56fc7523fd9642b44f02c428210d0e566ed7a47a2ccc59bf446e",
+      "executable_bytes": 55280160,
+      "executable_sha256": "dcc489e07e66729f6b4e3a70bbfc3c204776021a603f884c3b88e33bde63227c",
+      "key": "kerotakis-phreeqc--analytical_inventory",
+      "package": "kerotakis-phreeqc",
+      "target": "analytical_inventory"
+    },
+    {
+      "compressed_bytes": 18382480,
+      "compressed_sha256": "8260128e3eb7d92b5e5701ff259eff6d5d99276e92736905c41a917faf4b7b08",
+      "executable_bytes": 76977512,
+      "executable_sha256": "2a083df381d700d9395e57fb92f486f187dc55e92f3e664370f15e043486ecb9",
+      "key": "kerotakis-phreeqc--aqueous_continuation",
+      "package": "kerotakis-phreeqc",
+      "target": "aqueous_continuation"
+    },
+    {
+      "compressed_bytes": 2271964,
+      "compressed_sha256": "cb985ffc44128ffaff44f40d967bc1736b8b6d18661ba9d8a2e79f7caa98259e",
+      "executable_bytes": 7201392,
+      "executable_sha256": "074f92c20dc57c4fdc66b78681b6541154ac8e6022b2b31b64cab28f2337dc75",
+      "key": "kerotakis-phreeqc--aqueous_continuation_cache_only",
+      "package": "kerotakis-phreeqc",
+      "target": "aqueous_continuation_cache_only"
+    },
+    {
+      "compressed_bytes": 20367876,
+      "compressed_sha256": "7ab0b1c9dbf7955d48d79d5126ebeeb53f3ec7a9406bcf43857dca8cbc7219b2",
+      "executable_bytes": 84415592,
+      "executable_sha256": "4b9790db1cba63ef0e44a10dc781aa83f6f6b758280b0d23130c79c668be5ecb",
+      "key": "kerotakis-phreeqc--aqueous_transfer_snapshot",
+      "package": "kerotakis-phreeqc",
+      "target": "aqueous_transfer_snapshot"
+    },
+    {
+      "compressed_bytes": 10484641,
+      "compressed_sha256": "8f30d2cf8e3ee11a2ccad15e2d4331b40eb5c122f47b9611f6118557f4d55eed",
+      "executable_bytes": 44926960,
+      "executable_sha256": "46378645554004ea00b097020c230dc601e88b14dbf3f652f33eacb856d9be04",
+      "key": "kerotakis-phreeqc--basic_dialect_oracle",
+      "package": "kerotakis-phreeqc",
+      "target": "basic_dialect_oracle"
+    },
+    {
+      "compressed_bytes": 20336105,
+      "compressed_sha256": "ed712618a836bb20252b3679b0132ba3e981388670d8d5902149b4340b3d4e4e",
+      "executable_bytes": 84313280,
+      "executable_sha256": "72d3c723eed8c81c465a2860ece2858b1648fa30e1c49e36f30075c6058e69a2",
+      "key": "kerotakis-phreeqc--borate_speciation",
+      "package": "kerotakis-phreeqc",
+      "target": "borate_speciation"
+    },
+    {
+      "compressed_bytes": 9134414,
+      "compressed_sha256": "872ec51bcd5bcf56775707c87c88df06545ae1419576b950a0b9082b8cfacb79",
+      "executable_bytes": 41944904,
+      "executable_sha256": "1f7330a2a4d863ad99881bb6a0e586d832ae4797663f08b8492dddac8a1858f3",
+      "key": "kerotakis-phreeqc--bridge_contract",
+      "package": "kerotakis-phreeqc",
+      "target": "bridge_contract"
+    },
+    {
+      "compressed_bytes": 15614508,
+      "compressed_sha256": "ba02a8374ce5e376e69e80800a0b0407424bf6d279b2e84aa0b22bd73ea707bf",
+      "executable_bytes": 64002432,
+      "executable_sha256": "4c5e58a6633770925fb3bce63190ff4d576958252408ac527ef36f6a060803ac",
+      "key": "kerotakis-phreeqc--brine_and_phosphate",
+      "package": "kerotakis-phreeqc",
+      "target": "brine_and_phosphate"
+    },
+    {
+      "compressed_bytes": 10493814,
+      "compressed_sha256": "b074eda8cc6895df5ab2fd19d8160c808f90e972f9a9d9a043ab627589ce388e",
+      "executable_bytes": 44969432,
+      "executable_sha256": "4053a9601d134ee721963b05b865ebc954bad5a4fb771a9f5724098f47bd3ffb",
+      "key": "kerotakis-phreeqc--bundled_rates_oracle",
+      "package": "kerotakis-phreeqc",
+      "target": "bundled_rates_oracle"
+    },
+    {
+      "compressed_bytes": 20488244,
+      "compressed_sha256": "1fe5e0d1e215fcaaa986a95e1e5e75ca907c6411b25f38563081c6c213aa6dd2",
+      "executable_bytes": 84743880,
+      "executable_sha256": "89b0de4ff9843d0b041ced099ea82d4d3f7f7339af69bb314ef2bc77333dea6e",
+      "key": "kerotakis-phreeqc--calcium_phosphate",
+      "package": "kerotakis-phreeqc",
+      "target": "calcium_phosphate"
+    },
+    {
+      "compressed_bytes": 15681486,
+      "compressed_sha256": "896dae3d6082b2eeffe54198f5367ccca359212e939b6f6e0c12d60a9322ccec",
+      "executable_bytes": 64209896,
+      "executable_sha256": "2fc373b18f6bff53f4b332b608790cb05d34f4baba629b07427719ad89821f36",
+      "key": "kerotakis-phreeqc--carbonate",
+      "package": "kerotakis-phreeqc",
+      "target": "carbonate"
+    },
+    {
+      "compressed_bytes": 15625025,
+      "compressed_sha256": "a40d353a2b733ae83a1335c5b82b33d88586ce85ce0962f3e8c368c7c65e1dad",
+      "executable_bytes": 64035872,
+      "executable_sha256": "9d93f676e161bc22fa110eba32fa799e5587234913f622e8ffbee43ab3947ded",
+      "key": "kerotakis-phreeqc--census_locale",
+      "package": "kerotakis-phreeqc",
+      "target": "census_locale"
+    },
+    {
+      "compressed_bytes": 20582820,
+      "compressed_sha256": "1c6f51e1812085aaa36fc7fca516ef2e35cfafc8299ee8f1ce5d8ade62c75ebe",
+      "executable_bytes": 85290984,
+      "executable_sha256": "a8d984ad478407724dd950d53d1c0e09898f76f46a30ca49ae10adda8da69a78",
+      "key": "kerotakis-phreeqc--charged_component_inputs",
+      "package": "kerotakis-phreeqc",
+      "target": "charged_component_inputs"
+    },
+    {
+      "compressed_bytes": 15750440,
+      "compressed_sha256": "7030b91faaba1203f47d5fc92ad46205c028ffd89ef171dbc91b15acbf9e5e93",
+      "executable_bytes": 64527784,
+      "executable_sha256": "e4a2a4777b43e0fd6e1cc7d0a91c6b26990cfbd9fb8ac6fcce62dcf64f1e6a97",
+      "key": "kerotakis-phreeqc--chromatograph",
+      "package": "kerotakis-phreeqc",
+      "target": "chromatograph"
+    },
+    {
+      "compressed_bytes": 20359527,
+      "compressed_sha256": "f01b30aeb68d2c24a3237712da9f9cd617c415015b44675caf4591eab79bdc4b",
+      "executable_bytes": 84478976,
+      "executable_sha256": "8d498f54ea655933cdc40e1f6993a0d2ba959c2770d79ffc7742f729994ce88d",
+      "key": "kerotakis-phreeqc--colligative_numbers",
+      "package": "kerotakis-phreeqc",
+      "target": "colligative_numbers"
+    },
+    {
+      "compressed_bytes": 20433303,
+      "compressed_sha256": "a59612b8c3ab5682efbff11446257f96a5170521f69bd197c3e717d700d195c8",
+      "executable_bytes": 84845480,
+      "executable_sha256": "99fc7f2f3204a9883e2c2bedf3da1e27fa3a80edb19e4b7fee2c046c00127f7a",
+      "key": "kerotakis-phreeqc--coupled_ammonia",
+      "package": "kerotakis-phreeqc",
+      "target": "coupled_ammonia"
+    },
+    {
+      "compressed_bytes": 20334062,
+      "compressed_sha256": "6031a73843e262b0a19d5e371cc28c4ad040609ace5362370ac4861264d09a2f",
+      "executable_bytes": 84303384,
+      "executable_sha256": "33eb188de20cb90a4cb2e30ce6fb867b06ff91ddb9655f3670072e2a9c0a56df",
+      "key": "kerotakis-phreeqc--curated_reachability_at_runtime",
+      "package": "kerotakis-phreeqc",
+      "target": "curated_reachability_at_runtime"
+    },
+    {
+      "compressed_bytes": 9570528,
+      "compressed_sha256": "73c71f61a381ea78318f54dd888cfeaf827dfbcc7baa534de448cd95e0706e52",
+      "executable_bytes": 43718232,
+      "executable_sha256": "80dd618f4ce0c8fc12e6e33c2cb88644612e88f742c03f07989977cca5525551",
+      "key": "kerotakis-phreeqc--curated_reactants_survive_a_solve",
+      "package": "kerotakis-phreeqc",
+      "target": "curated_reactants_survive_a_solve"
+    },
+    {
+      "compressed_bytes": 17105779,
+      "compressed_sha256": "8e48f3085f5644546b6207c676a2d33d0b75d0329b32d3a94cb251a1c138a8c8",
+      "executable_bytes": 72379624,
+      "executable_sha256": "f07c44b5b76fec563c15903acb3bc3d96951a92c919ba3a815d6741570da08aa",
+      "key": "kerotakis-phreeqc--diagnostic_freshness",
+      "package": "kerotakis-phreeqc",
+      "target": "diagnostic_freshness"
+    },
+    {
+      "compressed_bytes": 10711898,
+      "compressed_sha256": "c599143c5d471665948f171b6130f034217a15257a8a7c4a630136f10db053eb",
+      "executable_bytes": 45548192,
+      "executable_sha256": "d94bfe8192a970a97ee2ecc796ea54530bf42d174e078c64f600edc5b4528c3e",
+      "key": "kerotakis-phreeqc--dialect_corpus",
+      "package": "kerotakis-phreeqc",
+      "target": "dialect_corpus"
+    },
+    {
+      "compressed_bytes": 10654068,
+      "compressed_sha256": "b31d5b1493244624252f3b2f2005844142e36be110d274d581a9ff709c56a5b7",
+      "executable_bytes": 45368648,
+      "executable_sha256": "4fc509b3656e3e29c2149bb88f8b200428160b6b976e9bf7520a1f2732a95bd0",
+      "key": "kerotakis-phreeqc--differential_oracle",
+      "package": "kerotakis-phreeqc",
+      "target": "differential_oracle"
+    },
+    {
+      "compressed_bytes": 16050974,
+      "compressed_sha256": "77b16ce2a3ffc25f87eab94fd241e92d11a7f9afb9f468e2425dea2b0777f569",
+      "executable_bytes": 65796344,
+      "executable_sha256": "a814d0adba222312141d5fbba6c8c80200c57627d707eed2a3b89a94d2fe39b2",
+      "key": "kerotakis-phreeqc--displacement",
+      "package": "kerotakis-phreeqc",
+      "target": "displacement"
+    },
+    {
+      "compressed_bytes": 16059434,
+      "compressed_sha256": "2c5e5e9f65cc5fc53bdbb8be68ee8d5b25e70131ca7e69d548c6b5560cca8d9d",
+      "executable_bytes": 65555296,
+      "executable_sha256": "4afd3739a1f84ab52e3e251165ce41863ed2c2d371facd9cc03349691bbbea0e",
+      "key": "kerotakis-phreeqc--displacement_exhausted",
+      "package": "kerotakis-phreeqc",
+      "target": "displacement_exhausted"
+    },
+    {
+      "compressed_bytes": 15623682,
+      "compressed_sha256": "8a181033d860fd20dca1690ffe27c229819281e146c8f984b251ccdbac2742c5",
+      "executable_bytes": 64035984,
+      "executable_sha256": "d5c33cb4a7d81ee3b637b51b2254fd23500e40f89ed161ec494954049154a471",
+      "key": "kerotakis-phreeqc--drain",
+      "package": "kerotakis-phreeqc",
+      "target": "drain"
+    },
+    {
+      "compressed_bytes": 15811179,
+      "compressed_sha256": "f5a86d4cd855f9b57dbbd7c86748eaafa66d442aba275c5213f1d7d42f18fa08",
+      "executable_bytes": 64756856,
+      "executable_sha256": "141a4b0bd361a159109644cc2ac6c7122a4d60793d8b931748c28a5a4611f9e6",
+      "key": "kerotakis-phreeqc--electrolyse_solution",
+      "package": "kerotakis-phreeqc",
+      "target": "electrolyse_solution"
+    },
+    {
+      "compressed_bytes": 15612803,
+      "compressed_sha256": "9b26361f2fb0fd6f73556c736e31e54c31e3500bef05719229eaf79fc8cf67cc",
+      "executable_bytes": 63996344,
+      "executable_sha256": "2a2a3cc7f213534f34641c11cdf741c31751acfccfcb5ac9541fe748f157835f",
+      "key": "kerotakis-phreeqc--engine_call_budget",
+      "package": "kerotakis-phreeqc",
+      "target": "engine_call_budget"
+    },
+    {
+      "compressed_bytes": 11042319,
+      "compressed_sha256": "faffbdf17d55615ab347715e8706b4235a46e432d9d52a625d6fe82a71a25f22",
+      "executable_bytes": 47017592,
+      "executable_sha256": "63d5b3dcbce668e8dcef4b0d90fda71ea60e345e6c343aefcdb65fa705152453",
+      "key": "kerotakis-phreeqc--enthalpy_basis",
+      "package": "kerotakis-phreeqc",
+      "target": "enthalpy_basis"
+    },
+    {
+      "compressed_bytes": 16140666,
+      "compressed_sha256": "e4c6c6ed67ee5e2b091fdddeaca11791246589b5a4ee095f70bb8e215df80f0e",
+      "executable_bytes": 65883072,
+      "executable_sha256": "eccd5d80dfd08f8520edb7e213392996df2434467b07af8dd84d20bf1c0b44dd",
+      "key": "kerotakis-phreeqc--equilibrator",
+      "package": "kerotakis-phreeqc",
+      "target": "equilibrator"
+    },
+    {
+      "compressed_bytes": 10478737,
+      "compressed_sha256": "56848853f1ec370c6aede4e8c6f1934d45553c1bac1c1eda2d781abcf62a525e",
+      "executable_bytes": 44918432,
+      "executable_sha256": "cd0d96fa0ab156d1c1b3f92c41055b641ba4885c6b39e019b08febbb8b28e8e5",
+      "key": "kerotakis-phreeqc--error_location_parity",
+      "package": "kerotakis-phreeqc",
+      "target": "error_location_parity"
+    },
+    {
+      "compressed_bytes": 10491746,
+      "compressed_sha256": "ecba372849b866776821c79d259e90e378fedf90396a3801ca557ac1f5d54dd2",
+      "executable_bytes": 44947296,
+      "executable_sha256": "6b333825f29eb85ad5415c71f8e70d9fd6832178f86726577648ec1f6b871c85",
+      "key": "kerotakis-phreeqc--ex21_observable_parity",
+      "package": "kerotakis-phreeqc",
+      "target": "ex21_observable_parity"
+    },
+    {
+      "compressed_bytes": 15651734,
+      "compressed_sha256": "dafa76eb547e97dde6bc2d22a087a1f06feca8e7cea79432b2f252548a54338a",
+      "executable_bytes": 64120072,
+      "executable_sha256": "c22e62585d49f7b8edb38f65cb0d597d7503ece594525e9eef0dc21b04fc1b7f",
+      "key": "kerotakis-phreeqc--exchange",
+      "package": "kerotakis-phreeqc",
+      "target": "exchange"
+    },
+    {
+      "compressed_bytes": 13100791,
+      "compressed_sha256": "57963a6a35d7398d02d870e96373bb0b0b268966653bc4e1087da54f73cc8e95",
+      "executable_bytes": 54708728,
+      "executable_sha256": "3fbb8952c4103cee0b51c28c0dd1a0dc9ed7c895c88b9ac1455c720e9ce65f13",
+      "key": "kerotakis-phreeqc--exchange_transport",
+      "package": "kerotakis-phreeqc",
+      "target": "exchange_transport"
+    },
+    {
+      "compressed_bytes": 20278576,
+      "compressed_sha256": "4432e16c1a64a5a6795e344e0134d7a1a4af889b414d05bb6861163353157d78",
+      "executable_bytes": 84105448,
+      "executable_sha256": "9363fa4a28e5596ad2c5ba381a7fcbe69269b7fb59d5df2bd9bd2afec4c673b3",
+      "key": "kerotakis-phreeqc--family_aqueous_tail",
+      "package": "kerotakis-phreeqc",
+      "target": "family_aqueous_tail"
+    },
+    {
+      "compressed_bytes": 16069499,
+      "compressed_sha256": "1d54b08ac71be4371335b3dd4b88f0f10e4f50ca1c17c331d0ade3796ecdf5a7",
+      "executable_bytes": 65586544,
+      "executable_sha256": "2cfdbc9e5ab6852ea5ae19e90a2c731126af5310fb1798d9b14e5e3655fb03a8",
+      "key": "kerotakis-phreeqc--faraday",
+      "package": "kerotakis-phreeqc",
+      "target": "faraday"
+    },
+    {
+      "compressed_bytes": 13056947,
+      "compressed_sha256": "4970dd641d63d81d83bcb2d31fdf3b7493f5c948a33fceb084ecde0227141f1f",
+      "executable_bytes": 54547584,
+      "executable_sha256": "b099cc52e05c856e9fb2973a4ce1fcbed219a1209d8d92735da2a0fe6acfa86e",
+      "key": "kerotakis-phreeqc--finite_gas_moles",
+      "package": "kerotakis-phreeqc",
+      "target": "finite_gas_moles"
+    },
+    {
+      "compressed_bytes": 15628070,
+      "compressed_sha256": "58257a6b9417b11d296633171985583509c78f2d4ec5408131ea691699b2a555",
+      "executable_bytes": 64041672,
+      "executable_sha256": "b3fa4904b1ed86d37409c841bee3e59babb73ca4d2485a6fad48e2ffceb4e2f1",
+      "key": "kerotakis-phreeqc--finite_gas_temperature",
+      "package": "kerotakis-phreeqc",
+      "target": "finite_gas_temperature"
+    },
+    {
+      "compressed_bytes": 15834073,
+      "compressed_sha256": "a13a7c3f76468190ad9c3c0ba02fd9df18d1868269f51b8e86b2cf20d1353691",
+      "executable_bytes": 64861456,
+      "executable_sha256": "b50d5815c08840f531bf13a76210f0a5de21c34df51eab3fbc6199b913d06edd",
+      "key": "kerotakis-phreeqc--food_chemistry",
+      "package": "kerotakis-phreeqc",
+      "target": "food_chemistry"
+    },
+    {
+      "compressed_bytes": 9223611,
+      "compressed_sha256": "62e79ec6de48e5fb0fccb1343ba2973b77b1d3bcd12c98adc839e0235856489b",
+      "executable_bytes": 42556600,
+      "executable_sha256": "2528fe50c6c58bbe7d8a5e79e7418ab641f7992bcea05ebc5628bfcb2527e0a3",
+      "key": "kerotakis-phreeqc--formula_parser_diff",
+      "package": "kerotakis-phreeqc",
+      "target": "formula_parser_diff"
+    },
+    {
+      "compressed_bytes": 2271816,
+      "compressed_sha256": "ec554819083e284d4ed3ce443fe51fd1ff6c70739111d3e334f5a740575a0fbd",
+      "executable_bytes": 7201224,
+      "executable_sha256": "3179ebf6bdf345160f923a7c38e06bbc0a9bda9ffbafeaea9b4be0690e00c45f",
+      "key": "kerotakis-phreeqc--generate-dbindex",
+      "package": "kerotakis-phreeqc",
+      "target": "generate-dbindex"
+    },
+    {
+      "compressed_bytes": 15762583,
+      "compressed_sha256": "45fee3258de7d9e9204d1b6efd774252fe1ee6afc596ed31bf93e9a237c45a99",
+      "executable_bytes": 64502208,
+      "executable_sha256": "1aec838e140ae5fe149e344ce454c54ae557beb4f3561cb59c561c0b5657e69e",
+      "key": "kerotakis-phreeqc--hard_water",
+      "package": "kerotakis-phreeqc",
+      "target": "hard_water"
+    },
+    {
+      "compressed_bytes": 15759684,
+      "compressed_sha256": "5b00f67ec7fb6b8fa922f0cd3d735aa982f65739a9a6d40e7c46774a4321dbb1",
+      "executable_bytes": 64485776,
+      "executable_sha256": "9f6145f31bd91a411d779972eaf1cb79f94416b100698904cbc204d52f50501a",
+      "key": "kerotakis-phreeqc--headspace",
+      "package": "kerotakis-phreeqc",
+      "target": "headspace"
+    },
+    {
+      "compressed_bytes": 20334068,
+      "compressed_sha256": "32bc75d3ba6ce233f21c4fa886248ee8371cca165c7c9fdfdbc3658226ba70c1",
+      "executable_bytes": 84307648,
+      "executable_sha256": "02df47fc19b7705687964a484f7ad60557046c5b3d9a796005a41cfd144c9641",
+      "key": "kerotakis-phreeqc--hypochlorite_speciation",
+      "package": "kerotakis-phreeqc",
+      "target": "hypochlorite_speciation"
+    },
+    {
+      "compressed_bytes": 20268147,
+      "compressed_sha256": "b83621a3847a78fd57bc03bbd0fd71e7d2cfd703947f3347464492e99cf61184",
+      "executable_bytes": 84073688,
+      "executable_sha256": "1c0bedf4d52478173024089353f11959c6135e83fc2bae9806ca9efc7bccefad",
+      "key": "kerotakis-phreeqc--ignite_over_fizz",
+      "package": "kerotakis-phreeqc",
+      "target": "ignite_over_fizz"
+    },
+    {
+      "compressed_bytes": 15613385,
+      "compressed_sha256": "b81174be31ff08e01ec923f52aba7827b3f468035eeeed197e923b66e33af799",
+      "executable_bytes": 63999104,
+      "executable_sha256": "92c0b49f341f5736aea5e6e48db8158b5b4051d0ac04ace8348cff994abf8f38",
+      "key": "kerotakis-phreeqc--instrument_oracle",
+      "package": "kerotakis-phreeqc",
+      "target": "instrument_oracle"
+    },
+    {
+      "compressed_bytes": 13941667,
+      "compressed_sha256": "392ec5a535cd1e57634ec25111591d89100b78a45cede88d8d833e4599eb389d",
+      "executable_bytes": 57926016,
+      "executable_sha256": "45476a3fd8fa483d94203316f34d1235ba85ec96885b25df9fef2e3c689d1008",
+      "key": "kerotakis-phreeqc--kerotakis_phreeqc",
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc"
+    },
+    {
+      "compressed_bytes": 9558942,
+      "compressed_sha256": "b7d04a716c3bbe26c98202e43e1f17d99208e558d6c459d1b6057e12479010ae",
+      "executable_bytes": 43670272,
+      "executable_sha256": "55f59bb6837cd3efafc887795d2523e3b9b26eee21b7e6857f2bba9a698f9c63",
+      "key": "kerotakis-phreeqc--kinetic_reactants_survive_a_solve",
+      "package": "kerotakis-phreeqc",
+      "target": "kinetic_reactants_survive_a_solve"
+    },
+    {
+      "compressed_bytes": 11337954,
+      "compressed_sha256": "ccbbc44f7aa4c224a77df23a9cd38a37067e6ec2f14331c2f32c736e53d846a1",
+      "executable_bytes": 47814240,
+      "executable_sha256": "61074fb35b42c0907dfb61ce119fdd084b09ff3cf6fb128ae5d260e493aad89e",
+      "key": "kerotakis-phreeqc--kinetics_trajectory",
+      "package": "kerotakis-phreeqc",
+      "target": "kinetics_trajectory"
+    },
+    {
+      "compressed_bytes": 10636958,
+      "compressed_sha256": "947f4a77decbd57a58b64c36fdaafad056656349429d7e2838a6e799fa13639f",
+      "executable_bytes": 45332784,
+      "executable_sha256": "1cb52acd40ccdc20ec20ed8e1b662f18d4bbc85cf615059deb256dac7c495821",
+      "key": "kerotakis-phreeqc--kinetics_trajectory_oracle",
+      "package": "kerotakis-phreeqc",
+      "target": "kinetics_trajectory_oracle"
+    },
+    {
+      "compressed_bytes": 20329604,
+      "compressed_sha256": "8e053bef2dba94728253bd540cd47c05bc7ae74b4e8e8257f9ebde77d49087ed",
+      "executable_bytes": 84298368,
+      "executable_sha256": "30004990a1e2b2cd2afdea5bc6a992ca709e8cc4c58f9e84f81d129472b08f41",
+      "key": "kerotakis-phreeqc--lactate_speciation",
+      "package": "kerotakis-phreeqc",
+      "target": "lactate_speciation"
+    },
+    {
+      "compressed_bytes": 13221350,
+      "compressed_sha256": "0cb8b0d97798d7829b88eb9499231a27c297ce19379109bc5e8cb9289489bfd8",
+      "executable_bytes": 55110008,
+      "executable_sha256": "4229a3c3eb64413138a39dd7b2e4ac423b81b0daf3fe161fa903f03a3556edf2",
+      "key": "kerotakis-phreeqc--ligand_reference",
+      "package": "kerotakis-phreeqc",
+      "target": "ligand_reference"
+    },
+    {
+      "compressed_bytes": 20235845,
+      "compressed_sha256": "1521506df16f685b3c89caa88e9344998d469bfd3543fe885c0da4474bad0d3e",
+      "executable_bytes": 83969856,
+      "executable_sha256": "4ebbbc3486615dd5371bb56d1878d596cd3eaac4267d78ab111ffe67d0f8ae41",
+      "key": "kerotakis-phreeqc--measured_acidity",
+      "package": "kerotakis-phreeqc",
+      "target": "measured_acidity"
+    },
+    {
+      "compressed_bytes": 15784770,
+      "compressed_sha256": "5253becc89230032a40f0e4182bfa9d15cb0446802205dd8d42b14eb8680fad6",
+      "executable_bytes": 64640528,
+      "executable_sha256": "7e7cb36d54a7f3aeecc481228f64a8d4b5e6a17b61396b108f543630afc67fc8",
+      "key": "kerotakis-phreeqc--metastable",
+      "package": "kerotakis-phreeqc",
+      "target": "metastable"
+    },
+    {
+      "compressed_bytes": 20473577,
+      "compressed_sha256": "5005a479c0c76bac0ae8bec2068b817ffe84471a1dfb762e328000052343ae11",
+      "executable_bytes": 84676664,
+      "executable_sha256": "650f031b4cc6fb6d7ecdfa17c5bc667e079408ba4c451423605279167273b9db",
+      "key": "kerotakis-phreeqc--milk_buffer",
+      "package": "kerotakis-phreeqc",
+      "target": "milk_buffer"
+    },
+    {
+      "compressed_bytes": 9613009,
+      "compressed_sha256": "a051537ae2e0fb373023b4ae3971533ff6c8c120247c85828df2f35c340832a6",
+      "executable_bytes": 43889048,
+      "executable_sha256": "809bf5cd8f203ccf76ce8443dcd1953a356d9d5c972dca5f5fc8afa51fe96940",
+      "key": "kerotakis-phreeqc--mineral_crosswalk",
+      "package": "kerotakis-phreeqc",
+      "target": "mineral_crosswalk"
+    },
+    {
+      "compressed_bytes": 15849779,
+      "compressed_sha256": "d8d5f98b045eb097576b9085d33d2e1ce475c226bbc53d7d011e9599716b13bb",
+      "executable_bytes": 64895960,
+      "executable_sha256": "d1c47f20da78688b9908a504033021ecaa458d0705ab6d16cbc6797b54716442",
+      "key": "kerotakis-phreeqc--mix",
+      "package": "kerotakis-phreeqc",
+      "target": "mix"
+    },
+    {
+      "compressed_bytes": 13224958,
+      "compressed_sha256": "a5900015ace8a5568614f91bb93dceb06cbc8bb32ad44caba1e2f2119c91f44b",
+      "executable_bytes": 55354728,
+      "executable_sha256": "2f72348b7f5e87863dc77708a8648828a1c1b606e2f6ad9eacaf53794666dce2",
+      "key": "kerotakis-phreeqc--mix_finite_inventory",
+      "package": "kerotakis-phreeqc",
+      "target": "mix_finite_inventory"
+    },
+    {
+      "compressed_bytes": 13261359,
+      "compressed_sha256": "915a6b2091aba08ee6e87b8cfc3526b4329db8c8137e948f6ca406044afef2e3",
+      "executable_bytes": 55483328,
+      "executable_sha256": "e4aa16726bf72a14061082ccdd01a6a379dac86fceb72e764c2f82aff74ba1f2",
+      "key": "kerotakis-phreeqc--mix_redox_boundary",
+      "package": "kerotakis-phreeqc",
+      "target": "mix_redox_boundary"
+    },
+    {
+      "compressed_bytes": 10515129,
+      "compressed_sha256": "8895aa9e9c5f9f30f01ac65fbc102f5a3918e13238b471bd2bdaac6cffe6b91a",
+      "executable_bytes": 45023664,
+      "executable_sha256": "965f10a01b23b0633f0a7940e07b09ea18ccd2a455b67d047283ac2b0559104f",
+      "key": "kerotakis-phreeqc--my_basic_preview",
+      "package": "kerotakis-phreeqc",
+      "target": "my_basic_preview"
+    },
+    {
+      "compressed_bytes": 20425778,
+      "compressed_sha256": "d0ea2f7de07a47bad09d76d5ba19294ec08c5a9a31734c7a69f9a69321951e1c",
+      "executable_bytes": 84818416,
+      "executable_sha256": "9429d0a4b2067b22234447227c947ab49dd420b664705915e1053c4137ee08e5",
+      "key": "kerotakis-phreeqc--named_hydrolysis",
+      "package": "kerotakis-phreeqc",
+      "target": "named_hydrolysis"
+    },
+    {
+      "compressed_bytes": 10576507,
+      "compressed_sha256": "d15bfd1c44dbb5bec56e163226595d5b50b630824a71d2792e012c05eb77e465",
+      "executable_bytes": 45542944,
+      "executable_sha256": "5a54d86b4745d36eeb88c97c773fd7c6c223a78d296db0b3cb4338672b04e5b4",
+      "key": "kerotakis-phreeqc--native_delta_h",
+      "package": "kerotakis-phreeqc",
+      "target": "native_delta_h"
+    },
+    {
+      "compressed_bytes": 2271707,
+      "compressed_sha256": "3c90e7d4feffd5538ba4ad052c4452eac96e0d26b1998130be5536c3df47a3d0",
+      "executable_bytes": 7201120,
+      "executable_sha256": "18ea6101c5ff3c78b73033163342a0c6a0a64cf40ac3b92982f0cfa3e560051b",
+      "key": "kerotakis-phreeqc--no_basic",
+      "package": "kerotakis-phreeqc",
+      "target": "no_basic"
+    },
+    {
+      "compressed_bytes": 10476963,
+      "compressed_sha256": "4e9ff6a642f2f4a1e7a0cec0505f31b8f8050f6f5b302e6eb9d6ea2b9e085b88",
+      "executable_bytes": 44924576,
+      "executable_sha256": "d593af06317db9c923bd03b332f05085a8769917bd6bc65ddd8c7eb5944a59cc",
+      "key": "kerotakis-phreeqc--official_examples_completion",
+      "package": "kerotakis-phreeqc",
+      "target": "official_examples_completion"
+    },
+    {
+      "compressed_bytes": 20330205,
+      "compressed_sha256": "247441b6ca8b461909ba9e4285c26e96bf4d844e7eb90e9ffeda291c18da5801",
+      "executable_bytes": 84301184,
+      "executable_sha256": "201b35dc85314785465af46f680a0994721fc51ce9073d967f3a280781421f6b",
+      "key": "kerotakis-phreeqc--order_invariance",
+      "package": "kerotakis-phreeqc",
+      "target": "order_invariance"
+    },
+    {
+      "compressed_bytes": 20445700,
+      "compressed_sha256": "91b690605523d7f4af9805b92479f2ab6c0dcd022b00fc114067083fc9fea713",
+      "executable_bytes": 84674200,
+      "executable_sha256": "9f84028e10e068de42fa386fa5b7a5686bd97f9ce972d06ebe70cdb9fb0fcc94",
+      "key": "kerotakis-phreeqc--partial_freezing",
+      "package": "kerotakis-phreeqc",
+      "target": "partial_freezing"
+    },
+    {
+      "compressed_bytes": 13198919,
+      "compressed_sha256": "f7e9b13253f6855c8efed134185955bbaa06879914ca70ae2ef49461eb8e398a",
+      "executable_bytes": 55058824,
+      "executable_sha256": "d67e2f37ddad8a4f02549a39c5967023692b536578d9c89c5d18f5cbe3fd7595",
+      "key": "kerotakis-phreeqc--peroxide_medium",
+      "package": "kerotakis-phreeqc",
+      "target": "peroxide_medium"
+    },
+    {
+      "compressed_bytes": 15829271,
+      "compressed_sha256": "e1768d2df7ec2c7887db3b0a9bf0eb40e7081ebbc3281d5a0b1f096b66ef2463",
+      "executable_bytes": 64876176,
+      "executable_sha256": "d2807807fc6f84b35666f99511e4bc199c4cc9e32f1a64cd0c79eeca7992096c",
+      "key": "kerotakis-phreeqc--physical_solid_settling",
+      "package": "kerotakis-phreeqc",
+      "target": "physical_solid_settling"
+    },
+    {
+      "compressed_bytes": 13067375,
+      "compressed_sha256": "c82da553b99c4e14fe8c919992bcbed55f239ca06ed0da1f27b839bb41c75434",
+      "executable_bytes": 54603200,
+      "executable_sha256": "754e35248ec497ccb4e3be0a017a0a71a279998fe8a5ac94119583fb53c42f30",
+      "key": "kerotakis-phreeqc--positive_phase_inventory",
+      "package": "kerotakis-phreeqc",
+      "target": "positive_phase_inventory"
+    },
+    {
+      "compressed_bytes": 11026755,
+      "compressed_sha256": "f9fc5666a9a63e9bc5152f9d89052b6faee8892d5912a5178015328c31b4ad53",
+      "executable_bytes": 46980248,
+      "executable_sha256": "2e2c8121cdc83adbbb912f17f91f06f652eb878f1d195a88fb154fb566e0eed2",
+      "key": "kerotakis-phreeqc--pourbaix",
+      "package": "kerotakis-phreeqc",
+      "target": "pourbaix"
+    },
+    {
+      "compressed_bytes": 15662499,
+      "compressed_sha256": "c5b51443ebe81b9bf18bd58a980918b8eadb7bdb103a342fd4724115c944e825",
+      "executable_bytes": 64218360,
+      "executable_sha256": "6851c8fcede6a48f8e9115fd8dc71d8f721098a07a7a5c3caf14a538fc7ef532",
+      "key": "kerotakis-phreeqc--prewarm",
+      "package": "kerotakis-phreeqc",
+      "target": "prewarm"
+    },
+    {
+      "compressed_bytes": 15681585,
+      "compressed_sha256": "9e67b6d6d26e19962ddb24b7e3252b78c3eb39e822c6471fecf6dd2a04c90c34",
+      "executable_bytes": 64221736,
+      "executable_sha256": "764728aeda4ed3b1f42ecb15a9c12de319d538e21aa78f1b717df7fccea4d8f4",
+      "key": "kerotakis-phreeqc--provenance",
+      "package": "kerotakis-phreeqc",
+      "target": "provenance"
+    },
+    {
+      "compressed_bytes": 15833096,
+      "compressed_sha256": "5d54e3ab01c6484f216588c3bc9501a939b0e995c098698607a75e3b6a263f60",
+      "executable_bytes": 64850720,
+      "executable_sha256": "3359d7e05fa64dd2e403f2f119e91a98b6fdd598cfb802c403a19136382b8f9f",
+      "key": "kerotakis-phreeqc--qualitative",
+      "package": "kerotakis-phreeqc",
+      "target": "qualitative"
+    },
+    {
+      "compressed_bytes": 15709784,
+      "compressed_sha256": "e6e8a27d9f636967bfb8b482aaf37f832073842b299f4669108877bfb3ff55e9",
+      "executable_bytes": 64400264,
+      "executable_sha256": "db90f22b262e2415a531f110832e8601e9fca2bd3ff1045b2dcdf92a305b334b",
+      "key": "kerotakis-phreeqc--r1_acceptance",
+      "package": "kerotakis-phreeqc",
+      "target": "r1_acceptance"
+    },
+    {
+      "compressed_bytes": 20236239,
+      "compressed_sha256": "04a2ac8eee290d33e8eb94d31f6d3c0034a44e7c742996c8d908234f7a77c45d",
+      "executable_bytes": 83971160,
+      "executable_sha256": "3e78a61e45b4c6be6b78be85dac19e3449b837483a99e672a37a09d046bb78e7",
+      "key": "kerotakis-phreeqc--reaction_heat",
+      "package": "kerotakis-phreeqc",
+      "target": "reaction_heat"
+    },
+    {
+      "compressed_bytes": 13090500,
+      "compressed_sha256": "0f1b6219746ca121c56c086774fe698945bb13ff8a8388d9accbf1121747ee74",
+      "executable_bytes": 54676536,
+      "executable_sha256": "30036dbcdca9b1058be30b9519d67e4d8caaf7bfe8aaa8c48f23c034b2c848a8",
+      "key": "kerotakis-phreeqc--reactive_gas",
+      "package": "kerotakis-phreeqc",
+      "target": "reactive_gas"
+    },
+    {
+      "compressed_bytes": 15654762,
+      "compressed_sha256": "79e14d8da16cc21662d74e2b76ca35df9109507d70d53ed34fedfc06e6af3eba",
+      "executable_bytes": 64134792,
+      "executable_sha256": "4121e3a2e74b8d0f0c0fffb3421be3620de49cff11d898700da1abfb7dd9535f",
+      "key": "kerotakis-phreeqc--redox",
+      "package": "kerotakis-phreeqc",
+      "target": "redox"
+    },
+    {
+      "compressed_bytes": 10989254,
+      "compressed_sha256": "698717dcea00392fc4e213d742ba97b4894c14720b4824d7b2ef37f90a81475f",
+      "executable_bytes": 46841888,
+      "executable_sha256": "78f0f412cd584dbcfd2494896d6ddb6bdd7c2ce193b604bfe52b858aae744faf",
+      "key": "kerotakis-phreeqc--redox_isolation_probe",
+      "package": "kerotakis-phreeqc",
+      "target": "redox_isolation_probe"
+    },
+    {
+      "compressed_bytes": 20388622,
+      "compressed_sha256": "db3d94d6e50a960580ba9b8830776099a516045f86a8b2acbf160bb250c318d2",
+      "executable_bytes": 84495480,
+      "executable_sha256": "028032fb512bbcf6833dfc472f3cf80bf0bd857e964a823d4c8913425ddc745e",
+      "key": "kerotakis-phreeqc--redox_titrimetry",
+      "package": "kerotakis-phreeqc",
+      "target": "redox_titrimetry"
+    },
+    {
+      "compressed_bytes": 10441012,
+      "compressed_sha256": "192003c00bb561897835c32488369ec2ef668ce0beaa0a542d2e2d309c78063b",
+      "executable_bytes": 44843752,
+      "executable_sha256": "43780b938d3a9d4863375e8074efb0aff69b950f1050a75c38ecd2b56c998aa1",
+      "key": "kerotakis-phreeqc--resource_limits",
+      "package": "kerotakis-phreeqc",
+      "target": "resource_limits"
+    },
+    {
+      "compressed_bytes": 13056385,
+      "compressed_sha256": "3316cbf75a04049d457eb89747056ad9134ae77f3b01b1539d1a4ac803446fd8",
+      "executable_bytes": 54548432,
+      "executable_sha256": "835f88d6ba6fd2d41d49837996fdd40ce94261657d1e8f2e2eac59299ee17b97",
+      "key": "kerotakis-phreeqc--saturation_versus_equilibrium_phase",
+      "package": "kerotakis-phreeqc",
+      "target": "saturation_versus_equilibrium_phase"
+    },
+    {
+      "compressed_bytes": 15847812,
+      "compressed_sha256": "bbb33a658776a7b65cf91734a7d41d2fd63a6eb1797abb9e818c585222fb5bb5",
+      "executable_bytes": 64892168,
+      "executable_sha256": "9ea979d4af39fb0f74bc193319e9118cde4e6c86e5fdd81018cc3d4e4d16a77b",
+      "key": "kerotakis-phreeqc--school_salts",
+      "package": "kerotakis-phreeqc",
+      "target": "school_salts"
+    },
+    {
+      "compressed_bytes": 20330603,
+      "compressed_sha256": "590826940d6cc30a4be2152b3b112a16a431421d7ee5fe3838d90570bc263513",
+      "executable_bytes": 84292936,
+      "executable_sha256": "5385054af396b82512d1ada9e8c5d97a73d22e5ab8f6ca66350a3fd5254cbbb8",
+      "key": "kerotakis-phreeqc--sealed_mass",
+      "package": "kerotakis-phreeqc",
+      "target": "sealed_mass"
+    },
+    {
+      "compressed_bytes": 15934320,
+      "compressed_sha256": "8de7611a152d33f57c5c256df72d0b3a13a9539b97d1d8aa29ce6acb356b9d0c",
+      "executable_bytes": 65186288,
+      "executable_sha256": "88156348105c5106dfcd36c1057ef18ba660f981a1f30541b564db472538b002",
+      "key": "kerotakis-phreeqc--separations",
+      "package": "kerotakis-phreeqc",
+      "target": "separations"
+    },
+    {
+      "compressed_bytes": 13372498,
+      "compressed_sha256": "f210df4de317045d239fbe9eca36ef88b471809434121d0e00998876c1d75b99",
+      "executable_bytes": 55940912,
+      "executable_sha256": "21f19b81a3fd508c44f16a4979e5ce4fc08e8d5b6cec1ddf1fc48acb786169e3",
+      "key": "kerotakis-phreeqc--silver_ammine_route",
+      "package": "kerotakis-phreeqc",
+      "target": "silver_ammine_route"
+    },
+    {
+      "compressed_bytes": 9156448,
+      "compressed_sha256": "419d6031aade12d471801b747dc9b13c0ddc664830193459800a46a0d7e45dcc",
+      "executable_bytes": 42107032,
+      "executable_sha256": "6287361b4cdfc747dee5addf45322700daa06d6bd0fe3dbb2038a82071118439",
+      "key": "kerotakis-phreeqc--solid_registry_matching",
+      "package": "kerotakis-phreeqc",
+      "target": "solid_registry_matching"
+    },
+    {
+      "compressed_bytes": 13095267,
+      "compressed_sha256": "b2f8367cd19386005d5ca16b78a8d1e1fcdbbeb104db2b63a49799d3f0fb1553",
+      "executable_bytes": 54700440,
+      "executable_sha256": "a65078b12bde34b4132627b3219c62507b92f400f165256de11c4891125a7232",
+      "key": "kerotakis-phreeqc--solid_solution",
+      "package": "kerotakis-phreeqc",
+      "target": "solid_solution"
+    },
+    {
+      "compressed_bytes": 15623058,
+      "compressed_sha256": "cb41e98e57da26e187a8fa5fc84438b6c6c09c2a8a4e4afb2fe8fc4e17b0a219",
+      "executable_bytes": 64025176,
+      "executable_sha256": "c569f24d4395d0ea943d0b58f263d582af12e52a8444f73a4cf9fbb33472cc42",
+      "key": "kerotakis-phreeqc--speciation",
+      "package": "kerotakis-phreeqc",
+      "target": "speciation"
+    },
+    {
+      "compressed_bytes": 10488489,
+      "compressed_sha256": "27e671fcee4e74526a356c5653f4b2a5eac1393810e49556feef0331505bcd4a",
+      "executable_bytes": 44980072,
+      "executable_sha256": "6c3f1178cb09c76bb47ef3c8337c26791039034c51a1554d0b9449fefbe961ed",
+      "key": "kerotakis-phreeqc--standalone_basic_corpus",
+      "package": "kerotakis-phreeqc",
+      "target": "standalone_basic_corpus"
+    },
+    {
+      "compressed_bytes": 20341204,
+      "compressed_sha256": "13e55e7bd0a04a6a255c7c06fe19a10713745bdc1107ba2225ed9f93fa905623",
+      "executable_bytes": 84324880,
+      "executable_sha256": "67fe5e455e72db55c3650ba59da0bc630ce17aa234ef9ef8cac01a79d3da93c4",
+      "key": "kerotakis-phreeqc--sulfite_speciation",
+      "package": "kerotakis-phreeqc",
+      "target": "sulfite_speciation"
+    },
+    {
+      "compressed_bytes": 15705183,
+      "compressed_sha256": "1b1293963ef26aeeee7ed4217b5ff99d6d40eec84255343eb028f8a7f598f54e",
+      "executable_bytes": 64282832,
+      "executable_sha256": "a920559b36f951c59d88726e49a251885e5d1ef7ba543b8462ddc362d5bb46a2",
+      "key": "kerotakis-phreeqc--surface",
+      "package": "kerotakis-phreeqc",
+      "target": "surface"
+    },
+    {
+      "compressed_bytes": 13150615,
+      "compressed_sha256": "e11204d71c648d8581a25137dbfcd5f9c5fa364d062cba540cf040f44eed1bb7",
+      "executable_bytes": 54875432,
+      "executable_sha256": "ed628c3438ac3ddbd78beef89564b1fe050831cb49c36cc2d7ee55b6a2196aba",
+      "key": "kerotakis-phreeqc--surface_transport",
+      "package": "kerotakis-phreeqc",
+      "target": "surface_transport"
+    },
+    {
+      "compressed_bytes": 20339221,
+      "compressed_sha256": "15e42ca08a16079b51981bc84ea618a3d322146d11a2561a9f8ce9a8c41612c3",
+      "executable_bytes": 84324720,
+      "executable_sha256": "ca4d570219c3cfc5e556dc796c47ea55a5a45323a49c5781c9bd92df4c4f07ff",
+      "key": "kerotakis-phreeqc--thiosulfate_speciation",
+      "package": "kerotakis-phreeqc",
+      "target": "thiosulfate_speciation"
+    },
+    {
+      "compressed_bytes": 15645872,
+      "compressed_sha256": "ba1850f773bf88cb69c062b2459a19be2817942d3e43b6cb46782e7649383b55",
+      "executable_bytes": 64099632,
+      "executable_sha256": "d4da6d2dac102fa75a9cd5490b708ca5f45620d881aae3e6ee4f2920df014f0a",
+      "key": "kerotakis-phreeqc--titration_refinement",
+      "package": "kerotakis-phreeqc",
+      "target": "titration_refinement"
+    },
+    {
+      "compressed_bytes": 20362081,
+      "compressed_sha256": "d02c0728456c3714fee24ecaafb5dfac1970ee699a2459957c16ed94e7937ba3",
+      "executable_bytes": 84397600,
+      "executable_sha256": "9a0cc8cb7f1a305080e2a1299fb9ee7f03fca22dc2ef07af5a75d071a0708a5d",
+      "key": "kerotakis-phreeqc--transport_effluent_ownership",
+      "package": "kerotakis-phreeqc",
+      "target": "transport_effluent_ownership"
+    },
+    {
+      "compressed_bytes": 15682000,
+      "compressed_sha256": "daef068d1b444d13ca7da5b4499647f434dc0f050a288a9d55768b3ce0cab32c",
+      "executable_bytes": 64226328,
+      "executable_sha256": "81f13083ab3c5f7ae2193f43954a905d8ca23b13caacee780fc8e29bc4c89ac6",
+      "key": "kerotakis-phreeqc--unknown_water",
+      "package": "kerotakis-phreeqc",
+      "target": "unknown_water"
+    },
+    {
+      "compressed_bytes": 13211988,
+      "compressed_sha256": "df0da5c8ef0c92b684cbb18e238c2dbd1198dfa3578de2780dce037968267dfd",
+      "executable_bytes": 55098552,
+      "executable_sha256": "b452fdea839fb5588078be2865918447859beb6578fa7f9f1ccbfed7a5407973",
+      "key": "kerotakis-phreeqc--unsupported_ionic",
+      "package": "kerotakis-phreeqc",
+      "target": "unsupported_ionic"
+    },
+    {
+      "compressed_bytes": 15878357,
+      "compressed_sha256": "170b879998b0a1fca9c385c515db2b5023f5bef68f92cdd6352058bc3043c817",
+      "executable_bytes": 64997096,
+      "executable_sha256": "b08ccf102944168b20cca84935520e72ff0b5ed9790265a485848c4e2d662f1e",
+      "key": "kerotakis-phreeqc--validity_ceiling",
+      "package": "kerotakis-phreeqc",
+      "target": "validity_ceiling"
+    },
+    {
+      "compressed_bytes": 15646850,
+      "compressed_sha256": "83417a80b57d07e0aa65cd98c7ec5068183e39475b92b707181f08ec4d4678aa",
+      "executable_bytes": 64094224,
+      "executable_sha256": "617417c14fa121ceb3b3e7c14f1a79750994a03c73adef144197335baf1fdab4",
+      "key": "kerotakis-phreeqc--weak_acid",
+      "package": "kerotakis-phreeqc",
+      "target": "weak_acid"
+    },
+    {
+      "compressed_bytes": 2717599,
+      "compressed_sha256": "35cf4b86c8ad8fb69cf891b7d12736c2df314d642ad7c176ed887e03c1fa0745",
+      "executable_bytes": 8950208,
+      "executable_sha256": "367e68a31d1104ef66849882f59aaa4c2a5f3800e21721cb08d26bfc5140756f",
+      "key": "kerotakis-thermo--distillation_completion",
+      "package": "kerotakis-thermo",
+      "target": "distillation_completion"
+    },
+    {
+      "compressed_bytes": 2716317,
+      "compressed_sha256": "01ddfbaa5c67c79a3b8b7507d719839e1d57dea90addbd61b5023037922a2a51",
+      "executable_bytes": 8981936,
+      "executable_sha256": "c5e6e807f98283ea20d9aaa9554c50190818631bdbdd9ee68db5296366648ee0",
+      "key": "kerotakis-thermo--flash_gamma",
+      "package": "kerotakis-thermo",
+      "target": "flash_gamma"
+    },
+    {
+      "compressed_bytes": 2597803,
+      "compressed_sha256": "06a7263f4658b6fbf0c0e2b3db8f7c46151182c98285029597666d1207e7e70c",
+      "executable_bytes": 8531616,
+      "executable_sha256": "27c055afbbc047ca3f583b6cdf924fd7312c17204fb383171b399a0802232c1e",
+      "key": "kerotakis-thermo--ideal_still_diagnostics",
+      "package": "kerotakis-thermo",
+      "target": "ideal_still_diagnostics"
+    },
+    {
+      "compressed_bytes": 2592605,
+      "compressed_sha256": "e4d99cd0df33f61701456a55b20d6e472ff90fcb09349604fa19e1d22c535196",
+      "executable_bytes": 8514208,
+      "executable_sha256": "17b9b5e949772de42395090ab37d0d238d53b91ac1051b67af32e8beb79cbcdc",
+      "key": "kerotakis-thermo--ideal_still_precision",
+      "package": "kerotakis-thermo",
+      "target": "ideal_still_precision"
+    },
+    {
+      "compressed_bytes": 3030576,
+      "compressed_sha256": "b6a26346cf9519ba84e4c47bb7f7ea49b80b837d1151663a037d64d44e4bb96c",
+      "executable_bytes": 10371184,
+      "executable_sha256": "a296ef6c862d54112d834775831d61ef83efd4ea75f22cb0cdaea2d9d47c1812",
+      "key": "kerotakis-thermo--kerotakis_thermo",
+      "package": "kerotakis-thermo",
+      "target": "kerotakis_thermo"
+    },
+    {
+      "compressed_bytes": 2706374,
+      "compressed_sha256": "66aa6088cad028b587d0cd95102c99d3b17cf041f494dfeaca5b34190a855850",
+      "executable_bytes": 8877104,
+      "executable_sha256": "061e9856535568f98e5867e8257486d08f2cbc75f919936e32a62ff210785d76",
+      "key": "kerotakis-thermo--lle_checked_admission",
+      "package": "kerotakis-thermo",
+      "target": "lle_checked_admission"
+    },
+    {
+      "compressed_bytes": 2668777,
+      "compressed_sha256": "961fa4290730a872fe580343e8f74264821257fc15df1d911854c913b7db8b48",
+      "executable_bytes": 8776184,
+      "executable_sha256": "e1c625257c8af405d9028f6ffca15308505a2199835f6f8d570127e47c4128b2",
+      "key": "kerotakis-thermo--lle_unifac",
+      "package": "kerotakis-thermo",
+      "target": "lle_unifac"
+    },
+    {
+      "compressed_bytes": 2611221,
+      "compressed_sha256": "1a41b2915283c82d5b3a8299fe031deece8e4e3b22d4fed4c30cb60822b94b49",
+      "executable_bytes": 8617616,
+      "executable_sha256": "22e2ad00a47b3e06c000b6bf4db75bc528a138cbeeac6a7f6082ebd9324085d6",
+      "key": "kerotakis-thermo--overlap_continuity",
+      "package": "kerotakis-thermo",
+      "target": "overlap_continuity"
+    },
+    {
+      "compressed_bytes": 2697820,
+      "compressed_sha256": "e42be181ae64bb71cb093440db65ec25e7f37a51800e2b6e0a6d8c75735cc818",
+      "executable_bytes": 8867824,
+      "executable_sha256": "bfec7ba17222450871dbc995e833a2a3972bfa32feed882566879505647aeba4",
+      "key": "kerotakis-thermo--paired_binary_still",
+      "package": "kerotakis-thermo",
+      "target": "paired_binary_still"
+    },
+    {
+      "compressed_bytes": 2694079,
+      "compressed_sha256": "8e57bcac943d1366996caf2e35e951b4d03337d60a58c97f6b7be19251b244c8",
+      "executable_bytes": 8865472,
+      "executable_sha256": "0db028dd0d1f14b0541d316a444e4c97b196f6fbf93cd22c36ef1c003e1c3090",
+      "key": "kerotakis-thermo--pure_binary_still",
+      "package": "kerotakis-thermo",
+      "target": "pure_binary_still"
+    },
+    {
+      "compressed_bytes": 2597338,
+      "compressed_sha256": "9c88f32d4a82e1d911cd39b9df2958aebcc7465bec7402ae1ef7da5f6941866a",
+      "executable_bytes": 8528328,
+      "executable_sha256": "f5193b985d5b6a30daeb47fc9a8ad8e3c56d32a16564af89d251805f9656ae3b",
+      "key": "kerotakis-thermo--pure_ideal_still",
+      "package": "kerotakis-thermo",
+      "target": "pure_ideal_still"
+    },
+    {
+      "compressed_bytes": 2683118,
+      "compressed_sha256": "bfccf2ea1685271549e62d3b176ce1c85d7ad09a69909a038c7cfaccaeddddfa",
+      "executable_bytes": 8832608,
+      "executable_sha256": "56ec579bcf380300df14d6c5a081084f937dbd837c91608332dcafe1944d3ce3",
+      "key": "kerotakis-thermo--still",
+      "package": "kerotakis-thermo",
+      "target": "still"
+    },
+    {
+      "compressed_bytes": 2694957,
+      "compressed_sha256": "b6ff53305884ca95c8b8cb9c4a744d73eae89f2816631333be637daa4b910a6c",
+      "executable_bytes": 8862072,
+      "executable_sha256": "db9bca1698431ef35a39539cf11850dc2b11c52566fd22f2e6f30a4dfa24efe5",
+      "key": "kerotakis-thermo--still_diagnostics",
+      "package": "kerotakis-thermo",
+      "target": "still_diagnostics"
+    },
+    {
+      "compressed_bytes": 2843471,
+      "compressed_sha256": "bbfb6378c4597d13f14ca6f781af74d8392d8ecc91f4bb7dd40d3c459259951d",
+      "executable_bytes": 9394120,
+      "executable_sha256": "c4945e4cff45672900b53198b681bfe3efb31d5c3c281ac6a928fddb1bda5a39",
+      "key": "kerotakis-thermo--thermo_oracle",
+      "package": "kerotakis-thermo",
+      "target": "thermo_oracle"
+    },
+    {
+      "compressed_bytes": 2610331,
+      "compressed_sha256": "854623edc8056e412fcade80a60c870255c885c30cf095d0b737827378247f6c",
+      "executable_bytes": 8605544,
+      "executable_sha256": "8f9ea1f11934e41ea0b8ea8226554a59f5e2878b14b3774f883484f2d9a36abf",
+      "key": "kerotakis-thermo--trace_phase_convergence",
+      "package": "kerotakis-thermo",
+      "target": "trace_phase_convergence"
+    },
+    {
+      "compressed_bytes": 2796414,
+      "compressed_sha256": "5fb20b74a9003881de694521cbf38bed850589a70498654880d4d0d79008c00d",
+      "executable_bytes": 9408464,
+      "executable_sha256": "a9cf044c72e7f71ffe7208bc0c67fc76d30a3df01759fbe5969d3e29d1b5d9c1",
+      "key": "kerotakis-thermo--trace_phase_representation",
+      "package": "kerotakis-thermo",
+      "target": "trace_phase_representation"
+    },
+    {
+      "compressed_bytes": 2707818,
+      "compressed_sha256": "45f1c9c3b162e4367ef056e1d434950c2e13d55d2087a2eb9e246357f0a95dd7",
+      "executable_bytes": 8890488,
+      "executable_sha256": "9a04044b5fb8699334207949ab5a19948dca1107009e4cfe3cb6da0aacdce583",
+      "key": "kerotakis-thermo--unifac_admission",
+      "package": "kerotakis-thermo",
+      "target": "unifac_admission"
+    },
+    {
+      "compressed_bytes": 2698584,
+      "compressed_sha256": "b62c3a23d165ffafeb7ca84fbd1e126d593d67e166c3e394828f954658c81438",
+      "executable_bytes": 8878800,
+      "executable_sha256": "60180845783f830733b0250db6389cba6e0e8dfd69450b19ed39e8f68e96d5a1",
+      "key": "kerotakis-thermo--unifac_checked_refusals",
+      "package": "kerotakis-thermo",
+      "target": "unifac_checked_refusals"
+    },
+    {
+      "compressed_bytes": 2708485,
+      "compressed_sha256": "b1e0232015e15a34486346ba52663b4538ed53ed1616318956c78401dd6b3340",
+      "executable_bytes": 8915520,
+      "executable_sha256": "48803a55bf8eba62225f42cf2c1f0f0ab4d34224a4815f603f79aeffc0437247",
+      "key": "kerotakis-thermo--unifac_factor_range",
+      "package": "kerotakis-thermo",
+      "target": "unifac_factor_range"
+    },
+    {
+      "compressed_bytes": 2691145,
+      "compressed_sha256": "085a0eb440a0d04df6af3cbfdb930fe84f61bafcbca64a70fc65bfc6444ab2e9",
+      "executable_bytes": 8862152,
+      "executable_sha256": "cbf6020448ffb4ae8ac0acabfbc96646b6df3beeb7954b4931828f8324370a9f",
+      "key": "kerotakis-thermo--unifac_factor_reason",
+      "package": "kerotakis-thermo",
+      "target": "unifac_factor_reason"
+    },
+    {
+      "compressed_bytes": 2720638,
+      "compressed_sha256": "bbe7a5727f35b3c9d10c4fdd30a5c67a4d4466a1e68b484e643972c04262ddb7",
+      "executable_bytes": 9001536,
+      "executable_sha256": "bba262b08e3bb5512ca5619debec7afcf91860e9668804354e2415329874cf4e",
+      "key": "kerotakis-thermo--vle",
+      "package": "kerotakis-thermo",
+      "target": "vle"
+    }
+  ],
+  "binding_checks": {
+    "all_342_output_records_match_manifest_bound_binary_metadata": true,
+    "collector_output_sha256_and_length_match_actual_result": true,
+    "git_no_replace_source_tree_match": true,
+    "new_issue_and_started_bind_bytecheck_worker_sha256": true,
+    "new_issue_source_plan_sha_match": true,
+    "original_issue_plan_sha256_matches_frozen_plan_bytes": true,
+    "original_issue_to_original_started_worker_sha256_match": true,
+    "result_manifest_plan_lock_tree_bindings_match": true
+  },
+  "bindings": {
+    "actual_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "bytecheck_collected_sha256": "a7841cce7a902801938c49f7a9674090373f19fe8a9c1ff739671ab2e7311fc0",
+    "bytecheck_issue_sha256": "1846a65ad9ceacfdfc8ea5e16f3341a71095d2212f4bf7f03429e609987a4736",
+    "bytecheck_result_sha256": "b4987153f91c4eb5d6464c88b0405b042b2aea2697435b4af93bd4b0702c6b4f",
+    "bytecheck_started_sha256": "68b2d3f9fbffe5cfda2e45204d5d99bd620aeb6af6d546046eacb5440ea68490",
+    "bytecheck_worker_sha256": "5f61b3ae740cf7ddba01031f98c4580caa3059f2af998c8a588feef929aafebf",
+    "collection_started_sha256": "df963637c54222d8e31268ceaabf6d5605faee777a34441b68797e7435d0323e",
+    "mounted_frozen_plan_sha256": "04e747e6f5e6a3b73ed8e4951bf2600fc9c08c95de76c7c848ca935640277c82",
+    "mounted_manifest_sha256": "cd630e766ee6ea0382515606a0e357197f86dbc353a98f46145815a68151d7fd",
+    "original_component_issue_sha256": "74d35ff4e31e0c63223ccb46e70335b8b71007fb5c676d092ee78e669d333b6a",
+    "original_component_plan_sha256": "04e747e6f5e6a3b73ed8e4951bf2600fc9c08c95de76c7c848ca935640277c82"
+  },
+  "compressed_archive_bytes": 4092069492,
+  "cpu_affinity": {
+    "applied": true,
+    "cpu_count": 2
+  },
+  "decompressed_executable_bytes": 17528073296,
+  "git_no_replace_actual_tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "limitations": [
+    "This independent receipt cross-checks all 342 saved compressed and decompressed digest/length pairs against exact manifest-bound metadata but does not reread the original compressed archive bytes. It therefore independently authenticates binding and claim scope, not the worker physical I/O or digest computation."
+  ],
+  "limits": {
+    "chunk_bytes": 1048576,
+    "max_decompressed_total_bytes": 68719476736,
+    "max_input_bytes_scanned": 5368709120,
+    "max_input_files_scanned": 5000,
+    "max_seconds": 1200
+  },
+  "manifest_rows": 2792,
+  "per_archive_saved_result_matches_manifest_and_binary_metadata": 342,
+  "review": "independent small-result and manifest metadata review; no original archive body rehashed",
+  "scope": {
+    "native_tests_or_provider_calls": false,
+    "original_archive_bodies_read_during_this_review": false,
+    "original_three_broad_test_failures": "preserved in original evidence; not rerun or independently adjudicated by this archive-only review",
+    "private_complete_raw_collection_rehashed": false,
+    "result_does_not_recompute_original_test_outcomes": true,
+    "worker_result_is_archive_bytecheck_only": true
+  },
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "version": 1
+}
