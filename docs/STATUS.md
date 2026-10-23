@@ -1,5 +1,8 @@
 # Kerotakis current state —2026-10-22
 
+**Required expectation follow-up —2026-10-23:** Broad macOS testing of51bc28dd found three failed assertions in two targets. [Independent references were frozen before correction](../audits/water-fusion-adjudication-20261023/README.md): exactly24 slime melting-point labels change under the shared law; the0.1molal source-model pin converts to0.3472K with its original0.0004K tolerance; the saturated-brine test must require an unadmitted inverse rather than a finite below252K prediction. All other scene values, physical bands, budgets, cases, runtime code and registry data remain unchanged. The retained51 focused passes stay bound to source51bc, and the two corrected targets still require actual successor execution. Its original four-package component producer finishes under its original source/inputs; no result is retagged. Full own-fleet/platform/protected/product acceptance and338/468 original qualifications remain unchanged/pending as applicable.
+
+
 **Active source repair —2026-10-23:** Documentation PR858 merged normally as `4eee0d63`. The [shared water-fusion implementation](water-fusion-authority-20261023.md) now has independently frozen references and a draft source change; compilation, focused/full/platform and changed-release acceptance remain pending. Existing deployed PR857/API11/browser82 acceptance and338/468 selections are unchanged. Do not count prepared controls as passes or rerun accepted historical experiments.
 
 

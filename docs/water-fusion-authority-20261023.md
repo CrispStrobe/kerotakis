@@ -1,5 +1,7 @@
 # Shared water-fusion authority — implementation and acceptance
 
+**Broad failure adjudication:** Source51bc passed51 focused controls but failed three old-law assertions in broad macOS testing. The [independent correction contract](../audits/water-fusion-adjudication-20261023/README.md) permits only24 liquidus-label values, the unchanged-tolerance0.1molal model pin and explicit below-domain sentinel expectations. Runtime/registry and physical bands/budgets/cases remain exact. Run both corrected targets before acceptance; keep the original failures and component producer under source51.
+
 This follows accepted PR857 and documentation PR858. The existing deployed source remains `beffb001`; the current experiment catalog remains **338/468 qualified originals**. This candidate earns no additional experiment credit.
 
 ## Source change
