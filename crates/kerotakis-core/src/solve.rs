@@ -1995,11 +1995,11 @@ impl Equilibrator for StateEquilibrator {
                     p.moles = Moles((p.moles.0 - freezing).max(0.0));
                 }
             }
-            // Preserve the existing solvent resolution, but never prune
-            // unrelated reagent stock during a water phase transition.
+            // Prune only the source water phase this transfer depleted.
+            // All other phases and reagent stock retain their owned amounts.
             vessel
                 .contents
-                .retain(|p| p.species != solvent || p.moles.0 > 1e-12);
+                .retain(|p| p.species != solvent || p.phase != Phase::Liquid || p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(freezing), Phase::Solid);
 
             let settled = if reached_boundary {
@@ -2112,7 +2112,7 @@ impl Equilibrator for StateEquilibrator {
             }
             vessel
                 .contents
-                .retain(|p| p.species != solvent || p.moles.0 > 1e-12);
+                .retain(|p| p.species != solvent || p.phase != Phase::Solid || p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(melting), Phase::Liquid);
 
             let settled = if melting < frozen_moles - 1e-12 {
@@ -2181,7 +2181,7 @@ impl Equilibrator for StateEquilibrator {
             }
             vessel
                 .contents
-                .retain(|p| p.species != solvent || p.moles.0 > 1e-12);
+                .retain(|p| p.species != solvent || p.phase != Phase::Liquid || p.moles.0 > 1e-12);
             // Sealed, the steam is headspace and the pressure says so; open,
             // it leaves the room and the balance notices. Either way the
             // matter is accounted for rather than left behind as a liquid

@@ -84,6 +84,84 @@ fn water_phase_passes_preserve_unrelated_trace_portions_exactly() {
     }
 }
 
+#[test]
+fn phase_passes_account_for_water_in_untouched_phases() {
+    for (name, liquid, ice, kelvin, from, to, kind) in [
+        (
+            "freezing",
+            5.0,
+            0.0,
+            260.0,
+            Phase::Liquid,
+            Phase::Solid,
+            PhaseTransition::Freezing,
+        ),
+        (
+            "melting",
+            4.0,
+            1.0,
+            280.0,
+            Phase::Solid,
+            Phase::Liquid,
+            PhaseTransition::Melting,
+        ),
+        (
+            "boiling",
+            5.0,
+            0.0,
+            400.0,
+            Phase::Liquid,
+            Phase::Gas,
+            PhaseTransition::Boiling,
+        ),
+    ] {
+        let water = SpeciesId::new("water");
+        let mut vessel = Vessel::new(VesselId(0), name);
+        vessel.temperature = Kelvin(kelvin);
+        vessel.deposit(water.clone(), Moles(liquid), Phase::Liquid);
+        if ice > 0.0 {
+            vessel.deposit(water.clone(), Moles(ice), Phase::Solid);
+        }
+        // A distinct water-vapor trace is outside each liquid/ice transfer's
+        // cleanup ownership. In an open vessel, new boiling vapor evolves;
+        // none of the three State passes should mutate this older portion.
+        vessel.contents.push(Portion {
+            species: water.clone(),
+            moles: Moles(5e-13),
+            phase: Phase::Gas,
+        });
+        let before = vessel
+            .contents
+            .iter()
+            .find(|p| p.species == water && p.phase == Phase::Gas)
+            .unwrap()
+            .clone();
+        let mut states = StateEquilibrator;
+        let events = states.equilibrate(&mut vessel).unwrap();
+        assert!(
+            events.iter().any(|event| matches!(event,
+                Event::StateChanged {
+                    species, from: actual_from, to: actual_to,
+                    kind: Some(actual_kind), moles: Some(amount), ..
+                } if species == &water && *actual_from == from && *actual_to == to
+                    && *actual_kind == kind && amount.0 > 1e-12
+            )),
+            "{name} did not execute its typed water transfer: {events:?}"
+        );
+        let traces: Vec<_> = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == water && p.phase == Phase::Gas)
+            .collect();
+        assert_eq!(
+            traces.len(),
+            1,
+            "{name} changed untouched gas-water portion count"
+        );
+        assert_eq!(traces[0], &before, "{name} changed untouched gas water");
+    }
+}
+
 fn census_vessel(reported_each: f64) -> Vessel {
     let mut vessel = Vessel::new(VesselId(0), "particle-census control");
     vessel.deposit(SpeciesId::new("water"), Moles(5.5509), Phase::Liquid);
@@ -159,7 +237,7 @@ impl Equilibrator for AlternatingThermalChemistry {
         // Deliberately never settle: each chemistry answer pushes a real
         // water-phase pass to the other side of this solution's liquidus.
         vessel.solution = Some(self.solution.clone());
-        vessel.temperature = Kelvin(if call % 2 == 0 { 272.0 } else { 270.0 });
+        vessel.temperature = Kelvin(if call.is_multiple_of(2) { 272.0 } else { 270.0 });
         Ok(Vec::new())
     }
 }
