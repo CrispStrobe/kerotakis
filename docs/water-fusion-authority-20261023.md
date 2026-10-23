@@ -1,0 +1,26 @@
+# Shared water-fusion authority — implementation and acceptance
+
+This follows accepted PR857 and documentation PR858. The existing deployed source remains `beffb001`; the current experiment catalog remains **338/468 qualified originals**. This candidate earns no additional experiment credit.
+
+## Source change
+
+The liquidus and phase-energy ledger now use the same registry heat-capacity curves, reference temperature273.15K and reference fusion enthalpy6010J/mol. The chemical-potential integral uses integration by parts and analytic piecewise entropy/enthalpy integrals. Held endpoints follow the existing heat-capacity policy, including liquid water below273.15K. This is a bounded model extension, not measured supercooled-liquid data or empirical calibration. Vaporization and boiling keep their existing separate model.
+
+The inverse admits only252–273.15K and refuses invalid activities and below-domain roots. The phase operator reports the existing typed/localized boundary cause before inventory mutation. Thermodynamic concentration limits are recalculated from the shared activity relation; route concentration ceilings remain separate. Cap uncertainty uses the actual temperature-dependent fusion enthalpy. The known252K endpoint is evaluated directly rather than reconstructed through subtractive water inventories.
+
+## Frozen expectations and historical adjudication
+
+[Independent references](../audits/water-fusion-authority-20261023/references.json) were generated and committed before production changes. The generator uses55-digit Decimal arithmetic, registry coefficients, analytic Cp enthalpy and independently refined512/1024-step Simpson chemical-potential quadrature. All five refinement differences are below1e−14. They retain the original reference/cap domains and bind the registry and actual starting main.
+
+The old constant6010 liquidus gives the historical13.805 particle-molality cap. The new shared law gives12.726614210506662 for ideal activity and11.458254824074358 at osmotic coefficient1. Unit expectations for one-molal brine and effective van't Hoff factor are source-model references, not measured calibration. Their numeric successors are explicitly changed; tolerances are retained or tightened.
+
+Historical frozen cap12/brine8 evidence remains immutable in its original audit capsules. Tracked successor controls use independent direct-Cp quadrature for the new liquidus. All original cases, amount/energy assertions,0.001J budget,1e−10mol budget, refusal and repeated-call checks remain. Neither production inverses nor production entropy helpers provide their expected values.
+
+## Remaining acceptance
+
+1. Compile and execute the new reference/entropy/domain controls and all affected core phase controls. Preserve actual first failures; a prepared test is not a pass. Check both analytic constant-Cp limits, all polynomial basis terms, held endpoints, interval seams, monotonicity, dilute slope and forward/inverse round trips.
+2. Inspect complete freezing and melting ledgers, especially exact/inside/outside252K and route caps, repeated calls and retained externally delivered cooling. Any unresolved comparison must refuse, not absorb energy in an unrelated pool.
+3. Complete applicable source full fleet, both native platforms, protected CI and own-fleet acceptance with exact source, generated lock and executable identities. Review any law-dependent fixture or golden changes explicitly; do not widen budgets or regenerate snapshots blindly.
+4. After review, enable normal exact-head auto-merge, verify actual merge parents/tree, then perform one changed-release artifact/API/browser acceptance. Only afterward replay affected original protocols such as TC008. Preserve accepted historical requests and avoid unchanged full-corpus runs.
+
+Until these gates pass, this is a draft source repair. The public roadmap continues with remaining130 originals, starting with thermal ownership and numerical distillation diagnostics, and separately scoped scientific authority/localization gaps.

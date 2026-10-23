@@ -115,6 +115,8 @@ pub mod units;
 pub mod uv;
 pub mod vessel;
 pub mod volatility;
+/// Shared pure-ice/liquid-water fusion and liquidus model.
+pub mod water_fusion;
 
 pub use appearance::{observe, Appearance};
 pub use bench::{Bench, BenchError};

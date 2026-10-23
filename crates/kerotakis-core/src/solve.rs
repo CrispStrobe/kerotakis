@@ -1445,26 +1445,9 @@ fn liquidus_after_freezing(
         .freezing_k
 }
 
-/// Liquid-minus-ice enthalpy at the actual coexistence temperature, J/mol.
-/// The curated fusion heat fixes the reference at 273.15 K; each phase's
-/// existing Cp curve carries that reference to a depressed liquidus. Using
-/// 6010 J/mol at every temperature loses the sensible-enthalpy difference
-/// between ice and liquid, even when both their Cp curves are integrated.
+/// All admitted phase transfers use the same fusion authority as the liquidus.
 fn water_fusion_enthalpy_at(temperature: f64) -> f64 {
-    let water = species::lookup(&SpeciesId::new(SOLVENT)).expect("registered water solvent");
-    crate::states::WATER_H_FUS
-        + crate::states::enthalpy_between(
-            water,
-            Phase::Liquid,
-            crate::states::WATER_FREEZING_K,
-            temperature,
-        )
-        - crate::states::enthalpy_between(
-            water,
-            Phase::Solid,
-            crate::states::WATER_FREEZING_K,
-            temperature,
-        )
+    crate::water_fusion::enthalpy_at(temperature).unwrap_or(f64::NAN)
 }
 
 /// Arithmetic uncertainty of the capped energy comparison, not permission to
@@ -1532,7 +1515,7 @@ fn cap_energy_roundoff_j(
     let log_activity_scale =
         activity.osmotic_coefficient.unwrap_or(1.0).abs() * particle_moles.abs() / remaining;
     let temperature_error = input_gamma * temperature.abs()
-        + temperature.powi(2) * crate::constants::GAS_CONSTANT / crate::states::WATER_H_FUS
+        + crate::water_fusion::temperature_sensitivity_at(temperature).unwrap_or(f64::INFINITY)
             * log_activity_scale
             * (input_gamma + amount_error / remaining);
     gamma * scale
@@ -1851,6 +1834,24 @@ impl Equilibrator for StateEquilibrator {
         // would leave ice sitting at room temperature, which is not. The
         // liquidus it melts at is the same uncertain number either way, so
         // the asymmetry is about which wrong answer is recoverable.
+        // NaN denotes an unadmitted root, not a pure-water fallback. Do
+        // not allow IEEE comparisons to silently skip its model refusal.
+        if !t.freezing_k.is_finite()
+            && (frozen_water || (liquid_water && now <= crate::states::BRINE_MODEL_MIN_K))
+        {
+            events.push(Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::ModelBoundary,
+                Phrase::new(
+                    "not-modeled.partial-freezing-cap",
+                    "the partial-freezing model boundary at {temperature} °C: further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
+                    vec![("temperature".to_string(), Slot::number(format!(
+                        "{:.1}", Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                    )))],
+                ),
+            ));
+            return Ok(events);
+        }
         let would_change_state = liquid_water && (now < t.freezing_k || now >= t.boiling_k);
         if would_change_state && !t.within_model_range() {
             events.push(Event::not_modeled(
@@ -1925,13 +1926,16 @@ impl Equilibrator for StateEquilibrator {
             };
             let maximum_freezing = (liquid_moles - minimum_liquid_moles).max(0.0);
             if particle_moles > 0.0 && maximum_freezing < liquid_moles {
-                let cap_temperature = liquidus_after_freezing(
-                    maximum_freezing,
-                    liquid_moles,
-                    particle_moles,
-                    activity,
-                    pressure_kpa,
-                );
+                // The thermodynamic cap is DEFINED at 252 K; re-forming
+                // a_w from subtracted water could round it below that
+                // domain. This endpoint is not an inverted/clamped root.
+                let cap_temperature = if eutectic_cap <= activity_cap {
+                    crate::states::BRINE_MODEL_MIN_K
+                } else {
+                    crate::states::transitions_with(activity, ceiling, pressure_kpa)
+                        .0
+                        .freezing_k
+                };
                 let residual = vessel.energy_between(now, cap_temperature)
                     - maximum_freezing * water_fusion_enthalpy_at(cap_temperature);
                 let uncertainty = cap_energy_roundoff_j(
@@ -1999,11 +2003,13 @@ impl Equilibrator for StateEquilibrator {
                 // inverting this relation at 252 K), and they are not when
                 // the solvent model's own range ran out first, which is a
                 // warmer place to stop.
-                Kelvin(
+                Kelvin(if eutectic_cap <= activity_cap {
+                    crate::states::BRINE_MODEL_MIN_K
+                } else {
                     crate::states::transitions_with(activity, ceiling, pressure_kpa)
                         .0
-                        .freezing_k,
-                )
+                        .freezing_k
+                })
             } else if freezing < liquid_moles - 1e-12 {
                 // Coexistence defines the temperature, and the bisection
                 // above chose `freezing` so that this is also where the

@@ -43,8 +43,10 @@
 //!
 //! Those are the two lines that fall out of equating the chemical potential
 //! of the solvent in solution with that of ice, and with that of steam,
-//! taking the enthalpy of the transition as constant across the small
-//! interval it is moved through. Put `ln a_w ≈ −M·m` into either and the
+//! historically taking the transition enthalpy as constant across the small
+//! interval. Freezing now integrates the shared Cp-dependent fusion law;
+//! the constant-enthalpy expression above remains its reference limit.
+//! Put `ln a_w ≈ −M·m` into either and the
 //! textbook form comes back, which is exactly the approximation that made
 //! one molal brine read −3.72 °C against a real −3.4: at a solute molality
 //! of two, the solvent's activity is no longer its mole fraction and the
@@ -343,38 +345,23 @@ pub fn ebullioscopic_constant() -> f64 {
 /// The solvent activity at which water freezes at `t_k` — the relation
 /// above, read the other way round.
 pub fn activity_at_freezing_point(t_k: f64) -> f64 {
-    (-(1.0 / t_k - 1.0 / WATER_FREEZING_K) * WATER_H_FUS / R).exp()
+    crate::water_fusion::ln_activity_at(t_k).map_or(f64::NAN, f64::exp)
 }
 
-/// Particle molality at the stated low-temperature boundary.
-///
-/// Inverted through the ideal relation rather than through ΔT = K_f·m,
-/// which is why it is 13.81 mol/kgw where the dilute law put it at 11.37.
-/// It is a cap on the freeze-concentration BOOKKEEPING — how far the liquid
-/// compartment may be concentrated before the bench stops — and not a claim
-/// that a 13.8 molal brine is a solution this bench understands. The route's
-/// own ceiling ([`SolventActivity::ceiling_molality`]) is the other cap, and
-/// the caller takes whichever bites first.
+/// Particle molality at the 252 K model boundary, inverted through the
+/// ideal activity relation and the shared variable-fusion authority.
+/// This phase-model cap remains distinct from each activity route's ceiling.
 pub fn brine_model_max_particle_molality() -> f64 {
     (1.0 / activity_at_freezing_point(BRINE_MODEL_MIN_K) - 1.0) / WATER_MOLAR_MASS_KG
 }
 
-/// Freezing point of a solution whose solvent activity is `water_activity`, K.
-///
-/// ```text
-/// 1/T_f = 1/T_f° − (R/ΔH_fus)·ln a_w
-/// ```
-///
-/// Exact for a solution in equilibrium with PURE ice, given a constant
-/// enthalpy of fusion across the interval. Both assumptions are stated
-/// rather than hidden: the ice this bench deposits is pure water by
-/// construction (`solve.rs` puts only the solvent in the solid
-/// compartment), and ΔH_fus varies by about 4 % over the 20 K this relation
-/// is allowed to travel, which is under 0.1 K on the answer at the boundary
-/// and far less anywhere a learner will be.
+/// Freezing point from the shared Cp-dependent fusion chemical potential.
+/// Pure ice is assumed; liquid Cp is held at its lower tabulated endpoint.
+/// Returns NaN for invalid activity or an out-of-domain root. The state
+/// equilibrator emits a typed, localized boundary refusal before mutation.
+/// Call `water_fusion::temperature_at` for the checked Option interface.
 pub fn freezing_point_from_activity(water_activity: f64) -> f64 {
-    let a = clamp_activity(water_activity);
-    1.0 / (1.0 / WATER_FREEZING_K - (R / WATER_H_FUS) * a.ln())
+    crate::water_fusion::temperature_at(water_activity).unwrap_or(f64::NAN)
 }
 
 /// Boiling point of a solution whose solvent activity is `water_activity`,
@@ -526,7 +513,8 @@ pub const ION_INTERACTION_MAX_IONIC_STRENGTH: f64 = 20.0;
 ///
 /// **The whole of the colligative honesty is in this type.** The relation
 /// the bench computes with — [`freezing_point_from_activity`] — is exact
-/// thermodynamics; every approximation left is in the number handed to it,
+/// conditional on the shipped Cp curves and their endpoint policy; the
+/// activity model is an additional approximation,
 /// so that number arrives with its provenance and its range attached rather
 /// than as a bare `f64`.
 ///
@@ -1049,8 +1037,8 @@ pub fn transitions_at(solute_molality: f64, pressure_kpa: f64) -> (Transitions, 
 /// This is the entry point that carries P3s's colligative correction:
 /// `activity` decides what a_w is at this molality, and the two exact
 /// relations decide what that does to the temperatures. One molal brine
-/// reaches it with an ion-interaction φ of 0.937 and freezes at −3.44 °C;
-/// the same call with [`SolventActivity::ideal`] gives −3.61, and the
+/// reaches it with an ion-interaction φ of 0.937 and freezes at −3.479 °C;
+/// the same call with [`SolventActivity::ideal`] gives −3.647, and the
 /// dilute law this replaced gave −3.72 against a measured −3.4.
 ///
 /// The pressure shift is added to the boiling point AFTER the activity has
@@ -1112,13 +1100,13 @@ mod tests {
         // factor of two is not applied here — it arrives as molality,
         // because the caller counted Na+ and Cl- separately.
         //
-        // With no activity model this is the IDEAL answer, 3.61 K, and the
+        // With endpoint-held Cp this is the IDEAL answer, 3.64729 K; the
         // dilute law's 3.72 is what it becomes if the logarithm is
         // linearised. The measured 3.4 needs the solvent's real activity,
         // which is the ion-interaction route below and not available here.
         let t = transitions(2.0);
         assert!(
-            (t.freezing_depression() - 3.61).abs() < 0.02,
+            (t.freezing_depression() - 3.647_291_443_617_632_5).abs() < 1e-8,
             "{} K",
             t.freezing_depression()
         );
@@ -1147,18 +1135,21 @@ mod tests {
     }
 
     #[test]
-    fn one_molal_brine_lands_where_a_thermometer_does() {
+    fn one_molal_brine_uses_the_declared_fusion_model() {
         // pitzer.dat reports a_w = 0.9668 for one molal NaCl, which is an
         // osmotic coefficient of 0.937 against a measured 0.936. Through
-        // the exact relation that is −3.44 °C, where the dilute law said
-        // −3.72 and a thermometer says about −3.4.
+        // the Cp-dependent model gives −3.47934 °C. This is a model
+        // consistency reference, not calibration to the approximate −3.4 observation.
         let activity = SolventActivity::from_speciation(0.96680, 2.0, 1.0);
         assert_eq!(activity.route(), ActivityRoute::IonInteraction);
         let phi = activity.osmotic_coefficient.unwrap();
         assert!((phi - 0.937).abs() < 0.002, "phi = {phi}");
         let (t, _) = transitions_with(activity, 2.0, ATMOSPHERE_KPA);
         let celsius = t.freezing_k - WATER_FREEZING_K;
-        assert!((celsius + 3.44).abs() < 0.02, "{celsius} C");
+        assert!(
+            (celsius + 3.479_340_708_719_064_4).abs() < 1e-8,
+            "{celsius} C"
+        );
         // And the ceiling this solution earns. The range is stated in
         // IONIC STRENGTH, so each solution converts it at its own ratio:
         // I = 1 at Σm = 2 here, so a 1:1 chloride gets 40 mol/kgw of
@@ -1276,8 +1267,8 @@ mod tests {
         assert!((transitions(maximum).freezing_k - BRINE_MODEL_MIN_K).abs() < 1e-9);
         // Inverted through the ideal relation, not through K_f·m: the
         // dilute law put this at 11.37 mol/kgw and the relation the bench
-        // actually computes with puts it at 13.81.
-        assert!((maximum - 13.805).abs() < 0.01, "{maximum}");
+        // now integrates Cp-dependent fusion and puts it at 12.72661421.
+        assert!((maximum - 12.726_614_210_506_662).abs() < 1e-8, "{maximum}");
     }
 
     #[test]
@@ -1293,6 +1284,6 @@ mod tests {
         // and the van 't Hoff factor a table would print for one molal
         // NaCl, computed rather than looked up.
         let i = t.effective_vant_hoff_factor(1.0).unwrap();
-        assert!((i - 1.85).abs() < 0.02, "i = {i}");
+        assert!((i - 1.870_613_284_257_561_3).abs() < 0.002, "i = {i}");
     }
 }
