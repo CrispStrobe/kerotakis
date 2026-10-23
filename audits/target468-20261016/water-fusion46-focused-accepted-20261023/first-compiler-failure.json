@@ -1,0 +1,14 @@
+{
+  "source": "b166703b4c709ea691b9affa40b3449a3c07fbbb",
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39962729273/job/120446143505",
+  "actual_log_binding": {
+    "source": "b166703b4c709ea691b9affa40b3449a3c07fbbb",
+    "job": 120446143505,
+    "sha256": "e0804b3cb24586dae742d9cb79cd2da8c95254fd4bf52a7215b24651cf7b0684",
+    "bytes": 64664,
+    "log_only_not_test_execution_acceptance": true
+  },
+  "actual_diagnostic": "E0063: missing fields scope and solvent_kg in the new SolutionInfo test fixture",
+  "corrected_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "no_scientific_or_tolerance_change": true
+}

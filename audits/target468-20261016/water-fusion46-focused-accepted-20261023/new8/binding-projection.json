@@ -1,0 +1,119 @@
+{
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "actual_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "source_pins": {
+    ".gitmodules": {
+      "sha256": "70ac65a8b6e2acc056323f236e8e5e34cf8406a7a3b74568f5257a6fa493a1db"
+    },
+    "Cargo.toml": {
+      "sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c"
+    },
+    "audits/water-fusion-authority-20261023/README.md": {
+      "sha256": "25c115a79cbd2d2cce966c89d6620820e17640999694e8a9b39d3f600df899ca"
+    },
+    "audits/water-fusion-authority-20261023/first-source-review.json": {
+      "sha256": "aa6d73593c3db2cb548febceb1b88907581a82f29a8eaf52b72a710bee69a944"
+    },
+    "audits/water-fusion-authority-20261023/freeze_references.py": {
+      "sha256": "14f048046f1afdfe81d56cf03cf22ebc6fe0272c2baaf537b83393c901f5672f"
+    },
+    "audits/water-fusion-authority-20261023/references.json": {
+      "sha256": "23b11780a8c0505bd15722f898a186361c1f63752a028cd508ee7bc6a6da3db6"
+    },
+    "crates/kerotakis-core/Cargo.toml": {
+      "sha256": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7"
+    },
+    "crates/kerotakis-core/src/bench.rs": {
+      "sha256": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2"
+    },
+    "crates/kerotakis-core/src/heat_capacity.rs": {
+      "sha256": "a9248dc01068728a8db5002d571c5dcadace885a88f8c275450f91d31dacc77c"
+    },
+    "crates/kerotakis-core/src/lib.rs": {
+      "sha256": "c58dc5edaa7ccf851d1b1748e3ee6c6dde01659449b21de9b94ebb61e734f874"
+    },
+    "crates/kerotakis-core/src/ops.rs": {
+      "sha256": "a8ed36e723f1a6ed0f55147f81f77a41d4cef00f55d18eecb96f7060cd793bdc"
+    },
+    "crates/kerotakis-core/src/phrase.rs": {
+      "sha256": "676f55b3e32eb28fe6b3b00dc05656b824f602571fe42d777fe24d3d273269bf"
+    },
+    "crates/kerotakis-core/src/solve.rs": {
+      "sha256": "7268c89f16b9481db7811234f60c2c2e268ea186d255b1745c743983adbfde76"
+    },
+    "crates/kerotakis-core/src/states.rs": {
+      "sha256": "e78ac46fceff1ffb8c8f506bd3ff968213d6662c6efeddeaa3f656f258e7236c"
+    },
+    "crates/kerotakis-core/src/vessel.rs": {
+      "sha256": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba"
+    },
+    "crates/kerotakis-core/src/water_fusion.rs": {
+      "sha256": "3da7f990a5c2a0fc3b45877da44e34984f329c2385b4bd81bb4f34db00ea5f9c"
+    },
+    "crates/kerotakis-core/tests/brine_phase_energy.rs": {
+      "sha256": "af459736ab73924b8be29416a48552c24bb7bfee25f5a576643f224c0dfc8661"
+    },
+    "crates/kerotakis-core/tests/golden/registry.json": {
+      "sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4"
+    },
+    "crates/kerotakis-core/tests/phase_cap_energy.rs": {
+      "sha256": "f2899c10fe8857a78973ccb819952de6652ff81a6ab1a48da03a36d49600c002"
+    },
+    "crates/kerotakis-core/tests/phase_cooling_energy.rs": {
+      "sha256": "fee8f08783db3fc781b7d50c6c148d2bc13443446071764fe38de85eece8803c"
+    },
+    "crates/kerotakis-core/tests/phase_heat_capacity.rs": {
+      "sha256": "c36860f3af17a2a418e84c71cb947a051a8f1aa822501ff5d4aed14ee7271c24"
+    },
+    "crates/kerotakis-core/tests/phase_without_aqueous.rs": {
+      "sha256": "4c6182a201c1096faadc12883d1f926a8f4529f9082b29cb27d4015f528d54c2"
+    },
+    "crates/kerotakis-core/tests/states.rs": {
+      "sha256": "fa1d9500ccd7debe7214d306c8eff6a74012bfe413e8b35516ccf1b0a87fc6d3"
+    },
+    "crates/kerotakis-core/tests/water_fusion_authority.rs": {
+      "sha256": "51dd626c6379aec187e807edbc9764118f54d00bfa7e88f046353454ebbce6bf"
+    },
+    "tools/fetch-sundials.sh": {
+      "sha256": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38"
+    }
+  },
+  "tracked_targets": [
+    {
+      "package": "kerotakis-core",
+      "target": "water_fusion_authority",
+      "kind": "integration",
+      "path": "crates/kerotakis-core/tests/water_fusion_authority.rs",
+      "source_sha256": "51dd626c6379aec187e807edbc9764118f54d00bfa7e88f046353454ebbce6bf",
+      "tests": [
+        "independent_shipped_curve_quadrature_agrees_at_all_frozen_temperatures",
+        "particle_caps_are_rederived_from_the_same_authority",
+        "inverse_is_monotone_and_retains_the_dilute_limiting_slope",
+        "no_invalid_or_below_cap_root_is_admitted_as_a_temperature",
+        "entropy_primitives_match_independent_quadrature_for_both_forms",
+        "below_domain_state_emits_a_typed_refusal_without_inventory_mutation"
+      ],
+      "test_deadline_seconds": 120
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "kind": "lib",
+      "path": "crates/kerotakis-core/src/water_fusion.rs",
+      "source_sha256": "3da7f990a5c2a0fc3b45877da44e34984f329c2385b4bd81bb4f34db00ea5f9c",
+      "tests": [
+        "water_fusion::tests::zero_delta_cp_recovers_constant_enthalpy_law",
+        "water_fusion::tests::constant_delta_cp_matches_independent_closed_form"
+      ],
+      "test_deadline_seconds": 120
+    }
+  ],
+  "worker_sha256": "195c3c9456ed41cbb2ed5f50ed732cf1093d62ac340284e2bcd5410cd6dd9359",
+  "actual_plan_sha256": "adcb47ae79199750a7e83fedeaa175a98ffaf1407bb57e10cdfba150c3d64272",
+  "issue_sha256": "e5a2690c1d495b46564d3030405d4f852dc9969c17df6f8aee8821213e5b7a59",
+  "collection_receipt_sha256": "a71709aaabecd263a5953def4f294ba600cecfde188bc251aebf191415efec36",
+  "parent_saved_verifier_sha256": "d8eb741b1c60b4c7d321601fa7a0ac5c7f67dd924c5a770fc9a89b304d33a389",
+  "raw_closed_member_count": 85,
+  "public_projection_is_not_complete_raw_collection": true
+}

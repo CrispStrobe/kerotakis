@@ -1,0 +1,6 @@
+
+running 1 test
+test phase_coupling_respeciates_the_residual_brine_until_both_states_agree ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.01s
+

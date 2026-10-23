@@ -1,0 +1,39 @@
+{
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "worker_sha256": "b6d0837be15c6b4cca3c9441fe0f7e047b7eefd17964215a3d7bf26c30f45d6d",
+  "plan_sha256": "c43aeaafb1e840118112de78a9088f86050e97c93a32ed9e4592246cdc196de1",
+  "actual_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "manifest_sha256": "c3288581b676c5859b4688b53e399a597d6fd55d846a732060a80ab7f031f3dd",
+  "all_closed_members": 207,
+  "passed_controls": 38,
+  "actual_executables": {
+    "phase_cap_energy": {
+      "sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+      "bytes": 55735504
+    },
+    "states": {
+      "sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+      "bytes": 55017016
+    },
+    "brine_phase_energy": {
+      "sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+      "bytes": 44904112
+    },
+    "phase_heat_capacity": {
+      "sha256": "6e143cf31da562c5face9fc1c459f1c580cec562307ddba446bce1ac15a2ca17",
+      "bytes": 55370552
+    },
+    "phase_cooling_energy": {
+      "sha256": "70f000893a3b5fa8a16d87a8474293b917dc6671004875fe607b50dcab0d179e",
+      "bytes": 54367720
+    },
+    "phase_without_aqueous": {
+      "sha256": "78276ea98370e7dcd7e71a34e9252905c22c4a9f8f898f8f83cfa376a46d36c4",
+      "bytes": 45426104
+    }
+  },
+  "no_new_native_or_provider_execution": true,
+  "phase_conservation_full_fleet_platform_and_product_acceptance": false,
+  "scientific_selections": 0
+}

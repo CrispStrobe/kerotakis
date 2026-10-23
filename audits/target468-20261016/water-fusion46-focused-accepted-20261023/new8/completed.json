@@ -1,0 +1,198 @@
+{
+  "runtime_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "runtime_tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "actual_outcomes": [
+    {
+      "target": "water_fusion_authority",
+      "test": "independent_shipped_curve_quadrature_agrees_at_all_frozen_temperatures",
+      "record": "water_fusion_authority-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "independent_shipped_curve_quadrature_agrees_at_all_frozen_temperatures",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "water_fusion_authority",
+      "test": "particle_caps_are_rederived_from_the_same_authority",
+      "record": "water_fusion_authority-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "particle_caps_are_rederived_from_the_same_authority",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "water_fusion_authority",
+      "test": "inverse_is_monotone_and_retains_the_dilute_limiting_slope",
+      "record": "water_fusion_authority-case-02",
+      "exit_status": 0,
+      "rows": [
+        [
+          "inverse_is_monotone_and_retains_the_dilute_limiting_slope",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "water_fusion_authority",
+      "test": "no_invalid_or_below_cap_root_is_admitted_as_a_temperature",
+      "record": "water_fusion_authority-case-03",
+      "exit_status": 0,
+      "rows": [
+        [
+          "no_invalid_or_below_cap_root_is_admitted_as_a_temperature",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "water_fusion_authority",
+      "test": "entropy_primitives_match_independent_quadrature_for_both_forms",
+      "record": "water_fusion_authority-case-04",
+      "exit_status": 0,
+      "rows": [
+        [
+          "entropy_primitives_match_independent_quadrature_for_both_forms",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "water_fusion_authority",
+      "test": "below_domain_state_emits_a_typed_refusal_without_inventory_mutation",
+      "record": "water_fusion_authority-case-05",
+      "exit_status": 0,
+      "rows": [
+        [
+          "below_domain_state_emits_a_typed_refusal_without_inventory_mutation",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_core",
+      "test": "water_fusion::tests::zero_delta_cp_recovers_constant_enthalpy_law",
+      "record": "kerotakis_core-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "water_fusion::tests::zero_delta_cp_recovers_constant_enthalpy_law",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "616"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_core",
+      "test": "water_fusion::tests::constant_delta_cp_matches_independent_closed_form",
+      "record": "kerotakis_core-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "water_fusion::tests::constant_delta_cp_matches_independent_closed_form",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "616"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    }
+  ],
+  "all_named_controls_collected": true,
+  "expected_named_controls": 8,
+  "actual_target_count": 2,
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "scientific_selections": 0,
+  "runtime_fix_verified_by_execution": false,
+  "forecast_is_not_acceptance": true,
+  "focus_is_not_full_fleet": true
+}

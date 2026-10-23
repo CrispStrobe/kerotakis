@@ -1,0 +1,648 @@
+[
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_inside_direct_conserves_without_false_refusal",
+    "record": "phase_cap_energy-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "ideal_inside_direct_conserves_without_false_refusal",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "4addc060f756ca8b8399ded93e23e1014ac626ea45566fb42213bb6cab7d188d",
+    "stdout_sha256": "3690afa5aeecef875f161656c30fe740642300455f608863406a89b328519768",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_exact_direct_commits_only_closed_boundary",
+    "record": "phase_cap_energy-case-01",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "ideal_exact_direct_commits_only_closed_boundary",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "ed77a5399e7b75244b54d86dc648c4a49f6f1749c30af70b6d1d52bb64912946",
+    "stdout_sha256": "577a596a91b6d138e847e444aeb2b91abf48fd76e306f41099b3a21c4b037178",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_outside_direct_refuses_before_mutation_and_repeats",
+    "record": "phase_cap_energy-case-02",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "ideal_outside_direct_refuses_before_mutation_and_repeats",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "c3d7eb7d717b7b45f8b1f735d087515d56ec50b3f88a07cb2bec20ee6f5979d9",
+    "stdout_sha256": "83b846c5880c4cf48581e793cdbfcb47de14082d0db49f0d17b7ecad4def27de",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_inside_direct_conserves_without_false_refusal",
+    "record": "phase_cap_energy-case-03",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "eutectic_inside_direct_conserves_without_false_refusal",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "3da9d60b2042c62fcd6df49ae1e607a348a8eee0351bdae7ee6c3cfcd9e247b8",
+    "stdout_sha256": "eb8f4c9b9cd404b19ef7bdc23739188e2dbfdf2b7ddf0b028f5e9674eef377d3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_exact_direct_commits_only_closed_boundary",
+    "record": "phase_cap_energy-case-04",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "eutectic_exact_direct_commits_only_closed_boundary",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "0df2912f33baa3d77535d464dca5796d93005c85ba7bc23e27650cdd660fb5fd",
+    "stdout_sha256": "b1e0a58e0eb4af19a76e2ea0be177d65963162e9af7dfd43d06ec9391350f432",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+    "record": "phase_cap_energy-case-05",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "3010b6281f15205bdaf08de8479d608212abf4239f58481f3ff4cc9ed5061e7d",
+    "stdout_sha256": "0d6b9a034038871bad60134c9cf46bc2e0adc395b4a7f4158a829dcec2afb2cc",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_inside_real_cool_closes_delivered_energy",
+    "record": "phase_cap_energy-case-06",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "ideal_inside_real_cool_closes_delivered_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "3e2cd36f0bd4d6c130540abccfdc25f3ac77270988341ddb20c4f036fd50e57f",
+    "stdout_sha256": "c3bd0b29c337efeea3236045976ecab57fc40103d0a4cfa5d387e898a9b31043",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_exact_real_cool_closes_delivered_energy",
+    "record": "phase_cap_energy-case-07",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "ideal_exact_real_cool_closes_delivered_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "d55a636e83c650e6884f3ee4e4d62a246c2b9527b34f3e14eb12a3b173f24b8e",
+    "stdout_sha256": "f988d9dcba0525a5d63f2a7856f27594330ea874cee38d0762f6e0e7a4c1370d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+    "record": "phase_cap_energy-case-08",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "143493da8d3bbc918c4b0e56749e5425085e6560f6ccc8aaa41542aee390d1c2",
+    "stdout_sha256": "8e044b5a46798b8fae921af2889c8d8cf65530d59b1f96b662a454386a7e4fd6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_inside_real_cool_closes_delivered_energy",
+    "record": "phase_cap_energy-case-09",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "eutectic_inside_real_cool_closes_delivered_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "9e0b7f4ade2281205eb733401f892b288688abb85d14459c4396995d6d661e5f",
+    "stdout_sha256": "f773a0d3af287af380868b2ce7f0223f290db4ba15488adf6ff3801ee9918ca0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_exact_real_cool_closes_delivered_energy",
+    "record": "phase_cap_energy-case-10",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "eutectic_exact_real_cool_closes_delivered_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "58c5337a78bf9260b3aa8c98ba91cc4759e42127c0b1c466e5164ae34f0323d1",
+    "stdout_sha256": "7ed7005e649f82c654c3cce058acc36f8b2795bb8fc3fd76128218a541259a5a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses",
+    "record": "phase_cap_energy-case-11",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "ccecc6210ce49780c7ee4c31d66bcd8236fccb7d2bc23d947a8dc13d7525baea",
+    "stdout_sha256": "1604dc63401fff301c6b91ec26d0dc9882830820cd0c3c78e8899a63e69cf23b",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "110a6121b6d9674e2ab28ebf0a4ea84f09de782755f494cda81ddbc9527dd4ef",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "water_does_not_go_below_zero_while_it_is_still_freezing",
+    "record": "states-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "water_does_not_go_below_zero_while_it_is_still_freezing",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "42aeb1d6c9397bab9d7ec3bc84450e64f0f999aedc52d95e058865d63be872e6",
+    "stdout_sha256": "2c8273ade7268ef2d362240a0e5ca617f912e7e9ce625a46d3a18d24edd3ff44",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "no_temperature_is_announced_that_the_vessel_never_reached",
+    "record": "states-case-01",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "no_temperature_is_announced_that_the_vessel_never_reached",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "71aef1cc2427dfdb1386eca31a602ff8d056ef274f8b925c3bac2d3518bc7872",
+    "stdout_sha256": "9fa6188c7dc3910185bdc3105470eec9822b0108ade26b9b5073516ff01ffdde",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+    "record": "states-case-02",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "8478e61fd4cb1ac053c61c0a2d0be3ffcb2d6c261ab082196d5276597b8a8f48",
+    "stdout_sha256": "6718b14fe19022b318d8edbfa43bf171a991e54f15b2bcb445b21f3fe735dd37",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "ice_melts_again_when_warmed",
+    "record": "states-case-03",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "ice_melts_again_when_warmed",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "f328014eb86bd1ff24d906ce36373540afc42ab6a1dfe61e9683703bb36fe5b2",
+    "stdout_sha256": "791f38b89ec293d182df49b0d507329a9df8cd69940c0e42aaa417ab75b3e437",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "a_frozen_vessel_has_no_ph",
+    "record": "states-case-04",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "a_frozen_vessel_has_no_ph",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "b92e3225b3199180ca017e36168e5f7df26004e2119049a44dcfff8e1a5a434b",
+    "stdout_sha256": "bae68d92eedd3256325313cca8c2e563552f4c508e628202bbebf1dd7ec7c558",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+    "record": "states-case-05",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "57d4f07052c195334414a838fe856fb07c200f093cbcc683fe890979f012880d",
+    "stdout_sha256": "145cc18e96f237404475242715d1e46721a22446ec4c853b254f305bb5ba82ff",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+    "record": "states-case-06",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "3cb991c2e26005544b5d2d143d6a985f24f57630eb78aa27992301a7db9409a1",
+    "stdout_sha256": "3e307664a74149b76205d7bcec2e0d69f77be09e1e790f2bb5bd23d20f34f0cc",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+    "record": "states-case-07",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "525d1cb76c17e1a08732a2a700de0ae28abc1caa93cef85ea44df6ee05dc1f24",
+    "stdout_sha256": "6bcb37f6322beae8684e196de885cf77b1a9b607be16837fe04d118f5f563064",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+    "record": "states-case-08",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "449fcec8ce861ceeebc3217fa8d402e1bfdbf9deee46a75a994ddd2aac61d3b6",
+    "stdout_sha256": "99ba96d8b16891f121e90dcf264709b7ba8c3b8af4c3560184a63834098937c8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "states",
+    "test": "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+    "record": "states-case-09",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "9ce1054e23fde3c6c37804ac8adffe1539e2b1956bff1b9671443dbe43c700bc",
+    "stdout_sha256": "b28edd68d716f92f4999cf4a9b5050bff6975d10b8d7ad5e75c74125adc09de1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "f660d465476abfe7e7f31d4cdcb6af1405f1ef1b40e11d65d4a2d0d492c4152e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "pure_water_freezing_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "pure_water_freezing_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "44f728926a3a1354a01ab55518b366159232efb78db3ec420c6832d51bf58832",
+    "stdout_sha256": "2aefc6f584f5adf979aa4f043fcb4812cc4ee20b5d2b8d38c8711db03cd3e016",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "pure_water_melting_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-01",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "pure_water_melting_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "bb03162129ef5676e438c1cd8c273f7d68a26eb4cf50fac273c1409bb2ed093a",
+    "stdout_sha256": "b9e285287e2de286db0840a73e59b801cbac5a31186321b0440cac097f2a0f3f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "dilute_brine_freezing_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-02",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "dilute_brine_freezing_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "07c1f8377276dfd2d7b8f90eafd2f6ce4e50245fe933f907171ab8b01ca1d67d",
+    "stdout_sha256": "7c70ec8ecaee036dbb2ddc798b98cb828c2e520d94c4fa40f2ac3a14fae6c920",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "intermediate_brine_freezing_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-03",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "intermediate_brine_freezing_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "28c50bcee7350f8474b1ea24ab4e6f5f4cd86ebd2d2f95f9bc63f68881ca8895",
+    "stdout_sha256": "f9241067b3cb5221c64d03f2a94ed6c3f923173b85e5c303eb7db2a20595f878",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "stronger_brine_freezing_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-04",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "stronger_brine_freezing_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "b476156454350dde7706bd76a20cb64e8dee439db68ad2046c452b4563ec53bc",
+    "stdout_sha256": "1f3e4e5323431e08547cee577459553b0e9b4d69e6affd42a8f86cbcd84fd37a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "dilute_brine_melting_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-05",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "dilute_brine_melting_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "1e99896c425bc34d2d3a0d5e9af4386d7cc77452ad30531c656bc2f8a312e269",
+    "stdout_sha256": "3d54e34cfd4f210b343c3f5de2fd9b3a6a95ccf010e20e2f2cab764c53b73a86",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "intermediate_brine_melting_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-06",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "intermediate_brine_melting_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "0714f54fab74a13d1acff34cd4ea0165a672e75660243a17496672319d236632",
+    "stdout_sha256": "5332053a87ae814d2edfa9acdfc3d86917850d3f234510d7d4ecf5d8de081e05",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "stronger_brine_melting_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-07",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "stronger_brine_melting_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "a1058d02b091f23aa999ce5f7062c4426906afd2a9061c9bad8643b087241085",
+    "stdout_sha256": "2582db8f0e8821a1297c5ffb6ebe383af6224a54f6b634f3043dd381c4c5897f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_heat_capacity",
+    "test": "the_leftover_energy_chills_ice_at_ices_own_heat_capacity",
+    "record": "phase_heat_capacity-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "the_leftover_energy_chills_ice_at_ices_own_heat_capacity",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "298ddfb14a39df12383409481bb7c21a3dd0bf1df7f813131b2c142274d2aa18",
+    "stdout_sha256": "aa550d784aa01717ef9df07b229a92c4fc772235f9a9e48cef59048019d6db75",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "6e143cf31da562c5face9fc1c459f1c580cec562307ddba446bce1ac15a2ca17",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_heat_capacity",
+    "test": "ice_and_water_and_steam_each_carry_their_own_heat_capacity",
+    "record": "phase_heat_capacity-case-01",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "ice_and_water_and_steam_each_carry_their_own_heat_capacity",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "4726a8102fbd1a5dd4d4cae8572beff1b06969acf31071e242d017942cb21dae",
+    "stdout_sha256": "11ff2a486312355c57cc9f851d3fb09d14220822e8bece0a02149867f062faf3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "6e143cf31da562c5face9fc1c459f1c580cec562307ddba446bce1ac15a2ca17",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_heat_capacity",
+    "test": "sugar_water_boils_at_the_temperature_it_actually_boils_at",
+    "record": "phase_heat_capacity-case-02",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "sugar_water_boils_at_the_temperature_it_actually_boils_at",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "34aa26c196f671064a198d63608348c47ca59dacfb9b94641d625fbd339c1197",
+    "stdout_sha256": "3efc832796532c147d46f68d3d53d3b059133bdbd532dc9ae8fe68e237fda4a5",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "6e143cf31da562c5face9fc1c459f1c580cec562307ddba446bce1ac15a2ca17",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_heat_capacity",
+    "test": "plain_water_is_unmoved_by_the_same_change",
+    "record": "phase_heat_capacity-case-03",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "plain_water_is_unmoved_by_the_same_change",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "ef73d27087c63192f3dc42c4e5628c6f84e736feb074da1066611c03b3c2c7fc",
+    "stdout_sha256": "95c483173100658a99a56adfb2f2d0de94b1866d69bf91e4eaf703677924d832",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "6e143cf31da562c5face9fc1c459f1c580cec562307ddba446bce1ac15a2ca17",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_cooling_energy",
+    "test": "partial_freezing_closes_the_transition_referenced_energy_for_different_phases",
+    "record": "phase_cooling_energy-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "partial_freezing_closes_the_transition_referenced_energy_for_different_phases",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "8c1adf96285c65b866b21d5fa56efa27543acd775229822269e31935fe113e1b",
+    "stdout_sha256": "ef3f043009fc85cd4b01cfe8095aea3d2c347a4e1b6d04fe773e3ea53581ed59",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "70f000893a3b5fa8a16d87a8474293b917dc6671004875fe607b50dcab0d179e",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_without_aqueous",
+    "test": "pure_water_freezes_melts_and_boils_with_conserved_latent_energy_across_scales",
+    "record": "phase_without_aqueous-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "pure_water_freezes_melts_and_boils_with_conserved_latent_energy_across_scales",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "679a65b703ec1cd8ee917ab62b5d9a843bf7f12d3d6b90f83848c56a1d1e3632",
+    "stdout_sha256": "91001fd73e29e3bfc676fc8834d253e20ff254f3051d4cb4b2b77f1f451fa99e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "78276ea98370e7dcd7e71a34e9252905c22c4a9f8f898f8f83cfa376a46d36c4",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_without_aqueous",
+    "test": "unsolved_ionic_and_unknown_mixtures_do_not_get_a_pure_water_phase_answer",
+    "record": "phase_without_aqueous-case-01",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "unsolved_ionic_and_unknown_mixtures_do_not_get_a_pure_water_phase_answer",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "6f6dedbe3310ef969365d657381130612fe394eaf2f383943115d3ff16fee4e4",
+    "stdout_sha256": "8bf7622e9b13e2aefc89156e74dac51f463201448a8667873688d4704710faea",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "78276ea98370e7dcd7e71a34e9252905c22c4a9f8f898f8f83cfa376a46d36c4",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "phase_without_aqueous",
+    "test": "no_transition_keeps_aqueous_failure_explicit_and_clears_stale_measurements",
+    "record": "phase_without_aqueous-case-02",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "no_transition_keeps_aqueous_failure_explicit_and_clears_stale_measurements",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "1205a5fc456fc351415a1b68fd3f170161f9099e458d7c363b963c60f230936f",
+    "stdout_sha256": "62cbca7c3e72c6cfe161f03b44305aa05f4e0d49ddf0d478c9c9aa12025af533",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "78276ea98370e7dcd7e71a34e9252905c22c4a9f8f898f8f83cfa376a46d36c4",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  }
+]

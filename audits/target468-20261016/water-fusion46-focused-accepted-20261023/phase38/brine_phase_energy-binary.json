@@ -1,0 +1,11 @@
+{
+  "runtime_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "runtime_tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "executable": "target/debug/deps/brine_phase_energy-e7a8af648e05d8ea",
+  "sha256": "e2708135b87d745603114720b58149aaf40bd6875000a0a2de55a4783be658bb",
+  "bytes": 44904112,
+  "gzip_sha256": "a517423cc5f329bc83c23f90dc866ac5e89425f6e157b8e29b2453e37ccbad00",
+  "gzip_bytes": 10069673,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

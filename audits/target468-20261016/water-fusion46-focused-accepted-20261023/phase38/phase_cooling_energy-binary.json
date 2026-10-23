@@ -1,0 +1,11 @@
+{
+  "runtime_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "runtime_tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "executable": "target/debug/deps/phase_cooling_energy-df6a138780d9b4da",
+  "sha256": "70f000893a3b5fa8a16d87a8474293b917dc6671004875fe607b50dcab0d179e",
+  "bytes": 54367720,
+  "gzip_sha256": "84c57f6cfdebb2744b3019ecce582d84d4993be767cb26025433074b1332a440",
+  "gzip_bytes": 12677814,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

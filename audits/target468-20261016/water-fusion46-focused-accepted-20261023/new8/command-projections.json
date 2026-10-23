@@ -1,0 +1,138 @@
+[
+  {
+    "target": "water_fusion_authority",
+    "test": "independent_shipped_curve_quadrature_agrees_at_all_frozen_temperatures",
+    "record": "water_fusion_authority-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "independent_shipped_curve_quadrature_agrees_at_all_frozen_temperatures",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "af11d1de0b7f75bcb22a92f81f5cd0d520a329160eb0a487e8b71d90d9166da8",
+    "stdout_sha256": "4ae53e607eb7d6c29ee693f4bd5132f4a63972ba5f0b6218f90f6cd3c5fffa70",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "791db4d13a4beece82fc266452897a9fe329dec9995ea8d2ffbb00866ff29b22",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "water_fusion_authority",
+    "test": "particle_caps_are_rederived_from_the_same_authority",
+    "record": "water_fusion_authority-case-01",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "particle_caps_are_rederived_from_the_same_authority",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "5fdc5679b97471a45e3be8a5fdfe0645d882a278bddb3529565799c4169b43f0",
+    "stdout_sha256": "6455017b8c8fec7a4735b3c7d47beb987058ad5ef7c92059275c55d319dc7498",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "791db4d13a4beece82fc266452897a9fe329dec9995ea8d2ffbb00866ff29b22",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "water_fusion_authority",
+    "test": "inverse_is_monotone_and_retains_the_dilute_limiting_slope",
+    "record": "water_fusion_authority-case-02",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "inverse_is_monotone_and_retains_the_dilute_limiting_slope",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "9bdff1856eaf704a0ab5380de8ead4bf652ff4171c83cef975a7c7ecd4d729d2",
+    "stdout_sha256": "f58e91bc5548b1492190d28cd0b1509baa35aa149c88a6ba47ed5290fe512455",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "791db4d13a4beece82fc266452897a9fe329dec9995ea8d2ffbb00866ff29b22",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "water_fusion_authority",
+    "test": "no_invalid_or_below_cap_root_is_admitted_as_a_temperature",
+    "record": "water_fusion_authority-case-03",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "no_invalid_or_below_cap_root_is_admitted_as_a_temperature",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "3af8891355feb1c39e3faf3f239bdc13e8212df9c3689d120f3f9462fee77310",
+    "stdout_sha256": "89dbe94177af49e1529f00a975ee6d82dc23d67a1b09caa5947ba6da0a5e90cb",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "791db4d13a4beece82fc266452897a9fe329dec9995ea8d2ffbb00866ff29b22",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "water_fusion_authority",
+    "test": "entropy_primitives_match_independent_quadrature_for_both_forms",
+    "record": "water_fusion_authority-case-04",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "entropy_primitives_match_independent_quadrature_for_both_forms",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "24e1b6f63baf3cd5994534ddafff6e14e60448fa6a7d663297d0cbefb69cff30",
+    "stdout_sha256": "1e9e3ab947f3ebb528b32fe10aadeabfc97fbf64a359d7619bed4b955769a2c6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "791db4d13a4beece82fc266452897a9fe329dec9995ea8d2ffbb00866ff29b22",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "water_fusion_authority",
+    "test": "below_domain_state_emits_a_typed_refusal_without_inventory_mutation",
+    "record": "water_fusion_authority-case-05",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "below_domain_state_emits_a_typed_refusal_without_inventory_mutation",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "e4ae828062cb0683cf3ae179f02499c75a3b6ba387ef873c88eea7f88e69d32a",
+    "stdout_sha256": "1919000ec6ddbf46e9c24bbaf04e311293e3ea6d5d614aa7c5a660da8f2e92fe",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "791db4d13a4beece82fc266452897a9fe329dec9995ea8d2ffbb00866ff29b22",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "kerotakis_core",
+    "test": "water_fusion::tests::zero_delta_cp_recovers_constant_enthalpy_law",
+    "record": "kerotakis_core-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "water_fusion::tests::zero_delta_cp_recovers_constant_enthalpy_law",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "66dd7c25c580429b9ec5349cc989e4dd78d3b2ce2a3f969c23402abee6731dea",
+    "stdout_sha256": "f993ecd57b5104165a553a2c6c8ff4e9223c1f3276daca463343e36834101e25",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "75f190bcb1cbfee4332bbd359d976479e7e788aaaed6ef63f5d3fed9ae02e2b8",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "kerotakis_core",
+    "test": "water_fusion::tests::constant_delta_cp_matches_independent_closed_form",
+    "record": "kerotakis_core-case-01",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "water_fusion::tests::constant_delta_cp_matches_independent_closed_form",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "302c67d24d1a7ef7ed0c79f1341af92efd1ee84b448e7ea96b86a8b26ff44535",
+    "stdout_sha256": "8bbaf45324f444b2ddfdffa6e0cef094686cbae142ff7f13d2e1f511295443a3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "75f190bcb1cbfee4332bbd359d976479e7e788aaaed6ef63f5d3fed9ae02e2b8",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  }
+]

@@ -1,0 +1,494 @@
+{
+  "first-compiler-failure.json": {
+    "sha256": "f979e2176d7185549d6b3cd64eeccc1611e0ca25f22858de2c2f415e806913f3",
+    "bytes": 642
+  },
+  "verify_public.py": {
+    "sha256": "58f1440623bc2a8114f18332fa5e5be0adf5c626c01a239fb1e892a621d79afd",
+    "bytes": 3531
+  },
+  "README.md": {
+    "sha256": "934f1231329dca6dd661210947f5f0277fbadc202e0a9fc7c02cf83965e75f0b",
+    "bytes": 2532
+  },
+  "actual-producer-Cargo.lock": {
+    "sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "bytes": 79537
+  },
+  "acceptance.json": {
+    "sha256": "9ad8302c42b8eccce0d935f7b3352230effcec512f4af6f2e3132fb2792f89c0",
+    "bytes": 916
+  },
+  "new8/kerotakis_core-case-01.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "new8/water_fusion_authority-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "new8/water_fusion_authority-case-03.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "new8/water_fusion_authority-case-01.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "new8/original-producer-manifest.json": {
+    "sha256": "dc0e9c5eeb391178e29856ceb88a6c9014bfae9c5f1c28790a4411cca5d1dada",
+    "bytes": 11497
+  },
+  "new8/parent-saved-review.json": {
+    "sha256": "4d8fc691123869b0c98651964a42da17d90b09b01ec573401feef5c54a52acfb",
+    "bytes": 985
+  },
+  "new8/command-projections.json": {
+    "sha256": "b69e812e3ee99c3a31f848ffdcdbd664dae20672db58b5853957963b078d9d92",
+    "bytes": 7313
+  },
+  "new8/kerotakis_core-case-01.stdout": {
+    "sha256": "8bbaf45324f444b2ddfdffa6e0cef094686cbae142ff7f13d2e1f511295443a3",
+    "bytes": 197
+  },
+  "new8/water_fusion_authority-case-03.stdout": {
+    "sha256": "89dbe94177af49e1529f00a975ee6d82dc23d67a1b09caa5947ba6da0a5e90cb",
+    "bytes": 182
+  },
+  "new8/water_fusion_authority-case-01.stdout": {
+    "sha256": "6455017b8c8fec7a4735b3c7d47beb987058ad5ef7c92059275c55d319dc7498",
+    "bytes": 176
+  },
+  "new8/water_fusion_authority-list.stdout": {
+    "sha256": "50ceca7f498e7ae05c3d0fc5ac6252f44379c29482f815b327c9514b63b308f5",
+    "bytes": 429
+  },
+  "new8/water_fusion_authority-case-05.stdout": {
+    "sha256": "1919000ec6ddbf46e9c24bbaf04e311293e3ea6d5d614aa7c5a660da8f2e92fe",
+    "bytes": 192
+  },
+  "new8/water_fusion_authority-case-05.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "new8/completed.json": {
+    "sha256": "70a6f9e12013f4ce173a81f264c7ea36fca7d4e3403062cff7743e3029bf9fd4",
+    "bytes": 4788
+  },
+  "new8/binding-projection.json": {
+    "sha256": "c403a0059df0be113d6d6da820bb13cb1f1e38c41516f2bf1621bc8e23cdec87",
+    "bytes": 5570
+  },
+  "new8/water_fusion_authority-case-02.stdout": {
+    "sha256": "f58e91bc5548b1492190d28cd0b1509baa35aa149c88a6ba47ed5290fe512455",
+    "bytes": 182
+  },
+  "new8/kerotakis_core-binary.json": {
+    "sha256": "a9b7aef9943311a02d412816dc8d4fc12b1885e77403986823106a6570040a70",
+    "bytes": 603
+  },
+  "new8/kerotakis_core-list.stdout": {
+    "sha256": "05a4146eddd0533c0e3864ffa0547cc44572deac2eadb207109156f441ecfc07",
+    "bytes": 41975
+  },
+  "new8/water_fusion_authority-case-04.stdout": {
+    "sha256": "1e9e3ab947f3ebb528b32fe10aadeabfc97fbf64a359d7619bed4b955769a2c6",
+    "bytes": 187
+  },
+  "new8/kerotakis_core-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "new8/kerotakis_core-case-00.stdout": {
+    "sha256": "f993ecd57b5104165a553a2c6c8ff4e9223c1f3276daca463343e36834101e25",
+    "bytes": 192
+  },
+  "new8/water_fusion_authority-binary.json": {
+    "sha256": "9f7e028956002b7c9f6eeca7887656011ff4b3bc8d956875abbb3afbbb3e96e2",
+    "bytes": 611
+  },
+  "new8/water_fusion_authority-case-04.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "new8/water_fusion_authority-case-02.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "new8/water_fusion_authority-case-00.stdout": {
+    "sha256": "4ae53e607eb7d6c29ee693f4bd5132f4a63972ba5f0b6218f90f6cd3c5fffa70",
+    "bytes": 195
+  },
+  "phase38/states-case-00.stdout": {
+    "sha256": "2c8273ade7268ef2d362240a0e5ca617f912e7e9ce625a46d3a18d24edd3ff44",
+    "bytes": 180
+  },
+  "phase38/phase_heat_capacity-case-02.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-03.stdout": {
+    "sha256": "eb8f4c9b9cd404b19ef7bdc23739188e2dbfdf2b7ddf0b028f5e9674eef377d3",
+    "bytes": 180
+  },
+  "phase38/brine_phase_energy-case-04.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/states-case-03.stdout": {
+    "sha256": "791f38b89ec293d182df49b0d507329a9df8cd69940c0e42aaa417ab75b3e437",
+    "bytes": 152
+  },
+  "phase38/phase_cap_energy-case-11.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/brine_phase_energy-case-00.stdout": {
+    "sha256": "2aefc6f584f5adf979aa4f043fcb4812cc4ee20b5d2b8d38c8711db03cd3e016",
+    "bytes": 179
+  },
+  "phase38/states-case-01.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/brine_phase_energy-case-07.stdout": {
+    "sha256": "2582db8f0e8821a1297c5ffb6ebe383af6224a54f6b634f3043dd381c4c5897f",
+    "bytes": 182
+  },
+  "phase38/phase_cap_energy-case-05.stdout": {
+    "sha256": "0d6b9a034038871bad60134c9cf46bc2e0adc395b4a7f4158a829dcec2afb2cc",
+    "bytes": 185
+  },
+  "phase38/brine_phase_energy-case-03.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_without_aqueous-case-01.stdout": {
+    "sha256": "8bf7622e9b13e2aefc89156e74dac51f463201448a8667873688d4704710faea",
+    "bytes": 197
+  },
+  "phase38/states-case-06.stdout": {
+    "sha256": "3e307664a74149b76205d7bcec2e0d69f77be09e1e790f2bb5bd23d20f34f0cc",
+    "bytes": 190
+  },
+  "phase38/phase_heat_capacity-case-03.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-07.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_without_aqueous-case-01.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cooling_energy-binary.json": {
+    "sha256": "92e2542df8055d76a3c8ec6854a93419059e7bba96f48a8c941dcde9d72c25e0",
+    "bytes": 609
+  },
+  "phase38/states-list.stdout": {
+    "sha256": "693473ecc5360e32c44bb3a6a66d5c365a8ba6579b4ac79241cca026f7885181",
+    "bytes": 651
+  },
+  "phase38/phase_without_aqueous-case-02.stdout": {
+    "sha256": "62cbca7c3e72c6cfe161f03b44305aa05f4e0d49ddf0d478c9c9aa12025af533",
+    "bytes": 199
+  },
+  "phase38/states-case-09.stdout": {
+    "sha256": "b28edd68d716f92f4999cf4a9b5050bff6975d10b8d7ad5e75c74125adc09de1",
+    "bytes": 190
+  },
+  "phase38/states-case-02.stdout": {
+    "sha256": "6718b14fe19022b318d8edbfa43bf171a991e54f15b2bcb445b21f3fe735dd37",
+    "bytes": 180
+  },
+  "phase38/phase_heat_capacity-case-02.stdout": {
+    "sha256": "3efc832796532c147d46f68d3d53d3b059133bdbd532dc9ae8fe68e237fda4a5",
+    "bytes": 182
+  },
+  "phase38/phase_cap_energy-case-04.stdout": {
+    "sha256": "b1e0a58e0eb4af19a76e2ea0be177d65963162e9af7dfd43d06ec9391350f432",
+    "bytes": 176
+  },
+  "phase38/original-producer-manifest.json": {
+    "sha256": "c3288581b676c5859b4688b53e399a597d6fd55d846a732060a80ab7f031f3dd",
+    "bytes": 28455
+  },
+  "phase38/phase_heat_capacity-list.stdout": {
+    "sha256": "3bf642ee613d84d97e65b95c467a09fec77a95aafd55fb76251dec6646ebfd57",
+    "bytes": 263
+  },
+  "phase38/brine_phase_energy-case-05.stdout": {
+    "sha256": "3d54e34cfd4f210b343c3f5de2fd9b3a6a95ccf010e20e2f2cab764c53b73a86",
+    "bytes": 180
+  },
+  "phase38/brine_phase_energy-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_heat_capacity-case-03.stdout": {
+    "sha256": "95c483173100658a99a56adfb2f2d0de94b1866d69bf91e4eaf703677924d832",
+    "bytes": 166
+  },
+  "phase38/parent-saved-review.json": {
+    "sha256": "518de4d1908f5f3e3ede99e19e3d6230bf128e3f0703c4e65462c1b72868a2e8",
+    "bytes": 1551
+  },
+  "phase38/command-projections.json": {
+    "sha256": "43f70bbbe0483aa4b4a713ea745ce1dcec89e3fc3de66da435b781819550b6c7",
+    "bytes": 33889
+  },
+  "phase38/states-case-05.stdout": {
+    "sha256": "145cc18e96f237404475242715d1e46721a22446ec4c853b254f305bb5ba82ff",
+    "bytes": 194
+  },
+  "phase38/phase_without_aqueous-list.stdout": {
+    "sha256": "de8fd1fd9d9cafda538f612e2af8a67c32e2030c59696f60cbd7cfc4b58d6b62",
+    "bytes": 267
+  },
+  "phase38/states-case-04.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/states-case-04.stdout": {
+    "sha256": "bae68d92eedd3256325313cca8c2e563552f4c508e628202bbebf1dd7ec7c558",
+    "bytes": 150
+  },
+  "phase38/phase_cap_energy-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/states-binary.json": {
+    "sha256": "8b0bca8e9a648ef1f278c0727ca40fa1aeb152299d16363b409e0387d55afab7",
+    "bytes": 595
+  },
+  "phase38/states-case-05.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/brine_phase_energy-case-04.stdout": {
+    "sha256": "1f3e4e5323431e08547cee577459553b0e9b4d69e6affd42a8f86cbcd84fd37a",
+    "bytes": 183
+  },
+  "phase38/phase_cap_energy-case-00.stdout": {
+    "sha256": "3690afa5aeecef875f161656c30fe740642300455f608863406a89b328519768",
+    "bytes": 177
+  },
+  "phase38/phase_cap_energy-binary.json": {
+    "sha256": "edcefa7f23975654a94b83b2eb1910c33b39c4e592d020429c6c15561fa91d30",
+    "bytes": 605
+  },
+  "phase38/phase_cooling_energy-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-06.stdout": {
+    "sha256": "c3bd0b29c337efeea3236045976ecab57fc40103d0a4cfa5d387e898a9b31043",
+    "bytes": 172
+  },
+  "phase38/phase_cap_energy-case-01.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/states-case-02.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/brine_phase_energy-case-03.stdout": {
+    "sha256": "f9241067b3cb5221c64d03f2a94ed6c3f923173b85e5c303eb7db2a20595f878",
+    "bytes": 187
+  },
+  "phase38/phase_cap_energy-case-09.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/brine_phase_energy-case-07.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-08.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_without_aqueous-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/states-case-08.stdout": {
+    "sha256": "99ba96d8b16891f121e90dcf264709b7ba8c3b8af4c3560184a63834098937c8",
+    "bytes": 203
+  },
+  "phase38/states-case-07.stdout": {
+    "sha256": "6bcb37f6322beae8684e196de885cf77b1a9b607be16837fe04d118f5f563064",
+    "bytes": 186
+  },
+  "phase38/completed.json": {
+    "sha256": "edead74517c7fa077ad0a2768cafb5617da23aefa5ad71fd7f125cb585b124ea",
+    "bytes": 20003
+  },
+  "phase38/binding-projection.json": {
+    "sha256": "0471f14ffcf72ce6bcd4d5fe638a9f4807b6afa08ece49402adb6229065fcbc9",
+    "bytes": 8916
+  },
+  "phase38/states-case-09.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-02.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/states-case-03.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-10.stdout": {
+    "sha256": "7ed7005e649f82c654c3cce058acc36f8b2795bb8fc3fd76128218a541259a5a",
+    "bytes": 174
+  },
+  "phase38/states-case-07.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-06.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_heat_capacity-case-01.stdout": {
+    "sha256": "11ff2a486312355c57cc9f851d3fb09d14220822e8bece0a02149867f062faf3",
+    "bytes": 183
+  },
+  "phase38/brine_phase_energy-binary.json": {
+    "sha256": "c3eef9a781fb01920a7c1eaf82af2028db86a4fad59fecc7581271d5deb8e9f6",
+    "bytes": 607
+  },
+  "phase38/brine_phase_energy-case-02.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_heat_capacity-binary.json": {
+    "sha256": "ff1c2f32a186d56d3e448c13fd8fadd86564981dc5d995e277973ed094f0b44e",
+    "bytes": 608
+  },
+  "phase38/phase_heat_capacity-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-04.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/brine_phase_energy-case-06.stdout": {
+    "sha256": "5332053a87ae814d2edfa9acdfc3d86917850d3f234510d7d4ecf5d8de081e05",
+    "bytes": 186
+  },
+  "phase38/states-case-01.stdout": {
+    "sha256": "9fa6188c7dc3910185bdc3105470eec9822b0108ade26b9b5073516ff01ffdde",
+    "bytes": 182
+  },
+  "phase38/phase_cooling_energy-list.stdout": {
+    "sha256": "e690098e8bf3962077f9456dcedf24338aea86bd04cb9b8c7a04a2ab7232ff5a",
+    "bytes": 106
+  },
+  "phase38/phase_without_aqueous-case-02.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_without_aqueous-binary.json": {
+    "sha256": "71845b06d779888c186e186c0c8b17ced1c06bac315ce6dae18e08be0a4a9003",
+    "bytes": 610
+  },
+  "phase38/states-case-06.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/brine_phase_energy-case-01.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-05.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-10.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-case-09.stdout": {
+    "sha256": "f773a0d3af287af380868b2ce7f0223f290db4ba15488adf6ff3801ee9918ca0",
+    "bytes": 175
+  },
+  "phase38/brine_phase_energy-case-06.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cap_energy-list.stdout": {
+    "sha256": "d3f410e50d0cc8982d7e67e2ff0301a76a817c2601fc35497833e5fc33284072",
+    "bytes": 740
+  },
+  "phase38/phase_cap_energy-case-03.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/states-case-08.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/brine_phase_energy-list.stdout": {
+    "sha256": "b5e4a2b6128ae763fe829377b1d6b799801d60846ba7bdd795ee03a91bcae957",
+    "bytes": 535
+  },
+  "phase38/phase_cap_energy-case-07.stdout": {
+    "sha256": "f988d9dcba0525a5d63f2a7856f27594330ea874cee38d0762f6e0e7a4c1370d",
+    "bytes": 171
+  },
+  "phase38/phase_heat_capacity-case-01.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/brine_phase_energy-case-01.stdout": {
+    "sha256": "b9e285287e2de286db0840a73e59b801cbac5a31186321b0440cac097f2a0f3f",
+    "bytes": 178
+  },
+  "phase38/brine_phase_energy-case-02.stdout": {
+    "sha256": "7c70ec8ecaee036dbb2ddc798b98cb828c2e520d94c4fa40f2ac3a14fae6c920",
+    "bytes": 181
+  },
+  "phase38/phase_cap_energy-case-11.stdout": {
+    "sha256": "1604dc63401fff301c6b91ec26d0dc9882830820cd0c3c78e8899a63e69cf23b",
+    "bytes": 191
+  },
+  "phase38/phase_heat_capacity-case-00.stdout": {
+    "sha256": "aa550d784aa01717ef9df07b229a92c4fc772235f9a9e48cef59048019d6db75",
+    "bytes": 181
+  },
+  "phase38/phase_without_aqueous-case-00.stdout": {
+    "sha256": "91001fd73e29e3bfc676fc8834d253e20ff254f3051d4cb4b2b77f1f451fa99e",
+    "bytes": 202
+  },
+  "phase38/phase_cap_energy-case-01.stdout": {
+    "sha256": "577a596a91b6d138e847e444aeb2b91abf48fd76e306f41099b3a21c4b037178",
+    "bytes": 173
+  },
+  "phase38/phase_cap_energy-case-08.stdout": {
+    "sha256": "8e044b5a46798b8fae921af2889c8d8cf65530d59b1f96b662a454386a7e4fd6",
+    "bytes": 188
+  },
+  "phase38/phase_cap_energy-case-02.stdout": {
+    "sha256": "83b846c5880c4cf48581e793cdbfcb47de14082d0db49f0d17b7ecad4def27de",
+    "bytes": 182
+  },
+  "phase38/brine_phase_energy-case-05.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "phase38/phase_cooling_energy-case-00.stdout": {
+    "sha256": "ef3f043009fc85cd4b01cfe8095aea3d2c347a4e1b6d04fe773e3ea53581ed59",
+    "bytes": 202
+  },
+  "phase38/states-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  }
+}

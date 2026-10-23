@@ -1,0 +1,25 @@
+{
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "passed_controls": 46,
+  "scientific_selections": 0,
+  "phase_energy_absolute_tolerance_j": 0.001,
+  "material_absolute_tolerance_mol": 1e-10,
+  "full_fleet_platform_integration_and_product_accepted": false,
+  "groups": [
+    {
+      "name": "new8",
+      "passed": 8,
+      "closed_raw_members": 85,
+      "parent_review_sha256": "4d8fc691123869b0c98651964a42da17d90b09b01ec573401feef5c54a52acfb",
+      "producer_manifest_sha256": "dc0e9c5eeb391178e29856ceb88a6c9014bfae9c5f1c28790a4411cca5d1dada"
+    },
+    {
+      "name": "phase38",
+      "passed": 38,
+      "closed_raw_members": 207,
+      "parent_review_sha256": "518de4d1908f5f3e3ede99e19e3d6230bf128e3f0703c4e65462c1b72868a2e8",
+      "producer_manifest_sha256": "c3288581b676c5859b4688b53e399a597d6fd55d846a732060a80ab7f031f3dd"
+    }
+  ]
+}

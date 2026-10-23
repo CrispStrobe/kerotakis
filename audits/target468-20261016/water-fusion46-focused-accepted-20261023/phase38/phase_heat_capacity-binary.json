@@ -1,0 +1,11 @@
+{
+  "runtime_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "runtime_tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "executable": "target/debug/deps/phase_heat_capacity-5193b2245b0a9cda",
+  "sha256": "6e143cf31da562c5face9fc1c459f1c580cec562307ddba446bce1ac15a2ca17",
+  "bytes": 55370552,
+  "gzip_sha256": "2e402c78f5e265bb650face3d48ebe861c6345d2689a6795719be0a2d2a2c631",
+  "gzip_bytes": 12982854,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

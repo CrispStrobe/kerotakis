@@ -1,0 +1,189 @@
+{
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "actual_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "source_pins": {
+    ".gitmodules": {
+      "sha256": "70ac65a8b6e2acc056323f236e8e5e34cf8406a7a3b74568f5257a6fa493a1db"
+    },
+    "Cargo.toml": {
+      "sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c"
+    },
+    "audits/water-fusion-authority-20261023/README.md": {
+      "sha256": "25c115a79cbd2d2cce966c89d6620820e17640999694e8a9b39d3f600df899ca"
+    },
+    "audits/water-fusion-authority-20261023/first-source-review.json": {
+      "sha256": "aa6d73593c3db2cb548febceb1b88907581a82f29a8eaf52b72a710bee69a944"
+    },
+    "audits/water-fusion-authority-20261023/freeze_references.py": {
+      "sha256": "14f048046f1afdfe81d56cf03cf22ebc6fe0272c2baaf537b83393c901f5672f"
+    },
+    "audits/water-fusion-authority-20261023/references.json": {
+      "sha256": "23b11780a8c0505bd15722f898a186361c1f63752a028cd508ee7bc6a6da3db6"
+    },
+    "crates/kerotakis-core/Cargo.toml": {
+      "sha256": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7"
+    },
+    "crates/kerotakis-core/src/bench.rs": {
+      "sha256": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2"
+    },
+    "crates/kerotakis-core/src/heat_capacity.rs": {
+      "sha256": "a9248dc01068728a8db5002d571c5dcadace885a88f8c275450f91d31dacc77c"
+    },
+    "crates/kerotakis-core/src/lib.rs": {
+      "sha256": "c58dc5edaa7ccf851d1b1748e3ee6c6dde01659449b21de9b94ebb61e734f874"
+    },
+    "crates/kerotakis-core/src/ops.rs": {
+      "sha256": "a8ed36e723f1a6ed0f55147f81f77a41d4cef00f55d18eecb96f7060cd793bdc"
+    },
+    "crates/kerotakis-core/src/phrase.rs": {
+      "sha256": "676f55b3e32eb28fe6b3b00dc05656b824f602571fe42d777fe24d3d273269bf"
+    },
+    "crates/kerotakis-core/src/solve.rs": {
+      "sha256": "7268c89f16b9481db7811234f60c2c2e268ea186d255b1745c743983adbfde76"
+    },
+    "crates/kerotakis-core/src/states.rs": {
+      "sha256": "e78ac46fceff1ffb8c8f506bd3ff968213d6662c6efeddeaa3f656f258e7236c"
+    },
+    "crates/kerotakis-core/src/vessel.rs": {
+      "sha256": "2be6a351110a65eff68cc51bc320530d2bfdb07d0e88bddc43b998fc13cfeaba"
+    },
+    "crates/kerotakis-core/src/water_fusion.rs": {
+      "sha256": "3da7f990a5c2a0fc3b45877da44e34984f329c2385b4bd81bb4f34db00ea5f9c"
+    },
+    "crates/kerotakis-core/tests/brine_phase_energy.rs": {
+      "sha256": "af459736ab73924b8be29416a48552c24bb7bfee25f5a576643f224c0dfc8661"
+    },
+    "crates/kerotakis-core/tests/golden/registry.json": {
+      "sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4"
+    },
+    "crates/kerotakis-core/tests/phase_cap_energy.rs": {
+      "sha256": "f2899c10fe8857a78973ccb819952de6652ff81a6ab1a48da03a36d49600c002"
+    },
+    "crates/kerotakis-core/tests/phase_cooling_energy.rs": {
+      "sha256": "fee8f08783db3fc781b7d50c6c148d2bc13443446071764fe38de85eece8803c"
+    },
+    "crates/kerotakis-core/tests/phase_heat_capacity.rs": {
+      "sha256": "c36860f3af17a2a418e84c71cb947a051a8f1aa822501ff5d4aed14ee7271c24"
+    },
+    "crates/kerotakis-core/tests/phase_without_aqueous.rs": {
+      "sha256": "4c6182a201c1096faadc12883d1f926a8f4529f9082b29cb27d4015f528d54c2"
+    },
+    "crates/kerotakis-core/tests/states.rs": {
+      "sha256": "fa1d9500ccd7debe7214d306c8eff6a74012bfe413e8b35516ccf1b0a87fc6d3"
+    },
+    "crates/kerotakis-core/tests/water_fusion_authority.rs": {
+      "sha256": "51dd626c6379aec187e807edbc9764118f54d00bfa7e88f046353454ebbce6bf"
+    },
+    "tools/fetch-sundials.sh": {
+      "sha256": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38"
+    }
+  },
+  "tracked_targets": [
+    {
+      "target": "phase_cap_energy",
+      "package": "kerotakis-core",
+      "path": "crates/kerotakis-core/tests/phase_cap_energy.rs",
+      "tests": [
+        "ideal_inside_direct_conserves_without_false_refusal",
+        "ideal_exact_direct_commits_only_closed_boundary",
+        "ideal_outside_direct_refuses_before_mutation_and_repeats",
+        "eutectic_inside_direct_conserves_without_false_refusal",
+        "eutectic_exact_direct_commits_only_closed_boundary",
+        "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+        "ideal_inside_real_cool_closes_delivered_energy",
+        "ideal_exact_real_cool_closes_delivered_energy",
+        "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+        "eutectic_inside_real_cool_closes_delivered_energy",
+        "eutectic_exact_real_cool_closes_delivered_energy",
+        "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses"
+      ],
+      "source_sha256": "f2899c10fe8857a78973ccb819952de6652ff81a6ab1a48da03a36d49600c002",
+      "test_deadline_seconds": 60,
+      "kind": "integration"
+    },
+    {
+      "target": "states",
+      "package": "kerotakis-core",
+      "path": "crates/kerotakis-core/tests/states.rs",
+      "tests": [
+        "water_does_not_go_below_zero_while_it_is_still_freezing",
+        "no_temperature_is_announced_that_the_vessel_never_reached",
+        "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+        "ice_melts_again_when_warmed",
+        "a_frozen_vessel_has_no_ph",
+        "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+        "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+        "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+        "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+        "the_boundary_is_announced_only_when_the_brine_actually_reached_it"
+      ],
+      "source_sha256": "fa1d9500ccd7debe7214d306c8eff6a74012bfe413e8b35516ccf1b0a87fc6d3",
+      "test_deadline_seconds": 180,
+      "kind": "integration"
+    },
+    {
+      "target": "brine_phase_energy",
+      "package": "kerotakis-core",
+      "path": "crates/kerotakis-core/tests/brine_phase_energy.rs",
+      "tests": [
+        "pure_water_freezing_conserves_independent_phase_energy",
+        "pure_water_melting_conserves_independent_phase_energy",
+        "dilute_brine_freezing_conserves_independent_phase_energy",
+        "intermediate_brine_freezing_conserves_independent_phase_energy",
+        "stronger_brine_freezing_conserves_independent_phase_energy",
+        "dilute_brine_melting_conserves_independent_phase_energy",
+        "intermediate_brine_melting_conserves_independent_phase_energy",
+        "stronger_brine_melting_conserves_independent_phase_energy"
+      ],
+      "source_sha256": "af459736ab73924b8be29416a48552c24bb7bfee25f5a576643f224c0dfc8661",
+      "test_deadline_seconds": 180,
+      "kind": "integration"
+    },
+    {
+      "target": "phase_heat_capacity",
+      "package": "kerotakis-core",
+      "path": "crates/kerotakis-core/tests/phase_heat_capacity.rs",
+      "tests": [
+        "the_leftover_energy_chills_ice_at_ices_own_heat_capacity",
+        "ice_and_water_and_steam_each_carry_their_own_heat_capacity",
+        "sugar_water_boils_at_the_temperature_it_actually_boils_at",
+        "plain_water_is_unmoved_by_the_same_change"
+      ],
+      "source_sha256": "c36860f3af17a2a418e84c71cb947a051a8f1aa822501ff5d4aed14ee7271c24",
+      "test_deadline_seconds": 180,
+      "kind": "integration"
+    },
+    {
+      "target": "phase_cooling_energy",
+      "package": "kerotakis-core",
+      "path": "crates/kerotakis-core/tests/phase_cooling_energy.rs",
+      "tests": [
+        "partial_freezing_closes_the_transition_referenced_energy_for_different_phases"
+      ],
+      "source_sha256": "fee8f08783db3fc781b7d50c6c148d2bc13443446071764fe38de85eece8803c",
+      "test_deadline_seconds": 180,
+      "kind": "integration"
+    },
+    {
+      "target": "phase_without_aqueous",
+      "package": "kerotakis-core",
+      "path": "crates/kerotakis-core/tests/phase_without_aqueous.rs",
+      "tests": [
+        "pure_water_freezes_melts_and_boils_with_conserved_latent_energy_across_scales",
+        "unsolved_ionic_and_unknown_mixtures_do_not_get_a_pure_water_phase_answer",
+        "no_transition_keeps_aqueous_failure_explicit_and_clears_stale_measurements"
+      ],
+      "source_sha256": "4c6182a201c1096faadc12883d1f926a8f4529f9082b29cb27d4015f528d54c2",
+      "test_deadline_seconds": 180,
+      "kind": "integration"
+    }
+  ],
+  "worker_sha256": "b6d0837be15c6b4cca3c9441fe0f7e047b7eefd17964215a3d7bf26c30f45d6d",
+  "actual_plan_sha256": "c43aeaafb1e840118112de78a9088f86050e97c93a32ed9e4592246cdc196de1",
+  "issue_sha256": "265da0338e1e83604b8eff16819005324e0f88d55418bf6cab93f6694d6eb5f5",
+  "collection_receipt_sha256": "612d1b1da15f59449b73e8e1c976c8588c03954271c436f8c5fb13a573653c80",
+  "parent_saved_verifier_sha256": "247d86f9c18bed3b1ad0944f9697d1069d187d76bae22a97fa8f48cdc4856358",
+  "raw_closed_member_count": 207,
+  "public_projection_is_not_complete_raw_collection": true
+}

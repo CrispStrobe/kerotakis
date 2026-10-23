@@ -1,0 +1,11 @@
+{
+  "runtime_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "runtime_tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "executable": "target/debug/deps/water_fusion_authority-b878fdd48b541af2",
+  "sha256": "791db4d13a4beece82fc266452897a9fe329dec9995ea8d2ffbb00866ff29b22",
+  "bytes": 45420848,
+  "gzip_sha256": "505a8747430f23c0039242868f95b5fcb6e4db1cc5726adea8e5410b3d027e78",
+  "gzip_bytes": 10166675,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

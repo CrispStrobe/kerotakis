@@ -1,0 +1,11 @@
+{
+  "runtime_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "runtime_tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "executable": "target/debug/deps/phase_without_aqueous-669dbbf7766fc93a",
+  "sha256": "78276ea98370e7dcd7e71a34e9252905c22c4a9f8f898f8f83cfa376a46d36c4",
+  "bytes": 45426104,
+  "gzip_sha256": "ffe3d0fded60f9bc9c412548491be6d3d0215ea15d67725d4ea7ab7ea83a9225",
+  "gzip_bytes": 10196527,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}
