@@ -1,0 +1,33 @@
+{
+  "commands": [
+    {
+      "command": "python3 -B audits/target468-20261016/water-fusion46-focused-accepted-20261023/verify_public.py",
+      "outcome": "exit 0; verified_focused_controls=46; source=51bc28ddc576d587b86fab8da2ee6ea120822bc4; scientific_selections=0; full_fleet_platform_and_product_acceptance=false; no_engine_test_api_or_provider_execution=true"
+    },
+    {
+      "command": "python3 -B audits/target468-20261016/water-fusion-native5-focused-accepted-20261023/verify_public.py",
+      "outcome": "exit 0; verified_focused_controls=5; same source; scientific_selections=0; full_fleet_platform_and_product_acceptance=false; no_engine_test_api_or_provider_execution=true"
+    },
+    {
+      "command": "git show -s --format='%H %T %s' 51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+      "outcome": "commit present; tree=826551744876447dd4c537a124c362c3bc1a124f; message=test: bind synthetic fusion refusal fixture to current vessel schema"
+    },
+    {
+      "command": "sha256sum <both capsule actual-producer-Cargo.lock files>",
+      "outcome": "both SHA-256 values equal 41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb"
+    }
+  ],
+  "date": "2026-10-23",
+  "reconciliation": {
+    "claims": "Capsule README/acceptance preserve strict 0.001 J and 1e-10 mol budgets, zero new experiment selections, and pending full fleet/platform/protected/integration/product gates. Native capsule clearly says its published projection is not the complete raw collection; original 68-member stage collection and executable are separately parent-reviewed. Mix contract says prospective/unexecuted and records 55906.608 J/mol and 0.005 mol -> 279.53304 J as model forecast, not observed heat/calibration.",
+    "controls": "new8 (8) + phase38 (38) + native5 (5) = 51; independently enumerated target/test pairs total 51 and contain zero duplicates",
+    "docs": "STATUS, agenda, and handoff current 2026-10-23 lead sections reflect 51 focused passes and pending broader acceptance; mix lane matches contract and preserves actual baseline as unexecuted. water-fusion-authority has a stale second paragraph calling the native five-control stage 'issued, not yet accepted' despite the newer lead stating it passed. Historical frozen checkpoints were treated as history. Current summaries may lag candidate successor 6164acd8 per task instruction.",
+    "limits": "Public verifiers authenticate projection bytes and saved output/binding consistency only; they do not execute engine tests, establish full original raw collections or independently adjudicate scientific correctness. No such broader claim is warranted.",
+    "private_data_scan": "No private host paths, account/credential-like strings, or storage paths found in the two public capsules and five requested public documents by targeted rg scan.",
+    "verifier_gaps": [
+      "Both verifiers compare the serialized accepted/binding/review tree fields but do not independently run git rev-parse <source>^{tree}. The independent Git check above confirms 51bc28dd maps to the declared 82655174 tree, so this is a verifier coverage gap, not a detected identity mismatch.",
+      "Each verifier checks control uniqueness only within its own capsule. A combined cross-capsule deduplication assertion is absent; independent enumeration confirmed the published 8+38+5 sets are disjoint."
+    ]
+  },
+  "review": "read-only public saved-byte evidence review"
+}

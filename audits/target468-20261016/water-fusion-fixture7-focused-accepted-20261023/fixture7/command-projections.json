@@ -1,0 +1,121 @@
+[
+  {
+    "target": "scene_golden",
+    "test": "five_release_lessons_match_numeric_scene_golden",
+    "record": "scene_golden-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "five_release_lessons_match_numeric_scene_golden",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "93ea60ff7a90646bbde4921b25f8e4d760f6cb27fe8df5a20d5b08429ef73736",
+    "stdout_sha256": "ae1203cbab67592ae7a871d20be807d84924e473e482566ad52d12a26128ef35",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "d1f71335a90aa632b8124956b875fca82e8b8ee085d32157d5958e675a467f8c",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+    "record": "colligative_numbers-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "1d45bbb238d609aeae2a8052a9d82fbd6287090917cd505f2e62d5d41e1178ed",
+    "stdout_sha256": "f33b8f60f999f3a1ffe2da0d637b9e7a8173d2aee049dc6d7198f6b5b693702c",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "073be4b6ac669f2f3912e02e74bc2184007fd31c5fb8221f5357deebbfb9a262",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+    "record": "colligative_numbers-case-01",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "3a268c31cdb2afb4cadbd672f256aca250afc3dc380b663b4682532102c96784",
+    "stdout_sha256": "362e035b24ebea1c6b92bf08731a72748a12a77957eb450b7ede075c5e1b3722",
+    "stderr_sha256": "8437f4866c5598cb5b9bf8ffab8f292c342b88511f90ab9e567b535e0ba6ef74",
+    "actual_test_executable_sha256": "073be4b6ac669f2f3912e02e74bc2184007fd31c5fb8221f5357deebbfb9a262",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+    "record": "colligative_numbers-case-02",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "47204367768cfb6fd323c9fd62658511da66bb16f67317eab84925b8d787b748",
+    "stdout_sha256": "9ac0f90f7d61385927b60013d088a7619d0c26530e4b573c5a8a19e6d39bd269",
+    "stderr_sha256": "68cafe78a8e2a6740d6c369aac3a621c43aeec652f9e4c0539c2582b2b920744",
+    "actual_test_executable_sha256": "073be4b6ac669f2f3912e02e74bc2184007fd31c5fb8221f5357deebbfb9a262",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+    "record": "colligative_numbers-case-03",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "e9354946530bcb99b9b5da56504e1c803eb727cdc06102332e8cc995a5c2613f",
+    "stdout_sha256": "c8cdab9cf8e9f988c2feb0ac54c94103c847aaab0451dbde5759e2d076f3e7a0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "073be4b6ac669f2f3912e02e74bc2184007fd31c5fb8221f5357deebbfb9a262",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+    "record": "colligative_numbers-case-04",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "1e2d1838c161d2969d08807a400ae423778f4b44ebe02f7555343db0226915f8",
+    "stdout_sha256": "8e34e3023d76ded358f6b96383bf5848658c5a2ea1e7d8d5372e4de416643b36",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "073be4b6ac669f2f3912e02e74bc2184007fd31c5fb8221f5357deebbfb9a262",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve",
+    "record": "colligative_numbers-case-05",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "56bdb4bc734e577a4da4aec06369ed6a3c53164122ca3562989711e7780481a3",
+    "stdout_sha256": "1976e84fb372ace2363e94e3972df26ff6a2d37d30dcc0e100c9199ea60bede9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "073be4b6ac669f2f3912e02e74bc2184007fd31c5fb8221f5357deebbfb9a262",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  }
+]

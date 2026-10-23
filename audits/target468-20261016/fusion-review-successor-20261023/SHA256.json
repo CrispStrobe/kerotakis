@@ -1,0 +1,34 @@
+{
+  "README.md": {
+    "sha256": "798282a28b91036f768a1d80607b43b658cc9b63cfda147f5256723fdcc998a0",
+    "bytes": 2182
+  },
+  "check_actual_parser.py": {
+    "sha256": "eaad82eafd96260c151218288c7da10b00ad0077d5f111713c085de8a41c2ded",
+    "bytes": 2491
+  },
+  "independent-adjudication.json": {
+    "sha256": "78dddf58a4a8107f5a98f36fe70c30c0bad17c955f4707f1f93f1ce1a4548678",
+    "bytes": 5027
+  },
+  "independent-component-review.json": {
+    "sha256": "230f0743377bba1352dfdb94a9671e17d616402dcd2bb18439f49476aff78b93",
+    "bytes": 4312
+  },
+  "independent-fixture7-review.json": {
+    "sha256": "907a437a2fd8ae691bd902d0d367b5398cb2586bbd4db33d35faf7b3d7024599",
+    "bytes": 3593
+  },
+  "independent-public-evidence-review.json": {
+    "sha256": "6f9e4d652b3cf1da112063c785f2c54badef5502b14d5fee9e2357e7c3a9b79f",
+    "bytes": 3427
+  },
+  "libtest_rows.py": {
+    "sha256": "e505be4742be0b34e40a65941caa6a7bb6d3a4777ce112c5df9fdb0d5780746b",
+    "bytes": 1839
+  },
+  "verify_aggregate.py": {
+    "sha256": "63d1e0d9bfaeb4825727022b00cd4112614765665cee0b9dbe46ed1b52e4e1f7",
+    "bytes": 7661
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "kind": "independent_successor7_bounded_saved_review",
+  "source": "6164acd8bad09890fa042b262f665f460d91908d",
+  "tree": "f4c683f1f367541dd23c50b9b71e14c73e755faa",
+  "old_failed_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "manifest_sha256": "3e97910012fa734bbf5cd11510cd341aafe7490f3958d31423d0eecaf835acdd",
+  "closed_member_count": 82,
+  "small_members_independently_hashed": 79,
+  "small_member_bytes_independently_hashed": 1066788,
+  "compressed_executable_archives_read": false,
+  "cargo_artifact_paths": {
+    "scene_golden": "/kaggle/temp/fusion-fixture7/source/target/debug/deps/scene_golden-2b6535799ff0b3d6",
+    "colligative_numbers": "/kaggle/temp/fusion-fixture7/source/target/debug/deps/colligative_numbers-b39af2a6302a1683"
+  },
+  "actual_exact_cases": [
+    {
+      "target": "scene_golden",
+      "name": "five_release_lessons_match_numeric_scene_golden",
+      "result": "ok",
+      "exit_status": 0
+    },
+    {
+      "target": "colligative_numbers",
+      "name": "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+      "result": "ok",
+      "exit_status": 0
+    },
+    {
+      "target": "colligative_numbers",
+      "name": "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+      "result": "ok",
+      "exit_status": 0
+    },
+    {
+      "target": "colligative_numbers",
+      "name": "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+      "result": "ok",
+      "exit_status": 0
+    },
+    {
+      "target": "colligative_numbers",
+      "name": "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+      "result": "ok",
+      "exit_status": 0
+    },
+    {
+      "target": "colligative_numbers",
+      "name": "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+      "result": "ok",
+      "exit_status": 0
+    },
+    {
+      "target": "colligative_numbers",
+      "name": "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve",
+      "result": "ok",
+      "exit_status": 0
+    }
+  ],
+  "resolved_original_failures": [
+    "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+    "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+    "five_release_lessons_match_numeric_scene_golden"
+  ],
+  "runtime_registry_cargo_lesson_workflow_changes": false,
+  "original_source51_component_or_mac_results_retagged": false,
+  "scope": "Seven successor exact controls only; no full own-fleet, platform, protected, integration, changed release/product, or scientific-selection acceptance.",
+  "source_changed_paths": [
+    "audits/water-fusion-adjudication-20261023/README.md",
+    "audits/water-fusion-adjudication-20261023/derive_references.py",
+    "audits/water-fusion-adjudication-20261023/first-macos-failure-binding.json",
+    "audits/water-fusion-adjudication-20261023/independent-references.json",
+    "audits/water-fusion-adjudication-20261023/runtime-closure-and-scope.json",
+    "crates/kerotakis-core/tests/golden/scene-five.json",
+    "crates/kerotakis-phreeqc/tests/colligative_numbers.rs",
+    "docs/STATUS.md",
+    "docs/improvement-agenda-20261014.md",
+    "docs/next-agent-handoff.md",
+    "docs/water-fusion-authority-20261023.md"
+  ],
+  "saved_execution_receipt": {
+    "exit_status": 0,
+    "script_sha256": "1aa41f1c543fdac28efb61eebf696a6268554e573163f43def2ec3d205b8a930",
+    "stdout_sha256": "5170008cf47c09a13c381e74af35ff522ec68b7205f4d52dbf32f9f0fb4f6de6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

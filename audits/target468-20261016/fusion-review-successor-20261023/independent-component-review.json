@@ -1,0 +1,110 @@
+{
+  "kind": "independent_bounded_component_saved_review",
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "original_version": 1,
+  "same_version_collection_closed": true,
+  "collection_receipt_sha256": "bcfa83b0b09ed6124bf39f5bbaa0cf98978d0a9c488fe907f4f49640e5a13423",
+  "manifest_sha256": "cd630e766ee6ea0382515606a0e357197f86dbc353a98f46145815a68151d7fd",
+  "manifest_members_including_manifest": 2793,
+  "compiler_artifact_test_binaries": 342,
+  "actual_package_counts": {
+    "kerotakis-core": 2236,
+    "kerotakis-phreeqc": 547,
+    "kerotakis-cea": 80,
+    "kerotakis-thermo": 184
+  },
+  "actual_total_tests": 3047,
+  "forecast_package_counts": {
+    "kerotakis-core": 2236,
+    "kerotakis-phreeqc": 547,
+    "kerotakis-cea": 80,
+    "kerotakis-thermo": 184
+  },
+  "counts_match_forecast": true,
+  "format_exit_status": 0,
+  "clippy_exit_status": 0,
+  "failed_targets": [
+    {
+      "key": "kerotakis-phreeqc--colligative_numbers",
+      "exit_status": 101,
+      "passed": 4,
+      "failed": 2,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "key": "kerotakis-core--scene_golden",
+      "exit_status": 101,
+      "passed": 0,
+      "failed": 1,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    }
+  ],
+  "failed_cases": [
+    {
+      "key": "kerotakis-phreeqc--colligative_numbers",
+      "test": "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+      "result": "FAILED"
+    },
+    {
+      "key": "kerotakis-phreeqc--colligative_numbers",
+      "test": "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+      "result": "FAILED"
+    },
+    {
+      "key": "kerotakis-core--scene_golden",
+      "test": "five_release_lessons_match_numeric_scene_golden",
+      "result": "FAILED"
+    }
+  ],
+  "exactly_three_known_old_law_failures": true,
+  "producer_metadata_discovery_omissions": [
+    {
+      "key": "kerotakis-core--composed_locale",
+      "missing_standard_should_panic_names": [
+        "an_unresolved_static_phrase_key_fails_closed"
+      ],
+      "producer_captured_cases": 17,
+      "independently_captured_cases": 18
+    },
+    {
+      "key": "kerotakis-thermo--kerotakis_thermo",
+      "missing_standard_should_panic_names": [
+        "unifac::tests::compatibility_entry_point_also_fails_closed"
+      ],
+      "producer_captured_cases": 85,
+      "independently_captured_cases": 86
+    }
+  ],
+  "producer_issue": "Two passing `should panic` tests have standard ` - should panic` result suffix; producer regex omitted them, making all_discovered_tests_accounted false for two targets despite raw target totals and independent list names agreeing.",
+  "scope": "Original source51 component run only; three assertions fail. This is not successor acceptance, full own-fleet, platform, protected CI, integration, release/product, or scientific selection.",
+  "verified_small_saved_bodies": {
+    "count": 2450,
+    "bytes": 4472165
+  },
+  "archive_limit": {
+    "compressed_archives": 342,
+    "compressed_bytes": 4092069492,
+    "archive_bodies_independently_rehashed": false,
+    "verification": "Producer/collector SHA256 commitments agree by manifest and closure ledger, archive lengths/stat and Cargo artifact-to-executable paths checked; binary body hashes remain producer-declared until remote saved-byte review."
+  },
+  "first_independent_reader_result": {
+    "exit_status": 1,
+    "script_sha256": "9e4db1408818e66ab6cf2681a660783b0b4645195d0be7d6b2e6e3788335d527",
+    "stderr_sha256": "07f92a05b30914a92171fffcfab0e9e6a2dbd669ea0782c6e4f8608b06568509",
+    "reason": "Reader treated producer all_discovered_tests_accounted=false as test failure before recognizing standard should-panic stdout suffix. Retained, not overwritten."
+  },
+  "corrected_independent_reader": {
+    "exit_status": 0,
+    "script_sha256": "2aade2ced3b71c1b44c617bbf5499e49ab80aca48e145404fc3856fa209a67a5",
+    "stdout_sha256": "8467b3462309e77a90e9f50a0c026f9e7bfb16ecfd5d74f922ff438b8b25f559",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "archive_bodies_read": false
+  },
+  "no_native_test_api_provider_or_git_mutation_by_reviewer": true
+}

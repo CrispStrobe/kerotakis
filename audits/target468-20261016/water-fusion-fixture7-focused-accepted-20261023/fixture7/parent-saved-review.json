@@ -1,0 +1,23 @@
+{
+  "source": "6164acd8bad09890fa042b262f665f460d91908d",
+  "tree": "f4c683f1f367541dd23c50b9b71e14c73e755faa",
+  "worker_sha256": "e112ec3ac71e1d477150b0bbbe8b8046119d313e3de98ed3b5f7af8b10dfdc12",
+  "plan_sha256": "14ae933b8c4036500ae376cc0d77b5f01e9935db99ddce09afde231b920f39aa",
+  "actual_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "manifest_sha256": "3e97910012fa734bbf5cd11510cd341aafe7490f3958d31423d0eecaf835acdd",
+  "all_closed_members": 82,
+  "passed_controls": 7,
+  "actual_executables": {
+    "scene_golden": {
+      "sha256": "d1f71335a90aa632b8124956b875fca82e8b8ee085d32157d5958e675a467f8c",
+      "bytes": 56935304
+    },
+    "colligative_numbers": {
+      "sha256": "073be4b6ac669f2f3912e02e74bc2184007fd31c5fb8221f5357deebbfb9a262",
+      "bytes": 85738320
+    }
+  },
+  "no_new_native_or_provider_execution": true,
+  "phase_conservation_full_fleet_platform_and_product_acceptance": false,
+  "scientific_selections": 0
+}

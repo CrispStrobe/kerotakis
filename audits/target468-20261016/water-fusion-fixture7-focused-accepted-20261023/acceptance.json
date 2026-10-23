@@ -1,0 +1,18 @@
+{
+  "source": "6164acd8bad09890fa042b262f665f460d91908d",
+  "tree": "f4c683f1f367541dd23c50b9b71e14c73e755faa",
+  "passed_controls": 7,
+  "scientific_selections": 0,
+  "phase_energy_absolute_tolerance_j": 0.001,
+  "material_absolute_tolerance_mol": 1e-10,
+  "full_fleet_platform_integration_and_product_accepted": false,
+  "groups": [
+    {
+      "name": "fixture7",
+      "passed": 7,
+      "closed_raw_members": 82,
+      "parent_review_sha256": "0a532d0637dd76878ed62aa0d50dd47af315c69bd1616e7220db00c24cc9ecdb",
+      "producer_manifest_sha256": "3e97910012fa734bbf5cd11510cd341aafe7490f3958d31423d0eecaf835acdd"
+    }
+  ]
+}

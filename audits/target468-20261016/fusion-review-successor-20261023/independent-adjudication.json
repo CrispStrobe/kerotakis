@@ -1,0 +1,97 @@
+{
+  "kind": "independent_read_only_fixture_adjudication",
+  "reviewer": "Sol independent review agent",
+  "reviewed_pr": 859,
+  "base_main": "4eee0d636475393d6c5628e81432d45168a8c4da",
+  "failing_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "reference_freeze_commit": "c57131b6664205f929c122fd62b5115f8cafabd6",
+  "candidate_head": "6164acd8bad09890fa042b262f665f460d91908d",
+  "decision": "fixture_and_assertion_correction_supported; no full_source_or_product_acceptance",
+  "first_failure": {
+    "raw_log_sha256": "9894d2d787ee97930030a0d9536b3fb414a4f7d231491f2693db2c8de160d72c",
+    "binding_sha256_match": true,
+    "checkout_in_raw_log": "pull/859/merge at 1f0a089, merging source 51bc28dd into main 4eee0d63",
+    "failed_assertions": 3,
+    "failed_targets": {
+      "scene_golden": 1,
+      "colligative_numbers": 2
+    },
+    "captured_actual_scene_sha256": "c2ca9991843f2f19dbf02cb87f7bd8289897bedb03d7c8e7207f8a47f7f72640",
+    "old_golden_scene_sha256": "ec21f36e3e150110f476ffa55c4cb41bcb3df4b101dd128b45affcab13107a37"
+  },
+  "independent_method": {
+    "reference_input": "old six-decimal golden melting values and the unmodified water registry Cp rows",
+    "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+    "calculation": "Independent float64 SciPy nested adaptive quadrature: integrate held-liquid-minus-polynomial-ice Cp from 273.15 K to each trial temperature for Hfus, then integrate Hfus/(R*T^2) for ln(activity), and Brent invert the old constant-6010-J/mol inferred activity over 252..273.15 K.",
+    "uses_production_rust_or_engine": false,
+    "scene_non_melting_fields_equal": true,
+    "captured_actual_scene_equals_candidate_golden": true,
+    "changed_fields": 24,
+    "unique_pairs_and_counts": [
+      {
+        "old_k": 269.641054,
+        "candidate_k": 269.601343,
+        "count": 2,
+        "independent_k": 269.60134298312,
+        "old_rounding_interval_k": [
+          269.601342471697,
+          269.601343494543
+        ]
+      },
+      {
+        "old_k": 269.69944,
+        "candidate_k": 269.661052,
+        "count": 7,
+        "independent_k": 269.66105144805,
+        "old_rounding_interval_k": [
+          269.661050936822,
+          269.661051959277
+        ]
+      },
+      {
+        "old_k": 269.706117,
+        "candidate_k": 269.667878,
+        "count": 12,
+        "independent_k": 269.667878231384,
+        "old_rounding_interval_k": [
+          269.667877720179,
+          269.667878742589
+        ]
+      },
+      {
+        "old_k": 269.707786,
+        "candidate_k": 269.669585,
+        "count": 3,
+        "independent_k": 269.66958462503,
+        "old_rounding_interval_k": [
+          269.66958411383,
+          269.669585136229
+        ]
+      }
+    ],
+    "all_successor_rounding_intervals_overlap": true,
+    "pin_from_old_0_3468_k": 0.347181512936,
+    "new_rounded_pin_k": 0.3472,
+    "activity_at_252_k": 0.813490963422,
+    "fusion_enthalpy_at_252_j_mol": 5173.461955773
+  },
+  "scope_review": {
+    "changed_runtime_registry_cargo_lesson_workflow_files": 0,
+    "non_document_changes": [
+      "crates/kerotakis-core/tests/golden/scene-five.json",
+      "crates/kerotakis-phreeqc/tests/colligative_numbers.rs"
+    ],
+    "golden_change": "Only 24 slime vessel melting_point_k labels; exact captured actual scene; no other JSON value, key, list, event, or sequence changes.",
+    "tenth_molal_assertion": "0.3468 to 0.3472 source-model pin; 0.0004 K tolerance and separate 0.010 K physical band unchanged.",
+    "saturated_brine_assertion": "Replaces impossible finite below-252-K freezing_k expectation with activity strictly below independently calculated 252 K activity, checked inverse None and legacy NaN; valid boiling and withheld scene melting assertions remain.",
+    "removed_test_cases_or_widened_budgets": false,
+    "freeze_precedes_correction": true
+  },
+  "evidence_limitations_and_remaining_gates": [
+    "Old golden values provide the inferred historical activity; this independently tests the new relation and observed scene consistency, not empirical liquidus calibration or independent PHREEQC speciation.",
+    "The saturated-brine input activity was not present in the failure log, so its new assertion must execute on successor source; no source-bound successor pass has been observed in this review.",
+    "The actual 51bc focused 51 passes remain bound to 51bc; broad macOS first result is failed. Full source, both platforms, own-fleet, protected CI, changed release and product acceptance remain to be reviewed.",
+    "The four-package component saved-completion-watch had no READY receipt at review time; its original-input source51 results cannot be retagged to successor. The controller first failed on its index row bound and a same-version collection follow-up was present.",
+    "Existing saturated-brine prose mentions a prior finite -25.7 C estimate; the new API intentionally declines that numerical root. This is a minor stale comment, not a loosened assertion."
+  ]
+}

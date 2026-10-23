@@ -1,0 +1,110 @@
+{
+  "README.md": {
+    "sha256": "640a1e0c4ff6c34ddfd2cb8ff0e9ee82843215afd87adfaec5f62c6df5550edc",
+    "bytes": 1388
+  },
+  "acceptance.json": {
+    "sha256": "eea8ef8ebf0993843e5d3fa53986ff120c3b7de8f722863fe4b59d85d04b9ffc",
+    "bytes": 629
+  },
+  "actual-producer-Cargo.lock": {
+    "sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+    "bytes": 79537
+  },
+  "fixture7/binding-projection.json": {
+    "sha256": "53c18d2e62c01a27a821558dc18f355554d92ecf415fc145dae04e899e6b9340",
+    "bytes": 7519
+  },
+  "fixture7/colligative_numbers-binary.json": {
+    "sha256": "119f96e8da4a9d8a3f12cf64c8cf0d52c58c17559c259476e4bbfa1068692371",
+    "bytes": 608
+  },
+  "fixture7/colligative_numbers-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "fixture7/colligative_numbers-case-00.stdout": {
+    "sha256": "f33b8f60f999f3a1ffe2da0d637b9e7a8173d2aee049dc6d7198f6b5b693702c",
+    "bytes": 198
+  },
+  "fixture7/colligative_numbers-case-01.stderr": {
+    "sha256": "8437f4866c5598cb5b9bf8ffab8f292c342b88511f90ab9e567b535e0ba6ef74",
+    "bytes": 119
+  },
+  "fixture7/colligative_numbers-case-01.stdout": {
+    "sha256": "362e035b24ebea1c6b92bf08731a72748a12a77957eb450b7ede075c5e1b3722",
+    "bytes": 185
+  },
+  "fixture7/colligative_numbers-case-02.stderr": {
+    "sha256": "68cafe78a8e2a6740d6c369aac3a621c43aeec652f9e4c0539c2582b2b920744",
+    "bytes": 118
+  },
+  "fixture7/colligative_numbers-case-02.stdout": {
+    "sha256": "9ac0f90f7d61385927b60013d088a7619d0c26530e4b573c5a8a19e6d39bd269",
+    "bytes": 191
+  },
+  "fixture7/colligative_numbers-case-03.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "fixture7/colligative_numbers-case-03.stdout": {
+    "sha256": "c8cdab9cf8e9f988c2feb0ac54c94103c847aaab0451dbde5759e2d076f3e7a0",
+    "bytes": 182
+  },
+  "fixture7/colligative_numbers-case-04.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "fixture7/colligative_numbers-case-04.stdout": {
+    "sha256": "8e34e3023d76ded358f6b96383bf5848658c5a2ea1e7d8d5372e4de416643b36",
+    "bytes": 182
+  },
+  "fixture7/colligative_numbers-case-05.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "fixture7/colligative_numbers-case-05.stdout": {
+    "sha256": "1976e84fb372ace2363e94e3972df26ff6a2d37d30dcc0e100c9199ea60bede9",
+    "bytes": 181
+  },
+  "fixture7/colligative_numbers-list.stdout": {
+    "sha256": "f830a51b8f41f132b6580c5ed9e930b1ab73265ef9d0ee2597f1cc4d03ffe661",
+    "bytes": 434
+  },
+  "fixture7/command-projections.json": {
+    "sha256": "b1f10d64925b3c85d7c543b26136671ef2ef3e65f8d258dc1e3a0bfeec4a5b13",
+    "bytes": 6330
+  },
+  "fixture7/completed.json": {
+    "sha256": "97078bd13c249319bb46b8f3ee4b6175a1508ed0bacbcb56fc9beb4bbf061376",
+    "bytes": 4180
+  },
+  "fixture7/original-producer-manifest.json": {
+    "sha256": "3e97910012fa734bbf5cd11510cd341aafe7490f3958d31423d0eecaf835acdd",
+    "bytes": 10981
+  },
+  "fixture7/parent-saved-review.json": {
+    "sha256": "0a532d0637dd76878ed62aa0d50dd47af315c69bd1616e7220db00c24cc9ecdb",
+    "bytes": 980
+  },
+  "fixture7/scene_golden-binary.json": {
+    "sha256": "c63942f369226340d45a94764e520142e631df5639897b55c8fbd4064fece8cc",
+    "bytes": 601
+  },
+  "fixture7/scene_golden-case-00.stderr": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "fixture7/scene_golden-case-00.stdout": {
+    "sha256": "ae1203cbab67592ae7a871d20be807d84924e473e482566ad52d12a26128ef35",
+    "bytes": 172
+  },
+  "fixture7/scene_golden-list.stdout": {
+    "sha256": "8eb50d03c2c6dbed9b946160e7df77f4e65cb4c056d0f74ceff88103541dd8fb",
+    "bytes": 76
+  },
+  "verify_public.py": {
+    "sha256": "1073e70a20094b4a6d56fdd2ebc47e178732a32b2cd6b6f2a2793073d9b32997",
+    "bytes": 3698
+  }
+}
