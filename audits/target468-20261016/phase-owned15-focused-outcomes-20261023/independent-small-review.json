@@ -1,0 +1,77 @@
+{
+  "review_type": "independent saved nongzip review",
+  "source": "1833e6b1bb71cc567072b75d1ef0d015b8eaa363",
+  "tree": "c292380bc2ff863530dcf741af15b9f40fb44424",
+  "dependency_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "issue_plan_sha256": "a89bf8e65c2e816db03d7e5723851b5e0e869df4ba7fa264591add091d23f5a6",
+  "worker_sha256": "844399d6cdd382b6ddbee02f70914f083a5d46e142a8e417e7d2bd5469223d68",
+  "manifest_sha256": "f6a603e8b301a4dbdee001397dbe91bd924ecb1418490f040fdef6d6f7c40d3e",
+  "manifest_members_plus_manifest": 107,
+  "nongzip_members_hashed": 105,
+  "gzip_archive_names": [
+    "states.gz"
+  ],
+  "gzip_body_read_or_hashed": false,
+  "target": {
+    "package": "kerotakis-core",
+    "target": "states",
+    "count": 15,
+    "unique_listed_and_executed_tests": 15,
+    "all_exact_tests_passed": true,
+    "ignored": 0,
+    "filtered_per_exact_run": 14
+  },
+  "strict_gates": {
+    "format-check": {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit_status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "core-clippy": {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "7029020b1f979d9352634b466e510886f3b3fd161ae20b74c5adfc549368a826"
+    },
+    "states-build": {
+      "argv": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "kerotakis-core",
+        "--test",
+        "states",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "exit_status": 0,
+      "stdout_sha256": "023fb78d7d0a1a6b66f46b68dbbf75eb1d7c1f3bfd7e5b094f38641557b57c03",
+      "stderr_sha256": "ce4ea185b4a0184b60323681ea61128e933db019f1fcaf2f36301da7ce734fcd"
+    }
+  },
+  "source_before_after_and_lock_proofs_match": true,
+  "actual_target_executable_sha256": "4d8442f7ebfb8c24e10f5e44bdd9cd8c027f221dad11f253a5de1435308fed92",
+  "actual_target_executable_bytes": 55811248,
+  "actual_target_archive_metadata_sha256": "7255a1d26073804a2bbedf36b89aa44805e67ae2792073e7e4231f32fa51d9a2",
+  "actual_target_archive_bytes": 13032876,
+  "prior_first_scope_failure_preserved_sha256": "c11d3077e211c307e218fd742e6289a7e155d879c60cf2393420f3122dbc7ebd",
+  "distinct_canonical_format_followup": true,
+  "original_sibling_failure_retagged_as_pass": false,
+  "scientific_promotion_or_full_fleet_acceptance": false
+}

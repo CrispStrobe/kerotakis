@@ -1,0 +1,9 @@
+# Actual15 affected core controls pass
+
+Exact PR859 source1833e6b1bb71cc567072b75d1ef0d015b8eaa363/treec292380bc2ff863530dcf741af15b9f40fb44424, actual lock41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb, passes all15 named core State controls, strict core all-target Clippy and canonical `cargo fmt --check`. The new control executes actual freezing/melting/boiling and retains untouched gas-water trace Portions exactly; the separate nonwater trace, genuine nonconvergence rollback and all existing phase/cap cases remain included.
+
+This is a separately identified successor to the [first format-scope harness failure](../../phase-owned15-format-first-failure-20261023/README.md), which executed zero tests. No source, physical assertion, test list or strict Clippy command changed between the two workers. The canonical format scope is restored without modifying third-party material.
+
+Parent and independent saved readers authenticate107 closed members and105 nongzip bodies, exact source/tree/lock/proofs and all15 unique actual rows. The one actual executable is bound by its metadata; its gzip body was not independently read in these saved reviews. This explicit public projection copies selected raw records byte-exact, labels command/plan projections, and retains the complete original manifest. Full build/lint logs, original absolute commands, provider records and executable archives remain privately preserved. No full-source/platform/product acceptance or original selection follows.
+
+The [native zero-time failure](../trace-material61-first-outcomes-20261023/README.md) remains open; this source fix does not claim to repair its curated/native replay. Preserve that failure and follow its route-ownership lane before integration. Run `python -B verify_public.py` here to verify this saved projection without an engine.

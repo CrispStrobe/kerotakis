@@ -1,0 +1,359 @@
+{
+  "runtime_source": "1833e6b1bb71cc567072b75d1ef0d015b8eaa363",
+  "runtime_tree": "c292380bc2ff863530dcf741af15b9f40fb44424",
+  "actual_outcomes": [
+    {
+      "target": "states",
+      "test": "water_phase_passes_preserve_unrelated_trace_portions_exactly",
+      "record": "states-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "water_phase_passes_preserve_unrelated_trace_portions_exactly",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "phase_passes_account_for_water_in_untouched_phases",
+      "record": "states-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "phase_passes_account_for_water_in_untouched_phases",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+      "record": "states-case-02",
+      "exit_status": 0,
+      "rows": [
+        [
+          "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+      "record": "states-case-03",
+      "exit_status": 0,
+      "rows": [
+        [
+          "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+      "record": "states-case-04",
+      "exit_status": 0,
+      "rows": [
+        [
+          "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "water_does_not_go_below_zero_while_it_is_still_freezing",
+      "record": "states-case-05",
+      "exit_status": 0,
+      "rows": [
+        [
+          "water_does_not_go_below_zero_while_it_is_still_freezing",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "no_temperature_is_announced_that_the_vessel_never_reached",
+      "record": "states-case-06",
+      "exit_status": 0,
+      "rows": [
+        [
+          "no_temperature_is_announced_that_the_vessel_never_reached",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+      "record": "states-case-07",
+      "exit_status": 0,
+      "rows": [
+        [
+          "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "ice_melts_again_when_warmed",
+      "record": "states-case-08",
+      "exit_status": 0,
+      "rows": [
+        [
+          "ice_melts_again_when_warmed",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "a_frozen_vessel_has_no_ph",
+      "record": "states-case-09",
+      "exit_status": 0,
+      "rows": [
+        [
+          "a_frozen_vessel_has_no_ph",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+      "record": "states-case-10",
+      "exit_status": 0,
+      "rows": [
+        [
+          "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+      "record": "states-case-11",
+      "exit_status": 0,
+      "rows": [
+        [
+          "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+      "record": "states-case-12",
+      "exit_status": 0,
+      "rows": [
+        [
+          "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+      "record": "states-case-13",
+      "exit_status": 0,
+      "rows": [
+        [
+          "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+      "record": "states-case-14",
+      "exit_status": 0,
+      "rows": [
+        [
+          "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "14"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    }
+  ],
+  "all_named_controls_collected": true,
+  "expected_named_controls": 15,
+  "actual_target_count": 1,
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "scientific_selections": 0,
+  "runtime_fix_verified_by_execution": false,
+  "forecast_is_not_acceptance": true,
+  "focus_is_not_full_fleet": true
+}

@@ -1,0 +1,44 @@
+{
+  "review_type": "independent saved diagnostic link review",
+  "diagnostic_issue_version": 1,
+  "diagnostic_worker_sha256": "a96bca08b660c344e4f1aed6904e9eb44ee57d401d19c7ed02cb6ca7d58914b7",
+  "diagnostic_collection_worker_sha256": "a96bca08b660c344e4f1aed6904e9eb44ee57d401d19c7ed02cb6ca7d58914b7",
+  "diagnostic_terminal_status": "COMPLETE",
+  "diagnostic_only": true,
+  "scientific_acceptance": false,
+  "collected_members_independently_hashed": {
+    "RESULT.json": {
+      "sha256": "f1d2e934ff656d6641b0e0a80f93991494c69974119052c7f228d3ffc9e19344",
+      "bytes": 2710
+    },
+    "diagnostic.stdout": {
+      "sha256": "67bd59915b666c9aea6ed73226cbb80c204aa9d59f36f429038589f840f21a4c",
+      "bytes": 292
+    },
+    "diagnostic.stderr": {
+      "sha256": "6851dd4801a81277d211660058a50e8f924d71ad4b71d1a159caa832816954d9",
+      "bytes": 38629
+    }
+  },
+  "producer_source": "5f380753440b182a66a2fd8d446eb71b3b8d4960",
+  "producer_tree": "2b15488f6be0fd0d7021b6f12d77725f7653843a",
+  "producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "producer_plan_sha256": "c2cefa35ba9117032884d2a9caf365315a47392d475540ec9594c81effb1ca4a",
+  "producer_worker_sha256": "4dc9411fcdac2e35867345f73864e857a8840c2505c0a82be27b3ded82e674f6",
+  "producer_started_sha256": "10b313b08309e7a85b9af5384a5771108d05574cfc9282bcf01b095e54c1fe08",
+  "producer_manifest_sha256": "ba60aa65db551c593950ea1582a5c95575bc576a023cf5c5a3418714fe87c6ec",
+  "captured_test_binary_metadata_sha256": "4a816b82cf4bd5c125f05349d986d4676bb9688981e83d1009645c2e08455c32",
+  "captured_test_binary_raw_sha256_remote_claim": "ac90272d1a6e7672388054192e63937ff372619ac45a4a324a0b5333fd4d13ad",
+  "captured_test_binary_raw_bytes_remote_claim": 86308448,
+  "captured_test_archive_sha256_remote_claim": "456edac0ae8fa6029bf7d1e61aeac697093a956987459354da4c216881dff76e",
+  "captured_test_archive_bytes_remote_claim": 20648455,
+  "diagnostic_exit_status": 101,
+  "diagnostic_expected_failure_observed": true,
+  "diagnostic_timeout": false,
+  "trace_inventory_drift_message_observed": true,
+  "diagnostic_stdout_sha256": "67bd59915b666c9aea6ed73226cbb80c204aa9d59f36f429038589f840f21a4c",
+  "diagnostic_stderr_sha256": "6851dd4801a81277d211660058a50e8f924d71ad4b71d1a159caa832816954d9",
+  "local_target_archive_or_executable_body_read": false,
+  "raw_executable_hash_claim_independently_recomputed_locally": false,
+  "scientific_or_regression_acceptance": false
+}

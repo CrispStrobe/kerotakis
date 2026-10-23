@@ -1,0 +1,336 @@
+{
+  "source": "1833e6b1bb71cc567072b75d1ef0d015b8eaa363",
+  "tree": "c292380bc2ff863530dcf741af15b9f40fb44424",
+  "dependency_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "targets": [
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "kind": "integration",
+      "path": "crates/kerotakis-core/tests/states.rs",
+      "source_sha256": "ba22c5b8d30ce8d6e8a5b6c7fe60ee8ba7cb1375fc43b4523d8df6cc42ec54b1",
+      "tests": [
+        "water_phase_passes_preserve_unrelated_trace_portions_exactly",
+        "phase_passes_account_for_water_in_untouched_phases",
+        "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+        "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+        "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+        "water_does_not_go_below_zero_while_it_is_still_freezing",
+        "no_temperature_is_announced_that_the_vessel_never_reached",
+        "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+        "ice_melts_again_when_warmed",
+        "a_frozen_vessel_has_no_ph",
+        "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+        "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+        "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+        "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+        "the_boundary_is_announced_only_when_the_brine_actually_reached_it"
+      ],
+      "test_deadline_seconds": 240
+    }
+  ],
+  "source_pins": {
+    ".gitmodules": {
+      "sha256": "70ac65a8b6e2acc056323f236e8e5e34cf8406a7a3b74568f5257a6fa493a1db"
+    },
+    "Cargo.toml": {
+      "sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c"
+    },
+    "audits/phase-closure59-harness-first-failure-20261023/README.md": {
+      "sha256": "88c872e4daa9089864f33297ee3c543768eb374aafacc4a245e537969137c635"
+    },
+    "audits/phase-closure59-harness-first-failure-20261023/binding.json": {
+      "sha256": "ebe17e6e2d1d4c7d694bae3cd1a9fb657822401b23e2b6ae0edf26f1fdf0205d"
+    },
+    "audits/phase-closure59-harness-first-failure-20261023/full-1536-sweep.stderr": {
+      "sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469"
+    },
+    "audits/phase-closure59-harness-first-failure-20261023/full-1536-sweep.stdout": {
+      "sha256": "56db4eff31f26a448c91e98eda7a1009d0820687f44274be04b1a44a6c2fd50d"
+    },
+    "audits/phase-closure59-harness-first-failure-20261023/particle_census-case-01.stderr": {
+      "sha256": "a9858951faa8506b85daace890e89c9570de2baee3f27c313f16be73712caf2a"
+    },
+    "audits/phase-closure59-harness-first-failure-20261023/particle_census-case-01.stdout": {
+      "sha256": "a71fa4b5ae77b902b8371680baf32b3fbae961cafa5ab2136ae56bbf1caa72f3"
+    },
+    "audits/phase-microtransfer-closure-20261023/FORECAST.md": {
+      "sha256": "5b097da7485250ed3a7f4a5d51efee04fe9102bb63e9d214dc1d959d2a77f8e7"
+    },
+    "audits/phase-microtransfer-closure-20261023/actual-cli-binary.json": {
+      "sha256": "863c19cf80d917578deb69fd72dbf34878913f46eff6d0177411e1e4ea0ea40c"
+    },
+    "audits/phase-microtransfer-closure-20261023/bicarbonate-phosphoric-result.json": {
+      "sha256": "350f509391e80b2f2799046bbcc5db48a33f7651656b74256efc6bb7c3f74652"
+    },
+    "audits/phase-microtransfer-closure-20261023/bicarbonate-phosphoric-trace-receipt.json": {
+      "sha256": "d1a09eaeb14ebe955f93a20d036d5a41f4101b3d1bf5d4fdb69f97256c8eadc9"
+    },
+    "audits/phase-microtransfer-closure-20261023/bicarbonate-phosphoric-trace.stderr": {
+      "sha256": "cbe9e3e3c856e7adb25beb7c6eb3d499352a0736b0fdc82d07690fa4b6052441"
+    },
+    "audits/phase-microtransfer-closure-20261023/bicarbonate-phosphoric.kero": {
+      "sha256": "c98d40cbca3f222a2b2bab7746b539ecde810061cf17f686c136e4825d4dc0c6"
+    },
+    "audits/phase-microtransfer-closure-20261023/bicarbonate-phosphoric.stdout": {
+      "sha256": "ad100517539da66349d2d8b6dd78cc6c0d1ee86332096ab9ca3ec42ac3bac033"
+    },
+    "audits/phase-microtransfer-closure-20261023/carbonate-acetic-result.json": {
+      "sha256": "01f76f99328c7bf2c79b6e1ee24d88f487cefce4514aeff030fd78c3da684a46"
+    },
+    "audits/phase-microtransfer-closure-20261023/carbonate-acetic-trace-receipt.json": {
+      "sha256": "1806c1102c20924b772c6e669d7f19b451ac3b905c366fd7bfb892beba4e2b0a"
+    },
+    "audits/phase-microtransfer-closure-20261023/carbonate-acetic-trace.stderr": {
+      "sha256": "ae143d4b2a81e735590e168d61e3b56eff4492d6b09f6fcb176835012f193960"
+    },
+    "audits/phase-microtransfer-closure-20261023/carbonate-acetic.kero": {
+      "sha256": "7a4356e73368ad63c7a28baf927ca3b6ae8a2794b3d93f1d916f4fee9e91d16a"
+    },
+    "audits/phase-microtransfer-closure-20261023/carbonate-acetic.stdout": {
+      "sha256": "7ae921e546e59e232106c4449039a70e164795876115aee01b12d9df283aebc5"
+    },
+    "audits/phase-microtransfer-closure-20261023/full-1536-sweep.stderr": {
+      "sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469"
+    },
+    "audits/phase-microtransfer-closure-20261023/full-1536-sweep.stdout": {
+      "sha256": "01529806cb9a89fde5d6a4dc50d7da18cf08b534414f81238e68a3b2b8523898"
+    },
+    "audits/phase-particle-precision-20261023/FORECAST.md": {
+      "sha256": "5dee82f872013777732a31e7233f9fc858902c16b5d3726321f4daf5e39a194b"
+    },
+    "audits/phase-particle-precision-20261023/corrected-cli-protocol.kero": {
+      "sha256": "a95e59408c36731599dcdf2a95457be77ddbfd1c6282a720fc80e0c2a5ec1ec8"
+    },
+    "audits/phase-particle-precision-20261023/corrected-cli-repro.stdout": {
+      "sha256": "bd4acc26a30e1e7b02eafe37d83c4635e6e3b545c3d5cd134f864be8f331c107"
+    },
+    "audits/phase-particle-precision-20261023/first-failure.json": {
+      "sha256": "2f89a3fe98cd0c3ef35496ff462afc99babd72c9274eed54cadfcc2693101d77"
+    },
+    "audits/trace-material-ownership-20261023/FORECAST.md": {
+      "sha256": "6b753f6e404d3f5dd19ab7a2136c10a73726b1e1e1c0129985e2780f9008b814"
+    },
+    "audits/trace-material-ownership-20261023/source-binding.json": {
+      "sha256": "99a20f54de3d34dd3ed905a8b0ef3ee597eb5c8854f9f3f9d67a280bd558deea"
+    },
+    "audits/water-fusion-adjudication-20261023/README.md": {
+      "sha256": "567a3790361a86868b343a6d2fc406e1c00a2652327371d3bff76db617e54436"
+    },
+    "audits/water-fusion-adjudication-20261023/derive_references.py": {
+      "sha256": "3b5f25f2fe8978fd3b1f4b9cac759577a665aedabeefb3dd19692a1d4a7a033f"
+    },
+    "audits/water-fusion-adjudication-20261023/first-macos-failure-binding.json": {
+      "sha256": "875d6288d368b568e3ff30ebb80c4fec8d8ad6e8d746a3f98cd5ca6de1fec906"
+    },
+    "audits/water-fusion-adjudication-20261023/independent-references.json": {
+      "sha256": "0b07f2666cd0376497417347d13847f3bf899a4ae555b4de8eddab92dad52f00"
+    },
+    "audits/water-fusion-adjudication-20261023/runtime-closure-and-scope.json": {
+      "sha256": "0efde2eca50e3abba05b58db9688ec7fa84ee4508eda98e7d0a5cb8fb0e5f4e9"
+    },
+    "audits/water-fusion-authority-20261023/README.md": {
+      "sha256": "25c115a79cbd2d2cce966c89d6620820e17640999694e8a9b39d3f600df899ca"
+    },
+    "audits/water-fusion-authority-20261023/first-source-review.json": {
+      "sha256": "aa6d73593c3db2cb548febceb1b88907581a82f29a8eaf52b72a710bee69a944"
+    },
+    "audits/water-fusion-authority-20261023/freeze_references.py": {
+      "sha256": "14f048046f1afdfe81d56cf03cf22ebc6fe0272c2baaf537b83393c901f5672f"
+    },
+    "audits/water-fusion-authority-20261023/references.json": {
+      "sha256": "23b11780a8c0505bd15722f898a186361c1f63752a028cd508ee7bc6a6da3db6"
+    },
+    "crates/kerotakis-core/Cargo.toml": {
+      "sha256": "5d2752a6b3805c281b125c8cb6f77265b1dbbd6097ad69fb26cca479069b24c7"
+    },
+    "crates/kerotakis-core/benches/solve.rs": {
+      "sha256": "4dc972be356ee3d8529d798cb298b9e85242007c522e5fefbe892a455f5e8d5b"
+    },
+    "crates/kerotakis-core/src/bench.rs": {
+      "sha256": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2"
+    },
+    "crates/kerotakis-core/src/conductivity.rs": {
+      "sha256": "d8eaa526b40fbe38ec2bbac451a703a8642c78667306b65e3ee0dd5455b03233"
+    },
+    "crates/kerotakis-core/src/electrochemistry.rs": {
+      "sha256": "9e4e740078bff7ba1edd47ec7c863b069004331a1e2335d8d04ed09c9a2e59bd"
+    },
+    "crates/kerotakis-core/src/heat_capacity.rs": {
+      "sha256": "a9248dc01068728a8db5002d571c5dcadace885a88f8c275450f91d31dacc77c"
+    },
+    "crates/kerotakis-core/src/ionic.rs": {
+      "sha256": "4aafd49ece6fdac7606509352898e48de3eb099af8357472606a415735e511ee"
+    },
+    "crates/kerotakis-core/src/kinetics.rs": {
+      "sha256": "e86f41f4136cd73829e632e83c2286e3a84de14a760aa2b2d1d255051bf003f3"
+    },
+    "crates/kerotakis-core/src/ledger.rs": {
+      "sha256": "6bdb634c2d3666e9b991c3e0981ef6c79c17d829064bc80dcd3f8b8cf2bf5ea5"
+    },
+    "crates/kerotakis-core/src/lib.rs": {
+      "sha256": "c58dc5edaa7ccf851d1b1748e3ee6c6dde01659449b21de9b94ebb61e734f874"
+    },
+    "crates/kerotakis-core/src/ops.rs": {
+      "sha256": "a8ed36e723f1a6ed0f55147f81f77a41d4cef00f55d18eecb96f7060cd793bdc"
+    },
+    "crates/kerotakis-core/src/particles.rs": {
+      "sha256": "2e4ef2b373c20df613ccb8300da6afafb45693367ed22b7bb1e91f0f74d670ac"
+    },
+    "crates/kerotakis-core/src/phrase.rs": {
+      "sha256": "676f55b3e32eb28fe6b3b00dc05656b824f602571fe42d777fe24d3d273269bf"
+    },
+    "crates/kerotakis-core/src/scene.rs": {
+      "sha256": "51fc4a220582733b4a204506353447e866af895464d733987fb07aec5b51552b"
+    },
+    "crates/kerotakis-core/src/solution_optics.rs": {
+      "sha256": "db52cf77d2b0544dbb5cf552127be27caa78183ae9330c47b3a68afccbd58124"
+    },
+    "crates/kerotakis-core/src/solve.rs": {
+      "sha256": "fdbf5fc38aa76b282db6ae9724e841768b1a43bc4059e9650db3ba7639ccfea8"
+    },
+    "crates/kerotakis-core/src/states.rs": {
+      "sha256": "e78ac46fceff1ffb8c8f506bd3ff968213d6662c6efeddeaa3f656f258e7236c"
+    },
+    "crates/kerotakis-core/src/vessel.rs": {
+      "sha256": "f2c510181264c64f090e67f7183223fc3818ac4e9c26520fb9acefc5d88d3dce"
+    },
+    "crates/kerotakis-core/src/water_fusion.rs": {
+      "sha256": "3da7f990a5c2a0fc3b45877da44e34984f329c2385b4bd81bb4f34db00ea5f9c"
+    },
+    "crates/kerotakis-core/tests/acid_metal_cell.rs": {
+      "sha256": "64f32709a3d0fcc94826eed0ed9276d71f452dfe2db02cf1cc656b096dce7b61"
+    },
+    "crates/kerotakis-core/tests/acid_permanganate_endpoint.rs": {
+      "sha256": "e7a8560131b4d893ac7132bf3a576d5cacacca19b13d9be5a0d4f0aed1e62732"
+    },
+    "crates/kerotakis-core/tests/allocation_profile.rs": {
+      "sha256": "ea0d7ce8c48be5244d921d8939d1b760f286d33e05874ed1d8c82f7cef628b90"
+    },
+    "crates/kerotakis-core/tests/aqueous_continuation.rs": {
+      "sha256": "e8e1a32534712328c98511ef1f0eeb5100e8231ff8c67f156002801dd554e2b7"
+    },
+    "crates/kerotakis-core/tests/atomic_distil_refusal.rs": {
+      "sha256": "40c98ab67f2fa96384727da19af3f2055239e03d4a5ab3a32174cf5705261fe7"
+    },
+    "crates/kerotakis-core/tests/brine_phase_energy.rs": {
+      "sha256": "16219ade05145e0845adb388f220b2784b599e639035c2fcfbad2e36e9bd2297"
+    },
+    "crates/kerotakis-core/tests/column_breakthrough.rs": {
+      "sha256": "ce3c6a1af9d4d337d39c805a0311e7bc529ca0998aba20cd8599a6e677fb912d"
+    },
+    "crates/kerotakis-core/tests/conductivity_sources.rs": {
+      "sha256": "bcf95d01fdc8b8a0c39850136ad5f1e95e44978f1db1568f24d0e22e17280c2e"
+    },
+    "crates/kerotakis-core/tests/enzyme_activity.rs": {
+      "sha256": "53948b581a53abed56f915971f7fca8187b26f445ef7c8b8e7f85eae7b37d984"
+    },
+    "crates/kerotakis-core/tests/golden/registry.json": {
+      "sha256": "f2ac8f7cc09e26be7d5f411afb4656fb0d67fd8b6bc6b45bff7de34f725e74a4"
+    },
+    "crates/kerotakis-core/tests/golden/scene-five.json": {
+      "sha256": "c2ca9991843f2f19dbf02cb87f7bd8289897bedb03d7c8e7207f8a47f7f72640"
+    },
+    "crates/kerotakis-core/tests/indicator_optical_coverage.rs": {
+      "sha256": "9a63413a7e357394cf14d8b19f9ec5e8a6ace74d7755a83090ece821dc8ecb38"
+    },
+    "crates/kerotakis-core/tests/iodine_clock.rs": {
+      "sha256": "825b7e904f333f8681613a01793c1e9545457711a7c352a50a1bb649026cc326"
+    },
+    "crates/kerotakis-core/tests/ionic_render.rs": {
+      "sha256": "64c0b1ed6201ff238bcdc4964bae8d0908cd10341d078178125ff4142aa504bb"
+    },
+    "crates/kerotakis-core/tests/measurement.rs": {
+      "sha256": "0d7c30bf240d90e7c0bede71eefd1a2dba472e180e8b339b98cd93c648c8a945"
+    },
+    "crates/kerotakis-core/tests/optical_species_labels.rs": {
+      "sha256": "093e087f654facecadaeb80c71ab73e0cab6a7f860dc180e4e01ac8400935859"
+    },
+    "crates/kerotakis-core/tests/phase_cap_energy.rs": {
+      "sha256": "9ddc8f68d0eba961264a78ecdcd13014573dce0c8183e00f828ac58b43611832"
+    },
+    "crates/kerotakis-core/tests/phase_cooling_energy.rs": {
+      "sha256": "fee8f08783db3fc781b7d50c6c148d2bc13443446071764fe38de85eece8803c"
+    },
+    "crates/kerotakis-core/tests/phase_heat_capacity.rs": {
+      "sha256": "c36860f3af17a2a418e84c71cb947a051a8f1aa822501ff5d4aed14ee7271c24"
+    },
+    "crates/kerotakis-core/tests/phase_without_aqueous.rs": {
+      "sha256": "c135d94223ccd2f1af1f8e87efe569c6fcf11f45a26cde026f87f1ea914dc915"
+    },
+    "crates/kerotakis-core/tests/refusal_preflight_atomicity.rs": {
+      "sha256": "82ab8bfe202f2d90902f96ccc77c162930084a13bbf7602a9e1691502b295a6f"
+    },
+    "crates/kerotakis-core/tests/safety_veto_atomicity.rs": {
+      "sha256": "5f99ddd96febfad1160c2bcead1fea6d8b1c818b32c7b2eef7b157a7db5419bd"
+    },
+    "crates/kerotakis-core/tests/scene_golden.rs": {
+      "sha256": "4a6f8b44874eee5ef3178784a8069dad3df4ed3c0cd643b22df17615216c8244"
+    },
+    "crates/kerotakis-core/tests/solvent_electrolysis_balance.rs": {
+      "sha256": "4fbd75e7430813cdab2a8bac69abdecdcaa1bd1bc4cab16eb58bfd95e50d875a"
+    },
+    "crates/kerotakis-core/tests/states.rs": {
+      "sha256": "ba22c5b8d30ce8d6e8a5b6c7fe60ee8ba7cb1375fc43b4523d8df6cc42ec54b1"
+    },
+    "crates/kerotakis-core/tests/transport.rs": {
+      "sha256": "f4bd597b57007791f5aebc7a260071a94b585f153f637246d37406c137de2c8a"
+    },
+    "crates/kerotakis-core/tests/transport_effluent_ownership.rs": {
+      "sha256": "ce417ee47418ae22d26d21c146da80d643ed5106dcff68bd7f2acd78f801413b"
+    },
+    "crates/kerotakis-core/tests/water_fusion_authority.rs": {
+      "sha256": "657cf50b033552a92d89959f281aaf5746989df87a526d1142d3b4326280f136"
+    },
+    "crates/kerotakis-phreeqc/src/aqueous.rs": {
+      "sha256": "d24d9c7b928a064a66785f916a8ad1b15db97d18d42d28ff53399623fa3fef5d"
+    },
+    "crates/kerotakis-phreeqc/tests/aqueous_continuation_cache_only.rs": {
+      "sha256": "10ce7924e3b520f45099a965176ef957c044661b38c49fcde51609373fadb743"
+    },
+    "crates/kerotakis-phreeqc/tests/colligative_numbers.rs": {
+      "sha256": "f30af6681e7380a4404d7563821a8ac5d63cecac477181cfab893f1698c8cefd"
+    },
+    "crates/kerotakis-phreeqc/tests/ligand_reference.rs": {
+      "sha256": "5f93f459d6360508d468244aac5dd03255ff507bda0253ded87ec017c14a5971"
+    },
+    "crates/kerotakis-phreeqc/tests/partial_freezing.rs": {
+      "sha256": "de6bd65b7634eee22ca9ad7ae6019acf214cb590ee1299e0020c0e5bb3dc20e0"
+    },
+    "crates/kerotakis-phreeqc/tests/particle_census.rs": {
+      "sha256": "281b125c8df5cb8305dc18886f8349378d58c565c5896567cb07def2babc47a5"
+    },
+    "docs/STATUS.md": {
+      "sha256": "033043ad418cf4ff1970178fadbc59d43395fd6efd9b9d034b558b9b38ef0083"
+    },
+    "docs/improvement-agenda-20261014.md": {
+      "sha256": "18c2c887c6fe8c925355a2853c79ec4f11310944b680eee88498b118137186e0"
+    },
+    "docs/next-agent-handoff.md": {
+      "sha256": "78fd2fd6967848ca04fb9f3450a48958619a33182505becfdde517128ada1800"
+    },
+    "docs/water-fusion-authority-20261023.md": {
+      "sha256": "185f08d763ca52da5321d35ea2927ef152dc9440e403ca7b6be834d88abb55d8"
+    },
+    "lessons/boiling-curve.lab": {
+      "sha256": "bb63b6f1a20cb8fbfce0d8f13690661d703bfb7f4b8417a36855dba327762a18"
+    },
+    "lessons/cabbage-rainbow.lab": {
+      "sha256": "f7bd8bc75b7f6ec73a0e2248c0a790a0988f94d5201b0886d2482709af5df73a"
+    },
+    "lessons/rusting.lab": {
+      "sha256": "9e3d676b2b63849d5d6d7279003b2614bb7da5f4d78dc98c7625c23abf53183c"
+    },
+    "lessons/slime.lab": {
+      "sha256": "5f9c50cbc371179a65b0fbeec4559823849bc63c6fa96837bafe0e395686dfdf"
+    },
+    "lessons/water-filter.lab": {
+      "sha256": "dfda7a9a4e6b627a82a581197f32d7f97615328acd6659d28f4d0523e710c13d"
+    },
+    "tools/fetch-sundials.sh": {
+      "sha256": "a4fec07f59d428fc55148a181ba1a5717ea8abab2792b446acaabd7e45f1bd38"
+    }
+  },
+  "full_original_plan_sha256": "a89bf8e65c2e816db03d7e5723851b5e0e869df4ba7fa264591add091d23f5a6",
+  "original_worker_sha256": "844399d6cdd382b6ddbee02f70914f083a5d46e142a8e417e7d2bd5469223d68"
+}

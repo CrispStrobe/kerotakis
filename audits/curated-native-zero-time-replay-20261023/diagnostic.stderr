@@ -1,0 +1,1390 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.099700000
+    pe        4  O2(g)  -0.68
+    C 2.006018054162e-1
+    Na 4.012036108325e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.970000000000e-2
+   pH           1.132723574225e+01
+   pe           9.301494966932e+00
+   mu           3.704533365953e-01
+   mass_H2O     9.970000000000e-02
+   C            2.006018054162e-01
+   C(-4)        0.000000000000e+00
+   Na           4.012036108325e-01
+   m_H+         6.076502645184e-12
+   m_OH-        3.211381832646e-03
+   m_CO2        2.075415150700e-08
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      2.986409253796e-03
+   m_CO3-2      8.343255058250e-02
+   la_H2O       -3.640863914147e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 4.910797811270e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.099700000
+    C 2.006018054162e-1
+    Na 4.012036108325e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.099687549
+    pe        4  O2(g)  -0.68
+    C 2.006268608187e-1
+    Na 4.012537216375e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     0.099700000
+    pe        4  O2(g)  -0.68
+    Acetate 5.015045139759e-1
+    C 1.936695427419e-1
+    Na 4.012036111807e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000478382679e-1
+   pH           5.171682768181e+00
+   pe           1.543343558248e+01
+   mu           3.552653306887e-01
+   mass_H2O     1.000478382679e-01
+   Acetate      4.997609234647e-01
+   C            1.452071026607e-05
+   Na           3.998087387718e-01
+   m_H+         9.213564203031e-06
+   m_OH-        2.232055537722e-09
+   m_H(Acetate) 9.994432251583e-02
+   m_Acetate-   3.552641063067e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.317161759178e-05
+   m_HCO3-      1.222045162840e-06
+   m_CO3-2      2.120539606887e-11
+   la_H2O       -6.360886538335e-03
+   CO2(g)       1.930740064570e-02
+   d_CO2(g)     1.930740064570e-02
+   particle_molality 8.552790908037e-01
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.2501
+    pH        7  charge
+    water     0.099700000
+    pe        4  O2(g)  -0.68
+    Acetate 5.015045139759e-1
+    C 1.936695427419e-1
+    Na 4.012036111807e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000478384359e-1
+   pH           5.171521007736e+00
+   pe           1.541261219944e+01
+   mu           3.551299281461e-01
+   mass_H2O     1.000478384359e-01
+   Acetate      4.997609226253e-01
+   C            1.442747320742e-05
+   Na           3.998087381002e-01
+   m_H+         9.218194868239e-06
+   m_OH-        2.273982494709e-09
+   m_H(Acetate) 9.994431192629e-02
+   m_Acetate-   3.551287084062e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.308421320444e-05
+   m_HCO3-      1.217361393621e-06
+   m_CO3-2      2.122979990834e-11
+   la_H2O       -6.359817825496e-03
+   CO2(g)       1.930740997386e-02
+   d_CO2(g)     1.930740997386e-02
+   particle_molality 8.551364422273e-01
+   elements=["Acetate", "C", "Na"]
+readback: kgw_out=1.000478384359e-1
+   pH           5.171521007736e+00
+   pe           1.541261219944e+01
+   mu           3.551299281461e-01
+   mass_H2O     1.000478384359e-01
+   Acetate      4.997609226253e-01
+   C            1.442747320742e-05
+   Na           3.998087381002e-01
+   m_H+         9.218194868239e-06
+   m_OH-        2.273982494709e-09
+   m_H(Acetate) 9.994431192629e-02
+   m_Acetate-   3.551287084062e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.308421320444e-05
+   m_HCO3-      1.217361393621e-06
+   m_CO3-2      2.122979990834e-11
+   la_H2O       -6.359817825496e-03
+   CO2(g)       1.930740997386e-02
+   d_CO2(g)     1.930740997386e-02
+   particle_molality 8.551364422273e-01
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.2501
+    pH        7  charge
+    water     0.100042625
+    pe        4  O2(g)  -0.68
+    Acetate 4.997869664466e-1
+    C 1.442822505999e-5
+    Na 3.998295731573e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.2109747410047106e1
+    pH        7  charge
+    water     1.0004262717198939e-1
+    pe        4  O2(g)  -0.68
+    Acetate 4.997869553889e-1
+    C 1.320008460946e-5
+    Na 3.998295643111e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000426271720e-1
+   pH           5.194124750255e+00
+   pe           2.011080173419e+01
+   mu           3.786418492932e-01
+   mass_H2O     1.000426271720e-01
+   Acetate      4.997869553889e-01
+   C            1.320008460946e-05
+   Na           3.998295643111e-01
+   m_H+         8.584568684731e-06
+   m_OH-        3.372412682884e-11
+   m_H(Acetate) 9.994959854090e-02
+   m_Acetate-   3.786412506908e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.240812556503e-05
+   m_HCO3-      5.985228773624e-07
+   m_CO3-2      3.397898414576e-12
+   la_H2O       -8.392960744573e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.125880343716e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.2112060733545434e1
+    pH        7  charge
+    water     1.0004262717198939e-1
+    pe        4  O2(g)  -0.68
+    Acetate 4.997869553889e-1
+    C 1.320008460946e-5
+    Na 3.998295643111e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000426271720e-1
+   pH           5.194125391949e+00
+   pe           2.011107549144e+01
+   mu           3.786428327849e-01
+   mass_H2O     1.000426271720e-01
+   Acetate      4.997869553889e-01
+   C            1.320008460946e-05
+   Na           3.998295643111e-01
+   m_H+         8.584550076033e-06
+   m_OH-        3.371579406102e-11
+   m_H(Acetate) 9.994959854191e-02
+   m_Acetate-   3.786422342052e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.240814314493e-05
+   m_HCO3-      5.985002004702e-07
+   m_CO3-2      3.397547486463e-12
+   la_H2O       -8.393735127564e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.125983223306e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.2112060733545434e1
+    pH        7  charge
+    water     1.0005233646590489e-1
+    pe        4  O2(g)  -0.68
+    Acetate 4.997384549879e-1
+    C 1.319880364486e-5
+    Na 3.997907639903e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.7526215068936608e0
+    pH        7  charge
+    water     7.4988677351715452e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.667673282046e-1
+    C 1.761027384213e-5
+    Na 5.334138625637e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.498867735172e-2
+   pH           5.178030218193e+00
+   pe           1.799833957155e+01
+   mu           4.820194701930e-01
+   mass_H2O     7.498867735172e-02
+   Acetate      6.667673282046e-01
+   C            1.761027384213e-05
+   Na           5.334138625637e-01
+   m_H+         8.946468601283e-06
+   m_OH-        2.284595809331e-10
+   m_H(Acetate) 1.333458470413e-01
+   m_Acetate-   4.820184074138e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.628270622049e-05
+   m_HCO3-      1.062458836085e-06
+   m_CO3-2      9.512510373397e-12
+   la_H2O       -8.641490560154e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.158889015179e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.7512241682987906e0
+    pH        7  charge
+    water     7.4988677351715452e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.667673282046e-1
+    C 1.761027384213e-5
+    Na 5.334138625637e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.498867735172e-2
+   pH           5.178029358018e+00
+   pe           1.799819775695e+01
+   mu           4.820183529103e-01
+   mass_H2O     7.498867735172e-02
+   Acetate      6.667673282046e-01
+   C            1.761027384213e-05
+   Na           5.334138625637e-01
+   m_H+         8.946491734501e-06
+   m_OH-        2.284885378274e-10
+   m_H(Acetate) 1.333458470335e-01
+   m_Acetate-   4.820172901114e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.628269093484e-05
+   m_HCO3-      1.062478453714e-06
+   m_CO3-2      9.513006303904e-12
+   la_H2O       -8.641466120008e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.158885770072e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.7512241682987906e0
+    pH        7  charge
+    water     7.4981603256472434e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.668302339759e-1
+    C 1.761193527306e-5
+    Na 5.334641871808e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1499807933347483e0
+    pH        7  charge
+    water     7.4303858760519564e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729125630548e-1
+    C 1.777257823822e-5
+    Na 5.383300504439e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.430385876052e-2
+   pH           5.177383532584e+00
+   pe           1.793762875513e+01
+   mu           4.855589827522e-01
+   mass_H2O     7.430385876052e-02
+   Acetate      6.729125630548e-01
+   C            1.777257823822e-05
+   Na           5.383300504439e-01
+   m_H+         8.960122768433e-06
+   m_OH-        2.413152570080e-10
+   m_H(Acetate) 1.345749012572e-01
+   m_Acetate-   4.855579017157e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.642412481403e-05
+   m_HCO3-      1.080701357280e-06
+   m_CO3-2      9.795493276703e-12
+   la_H2O       -8.707780633129e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167690189628e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1499257062588413e0
+    pH        7  charge
+    water     7.4303858760519564e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729125630548e-1
+    C 1.777257823822e-5
+    Na 5.383300504439e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.430385876052e-2
+   pH           5.177383498058e+00
+   pe           1.793762318999e+01
+   mu           4.855589379134e-01
+   mass_H2O     7.430385876052e-02
+   Acetate      6.729125630548e-01
+   C            1.777257823822e-05
+   Na           5.383300504439e-01
+   m_H+         8.960123697064e-06
+   m_OH-        2.413164569889e-10
+   m_H(Acetate) 1.345749012568e-01
+   m_Acetate-   4.855578568761e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.642412420549e-05
+   m_HCO3-      1.080702138540e-06
+   m_CO3-2      9.795513298265e-12
+   la_H2O       -8.707779721651e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167690068622e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1499257062588413e0
+    pH        7  charge
+    water     7.4303574789744892e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729151347682e-1
+    C 1.777264616083e-5
+    Na 5.383321078147e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466913746786531e0
+    pH        7  charge
+    water     7.4299942596188856e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729480305947e-1
+    C 1.777351498641e-5
+    Na 5.383584244758e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.429994259619e-2
+   pH           5.177379898610e+00
+   pe           1.793729824076e+01
+   mu           4.855794968979e-01
+   mass_H2O     7.429994259619e-02
+   Acetate      6.729480305947e-01
+   C            1.777351498641e-05
+   Na           5.383584244758e-01
+   m_H+         8.960198766128e-06
+   m_OH-        2.413872132546e-10
+   m_H(Acetate) 1.345819948081e-01
+   m_Acetate-   4.855784157582e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.642494271367e-05
+   m_HCO3-      1.080804418957e-06
+   m_CO3-2      9.797075463726e-12
+   la_H2O       -8.708167704053e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167741576164e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466913746786531e0
+    pH        7  charge
+    water     7.4299941009097925e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729480449693e-1
+    C 1.777351536606e-5
+    Na 5.383584359755e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466741135335496e0
+    pH        7  charge
+    water     7.4299921625013157e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482205345e-1
+    C 1.777352000299e-5
+    Na 5.383585764276e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.429992162501e-2
+   pH           5.177379879371e+00
+   pe           1.793729650661e+01
+   mu           4.855796070443e-01
+   mass_H2O     7.429992162501e-02
+   Acetate      6.729482205345e-01
+   C            1.777352000299e-05
+   Na           5.383585764276e-01
+   m_H+         8.960199167152e-06
+   m_OH-        2.413875909261e-10
+   m_H(Acetate) 1.345820327963e-01
+   m_Acetate-   4.855785259041e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.642494709769e-05
+   m_HCO3-      1.080804965866e-06
+   m_CO3-2      9.797083808380e-12
+   la_H2O       -8.708169782841e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167741852138e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466741135335496e0
+    pH        7  charge
+    water     7.4299921616528902e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482206113e-1
+    C 1.777352000502e-5
+    Na 5.383585764891e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466740214251558e0
+    pH        7  charge
+    water     7.4299921513092171e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482215482e-1
+    C 1.777352002976e-5
+    Na 5.383585772385e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.429992151309e-2
+   pH           5.177379879268e+00
+   pe           1.793729649736e+01
+   mu           4.855796076321e-01
+   mass_H2O     7.429992151309e-02
+   Acetate      6.729482215482e-01
+   C            1.777352002976e-05
+   Na           5.383585772385e-01
+   m_H+         8.960199169297e-06
+   m_OH-        2.413875929413e-10
+   m_H(Acetate) 1.345820329991e-01
+   m_Acetate-   4.855785264919e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.642494712109e-05
+   m_HCO3-      1.080804968784e-06
+   m_CO3-2      9.797083852898e-12
+   la_H2O       -8.708169793935e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167741853611e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466740214251558e0
+    pH        7  charge
+    water     7.4299921513046777e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482215486e-1
+    C 1.777352002977e-5
+    Na 5.383585772388e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466740209342561e0
+    pH        7  charge
+    water     7.4299921512495495e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482215536e-1
+    C 1.777352002990e-5
+    Na 5.383585772428e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.429992151250e-2
+   pH           5.177379879267e+00
+   pe           1.793729649731e+01
+   mu           4.855796076352e-01
+   mass_H2O     7.429992151250e-02
+   Acetate      6.729482215536e-01
+   C            1.777352002990e-05
+   Na           5.383585772428e-01
+   m_H+         8.960199169310e-06
+   m_OH-        2.413875929520e-10
+   m_H(Acetate) 1.345820330002e-01
+   m_Acetate-   4.855785264950e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.642494712121e-05
+   m_HCO3-      1.080804968799e-06
+   m_CO3-2      9.797083853130e-12
+   la_H2O       -8.708169793994e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167741853619e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466740209342561e0
+    pH        7  charge
+    water     7.4299921512495135e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482215536e-1
+    C 1.777352002990e-5
+    Na 5.383585772428e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466740209342561e0
+    pH        7  charge
+    water     7.4299922981294189e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482082505e-1
+    C 1.667618335548e-5
+    Na 5.383585666003e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.429992298129e-2
+   pH           5.177380215178e+00
+   pe           1.793729615721e+01
+   mu           4.855796065119e-01
+   mass_H2O     7.429992298129e-02
+   Acetate      6.729482082505e-01
+   C            1.667618335548e-05
+   Na           5.383585666003e-01
+   m_H+         8.960192239515e-06
+   m_OH-        2.413877842424e-10
+   m_H(Acetate) 1.345819470820e-01
+   m_Acetate-   4.855785921056e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.541087040011e-05
+   m_HCO3-      1.014076822220e-06
+   m_CO3-2      9.192225828281e-12
+   la_H2O       -8.708161419617e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167740741859e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466779734880674e0
+    pH        7  charge
+    water     7.4299922981294189e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482082505e-1
+    C 1.667618335548e-5
+    Na 5.383585666003e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.429992298129e-2
+   pH           5.177380217655e+00
+   pe           1.793729655651e+01
+   mu           4.855796097295e-01
+   mass_H2O     7.429992298129e-02
+   Acetate      6.729482082505e-01
+   C            1.667618335548e-05
+   Na           5.383585666003e-01
+   m_H+         8.960192172878e-06
+   m_OH-        2.413876981192e-10
+   m_H(Acetate) 1.345819470820e-01
+   m_Acetate-   4.855785953232e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.541087044108e-05
+   m_HCO3-      1.014076769621e-06
+   m_CO3-2      9.192224480228e-12
+   la_H2O       -8.708161484998e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167740750539e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466779734880674e0
+    pH        7  charge
+    water     7.4299921631899163e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482204722e-1
+    C 1.667618365834e-5
+    Na 5.383585763776e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466722368260207e0
+    pH        7  charge
+    water     7.4299915189688676e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482788205e-1
+    C 1.667618510426e-5
+    Na 5.383586230563e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.429991518969e-2
+   pH           5.177380210931e+00
+   pe           1.793729598055e+01
+   mu           4.855796512039e-01
+   mass_H2O     7.429991518969e-02
+   Acetate      6.729482788205e-01
+   C            1.667618510426e-05
+   Na           5.383586230563e-01
+   m_H+         8.960192310467e-06
+   m_OH-        2.413878236981e-10
+   m_H(Acetate) 1.345819611961e-01
+   m_Acetate-   4.855786367974e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.541087197637e-05
+   m_HCO3-      1.014076951271e-06
+   m_CO3-2      9.192227158449e-12
+   la_H2O       -8.708162268538e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167740854559e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466722368260207e0
+    pH        7  charge
+    water     7.4299915186709947e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482788475e-1
+    C 1.667618510493e-5
+    Na 5.383586230779e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466722062191366e0
+    pH        7  charge
+    water     7.4299915152338761e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482791588e-1
+    C 1.667618511264e-5
+    Na 5.383586233269e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.429991515234e-2
+   pH           5.177380210897e+00
+   pe           1.793729597747e+01
+   mu           4.855796514001e-01
+   mass_H2O     7.429991515234e-02
+   Acetate      6.729482791588e-01
+   C            1.667618511264e-05
+   Na           5.383586233269e-01
+   m_H+         8.960192311182e-06
+   m_OH-        2.413878243677e-10
+   m_H(Acetate) 1.345819612638e-01
+   m_Acetate-   4.855786369937e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.541087198369e-05
+   m_HCO3-      1.014076952183e-06
+   m_CO3-2      9.192227172339e-12
+   la_H2O       -8.708162272243e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167740855051e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466722062191366e0
+    pH        7  charge
+    water     7.4299915152323620e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482791589e-1
+    C 1.667618511264e-5
+    Na 5.383586233270e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466722060548591e0
+    pH        7  charge
+    water     7.4299915152139115e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482791606e-1
+    C 1.667618511269e-5
+    Na 5.383586233284e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=7.429991515214e-2
+   pH           5.177380210897e+00
+   pe           1.793729597745e+01
+   mu           4.855796514012e-01
+   mass_H2O     7.429991515214e-02
+   Acetate      6.729482791606e-01
+   C            1.667618511269e-05
+   Na           5.383586233284e-01
+   m_H+         8.960192311181e-06
+   m_OH-        2.413878243714e-10
+   m_H(Acetate) 1.345819612641e-01
+   m_Acetate-   4.855786369948e-01
+   m_CO2        0.000000000000e+00
+   m_H2CO3      1.541087198373e-05
+   m_HCO3-      1.014076952189e-06
+   m_CO3-2      9.192227172426e-12
+   la_H2O       -8.708162272263e-03
+   CO2(g)       0.000000000000e+00
+   d_CO2(g)     0.000000000000e+00
+   particle_molality 1.167740855054e+00
+   elements=["Acetate", "C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      -2.1466722060548591e0
+    pH        7  charge
+    water     7.4299915152139129e-2
+    pe        4  O2(g)  -0.68
+    Acetate 6.729482791606e-1
+    C 1.667618511269e-5
+    Na 5.383586233284e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Acetate C Na
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- H(Acetate) Acetate- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+
+thread 'carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift' (12) panicked at crates/kerotakis-phreeqc/tests/particle_census.rs:406:5:
+carbonate + acetic acid original zero-time repeat 0: fresh represented inventory/free-ion/charge drift is 0.0000008098921674949041 mol/eq
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

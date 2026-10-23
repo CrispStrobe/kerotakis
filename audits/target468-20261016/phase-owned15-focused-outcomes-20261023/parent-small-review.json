@@ -1,0 +1,26 @@
+{
+  "source": "1833e6b1bb71cc567072b75d1ef0d015b8eaa363",
+  "tree": "c292380bc2ff863530dcf741af15b9f40fb44424",
+  "worker_sha256": "844399d6cdd382b6ddbee02f70914f083a5d46e142a8e417e7d2bd5469223d68",
+  "plan_sha256": "a89bf8e65c2e816db03d7e5723851b5e0e869df4ba7fa264591add091d23f5a6",
+  "manifest_sha256": "f6a603e8b301a4dbdee001397dbe91bd924ecb1418490f040fdef6d6f7c40d3e",
+  "closed_members": 107,
+  "small_bodies_hashed": 105,
+  "local_archive_bodies_read": false,
+  "full_source_or_product_accepted": false,
+  "scientific_selections": 0,
+  "actual_observed_passes": 15,
+  "actual_failed_controls": [],
+  "all_named_controls_collected": true,
+  "format-check": {
+    "exit_status": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "core-clippy": {
+    "exit_status": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "7029020b1f979d9352634b466e510886f3b3fd161ae20b74c5adfc549368a826"
+  },
+  "current_affected_controls_pass": true
+}

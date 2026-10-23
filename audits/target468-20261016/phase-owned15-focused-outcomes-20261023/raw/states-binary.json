@@ -1,0 +1,11 @@
+{
+  "runtime_source": "1833e6b1bb71cc567072b75d1ef0d015b8eaa363",
+  "runtime_tree": "c292380bc2ff863530dcf741af15b9f40fb44424",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "executable": "target/debug/deps/states-929ed8192f7983d9",
+  "sha256": "4d8442f7ebfb8c24e10f5e44bdd9cd8c027f221dad11f253a5de1435308fed92",
+  "bytes": 55811248,
+  "gzip_sha256": "7255a1d26073804a2bbedf36b89aa44805e67ae2792073e7e4231f32fa51d9a2",
+  "gzip_bytes": 13032876,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

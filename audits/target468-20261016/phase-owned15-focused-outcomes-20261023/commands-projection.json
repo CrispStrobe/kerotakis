@@ -1,0 +1,197 @@
+{
+  "states-case-00": {
+    "original_record_sha256": "5fcf2c7f28045bc7a6c5a0999d62dcd6bee0e6895f143c788573dccd0d0d085e",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "water_phase_passes_preserve_unrelated_trace_portions_exactly",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "41e8aac37f89a26d6a85dc9a73abacb631e0e6454ff73f7df4d13b7e49c6d202",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-01": {
+    "original_record_sha256": "f15aafc4bba99617b7facf1a63b7fef95b878614d2bd65b5970029d61c18ec2d",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "phase_passes_account_for_water_in_untouched_phases",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "e3e81e2bf8c240d36e8731026e05fb1c95feb02946485853ab4733a9e971e85f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-02": {
+    "original_record_sha256": "03187297de317e6a8247b6ec39caf45427cde3e3f36fe1ff6c9b74cc08e42c5a",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "ed2d22cd2e1a4c065d12248e23d9723cd7515bcc954bb581b29026ce40a039a0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-03": {
+    "original_record_sha256": "59607084b0f27be14ff857b40677a2ca76dbf6b839b371c6f4cb40f248644c4f",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "6de417d7f2e2161923e7f999472016407dbb444d2c85ee73c7c1993b2109cd97",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-04": {
+    "original_record_sha256": "c9a3c5f181bc5d219eb8f8efa9eb62b9785c50a1b70de237183fc628c62bae8a",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "80733d75f323d1237e5b0419fcf783949e97b24915a61dc31e3b3f9d38a0beea",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-05": {
+    "original_record_sha256": "0d9c2bbe43f87003c18c46fe26e22b4058652dd855815aa8684e8ee6d37d8b0f",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "water_does_not_go_below_zero_while_it_is_still_freezing",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "7cc1028cf917bbe82d8829ab04914cbd536d31e08e7349e59c31ea2bf02833dd",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-06": {
+    "original_record_sha256": "80b395575fb4303f9c9b9cd544c51c9d926d4ba0ff6280632234878f849bacbf",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "no_temperature_is_announced_that_the_vessel_never_reached",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "ad4129aaeb3d2d3ef4b58084254729ad1b4f741bcbbff6c1d018097981827a26",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-07": {
+    "original_record_sha256": "d780bfe12f632a3e300a226e288950a0198339c9d3fcb7e4f8bdb2442d1f747d",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "ac61e10ae3dd86125430126b3a44fc6fe6f383c7aee7c4875246d36bc4daa908",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-08": {
+    "original_record_sha256": "02b4b1cd2bd1ae7b1585a0fe680a1ea098e279abf0c2e19dbea9195e2b112750",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "ice_melts_again_when_warmed",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "fa7cf0c852ed66264a380e77b45d5b19581f93e352aed1833501c52d499981e7",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-09": {
+    "original_record_sha256": "0a0e04e4ac04cf9b663b9ff59400d56984738b60c83422e97c45febbd86bad7d",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "a_frozen_vessel_has_no_ph",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "ca0285841ea71d4be445a274bc99976547d39929a7052d59b768809821bf70b0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-10": {
+    "original_record_sha256": "8641b1adebd353005a3c1973da4c6c38ab1d10bffd216a78ed22c18847239cf9",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "0062a7573cf84d33f544b9ede9ccdcb864de356eacd125505322bf62a492adf0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-11": {
+    "original_record_sha256": "4ae0f7d3941601fd5a5e43d7978e78758f48431631821976ea97100070ea2acb",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "85de9ca7c5640b5a7491277b391b1c8a2f968939f6c6f86f4044115aa3c9a1ac",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-12": {
+    "original_record_sha256": "da9dc84d0193c4621edd4a8e6b9f47343faee8a80dc6b09063bc82652156f87a",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "9e2d17b3912b8b1ea7bb2fcc4298b4bfd463ae60d6b10434fff00947f2a73380",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-13": {
+    "original_record_sha256": "1a2e9fd6d93a78c902cb910e089f31de44754d7dd68349288639076da5c5c207",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "70fcb434742e02d11e27da7494cf0ef26acfbebb2ea861706dd7b214c58d0433",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "states-case-14": {
+    "original_record_sha256": "3bddb951bd2fffa9076a4141e6402b853d444d19d43c4ae0256241b8b891f702",
+    "argv_projection": [
+      "target/debug/states",
+      "--exact",
+      "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "exit_status": 0,
+    "stdout_sha256": "b2cac60c0590f0d3d9c357459989dad73a4ec48db776b7a31d896ff246986221",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
