@@ -1,0 +1,27 @@
+{
+  "source": "283c3bfcd01e5e6bf6527bc91c9d9de1f923062d",
+  "tree": "d75a45857b7ea484073d39a295e985726abc6bd6",
+  "worker_sha256": "70626c047f86d5f19d6d15cb79c8f306c7f52e31f3a03aff88c05dcae0805718",
+  "plan_sha256": "7af92bbf40ce65031ef4c4a12031c531b804df6d9bd67f223ddde552834c6afc",
+  "manifest_sha256": "415853df22acfa8b0fe8466c0afe67534a75565a8a614b0433b3012b6a79a033",
+  "closed_members": 288,
+  "small_bodies_hashed": 278,
+  "local_archive_bodies_read": false,
+  "full_source_or_product_accepted": false,
+  "scientific_selections": 0,
+  "actual_observed_passes": 56,
+  "actual_failed_controls": [],
+  "all_named_controls_collected": true,
+  "original-cycle-cli": {
+    "exit_status": 0,
+    "stdout_sha256": "5c319cf4db38da0f8fb2db3fb1557cda3992237eeced3d482540e82938e45de9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "full-1536-sweep": {
+    "exit_status": 1,
+    "stdout_sha256": "01529806cb9a89fde5d6a4dc50d7da18cf08b534414f81238e68a3b2b8523898",
+    "stderr_sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469"
+  },
+  "original_cli_solver_failed": [],
+  "full_sweep_tail": "\nswept 1536 states \u2014 1536 ran, 10 step(s) stated a refusal\n2 violation(s):\n\n  StatesAgreeWithTemperature \u2014 2 case(s)\n    \u00b7 liquid water at 251.04 K, freezes at 271.47 K\n      in: water 100mL + Na2CO3 0.02mol + [CH3COOH 0.05mol] + [cool v1 20kJ]\n    \u00b7 liquid water at 247.92 K, freezes at 271.71 K\n      in: water 100mL + NaHCO3 0.05mol + [H3PO4 0.02mol] + [cool v1 20kJ]\n"
+}

@@ -1,0 +1,58 @@
+{
+  "FORECAST.md": {
+    "sha256": "5b097da7485250ed3a7f4a5d51efee04fe9102bb63e9d214dc1d959d2a77f8e7",
+    "bytes": 3930
+  },
+  "actual-cli-binary.json": {
+    "sha256": "863c19cf80d917578deb69fd72dbf34878913f46eff6d0177411e1e4ea0ea40c",
+    "bytes": 515
+  },
+  "bicarbonate-phosphoric-result.json": {
+    "sha256": "350f509391e80b2f2799046bbcc5db48a33f7651656b74256efc6bb7c3f74652",
+    "bytes": 1021
+  },
+  "bicarbonate-phosphoric-trace-receipt.json": {
+    "sha256": "d1a09eaeb14ebe955f93a20d036d5a41f4101b3d1bf5d4fdb69f97256c8eadc9",
+    "bytes": 610
+  },
+  "bicarbonate-phosphoric-trace.stderr": {
+    "sha256": "cbe9e3e3c856e7adb25beb7c6eb3d499352a0736b0fdc82d07690fa4b6052441",
+    "bytes": 93008
+  },
+  "bicarbonate-phosphoric.kero": {
+    "sha256": "c98d40cbca3f222a2b2bab7746b539ecde810061cf17f686c136e4825d4dc0c6",
+    "bytes": 86
+  },
+  "bicarbonate-phosphoric.stdout": {
+    "sha256": "ad100517539da66349d2d8b6dd78cc6c0d1ee86332096ab9ca3ec42ac3bac033",
+    "bytes": 22975
+  },
+  "carbonate-acetic-result.json": {
+    "sha256": "01f76f99328c7bf2c79b6e1ee24d88f487cefce4514aeff030fd78c3da684a46",
+    "bytes": 1015
+  },
+  "carbonate-acetic-trace-receipt.json": {
+    "sha256": "1806c1102c20924b772c6e669d7f19b451ac3b905c366fd7bfb892beba4e2b0a",
+    "bytes": 610
+  },
+  "carbonate-acetic-trace.stderr": {
+    "sha256": "ae143d4b2a81e735590e168d61e3b56eff4492d6b09f6fcb176835012f193960",
+    "bytes": 84508
+  },
+  "carbonate-acetic.kero": {
+    "sha256": "7a4356e73368ad63c7a28baf927ca3b6ae8a2794b3d93f1d916f4fee9e91d16a",
+    "bytes": 88
+  },
+  "carbonate-acetic.stdout": {
+    "sha256": "7ae921e546e59e232106c4449039a70e164795876115aee01b12d9df283aebc5",
+    "bytes": 25501
+  },
+  "full-1536-sweep.stderr": {
+    "sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469",
+    "bytes": 104
+  },
+  "full-1536-sweep.stdout": {
+    "sha256": "01529806cb9a89fde5d6a4dc50d7da18cf08b534414f81238e68a3b2b8523898",
+    "bytes": 377
+  }
+}

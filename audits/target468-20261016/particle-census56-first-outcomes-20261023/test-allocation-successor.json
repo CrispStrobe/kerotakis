@@ -1,0 +1,11 @@
+{
+  "old_source": "283c3bfcd01e5e6bf6527bc91c9d9de1f923062d",
+  "current_source": "ed7d8c5ed517725cdaa69ed87a9a3de7a5a2f89a",
+  "changed_file": "crates/kerotakis-phreeqc/src/aqueous.rs",
+  "old_file_sha256": "f51dae94104cc87094f3a8bd764bc502c33e083a4fe5847cdfb5fb7391f87894",
+  "new_file_sha256": "72b4cd763731e19ba376b616e775fb2045d3280a9a5b9be292e645952aca0956",
+  "only_change": "Borrow fixed array instead of allocating vec in zero-census unit control; same values/argument slice/assertion",
+  "production_prefix_bytes_identical": true,
+  "static_lint_hygiene_correction_not_an_observed_CI_failure": true,
+  "hosted_focus_remains_bound_to_actual_old_source": true
+}

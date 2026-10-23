@@ -1,0 +1,11 @@
+{
+  "runtime_source": "283c3bfcd01e5e6bf6527bc91c9d9de1f923062d",
+  "runtime_tree": "d75a45857b7ea484073d39a295e985726abc6bd6",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "executable": "target/debug/deps/scene_golden-2b6535799ff0b3d6",
+  "sha256": "a2378c3a844622736872408cc13712dec28619d5f70d961ced39d2e8404c562e",
+  "bytes": 56941312,
+  "gzip_sha256": "9c7e6a3044e6f28886ec76aacf73cf0a909414a66b69124f908819d29dda5729",
+  "gzip_bytes": 13304486,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

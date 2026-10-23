@@ -1,0 +1,11 @@
+{
+  "source": "283c3bfcd01e5e6bf6527bc91c9d9de1f923062d",
+  "binary_sha256": "57a01553d720f667f3da306a933f2de560be11df1ea2dd5fb3d426abd2676467",
+  "script_sha256": "c98d40cbca3f222a2b2bab7746b539ecde810061cf17f686c136e4825d4dc0c6",
+  "new_observation": "Native input and numerical readback tracing enabled; original untraced observations preserved",
+  "exit_status": 0,
+  "elapsed_seconds": 1.991403881998849,
+  "stdout_sha256": "ad100517539da66349d2d8b6dd78cc6c0d1ee86332096ab9ca3ec42ac3bac033",
+  "stderr_sha256": "cbe9e3e3c856e7adb25beb7c6eb3d499352a0736b0fdc82d07690fa4b6052441",
+  "stderr_bytes": 93008
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "record": "original-cycle-cli",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "run",
+      "audits/phase-particle-precision-20261023/corrected-cli-protocol.kero",
+      "--json"
+    ],
+    "original_command_sha256": "5ea989bd526fa829db081accffbee4d9075ef53cd8f3fad16b8686bce402be6c",
+    "stdout_sha256": "5c319cf4db38da0f8fb2db3fb1557cda3992237eeced3d482540e82938e45de9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "record": "full-1536-sweep",
+    "exit_status": 1,
+    "arguments_after_executable": [
+      "sweep"
+    ],
+    "original_command_sha256": "f7d8154c11a1f227c0e5e04e51531fb2b97ee3eafe49a220e02d711531c7a083",
+    "stdout_sha256": "01529806cb9a89fde5d6a4dc50d7da18cf08b534414f81238e68a3b2b8523898",
+    "stderr_sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469"
+  }
+]

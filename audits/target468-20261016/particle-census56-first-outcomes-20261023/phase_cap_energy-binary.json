@@ -1,0 +1,11 @@
+{
+  "runtime_source": "283c3bfcd01e5e6bf6527bc91c9d9de1f923062d",
+  "runtime_tree": "d75a45857b7ea484073d39a295e985726abc6bd6",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "executable": "target/debug/deps/phase_cap_energy-9d7bbb446fa7ded0",
+  "sha256": "ac55789f8f82ee8be99adde43a51ebc8965eb9cbb7c28bbc4a42fb1109fbfad9",
+  "bytes": 55743752,
+  "gzip_sha256": "f2d51e5c8d906986bf438a592d57e72c68b0a01b50bdd8fbf84696dd8dd33031",
+  "gzip_bytes": 12982086,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

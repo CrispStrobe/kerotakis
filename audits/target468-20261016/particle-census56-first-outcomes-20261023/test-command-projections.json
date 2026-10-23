@@ -1,0 +1,842 @@
+[
+  {
+    "target": "states",
+    "test": "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+    "record": "states-case-00",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "1f4941f3b747cb7add9b8762a9f736b33ce4e38c3a50ec71133773abf6e93699",
+    "stdout_sha256": "5353774b0c6a50eacf936248a68eed42e13ad630a5c92fad65a34429454c55eb",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+    "record": "states-case-01",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "a6f694ebdf0dca047718dd1bc91ea2b2dd304b7f477d382bfaea36b454e86111",
+    "stdout_sha256": "fa3d8f1b02b6b1e6db5c8836780465aee7698e89444c87a096a673b0c48eb573",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+    "record": "states-case-02",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "95d6055893023d6c028bee1afc44de0e6cdae6a7fedd705658194a3dcdc1700c",
+    "stdout_sha256": "90e414741e8240e5316b56c27e2e2d8eb91c38962896b3595d1adc682fb0feb0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "water_does_not_go_below_zero_while_it_is_still_freezing",
+    "record": "states-case-03",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "water_does_not_go_below_zero_while_it_is_still_freezing",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "d97f051f309c16bbc0140ca0d4f73cc710914a0e5b3e5b07210966879b101fd6",
+    "stdout_sha256": "be5f017c02453eb069208cb8de54c77874a4a617c772a6d89eed408b294838a6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "no_temperature_is_announced_that_the_vessel_never_reached",
+    "record": "states-case-04",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "no_temperature_is_announced_that_the_vessel_never_reached",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "60c20106666c2c05d9267900317bd16f074f9634feab01e7083c244f37a9fb32",
+    "stdout_sha256": "a06787bee6b402dcfa8c5af1f7e0ce412efa6593d6fe8cfa572aea3126b7484c",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+    "record": "states-case-05",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "22958a7eeb9696a45af40d71666441a471aac03c4a93612f3523c01c26db80e3",
+    "stdout_sha256": "16203d14f78503efb283efa1063cf54808b87ac3625c81e7c5c95a6f3b71c9ae",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "ice_melts_again_when_warmed",
+    "record": "states-case-06",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "ice_melts_again_when_warmed",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "f514e4f89bfb84dc763ae0d91f54361c62a7bd9809381a499949c2a268710d0f",
+    "stdout_sha256": "98bbe7bda9813a43463454b35733044066ef46cdaf9de79493a85c4346bd340b",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "a_frozen_vessel_has_no_ph",
+    "record": "states-case-07",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "a_frozen_vessel_has_no_ph",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "a2fbf67887b7129c695eb32a73d4177b20f3e24d4325598266b55dc0cd98e6f8",
+    "stdout_sha256": "9ca000a066e9dd90b05b76b68cf424dc803d4d466545a0f3e8da4e7c59a32961",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+    "record": "states-case-08",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "ba88f05cd55697b7f3084614fb9ef0f47f6bafb09e5206daa1190bfe36076741",
+    "stdout_sha256": "0519323ec978de2e2a914dfda4188486887a207794e957bd6ffcffc7415756ba",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+    "record": "states-case-09",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "0826124168174ec58a56c6359ca7be4823b2f79c6d42450470f0489aa4c17ced",
+    "stdout_sha256": "1e58e82ad9aca5c17a859f4dcba257aa4ea3d18865777e3f1130f05b53c5b520",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+    "record": "states-case-10",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "bc0feb69b30946125cff8fb7154c9537954175fcaa1df7020fe2bd38fc7cf065",
+    "stdout_sha256": "a5c9859376cfbce845d52fc26e705a44217ea5803f7d9e4998ca9bdcbcd3c1ba",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+    "record": "states-case-11",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "6be65b15d7649d18799c252b6b366750bef11b7cfcaa45252a222685c225351e",
+    "stdout_sha256": "64bf00a7628158c0fa5de4da60ea9118687cbf1350ebbe818b343b922642242f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "states",
+    "test": "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+    "record": "states-case-12",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "9a41be2b1fc029b5e1b7b5b4d0ba5b034127fe4f4984fd5284329349cdd70877",
+    "stdout_sha256": "c9a3036b94cdcfd47343e4525f6db5450b553a6ec26e83183f2eb7761ae45422",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "pure_water_freezing_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-00",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "pure_water_freezing_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "4db7c6c5c3dc63783dd6175bb8cfbe6a849a54656b6cfc0a17343d0a6d7022ad",
+    "stdout_sha256": "2aefc6f584f5adf979aa4f043fcb4812cc4ee20b5d2b8d38c8711db03cd3e016",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "pure_water_melting_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-01",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "pure_water_melting_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "c743a8f00cf9bd4e91e93822b328477dd7252e260e105776f7330c7b52c9fc9d",
+    "stdout_sha256": "811227d71ec402c16977262d0a8353aee367043a77b813152c3742ff5e7f3e4e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "dilute_brine_freezing_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-02",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "dilute_brine_freezing_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "f39d6a193f51931e1465cfabcf1a4523579fbc9b7be4ac056b2e669a307451d6",
+    "stdout_sha256": "de35de35a6b36f4a4b750e9241e564f5da520c28db15d79689ef04472908bc13",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "intermediate_brine_freezing_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-03",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "intermediate_brine_freezing_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "4b45cfc5b1de188001063fedc0e7355f900cedd6a3caef2575cb46a44e12991e",
+    "stdout_sha256": "1c6c54ae4565cba2e49e23445c6878c0cff09af77f5b9280a6f8b2ae8bbf8d27",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "stronger_brine_freezing_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-04",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "stronger_brine_freezing_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "7fbe3d4cd182ee04e35a46a0b782af6173a5d072d139e43958b31c2e34f35773",
+    "stdout_sha256": "697ff54532c05e5f5abf2dd5885f9c866ced10805555e43373510ae983d5498f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "dilute_brine_melting_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-05",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "dilute_brine_melting_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "4fe7cbc7a670baae33a314075b3b9c4533cc20cecf5dfb875b71057f901983eb",
+    "stdout_sha256": "d513c7d9925aa4e04b670082d694734a007caba1f1aad6f01cb5e4efba00621f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "intermediate_brine_melting_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-06",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "intermediate_brine_melting_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "02f8b49f70e60f2acbc0c1d3cb35750e289bb4357d453374f6c1131890de4215",
+    "stdout_sha256": "34d6492773c3536302b73d6c68e3fbc4b8959967e4c22fae4a8b3d6436b61f55",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "brine_phase_energy",
+    "test": "stronger_brine_melting_conserves_independent_phase_energy",
+    "record": "brine_phase_energy-case-07",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "stronger_brine_melting_conserves_independent_phase_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "d3c75d82542de0eb63444f6baddb9e150f2002bf1c10585aab3138de4183559c",
+    "stdout_sha256": "d0258e21e932749d7ddcc75502a5203cc4f4abbe0bdee2b6dff67d6d77fd76d8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_inside_direct_conserves_without_false_refusal",
+    "record": "phase_cap_energy-case-00",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "ideal_inside_direct_conserves_without_false_refusal",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "687820e9d4f72d649ef83e96e53c435d18237b12256790024c79aad8b015d1a8",
+    "stdout_sha256": "3690afa5aeecef875f161656c30fe740642300455f608863406a89b328519768",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_exact_direct_commits_only_closed_boundary",
+    "record": "phase_cap_energy-case-01",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "ideal_exact_direct_commits_only_closed_boundary",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "d48e817f345848de4e808efdb8473e36cc7b156e101a1a9a22a6d982c104a0f3",
+    "stdout_sha256": "6200ef4f50ef5b078a9085d3f1a446223825f71ee94ac96f9190600ad26426d5",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_outside_direct_refuses_before_mutation_and_repeats",
+    "record": "phase_cap_energy-case-02",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "ideal_outside_direct_refuses_before_mutation_and_repeats",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "9528d0f568de5eac71c08d84468f1f075a24fc178eabd710d58447e5f87a4735",
+    "stdout_sha256": "83b846c5880c4cf48581e793cdbfcb47de14082d0db49f0d17b7ecad4def27de",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_inside_direct_conserves_without_false_refusal",
+    "record": "phase_cap_energy-case-03",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "eutectic_inside_direct_conserves_without_false_refusal",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "7a3398cdf2011be37d9678948e29459108cdde34fd2f0ec8c25e14589426d58e",
+    "stdout_sha256": "45b6529b6efa362f6950540172cf38a7da8e87c86537ab680a2c2ac7f951c710",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_exact_direct_commits_only_closed_boundary",
+    "record": "phase_cap_energy-case-04",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "eutectic_exact_direct_commits_only_closed_boundary",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "20c47caf84ecd91db737119f11c96bd9ed01842e3f7dbdd3a90a7404bc408cb9",
+    "stdout_sha256": "4e6ed10ebd1b7818ceaef77a7cd9d639359aa86eac6ce72c7804315bc985d94d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+    "record": "phase_cap_energy-case-05",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "7d7104dd2235a1c3e1e9cf9fc8bbccc936245b3c61a6c80f56ea24fd2056b139",
+    "stdout_sha256": "0d6b9a034038871bad60134c9cf46bc2e0adc395b4a7f4158a829dcec2afb2cc",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_inside_real_cool_closes_delivered_energy",
+    "record": "phase_cap_energy-case-06",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "ideal_inside_real_cool_closes_delivered_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "50099e8a31324c8f54df398b4c242952e0c332377c7340cdce5c209e264b39ec",
+    "stdout_sha256": "c3bd0b29c337efeea3236045976ecab57fc40103d0a4cfa5d387e898a9b31043",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_exact_real_cool_closes_delivered_energy",
+    "record": "phase_cap_energy-case-07",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "ideal_exact_real_cool_closes_delivered_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "3e405b9d390eeb839eb76bd36d9fbe113160cb9caa3ae89b8a16808b21d5d41e",
+    "stdout_sha256": "f988d9dcba0525a5d63f2a7856f27594330ea874cee38d0762f6e0e7a4c1370d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+    "record": "phase_cap_energy-case-08",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "06ba51135d916d98529364ccac15497f2196c0ef5c711364462a2676a75069b7",
+    "stdout_sha256": "8e044b5a46798b8fae921af2889c8d8cf65530d59b1f96b662a454386a7e4fd6",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_inside_real_cool_closes_delivered_energy",
+    "record": "phase_cap_energy-case-09",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "eutectic_inside_real_cool_closes_delivered_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "80ed9d8f3374f06eb4238af47078a476f7725196e661b36ba27a593242e2b6de",
+    "stdout_sha256": "f773a0d3af287af380868b2ce7f0223f290db4ba15488adf6ff3801ee9918ca0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_exact_real_cool_closes_delivered_energy",
+    "record": "phase_cap_energy-case-10",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "eutectic_exact_real_cool_closes_delivered_energy",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "86159bf85eb047c454e3981eb9f2b004a1d24cbb5c66a01e9ee0c59e0cdfde45",
+    "stdout_sha256": "18dad6022e58058baa7664b04777f25917e35cff243171d8b146d231bfe60d1b",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "phase_cap_energy",
+    "test": "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses",
+    "record": "phase_cap_energy-case-11",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "4b22fef5e19ba928769cd98250304ddd52ba6cf2eb20f5b04805929ecfa96c55",
+    "stdout_sha256": "1604dc63401fff301c6b91ec26d0dc9882830820cd0c3c78e8899a63e69cf23b",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "partial_freezing",
+    "test": "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+    "record": "partial_freezing-case-00",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "cd29e56ec6e513ae539a9cb76533b3737ddc259864b8358c5eb9111cadb51ce6",
+    "stdout_sha256": "52eb4dbac8d673eb6ff22c613877e0402107637fd02840b52357c110ad7441fc",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "partial_freezing",
+    "test": "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+    "record": "partial_freezing-case-01",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "a72296988632c3f1039a435f545d87f912290197e3782f9ca7f7d3f763d1af26",
+    "stdout_sha256": "335e27df98681cc3053a41a44aca41336ee48480d101e534f5c1065441bd7457",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "partial_freezing",
+    "test": "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+    "record": "partial_freezing-case-02",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "68d11e8b9ca309412d1224934f562a5de95e82d01788ac2f3c6cafcb10ae3fa9",
+    "stdout_sha256": "d09d0dd828f5951cd3bd960c2f07585a8964f8c53b1e79ec64915fcf72859c7e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "partial_freezing",
+    "test": "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+    "record": "partial_freezing-case-03",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "680d6ff0a57ee54e95c9fee3baa9dac491e50b5f4f73d76e0e7736417da295a3",
+    "stdout_sha256": "65dcacc9c6359b95450581f7ff618078e771a13c605f2e91252ff78e80ab95cc",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "partial_freezing",
+    "test": "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+    "record": "partial_freezing-case-04",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "c633207acc432a6d9c550a7191e237bcefd335e34b5b61aea4a394fcbfc115c7",
+    "stdout_sha256": "8b4682ffbc2d34a3471a68549a420554b47840b73a688021f790a4fc2d5bf86a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "particle_census",
+    "test": "original_nearby_and_no_silver_cooling_and_partial_rewarming_settle",
+    "record": "particle_census-case-00",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "original_nearby_and_no_silver_cooling_and_partial_rewarming_settle",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "f75ea9995d7a088f9130ae87991ccf71508b4201cf587c113f4f86c2e9bc44e7",
+    "stdout_sha256": "03163ffc81f748bb7825f954fd81cdcec188c2829f707b4297c78629474c7a77",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "particle_census",
+    "test": "native_particle_census_retains_precision_and_matches_independent_mol_columns",
+    "record": "particle_census-case-01",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "native_particle_census_retains_precision_and_matches_independent_mol_columns",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "9c9a65f00989c45731f151eec09246a851820e652076bea525e376083ac5f48a",
+    "stdout_sha256": "8258aa39f6c51237eef3e48346a49c4548063dceed525266d807d97a370b0bc3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+    "record": "colligative_numbers-case-00",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "a960699ed1e861bad4a36a904f716589e0524172b8bd40f9797cf8bcc2907338",
+    "stdout_sha256": "19e727dc21daf0393bf84abb7fc26df959242531678e50210f8999d526f6fc12",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+    "record": "colligative_numbers-case-01",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "19b6b284588ac8cf0194cb70b16bbf1b3f8aa8a76c8fe56a21b0bd78d601cf24",
+    "stdout_sha256": "19beb994ff9ac58638de899499d8f2da833f571a86e80abedc3cdecf7b60bf6a",
+    "stderr_sha256": "8437f4866c5598cb5b9bf8ffab8f292c342b88511f90ab9e567b535e0ba6ef74"
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+    "record": "colligative_numbers-case-02",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "eb5a5f6241efd41c553037cabc75ece23b0e057594e9eb2b0cf033219a1aa6bf",
+    "stdout_sha256": "3b378a7ba1e9265be9694734b54ac283e6d399ec61aba0416a13aff9b5bd0f39",
+    "stderr_sha256": "68cafe78a8e2a6740d6c369aac3a621c43aeec652f9e4c0539c2582b2b920744"
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+    "record": "colligative_numbers-case-03",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "837a7b9207cd4e0edb9200ce3ccf7a20f3be174a2b22107ba217238668eafd3d",
+    "stdout_sha256": "c8cdab9cf8e9f988c2feb0ac54c94103c847aaab0451dbde5759e2d076f3e7a0",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+    "record": "colligative_numbers-case-04",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "35082b29c85d150d13c968655f334addcf4b8ecaaef2e1a919f2cb0fc17a281a",
+    "stdout_sha256": "838664260d5d07d5e01f2563004a568a7438ad7f25c3a8dfbda1afb56a72bcb7",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "colligative_numbers",
+    "test": "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve",
+    "record": "colligative_numbers-case-05",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "dbf1579561ff5b58a3b768fd9552213592331f6e0f38bb3a98ece00e0d11e8f1",
+    "stdout_sha256": "1976e84fb372ace2363e94e3972df26ff6a2d37d30dcc0e100c9199ea60bede9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "scene_golden",
+    "test": "five_release_lessons_match_numeric_scene_golden",
+    "record": "scene_golden-case-00",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "five_release_lessons_match_numeric_scene_golden",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "dbc73d84c57119725761733efd8f1ad965334e9573f9928ebd90f552227e472c",
+    "stdout_sha256": "ae1203cbab67592ae7a871d20be807d84924e473e482566ad52d12a26128ef35",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "kerotakis_phreeqc",
+    "test": "aqueous::numerical_water_activity_tests::numerical_particle_census_uses_final_precise_native_value",
+    "record": "kerotakis_phreeqc-case-00",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "aqueous::numerical_water_activity_tests::numerical_particle_census_uses_final_precise_native_value",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "ca9279ee5a8f3fa6330cc60df321c36e97d195525550fcf1c8fffdf882205100",
+    "stdout_sha256": "92ce766c695e810cefea4d22c217c82e9b3c9ad0e7ca1ae0b4c73849f127dcd2",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "kerotakis_phreeqc",
+    "test": "aqueous::numerical_water_activity_tests::invalid_particle_census_refuses_without_report_fallback",
+    "record": "kerotakis_phreeqc-case-01",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "aqueous::numerical_water_activity_tests::invalid_particle_census_refuses_without_report_fallback",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "281fa308ec1c8233166df8144d4fd66d3e299d0e1612a5f7ee9cf90b7994e4c6",
+    "stdout_sha256": "d5100a5a89bf68b5f0ba9ef6802eb58ebdae0cc0029f5c17a0532f14dbbbcd4e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "kerotakis_phreeqc",
+    "test": "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+    "record": "kerotakis_phreeqc-case-02",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "76b4401a5da027f3ed2b883c121d471fb94e907dd3d46661d33470d58fd0ef64",
+    "stdout_sha256": "47a72b336deb2cc288183292a0b8f2052cc6e495dab7d162c14108d6ce7914c5",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "kerotakis_phreeqc",
+    "test": "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+    "record": "kerotakis_phreeqc-case-03",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "4e4aba2600b472ce30dfb71ae402ea2e550e5265542d6ca16f59fc690b86d822",
+    "stdout_sha256": "56f2416f2c0b6624185149b17a5c868bb601b08b33a477fa838a93ddf684ffa4",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "kerotakis_phreeqc",
+    "test": "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+    "record": "kerotakis_phreeqc-case-04",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "78415680c941c916c87c69bfbdb6838dcf5e53726aeb14da7b5765af8820d72a",
+    "stdout_sha256": "d4f02fee37732db2030a42c01707d8c540b6ea4125a476a08005231de4f78e78",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "kerotakis_phreeqc",
+    "test": "aqueous::numerical_water_activity_tests::current_cache_cannot_bypass_numeric_particle_validation",
+    "record": "kerotakis_phreeqc-case-05",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "aqueous::numerical_water_activity_tests::current_cache_cannot_bypass_numeric_particle_validation",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "48dcfe38be76936218c9063e35c23c8543b573a42e7251cce3e6737cd22479cb",
+    "stdout_sha256": "971c4bda517a0bfe63fed2433bb16631fcd664235ffbff358c98e966690ebf20",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "kerotakis_phreeqc",
+    "test": "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+    "record": "kerotakis_phreeqc-case-06",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "1057d34be6c336d86ad93cdf13c4f229336c7722b4335314e467b6179934d1f9",
+    "stdout_sha256": "fafbf716ce61d156c3377e29ca09b2cc4157dff84c8055a7fe5dc965e8241ea3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "kerotakis_phreeqc",
+    "test": "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+    "record": "kerotakis_phreeqc-case-07",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "3043be9331c437a528d4a802193aec582a4ca2519d649642c813015a0197d817",
+    "stdout_sha256": "4261b79c73cf4df452cb90db6d5fc7ea03c1dca3b8c8ac1074bf103331256f31",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "target": "kerotakis_phreeqc",
+    "test": "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+    "record": "kerotakis_phreeqc-case-08",
+    "exit_status": 0,
+    "arguments_after_executable": [
+      "--exact",
+      "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "original_command_sha256": "fc61dc4c8e458889ab7405963c5c091ec114eadbb7a29939b9ce556164a718a1",
+    "stdout_sha256": "0d29ba6b8cc3f6279e9d90dc2037554a7220f419fe5321499ab3e954847d38c7",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

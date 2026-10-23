@@ -1,0 +1,1302 @@
+{
+  "runtime_source": "283c3bfcd01e5e6bf6527bc91c9d9de1f923062d",
+  "runtime_tree": "d75a45857b7ea484073d39a295e985726abc6bd6",
+  "actual_outcomes": [
+    {
+      "target": "states",
+      "test": "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+      "record": "states-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+      "record": "states-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+      "record": "states-case-02",
+      "exit_status": 0,
+      "rows": [
+        [
+          "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "water_does_not_go_below_zero_while_it_is_still_freezing",
+      "record": "states-case-03",
+      "exit_status": 0,
+      "rows": [
+        [
+          "water_does_not_go_below_zero_while_it_is_still_freezing",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "no_temperature_is_announced_that_the_vessel_never_reached",
+      "record": "states-case-04",
+      "exit_status": 0,
+      "rows": [
+        [
+          "no_temperature_is_announced_that_the_vessel_never_reached",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+      "record": "states-case-05",
+      "exit_status": 0,
+      "rows": [
+        [
+          "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "ice_melts_again_when_warmed",
+      "record": "states-case-06",
+      "exit_status": 0,
+      "rows": [
+        [
+          "ice_melts_again_when_warmed",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "a_frozen_vessel_has_no_ph",
+      "record": "states-case-07",
+      "exit_status": 0,
+      "rows": [
+        [
+          "a_frozen_vessel_has_no_ph",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+      "record": "states-case-08",
+      "exit_status": 0,
+      "rows": [
+        [
+          "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+      "record": "states-case-09",
+      "exit_status": 0,
+      "rows": [
+        [
+          "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+      "record": "states-case-10",
+      "exit_status": 0,
+      "rows": [
+        [
+          "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+      "record": "states-case-11",
+      "exit_status": 0,
+      "rows": [
+        [
+          "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "states",
+      "test": "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+      "record": "states-case-12",
+      "exit_status": 0,
+      "rows": [
+        [
+          "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "12"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "brine_phase_energy",
+      "test": "pure_water_freezing_conserves_independent_phase_energy",
+      "record": "brine_phase_energy-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "pure_water_freezing_conserves_independent_phase_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "7"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "brine_phase_energy",
+      "test": "pure_water_melting_conserves_independent_phase_energy",
+      "record": "brine_phase_energy-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "pure_water_melting_conserves_independent_phase_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "7"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "brine_phase_energy",
+      "test": "dilute_brine_freezing_conserves_independent_phase_energy",
+      "record": "brine_phase_energy-case-02",
+      "exit_status": 0,
+      "rows": [
+        [
+          "dilute_brine_freezing_conserves_independent_phase_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "7"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "brine_phase_energy",
+      "test": "intermediate_brine_freezing_conserves_independent_phase_energy",
+      "record": "brine_phase_energy-case-03",
+      "exit_status": 0,
+      "rows": [
+        [
+          "intermediate_brine_freezing_conserves_independent_phase_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "7"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "brine_phase_energy",
+      "test": "stronger_brine_freezing_conserves_independent_phase_energy",
+      "record": "brine_phase_energy-case-04",
+      "exit_status": 0,
+      "rows": [
+        [
+          "stronger_brine_freezing_conserves_independent_phase_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "7"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "brine_phase_energy",
+      "test": "dilute_brine_melting_conserves_independent_phase_energy",
+      "record": "brine_phase_energy-case-05",
+      "exit_status": 0,
+      "rows": [
+        [
+          "dilute_brine_melting_conserves_independent_phase_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "7"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "brine_phase_energy",
+      "test": "intermediate_brine_melting_conserves_independent_phase_energy",
+      "record": "brine_phase_energy-case-06",
+      "exit_status": 0,
+      "rows": [
+        [
+          "intermediate_brine_melting_conserves_independent_phase_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "7"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "brine_phase_energy",
+      "test": "stronger_brine_melting_conserves_independent_phase_energy",
+      "record": "brine_phase_energy-case-07",
+      "exit_status": 0,
+      "rows": [
+        [
+          "stronger_brine_melting_conserves_independent_phase_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "7"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "ideal_inside_direct_conserves_without_false_refusal",
+      "record": "phase_cap_energy-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "ideal_inside_direct_conserves_without_false_refusal",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "ideal_exact_direct_commits_only_closed_boundary",
+      "record": "phase_cap_energy-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "ideal_exact_direct_commits_only_closed_boundary",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "ideal_outside_direct_refuses_before_mutation_and_repeats",
+      "record": "phase_cap_energy-case-02",
+      "exit_status": 0,
+      "rows": [
+        [
+          "ideal_outside_direct_refuses_before_mutation_and_repeats",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "eutectic_inside_direct_conserves_without_false_refusal",
+      "record": "phase_cap_energy-case-03",
+      "exit_status": 0,
+      "rows": [
+        [
+          "eutectic_inside_direct_conserves_without_false_refusal",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "eutectic_exact_direct_commits_only_closed_boundary",
+      "record": "phase_cap_energy-case-04",
+      "exit_status": 0,
+      "rows": [
+        [
+          "eutectic_exact_direct_commits_only_closed_boundary",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+      "record": "phase_cap_energy-case-05",
+      "exit_status": 0,
+      "rows": [
+        [
+          "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "ideal_inside_real_cool_closes_delivered_energy",
+      "record": "phase_cap_energy-case-06",
+      "exit_status": 0,
+      "rows": [
+        [
+          "ideal_inside_real_cool_closes_delivered_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "ideal_exact_real_cool_closes_delivered_energy",
+      "record": "phase_cap_energy-case-07",
+      "exit_status": 0,
+      "rows": [
+        [
+          "ideal_exact_real_cool_closes_delivered_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "record": "phase_cap_energy-case-08",
+      "exit_status": 0,
+      "rows": [
+        [
+          "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "eutectic_inside_real_cool_closes_delivered_energy",
+      "record": "phase_cap_energy-case-09",
+      "exit_status": 0,
+      "rows": [
+        [
+          "eutectic_inside_real_cool_closes_delivered_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "eutectic_exact_real_cool_closes_delivered_energy",
+      "record": "phase_cap_energy-case-10",
+      "exit_status": 0,
+      "rows": [
+        [
+          "eutectic_exact_real_cool_closes_delivered_energy",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "phase_cap_energy",
+      "test": "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "record": "phase_cap_energy-case-11",
+      "exit_status": 0,
+      "rows": [
+        [
+          "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "11"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "partial_freezing",
+      "test": "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+      "record": "partial_freezing-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "4"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "partial_freezing",
+      "test": "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+      "record": "partial_freezing-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "4"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "partial_freezing",
+      "test": "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+      "record": "partial_freezing-case-02",
+      "exit_status": 0,
+      "rows": [
+        [
+          "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "4"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "partial_freezing",
+      "test": "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+      "record": "partial_freezing-case-03",
+      "exit_status": 0,
+      "rows": [
+        [
+          "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "4"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "partial_freezing",
+      "test": "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+      "record": "partial_freezing-case-04",
+      "exit_status": 0,
+      "rows": [
+        [
+          "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "4"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "particle_census",
+      "test": "original_nearby_and_no_silver_cooling_and_partial_rewarming_settle",
+      "record": "particle_census-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "original_nearby_and_no_silver_cooling_and_partial_rewarming_settle",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "particle_census",
+      "test": "native_particle_census_retains_precision_and_matches_independent_mol_columns",
+      "record": "particle_census-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "native_particle_census_retains_precision_and_matches_independent_mol_columns",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "colligative_numbers",
+      "test": "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+      "record": "colligative_numbers-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "colligative_numbers",
+      "test": "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+      "record": "colligative_numbers-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "colligative_numbers",
+      "test": "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+      "record": "colligative_numbers-case-02",
+      "exit_status": 0,
+      "rows": [
+        [
+          "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "colligative_numbers",
+      "test": "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+      "record": "colligative_numbers-case-03",
+      "exit_status": 0,
+      "rows": [
+        [
+          "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "colligative_numbers",
+      "test": "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+      "record": "colligative_numbers-case-04",
+      "exit_status": 0,
+      "rows": [
+        [
+          "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "colligative_numbers",
+      "test": "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve",
+      "record": "colligative_numbers-case-05",
+      "exit_status": 0,
+      "rows": [
+        [
+          "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "5"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "scene_golden",
+      "test": "five_release_lessons_match_numeric_scene_golden",
+      "record": "scene_golden-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "five_release_lessons_match_numeric_scene_golden",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::numerical_particle_census_uses_final_precise_native_value",
+      "record": "kerotakis_phreeqc-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::numerical_water_activity_tests::numerical_particle_census_uses_final_precise_native_value",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "116"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::invalid_particle_census_refuses_without_report_fallback",
+      "record": "kerotakis_phreeqc-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::numerical_water_activity_tests::invalid_particle_census_refuses_without_report_fallback",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "116"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+      "record": "kerotakis_phreeqc-case-02",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "116"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+      "record": "kerotakis_phreeqc-case-03",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "116"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+      "record": "kerotakis_phreeqc-case-04",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "116"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::current_cache_cannot_bypass_numeric_particle_validation",
+      "record": "kerotakis_phreeqc-case-05",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::numerical_water_activity_tests::current_cache_cannot_bypass_numeric_particle_validation",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "116"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+      "record": "kerotakis_phreeqc-case-06",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "116"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+      "record": "kerotakis_phreeqc-case-07",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "116"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+      "record": "kerotakis_phreeqc-case-08",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "116"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    }
+  ],
+  "all_named_controls_collected": true,
+  "expected_named_controls": 56,
+  "actual_target_count": 8,
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "scientific_selections": 0,
+  "runtime_fix_verified_by_execution": false,
+  "forecast_is_not_acceptance": true,
+  "focus_is_not_full_fleet": true
+}
