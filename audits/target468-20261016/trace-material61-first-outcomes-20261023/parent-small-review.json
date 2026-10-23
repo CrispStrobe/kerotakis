@@ -1,0 +1,43 @@
+{
+  "source": "5f380753440b182a66a2fd8d446eb71b3b8d4960",
+  "tree": "2b15488f6be0fd0d7021b6f12d77725f7653843a",
+  "worker_sha256": "4dc9411fcdac2e35867345f73864e857a8840c2505c0a82be27b3ded82e674f6",
+  "plan_sha256": "c2cefa35ba9117032884d2a9caf365315a47392d475540ec9594c81effb1ca4a",
+  "manifest_sha256": "ba60aa65db551c593950ea1582a5c95575bc576a023cf5c5a3418714fe87c6ec",
+  "closed_members": 317,
+  "small_bodies_hashed": 306,
+  "local_archive_bodies_read": false,
+  "full_source_or_product_accepted": false,
+  "scientific_selections": 0,
+  "actual_observed_passes": 60,
+  "actual_failed_controls": [
+    {
+      "target": "particle_census",
+      "test": "carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift",
+      "exit_status": 101
+    }
+  ],
+  "all_named_controls_collected": true,
+  "original-cycle-cli": {
+    "exit_status": 0,
+    "stdout_sha256": "5c319cf4db38da0f8fb2db3fb1557cda3992237eeced3d482540e82938e45de9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "carbonate-acetic-cli": {
+    "exit_status": 0,
+    "stdout_sha256": "c500950376eb3418d4bccd28828f85d9200a27ca8b0b11f9617da3bae02f241a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "bicarbonate-phosphoric-cli": {
+    "exit_status": 0,
+    "stdout_sha256": "7d0a8e198b7e7c356dac66d3655a87feba4fe2b21dd84de70e9164ecf47b96cb",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "full-1536-sweep": {
+    "exit_status": 0,
+    "stdout_sha256": "56db4eff31f26a448c91e98eda7a1009d0820687f44274be04b1a44a6c2fd50d",
+    "stderr_sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469"
+  },
+  "original_cli_solver_failed": [],
+  "full_sweep_tail": "\nswept 1536 states \u2014 1536 ran, 8 step(s) stated a refusal\nno invariant was violated.\n"
+}

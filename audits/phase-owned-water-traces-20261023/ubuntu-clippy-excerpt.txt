@@ -1,0 +1,10 @@
+2026-10-23T20:06:26.2298616Z error: manual implementation of `.is_multiple_of()`
+2026-10-23T20:06:26.2327879Z   --> crates/kerotakis-core/tests/states.rs:86:40
+2026-10-23T20:06:26.2387768Z    |
+2026-10-23T20:06:26.2418269Z 86 |         vessel.temperature = Kelvin(if call % 2 == 0 { 272.0 } else { 270.0 });
+2026-10-23T20:06:26.2442929Z    |                                        ^^^^^^^^^^^^^ help: replace with: `call.is_multiple_of(2)`
+2026-10-23T20:06:26.2504573Z    |
+2026-10-23T20:06:26.2558951Z    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#manual_is_multiple_of
+2026-10-23T20:06:26.2578118Z    = note: `-D clippy::manual-is-multiple-of` implied by `-D warnings`
+2026-10-23T20:06:26.2626565Z    = help: to override `-D warnings` add `#[allow(clippy::manual_is_multiple_of)]`
+2026-10-23T20:06:26.2687224Z 

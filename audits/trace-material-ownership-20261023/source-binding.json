@@ -1,0 +1,10 @@
+{
+  "source": "c8171c4ebcf8961840605f2e925b6b8265b80c8a",
+  "source_files": {
+    "crates/kerotakis-core/src/solve.rs": "b8162af7bb876260ad6b1964b8756ea02b39bd073e974f177ac6217229b5ca0c",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "72b4cd763731e19ba376b616e775fb2045d3280a9a5b9be292e645952aca0956",
+    "crates/kerotakis-phreeqc/src/derived.rs": "d5d2436439578f6fbad78dc320582b32769c2ea5cdc4070fa74a97b5820122c5"
+  },
+  "actual_new_baseline_execution": false,
+  "generic_source_counterexample_not_a_claimed_cause": true
+}

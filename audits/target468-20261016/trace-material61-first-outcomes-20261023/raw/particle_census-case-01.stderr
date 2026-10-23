@@ -1,0 +1,4 @@
+
+thread 'carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift' (4319) panicked at crates/kerotakis-phreeqc/tests/particle_census.rs:406:5:
+carbonate + acetic acid original zero-time repeat 0: fresh represented inventory/free-ion/charge drift is 0.0000008098921674949041 mol/eq
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
