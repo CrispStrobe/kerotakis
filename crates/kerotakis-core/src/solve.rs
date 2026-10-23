@@ -1995,7 +1995,11 @@ impl Equilibrator for StateEquilibrator {
                     p.moles = Moles((p.moles.0 - freezing).max(0.0));
                 }
             }
-            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            // Only the liquid water just spent belongs to this phase pass.
+            // A trace reagent is still material even below the water floor.
+            vessel
+                .contents
+                .retain(|p| p.species != solvent || p.phase != Phase::Liquid || p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(freezing), Phase::Solid);
 
             let settled = if reached_boundary {
@@ -2106,7 +2110,9 @@ impl Equilibrator for StateEquilibrator {
                     p.moles = Moles((p.moles.0 - melting).max(0.0));
                 }
             }
-            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            vessel
+                .contents
+                .retain(|p| p.species != solvent || p.phase != Phase::Solid || p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(melting), Phase::Liquid);
 
             let settled = if melting < frozen_moles - 1e-12 {
@@ -2173,7 +2179,9 @@ impl Equilibrator for StateEquilibrator {
                     p.moles = Moles((p.moles.0 - boiling).max(0.0));
                 }
             }
-            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            vessel
+                .contents
+                .retain(|p| p.species != solvent || p.phase != Phase::Liquid || p.moles.0 > 1e-12);
             // Sealed, the steam is headspace and the pressure says so; open,
             // it leaves the room and the balance notices. Either way the
             // matter is accounted for rather than left behind as a liquid

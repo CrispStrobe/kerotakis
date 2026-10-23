@@ -640,7 +640,15 @@ fn carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift() {
 
         let mut previous = cooled;
         for repeat in 0..3 {
-            let zero_time_events = run(&mut bench, &mut stack, "wait 0s");
+            // The public script grammar requires positive durations; exercise
+            // internal zero-time re-entry through its typed operator API.
+            let zero_time_events = bench
+                .step_with(
+                    Operator::Wait { seconds: 0.0 },
+                    &mut stack,
+                    &PermissiveScreen,
+                )
+                .expect("typed zero-time phase re-entry");
             assert!(
                 !zero_time_events
                     .iter()

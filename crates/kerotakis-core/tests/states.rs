@@ -4,9 +4,85 @@
 //! temperature stops at the transition while the phase change is under way,
 //! and the transition itself moves with how many particles are dissolved.
 
+use kerotakis_core::ops::PhaseTransition;
 use kerotakis_core::*;
 use std::cell::Cell;
 use std::rc::Rc;
+
+#[test]
+fn water_phase_passes_preserve_unrelated_trace_portions_exactly() {
+    for (name, liquid, ice, kelvin, from, to, kind) in [
+        (
+            "freezing",
+            5.0,
+            0.0,
+            260.0,
+            Phase::Liquid,
+            Phase::Solid,
+            PhaseTransition::Freezing,
+        ),
+        (
+            "melting",
+            4.0,
+            1.0,
+            280.0,
+            Phase::Solid,
+            Phase::Liquid,
+            PhaseTransition::Melting,
+        ),
+        (
+            "boiling",
+            5.0,
+            0.0,
+            400.0,
+            Phase::Liquid,
+            Phase::Gas,
+            PhaseTransition::Boiling,
+        ),
+    ] {
+        let mut vessel = Vessel::new(VesselId(0), name);
+        vessel.temperature = Kelvin(kelvin);
+        vessel.deposit(SpeciesId::new("water"), Moles(liquid), Phase::Liquid);
+        if ice > 0.0 {
+            vessel.deposit(SpeciesId::new("water"), Moles(ice), Phase::Solid);
+        }
+        vessel.deposit(SpeciesId::new("NaCl"), Moles(5e-13), Phase::Aqueous);
+        let trace_before = vessel
+            .contents
+            .iter()
+            .find(|portion| portion.species == SpeciesId::new("NaCl"))
+            .unwrap()
+            .clone();
+
+        let mut states = StateEquilibrator;
+        let events = states.equilibrate(&mut vessel).unwrap();
+        assert!(
+            events.iter().any(|event| matches!(
+                event,
+                Event::StateChanged {
+                    species,
+                    from: actual_from,
+                    to: actual_to,
+                    kind: Some(actual_kind),
+                    moles: Some(amount),
+                    ..
+                } if species == &SpeciesId::new("water")
+                    && *actual_from == from
+                    && *actual_to == to
+                    && *actual_kind == kind
+                    && amount.0 > 0.0
+            )),
+            "{name} did not execute its typed water phase transfer: {events:?}"
+        );
+        let traces: Vec<_> = vessel
+            .contents
+            .iter()
+            .filter(|portion| portion.species == SpeciesId::new("NaCl"))
+            .collect();
+        assert_eq!(traces.len(), 1, "{name} changed trace portion count");
+        assert_eq!(traces[0], &trace_before, "{name} changed trace material");
+    }
+}
 
 fn census_vessel(reported_each: f64) -> Vessel {
     let mut vessel = Vessel::new(VesselId(0), "particle-census control");

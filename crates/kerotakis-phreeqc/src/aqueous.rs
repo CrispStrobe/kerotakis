@@ -5355,7 +5355,9 @@ impl PhreeqcEquilibrator {
                 if let Some(split) = protonation.get(el) {
                     for (ion, fraction) in split {
                         let share = *moles * fraction;
-                        if share <= TRACE {
+                        // The solved element total stays authoritative even
+                        // when one canonical protonation share is below TRACE.
+                        if !share.is_finite() || share <= 0.0 {
                             continue;
                         }
                         contents.push(Portion {
@@ -7222,7 +7224,8 @@ pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
 
 #[cfg(test)]
 mod numerical_water_activity_tests {
-    use super::numerical_species_distribution;
+    use super::{numerical_species_distribution, PhreeqcEquilibrator, Problem};
+    use kerotakis_core::{Moles, Phase, Portion, SpeciesId, Vessel, VesselId};
 
     const REPORT: &str = "Distribution of species\nH2O 5.551e+01 9.500e-01 1.744 -0.022 0.0\nNa+ 1.000e+00 0.7000 0 -0.15 -0.15\n-----\n";
 
@@ -7308,6 +7311,65 @@ mod numerical_water_activity_tests {
             (result.iter().find(|s| s.name == "H2O").unwrap().activity - 10.0_f64.powf(-0.2)).abs()
                 < 2e-15
         );
+    }
+
+    #[test]
+    fn protonation_rebuild_preserves_positive_trace_share_of_authoritative_total() {
+        use std::collections::BTreeMap;
+
+        let total_n = 0.02;
+        let nh3_fraction = 2.5e-11;
+        let mut vessel = Vessel::new(VesselId(0), "water and ammonium chloride");
+        vessel.contents.push(Portion {
+            species: SpeciesId::new("water"),
+            moles: Moles(55.508),
+            phase: Phase::Liquid,
+        });
+        vessel.deposit(SpeciesId::new("NH4+"), Moles(total_n), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("Cl-"), Moles(total_n), Phase::Aqueous);
+        let problem = Problem {
+            kgw: 1.0,
+            solvent_only: false,
+            totals: vec![("N(-3)".into(), total_n), ("Cl".into(), total_n)],
+            phases: vec![],
+            gases: vec![],
+            external_gases: vec![],
+            surfaces: vec![],
+            exchanges: vec![],
+            solid_solutions: vec![],
+            elements: vec!["Cl".into(), "N".into()],
+        };
+        let new_ions = [("N(-3)".into(), total_n), ("Cl".into(), total_n)];
+        let protonation = BTreeMap::from([(
+            "N(-3)".to_owned(),
+            vec![("NH3", nh3_fraction), ("NH4+", 1.0 - nh3_fraction)],
+        )]);
+
+        let (_, contents) = PhreeqcEquilibrator::rebuild_contents_and_events(
+            &vessel,
+            &problem,
+            &[],
+            1.0,
+            &new_ions,
+            &[],
+            &[],
+            &[],
+            &protonation,
+        );
+        let nh3 = contents
+            .iter()
+            .find(|portion| portion.species.0 == "NH3")
+            .expect("positive ammonia share is retained")
+            .moles
+            .0;
+        let reconstructed_n: f64 = contents
+            .iter()
+            .filter(|portion| matches!(portion.species.0.as_str(), "NH3" | "NH4+"))
+            .map(|portion| portion.moles.0)
+            .sum();
+
+        assert!((nh3 - 5e-13).abs() < 1e-27);
+        assert!((reconstructed_n - total_n).abs() < 1e-17);
     }
 
     #[test]
