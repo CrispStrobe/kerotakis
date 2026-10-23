@@ -1,0 +1,16 @@
+{
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "version": 1,
+  "worker_sha256": "5f61b3ae740cf7ddba01031f98c4580caa3059f2af998c8a588feef929aafebf",
+  "original_frozen_plan_sha256": "04e747e6f5e6a3b73ed8e4951bf2600fc9c08c95de76c7c848ca935640277c82",
+  "original_source_tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "original_manifest_sha256": "cd630e766ee6ea0382515606a0e357197f86dbc353a98f46145815a68151d7fd",
+  "original_kernel_output_version_mounted": 1,
+  "cpu_only": true,
+  "gpu_enabled": false,
+  "internet_enabled": false,
+  "native_tests_reexecuted": false,
+  "expected_archive_count": 342,
+  "actual_archive_hashes_accepted": false,
+  "provider_issue_record_sha256": "1846a65ad9ceacfdfc8ea5e16f3341a71095d2212f4bf7f03429e609987a4736"
+}

@@ -1,0 +1,14 @@
+{
+  "README.md": {
+    "sha256": "13a4854df176d053c9cd2fe6366a03ba1cacdbb264a4f9b48ac7ed1756498372",
+    "bytes": 1475
+  },
+  "dispatch-binding.json": {
+    "sha256": "d22f784528aaa8ac2060fa0d23698a500dcefd3b5f1e4c8aabf87464781ad3d0",
+    "bytes": 765
+  },
+  "worker.py": {
+    "sha256": "5f61b3ae740cf7ddba01031f98c4580caa3059f2af998c8a588feef929aafebf",
+    "bytes": 17264
+  }
+}
