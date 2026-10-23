@@ -3963,7 +3963,7 @@ mod phase_residual_certificate_tests {
     // Frozen independent Decimal/Simpson references in
     // audits/water-fusion-authority-20261023/references.json, T=270 K.
     const ACTIVITY_270: f64 = 0.969_899_189_624_049_9;
-    const FUSION_270_J_MOL: f64 = 5889.397_339_398_314;
+    const FUSION_270_J_MOL: f64 = 5_889.397_339_398_314;
 
     fn fresh_brine() -> Vessel {
         let kg = 5.0 * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
