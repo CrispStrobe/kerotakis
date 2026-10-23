@@ -7250,7 +7250,7 @@ mod numerical_water_activity_tests {
             1.0
         );
         assert_eq!(
-            super::numerical_particle_molality(&vec![
+            super::numerical_particle_molality(&[
                 vec!["particle_molality".into()],
                 vec!["0".into()]
             ])
