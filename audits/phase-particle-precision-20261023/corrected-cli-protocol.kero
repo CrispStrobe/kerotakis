@@ -1,0 +1,5 @@
+add v1 water 100mL
+add v1 CaCl2 0.05mol
+add v1 AgNO3 0.005mol
+cool v1 20kJ
+inspect v1
