@@ -1,0 +1,9 @@
+# Five native fusion-coupling regressions pass
+
+On actual [PR859](https://github.com/CrispStrobe/kerotakis/pull/859) source`51bc28dd`/tree`82655174`, all five unchanged native PHREEQC `partial_freezing` controls pass: residual-brine/ice ownership, reactive lime, quantized thermal cycling, saturated KCl and concentrated protocols. This is separate from the [completed46 controls](../water-fusion46-focused-accepted-20261023/README.md); none of those46 was rerun in this stage. Aggregate focused acceptance is51 distinct controls, with no new experiment selection or calibration claim.
+
+Parent saved-byte review authenticates all68 original raw members, actual lock`41bbdc74` and retained native test executable`22708f38`. The public projection has exact test stdout/stderr, original manifest commitments, actual source/lock/executable metadata, explicit command projections and parent review. Original full worker/plan/command records and executable bytes remain retained outside public Git. This projection is not the full raw collection. The portable verifier checks published bytes and immutable Git source without native/engine/provider execution.
+
+The first compiler failure is separately retained for the preceding revision. No source, test criterion, cap or tolerance changed during these three completed focused stages. The strict source domain remains252–273.15K; boiling keeps its separate model.
+
+One additional four-package native component job is issued on the same source, targeting canonical formatting, strict Clippy and2236 core/547 PHREEQC/80 CEA/184 thermo tests. Those are expected counts, not observed outcomes or acceptance. Protected/platform CI and all33 own-fleet groups remain applicable, followed by exact-head integration and changed-release checks. Qualified original coverage stays338/468. Do not rerun completed focused stages or the unchanged experiment corpus.

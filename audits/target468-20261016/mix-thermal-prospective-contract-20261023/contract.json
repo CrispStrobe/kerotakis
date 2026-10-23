@@ -1,0 +1,55 @@
+{
+  "state": "PROSPECTIVE_UNEXECUTED_NOT_AN_ORIGINAL_SELECTION",
+  "base_source": "4eee0d636475393d6c5628e81432d45168a8c4da",
+  "source_pins": {
+    "crates/kerotakis-core/src/bench.rs": "90c65afef53ee8e5596dade31ff4f26d4f7e069b96c5294c89d190545bbac7f2",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "116f7f4d312c178eecc7dad87481bdc135103f3f74c1159a4e498290010a593c",
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": "7c1629e72cfa634e96b85bf0fdcd5961814c079dcc54977133bf98e3834833a6"
+  },
+  "vendor_iphreeqc_gitlink": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+  "wateq4f_sha256": "93547b0343d9f151e73fb48e7927aa9e9c777399fedcb8c7497d00371af4d0ae",
+  "verbatim_source_excerpt": [
+    "H2O = OH- + H+",
+    "log_k -14",
+    "delta_h 13.362 kcal"
+  ],
+  "model_hydroxide_j_mol": "55906.608",
+  "routing_scope": "Native MIX currently selects wateq4f for these inputs. Direct ordinary routes may use a different database; freeze the actual routed reference rather than copying a generic55.81kJ/mol comment. These limiting values are forecasts, not observed heat or calibration. Actual expectation uses measured before/after hydroxide and all changed priced states.",
+  "starting_protocol": "Prepare two vessels with50g water each; add0.005mol HCl to one and0.005mol NaOH to the other; capture complete settled pre-mix states. Preserve their actual prior dissolution heat. Mix declared fractions into a fresh third vessel, recording all sources and receiver.",
+  "controls": [
+    {
+      "id": "equal-acid-base",
+      "acid_fraction": "1",
+      "base_fraction": "1",
+      "provisional_limit_reacted_mol": "0.005",
+      "limiting_model_heat_j": "279.533040"
+    },
+    {
+      "id": "reverse-source-order",
+      "acid_fraction": "1",
+      "base_fraction": "1",
+      "provisional_limit_reacted_mol": "0.005",
+      "limiting_model_heat_j": "279.533040"
+    },
+    {
+      "id": "partial-acid-base",
+      "acid_fraction": "0.5",
+      "base_fraction": "0.25",
+      "provisional_limit_reacted_mol": "0.00125",
+      "limiting_model_heat_j": "69.88326000"
+    },
+    {
+      "id": "nonreactive-salt-positive-control",
+      "expected": "No reaction-energy gain beyond the independently integrated sensible baseline; do not rebook either prior dissolution heat."
+    },
+    {
+      "id": "nonempty-receiver-and-fallback",
+      "expected": "Account all receiver/source matter, heat and transported measured aqueous coordinates; native MIX must decline if it cannot represent the complete target."
+    }
+  ],
+  "energy_absolute_tolerance_j": "0.001",
+  "material_absolute_tolerance_mol": "1e-10",
+  "first_actual_baseline_results": null,
+  "source_defect_status": "Source-backed missing-path hypothesis, not an executed current-runtime failure",
+  "new_engine_api_or_original_executions": 0
+}

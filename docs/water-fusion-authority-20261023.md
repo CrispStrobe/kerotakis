@@ -1,5 +1,7 @@
 # Shared water-fusion authority — implementation and acceptance
 
+**Native focused result:** The [five native coupling regressions pass](../audits/target468-20261016/water-fusion-native5-focused-accepted-20261023/README.md), so focused acceptance is51 distinct actual passes on51bc28dd. The component run is issued, not accepted; source/full/platform/product gates remain. Complete those before the separately scoped [mixing-heat repair](mix-thermal-ownership-lane-20261023.md).
+
 **Actual focused result:** [46 controls pass](../audits/target468-20261016/water-fusion46-focused-accepted-20261023/README.md) on51bc28dd: new8 plus affected phase38, with full source/lock/executable/raw bindings. A disjoint five-test native-coupling focus is issued, not yet accepted. Full/platform/protected/product acceptance remains pending. Historical preparation notes below retain the contract; completed46 controls need no replay.
 
 This follows accepted PR857 and documentation PR858. The existing deployed source remains `beffb001`; the current experiment catalog remains **338/468 qualified originals**. This candidate earns no additional experiment credit.

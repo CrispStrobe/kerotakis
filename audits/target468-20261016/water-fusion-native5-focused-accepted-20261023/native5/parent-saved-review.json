@@ -1,0 +1,19 @@
+{
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "worker_sha256": "9bad4126d42b7664a5e468ecf6b6180c3da282bc0c3adc0331e004bf579e27aa",
+  "plan_sha256": "8fad415bbe18e16384e8d3cfc105fd245d41b924bf4ee7523b12443f8603ba6f",
+  "actual_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "manifest_sha256": "8f263e0109caaaf7c00e982c052260cf4dd84745aadf6def12319b22d70c0fb4",
+  "all_closed_members": 68,
+  "passed_controls": 5,
+  "actual_executables": {
+    "partial_freezing": {
+      "sha256": "22708f38926544ed5d32fc65d75699446c7b6e63be33e875238998ace9e8fd7f",
+      "bytes": 85932760
+    }
+  },
+  "no_new_native_or_provider_execution": true,
+  "phase_conservation_full_fleet_platform_and_product_acceptance": false,
+  "scientific_selections": 0
+}

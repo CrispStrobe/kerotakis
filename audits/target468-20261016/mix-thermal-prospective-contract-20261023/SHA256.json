@@ -1,0 +1,10 @@
+{
+  "README.md": {
+    "sha256": "2bfd22a1883c1499342253d9cb45563d80cdff53df3c2d2d9227c761b65a8478",
+    "bytes": 545
+  },
+  "contract.json": {
+    "sha256": "7cc94a50521a687a366a4fd494447c062899b48fcb6dc71ab87d640a4defe12f",
+    "bytes": 2793
+  }
+}

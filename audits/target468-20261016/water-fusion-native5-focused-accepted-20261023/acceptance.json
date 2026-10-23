@@ -1,0 +1,18 @@
+{
+  "source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "tree": "826551744876447dd4c537a124c362c3bc1a124f",
+  "passed_controls": 5,
+  "scientific_selections": 0,
+  "phase_energy_absolute_tolerance_j": 0.001,
+  "material_absolute_tolerance_mol": 1e-10,
+  "full_fleet_platform_integration_and_product_accepted": false,
+  "groups": [
+    {
+      "name": "native5",
+      "passed": 5,
+      "closed_raw_members": 68,
+      "parent_review_sha256": "bccda19d7a4c2003395075d436606acbfbce23392046196ebf3ff2115886488a",
+      "producer_manifest_sha256": "8f263e0109caaaf7c00e982c052260cf4dd84745aadf6def12319b22d70c0fb4"
+    }
+  ]
+}

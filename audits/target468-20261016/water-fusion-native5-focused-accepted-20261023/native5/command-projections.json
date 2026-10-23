@@ -1,0 +1,87 @@
+[
+  {
+    "target": "partial_freezing",
+    "test": "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+    "record": "partial_freezing-case-00",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "bbcf229fe7bbe48b17f9ece76730d054056a7a686875e147d777f52decc0d6a5",
+    "stdout_sha256": "c24ec5ade4326b8c7d0e424dd89a67e53448619639004b6e2daad5b62216b384",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "22708f38926544ed5d32fc65d75699446c7b6e63be33e875238998ace9e8fd7f",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "partial_freezing",
+    "test": "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+    "record": "partial_freezing-case-01",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "b924fa193341fa89d4ac44512366ea033dd89b4de1ba89a9b5739f723d86487c",
+    "stdout_sha256": "1a2fb759b0e4acf9987ea336aa460d3347f53832eb056e8e8c3785c866e107cf",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "22708f38926544ed5d32fc65d75699446c7b6e63be33e875238998ace9e8fd7f",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "partial_freezing",
+    "test": "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+    "record": "partial_freezing-case-02",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "4b871d13ae78f9b286cc7ff5c27fd83214c95dc8b94328cf22f338bff2c93da3",
+    "stdout_sha256": "a30ac4f86c5ead7db1f3d1168049653f23d3d317db166ab767b84dfb40136038",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "22708f38926544ed5d32fc65d75699446c7b6e63be33e875238998ace9e8fd7f",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "partial_freezing",
+    "test": "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+    "record": "partial_freezing-case-03",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "0649b9f3cb62ddda8431ca8c3c988e1da42df15628e22fb5d4914bdaa2595961",
+    "stdout_sha256": "0228414c2e99ac3a6df1271758bceb157aa830c0062c6b043bcde337290dfefa",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "22708f38926544ed5d32fc65d75699446c7b6e63be33e875238998ace9e8fd7f",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  },
+  {
+    "target": "partial_freezing",
+    "test": "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+    "record": "partial_freezing-case-04",
+    "exit_status": 0,
+    "exact_arguments_after_executable": [
+      "--exact",
+      "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "raw_command_record_sha256": "7f7081897f50d499c5cec84f45997bd0381923bb17dd04f35137bd4199d4c80e",
+    "stdout_sha256": "a8ed3996ad8ddd5afc7e3c5fc8cd12d5fd1ab6e974dc4c63ebf718bc407d196e",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "actual_test_executable_sha256": "22708f38926544ed5d32fc65d75699446c7b6e63be33e875238998ace9e8fd7f",
+    "scope": "Declared projection omits producer absolute executable path; original command bytes and executable archives retained outside public Git."
+  }
+]
