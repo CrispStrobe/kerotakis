@@ -1,0 +1,7 @@
+# Separately frozen nearby salt/zero-time diagnostic
+
+The completed107-control source102e0046 fails the native unrelated-salt/typed-zero-time control at repeat0: the combined free-H/free-OH/solute-charge drift is5.428514067803685e−9mol/eq against unchanged1e−10. The original NaCl dose is0.001mol. Preserve that first test failure and its source/binary/lock bindings.
+
+This distinct diagnostic increases only NaCl by1% to0.00101mol, uses the same warm bicarbonate/acetic setup, and adds an explicit zero-time wait between saved snapshots. Expect no SolverFailed, a current complete native solution and no material or measured-coordinate drift beyond1e−10mol/eq after actual gas-boundary adjustment. Record the individual free-proton, free-hydroxide and solute-charge changes, not merely their maximum or sum. Preserve the actual result if textual zero-time admission differs from the native typed control; never rewrite the script after execution to force agreement.
+
+Run once through the captured102e0046 debug CLI/actual lock41bb under a fresh resource gate, one CPU,1.5GiB/30-second cap. No build or original/product qualification is involved. Restore only this captured CLI, with compressed and raw byte hashes verified; do not read or decompress the other executable archives. Native input/readback traces are diagnostic evidence, not empirical calibration. Keep this nearby protocol distinct from both the original native control and the earlier pending exact warm trace.
