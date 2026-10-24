@@ -1,0 +1,25 @@
+{
+  "source": "102e0046fea03aa2aa85d4af02c8b1c44d976fab",
+  "protocol_sha256": "8281d8b970763e7945b6d7fea4b5a7305b0da877969a3cd04545a0fe70e6a937",
+  "stderr_sha256": "fc3862dd108777fe855fb428a2df5eeacf5c02649cde831986846c852d27ec02",
+  "prefix_states": 5,
+  "zero_time_reached": false,
+  "cli_exit": 1,
+  "input_components": {
+    "Na": {
+      "intended_mol": "0.02101",
+      "written_molality": "0.2104045353900",
+      "written_water_kg": "0.099855262",
+      "actually_supplied_mol": "0.0210100000073567221800",
+      "input_error_mol": "7.3567221800E-12"
+    },
+    "Cl": {
+      "intended_mol": "0.00101",
+      "written_molality": "0.01011463973079",
+      "written_water_kg": "0.099855262",
+      "actually_supplied_mol": "0.00101000000035364491698",
+      "input_error_mol": "3.5364491698E-13"
+    }
+  },
+  "not_scientific_or_product_acceptance": true
+}

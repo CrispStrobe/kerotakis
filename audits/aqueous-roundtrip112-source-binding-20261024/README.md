@@ -1,0 +1,7 @@
+# Aqueous input round-trip successor:112 controls issued
+
+One bounded hosted CPU validation is issued for source `5407ab541517310b155f76efdab1bd835ba9b5a1`, tree `c1077f69c5f6a46136360b2d3078100f520f2a77`. Exact plan, worker, expected generated lock and all112 selected identities are frozen in `binding.json`. The previous107 names remain; three new mechanism controls and two existing finite-gas controls are added. The reviewed obsolete warm solvent-format predicates now require actual supplied amounts; all physical budgets remain unchanged.
+
+Actual producer results are pending. Require every112 result, canonical formatting, strict affected all-target Clippy, wasm32 compilation, all three exactCLI cases without SolverFailed and the complete1536-state sweep without violations. Verify actual source/tree/generated lock, clean before/after pins, listed/captured executable identities and closed raw stream hashes. Provider completion or exit0 is not acceptance. Preserve prior107104pass/threefail, its two sweep violations, and every earlier first failure separately.
+
+The [implementation lane](../../docs/aqueous-input-precision-20261024.md) explains source input precision and current numerical meters. The separate clock-boundary O/charge failure remains open. Full fleet/platform/protected checks, normal exact-head integration and15API/86browser changed-release acceptance remain required. No new scientific-original qualification:338/468.

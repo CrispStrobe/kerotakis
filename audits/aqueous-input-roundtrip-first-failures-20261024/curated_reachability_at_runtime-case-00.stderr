@@ -1,0 +1,4 @@
+
+thread 'every_curated_reaction_is_reachable_in_every_order' (8989) panicked at crates/kerotakis-phreeqc/tests/support/native_material_checks.rs:34:5:
+bicarbonate/acetic order reachability: solver failure while adding CH3COOH: [Added { vessel: VesselId(0), species: SpeciesId("CH3COOH"), moles: Moles(0.02), total_after: Some(Moles(0.02)) }, SolverFailed { vessel: VesselId(0), solver: "phreeqc-aqueous", detail: "phreeqc-inventory could not solve this state: gas-aware analytical component balance: component C exceeds readback bound: target=0.000027331813902999047, readback=0.000027331854567665316, bound=0.0000000000027331813902999045" }, SolverFailed { vessel: VesselId(0), solver: "aqueous-overlap-ownership", detail: "deferred curated overlap received no accepted complete aqueous answer" }]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

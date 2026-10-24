@@ -1,0 +1,7 @@
+# Nearby salt diagnostic: valid prefix, zero-time admission not reached
+
+The distinct1% NaCl perturbation was frozen before running the captured102e0046 CLI once under a fresh resource gate and one-CPU/1.5GiB/30-second cap. Actual runtime0.786seconds. The CLI emitted five setup/inspect states, then rejected `wait 0s` because duration must be positive; exit1. The planned zero-time comparison was NOT_REACHED, and no new scalar-drift observation or scientific/product pass is claimed. The original typed-native zero-time failure remains the controlling evidence. Do not alter and rerun this script to conceal its admission outcome.
+
+The valid prefix still captures current-source input serialization. `CURRENT-INPUT-ARITHMETIC.json` compares the final canonical query's written molalities and rounded water against its actual stock: it inadvertently supplies extra7.3567e−12molNa and3.5364e−13molCl. This corroborates the nine-decimal input defect; it does not establish empirical chemistry or describe an executed zero-time state. `RESULT.json` binds source/tree/actual lock and both compressed/restored CLI byte hashes. Only this captured debug CLI body was verified; other test executable archives remain a separate gate.
+
+Raw stdout is preserved. `diagnostic.stderr.public` projects only the checkout prefix from the CLI's error filename; `projection.json` binds original and public bytes. Full original raw evidence remains preserved separately. Original qualification is unchanged.

@@ -1,0 +1,6 @@
+{
+  "original_stderr_sha256": "fc3862dd108777fe855fb428a2df5eeacf5c02649cde831986846c852d27ec02",
+  "public_stderr_sha256": "acd50c4d68a3f8c6696731afe89c058fe19c09ffbe1e9117f44ca1064aa4cbc6",
+  "projection": "only repository checkout prefix removed from CLI filename in error; raw original retained separately",
+  "raw_stdout_unchanged": true
+}
