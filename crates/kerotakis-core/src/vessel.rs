@@ -970,6 +970,11 @@ pub struct SolutionInfo {
     /// Distinct from the solvent in the reconstructed analytical inventory.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub solvent_kg: Option<f64>,
+    /// Native total molality of aqueous species other than water, before the
+    /// species rows are rounded for presentation. None on historical records;
+    /// consumers then sum the reported rows exactly as before.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub particle_molality: Option<f64>,
     /// Electron activity, −log a(e⁻): the redox axis.
     ///
     /// pe is to electrons what pH is to protons, and the symmetry is worth

@@ -1049,14 +1049,26 @@ impl Equilibrator for CombinedSolver<'_> {
             .unwrap_or(self.stack.solvers.len());
         // Use the native route transaction, validation and boundary bookkeeping
         // for both installed stages and the borrowed, phase-coupled adapter.
-        self.stack.last_routes.clear();
-        events.extend(self.stack.equilibrate_range(0..aqueous_at, vessel)?);
+        self.stack.begin_equilibration();
         let mut aqueous = BrowserPhaseCoupled {
             inner: BrowserAqueous {
                 inner: &mut *self.aqueous,
             },
         };
+        // The borrowed adapter participates in the same typed overlap
+        // ownership selection as an installed native aqueous route.
+        events.extend(self.stack.equilibrate_range_with_external_aqueous(
+            0..aqueous_at,
+            vessel,
+            &mut aqueous,
+        )?);
+        if self.stack.aqueous_overlap_refused() {
+            return Ok(events);
+        }
         events.extend(self.stack.equilibrate_external(&mut aqueous, vessel));
+        if self.stack.aqueous_overlap_refused() {
+            return Ok(events);
+        }
         events.extend(
             self.stack
                 .equilibrate_range(aqueous_at..self.stack.solvers.len(), vessel)?,

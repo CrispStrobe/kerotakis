@@ -1,0 +1,5 @@
+# First106-control attempt: compiler stop before tests
+
+The exact `c0b6acba` source/tree/actual lock is bound in `binding.json`. Canonical formatting passed; strict affected all-target Clippy stopped with E0593 in the shared test helper at lines18 and48. `Bench::vessel` returns Result, so its error closures need one argument. All106 selected tests, wasm32, the three CLI protocols and full1536 sweep were NOT_REACHED. No scientific test pass or qualification follows from this run.
+
+The exact compiler-error excerpt is preserved; complete raw logs, source-before pins,52 hashed nongzip members and53-member closure are separately retained and independently reviewed. Source-after capture was not reached. Preserve this first failure. Correct only the helper's two error closures without changing runtime, forecasts, physical budgets, tests or pending-clock exclusion; run the same106-control/compiler/CLI/sweep acceptance on a separately bound changed source. No retry or reissue of the old job is authorized by a changed-source follow-up.

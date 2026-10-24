@@ -155,6 +155,7 @@ fn scene_name_map_covers_both_gap_kinds_and_omits_unknown_native_ids() {
     v.solution = Some(SolutionInfo {
         scope: Default::default(),
         solvent_kg: Some(0.1),
+        particle_molality: None,
         pe: None,
         redox: Vec::new(),
         ph: f64::NAN,

@@ -1,0 +1,5 @@
+add v1 water 100mL
+add v1 Na2CO3 0.02mol
+add v1 CH3COOH 0.05mol
+cool v1 20kJ
+inspect v1

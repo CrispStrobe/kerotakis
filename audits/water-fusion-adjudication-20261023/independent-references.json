@@ -1,0 +1,206 @@
+{
+  "source_before_fixture_correction": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "registry_sha256": "75c825b4d1725871604ec5f048fc1995a86efc66d3a25cc4adcc3aeeb88eb132",
+  "old_scene_sha256": "ec21f36e3e150110f476ffa55c4cb41bcb3df4b101dd128b45affcab13107a37",
+  "captured_actual_scene_sha256": "c2ca9991843f2f19dbf02cb87f7bd8289897bedb03d7c8e7207f8a47f7f72640",
+  "method": "55-digit independent registry antiderivatives and512/1024-step Simpson integral; old/current six-decimal rounding intervals must overlap under the new law. All non-liquidus scene fields must remain identical.",
+  "scope": "Model-dependent expectation adjudication, not empirical calibration or production execution.",
+  "changed_field_count": 24,
+  "unique_temperature_references": [
+    {
+      "old_rounded_k": "269.707786",
+      "inferred_old_log_activity": "-0.03377407509912363743812336888498378584350879454061067888",
+      "independent_new_central_k": "269.6695846250297465896586209501039257256331264290053670",
+      "new_interval_from_old_rounding_k": [
+        "269.6695841138301258913941551215399720415001595279805864",
+        "269.6695851362293656160238983497494065875405455534804672"
+      ],
+      "independent_quadrature_refinement_error": "8.64438543760594436027741874540352113E-21"
+    },
+    {
+      "old_rounded_k": "269.706117",
+      "inferred_old_log_activity": "-0.03379065997949233745360984765575393683317066145441188623",
+      "independent_new_central_k": "269.6678782313842077745211106581684239008930398561361968",
+      "new_interval_from_old_rounding_k": [
+        "269.6678777201790062011965792661752843388535671505520330",
+        "269.6678787425894076759011887296076426760633476259652819"
+      ],
+      "independent_quadrature_refinement_error": "8.66572932355475199694372389095875532E-21"
+    },
+    {
+      "old_rounded_k": "269.69944",
+      "inferred_old_log_activity": "-0.03385701149120463467068059945529166781629810819108833995",
+      "independent_new_central_k": "269.6610514480498232042704509075765173518123330552873792",
+      "new_interval_from_old_rounding_k": [
+        "269.6610509368222932753960240773134024608067751669227489",
+        "269.6610519592773514610193144701714337303511438064526150"
+      ],
+      "independent_quadrature_refinement_error": "8.75154347043796730280962700801697211E-21"
+    },
+    {
+      "old_rounded_k": "269.641054",
+      "inferred_old_log_activity": "-0.03443735208413000386963521897128939362550189068860469650",
+      "independent_new_central_k": "269.6013429831202353628843683169081613370397654105462986",
+      "new_interval_from_old_rounding_k": [
+        "269.6013424716973554567931906580621406930282891124381068",
+        "269.6013434945431135952647073386531159225554963232906114"
+      ],
+      "independent_quadrature_refinement_error": "9.53155198416020801546361915924446894E-21"
+    }
+  ],
+  "scene_changes": [
+    {
+      "json_pointer": "/slime/1/scene/vessels/0/melting_point_k",
+      "old": "269.707786",
+      "actual_successor": "269.669585",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/2/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/3/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/4/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/5/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/6/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/6/scene/vessels/1/melting_point_k",
+      "old": "269.707786",
+      "actual_successor": "269.669585",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/7/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/7/scene/vessels/1/melting_point_k",
+      "old": "269.69944",
+      "actual_successor": "269.661052",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/8/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/8/scene/vessels/1/melting_point_k",
+      "old": "269.69944",
+      "actual_successor": "269.661052",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/9/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/9/scene/vessels/1/melting_point_k",
+      "old": "269.69944",
+      "actual_successor": "269.661052",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/10/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/10/scene/vessels/1/melting_point_k",
+      "old": "269.69944",
+      "actual_successor": "269.661052",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/11/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/11/scene/vessels/1/melting_point_k",
+      "old": "269.69944",
+      "actual_successor": "269.661052",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/11/scene/vessels/2/melting_point_k",
+      "old": "269.707786",
+      "actual_successor": "269.669585",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/12/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/12/scene/vessels/1/melting_point_k",
+      "old": "269.69944",
+      "actual_successor": "269.661052",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/12/scene/vessels/2/melting_point_k",
+      "old": "269.641054",
+      "actual_successor": "269.601343",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/13/scene/vessels/0/melting_point_k",
+      "old": "269.706117",
+      "actual_successor": "269.667878",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/13/scene/vessels/1/melting_point_k",
+      "old": "269.69944",
+      "actual_successor": "269.661052",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    },
+    {
+      "json_pointer": "/slime/13/scene/vessels/2/melting_point_k",
+      "old": "269.641054",
+      "actual_successor": "269.601343",
+      "independent_prediction_agrees_with_both_six_decimal_rounding_intervals": true
+    }
+  ],
+  "tenth_molal_model_pin": {
+    "old_depression_k": "0.3468",
+    "independently_converted_depression_k": "0.3471815129360335868670477989361566810896831685115880",
+    "successor_rounded_depression_k": "0.3472",
+    "original_pin_tolerance_k": "0.0004",
+    "independent_physical_band_unchanged": true
+  },
+  "saturated_brine_contract": "Keep the valid boil and scene absence of melting point. Require checked inverse None, NaN legacy sentinel and input activity strictly below the252K activity; do not demand a finite out-of-domain root.",
+  "budget_or_physical_tolerance_widened": false
+}

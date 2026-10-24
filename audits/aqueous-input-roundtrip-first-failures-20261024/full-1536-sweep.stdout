@@ -1,0 +1,9 @@
+
+swept 1536 states — 1536 ran, 41 step(s) stated a refusal
+2 violation(s):
+
+  StatesAgreeWithTemperature — 2 case(s)
+    · liquid water at 279.64 K, freezes at 289.75 K
+      in: water 250mL + Na2CO3 0.02mol + [CH3COOH 0.05mol] + [cool v1 20kJ]
+    · liquid water at 278.49 K, freezes at 289.75 K
+      in: water 250mL + NaHCO3 0.05mol + [CH3COOH 0.05mol] + [cool v1 20kJ]

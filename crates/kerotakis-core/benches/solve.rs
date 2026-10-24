@@ -21,6 +21,7 @@ fn make_vessel() -> Vessel {
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,
+        particle_molality: None,
         redox: Vec::new(),
         pe: None,
         ph: 1.7,

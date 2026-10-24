@@ -25,7 +25,7 @@ use kerotakis_core::{
 #[cfg(feature = "engine")]
 const RESET_NUMBERED_REACTANTS: &str = "DELETE\n    -all\nEND\n";
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::rc::Rc;
 use std::sync::OnceLock;
 
@@ -1131,6 +1131,16 @@ impl PhreeqcEquilibrator {
             if numerical && apply_numerical_water_activity(&mut e.species, &e.rows).is_err() {
                 continue;
             }
+            let census = e
+                .key
+                .lines()
+                .any(|line| line.trim() == "-headings particle_molality")
+                || e.rows
+                    .first()
+                    .is_some_and(|header| header.iter().any(|name| name == "particle_molality"));
+            if census && numerical_particle_molality(&e.rows).is_err() {
+                continue;
+            }
             self.cache.entry(e.key).or_insert_with(|| {
                 Rc::new(CachedSolve {
                     rows: e.rows,
@@ -1465,6 +1475,7 @@ fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveErr
         solvent_activity: None,
         scope: SolutionScope::SolventOnly,
         solvent_kg,
+        particle_molality: None,
         pe: None,
         redox: Vec::new(),
         ph,
@@ -2886,7 +2897,10 @@ impl Equilibrator for PhreeqcEquilibrator {
         };
         *vessel = solved;
         // The final state, posed canonically, before the last word on it.
-        self.recharacterise_canonically(vessel, &mut events);
+        if let Err(error) = self.recharacterise_canonically(vessel, &mut events) {
+            *vessel = start;
+            return Err(error);
+        }
         events.extend(unspeciated_acid_notes(vessel));
         events.extend(unspeciated_solute_notes(vessel));
         events.extend(component_charge_note);
@@ -3189,10 +3203,15 @@ impl Equilibrator for PhreeqcEquilibrator {
             &new_solid_solutions,
             &value,
         );
-        let (new_phases, new_gases, ph, mu) = match balance {
+        let (new_phases, new_gases, ph, mu, gas_components_certified) = match balance {
             Ok(v) => v,
             Err(e) => return abandoned(e),
         };
+        if gas_components_certified {
+            if let Err(error) = certify_projected_protonation(&new_ions, &protonation) {
+                return abandoned(error);
+            }
+        }
 
         let (mut events, contents) = Self::rebuild_contents_and_events(
             vessel,
@@ -3223,14 +3242,23 @@ impl Equilibrator for PhreeqcEquilibrator {
             *vessel = before_inventory;
             return abandoned(error);
         }
-        vessel.free_hydroxide = value("m_OH-")
-            .map(|m| m * solvent_kgw_out)
-            .unwrap_or_else(|| free_hydroxide_moles(Some(&cached.speciation), solvent_kgw_out));
-        vessel.free_proton = value("m_H+")
-            .map(|m| m * solvent_kgw_out)
-            .unwrap_or_else(|| {
-                measured_species_moles(Some(&cached.speciation), "H+", solvent_kgw_out)
-            });
+        if gas_components_certified {
+            if let Err(error) = crate::inventory::certify_gas_aware_inventory(
+                &before_inventory,
+                vessel,
+                &events,
+                &reservoirs,
+            ) {
+                *vessel = before_inventory;
+                return abandoned(error);
+            }
+        }
+        if let Err(error) =
+            refresh_measured_coordinates(vessel, &cached.rows, &cached.speciation, solvent_kgw_out)
+        {
+            *vessel = before_inventory;
+            return abandoned(error);
+        }
         vessel.refresh_pressure();
 
         events.extend(reference_complex_boundary(vessel, &cached.speciation));
@@ -3264,6 +3292,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
+            particle_molality: value("particle_molality"),
             // MIX itself does not solve the lab's electron-budget root.
             pe: None,
             redox: redox_distribution(&merged_problem, db_tag, &value),
@@ -3373,27 +3402,20 @@ impl PhreeqcEquilibrator {
     ///   after             1.0023e-13       1.8361e-9       1.1000e-10
     /// ```
     ///
-    /// `solvent_kg` is exact to every digit the wire can print because the
-    /// input writes the solvent mass as `{:.9}`, and the conserved
-    /// inventory's own residue — the two orderings agree on the vessel's
-    /// water to about one part in 4e8 — is finer than that quantisation,
-    /// so both print the same nine decimals and the solve is answered from
-    /// the same entry of the content-addressed cache. The element totals
-    /// are written `{:.12e}`, which is *finer* than the inventory's
-    /// residue, so a few parts in 1e9 do reach the engine and come back as
-    /// the 1.8e-9 above. That remainder is floating-point noise in a
-    /// conserved sum, not a difference in representation, and it is four
-    /// orders of magnitude below what the wire publishes.
+    /// The measurements above describe the historical nine-decimal input.
+    /// Current inputs preserve solvent mass with sixteen scientific digits
+    /// so the native total is the written molality times the same water
+    /// mass used to calculate it. Cache keys include that full input. The
+    /// canonical pose still derives from settled contents, and no displayed
+    /// number is used as an inventory correction.
     ///
     /// # What it deliberately does NOT do
     ///
-    /// It does not rebuild the vessel. Contents, phases, surfaces,
-    /// temperature and every event stay exactly as the operation left
-    /// them; this pass only replaces the four REPORTED numbers —
-    /// `solvent_kg`, `ph`, `ionic_strength` and the species distribution —
-    /// and corrects the `SolutionCharacterized` event that carries two of
-    /// them. The state remains what the chemistry did; only the
-    /// characterisation of it becomes a function of the state alone.
+    /// It does not rebuild the vessel. Contents, phases, surfaces and
+    /// temperature stay exactly as the operation left them; this pass
+    /// refreshes reported solution fields and the measured free-ion and CO2
+    /// pressure coordinates from the same numerical answer. It corrects
+    /// the `SolutionCharacterized` event that carries pH and ionic strength.
     ///
     /// Overwriting `solvent_kg` with the vessel's own water inventory was
     /// the obvious alternative and is not available: molalities are per kg
@@ -3426,18 +3448,22 @@ impl PhreeqcEquilibrator {
     /// does silently restore the path dependence, which is why the test
     /// asserts the invariance on the live path rather than trusting this
     /// branch never to be taken.
-    fn recharacterise_canonically(&mut self, vessel: &mut Vessel, events: &mut [Event]) {
+    fn recharacterise_canonically(
+        &mut self,
+        vessel: &mut Vessel,
+        events: &mut [Event],
+    ) -> Result<(), SolveError> {
         let Some(scope) = vessel.solution.as_ref().map(|info| info.scope) else {
-            return;
+            return Ok(());
         };
         if scope == SolutionScope::SolventOnly {
-            return;
+            return Ok(());
         }
         let Ok(Some(setup)) = self.setup_problem(vessel) else {
-            return;
+            return Ok(());
         };
         if setup.problem.solvent_only {
-            return;
+            return Ok(());
         }
         // The route has to be the one the record already names.
         //
@@ -3457,7 +3483,7 @@ impl PhreeqcEquilibrator {
             .and_then(|info| info.provenance.as_ref())
             .is_some_and(|provenance| provenance.dataset.contains(&routed_file));
         if !same_route {
-            return;
+            return Ok(());
         }
         let Ok((cached, _)) = self.dispatch_solve(
             vessel,
@@ -3466,7 +3492,7 @@ impl PhreeqcEquilibrator {
             &setup.input,
             setup.key,
         ) else {
-            return;
+            return Ok(());
         };
         let value = |column: &str| -> Option<f64> {
             let idx = cached.rows.first()?.iter().position(|h| h == column)?;
@@ -3474,12 +3500,14 @@ impl PhreeqcEquilibrator {
         };
         let (Some(solvent_kg), Some(ph), Some(mu)) = (value("mass_H2O"), value("pH"), value("mu"))
         else {
-            return;
+            return Ok(());
         };
+        refresh_measured_coordinates(vessel, &cached.rows, &cached.speciation, solvent_kg)?;
         let Some(info) = vessel.solution.as_mut() else {
-            return;
+            return Ok(());
         };
         info.solvent_kg = Some(solvent_kg);
+        info.particle_molality = value("particle_molality");
         info.ph = ph;
         info.ionic_strength = mu;
         info.species = cached.speciation.clone();
@@ -3498,6 +3526,7 @@ impl PhreeqcEquilibrator {
             *said_ph = ph;
             *said_mu = mu;
         }
+        Ok(())
     }
 
     /// One pass at the vessel's current temperature. Returns the reaction
@@ -3568,15 +3597,20 @@ impl PhreeqcEquilibrator {
             });
         }
 
-        let (new_phases, new_gases, ph, mu) = Self::apply_balance_corrections(
-            vessel,
-            &problem,
-            &mut new_ions,
-            &mut new_surfaces,
-            &new_exchanges,
-            &new_solid_solutions,
-            &value,
-        )?;
+        let (new_phases, new_gases, ph, mu, gas_components_certified) =
+            Self::apply_balance_corrections(
+                vessel,
+                &problem,
+                &mut new_ions,
+                &mut new_surfaces,
+                &new_exchanges,
+                &new_solid_solutions,
+                &value,
+            )?;
+
+        if gas_components_certified {
+            certify_projected_protonation(&new_ions, &protonation)?;
+        }
 
         let (mut events, contents) = Self::rebuild_contents_and_events(
             vessel,
@@ -3714,6 +3748,14 @@ impl PhreeqcEquilibrator {
             .map(|g| g.species.as_str())
             .collect();
         crate::inventory::complete_basis(&before_inventory, vessel, &events, &reservoirs)?;
+        if gas_components_certified {
+            crate::inventory::certify_gas_aware_inventory(
+                &before_inventory,
+                vessel,
+                &events,
+                &reservoirs,
+            )?;
+        }
         vessel.refresh_pressure();
         if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
             events.push(Event::HeadspaceEquilibrated {
@@ -3814,59 +3856,16 @@ impl PhreeqcEquilibrator {
         // a beaker handed a bare cation carries it as nothing; both read as
         // hydroxide, and both then invent a neutralisation at 55.81 kJ a
         // mole. One of them reached MINUS 27 K.
-        let measured_oh = value("m_OH-")
-            .map(|m| m * solvent_kgw_out)
-            .unwrap_or_else(|| {
-                free_hydroxide_moles(
-                    vessel.solution.as_ref().map(|s| s.species.as_slice()),
-                    solvent_kgw_out,
-                )
-            });
-        vessel.free_hydroxide = measured_oh;
+        refresh_measured_coordinates(vessel, &cached.rows, &cached.speciation, solvent_kgw_out)?;
+        let measured_oh = vessel.free_hydroxide;
         // Written beside it and unused by this balance — H+ is a master
         // species and carries no enthalpy — but a gate above the tail has
         // no other way to read it once `solution` has been cleared. See
         // the field docs for why it is not `unspent_acidity`.
-        vessel.free_proton = value("m_H+")
-            .map(|m| m * solvent_kgw_out)
-            .unwrap_or_else(|| {
-                measured_species_moles(
-                    vessel.solution.as_ref().map(|s| s.species.as_slice()),
-                    "H+",
-                    solvent_kgw_out,
-                )
-            });
-
-        // EXP-57: the CO2 partial pressure this solution actually stands
-        // at, for `GasExchangeClock` to drive from. Persisted beside the
-        // hydroxide and for the same reason — the clock runs in the
-        // OPERATOR phase, before any solver has looked at the vessel, so
-        // `solution` is already empty by the time it needs this.
-        //
-        // The dissolved-CO2 species is named by the DATABASE, and the
-        // databases disagree: minteq.v4 calls it `H2CO3`, wateq4f calls
-        // it `CO2`. Asking under one name only would read zero on the
-        // other dataset — and a zero here does not mean "no carbon", it
-        // means the largest driving force there is, so the beaker would
-        // carbonate at full tilt forever. Both are asked for; only one of
-        // them can be present. This is the same trap the lactate
-        // extension hit, where a name that existed in one database and
-        // not the other failed silently and returned 0.0.
-        //
-        // Molality stands in for molarity, as it does everywhere dilute
-        // on this bench: the clock's own clamp works in litres, and the
-        // two agree to well under a percent in anything a school bench
-        // pours.
-        let co2_moles = {
-            let species = vessel.solution.as_ref().map(|s| s.species.as_slice());
-            measured_species_moles(species, "CO2", problem.kgw)
-                + measured_species_moles(species, "H2CO3", problem.kgw)
-        };
-        vessel.co2_partial_pressure_atm =
-            kerotakis_core::properties::henry_lookup("CO2").map(|coeff| {
-                let k_h = kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value;
-                (co2_moles / problem.kgw) / k_h
-            });
+        // The final selected row also persists H+, OH- and the tiny CO2
+        // molality that the rounded species report may not display. These
+        // coordinates belong to the current native answer, including hits
+        // in the content-addressed cache.
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
             && kerotakis_core::aqueous_continuation::whole_step_heat_available(vessel)
         {
@@ -4508,12 +4507,9 @@ impl PhreeqcEquilibrator {
         let Some(water) = cached.speciation.iter().find(|sp| sp.name == "H2O") else {
             return decline("the second speciation reported no H2O row");
         };
-        let particle_molality: f64 = cached
-            .speciation
-            .iter()
-            .filter(|sp| sp.name != "H2O")
-            .map(|sp| sp.molality)
-            .sum();
+        let Ok(particle_molality) = numerical_particle_molality(&cached.rows) else {
+            return decline("the second solve reported no numerical particle census");
+        };
         if !particle_molality.is_finite() || particle_molality < SECOND_OPINION_MIN_MOLALITY {
             return decline("the second speciation reported too few particles");
         }
@@ -4843,7 +4839,7 @@ impl PhreeqcEquilibrator {
             if coupled_bases.contains(&base) {
                 continue; // handled per oxidation state below
             }
-            let molality = value(el).ok_or_else(|| missing(el))?;
+            let molality = checked_component_readback(el, value(el).ok_or_else(|| missing(el))?)?;
             new_ions.push((el.clone(), molality * kgw_out));
         }
         // Conservation by construction: the element's own total is
@@ -4856,10 +4852,10 @@ impl PhreeqcEquilibrator {
             let split: Vec<(&String, f64)> = coupled
                 .iter()
                 .filter(|c| c.split('(').next() == Some(base))
-                .filter_map(|c| value(c).map(|m| (c, m.max(0.0))))
-                .collect();
+                .filter_map(|c| value(c).map(|m| checked_component_readback(c, m).map(|m| (c, m))))
+                .collect::<Result<_, _>>()?;
             let sum: f64 = split.iter().map(|(_, m)| m).sum();
-            let total = value(base).unwrap_or(sum) * kgw_out;
+            let total = checked_component_readback(base, value(base).unwrap_or(sum))? * kgw_out;
             if total <= TRACE {
                 continue;
             }
@@ -4950,9 +4946,11 @@ impl PhreeqcEquilibrator {
             let weights: Vec<(&'static str, f64)> = split
                 .iter()
                 .filter_map(|(species, key)| {
-                    value(&format!("m_{species}")).map(|m| (*key, m.max(0.0)))
+                    let column = format!("m_{species}");
+                    value(&column)
+                        .map(|m| checked_component_readback(&column, m).map(|m| (*key, m)))
                 })
-                .collect();
+                .collect::<Result<_, _>>()?;
             // All or nothing. A partial split would divide the total by a
             // denominator missing one of its terms, which is not a
             // rounding error — it is the whole of the missing species
@@ -4961,6 +4959,7 @@ impl PhreeqcEquilibrator {
                 continue;
             }
             let sum: f64 = weights.iter().map(|(_, m)| m).sum();
+            checked_component_readback(el, sum)?;
             if sum <= 0.0 {
                 continue;
             }
@@ -4989,7 +4988,16 @@ impl PhreeqcEquilibrator {
         new_exchanges: &[ExchangeSites],
         new_solid_solutions: &[SolidSolution],
         value: &dyn Fn(&str) -> Option<f64>,
-    ) -> Result<(Vec<(String, f64)>, Vec<(String, String, f64)>, f64, f64), SolveError> {
+    ) -> Result<
+        (
+            Vec<(String, f64)>,
+            Vec<(String, String, f64)>,
+            f64,
+            f64,
+            bool,
+        ),
+        SolveError,
+    > {
         // PHREEQC selected totals are not consistent about whether a
         // SURFACE contribution is included: the first zinc solve reports
         // dissolved Zn, while a repeated solve can report the full
@@ -5175,7 +5183,12 @@ impl PhreeqcEquilibrator {
         for (phase, species, _) in &problem.gases {
             let column = format!("g_{phase}");
             let moles = value(&column).ok_or_else(|| missing(&column))?;
-            new_gases.push((phase.clone(), species.clone(), moles.max(0.0)));
+            if !moles.is_finite() || moles < 0.0 {
+                return Err(component_projection_error(format!(
+                    "invalid raw finite gas column {column}: {moles}"
+                )));
+            }
+            new_gases.push((phase.clone(), species.clone(), moles));
         }
 
         // In a homogeneous closed solution, analytical element totals are
@@ -5218,9 +5231,11 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
+        let gas_components_certified =
+            project_gas_aware_components(vessel, problem, new_ions, &new_phases, &new_gases)?;
         let ph = value("pH").ok_or_else(|| missing("pH"))?;
         let mu = value("mu").ok_or_else(|| missing("mu"))?;
-        Ok((new_phases, new_gases, ph, mu))
+        Ok((new_phases, new_gases, ph, mu, gas_components_certified))
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -5345,7 +5360,9 @@ impl PhreeqcEquilibrator {
                 if let Some(split) = protonation.get(el) {
                     for (ion, fraction) in split {
                         let share = *moles * fraction;
-                        if share <= TRACE {
+                        // The solved element total stays authoritative even
+                        // when one canonical protonation share is below TRACE.
+                        if !share.is_finite() || share <= 0.0 {
                             continue;
                         }
                         contents.push(Portion {
@@ -5741,6 +5758,7 @@ impl PhreeqcEquilibrator {
         let info = SolutionInfo {
             scope: Default::default(),
             solvent_kg: value("mass_H2O"),
+            particle_molality: value("particle_molality"),
             redox,
             pe: pe_constrained.then(|| value("pe")).flatten(),
             ph,
@@ -5793,6 +5811,558 @@ impl PhreeqcEquilibrator {
             &offered,
             SUPERSATURATION_REPORTING_SI,
         ));
+    }
+}
+
+fn component_projection_error(detail: impl Into<String>) -> SolveError {
+    SolveError::NotConverged {
+        solver: "phreeqc-inventory".into(),
+        detail: format!("gas-aware analytical component balance: {}", detail.into()),
+    }
+}
+
+fn checked_component_readback(column: &str, raw: f64) -> Result<f64, SolveError> {
+    if !raw.is_finite() || raw < 0.0 {
+        return Err(component_projection_error(format!(
+            "invalid raw analytical component {column}: {raw}"
+        )));
+    }
+    Ok(raw)
+}
+
+fn certify_projected_protonation(
+    ions: &[(String, f64)],
+    protonation: &BTreeMap<String, Vec<(&'static str, f64)>>,
+) -> Result<(), SolveError> {
+    for (key, amount) in ions {
+        let Some(split) = derived::protonation_split(key) else {
+            continue;
+        };
+        if *amount == 0.0 {
+            continue;
+        }
+        let fractions = protonation.get(key).ok_or_else(|| {
+            component_projection_error(format!("missing native protonation split for {key}"))
+        })?;
+        // Several native species can book to the same registry species:
+        // CO2 and H2CO3 both retain their separate shares under CO2(aq).
+        // Certify the declared multiplicity, not a one-to-one name mapping.
+        let mut expected_keys = BTreeMap::<&str, usize>::new();
+        for (_, species) in split {
+            *expected_keys.entry(species).or_default() += 1;
+        }
+        let mut actual_keys = BTreeMap::<&str, usize>::new();
+        for (species, _) in fractions {
+            *actual_keys.entry(species).or_default() += 1;
+        }
+        if fractions.len() != split.len()
+            || actual_keys != expected_keys
+            || fractions
+                .iter()
+                .any(|(_, fraction)| !fraction.is_finite() || *fraction < 0.0)
+            || (fractions.iter().map(|(_, fraction)| fraction).sum::<f64>() - 1.0).abs() > 1e-12
+        {
+            return Err(component_projection_error(format!(
+                "incomplete native protonation split for {key}"
+            )));
+        }
+    }
+    Ok(())
+}
+
+/// Add an actual gas transfer to the dissolved analytical components. The
+/// native element key is selected by a unique base, never by replacing a
+/// tagged oxidation state with its untagged neighbour.
+fn add_gas_component_transfer(
+    targets: &mut BTreeMap<String, f64>,
+    unique_keys: &BTreeMap<String, String>,
+    phase: &str,
+    dissolved_delta: f64,
+) -> bool {
+    let Some(formula) = crate::dbindex::parse_formula(phase.trim_end_matches("(g)")) else {
+        return false;
+    };
+    for (element, count) in formula {
+        if element == "H" || element == "O" {
+            continue; // The H/O basis and gas-boundary certificate own these.
+        }
+        let Some(key) = unique_keys.get(&element) else {
+            return false;
+        };
+        *targets.entry(key.clone()).or_default() += dissolved_delta * count;
+    }
+    true
+}
+
+/// Project only numerical native readback residue onto exact, independently
+/// owned analytical components. This narrow class has no typed interface or
+/// finite external dose; a gas may cross an admitted reservoir or redistribute
+/// into a finite headspace. Candidate minerals use their derived component
+/// vector. Ambiguous valence bases retain their existing route disposition.
+fn project_gas_aware_components(
+    vessel: &Vessel,
+    problem: &Problem,
+    new_ions: &mut [(String, f64)],
+    new_phases: &[(String, f64)],
+    new_gases: &[(String, String, f64)],
+) -> Result<bool, SolveError> {
+    if problem.external_gases.is_empty() && problem.gases.is_empty() {
+        return Ok(false);
+    }
+    if !problem.surfaces.is_empty()
+        || !problem.exchanges.is_empty()
+        || !problem.solid_solutions.is_empty()
+        || !vessel.unresolved_materials.is_empty()
+        || !vessel.material_objects.is_empty()
+        || !vessel.adsorbed.is_empty()
+        || !vessel.electrodes.is_empty()
+        || vessel.pending_co2_transfer_mol != 0.0
+        || problem
+            .external_gases
+            .iter()
+            .any(|gas| gas.kind == ExternalGasKind::Dose)
+    {
+        return Ok(false);
+    }
+    if new_ions
+        .iter()
+        .any(|(_, amount)| !amount.is_finite() || *amount < 0.0)
+    {
+        return Err(component_projection_error(
+            "invalid individual aqueous component",
+        ));
+    }
+    if new_gases
+        .iter()
+        .any(|(_, _, amount)| !amount.is_finite() || *amount < 0.0)
+    {
+        return Err(component_projection_error("invalid finite gas readback"));
+    }
+    for (phase, amount) in new_phases {
+        if !amount.is_finite()
+            || (*amount < 0.0
+                && !problem.external_gases.iter().any(|gas| {
+                    gas.phase.as_str() == phase.as_str() && gas.kind == ExternalGasKind::Reservoir
+                }))
+        {
+            return Err(component_projection_error(format!(
+                "invalid phase readback {phase}"
+            )));
+        }
+    }
+    let mut keys = BTreeSet::<String>::new();
+    keys.extend(problem.totals.iter().map(|(key, _)| key.clone()));
+    keys.extend(new_ions.iter().map(|(key, _)| key.clone()));
+    // `elements` is a readback request and can name the untagged base of a
+    // tagged total. Use it only when no exact analytical/output key exists.
+    for element in &problem.elements {
+        let base = element.split('(').next().unwrap_or(element);
+        if !keys
+            .iter()
+            .any(|key| key.split('(').next().unwrap_or(key) == base)
+        {
+            keys.insert(element.clone());
+        }
+    }
+    let mut unique_keys = BTreeMap::<String, String>::new();
+    for key in &keys {
+        let base = key.split('(').next().unwrap_or(key);
+        if unique_keys.insert(base.into(), key.clone()).is_some() {
+            return Ok(false); // An independent oxidation state needs its own owner.
+        }
+    }
+    let mut targets = BTreeMap::<String, f64>::new();
+    for (key, amount) in &problem.totals {
+        *targets.entry(key.clone()).or_default() += amount;
+    }
+    for (phase, initial, _) in &problem.phases {
+        let Some((_, final_amount)) = new_phases
+            .iter()
+            .find(|(candidate, _)| candidate.as_str() == phase.as_str())
+        else {
+            return Err(component_projection_error(format!(
+                "missing phase readback {phase}"
+            )));
+        };
+        if !initial.is_finite() || *initial < 0.0 || !final_amount.is_finite() {
+            return Err(component_projection_error(format!(
+                "invalid phase amount {phase}"
+            )));
+        }
+        if let Some(gas) = problem
+            .external_gases
+            .iter()
+            .find(|gas| gas.phase.as_str() == phase.as_str())
+        {
+            if !add_gas_component_transfer(
+                &mut targets,
+                &unique_keys,
+                phase,
+                gas.initial_moles - *final_amount,
+            ) {
+                return Ok(false);
+            }
+        } else if let Some(mineral) = derived::phase_by_name(phase) {
+            if *final_amount < 0.0 {
+                return Err(component_projection_error(format!(
+                    "negative mineral amount {phase}"
+                )));
+            }
+            for (key, coefficient) in &mineral.elements {
+                *targets.entry(key.clone()).or_default() +=
+                    (*initial - *final_amount) * *coefficient;
+            }
+        } else {
+            // Even a trace with no identified owner is outside this
+            // projection's phase/component map.
+            return Ok(false);
+        }
+    }
+    for (phase, species, _) in &problem.gases {
+        let Some((_, _, final_amount)) = new_gases.iter().find(|(name, key, _)| {
+            name.as_str() == phase.as_str() && key.as_str() == species.as_str()
+        }) else {
+            return Err(component_projection_error(format!(
+                "missing finite gas readback {phase}"
+            )));
+        };
+        if !final_amount.is_finite() || *final_amount < 0.0 {
+            return Err(component_projection_error(format!(
+                "invalid finite gas amount {phase}"
+            )));
+        }
+        let initial: f64 = vessel
+            .contents
+            .iter()
+            .filter(|portion| {
+                portion.phase == Phase::Gas && portion.species.0.as_str() == species.as_str()
+            })
+            .map(|portion| portion.moles.0)
+            .sum();
+        if !initial.is_finite() || initial < 0.0 {
+            return Err(component_projection_error(format!(
+                "invalid initial gas amount {phase}"
+            )));
+        }
+        if !add_gas_component_transfer(&mut targets, &unique_keys, phase, initial - *final_amount) {
+            return Ok(false);
+        }
+    }
+    // A new state key absent from both input and a physical phase transfer is
+    // a new valence/component problem, not a rounding residual to erase.
+    if new_ions
+        .iter()
+        .any(|(key, amount)| !targets.contains_key(key) && *amount > 0.0)
+    {
+        return Ok(false);
+    }
+    for (key, target) in targets {
+        let current: f64 = new_ions
+            .iter()
+            .filter(|(candidate, _)| candidate.as_str() == key.as_str())
+            .map(|(_, amount)| *amount)
+            .sum();
+        if !target.is_finite() || target < 0.0 || !current.is_finite() || current < 0.0 {
+            return Err(component_projection_error(format!(
+                "invalid component amount {key}: target={target}, readback={current}"
+            )));
+        }
+        let tolerance = 1e-14_f64.max(target.abs() * 1e-7);
+        if (current - target).abs() > tolerance || (target > 0.0 && current == 0.0) {
+            return Err(component_projection_error(format!("component {key} exceeds readback bound: target={target}, readback={current}, bound={tolerance}")));
+        }
+        if current > 0.0 {
+            let scale = target / current;
+            for (candidate, amount) in new_ions.iter_mut() {
+                if candidate.as_str() == key.as_str() {
+                    *amount *= scale;
+                }
+            }
+        }
+    }
+    Ok(true)
+}
+
+#[cfg(test)]
+mod gas_component_projection_tests {
+    use super::*;
+    use kerotakis_core::{Grams, SurfaceModel, VesselId};
+
+    fn open_problem() -> Problem {
+        Problem {
+            kgw: 0.1,
+            solvent_only: false,
+            totals: vec![
+                ("Na".into(), 0.02),
+                ("Acetate".into(), 0.005),
+                ("C".into(), 0.02),
+            ],
+            phases: vec![("CO2(g)".into(), 0.0, 0.0)],
+            gases: vec![],
+            external_gases: vec![ExternalGas {
+                phase: "CO2(g)".into(),
+                species: "CO2".into(),
+                initial_moles: 0.0,
+                kind: ExternalGasKind::Reservoir,
+            }],
+            surfaces: vec![],
+            exchanges: vec![],
+            solid_solutions: vec![],
+            elements: vec!["Na".into(), "Acetate".into(), "C".into()],
+        }
+    }
+
+    fn readback(carbon: f64) -> Vec<(String, f64)> {
+        vec![
+            ("Na".into(), 0.02 + 1e-10),
+            ("Acetate".into(), 0.005 - 2e-10),
+            ("C".into(), carbon),
+        ]
+    }
+
+    fn amount(ions: &[(String, f64)], key: &str) -> f64 {
+        ions.iter()
+            .find(|(candidate, _)| candidate == key)
+            .unwrap()
+            .1
+    }
+
+    #[test]
+    fn reservoir_out_and_in_preserve_independent_native_components() {
+        let vessel = Vessel::new(VesselId(0), "pure bookkeeping");
+        let problem = open_problem();
+        let mut outward = readback(0.015 + 3e-10);
+        assert!(project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut outward,
+            &[("CO2(g)".into(), 0.005)],
+            &[],
+        )
+        .unwrap());
+        assert!((amount(&outward, "Na") - 0.02).abs() < 1e-16);
+        assert!((amount(&outward, "Acetate") - 0.005).abs() < 1e-16);
+        assert!((amount(&outward, "C") - 0.015).abs() < 1e-16);
+
+        let mut inward = vec![
+            ("Na".into(), 0.02),
+            ("Acetate".into(), 0.005),
+            ("C".into(), 0.023 + 4e-10),
+        ];
+        assert!(project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut inward,
+            &[("CO2(g)".into(), -0.003)],
+            &[],
+        )
+        .unwrap());
+        assert!((amount(&inward, "C") - 0.023).abs() < 1e-16);
+        assert!((amount(&inward, "Acetate") - 0.005).abs() < 1e-16);
+    }
+
+    #[test]
+    fn raw_analytical_components_cannot_hide_invalid_valence_readback() {
+        for key in ["Na", "C", "N(-3)", "N(5)", "m_HCO3-", "m_H2CO3"] {
+            for raw in [-1e-30, f64::NAN, f64::INFINITY, f64::NEG_INFINITY] {
+                assert!(checked_component_readback(key, raw).is_err());
+            }
+            for raw in [0.0, 1e-30, 0.02] {
+                assert_eq!(checked_component_readback(key, raw).unwrap(), raw);
+            }
+        }
+    }
+
+    #[test]
+    fn certified_components_require_complete_native_protonation() {
+        let ions = vec![("N(-3)".into(), 0.01)];
+        assert!(certify_projected_protonation(&ions, &BTreeMap::new()).is_err());
+        let mut fractions = BTreeMap::from([("N(-3)".into(), vec![("NH3", 0.25), ("NH4+", 0.75)])]);
+        assert!(certify_projected_protonation(&ions, &fractions).is_ok());
+        fractions.get_mut("N(-3)").unwrap().pop();
+        assert!(certify_projected_protonation(&ions, &fractions).is_err());
+        fractions.insert("N(-3)".into(), vec![("NH3", f64::NAN), ("NH4+", 1.0)]);
+        assert!(certify_projected_protonation(&ions, &fractions).is_err());
+    }
+
+    #[test]
+    fn declared_native_alias_multiplicity_preserves_all_keyed_fractions() {
+        let ions = vec![("C".into(), 0.02)];
+        // Synthetic shares test mapping semantics, not a measured distribution.
+        let shares = vec![
+            ("CO2(aq)", 0.2),
+            ("CO2(aq)", 0.1),
+            ("HCO3-", 0.3),
+            ("CO3-2", 0.4),
+        ];
+        let check =
+            |shares| certify_projected_protonation(&ions, &BTreeMap::from([("C".into(), shares)]));
+        assert!(check(shares.clone()).is_ok());
+        let mut permuted = shares.clone();
+        permuted.reverse();
+        assert!(check(permuted).is_ok());
+        let mut missing_alias = shares.clone();
+        missing_alias.remove(0);
+        assert!(check(missing_alias).is_err());
+        let mut replaced_alias = shares.clone();
+        replaced_alias[1].0 = "HCO3-";
+        assert!(check(replaced_alias).is_err());
+        let mut wrong_duplicate = shares;
+        wrong_duplicate[2].0 = "CO2(aq)";
+        assert!(check(wrong_duplicate).is_err());
+    }
+
+    #[test]
+    fn raw_finite_gas_readback_refuses_invalid_values_before_projection() {
+        let vessel = Vessel::new(VesselId(0), "raw gas boundary");
+        let mut problem = open_problem();
+        problem.phases.clear();
+        problem.external_gases.clear();
+        problem.gases.push(("CO2(g)".into(), "CO2".into(), 0.0));
+        for raw in [-1e-12, f64::NAN, f64::INFINITY] {
+            let mut ions = readback(0.02);
+            let result = PhreeqcEquilibrator::apply_balance_corrections(
+                &vessel,
+                &problem,
+                &mut ions,
+                &mut [],
+                &[],
+                &[],
+                &|column| match column {
+                    "g_CO2(g)" => Some(raw),
+                    "pH" => Some(7.0),
+                    "mu" => Some(0.1),
+                    _ => None,
+                },
+            );
+            let error = result.expect_err("invalid raw gas must not be clamped");
+            assert!(error.to_string().contains("invalid raw finite gas column"));
+        }
+    }
+
+    #[test]
+    fn finite_gas_redistribution_uses_owned_initial_and_final_amounts() {
+        let mut vessel = Vessel::new(VesselId(0), "finite gas bookkeeping");
+        vessel.deposit(SpeciesId::new("CO2"), Moles(0.01), Phase::Gas);
+        let mut problem = open_problem();
+        problem.phases.clear();
+        problem.external_gases.clear();
+        problem.gases.push(("CO2(g)".into(), "CO2".into(), 0.0));
+        let mut ions = readback(0.024 + 1e-10);
+        assert!(project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut ions,
+            &[],
+            &[("CO2(g)".into(), "CO2".into(), 0.006)],
+        )
+        .unwrap());
+        assert!((amount(&ions, "C") - 0.024).abs() < 1e-16);
+    }
+
+    #[test]
+    fn tagged_state_stays_tagged_and_protonation_fractions_stay_native() {
+        let mut vessel = Vessel::new(VesselId(0), "split bookkeeping");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        let mut problem = open_problem();
+        problem.totals = vec![("N(-3)".into(), 0.02), ("Cl".into(), 0.02)];
+        problem.elements = vec!["N".into(), "Cl".into()];
+        problem.phases.clear();
+        problem.external_gases.clear();
+        problem.gases.push(("NH3(g)".into(), "NH3".into(), 0.0));
+        vessel.deposit(SpeciesId::new("NH3"), Moles(0.001), Phase::Gas);
+        let mut ions = vec![("N(-3)".into(), 0.021 + 2e-10), ("Cl".into(), 0.02)];
+        assert!(project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut ions,
+            &[],
+            &[("NH3(g)".into(), "NH3".into(), 0.0)],
+        )
+        .unwrap());
+        assert!((amount(&ions, "N(-3)") - 0.021).abs() < 1e-16);
+        assert!(!ions.iter().any(|(key, _)| key == "N"));
+        let fractions = BTreeMap::from([("N(-3)".into(), vec![("NH3", 0.25), ("NH4+", 0.75)])]);
+        let (_, contents) = PhreeqcEquilibrator::rebuild_contents_and_events(
+            &vessel,
+            &problem,
+            &[],
+            0.1,
+            &ions,
+            &[],
+            &[("NH3(g)".into(), "NH3".into(), 0.0)],
+            &[],
+            &fractions,
+        );
+        let nh3 = contents
+            .iter()
+            .find(|p| p.species.0 == "NH3" && p.phase == Phase::Aqueous)
+            .unwrap()
+            .moles
+            .0;
+        let nh4 = contents
+            .iter()
+            .find(|p| p.species.0 == "NH4+")
+            .unwrap()
+            .moles
+            .0;
+        assert!((nh3 / (nh3 + nh4) - 0.25).abs() < 1e-15);
+    }
+
+    #[test]
+    fn oversized_invalid_and_unsupported_inputs_never_project() {
+        let vessel = Vessel::new(VesselId(0), "negative controls");
+        let mut problem = open_problem();
+        for carbon in [0.016, f64::NAN, -0.01] {
+            let mut ions = readback(carbon);
+            assert!(project_gas_aware_components(
+                &vessel,
+                &problem,
+                &mut ions,
+                &[("CO2(g)".into(), 0.005)],
+                &[],
+            )
+            .is_err());
+        }
+        let mut ions = readback(0.015);
+        problem.external_gases[0].kind = ExternalGasKind::Dose;
+        assert!(!project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut ions,
+            &[("CO2(g)".into(), 0.005)],
+            &[],
+        )
+        .unwrap());
+        problem.external_gases[0].kind = ExternalGasKind::Reservoir;
+        problem.surfaces.push(SurfaceSites {
+            label: "outside projection".into(),
+            model: SurfaceModel::HydrousFerricOxide,
+            mass: Grams(0.09),
+            specific_area_m2_per_g: 600.0,
+            strong_capacity: Moles(5e-6),
+            weak_capacity: Moles(2e-4),
+            occupancy: vec![],
+            water_release: Moles(0.0),
+        });
+        assert!(!project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut ions,
+            &[("CO2(g)".into(), 0.005)],
+            &[],
+        )
+        .unwrap());
+        problem.surfaces.clear();
+        problem.totals.push(("C(-4)".into(), 1e-4));
+        assert!(!project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut ions,
+            &[("CO2(g)".into(), 0.005)],
+            &[],
+        )
+        .unwrap());
     }
 }
 
@@ -6535,11 +7105,8 @@ fn build_mix_input(
         writeln!(input, "    temp      {temp_a_c:.4}").unwrap();
     }
     writeln!(input, "    pH        7  charge").unwrap();
-    if phase_precision {
-        writeln!(input, "    water     {:.16e}", problem_a.kgw).unwrap();
-    } else {
-        writeln!(input, "    water     {:.9}", problem_a.kgw).unwrap();
-    }
+    // Molalities below use the unrounded kgw; write that same solvent mass.
+    writeln!(input, "    water     {:.16e}", problem_a.kgw).unwrap();
     if vessel_a.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
     {
@@ -6564,11 +7131,7 @@ fn build_mix_input(
         writeln!(input, "    temp      {temp_b_c:.4}").unwrap();
     }
     writeln!(input, "    pH        7  charge").unwrap();
-    if phase_precision {
-        writeln!(input, "    water     {:.16e}", problem_b.kgw).unwrap();
-    } else {
-        writeln!(input, "    water     {:.9}", problem_b.kgw).unwrap();
-    }
+    writeln!(input, "    water     {:.16e}", problem_b.kgw).unwrap();
     if vessel_b.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
     {
@@ -6652,6 +7215,7 @@ fn mix_selected_output(merged: &Problem, db_tag: &str) -> String {
         let names: Vec<&str> = merged.phases.iter().map(|(p, ..)| p.as_str()).collect();
         writeln!(block, "    -equilibrium_phases {}", names.join(" ")).unwrap();
     }
+    append_particle_census(&mut block);
     block
 }
 
@@ -6776,19 +7340,9 @@ fn build_input_at(
         writeln!(input, "    temp      {temp_c:.4}").unwrap();
     }
     writeln!(input, "    pH        7  charge").unwrap();
-    if phase_precision {
-        // Repeated ice/speciation passes must not quantize the supplied
-        // temperature or analytical solvent budget on each round trip.
-        writeln!(input, "    water     {:.16e}", problem.kgw).unwrap();
-    } else if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
-        // Totals below are n/kgw. Quantizing only kgw changes the native
-        // supplied element amounts before equilibrium even begins. Preserve
-        // finite gas/solution ownership with matching input precision; open
-        // aqueous and MIX problems retain their established serialization.
-        writeln!(input, "    water     {:.12e}", problem.kgw).unwrap();
-    } else {
-        writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
-    }
+    // Every total below is n/kgw. Rounding only kgw changes the amount
+    // supplied to PHREEQC before equilibrium, including warm open water.
+    writeln!(input, "    water     {:.16e}", problem.kgw).unwrap();
     match couple {
         // Solving for the electron balance: pe is the unknown being
         // bisected, so it is stated outright.
@@ -7043,8 +7597,42 @@ fn build_input_at(
     if !problem.solid_solutions.is_empty() {
         writeln!(input, "    -solid_solutions Aragonite Strontianite").unwrap();
     }
+    append_particle_census(&mut input);
     writeln!(input, "END").unwrap();
     input
+}
+
+/// Numerical aqueous particle census on the native solvent-mass basis.
+/// USGS SYS("aq", ...) enumerates aqueous species, excluding solvent water,
+/// surface/exchange species and held solids (pinned IPhreeqc system_total_aq).
+/// A scalar avoids using rounded report molalities or a second engine solve.
+fn append_particle_census(input: &mut String) {
+    input.push_str("USER_PUNCH 1\n    -headings particle_molality\n    -start\n10 particles = SYS(\"aq\", count, names$, types$, amounts)\n20 PUNCH particles / TOT(\"water\")\n    -end\n");
+}
+
+/// Require one finite nonnegative numerical particle census from a new solve.
+/// Rounded report rows remain presentation data, never this scalar's source.
+fn numerical_particle_molality(rows: &[Vec<String>]) -> Result<f64, SolveError> {
+    let invalid = || {
+        SolveError::NotConverged {
+        solver: "phreeqc-aqueous".to_string(),
+        detail: "numerical aqueous particle molality is missing or invalid in the final selected-output row".to_string(),
+    }
+    };
+    let header = rows.first().ok_or_else(invalid)?;
+    let columns: Vec<_> = header
+        .iter()
+        .enumerate()
+        .filter_map(|(index, name)| (name == "particle_molality").then_some(index))
+        .collect();
+    if columns.len() != 1 || rows.len() < 2 {
+        return Err(invalid());
+    }
+    rows.last()
+        .and_then(|row| row.get(columns[0]))
+        .and_then(|cell| cell.parse::<f64>().ok())
+        .filter(|value| value.is_finite() && *value >= 0.0)
+        .ok_or_else(invalid)
 }
 
 /// Parse the report's "Saturation indices" block into (phase, SI) pairs.
@@ -7082,8 +7670,8 @@ fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
 }
 
 /// Keep the report as presentation, but obtain the phase solver's water
-/// activity from the final numerical selected-output row. Four significant
-/// report digits create a discontinuous liquidus and finite freeze/melt
+/// activity and particle census from final numerical selected output. Four
+/// significant report digits create a discontinuous liquidus and freeze/melt
 /// cycles, even when every individual phase transfer conserves enthalpy.
 /// Native direct, recast, redox and MIX results all pass this boundary.
 fn numerical_species_distribution(
@@ -7092,7 +7680,99 @@ fn numerical_species_distribution(
 ) -> Result<Vec<SpeciesDetail>, SolveError> {
     let mut species = parse_species_distribution(report);
     apply_numerical_water_activity(&mut species, rows)?;
+    numerical_particle_molality(rows)?;
     Ok(species)
+}
+
+/// A missing column is allowed for an imported, older answer; a present but
+/// malformed numerical answer must never be replaced by a rounded report.
+fn selected_nonnegative_molality(
+    rows: &[Vec<String>],
+    name: &str,
+) -> Result<Option<f64>, SolveError> {
+    let invalid = || SolveError::NotConverged {
+        solver: "phreeqc-aqueous".to_string(),
+        detail: format!("invalid final numerical {name} molality"),
+    };
+    let header = rows.first().ok_or_else(invalid)?;
+    let mut indices = header
+        .iter()
+        .enumerate()
+        .filter_map(|(index, column)| (column == name).then_some(index));
+    let Some(index) = indices.next() else {
+        return Ok(None);
+    };
+    if indices.next().is_some() {
+        return Err(invalid());
+    }
+    let amount = rows
+        .last()
+        .filter(|_| rows.len() >= 2)
+        .and_then(|row| row.get(index))
+        .and_then(|cell| cell.parse::<f64>().ok())
+        .filter(|amount| amount.is_finite() && *amount >= 0.0)
+        .ok_or_else(invalid)?;
+    Ok(Some(amount))
+}
+
+/// Persist meters from the same precise native row as the accepted solve.
+/// The inventory's solute charge and physical portions remain untouched.
+fn refresh_measured_coordinates(
+    vessel: &mut Vessel,
+    rows: &[Vec<String>],
+    report_species: &[SpeciesDetail],
+    solvent_kg: f64,
+) -> Result<(), SolveError> {
+    if !solvent_kg.is_finite() || solvent_kg <= 0.0 {
+        return Err(SolveError::NotConverged {
+            solver: "phreeqc-aqueous".to_string(),
+            detail: "invalid numerical solvent mass for measured coordinates".to_string(),
+        });
+    }
+    let hydroxide = selected_nonnegative_molality(rows, "m_OH-")?.map_or_else(
+        || free_hydroxide_moles(Some(report_species), solvent_kg),
+        |molality| molality * solvent_kg,
+    );
+    let proton = selected_nonnegative_molality(rows, "m_H+")?.map_or_else(
+        || measured_species_moles(Some(report_species), "H+", solvent_kg),
+        |molality| molality * solvent_kg,
+    );
+    let co2 = selected_nonnegative_molality(rows, "m_CO2")?;
+    let hydrated_co2 = selected_nonnegative_molality(rows, "m_H2CO3")?;
+    let co2_molality = if co2.is_some() || hydrated_co2.is_some() {
+        co2.unwrap_or(0.0) + hydrated_co2.unwrap_or(0.0)
+    } else {
+        // Older imported rows may lack both columns. Their report remains
+        // the only available diagnostic, with its original precision limit.
+        (measured_species_moles(Some(report_species), "CO2", solvent_kg)
+            + measured_species_moles(Some(report_species), "H2CO3", solvent_kg))
+            / solvent_kg
+    };
+    if !hydroxide.is_finite()
+        || hydroxide < 0.0
+        || !proton.is_finite()
+        || proton < 0.0
+        || !co2_molality.is_finite()
+        || co2_molality < 0.0
+    {
+        return Err(SolveError::NotConverged {
+            solver: "phreeqc-aqueous".to_string(),
+            detail: "nonfinite measured aqueous coordinates".to_string(),
+        });
+    }
+    let pressure = kerotakis_core::properties::henry_lookup("CO2").map(|coeff| {
+        co2_molality / kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value
+    });
+    if pressure.is_some_and(|value| !value.is_finite() || value < 0.0) {
+        return Err(SolveError::NotConverged {
+            solver: "phreeqc-aqueous".to_string(),
+            detail: "invalid numerical CO2 pressure".to_string(),
+        });
+    }
+    vessel.free_hydroxide = hydroxide;
+    vessel.free_proton = proton;
+    vessel.co2_partial_pressure_atm = pressure;
+    Ok(())
 }
 
 fn apply_numerical_water_activity(
@@ -7175,12 +7855,66 @@ pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
 
 #[cfg(test)]
 mod numerical_water_activity_tests {
-    use super::numerical_species_distribution;
+    use super::{numerical_species_distribution, PhreeqcEquilibrator, Problem};
+    use kerotakis_core::{Moles, Phase, Portion, SpeciesId, Vessel, VesselId};
 
     const REPORT: &str = "Distribution of species\nH2O 5.551e+01 9.500e-01 1.744 -0.022 0.0\nNa+ 1.000e+00 0.7000 0 -0.15 -0.15\n-----\n";
 
     fn rows(value: &str) -> Vec<Vec<String>> {
-        vec![vec!["la_H2O".into()], vec![value.into()]]
+        vec![
+            vec!["la_H2O".into(), "particle_molality".into()],
+            vec![value.into(), "1.0".into()],
+        ]
+    }
+
+    #[test]
+    fn numerical_particle_census_uses_final_precise_native_value() {
+        let mut selected = rows("-0.1");
+        selected.push(vec!["-0.2".into(), "1.234567891234".into()]);
+        assert_eq!(
+            super::numerical_particle_molality(&selected).unwrap(),
+            1.234567891234
+        );
+        assert_eq!(
+            super::parse_species_distribution(REPORT)
+                .iter()
+                .filter(|species| species.name != "H2O")
+                .map(|species| species.molality)
+                .sum::<f64>(),
+            1.0
+        );
+        assert_eq!(
+            super::numerical_particle_molality(&[
+                vec!["particle_molality".into()],
+                vec!["0".into()]
+            ])
+            .unwrap(),
+            0.0
+        );
+    }
+
+    #[test]
+    fn invalid_particle_census_refuses_without_report_fallback() {
+        for bad in ["NaN", "inf", "-inf", "-0.001", "invalid"] {
+            let mut selected = rows("-0.1");
+            selected[1][1] = bad.into();
+            assert!(
+                numerical_species_distribution(REPORT, &selected).is_err(),
+                "{bad}"
+            );
+        }
+        for selected in [
+            vec![],
+            vec![vec!["particle_molality".into()]],
+            vec![vec!["particle_molality".into()], vec![]],
+            vec![
+                vec!["particle_molality".into(), "particle_molality".into()],
+                vec!["1".into(), "2".into()],
+            ],
+            vec![vec!["la_H2O".into()], vec!["0".into()]],
+        ] {
+            assert!(super::numerical_particle_molality(&selected).is_err());
+        }
     }
 
     #[test]
@@ -7202,12 +7936,134 @@ mod numerical_water_activity_tests {
     #[test]
     fn numerical_activity_uses_the_final_native_solution_row() {
         let mut selected = rows("-0.1");
-        selected.push(vec!["-0.2".into()]);
+        selected.push(vec!["-0.2".into(), "1.0".into()]);
         let result = numerical_species_distribution(REPORT, &selected).unwrap();
         assert!(
             (result.iter().find(|s| s.name == "H2O").unwrap().activity - 10.0_f64.powf(-0.2)).abs()
                 < 2e-15
         );
+    }
+
+    #[test]
+    fn measured_coordinates_use_final_numerical_row_below_report_floor() {
+        let species = super::parse_species_distribution(REPORT);
+        let mut first = Vessel::new(VesselId(0), "numerical meters");
+        let mut second = first.clone();
+        let header = vec!["m_H+", "m_OH-", "m_CO2", "m_H2CO3"]
+            .into_iter()
+            .map(str::to_string)
+            .collect::<Vec<_>>();
+        let rows = |carbon: &str| {
+            vec![
+                header.clone(),
+                vec!["1.23456789e-8", "2.34567891e-7", carbon, "0"]
+                    .into_iter()
+                    .map(str::to_string)
+                    .collect(),
+            ]
+        };
+        super::refresh_measured_coordinates(&mut first, &rows("4.12e-13"), &species, 0.1).unwrap();
+        super::refresh_measured_coordinates(&mut second, &rows("8.24e-13"), &species, 0.1).unwrap();
+        assert!((first.free_proton - 1.23456789e-9).abs() < 1e-23);
+        assert!((first.free_hydroxide - 2.34567891e-8).abs() < 1e-22);
+        let pressure = first.co2_partial_pressure_atm.unwrap();
+        assert!(pressure > 0.0, "sub-report-floor CO2 must drive a clock");
+        assert!((second.co2_partial_pressure_atm.unwrap() / pressure - 2.0).abs() < 1e-12);
+        assert_eq!(first.contents, second.contents);
+    }
+
+    #[test]
+    fn measured_coordinates_reject_invalid_present_cells_but_allow_legacy_absence() {
+        let species = super::parse_species_distribution(REPORT);
+        let mut vessel = Vessel::new(VesselId(0), "legacy meters");
+        super::refresh_measured_coordinates(
+            &mut vessel,
+            &[vec!["unrelated".into()], vec!["0".into()]],
+            &species,
+            0.1,
+        )
+        .unwrap();
+        assert_eq!(vessel.co2_partial_pressure_atm, Some(0.0));
+        let mut invalid_legacy = species.clone();
+        let invalid_hydroxide = invalid_legacy
+            .iter_mut()
+            .find(|species| species.name == "Na+")
+            .unwrap();
+        invalid_hydroxide.name = "OH-".to_string();
+        invalid_hydroxide.molality = -1e-7;
+        assert!(super::refresh_measured_coordinates(
+            &mut vessel,
+            &[vec!["unrelated".into()], vec!["0".into()]],
+            &invalid_legacy,
+            0.1,
+        )
+        .is_err());
+        for bad in ["NaN", "inf", "-1", "not-a-number"] {
+            let rows = vec![vec!["m_CO2".into()], vec![bad.into()]];
+            assert!(
+                super::refresh_measured_coordinates(&mut vessel, &rows, &species, 0.1).is_err(),
+                "{bad}"
+            );
+        }
+    }
+
+    #[test]
+    fn protonation_rebuild_preserves_positive_trace_share_of_authoritative_total() {
+        use std::collections::BTreeMap;
+
+        let total_n = 0.02;
+        let nh3_fraction = 2.5e-11;
+        let mut vessel = Vessel::new(VesselId(0), "water and ammonium chloride");
+        vessel.contents.push(Portion {
+            species: SpeciesId::new("water"),
+            moles: Moles(55.508),
+            phase: Phase::Liquid,
+        });
+        vessel.deposit(SpeciesId::new("NH4+"), Moles(total_n), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("Cl-"), Moles(total_n), Phase::Aqueous);
+        let problem = Problem {
+            kgw: 1.0,
+            solvent_only: false,
+            totals: vec![("N(-3)".into(), total_n), ("Cl".into(), total_n)],
+            phases: vec![],
+            gases: vec![],
+            external_gases: vec![],
+            surfaces: vec![],
+            exchanges: vec![],
+            solid_solutions: vec![],
+            elements: vec!["Cl".into(), "N".into()],
+        };
+        let new_ions = [("N(-3)".into(), total_n), ("Cl".into(), total_n)];
+        let protonation = BTreeMap::from([(
+            "N(-3)".to_owned(),
+            vec![("NH3", nh3_fraction), ("NH4+", 1.0 - nh3_fraction)],
+        )]);
+
+        let (_, contents) = PhreeqcEquilibrator::rebuild_contents_and_events(
+            &vessel,
+            &problem,
+            &[],
+            1.0,
+            &new_ions,
+            &[],
+            &[],
+            &[],
+            &protonation,
+        );
+        let nh3 = contents
+            .iter()
+            .find(|portion| portion.species.0 == "NH3")
+            .expect("positive ammonia share is retained")
+            .moles
+            .0;
+        let reconstructed_n: f64 = contents
+            .iter()
+            .filter(|portion| matches!(portion.species.0.as_str(), "NH3" | "NH4+"))
+            .map(|portion| portion.moles.0)
+            .sum();
+
+        assert!((nh3 - 5e-13).abs() < 1e-27);
+        assert!((reconstructed_n - total_n).abs() < 1e-17);
     }
 
     #[test]
@@ -7304,22 +8160,45 @@ mod numerical_water_activity_tests {
                     2
                 ]
             );
-            assert_eq!(
-                fields(&ordinary, "water "),
-                vec![format!("{:.9}", pb.kgw).parse::<f64>().unwrap(); 2]
-            );
+            assert_eq!(fields(&ordinary, "water "), vec![pb.kgw; 2]);
         }
     }
 
     fn cache_entry(value: &str) -> super::CacheEntry {
         super::CacheEntry {
-            key: "test-current-input\n    -activities H2O\n".into(),
+            key: "test-current-input\n    -activities H2O\n    -headings particle_molality\n"
+                .into(),
             rows: rows(value),
             species: super::parse_species_distribution(REPORT),
             saturation: vec![],
             redox_adjusted: false,
             pe_undetermined: false,
         }
+    }
+
+    #[test]
+    fn current_cache_cannot_bypass_numeric_particle_validation() {
+        let mut solver = super::PhreeqcEquilibrator::new().unwrap();
+        for bad in ["NaN", "inf", "-1", "invalid"] {
+            let mut entry = cache_entry("-0.1");
+            entry.rows[1][1] = bad.into();
+            assert_eq!(
+                solver.import_cache(super::CacheData {
+                    entries: vec![entry],
+                    ..Default::default()
+                }),
+                0
+            );
+        }
+        let mut entry = cache_entry("-0.1");
+        entry.rows = vec![vec!["la_H2O".into()], vec!["-0.1".into()]];
+        assert_eq!(
+            solver.import_cache(super::CacheData {
+                entries: vec![entry],
+                ..Default::default()
+            }),
+            0
+        );
     }
 
     #[test]
@@ -7742,6 +8621,67 @@ mod finite_gas_temperature_serialization_tests {
     use super::*;
 
     #[test]
+    fn warm_fractional_primary_and_mix_inputs_round_trip_supplied_solutes() {
+        let make = |id, kgw: f64, salt| {
+            let mut vessel = Vessel::new(kerotakis_core::VesselId(id), "warm input");
+            vessel.temperature = Kelvin(298.5820854655798);
+            vessel.deposit(
+                SpeciesId::new("water"),
+                Moles(kgw * 1000.0 / WATER_MOLAR_MASS),
+                Phase::Liquid,
+            );
+            vessel.deposit(SpeciesId::new("NaCl"), Moles(salt), Phase::Solid);
+            vessel
+        };
+        let a = make(0, 0.09979672112345678, 0.020000000000004334);
+        let b = make(1, 0.08123456789123456, 0.01112345678901234);
+        let pa = partition(&a).unwrap();
+        let pb = partition(&b).unwrap();
+        assert!(!phase_input_precision(&a) && !phase_input_precision(&b));
+        let read = |input: &str, field: &str| -> f64 {
+            input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix(field))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap()
+        };
+        for (vessel, problem, supplied) in [
+            (&a, &pa, 0.020000000000004334),
+            (&b, &pb, 0.01112345678901234),
+        ] {
+            let input = build_input(vessel, problem, "wateq4f");
+            let water = read(&input, "water ");
+            assert_eq!(water, problem.kgw);
+            assert!((read(&input, "Na ") * water - supplied).abs() < 2e-14);
+            assert!((read(&input, "Cl ") * water - supplied).abs() < 2e-14);
+        }
+        let mut merged = a.clone();
+        for portion in &b.contents {
+            merged.deposit(portion.species.clone(), portion.moles, portion.phase);
+        }
+        let pm = partition(&merged).unwrap();
+        let mixed = build_mix_input(&a, &pa, &b, &pb, 1.0, 1.0, "wateq4f", &pm, false);
+        for (number, problem, supplied) in [
+            (1, &pa, 0.020000000000004334),
+            (2, &pb, 0.01112345678901234),
+        ] {
+            let section = mixed
+                .split(&format!("SOLUTION {number}\n"))
+                .nth(1)
+                .unwrap()
+                .split("END")
+                .next()
+                .unwrap();
+            let water = read(section, "water ");
+            assert_eq!(water, problem.kgw);
+            assert!((read(section, "Na ") * water - supplied).abs() < 2e-14);
+            assert!((read(section, "Cl ") * water - supplied).abs() < 2e-14);
+        }
+    }
+
+    #[test]
     fn finite_gas_input_round_trips_fractional_solvent_and_aqueous_carbon() {
         let kgw = 0.099699987654321;
         let aqueous_carbon = 0.00123456789;
@@ -7792,14 +8732,25 @@ mod finite_gas_temperature_serialization_tests {
         );
         assert!((legacy_error - predicted_error).abs() < 1e-15);
 
-        // A separate open input keeps the old format and does not acquire
-        // a new equilibrium problem because this finite-owner repair exists.
+        // The open route preserves the same physical carbon and water
+        // without inheriting a finite gas phase from the closed fixture.
         let mut open = vessel.clone();
         open.headspace = Headspace::Open;
         open.contents.retain(|portion| portion.phase != Phase::Gas);
         let open_problem = partition(&open).unwrap();
         let open_input = build_input(&open, &open_problem, "wateq4f");
-        assert!(open_input.contains(&format!("    water     {:.9}\n", open_problem.kgw)));
+        assert!(!open_input.contains("GAS_PHASE_RAW 1"));
+        let open_written = |prefix: &str| -> f64 {
+            open_input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix(prefix))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap()
+        };
+        assert_eq!(open_written("water "), open_problem.kgw);
+        assert!((open_written("C ") * open_written("water ") - aqueous_carbon).abs() < 1e-14);
     }
 
     #[test]

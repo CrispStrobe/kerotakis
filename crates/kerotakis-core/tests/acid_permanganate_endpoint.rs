@@ -16,6 +16,7 @@ fn solution(v: &mut Vessel, ph: f64) {
         solvent_activity: None,
         scope: SolutionScope::Complete,
         solvent_kg: Some(v.moles_of(&SpeciesId::new("water")).0 * 0.018015),
+        particle_molality: None,
         ph,
         ionic_strength: 0.1,
         pe: None,

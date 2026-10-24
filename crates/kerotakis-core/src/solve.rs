@@ -100,6 +100,23 @@ pub trait Equilibrator {
     fn applies(&self, _vessel: &Vessel) -> bool {
         true
     }
+    /// Cheap probe: only a curated row with typed aqueous overlap requires
+    /// the stack to seek a later trusted owner.
+    fn has_delegable_aqueous_overlap(&self, _vessel: &Vessel) -> bool {
+        false
+    }
+    /// Route eligibility with an actual later aqueous owner selected.
+    fn applies_with_aqueous_owner(&self, vessel: &Vessel, _owned: bool) -> bool {
+        self.applies(vessel)
+    }
+    /// Route execution with the same ownership decision as eligibility.
+    fn equilibrate_with_aqueous_owner(
+        &mut self,
+        vessel: &mut Vessel,
+        _owned: bool,
+    ) -> Result<Vec<Event>, SolveError> {
+        self.equilibrate(vessel)
+    }
     /// Whether a *chemistry* engine claims this state — one that decides
     /// what reacts, as opposed to the physical mixing pass that moves heat
     /// around and the honesty pass that only reports.
@@ -261,6 +278,25 @@ pub struct SolverStack {
     pub solvers: Vec<Box<dyn Equilibrator>>,
     pub last_routes: Vec<SolverRoute>,
     required_conservation_tolerance: Option<f64>,
+    pending_aqueous_overlap: Option<PendingAqueousOverlap>,
+    aqueous_overlap_refused: bool,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum AqueousOverlapOwner {
+    Installed(usize),
+    External(usize),
+}
+
+#[derive(Clone, Copy, Debug)]
+struct PendingAqueousOverlap {
+    owner: AqueousOverlapOwner,
+    vessel: crate::vessel::VesselId,
+}
+
+fn external_owner_identity(solver: &mut dyn Equilibrator) -> usize {
+    let pointer: *mut dyn Equilibrator = solver;
+    pointer as *mut () as usize
 }
 
 impl SolverStack {
@@ -269,6 +305,40 @@ impl SolverStack {
             solvers,
             last_routes: Vec::new(),
             required_conservation_tolerance: None,
+            pending_aqueous_overlap: None,
+            aqueous_overlap_refused: false,
+        }
+    }
+
+    /// Begin one complete equilibrium question, including a browser's
+    /// borrowed aqueous route between installed ranges.
+    pub fn begin_equilibration(&mut self) {
+        self.last_routes.clear();
+        self.pending_aqueous_overlap = None;
+        self.aqueous_overlap_refused = false;
+    }
+
+    /// A typed refusal in this equilibrium question. A host with a borrowed
+    /// aqueous stage must stop its remaining stages when this is true.
+    pub fn aqueous_overlap_refused(&self) -> bool {
+        self.aqueous_overlap_refused
+    }
+
+    fn overlap_failure(&mut self, vessel: &mut Vessel, detail: &str) -> Event {
+        self.aqueous_overlap_refused = true;
+        vessel.invalidate_aqueous_diagnostics();
+        self.last_routes.push(SolverRoute {
+            solver: "aqueous-overlap-ownership".into(),
+            kind: SolverRouteKind::Computed,
+            chemistry: true,
+            outcome: SolverRouteOutcome::Failed,
+            vessel: Some(vessel.id),
+            reason: Some(detail.into()),
+        });
+        Event::SolverFailed {
+            vessel: vessel.id,
+            solver: "aqueous-overlap-ownership".into(),
+            detail: detail.into(),
         }
     }
     /// Require represented molecular-inventory and formal-charge closure from
@@ -295,6 +365,8 @@ impl SolverStack {
             solvers,
             last_routes: Vec::new(),
             required_conservation_tolerance: Some(tolerance),
+            pending_aqueous_overlap: None,
+            aqueous_overlap_refused: false,
         })
     }
 
@@ -305,23 +377,190 @@ impl SolverStack {
         range: std::ops::Range<usize>,
         vessel: &mut Vessel,
     ) -> Result<Vec<Event>, SolveError> {
-        let solvers = self
-            .solvers
-            .get_mut(range)
-            .ok_or_else(|| SolveError::NotConverged {
+        self.equilibrate_range_owned(range, vessel, None)
+    }
+
+    /// The browser passes the SAME borrowed aqueous adapter here and to
+    /// `equilibrate_external`. Ownership is selected at the curated rung,
+    /// after any preceding installed route has changed the vessel.
+    pub fn equilibrate_range_with_external_aqueous(
+        &mut self,
+        range: std::ops::Range<usize>,
+        vessel: &mut Vessel,
+        external: &mut dyn Equilibrator,
+    ) -> Result<Vec<Event>, SolveError> {
+        self.equilibrate_range_owned(range, vessel, Some(external))
+    }
+
+    fn equilibrate_range_owned(
+        &mut self,
+        range: std::ops::Range<usize>,
+        vessel: &mut Vessel,
+        mut external: Option<&mut dyn Equilibrator>,
+    ) -> Result<Vec<Event>, SolveError> {
+        if range.start > range.end || range.end > self.solvers.len() {
+            return Err(SolveError::NotConverged {
                 solver: "solver-stack".into(),
                 detail: "requested route range is outside the installed stack".into(),
-            })?;
+            });
+        }
         let mut events = Vec::new();
-        for solver in solvers {
-            events.extend(run_solver_route(
-                solver.as_mut(),
+        if self.pending_aqueous_overlap.is_some() {
+            events.push(self.overlap_failure(
+                vessel,
+                "selected aqueous owner was not executed before the next installed range",
+            ));
+            self.pending_aqueous_overlap = None;
+            return Ok(events);
+        }
+        for index in range.clone() {
+            let overlap = self.solvers[index].has_delegable_aqueous_overlap(vessel);
+            let mut delegated = false;
+            let mut ambiguous = false;
+            let mut unidentifiable_external = false;
+            if overlap {
+                let mut owners = Vec::new();
+                for later in index + 1..range.end {
+                    let solver = self.solvers[later].as_mut();
+                    if solver.trusted_aqueous_readback().is_some()
+                        && solver.applies(vessel)
+                        && solver.chemistry_applies(vessel)
+                    {
+                        owners.push(AqueousOverlapOwner::Installed(later));
+                    }
+                }
+                if let Some(solver) = external.as_deref_mut() {
+                    if solver.trusted_aqueous_readback().is_some()
+                        && solver.applies(vessel)
+                        && solver.chemistry_applies(vessel)
+                    {
+                        // A zero-sized trait object has no unique data address;
+                        // it cannot prove that the subsequently borrowed route
+                        // is the same selected instance.
+                        if std::mem::size_of_val(solver) == 0 {
+                            unidentifiable_external = true;
+                        } else {
+                            owners.push(AqueousOverlapOwner::External(external_owner_identity(
+                                solver,
+                            )));
+                        }
+                    }
+                }
+                match (unidentifiable_external, owners.as_slice()) {
+                    (true, _) => {
+                        delegated = true;
+                        ambiguous = true;
+                        events.push(self.overlap_failure(vessel, "borrowed zero-sized aqueous owner has no unique instance identity; curated overlap was not consumed"));
+                    }
+                    (false, []) => {}
+                    (false, [owner]) => {
+                        delegated = true;
+                        self.pending_aqueous_overlap = Some(PendingAqueousOverlap {
+                            owner: *owner,
+                            vessel: vessel.id,
+                        });
+                    }
+                    (false, _) => {
+                        delegated = true;
+                        ambiguous = true;
+                        events.push(self.overlap_failure(vessel, "multiple trusted applicable aqueous owners; curated overlap was not consumed"));
+                    }
+                }
+            }
+            let selected = self.pending_aqueous_overlap.is_some_and(|pending| {
+                pending.vessel == vessel.id
+                    && pending.owner == AqueousOverlapOwner::Installed(index)
+            });
+            let checkpoint = selected.then(|| vessel.clone());
+            if selected {
+                // A selected owner must answer this input. An inherited
+                // complete answer cannot certify a no-op or a late decline.
+                vessel.solution = None;
+                vessel.resolved.invalidate();
+            }
+            let mut more = run_solver_route_with_aqueous_owner(
+                self.solvers[index].as_mut(),
                 vessel,
                 self.required_conservation_tolerance,
                 &mut self.last_routes,
+                delegated,
+            );
+            if selected {
+                more = self.finish_selected_aqueous(
+                    vessel,
+                    checkpoint.expect("selected checkpoint"),
+                    more,
+                );
+            }
+            events.append(&mut more);
+            if ambiguous || self.aqueous_overlap_refused {
+                // There is no selected authority. Do not run either
+                // candidate or any later route and mistake its answer for
+                // this row's.
+                return Ok(events);
+            }
+        }
+        if range.end == self.solvers.len()
+            && self
+                .pending_aqueous_overlap
+                .is_some_and(|pending| matches!(pending.owner, AqueousOverlapOwner::Installed(_)))
+        {
+            events.push(self.overlap_failure(
+                vessel,
+                "selected aqueous owner was absent from the terminal installed range",
             ));
+            self.pending_aqueous_overlap = None;
         }
         Ok(events)
+    }
+
+    fn finish_selected_aqueous(
+        &mut self,
+        vessel: &mut Vessel,
+        checkpoint: Vessel,
+        events: Vec<Event>,
+    ) -> Vec<Event> {
+        self.pending_aqueous_overlap = None;
+        let succeeded = self.last_routes.last().is_some_and(|route| {
+            matches!(route.outcome, SolverRouteOutcome::Succeeded { .. })
+                && route.chemistry
+                && route.vessel == Some(vessel.id)
+        });
+        let complete = vessel.solution.as_ref().is_some_and(|info| {
+            info.scope == crate::vessel::SolutionScope::Complete && info.provenance.is_some()
+        });
+        let no_nested_failure = !events
+            .iter()
+            .any(|event| matches!(event, Event::SolverFailed { .. }));
+        if succeeded && complete && no_nested_failure {
+            return events;
+        }
+        *vessel = checkpoint;
+        vessel.invalidate_aqueous_diagnostics();
+        if let Some(route) = self.last_routes.last_mut() {
+            // Preserve an explicit owner decline or failure; the separate
+            // overlap route records that the deferred row had no owner answer.
+            if matches!(route.outcome, SolverRouteOutcome::Succeeded { .. }) {
+                route.outcome = SolverRouteOutcome::Failed;
+                route.reason = Some(
+                    "deferred curated overlap received no accepted complete aqueous answer".into(),
+                );
+            }
+        }
+        let mut retained: Vec<Event> = events
+            .into_iter()
+            .filter(|event| {
+                matches!(
+                    event,
+                    Event::NotYetModeled { .. } | Event::SolverFailed { .. }
+                )
+            })
+            .collect();
+        retained.push(self.overlap_failure(
+            vessel,
+            "deferred curated overlap received no accepted complete aqueous answer",
+        ));
+        retained
     }
 
     /// Run a borrowed owning adapter between installed stages. This preserves
@@ -331,6 +570,27 @@ impl SolverStack {
         solver: &mut dyn Equilibrator,
         vessel: &mut Vessel,
     ) -> Vec<Event> {
+        if let Some(pending) = self.pending_aqueous_overlap {
+            if pending.vessel != vessel.id
+                || pending.owner != AqueousOverlapOwner::External(external_owner_identity(solver))
+            {
+                self.pending_aqueous_overlap = None;
+                return vec![self.overlap_failure(
+                    vessel,
+                    "borrowed aqueous owner differs from the selected adapter or vessel",
+                )];
+            }
+            let checkpoint = vessel.clone();
+            vessel.solution = None;
+            vessel.resolved.invalidate();
+            let events = run_solver_route(
+                solver,
+                vessel,
+                self.required_conservation_tolerance,
+                &mut self.last_routes,
+            );
+            return self.finish_selected_aqueous(vessel, checkpoint, events);
+        }
         run_solver_route(
             solver,
             vessel,
@@ -392,70 +652,87 @@ fn run_solver_route(
     required: Option<f64>,
     routes: &mut Vec<SolverRoute>,
 ) -> Vec<Event> {
+    run_solver_route_with_aqueous_owner(solver, vessel, required, routes, false)
+}
+
+fn run_solver_route_with_aqueous_owner(
+    solver: &mut dyn Equilibrator,
+    vessel: &mut Vessel,
+    required: Option<f64>,
+    routes: &mut Vec<SolverRoute>,
+    aqueous_owner: bool,
+) -> Vec<Event> {
     let mut events = Vec::new();
     let solver_name = solver.name().to_string();
     let kind = solver.route_kind();
-    let chemistry = solver.chemistry_applies(vessel);
-    if !solver.applies(vessel) {
+    let applies = solver.applies_with_aqueous_owner(vessel, aqueous_owner);
+    let chemistry = applies && solver.chemistry_applies(vessel);
+    if !applies {
         routes.push(SolverRoute {
             solver: solver_name,
             kind,
             chemistry,
             outcome: SolverRouteOutcome::NotApplicable,
             vessel: Some(vessel.id),
-            reason: decline_reason(solver, vessel),
+            reason: if aqueous_owner && solver.has_delegable_aqueous_overlap(vessel) {
+                Some("typed curated overlap deferred to selected trusted aqueous route".into())
+            } else {
+                decline_reason(solver, vessel)
+            },
         });
         return events;
     }
     let checkpoint = vessel.clone();
-    let result = solver.equilibrate(vessel).and_then(|more| {
-        let mut errors = SolverStack::validate_result(
-            &checkpoint,
-            vessel,
-            &more,
-            required,
-            solver.element_conservation_tolerance(),
-        );
-        if errors.is_empty() {
-            // Gas this solver sent out of the vessel, booked on the
-            // step's snapshot before the next solver runs: the
-            // aqueous tail prices the whole step's heat, and the
-            // carbon dioxide a curated row evolved ahead of it must
-            // not cease to exist on the way. `GasContained` stays a
-            // portion and is not an outward transfer.
-            if let Some(start) = vessel.step_start.as_mut() {
-                for event in &more {
-                    match event {
-                        Event::GasEvolved { species, moles, .. } => {
-                            start.note_gas_out(species, moles.0);
+    let result = solver
+        .equilibrate_with_aqueous_owner(vessel, aqueous_owner)
+        .and_then(|more| {
+            let mut errors = SolverStack::validate_result(
+                &checkpoint,
+                vessel,
+                &more,
+                required,
+                solver.element_conservation_tolerance(),
+            );
+            if errors.is_empty() {
+                // Gas this solver sent out of the vessel, booked on the
+                // step's snapshot before the next solver runs: the
+                // aqueous tail prices the whole step's heat, and the
+                // carbon dioxide a curated row evolved ahead of it must
+                // not cease to exist on the way. `GasContained` stays a
+                // portion and is not an outward transfer.
+                if let Some(start) = vessel.step_start.as_mut() {
+                    for event in &more {
+                        match event {
+                            Event::GasEvolved { species, moles, .. } => {
+                                start.note_gas_out(species, moles.0);
+                            }
+                            Event::GasAbsorbed { species, moles, .. } => {
+                                start.note_gas_out(species, -moles.0);
+                            }
+                            _ => {}
                         }
-                        Event::GasAbsorbed { species, moles, .. } => {
-                            start.note_gas_out(species, -moles.0);
-                        }
-                        _ => {}
                     }
                 }
-            }
 
-            if vessel
-                .step_start
-                .as_ref()
-                .is_some_and(|start| start.gas_out.iter().any(|(_, n)| !n.0.is_finite()))
-            {
-                errors.push(crate::delta::DeltaError::InvalidState {
-                    field: "accumulated gas boundary".into(),
-                });
+                if vessel
+                    .step_start
+                    .as_ref()
+                    .is_some_and(|start| start.gas_out.iter().any(|(_, n)| !n.0.is_finite()))
+                {
+                    errors.push(crate::delta::DeltaError::InvalidState {
+                        field: "accumulated gas boundary".into(),
+                    });
+                }
             }
-        }
-        if errors.is_empty() {
-            Ok(more)
-        } else {
-            Err(SolveError::NotConverged {
-                solver: solver.name().into(),
-                detail: format!("invalid solver result: {errors:?}"),
-            })
-        }
-    });
+            if errors.is_empty() {
+                Ok(more)
+            } else {
+                Err(SolveError::NotConverged {
+                    solver: solver.name().into(),
+                    detail: format!("invalid solver result: {errors:?}"),
+                })
+            }
+        });
     match result {
         Ok(more) => {
             routes.push(SolverRoute {
@@ -540,7 +817,7 @@ impl Equilibrator for SolverStack {
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
-        self.last_routes.clear();
+        self.begin_equilibration();
         self.equilibrate_range(0..self.solvers.len(), vessel)
     }
 
@@ -1445,26 +1722,9 @@ fn liquidus_after_freezing(
         .freezing_k
 }
 
-/// Liquid-minus-ice enthalpy at the actual coexistence temperature, J/mol.
-/// The curated fusion heat fixes the reference at 273.15 K; each phase's
-/// existing Cp curve carries that reference to a depressed liquidus. Using
-/// 6010 J/mol at every temperature loses the sensible-enthalpy difference
-/// between ice and liquid, even when both their Cp curves are integrated.
+/// All admitted phase transfers use the same fusion authority as the liquidus.
 fn water_fusion_enthalpy_at(temperature: f64) -> f64 {
-    let water = species::lookup(&SpeciesId::new(SOLVENT)).expect("registered water solvent");
-    crate::states::WATER_H_FUS
-        + crate::states::enthalpy_between(
-            water,
-            Phase::Liquid,
-            crate::states::WATER_FREEZING_K,
-            temperature,
-        )
-        - crate::states::enthalpy_between(
-            water,
-            Phase::Solid,
-            crate::states::WATER_FREEZING_K,
-            temperature,
-        )
+    crate::water_fusion::enthalpy_at(temperature).unwrap_or(f64::NAN)
 }
 
 /// Arithmetic uncertainty of the capped energy comparison, not permission to
@@ -1532,7 +1792,7 @@ fn cap_energy_roundoff_j(
     let log_activity_scale =
         activity.osmotic_coefficient.unwrap_or(1.0).abs() * particle_moles.abs() / remaining;
     let temperature_error = input_gamma * temperature.abs()
-        + temperature.powi(2) * crate::constants::GAS_CONSTANT / crate::states::WATER_H_FUS
+        + crate::water_fusion::temperature_sensitivity_at(temperature).unwrap_or(f64::INFINITY)
             * log_activity_scale
             * (input_gamma + amount_error / remaining);
     gamma * scale
@@ -1706,11 +1966,13 @@ fn solvent_activity_of(
 /// `(speciated, unspeciated)`, both mol per kg of the vessel's liquid water.
 fn dissolved_particles(vessel: &Vessel) -> (f64, f64) {
     let speciated: f64 = vessel.solution.as_ref().map_or(0.0, |info| {
-        info.species
-            .iter()
-            .filter(|species| species.name != "H2O")
-            .map(|species| species.molality)
-            .sum()
+        info.particle_molality.unwrap_or_else(|| {
+            info.species
+                .iter()
+                .filter(|species| species.name != "H2O")
+                .map(|species| species.molality)
+                .sum()
+        })
     });
     // A colligative property counts particles, and the commonest particle
     // a kitchen dissolves is one no aqueous engine lists: sucrose is a
@@ -1851,6 +2113,24 @@ impl Equilibrator for StateEquilibrator {
         // would leave ice sitting at room temperature, which is not. The
         // liquidus it melts at is the same uncertain number either way, so
         // the asymmetry is about which wrong answer is recoverable.
+        // NaN denotes an unadmitted root, not a pure-water fallback. Do
+        // not allow IEEE comparisons to silently skip its model refusal.
+        if !t.freezing_k.is_finite()
+            && (frozen_water || (liquid_water && now <= crate::states::BRINE_MODEL_MIN_K))
+        {
+            events.push(Event::not_modeled(
+                vessel.id,
+                crate::ops::NotModelledCause::ModelBoundary,
+                Phrase::new(
+                    "not-modeled.partial-freezing-cap",
+                    "the partial-freezing model boundary at {temperature} °C: further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
+                    vec![("temperature".to_string(), Slot::number(format!(
+                        "{:.1}", Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                    )))],
+                ),
+            ));
+            return Ok(events);
+        }
         let would_change_state = liquid_water && (now < t.freezing_k || now >= t.boiling_k);
         if would_change_state && !t.within_model_range() {
             events.push(Event::not_modeled(
@@ -1925,13 +2205,16 @@ impl Equilibrator for StateEquilibrator {
             };
             let maximum_freezing = (liquid_moles - minimum_liquid_moles).max(0.0);
             if particle_moles > 0.0 && maximum_freezing < liquid_moles {
-                let cap_temperature = liquidus_after_freezing(
-                    maximum_freezing,
-                    liquid_moles,
-                    particle_moles,
-                    activity,
-                    pressure_kpa,
-                );
+                // The thermodynamic cap is DEFINED at 252 K; re-forming
+                // a_w from subtracted water could round it below that
+                // domain. This endpoint is not an inverted/clamped root.
+                let cap_temperature = if eutectic_cap <= activity_cap {
+                    crate::states::BRINE_MODEL_MIN_K
+                } else {
+                    crate::states::transitions_with(activity, ceiling, pressure_kpa)
+                        .0
+                        .freezing_k
+                };
                 let residual = vessel.energy_between(now, cap_temperature)
                     - maximum_freezing * water_fusion_enthalpy_at(cap_temperature);
                 let uncertainty = cap_energy_roundoff_j(
@@ -1989,7 +2272,11 @@ impl Equilibrator for StateEquilibrator {
                     p.moles = Moles((p.moles.0 - freezing).max(0.0));
                 }
             }
-            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            // Prune only the source water phase this transfer depleted.
+            // All other phases and reagent stock retain their owned amounts.
+            vessel
+                .contents
+                .retain(|p| p.species != solvent || p.phase != Phase::Liquid || p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(freezing), Phase::Solid);
 
             let settled = if reached_boundary {
@@ -1999,11 +2286,13 @@ impl Equilibrator for StateEquilibrator {
                 // inverting this relation at 252 K), and they are not when
                 // the solvent model's own range ran out first, which is a
                 // warmer place to stop.
-                Kelvin(
+                Kelvin(if eutectic_cap <= activity_cap {
+                    crate::states::BRINE_MODEL_MIN_K
+                } else {
                     crate::states::transitions_with(activity, ceiling, pressure_kpa)
                         .0
-                        .freezing_k,
-                )
+                        .freezing_k
+                })
             } else if freezing < liquid_moles - 1e-12 {
                 // Coexistence defines the temperature, and the bisection
                 // above chose `freezing` so that this is also where the
@@ -2098,7 +2387,9 @@ impl Equilibrator for StateEquilibrator {
                     p.moles = Moles((p.moles.0 - melting).max(0.0));
                 }
             }
-            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            vessel
+                .contents
+                .retain(|p| p.species != solvent || p.phase != Phase::Solid || p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(melting), Phase::Liquid);
 
             let settled = if melting < frozen_moles - 1e-12 {
@@ -2165,7 +2456,9 @@ impl Equilibrator for StateEquilibrator {
                     p.moles = Moles((p.moles.0 - boiling).max(0.0));
                 }
             }
-            vessel.contents.retain(|p| p.moles.0 > 1e-12);
+            vessel
+                .contents
+                .retain(|p| p.species != solvent || p.phase != Phase::Liquid || p.moles.0 > 1e-12);
             // Sealed, the steam is headspace and the pressure says so; open,
             // it leaves the room and the balance notices. Either way the
             // matter is accounted for rather than left behind as a liquid
@@ -2262,6 +2555,308 @@ impl Equilibrator for StateEquilibrator {
     }
 }
 
+// Sum represented material by species and phase. A phase-coupling certificate
+// must count redistribution, not merely the net elemental balance.
+fn phase_inventory_delta(a: &Vessel, b: &Vessel, exclude_water: bool) -> Option<f64> {
+    let mut amounts = std::collections::BTreeMap::<(String, Phase), f64>::new();
+    for (sign, vessel) in [(1.0, a), (-1.0, b)] {
+        for portion in &vessel.contents {
+            if !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
+                return None;
+            }
+            if exclude_water && portion.species.0 == SOLVENT {
+                continue;
+            }
+            *amounts
+                .entry((portion.species.0.clone(), portion.phase))
+                .or_default() += sign * portion.moles.0;
+        }
+    }
+    let total: f64 = amounts.values().map(|amount| amount.abs()).sum();
+    total.is_finite().then_some(total)
+}
+
+// ConservedLedger covers every element and formal charge. Its general
+// observer deliberately skips unknown formulas; a stopping certificate may
+// not, so validate the entire simple-vessel inventory before using it.
+fn phase_ledger_delta(a: &Vessel, b: &Vessel) -> Option<f64> {
+    for vessel in [a, b] {
+        for portion in &vessel.contents {
+            let data = species::lookup(&portion.species)?;
+            crate::stoich::parse_formula(data.formula).ok()?;
+        }
+    }
+    let before = crate::ledger::ConservedLedger::from_vessel(a);
+    let after = crate::ledger::ConservedLedger::from_vessel(b);
+    let mut delta = (before.charge - after.charge).abs();
+    let elements: std::collections::BTreeSet<_> = before
+        .elements
+        .keys()
+        .chain(after.elements.keys())
+        .collect();
+    for element in elements {
+        delta += (before.elements.get(element).copied().unwrap_or(0.0)
+            - after.elements.get(element).copied().unwrap_or(0.0))
+        .abs();
+    }
+    delta.is_finite().then_some(delta)
+}
+
+fn phase_water_moles(vessel: &Vessel, phase: Phase) -> f64 {
+    vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == SOLVENT && portion.phase == phase)
+        .map(|portion| portion.moles.0)
+        .sum()
+}
+
+fn phase_certificate_domain(vessel: &Vessel) -> bool {
+    let Some(info) = vessel.solution.as_ref() else {
+        return false;
+    };
+    let valid_number = |number: f64| number.is_finite() && number >= 0.0;
+    info.scope == crate::vessel::SolutionScope::Complete
+        && info.provenance.is_some()
+        && info.solvent_kg.is_some_and(|kg| kg.is_finite() && kg > 0.0)
+        && info.particle_molality.is_some_and(valid_number)
+        && info.ph.is_finite()
+        && valid_number(info.ionic_strength)
+        && info
+            .species
+            .iter()
+            .all(|species| valid_number(species.molality) && valid_number(species.activity))
+        && vessel.temperature.0.is_finite()
+        && vessel.pressure.0.is_finite()
+        && vessel.pressure.0 > 0.0
+        && vessel.excess_enthalpy_j.is_finite()
+        && [
+            vessel.free_proton,
+            vessel.free_hydroxide,
+            vessel.solute_charge,
+        ]
+        .into_iter()
+        .all(f64::is_finite)
+        && phase_water_moles(vessel, Phase::Liquid) > 0.0
+        && phase_water_moles(vessel, Phase::Solid) > 0.0
+        && matches!(vessel.headspace, crate::vessel::Headspace::Open)
+        && matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+        && vessel.unresolved_materials.is_empty()
+        && vessel.material_objects.is_empty()
+        && vessel.soap_scum.is_none()
+        && vessel.lemon_paper_mark.is_none()
+        && vessel.surface_particles.is_none()
+        && vessel.surface_colours.is_empty()
+        && vessel.emulsion.is_none()
+        && vessel.charred_materials.is_empty()
+        && vessel.foam.trapped_gas_liters == 0.0
+        && vessel.foam.volume_liters == 0.0
+        && vessel.surfaces.is_empty()
+        && vessel.electrodes.is_empty()
+        && vessel.exchanges.is_empty()
+        && vessel.adsorbed.is_empty()
+        && vessel.solid_solutions.is_empty()
+        && vessel.nuclides.inventory.is_empty()
+        && vessel.contents.iter().all(|portion| {
+            if portion.species.0 == SOLVENT {
+                matches!(portion.phase, Phase::Liquid | Phase::Solid)
+            } else {
+                matches!(portion.phase, Phase::Aqueous | Phase::Solid)
+            }
+        })
+}
+
+/// A strict numerical fixed-point certificate. The proposed phase pass is
+/// inspected but never committed: its solution is stale after moving water.
+/// The caller retains the exact fresh chemistry vessel on success.
+fn certified_phase_residual(
+    previous: &Vessel,
+    fresh: &Vessel,
+    trial: &Vessel,
+    trial_events: &[Event],
+    prior_events: &[Event],
+    trusted_aqueous: bool,
+) -> Option<f64> {
+    const TEMPERATURE_K: f64 = 1e-6;
+    const MATERIAL_MOLES: f64 = 1e-10;
+    const ENERGY_J: f64 = 0.001;
+    if !trusted_aqueous
+        || !phase_certificate_domain(previous)
+        || !phase_certificate_domain(fresh)
+        || previous.id != fresh.id
+        || fresh.id != trial.id
+        || previous.label != fresh.label
+        || fresh.label != trial.label
+        || previous.pressure != fresh.pressure
+        || fresh.pressure != trial.pressure
+        || previous.headspace != fresh.headspace
+        || fresh.headspace != trial.headspace
+        || previous.thermal_mode != fresh.thermal_mode
+        || fresh.thermal_mode != trial.thermal_mode
+        || prior_events.iter().any(|event| {
+            matches!(
+                event,
+                Event::SolverFailed { .. } | Event::NotYetModeled { .. }
+            )
+        })
+    {
+        return None;
+    }
+    let earlier = vessel_transitions(previous).0;
+    let current = vessel_transitions(fresh).0;
+    let temperatures = [
+        previous.temperature.0,
+        fresh.temperature.0,
+        earlier.freezing_k,
+        current.freezing_k,
+    ];
+    if !temperatures.iter().all(|t| t.is_finite())
+        || !(crate::states::BRINE_MODEL_MIN_K..=crate::states::WATER_FREEZING_K)
+            .contains(&earlier.freezing_k)
+        || !(crate::states::BRINE_MODEL_MIN_K..=crate::states::WATER_FREEZING_K)
+            .contains(&current.freezing_k)
+        || !earlier.within_model_range()
+        || !current.within_model_range()
+        || temperatures
+            .iter()
+            .copied()
+            .fold(f64::NEG_INFINITY, f64::max)
+            - temperatures.iter().copied().fold(f64::INFINITY, f64::min)
+            > TEMPERATURE_K
+    {
+        return None;
+    }
+    let before_solution = previous.solution.as_ref()?;
+    let after_solution = fresh.solution.as_ref()?;
+    let before_source = before_solution.provenance.as_ref()?;
+    let after_source = after_solution.provenance.as_ref()?;
+    if before_source.engine != after_source.engine
+        || before_source.dataset != after_source.dataset
+        || before_source.model != after_source.model
+        || vessel_solvent_activity(previous).route() != vessel_solvent_activity(fresh).route()
+    {
+        return None;
+    }
+    let kg = before_solution.solvent_kg?.max(after_solution.solvent_kg?);
+    if (before_solution.ph - after_solution.ph).abs() > TEMPERATURE_K
+        || (before_solution.ionic_strength - after_solution.ionic_strength).abs() > MATERIAL_MOLES
+        || (before_solution.ionic_strength - after_solution.ionic_strength).abs() * kg
+            > MATERIAL_MOLES
+        || (before_solution.particle_molality? - after_solution.particle_molality?).abs() * kg
+            > MATERIAL_MOLES
+    {
+        return None;
+    }
+    let represented_change = phase_inventory_delta(previous, fresh, false)?
+        + (previous.free_proton - fresh.free_proton).abs()
+        + (previous.free_hydroxide - fresh.free_hydroxide).abs()
+        + (previous.solute_charge - fresh.solute_charge).abs();
+    let conserved_change = phase_ledger_delta(previous, fresh)?;
+    // Bound thermal drift between the two fresh states. This does not price
+    // chemical reaction heat; the certificate is only a phase residual.
+    let sensible_drift = previous
+        .energy_between(previous.temperature.0, fresh.temperature.0)
+        .abs()
+        + (previous.excess_enthalpy_j - fresh.excess_enthalpy_j).abs();
+    if !represented_change.is_finite()
+        || represented_change > MATERIAL_MOLES
+        || conserved_change > MATERIAL_MOLES
+        || !sensible_drift.is_finite()
+        || sensible_drift > ENERGY_J
+        || phase_inventory_delta(fresh, trial, true)? != 0.0
+        || phase_ledger_delta(fresh, trial)? > MATERIAL_MOLES
+        || phase_water_moles(fresh, Phase::Aqueous) != phase_water_moles(trial, Phase::Aqueous)
+        || phase_water_moles(fresh, Phase::Gas) != phase_water_moles(trial, Phase::Gas)
+        || fresh.free_proton != trial.free_proton
+        || fresh.free_hydroxide != trial.free_hydroxide
+        || fresh.solute_charge != trial.solute_charge
+        || fresh.excess_enthalpy_j != trial.excess_enthalpy_j
+    {
+        return None;
+    }
+    let liquid_change =
+        phase_water_moles(fresh, Phase::Liquid) - phase_water_moles(trial, Phase::Liquid);
+    let ice_change =
+        phase_water_moles(trial, Phase::Solid) - phase_water_moles(fresh, Phase::Solid);
+    if !liquid_change.is_finite()
+        || !ice_change.is_finite()
+        || liquid_change.abs() <= PHASE_TRANSFER_RESOLUTION_MOLES
+        || liquid_change.abs() > MATERIAL_MOLES
+        || (liquid_change - ice_change).abs() > PHASE_TRANSFER_RESOLUTION_MOLES
+        || trial_events.len() != 1
+    {
+        return None;
+    }
+    let Event::StateChanged {
+        vessel: owner,
+        species,
+        from,
+        to,
+        at,
+        kind: Some(kind),
+        moles: Some(amount),
+        ..
+    } = &trial_events[0]
+    else {
+        return None;
+    };
+    if *owner != fresh.id
+        || species.0 != SOLVENT
+        || !at.0.is_finite()
+        || (at.0 - current.freezing_k).abs() > TEMPERATURE_K
+        || !matches!(
+            (*from, *to),
+            (Phase::Liquid, Phase::Solid) | (Phase::Solid, Phase::Liquid)
+        )
+        || amount.0 <= 0.0
+        || !amount.0.is_finite()
+        || *kind != crate::ops::PhaseTransition::between(*from, *to)?
+        || (amount.0 - liquid_change.abs()).abs() > PHASE_TRANSFER_RESOLUTION_MOLES
+        || (liquid_change > 0.0) != (*from == Phase::Liquid)
+    {
+        return None;
+    }
+    let latent = crate::water_fusion::enthalpy_at(at.0)?;
+    let sensible = fresh
+        .energy_between(fresh.temperature.0, trial.temperature.0)
+        .abs();
+    let zero_transfer = fresh
+        .energy_between(fresh.temperature.0, current.freezing_k)
+        .abs();
+    if !sensible.is_finite()
+        || !zero_transfer.is_finite()
+        || sensible + amount.0 * latent > ENERGY_J
+        || zero_transfer > ENERGY_J
+    {
+        return None;
+    }
+    Some(current.freezing_k)
+}
+
+fn annotate_last_water_boundary(events: &mut [Event], liquidus: f64) {
+    if let Some(Event::StateChanged { at, shifted_by, .. }) =
+        events.iter_mut().rev().find(|event| {
+            matches!(
+                event,
+                Event::StateChanged {
+                    species,
+                    from: Phase::Liquid,
+                    to: Phase::Solid,
+                    ..
+                } | Event::StateChanged {
+                    species,
+                    from: Phase::Solid,
+                    to: Phase::Liquid,
+                    ..
+                } if species.0 == SOLVENT
+            )
+        })
+    {
+        *at = Kelvin(liquidus);
+        *shifted_by = liquidus - crate::states::WATER_FREEZING_K;
+    }
+}
+
 /// Couples an aqueous/speciation solver to the solvent phase pass until the
 /// liquid composition and ice fraction describe the same state.
 ///
@@ -2277,6 +2872,8 @@ pub fn equilibrate_phase_coupled(
     const MAX_PASSES: usize = 32;
     let mut events = Vec::new();
     let mut states = StateEquilibrator;
+    let trusted_aqueous = chemistry.trusted_aqueous_readback().is_some();
+    let mut previous_fresh: Option<Vessel> = None;
 
     // A phase transition of independent pure water is a solvent-state
     // question, not an aqueous-speciation question. Probe that transition on
@@ -2340,6 +2937,7 @@ pub fn equilibrate_phase_coupled(
             }
         }
 
+        let fresh = trusted_aqueous.then(|| vessel.clone());
         let liquid_before: f64 = vessel
             .contents
             .iter()
@@ -2370,6 +2968,23 @@ pub fn equilibrate_phase_coupled(
                 } if species.0 == SOLVENT
             )
         });
+        if transferred_water {
+            if let (Some(previous), Some(current)) = (previous_fresh.as_ref(), fresh.as_ref()) {
+                if let Some(liquidus) = certified_phase_residual(
+                    previous,
+                    current,
+                    vessel,
+                    &phase_events,
+                    &events,
+                    trusted_aqueous,
+                ) {
+                    *vessel = current.clone();
+                    annotate_last_water_boundary(&mut events, liquidus);
+                    return Ok(events);
+                }
+            }
+            previous_fresh = fresh;
+        }
         events.append(&mut phase_events);
         if !transferred_water {
             // A real chemistry answer remains current only when this phase
@@ -2399,34 +3014,13 @@ pub fn equilibrate_phase_coupled(
                     // settles, make the last phase event describe the final
                     // coexistence boundary rather than leaking an obsolete
                     // intermediate value to renderers and invariant checks.
-                    if let Some(Event::StateChanged { at, shifted_by, .. }) =
-                        events.iter_mut().rev().find(|event| {
-                            matches!(
-                                event,
-                                Event::StateChanged {
-                                    species,
-                                    from: Phase::Liquid,
-                                    to: Phase::Solid,
-                                    ..
-                                } | Event::StateChanged {
-                                    species,
-                                    from: Phase::Solid,
-                                    to: Phase::Liquid,
-                                    ..
-                                } if species.0 == SOLVENT
-                            )
-                        })
-                    {
-                        *at = Kelvin(liquidus);
-                        *shifted_by = liquidus - crate::states::WATER_FREEZING_K;
-                    }
+                    annotate_last_water_boundary(&mut events, liquidus);
                 }
             }
             return Ok(events);
         }
         if pass + 1 == MAX_PASSES {
-            events.push(Event::SolverFailed {
-                vessel: vessel.id,
+            return Err(SolveError::NotConverged {
                 solver: "phase-coupled".to_string(),
                 detail: format!(
                     "aqueous/ice state did not settle within {MAX_PASSES} bounded passes (last water transfer {last_transfer_moles:.3e} mol at {:.6} K)",
@@ -3643,5 +4237,154 @@ mod route_trace_tests {
         let wire = serde_json::to_value(&stack.last_routes[0]).expect("route serialises");
         assert!(wire.get("reason").is_none(), "{wire}");
         assert_eq!(wire["vessel"], serde_json::json!(0));
+    }
+}
+
+#[cfg(test)]
+mod phase_residual_certificate_tests {
+    use super::*;
+    use crate::vessel::{Provenance, SolutionInfo, SpeciesDetail, VesselId};
+
+    // Frozen independent Decimal/Simpson references in
+    // audits/water-fusion-authority-20261023/references.json, T=270 K.
+    const ACTIVITY_270: f64 = 0.969_899_189_624_049_9;
+    const FUSION_270_J_MOL: f64 = 5_889.397_339_398_314;
+
+    fn fresh_brine() -> Vessel {
+        let kg = 5.0 * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
+        let particles = (1.0 / ACTIVITY_270 - 1.0) / crate::constants::WATER_MOLAR_MASS_KG_PER_MOL;
+        let mut vessel = Vessel::new(VesselId(0), "frozen-reference brine");
+        vessel.temperature = Kelvin(270.0);
+        vessel.deposit(SpeciesId::new(SOLVENT), Moles(5.0), Phase::Liquid);
+        vessel.deposit(SpeciesId::new(SOLVENT), Moles(1.0), Phase::Solid);
+        for name in ["Na+", "Cl-"] {
+            vessel.deposit(
+                SpeciesId::new(name),
+                Moles(particles * kg / 2.0),
+                Phase::Aqueous,
+            );
+        }
+        vessel.solution = Some(SolutionInfo {
+            scope: crate::vessel::SolutionScope::Complete,
+            solvent_kg: Some(kg),
+            particle_molality: Some(particles),
+            pe: None,
+            redox: vec![],
+            ph: 7.0,
+            ionic_strength: particles / 2.0,
+            species: ["Na+", "Cl-"]
+                .into_iter()
+                .map(|name| SpeciesDetail {
+                    name: name.into(),
+                    molality: particles / 2.0,
+                    activity: particles / 2.0,
+                })
+                .collect(),
+            provenance: Some(Provenance {
+                engine: "synthetic certified-residual test".into(),
+                dataset: "frozen independent reference".into(),
+                model: "declared ideal activity".into(),
+                dataset_sources: vec![],
+                routing: "unit control".into(),
+                routing_phrase: None,
+                dataset_phrase: None,
+                model_phrase: None,
+            }),
+            solvent_activity: None,
+        });
+        assert!((vessel_transitions(&vessel).0.freezing_k - 270.0).abs() < 1e-9);
+        assert!((crate::water_fusion::enthalpy_at(270.0).unwrap() - FUSION_270_J_MOL).abs() < 2e-6);
+        vessel
+    }
+
+    fn tiny_trial(fresh: &Vessel) -> (Vessel, Vec<Event>) {
+        // A predeclared 10 nJ latent proposal, priced with the independent
+        // reference above. It is not taken from a failed native trace.
+        let transfer = 1e-8 / FUSION_270_J_MOL;
+        let mut trial = fresh.clone();
+        for portion in &mut trial.contents {
+            if portion.species.0 == SOLVENT && portion.phase == Phase::Liquid {
+                portion.moles = Moles(portion.moles.0 - transfer);
+            }
+        }
+        trial.deposit(SpeciesId::new(SOLVENT), Moles(transfer), Phase::Solid);
+        trial.temperature = Kelvin(fresh.temperature_after(1e-8));
+        trial.solution = None;
+        let event = Event::state_changed(
+            fresh.id,
+            SpeciesId::new(SOLVENT),
+            Phase::Liquid,
+            Phase::Solid,
+            Kelvin(270.0),
+            -3.15,
+            Moles(transfer),
+        );
+        (trial, vec![event])
+    }
+
+    #[test]
+    fn frozen_reference_microproposal_has_a_joint_material_and_energy_certificate() {
+        let fresh = fresh_brine();
+        let (trial, events) = tiny_trial(&fresh);
+        let liquidus = certified_phase_residual(&fresh, &fresh, &trial, &events, &[], true)
+            .expect("frozen-reference residual is within every budget");
+        assert!((liquidus - 270.0).abs() < 1e-9);
+        assert!(certified_phase_residual(&fresh, &fresh, &trial, &events, &[], false).is_none());
+    }
+
+    #[test]
+    fn small_water_proposal_cannot_hide_chemical_drift_or_invalid_native_state() {
+        let fresh = fresh_brine();
+        let (trial, events) = tiny_trial(&fresh);
+        let mut changed = fresh.clone();
+        changed.deposit(SpeciesId::new("Na+"), Moles(1e-5), Phase::Aqueous);
+        assert!(certified_phase_residual(&changed, &fresh, &trial, &events, &[], true).is_none());
+
+        // Moving a represented ion between phases conserves every element
+        // and formal charge, but is still a real chemistry-state change.
+        let mut redistributed = fresh.clone();
+        redistributed
+            .contents
+            .iter_mut()
+            .find(|portion| portion.species.0 == "Na+")
+            .unwrap()
+            .phase = Phase::Solid;
+        assert!(phase_ledger_delta(&redistributed, &fresh).unwrap() <= 1e-10);
+        assert!(phase_inventory_delta(&redistributed, &fresh, false).unwrap() > 1e-10);
+        assert!(
+            certified_phase_residual(&redistributed, &fresh, &trial, &events, &[], true).is_none()
+        );
+
+        let mut diagnostic_drift = fresh.clone();
+        diagnostic_drift.solution.as_mut().unwrap().ph += 0.1;
+        assert!(
+            certified_phase_residual(&diagnostic_drift, &fresh, &trial, &events, &[], true)
+                .is_none()
+        );
+
+        let mut missing = fresh.clone();
+        missing.solution.as_mut().unwrap().particle_molality = None;
+        assert!(certified_phase_residual(&fresh, &missing, &trial, &events, &[], true).is_none());
+        missing.solution.as_mut().unwrap().particle_molality = Some(f64::NAN);
+        assert!(certified_phase_residual(&fresh, &missing, &trial, &events, &[], true).is_none());
+
+        let mut outside_liquidus = fresh.clone();
+        outside_liquidus
+            .solution
+            .as_mut()
+            .unwrap()
+            .particle_molality = Some(50.0);
+        assert!(!vessel_transitions(&outside_liquidus)
+            .0
+            .freezing_k
+            .is_finite());
+        assert!(
+            certified_phase_residual(&fresh, &outside_liquidus, &trial, &events, &[], true)
+                .is_none()
+        );
+
+        let mut outside = fresh.clone();
+        outside.temperature = Kelvin(251.0);
+        assert!(certified_phase_residual(&fresh, &outside, &trial, &events, &[], true).is_none());
     }
 }

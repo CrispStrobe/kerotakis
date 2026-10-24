@@ -457,12 +457,15 @@ fn a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult() {
         "the correction is worth having: {:.4} K",
         freezing_c - ideal_c
     );
-    // The pin. This is what THIS bench, on the datasets it ships today,
+    // The variable-fusion successor pin is independently adjudicated in
+    // audits/water-fusion-adjudication-20261023; the physical band below
+    // and this0.0004K regression tolerance are unchanged.
+    // This is what THIS bench, on the datasets it ships today,
     // computes for this beaker — not a claim about the world. It moves when
     // the engine, the dataset or the relation moves, and it is meant to:
     // that is what makes it a pin rather than a measurement.
     assert!(
-        (freezing_c + 0.3468).abs() < 0.0004,
+        (freezing_c + 0.3472).abs() < 0.0004,
         "pin for the ion-interaction route at 0.1 molal: {freezing_c:.4} C"
     );
     // Keep the original independent physical band and its attribution [S1].
@@ -659,7 +662,13 @@ fn a_saturated_brine_boils_hotter_than_the_dilute_law_allows() {
          computed: {:?}",
         picture.boiling_point_k
     );
-    assert!(transitions.freezing_k < states::BRINE_MODEL_MIN_K);
+    // The bounded shared authority refuses below-domain roots. Retain the
+    // valid boil and withheld scene melting point, without demanding an
+    // unadmitted numerical freezing prediction.
+    let activity = transitions.water_activity();
+    assert!(activity < states::activity_at_freezing_point(states::BRINE_MODEL_MIN_K));
+    assert!(kerotakis_core::water_fusion::temperature_at(activity).is_none());
+    assert!(transitions.freezing_k.is_nan());
 }
 
 /// One mole of sucrose in one kilogram of water: 342 g, and it boils at

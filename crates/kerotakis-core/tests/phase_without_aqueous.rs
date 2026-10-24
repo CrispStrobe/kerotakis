@@ -19,6 +19,7 @@ fn stale_solution() -> SolutionInfo {
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,
+        particle_molality: None,
         pe: None,
         redox: vec![],
         ph: 3.0,
