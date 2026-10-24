@@ -1,0 +1,19 @@
+2026-10-24T06:32:49.9469120Z 
+2026-10-24T06:32:49.9469610Z ---- every_curated_reaction_is_reachable_in_every_order stdout ----
+2026-10-24T06:32:49.9470190Z 
+2026-10-24T06:32:49.9471340Z thread 'every_curated_reaction_is_reachable_in_every_order' (163791) panicked at crates/kerotakis-phreeqc/tests/curated_reachability_at_runtime.rs:186:5:
+2026-10-24T06:32:49.9477080Z curated reactions that cannot be reached in some order of adding their own reagents. `curated` runs before the aqueous tail, so a reagent added FIRST goes through a solve and is renamed before the others arrive — and the reaction that names it can no longer match. The remedy is a sibling row written in the names the vessel holds afterwards, as `HCO₃⁻` is written beside `NaHCO3`:
+2026-10-24T06:32:49.9492900Z   NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑
+2026-10-24T06:32:49.9493750Z     silent when added in the order ["NaHCO3", "CH3COOH"]
+2026-10-24T06:32:49.9498170Z   HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑
+2026-10-24T06:32:49.9499720Z     silent when added in the order ["HCO3-", "CH3COOH"]
+2026-10-24T06:32:49.9500420Z   HCO₃⁻ + CH₃COOH → CH₃COO⁻ + H₂O + CO₂↑
+2026-10-24T06:32:49.9501680Z     silent when added in the order ["CH3COOH", "HCO3-"]
+2026-10-24T06:32:49.9502530Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-24T06:32:49.9502860Z 
+2026-10-24T06:32:49.9502870Z 
+2026-10-24T06:32:49.9503520Z failures:
+2026-10-24T06:32:49.9505100Z     every_curated_reaction_is_reachable_in_every_order
+2026-10-24T06:32:49.9505440Z 
+2026-10-24T06:32:49.9505720Z test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.87s
+2026-10-24T06:32:49.9506700Z 
