@@ -2897,7 +2897,10 @@ impl Equilibrator for PhreeqcEquilibrator {
         };
         *vessel = solved;
         // The final state, posed canonically, before the last word on it.
-        self.recharacterise_canonically(vessel, &mut events);
+        if let Err(error) = self.recharacterise_canonically(vessel, &mut events) {
+            *vessel = start;
+            return Err(error);
+        }
         events.extend(unspeciated_acid_notes(vessel));
         events.extend(unspeciated_solute_notes(vessel));
         events.extend(component_charge_note);
@@ -3250,14 +3253,12 @@ impl Equilibrator for PhreeqcEquilibrator {
                 return abandoned(error);
             }
         }
-        vessel.free_hydroxide = value("m_OH-")
-            .map(|m| m * solvent_kgw_out)
-            .unwrap_or_else(|| free_hydroxide_moles(Some(&cached.speciation), solvent_kgw_out));
-        vessel.free_proton = value("m_H+")
-            .map(|m| m * solvent_kgw_out)
-            .unwrap_or_else(|| {
-                measured_species_moles(Some(&cached.speciation), "H+", solvent_kgw_out)
-            });
+        if let Err(error) =
+            refresh_measured_coordinates(vessel, &cached.rows, &cached.speciation, solvent_kgw_out)
+        {
+            *vessel = before_inventory;
+            return abandoned(error);
+        }
         vessel.refresh_pressure();
 
         events.extend(reference_complex_boundary(vessel, &cached.speciation));
@@ -3401,27 +3402,20 @@ impl PhreeqcEquilibrator {
     ///   after             1.0023e-13       1.8361e-9       1.1000e-10
     /// ```
     ///
-    /// `solvent_kg` is exact to every digit the wire can print because the
-    /// input writes the solvent mass as `{:.9}`, and the conserved
-    /// inventory's own residue — the two orderings agree on the vessel's
-    /// water to about one part in 4e8 — is finer than that quantisation,
-    /// so both print the same nine decimals and the solve is answered from
-    /// the same entry of the content-addressed cache. The element totals
-    /// are written `{:.12e}`, which is *finer* than the inventory's
-    /// residue, so a few parts in 1e9 do reach the engine and come back as
-    /// the 1.8e-9 above. That remainder is floating-point noise in a
-    /// conserved sum, not a difference in representation, and it is four
-    /// orders of magnitude below what the wire publishes.
+    /// The measurements above describe the historical nine-decimal input.
+    /// Current inputs preserve solvent mass with sixteen scientific digits
+    /// so the native total is the written molality times the same water
+    /// mass used to calculate it. Cache keys include that full input. The
+    /// canonical pose still derives from settled contents, and no displayed
+    /// number is used as an inventory correction.
     ///
     /// # What it deliberately does NOT do
     ///
-    /// It does not rebuild the vessel. Contents, phases, surfaces,
-    /// temperature and every event stay exactly as the operation left
-    /// them; this pass only replaces the four REPORTED numbers —
-    /// `solvent_kg`, `ph`, `ionic_strength` and the species distribution —
-    /// and corrects the `SolutionCharacterized` event that carries two of
-    /// them. The state remains what the chemistry did; only the
-    /// characterisation of it becomes a function of the state alone.
+    /// It does not rebuild the vessel. Contents, phases, surfaces and
+    /// temperature stay exactly as the operation left them; this pass
+    /// refreshes reported solution fields and the measured free-ion and CO2
+    /// pressure coordinates from the same numerical answer. It corrects
+    /// the `SolutionCharacterized` event that carries pH and ionic strength.
     ///
     /// Overwriting `solvent_kg` with the vessel's own water inventory was
     /// the obvious alternative and is not available: molalities are per kg
@@ -3454,18 +3448,22 @@ impl PhreeqcEquilibrator {
     /// does silently restore the path dependence, which is why the test
     /// asserts the invariance on the live path rather than trusting this
     /// branch never to be taken.
-    fn recharacterise_canonically(&mut self, vessel: &mut Vessel, events: &mut [Event]) {
+    fn recharacterise_canonically(
+        &mut self,
+        vessel: &mut Vessel,
+        events: &mut [Event],
+    ) -> Result<(), SolveError> {
         let Some(scope) = vessel.solution.as_ref().map(|info| info.scope) else {
-            return;
+            return Ok(());
         };
         if scope == SolutionScope::SolventOnly {
-            return;
+            return Ok(());
         }
         let Ok(Some(setup)) = self.setup_problem(vessel) else {
-            return;
+            return Ok(());
         };
         if setup.problem.solvent_only {
-            return;
+            return Ok(());
         }
         // The route has to be the one the record already names.
         //
@@ -3485,7 +3483,7 @@ impl PhreeqcEquilibrator {
             .and_then(|info| info.provenance.as_ref())
             .is_some_and(|provenance| provenance.dataset.contains(&routed_file));
         if !same_route {
-            return;
+            return Ok(());
         }
         let Ok((cached, _)) = self.dispatch_solve(
             vessel,
@@ -3494,7 +3492,7 @@ impl PhreeqcEquilibrator {
             &setup.input,
             setup.key,
         ) else {
-            return;
+            return Ok(());
         };
         let value = |column: &str| -> Option<f64> {
             let idx = cached.rows.first()?.iter().position(|h| h == column)?;
@@ -3502,10 +3500,11 @@ impl PhreeqcEquilibrator {
         };
         let (Some(solvent_kg), Some(ph), Some(mu)) = (value("mass_H2O"), value("pH"), value("mu"))
         else {
-            return;
+            return Ok(());
         };
+        refresh_measured_coordinates(vessel, &cached.rows, &cached.speciation, solvent_kg)?;
         let Some(info) = vessel.solution.as_mut() else {
-            return;
+            return Ok(());
         };
         info.solvent_kg = Some(solvent_kg);
         info.particle_molality = value("particle_molality");
@@ -3527,6 +3526,7 @@ impl PhreeqcEquilibrator {
             *said_ph = ph;
             *said_mu = mu;
         }
+        Ok(())
     }
 
     /// One pass at the vessel's current temperature. Returns the reaction
@@ -3856,59 +3856,16 @@ impl PhreeqcEquilibrator {
         // a beaker handed a bare cation carries it as nothing; both read as
         // hydroxide, and both then invent a neutralisation at 55.81 kJ a
         // mole. One of them reached MINUS 27 K.
-        let measured_oh = value("m_OH-")
-            .map(|m| m * solvent_kgw_out)
-            .unwrap_or_else(|| {
-                free_hydroxide_moles(
-                    vessel.solution.as_ref().map(|s| s.species.as_slice()),
-                    solvent_kgw_out,
-                )
-            });
-        vessel.free_hydroxide = measured_oh;
+        refresh_measured_coordinates(vessel, &cached.rows, &cached.speciation, solvent_kgw_out)?;
+        let measured_oh = vessel.free_hydroxide;
         // Written beside it and unused by this balance — H+ is a master
         // species and carries no enthalpy — but a gate above the tail has
         // no other way to read it once `solution` has been cleared. See
         // the field docs for why it is not `unspent_acidity`.
-        vessel.free_proton = value("m_H+")
-            .map(|m| m * solvent_kgw_out)
-            .unwrap_or_else(|| {
-                measured_species_moles(
-                    vessel.solution.as_ref().map(|s| s.species.as_slice()),
-                    "H+",
-                    solvent_kgw_out,
-                )
-            });
-
-        // EXP-57: the CO2 partial pressure this solution actually stands
-        // at, for `GasExchangeClock` to drive from. Persisted beside the
-        // hydroxide and for the same reason — the clock runs in the
-        // OPERATOR phase, before any solver has looked at the vessel, so
-        // `solution` is already empty by the time it needs this.
-        //
-        // The dissolved-CO2 species is named by the DATABASE, and the
-        // databases disagree: minteq.v4 calls it `H2CO3`, wateq4f calls
-        // it `CO2`. Asking under one name only would read zero on the
-        // other dataset — and a zero here does not mean "no carbon", it
-        // means the largest driving force there is, so the beaker would
-        // carbonate at full tilt forever. Both are asked for; only one of
-        // them can be present. This is the same trap the lactate
-        // extension hit, where a name that existed in one database and
-        // not the other failed silently and returned 0.0.
-        //
-        // Molality stands in for molarity, as it does everywhere dilute
-        // on this bench: the clock's own clamp works in litres, and the
-        // two agree to well under a percent in anything a school bench
-        // pours.
-        let co2_moles = {
-            let species = vessel.solution.as_ref().map(|s| s.species.as_slice());
-            measured_species_moles(species, "CO2", problem.kgw)
-                + measured_species_moles(species, "H2CO3", problem.kgw)
-        };
-        vessel.co2_partial_pressure_atm =
-            kerotakis_core::properties::henry_lookup("CO2").map(|coeff| {
-                let k_h = kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value;
-                (co2_moles / problem.kgw) / k_h
-            });
+        // The final selected row also persists H+, OH- and the tiny CO2
+        // molality that the rounded species report may not display. These
+        // coordinates belong to the current native answer, including hits
+        // in the content-addressed cache.
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
             && kerotakis_core::aqueous_continuation::whole_step_heat_available(vessel)
         {
@@ -7148,11 +7105,8 @@ fn build_mix_input(
         writeln!(input, "    temp      {temp_a_c:.4}").unwrap();
     }
     writeln!(input, "    pH        7  charge").unwrap();
-    if phase_precision {
-        writeln!(input, "    water     {:.16e}", problem_a.kgw).unwrap();
-    } else {
-        writeln!(input, "    water     {:.9}", problem_a.kgw).unwrap();
-    }
+    // Molalities below use the unrounded kgw; write that same solvent mass.
+    writeln!(input, "    water     {:.16e}", problem_a.kgw).unwrap();
     if vessel_a.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
     {
@@ -7177,11 +7131,7 @@ fn build_mix_input(
         writeln!(input, "    temp      {temp_b_c:.4}").unwrap();
     }
     writeln!(input, "    pH        7  charge").unwrap();
-    if phase_precision {
-        writeln!(input, "    water     {:.16e}", problem_b.kgw).unwrap();
-    } else {
-        writeln!(input, "    water     {:.9}", problem_b.kgw).unwrap();
-    }
+    writeln!(input, "    water     {:.16e}", problem_b.kgw).unwrap();
     if vessel_b.uses_atmospheric_reservoir()
         && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
     {
@@ -7390,19 +7340,9 @@ fn build_input_at(
         writeln!(input, "    temp      {temp_c:.4}").unwrap();
     }
     writeln!(input, "    pH        7  charge").unwrap();
-    if phase_precision {
-        // Repeated ice/speciation passes must not quantize the supplied
-        // temperature or analytical solvent budget on each round trip.
-        writeln!(input, "    water     {:.16e}", problem.kgw).unwrap();
-    } else if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
-        // Totals below are n/kgw. Quantizing only kgw changes the native
-        // supplied element amounts before equilibrium even begins. Preserve
-        // finite gas/solution ownership with matching input precision; open
-        // aqueous and MIX problems retain their established serialization.
-        writeln!(input, "    water     {:.12e}", problem.kgw).unwrap();
-    } else {
-        writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
-    }
+    // Every total below is n/kgw. Rounding only kgw changes the amount
+    // supplied to PHREEQC before equilibrium, including warm open water.
+    writeln!(input, "    water     {:.16e}", problem.kgw).unwrap();
     match couple {
         // Solving for the electron balance: pe is the unknown being
         // bisected, so it is stated outright.
@@ -7744,6 +7684,97 @@ fn numerical_species_distribution(
     Ok(species)
 }
 
+/// A missing column is allowed for an imported, older answer; a present but
+/// malformed numerical answer must never be replaced by a rounded report.
+fn selected_nonnegative_molality(
+    rows: &[Vec<String>],
+    name: &str,
+) -> Result<Option<f64>, SolveError> {
+    let invalid = || SolveError::NotConverged {
+        solver: "phreeqc-aqueous".to_string(),
+        detail: format!("invalid final numerical {name} molality"),
+    };
+    let header = rows.first().ok_or_else(invalid)?;
+    let mut indices = header
+        .iter()
+        .enumerate()
+        .filter_map(|(index, column)| (column == name).then_some(index));
+    let Some(index) = indices.next() else {
+        return Ok(None);
+    };
+    if indices.next().is_some() {
+        return Err(invalid());
+    }
+    let amount = rows
+        .last()
+        .filter(|_| rows.len() >= 2)
+        .and_then(|row| row.get(index))
+        .and_then(|cell| cell.parse::<f64>().ok())
+        .filter(|amount| amount.is_finite() && *amount >= 0.0)
+        .ok_or_else(invalid)?;
+    Ok(Some(amount))
+}
+
+/// Persist meters from the same precise native row as the accepted solve.
+/// The inventory's solute charge and physical portions remain untouched.
+fn refresh_measured_coordinates(
+    vessel: &mut Vessel,
+    rows: &[Vec<String>],
+    report_species: &[SpeciesDetail],
+    solvent_kg: f64,
+) -> Result<(), SolveError> {
+    if !solvent_kg.is_finite() || solvent_kg <= 0.0 {
+        return Err(SolveError::NotConverged {
+            solver: "phreeqc-aqueous".to_string(),
+            detail: "invalid numerical solvent mass for measured coordinates".to_string(),
+        });
+    }
+    let hydroxide = selected_nonnegative_molality(rows, "m_OH-")?.map_or_else(
+        || free_hydroxide_moles(Some(report_species), solvent_kg),
+        |molality| molality * solvent_kg,
+    );
+    let proton = selected_nonnegative_molality(rows, "m_H+")?.map_or_else(
+        || measured_species_moles(Some(report_species), "H+", solvent_kg),
+        |molality| molality * solvent_kg,
+    );
+    let co2 = selected_nonnegative_molality(rows, "m_CO2")?;
+    let hydrated_co2 = selected_nonnegative_molality(rows, "m_H2CO3")?;
+    let co2_molality = if co2.is_some() || hydrated_co2.is_some() {
+        co2.unwrap_or(0.0) + hydrated_co2.unwrap_or(0.0)
+    } else {
+        // Older imported rows may lack both columns. Their report remains
+        // the only available diagnostic, with its original precision limit.
+        (measured_species_moles(Some(report_species), "CO2", solvent_kg)
+            + measured_species_moles(Some(report_species), "H2CO3", solvent_kg))
+            / solvent_kg
+    };
+    if !hydroxide.is_finite()
+        || hydroxide < 0.0
+        || !proton.is_finite()
+        || proton < 0.0
+        || !co2_molality.is_finite()
+        || co2_molality < 0.0
+    {
+        return Err(SolveError::NotConverged {
+            solver: "phreeqc-aqueous".to_string(),
+            detail: "nonfinite measured aqueous coordinates".to_string(),
+        });
+    }
+    let pressure = kerotakis_core::properties::henry_lookup("CO2").map(|coeff| {
+        co2_molality / kerotakis_core::properties::henry_at_t(coeff, vessel.temperature.0).value
+    });
+    if pressure.is_some_and(|value| !value.is_finite() || value < 0.0) {
+        return Err(SolveError::NotConverged {
+            solver: "phreeqc-aqueous".to_string(),
+            detail: "invalid numerical CO2 pressure".to_string(),
+        });
+    }
+    vessel.free_hydroxide = hydroxide;
+    vessel.free_proton = proton;
+    vessel.co2_partial_pressure_atm = pressure;
+    Ok(())
+}
+
 fn apply_numerical_water_activity(
     species: &mut [SpeciesDetail],
     rows: &[Vec<String>],
@@ -7914,6 +7945,69 @@ mod numerical_water_activity_tests {
     }
 
     #[test]
+    fn measured_coordinates_use_final_numerical_row_below_report_floor() {
+        let species = super::parse_species_distribution(REPORT);
+        let mut first = Vessel::new(VesselId(0), "numerical meters");
+        let mut second = first.clone();
+        let header = vec!["m_H+", "m_OH-", "m_CO2", "m_H2CO3"]
+            .into_iter()
+            .map(str::to_string)
+            .collect::<Vec<_>>();
+        let rows = |carbon: &str| {
+            vec![
+                header.clone(),
+                vec!["1.23456789e-8", "2.34567891e-7", carbon, "0"]
+                    .into_iter()
+                    .map(str::to_string)
+                    .collect(),
+            ]
+        };
+        super::refresh_measured_coordinates(&mut first, &rows("4.12e-13"), &species, 0.1).unwrap();
+        super::refresh_measured_coordinates(&mut second, &rows("8.24e-13"), &species, 0.1).unwrap();
+        assert!((first.free_proton - 1.23456789e-9).abs() < 1e-23);
+        assert!((first.free_hydroxide - 2.34567891e-8).abs() < 1e-22);
+        let pressure = first.co2_partial_pressure_atm.unwrap();
+        assert!(pressure > 0.0, "sub-report-floor CO2 must drive a clock");
+        assert!((second.co2_partial_pressure_atm.unwrap() / pressure - 2.0).abs() < 1e-12);
+        assert_eq!(first.contents, second.contents);
+    }
+
+    #[test]
+    fn measured_coordinates_reject_invalid_present_cells_but_allow_legacy_absence() {
+        let species = super::parse_species_distribution(REPORT);
+        let mut vessel = Vessel::new(VesselId(0), "legacy meters");
+        super::refresh_measured_coordinates(
+            &mut vessel,
+            &[vec!["unrelated".into()], vec!["0".into()]],
+            &species,
+            0.1,
+        )
+        .unwrap();
+        assert_eq!(vessel.co2_partial_pressure_atm, Some(0.0));
+        let mut invalid_legacy = species.clone();
+        let invalid_hydroxide = invalid_legacy
+            .iter_mut()
+            .find(|species| species.name == "Na+")
+            .unwrap();
+        invalid_hydroxide.name = "OH-".to_string();
+        invalid_hydroxide.molality = -1e-7;
+        assert!(super::refresh_measured_coordinates(
+            &mut vessel,
+            &[vec!["unrelated".into()], vec!["0".into()]],
+            &invalid_legacy,
+            0.1,
+        )
+        .is_err());
+        for bad in ["NaN", "inf", "-1", "not-a-number"] {
+            let rows = vec![vec!["m_CO2".into()], vec![bad.into()]];
+            assert!(
+                super::refresh_measured_coordinates(&mut vessel, &rows, &species, 0.1).is_err(),
+                "{bad}"
+            );
+        }
+    }
+
+    #[test]
     fn protonation_rebuild_preserves_positive_trace_share_of_authoritative_total() {
         use std::collections::BTreeMap;
 
@@ -8066,10 +8160,7 @@ mod numerical_water_activity_tests {
                     2
                 ]
             );
-            assert_eq!(
-                fields(&ordinary, "water "),
-                vec![format!("{:.9}", pb.kgw).parse::<f64>().unwrap(); 2]
-            );
+            assert_eq!(fields(&ordinary, "water "), vec![pb.kgw; 2]);
         }
     }
 
@@ -8530,6 +8621,67 @@ mod finite_gas_temperature_serialization_tests {
     use super::*;
 
     #[test]
+    fn warm_fractional_primary_and_mix_inputs_round_trip_supplied_solutes() {
+        let make = |id, kgw: f64, salt| {
+            let mut vessel = Vessel::new(kerotakis_core::VesselId(id), "warm input");
+            vessel.temperature = Kelvin(298.5820854655798);
+            vessel.deposit(
+                SpeciesId::new("water"),
+                Moles(kgw * 1000.0 / WATER_MOLAR_MASS),
+                Phase::Liquid,
+            );
+            vessel.deposit(SpeciesId::new("NaCl"), Moles(salt), Phase::Solid);
+            vessel
+        };
+        let a = make(0, 0.09979672112345678, 0.020000000000004334);
+        let b = make(1, 0.08123456789123456, 0.01112345678901234);
+        let pa = partition(&a).unwrap();
+        let pb = partition(&b).unwrap();
+        assert!(!phase_input_precision(&a) && !phase_input_precision(&b));
+        let read = |input: &str, field: &str| -> f64 {
+            input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix(field))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap()
+        };
+        for (vessel, problem, supplied) in [
+            (&a, &pa, 0.020000000000004334),
+            (&b, &pb, 0.01112345678901234),
+        ] {
+            let input = build_input(vessel, problem, "wateq4f");
+            let water = read(&input, "water ");
+            assert_eq!(water, problem.kgw);
+            assert!((read(&input, "Na ") * water - supplied).abs() < 2e-14);
+            assert!((read(&input, "Cl ") * water - supplied).abs() < 2e-14);
+        }
+        let mut merged = a.clone();
+        for portion in &b.contents {
+            merged.deposit(portion.species.clone(), portion.moles, portion.phase);
+        }
+        let pm = partition(&merged).unwrap();
+        let mixed = build_mix_input(&a, &pa, &b, &pb, 1.0, 1.0, "wateq4f", &pm, false);
+        for (number, problem, supplied) in [
+            (1, &pa, 0.020000000000004334),
+            (2, &pb, 0.01112345678901234),
+        ] {
+            let section = mixed
+                .split(&format!("SOLUTION {number}\n"))
+                .nth(1)
+                .unwrap()
+                .split("END")
+                .next()
+                .unwrap();
+            let water = read(section, "water ");
+            assert_eq!(water, problem.kgw);
+            assert!((read(section, "Na ") * water - supplied).abs() < 2e-14);
+            assert!((read(section, "Cl ") * water - supplied).abs() < 2e-14);
+        }
+    }
+
+    #[test]
     fn finite_gas_input_round_trips_fractional_solvent_and_aqueous_carbon() {
         let kgw = 0.099699987654321;
         let aqueous_carbon = 0.00123456789;
@@ -8580,14 +8732,25 @@ mod finite_gas_temperature_serialization_tests {
         );
         assert!((legacy_error - predicted_error).abs() < 1e-15);
 
-        // A separate open input keeps the old format and does not acquire
-        // a new equilibrium problem because this finite-owner repair exists.
+        // The open route preserves the same physical carbon and water
+        // without inheriting a finite gas phase from the closed fixture.
         let mut open = vessel.clone();
         open.headspace = Headspace::Open;
         open.contents.retain(|portion| portion.phase != Phase::Gas);
         let open_problem = partition(&open).unwrap();
         let open_input = build_input(&open, &open_problem, "wateq4f");
-        assert!(open_input.contains(&format!("    water     {:.9}\n", open_problem.kgw)));
+        assert!(!open_input.contains("GAS_PHASE_RAW 1"));
+        let open_written = |prefix: &str| -> f64 {
+            open_input
+                .lines()
+                .find_map(|line| line.trim().strip_prefix(prefix))
+                .unwrap()
+                .trim()
+                .parse()
+                .unwrap()
+        };
+        assert_eq!(open_written("water "), open_problem.kgw);
+        assert!((open_written("C ") * open_written("water ") - aqueous_carbon).abs() < 1e-14);
     }
 
     #[test]
