@@ -1,0 +1,4 @@
+
+thread 'the_volcano_cools_when_the_acid_goes_in_first' (8971) panicked at crates/kerotakis-phreeqc/tests/acid_base.rs:574:5:
+the volcano is endothermic and the beaker gets colder, got 25.0 °C
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

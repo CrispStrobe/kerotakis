@@ -1,0 +1,4 @@
+
+thread 'carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift' (8852) panicked at crates/kerotakis-phreeqc/tests/particle_census.rs:597:13:
+carbonate + acetic acid original setup add v1 Na2CO3 0.0200000000mol: [Added { vessel: VesselId(0), species: SpeciesId("Na2CO3"), moles: Moles(0.02), total_after: Some(Moles(0.02)) }, SolverFailed { vessel: VesselId(0), solver: "phreeqc-aqueous", detail: "phreeqc-inventory could not solve this state: gas-aware analytical component balance: incomplete native protonation split for C" }]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

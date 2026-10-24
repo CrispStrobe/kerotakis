@@ -1,0 +1,244 @@
+{
+  "source": "102e0046fea03aa2aa85d4af02c8b1c44d976fab",
+  "tree": "5ae9aec44418089882ba6fc31e0cd760406e2967",
+  "expected_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "worker_sha256": "6167507490ce3262704fce8041363918987f1ebedefd1376e78327fbe157be07",
+  "controller_sha256": "c703249b975d73586237bb896658223988671bd6487c398948058860df7735c5",
+  "plan_sha256": "1762e1f7994686a62368d42d3e910336913f52b5d405b009da05a81e5bb35994",
+  "issued_utc": "2026-10-24T07:46:55.183795+00:00",
+  "once_only_version": 1,
+  "expected_controls": 107,
+  "expected_targets": 13,
+  "previous106_retained_unchanged": true,
+  "targets": [
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "kind": "integration",
+      "path": "crates/kerotakis-core/tests/states.rs",
+      "source_sha256": "ba22c5b8d30ce8d6e8a5b6c7fe60ee8ba7cb1375fc43b4523d8df6cc42ec54b1",
+      "tests": [
+        "water_phase_passes_preserve_unrelated_trace_portions_exactly",
+        "phase_passes_account_for_water_in_untouched_phases",
+        "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+        "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+        "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+        "water_does_not_go_below_zero_while_it_is_still_freezing",
+        "no_temperature_is_announced_that_the_vessel_never_reached",
+        "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+        "ice_melts_again_when_warmed",
+        "a_frozen_vessel_has_no_ph",
+        "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+        "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+        "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+        "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+        "the_boundary_is_announced_only_when_the_brine_actually_reached_it"
+      ]
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy",
+      "kind": "integration",
+      "path": "crates/kerotakis-core/tests/brine_phase_energy.rs",
+      "source_sha256": "16219ade05145e0845adb388f220b2784b599e639035c2fcfbad2e36e9bd2297",
+      "tests": [
+        "pure_water_freezing_conserves_independent_phase_energy",
+        "pure_water_melting_conserves_independent_phase_energy",
+        "dilute_brine_freezing_conserves_independent_phase_energy",
+        "intermediate_brine_freezing_conserves_independent_phase_energy",
+        "stronger_brine_freezing_conserves_independent_phase_energy",
+        "dilute_brine_melting_conserves_independent_phase_energy",
+        "intermediate_brine_melting_conserves_independent_phase_energy",
+        "stronger_brine_melting_conserves_independent_phase_energy"
+      ]
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "kind": "integration",
+      "path": "crates/kerotakis-core/tests/phase_cap_energy.rs",
+      "source_sha256": "9ddc8f68d0eba961264a78ecdcd13014573dce0c8183e00f828ac58b43611832",
+      "tests": [
+        "ideal_inside_direct_conserves_without_false_refusal",
+        "ideal_exact_direct_commits_only_closed_boundary",
+        "ideal_outside_direct_refuses_before_mutation_and_repeats",
+        "eutectic_inside_direct_conserves_without_false_refusal",
+        "eutectic_exact_direct_commits_only_closed_boundary",
+        "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+        "ideal_inside_real_cool_closes_delivered_energy",
+        "ideal_exact_real_cool_closes_delivered_energy",
+        "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+        "eutectic_inside_real_cool_closes_delivered_energy",
+        "eutectic_exact_real_cool_closes_delivered_energy",
+        "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses"
+      ]
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "partial_freezing",
+      "kind": "integration",
+      "path": "crates/kerotakis-phreeqc/tests/partial_freezing.rs",
+      "source_sha256": "de6bd65b7634eee22ca9ad7ae6019acf214cb590ee1299e0020c0e5bb3dc20e0",
+      "tests": [
+        "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+        "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+        "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+        "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+        "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles"
+      ]
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "particle_census",
+      "kind": "integration",
+      "path": "crates/kerotakis-phreeqc/tests/particle_census.rs",
+      "source_sha256": "281b125c8df5cb8305dc18886f8349378d58c565c5896567cb07def2babc47a5",
+      "tests": [
+        "original_nearby_and_no_silver_cooling_and_partial_rewarming_settle",
+        "carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift",
+        "native_particle_census_retains_precision_and_matches_independent_mol_columns"
+      ]
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "colligative_numbers",
+      "kind": "integration",
+      "path": "crates/kerotakis-phreeqc/tests/colligative_numbers.rs",
+      "source_sha256": "f30af6681e7380a4404d7563821a8ac5d63cecac477181cfab893f1698c8cefd",
+      "tests": [
+        "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+        "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+        "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+        "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+        "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+        "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve"
+      ]
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "scene_golden",
+      "kind": "integration",
+      "path": "crates/kerotakis-core/tests/scene_golden.rs",
+      "source_sha256": "4a6f8b44874eee5ef3178784a8069dad3df4ed3c0cd643b22df17615216c8244",
+      "tests": [
+        "five_release_lessons_match_numeric_scene_golden"
+      ]
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "kind": "lib",
+      "path": "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "source_sha256": "30bd84a411f45ff4b7fb529329e82b23c182a59fcb54a10aa7bdfbb06be39fbf",
+      "tests": [
+        "aqueous::numerical_water_activity_tests::numerical_particle_census_uses_final_precise_native_value",
+        "aqueous::numerical_water_activity_tests::invalid_particle_census_refuses_without_report_fallback",
+        "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+        "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+        "aqueous::numerical_water_activity_tests::protonation_rebuild_preserves_positive_trace_share_of_authoritative_total",
+        "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+        "aqueous::numerical_water_activity_tests::current_cache_cannot_bypass_numeric_particle_validation",
+        "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+        "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+        "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+        "aqueous::gas_component_projection_tests::reservoir_out_and_in_preserve_independent_native_components",
+        "aqueous::gas_component_projection_tests::raw_analytical_components_cannot_hide_invalid_valence_readback",
+        "aqueous::gas_component_projection_tests::certified_components_require_complete_native_protonation",
+        "aqueous::gas_component_projection_tests::declared_native_alias_multiplicity_preserves_all_keyed_fractions",
+        "aqueous::gas_component_projection_tests::raw_finite_gas_readback_refuses_invalid_values_before_projection",
+        "aqueous::gas_component_projection_tests::finite_gas_redistribution_uses_owned_initial_and_final_amounts",
+        "aqueous::gas_component_projection_tests::tagged_state_stays_tagged_and_protonation_fractions_stay_native",
+        "aqueous::gas_component_projection_tests::oversized_invalid_and_unsupported_inputs_never_project",
+        "inventory::gas_aware_certificate_tests::charged_input_is_preserved_and_same_element_charge_change_is_refused",
+        "inventory::gas_aware_certificate_tests::gas_boundary_sign_vessel_and_nonnegative_amount_are_checked"
+      ]
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "kind": "lib",
+      "path": "crates/kerotakis-core/src/solve.rs",
+      "source_sha256": "2de03db1aa31d48d4b72cfa0e72be5f6f08a377ce66c537629b11b3e8055ccfc",
+      "tests": [
+        "solve::phase_residual_certificate_tests::frozen_reference_microproposal_has_a_joint_material_and_energy_certificate",
+        "solve::phase_residual_certificate_tests::small_water_proposal_cannot_hide_chemical_drift_or_invalid_native_state"
+      ]
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "kind": "integration",
+      "path": "crates/kerotakis-core/tests/aqueous_overlap_ownership.rs",
+      "source_sha256": "d3b134d968272a5c684e705e202096c310e104015df616421a3e8adcb9a69fd5",
+      "tests": [
+        "direct_and_no_owner_stacks_keep_the_original_curated_fallback",
+        "an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner",
+        "selected_complete_owner_gets_only_tagged_row_and_preserves_stock",
+        "selected_owner_failure_decline_or_partial_answer_does_not_consume_stock",
+        "a_failed_selected_owner_stops_later_installed_routes",
+        "a_selected_no_op_cannot_inherit_an_old_complete_answer",
+        "ambiguous_owners_fail_without_choosing_one",
+        "borrowed_owner_must_be_the_selected_instance_and_cannot_leak_to_next_range",
+        "a_zero_sized_borrowed_owner_cannot_claim_instance_identity"
+      ]
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "native_aqueous_overlap",
+      "kind": "integration",
+      "path": "crates/kerotakis-phreeqc/tests/native_aqueous_overlap.rs",
+      "source_sha256": "aeb2e9136f3c9ed25f1362530b29f6c397b3cfdd37b741b5548202ae4be6a98c",
+      "tests": [
+        "fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid",
+        "open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner",
+        "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row"
+      ]
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "kind": "integration",
+      "path": "crates/kerotakis-phreeqc/tests/acid_base.rs",
+      "source_sha256": "700dd70fb0f775ebc42dd23d63ca7fee960adb71ebc77ec6dc2c365341c912ef",
+      "tests": [
+        "hydrochloric_acid_is_acidic",
+        "sodium_hydroxide_is_basic",
+        "titration_walks_the_curve_to_equivalence",
+        "dissolving_sodium_hydroxide_warms_the_water",
+        "endothermic_salt_cools_slightly",
+        "bleach_and_ammonia_warns_then_shows_the_chloramine",
+        "household_cleaner_recipes_reach_the_same_warning_and_reaction",
+        "decanting_bleach_into_ammonia_warns_first",
+        "the_titrate_verb_finds_the_equivalence_point",
+        "household_ammonia_computes_its_own_ph",
+        "an_ammonia_solution_is_still_made_of_ammonia",
+        "ammonium_chloride_is_still_an_ammonium_salt",
+        "vinegar_and_baking_soda_fizz_in_water",
+        "vinegar_dissolves_the_calcium_carbonate_in_an_eggshell",
+        "the_volcano_cools_when_the_acid_goes_in_first",
+        "the_volcano_cools_whichever_order_you_build_it_in",
+        "bleach_and_acid_release_chlorine_in_either_order",
+        "bleach_and_table_salt_do_nothing",
+        "a_trace_of_acid_makes_only_a_trace_of_chlorine",
+        "bleach_and_vinegar_warn_in_either_order",
+        "vinegar_alone_raises_no_alarm",
+        "bleach_never_claims_again_that_no_database_defines_it"
+      ]
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "curated_reachability_at_runtime",
+      "kind": "integration",
+      "path": "crates/kerotakis-phreeqc/tests/curated_reachability_at_runtime.rs",
+      "source_sha256": "58cf9eafef178983c05403349295dcd65a836792825964b22234b427a3786864",
+      "tests": [
+        "every_curated_reaction_is_reachable_in_every_order"
+      ]
+    }
+  ],
+  "mapping_declaration_sha256": "d5d2436439578f6fbad78dc320582b32769c2ea5cdc4070fa74a97b5820122c5",
+  "independent_alias_source_review_sha256": "5dc94e55ac3f95c42b4b0da8fc8adb01e0c2c6f2abb44be3992dae113a343c82",
+  "actual_results_pending": true,
+  "scientific_original_selections": 0,
+  "product_accepted": false
+}
