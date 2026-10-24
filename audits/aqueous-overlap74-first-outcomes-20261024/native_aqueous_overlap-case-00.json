@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "native_aqueous_overlap-968b4e24b560ffd9",
+    "--exact",
+    "fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 101,
+  "error_type": null,
+  "stdout_sha256": "8eb1dcc4800e11944329e2cdce3721d5624858306efd856fc8a3347b2cf9c554",
+  "stderr_sha256": "4382d57ab0f7b40d51ff3c5146b6d419e3e0234334334ae445514ede8503f322",
+  "original_record_sha256": "b2e64ef2dae47ded73c37701bb8f36597efde9b02365f52af4410f19df2b42a6",
+  "path_projection_only": true
+}

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "kero",
+    "run",
+    "audits/phase-microtransfer-closure-20261023/bicarbonate-phosphoric.kero",
+    "--json"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "7d0a8e198b7e7c356dac66d3655a87feba4fe2b21dd84de70e9164ecf47b96cb",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "b9188b952b69342241283c6e02540d22a166495224db4555c5039d4aa8826662",
+  "path_projection_only": true
+}

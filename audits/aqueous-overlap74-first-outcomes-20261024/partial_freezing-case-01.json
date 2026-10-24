@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "partial_freezing-2f8951fc864cd7de",
+    "--exact",
+    "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "7b665bcd32df1ff47e77930fc783dfa1e5203389996a9e0de0e6ddcfe933b907",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "59b872b8356c81078a83f1dbc476bbba946029c9b760f6f192ec81f77db31928",
+  "path_projection_only": true
+}

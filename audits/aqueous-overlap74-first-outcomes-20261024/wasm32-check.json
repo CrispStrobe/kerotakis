@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "cargo",
+    "check",
+    "--locked",
+    "-p",
+    "kerotakis-wasm",
+    "--target",
+    "wasm32-unknown-unknown"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "a1a11d969fb612590a88464e90e9ad493b60f1bc293178815471484069d91a2a",
+  "original_record_sha256": "043c49e15855184e70834ee2cd83a02e531cade43c814eda5b5c49fd5872babb",
+  "path_projection_only": true
+}

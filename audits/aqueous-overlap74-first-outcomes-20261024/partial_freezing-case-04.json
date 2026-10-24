@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "partial_freezing-2f8951fc864cd7de",
+    "--exact",
+    "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "cc40854b45af163df72a7ff22f1ca5e75386157b58b41317cb714c29ac486047",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "75d58e4cc6b91f9f37f11de278fdc3f61757b23db754893eafe3d5335e6118a6",
+  "path_projection_only": true
+}

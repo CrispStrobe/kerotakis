@@ -1,5 +1,7 @@
 # Current phase product acceptance — prospective lane
 
+**Ownership addendum —2026-10-24:** The current source candidate is `a0177cff`; source/product acceptance is still pending. Add [the separately frozen fresh-feed/wait ownership control](../audits/aqueous-overlap-product-control-20261024/FORECAST.md) to both lanes, preserving the original three cold scripts and baseline11API/82browser checks. Combined candidate totals are now **15API/86browser**, with fourth-control warm predicates distinct from the three phase predicates below. The original three-script preparation and older candidate binding below remain historical; bind actual accepted/deployed source before requests. No product execution or pass is claimed by this addendum.
+
 Prepared 2026-10-23 from bounded source and saved-receipt inspection. This is a scope proposal only. No release/API/browser run, deployment, build, provider call, or replay was performed for this addendum.
 
 ## Gate and binding

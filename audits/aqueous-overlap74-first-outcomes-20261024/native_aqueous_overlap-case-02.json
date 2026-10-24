@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "native_aqueous_overlap-968b4e24b560ffd9",
+    "--exact",
+    "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 101,
+  "error_type": null,
+  "stdout_sha256": "e4fddee2ecb83ccef44450f897a2cd893881761cc2d82cccf5e87e1ad7b97d6b",
+  "stderr_sha256": "6e39860ba37c537ccf89d3fa0941f05b20f66c07056f9e20b088f53a3ed8f94e",
+  "original_record_sha256": "6a6ba8004bb8531cd54c8486b3da74cb0b59d34ddf15464ac1ef9e78bf2d92d3",
+  "path_projection_only": true
+}

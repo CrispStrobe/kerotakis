@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "aqueous_overlap_ownership-b30c2e83f1285335",
+    "--exact",
+    "ambiguous_owners_fail_without_choosing_one",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "b5de519fe2414e1c3cf31065dd8cfe6ced5f704ac21c164dd03e6d3e3aaf6fa5",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "c3f7a44acfd9733105c9fa7ce0a5730fbccd4fcf75b0633d74b71c9e734d0430",
+  "path_projection_only": true
+}

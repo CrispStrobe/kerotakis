@@ -1,0 +1,17 @@
+{
+  "source": "a0177cff67cf13bcf460521d5bef34d026953296",
+  "tree": "1d8f1a3186b94785b47ee8b55a4c845b798957e9",
+  "ci_run": 40067582556,
+  "macos_job": 120796352208,
+  "preflight_job": 120796352197,
+  "original_raw_logs": {
+    "macos-a0177-first-failure.log": {
+      "sha256": "65052caf1c1e9111d438da778640ee01334bbd4f4aa9facf681ea5cb11982686",
+      "bytes": 616063
+    },
+    "preflight-a0177-first-failure.log": {
+      "sha256": "d599390e73840fabf216babffe71d75e2546abac85f799f743d8252b0ee94d1b",
+      "bytes": 486398
+    }
+  }
+}

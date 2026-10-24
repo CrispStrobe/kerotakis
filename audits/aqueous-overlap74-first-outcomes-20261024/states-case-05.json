@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "water_does_not_go_below_zero_while_it_is_still_freezing",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "7cc1028cf917bbe82d8829ab04914cbd536d31e08e7349e59c31ea2bf02833dd",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "adb0e3c94ae38c77ea2a01895773fc372a8e965eeed216cc7f16adf53dcc6181",
+  "path_projection_only": true
+}

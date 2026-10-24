@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "colligative_numbers-b39af2a6302a1683",
+    "--exact",
+    "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "3f6ad3c908e6db68d2a54920d95815bd7b1512849a6752325f5b34337490631b",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "3f980ee6ba32ed9621fa0b86199a8519bc9e9dac1233f7c5e70353563d4f3de2",
+  "path_projection_only": true
+}

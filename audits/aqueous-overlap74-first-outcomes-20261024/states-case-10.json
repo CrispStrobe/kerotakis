@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "0062a7573cf84d33f544b9ede9ccdcb864de356eacd125505322bf62a492adf0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "e78844449869d4e9e7f2cab7cf3a60806e4b1f486fc0c78331d2668853d636d7",
+  "path_projection_only": true
+}

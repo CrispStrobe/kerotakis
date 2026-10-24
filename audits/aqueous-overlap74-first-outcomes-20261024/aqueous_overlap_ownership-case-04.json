@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "aqueous_overlap_ownership-b30c2e83f1285335",
+    "--exact",
+    "a_failed_selected_owner_stops_later_installed_routes",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "61da72b0214f6314d0dfbc84477e0a77c3dae940b61f309967804ed4d82ec97f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "93007f3019bce873358d6113fe4cc8c90af603f29f3570871a20ccfa65255f95",
+  "path_projection_only": true
+}

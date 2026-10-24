@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "9e7e4cf535843dd716421e913d4f2eb260b5068fc34a07162466e7fe15a00331",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "357922a13f74076135451f524097688afc9b8acabdc6a6be2a87625dd862c17e",
+  "path_projection_only": true
+}

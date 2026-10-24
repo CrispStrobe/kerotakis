@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "colligative_numbers-b39af2a6302a1683",
+    "--exact",
+    "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "db8894235a7e3ce6c3f784b263f0e8790bdb3e6f2c9b0906ff310e941751170b",
+  "stderr_sha256": "8437f4866c5598cb5b9bf8ffab8f292c342b88511f90ab9e567b535e0ba6ef74",
+  "original_record_sha256": "495eb84ad48dcf5862f4442ea28a084a4674f4b8f6d1cf40ad99c01ad87e4bf8",
+  "path_projection_only": true
+}

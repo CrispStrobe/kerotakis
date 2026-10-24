@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "70fcb434742e02d11e27da7494cf0ef26acfbebb2ea861706dd7b214c58d0433",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "c1ba14b40506a91a45aee0b56b2ab5f3793b14233a2e0cd8bbffa57ec99d8086",
+  "path_projection_only": true
+}

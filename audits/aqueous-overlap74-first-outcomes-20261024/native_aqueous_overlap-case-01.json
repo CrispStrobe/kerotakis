@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "native_aqueous_overlap-968b4e24b560ffd9",
+    "--exact",
+    "open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 101,
+  "error_type": null,
+  "stdout_sha256": "0ff7735968329b28d0157e3b9e51ce4a0bde6be0fd6080457effb9bf982e279a",
+  "stderr_sha256": "c7fd9df702d5b1d250aa82c1414048c7c7ad5c4deca3e8b1202602943ca1be21",
+  "original_record_sha256": "64e12c2bf95ce633ef2cc05e224ef90eb6462f565a67a19e6c6e8a19dd6999d0",
+  "path_projection_only": true
+}

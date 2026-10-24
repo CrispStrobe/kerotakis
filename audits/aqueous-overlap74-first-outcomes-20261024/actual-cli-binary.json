@@ -1,0 +1,10 @@
+{
+  "runtime_source": "a0177cff67cf13bcf460521d5bef34d026953296",
+  "runtime_tree": "1d8f1a3186b94785b47ee8b55a4c845b798957e9",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "sha256": "02e8a605bdf8e5138fbdcd15b516edff97c3a0b3cadf50e9009e788515502d09",
+  "bytes": 104325400,
+  "gzip_sha256": "c05f46a39934a1f4043ea89ae589866ec933f28f7d92e619044ea06109b8b17b",
+  "gzip_bytes": 24605608,
+  "qualification": "Actual debug CLI, not deployed release executable"
+}

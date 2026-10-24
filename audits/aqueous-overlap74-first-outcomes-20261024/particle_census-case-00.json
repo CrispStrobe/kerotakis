@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "particle_census-01384d2363d61758",
+    "--exact",
+    "original_nearby_and_no_silver_cooling_and_partial_rewarming_settle",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "27e963854ea7d42c2fe9e552eb55db411fc9088353ee6fb6bcf9c0853519e6c4",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "69e350f0f8b4bcb7ed65f566e8e6e041644c36512080d3e4006394f56a9b5957",
+  "path_projection_only": true
+}

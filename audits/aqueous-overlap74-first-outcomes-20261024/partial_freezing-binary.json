@@ -1,0 +1,11 @@
+{
+  "runtime_source": "a0177cff67cf13bcf460521d5bef34d026953296",
+  "runtime_tree": "1d8f1a3186b94785b47ee8b55a4c845b798957e9",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "executable": "target/debug/deps/partial_freezing-2f8951fc864cd7de",
+  "sha256": "e6caa3fa722f685dc4dd59a3af72e5eb77abce5ebfdb36dcb9df30cefef72fc5",
+  "bytes": 86164040,
+  "gzip_sha256": "80ba69291a2146796cbfba910a30b2283a4fc88ba95e025d936544a905f60ae8",
+  "gzip_bytes": 20614640,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

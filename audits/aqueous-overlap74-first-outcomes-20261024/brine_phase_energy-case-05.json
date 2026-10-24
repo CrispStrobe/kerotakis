@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "brine_phase_energy-e7a8af648e05d8ea",
+    "--exact",
+    "dilute_brine_melting_conserves_independent_phase_energy",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "1d8165566182d92c44f8c17aab1fd47caec0ca6a40e7ace8683e551051654f87",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "94252e9b265023d68e06ad18a9d020d7e580041a1619cc0c07719118dc08847b",
+  "path_projection_only": true
+}

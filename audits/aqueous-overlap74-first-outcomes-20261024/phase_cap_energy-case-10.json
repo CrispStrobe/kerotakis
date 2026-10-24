@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "phase_cap_energy-9d7bbb446fa7ded0",
+    "--exact",
+    "eutectic_exact_real_cool_closes_delivered_energy",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "bc6257a01d35f15372ad9b36cd15ffb8abfb8e7e678799dbbb85244aac731290",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "f1c55c1d3b925403dc262b3941bfa7284871e489cf34b58fdc064a1f8f243efb",
+  "path_projection_only": true
+}

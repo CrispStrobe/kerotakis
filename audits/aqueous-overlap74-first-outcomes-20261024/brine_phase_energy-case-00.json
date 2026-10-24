@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "brine_phase_energy-e7a8af648e05d8ea",
+    "--exact",
+    "pure_water_freezing_conserves_independent_phase_energy",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "1e4842ab2d360408ba930ac1a5c290edbe5958a3d3b8a1ead7f383677f98acac",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "6e218e63bff3f38d061322923a37f4ef4041b333f8f405cd2f3c6b27665af0fb",
+  "path_projection_only": true
+}

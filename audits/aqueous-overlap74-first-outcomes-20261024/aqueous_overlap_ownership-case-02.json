@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "aqueous_overlap_ownership-b30c2e83f1285335",
+    "--exact",
+    "selected_complete_owner_gets_only_tagged_row_and_preserves_stock",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "ebec50b780d71ebd6bec20521149464ad0798c5fb41adada09af02851dee97df",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "6a421e07f6e08c7e5d502ecca867fff1de8f619dce31c71f4befaf348cf57cca",
+  "path_projection_only": true
+}

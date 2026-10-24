@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "ice_melts_again_when_warmed",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "fa7cf0c852ed66264a380e77b45d5b19581f93e352aed1833501c52d499981e7",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "54a43848b6f4d085bae1f91765e0cf9ee31e5777ec25d798ba336a45881dd491",
+  "path_projection_only": true
+}

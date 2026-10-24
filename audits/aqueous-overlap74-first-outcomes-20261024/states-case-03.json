@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "6de417d7f2e2161923e7f999472016407dbb444d2c85ee73c7c1993b2109cd97",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "58a1b301c9ef92132fe693c3d9b945d766882f6e9c657a488c8f11532d304748",
+  "path_projection_only": true
+}

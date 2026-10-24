@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "brine_phase_energy-e7a8af648e05d8ea",
+    "--exact",
+    "stronger_brine_freezing_conserves_independent_phase_energy",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "103787b82ed751de8ff52c89d5e54b250b16957f7659f64632bef5c5ccc27102",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "354e1c3e34f5bc20ec45e18a0b8cc46aa4f392c49de9d530d714a6f91c4e87d1",
+  "path_projection_only": true
+}

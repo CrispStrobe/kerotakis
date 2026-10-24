@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "aqueous_overlap_ownership-b30c2e83f1285335",
+    "--exact",
+    "direct_and_no_owner_stacks_keep_the_original_curated_fallback",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "dff6fb0766656f546399122df51e9643737a52868325e54bf762057daa89508b",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "1caa1c5c0b7b2246cfa95d3c0989274e2ff6bfeddc9186ea5bb8ff6fe5369f9d",
+  "path_projection_only": true
+}

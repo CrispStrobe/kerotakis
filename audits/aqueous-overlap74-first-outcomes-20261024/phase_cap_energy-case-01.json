@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "phase_cap_energy-9d7bbb446fa7ded0",
+    "--exact",
+    "ideal_exact_direct_commits_only_closed_boundary",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "577a596a91b6d138e847e444aeb2b91abf48fd76e306f41099b3a21c4b037178",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "3d8b39a4a9b204b5b924971fcbb4b428cceee94d4044944f50edbba1023f53fe",
+  "path_projection_only": true
+}

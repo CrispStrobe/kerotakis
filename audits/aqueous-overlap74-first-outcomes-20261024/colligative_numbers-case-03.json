@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "colligative_numbers-b39af2a6302a1683",
+    "--exact",
+    "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "d4c76a4736ab7ed0f3e3f40a28c7da960a46c8ddf3852a841a108c418c5215ff",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "fe41e3b94b1263a5e5263646966e2d17cffe8346ba5f32ec62f4719b340e09b0",
+  "path_projection_only": true
+}

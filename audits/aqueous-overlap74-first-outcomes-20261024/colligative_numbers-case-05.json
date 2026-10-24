@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "colligative_numbers-b39af2a6302a1683",
+    "--exact",
+    "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "34ff43eb60648298db05fe72c404d5391002bef56d09cee1657ea53cc2b93089",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "3200ffd9b3a3a453e6b867d37ae90e4bff1cea0f54021c86941b017488dae7fb",
+  "path_projection_only": true
+}

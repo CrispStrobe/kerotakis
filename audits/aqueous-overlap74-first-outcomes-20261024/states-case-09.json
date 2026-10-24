@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "a_frozen_vessel_has_no_ph",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "ca0285841ea71d4be445a274bc99976547d39929a7052d59b768809821bf70b0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "d18752473a7458b3ed50ad7bd951dde0d48917a31539354b2a88e4da35098845",
+  "path_projection_only": true
+}

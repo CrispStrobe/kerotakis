@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "85de9ca7c5640b5a7491277b391b1c8a2f968939f6c6f86f4044115aa3c9a1ac",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "a9348d323d1120885a2c0c4c4b6a252c8c09202d00ceb8fdd2b5debf13a53341",
+  "path_projection_only": true
+}

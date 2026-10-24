@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "kerotakis_phreeqc-404910599a198ef9",
+    "--exact",
+    "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "bbe4bd4ba18105409c30d6a87f5768d2b9bebf559ba6bf62507657a9bf35e8af",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "7792be4b7cda0e72a96fb351bb576279932f605b7d52876e86ae2d5e096cadad",
+  "path_projection_only": true
+}

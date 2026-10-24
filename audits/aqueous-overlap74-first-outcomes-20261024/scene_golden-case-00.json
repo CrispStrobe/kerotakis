@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "scene_golden-2b6535799ff0b3d6",
+    "--exact",
+    "five_release_lessons_match_numeric_scene_golden",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "08d5cf9ebfae4f76ff8374e90430e03b50d419325befbd0318ebdd3a1a5e6ff6",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "c5505cda629fbcad92e86d6a2ff04935b2e728edaf16e5d8389c7f5e3358c96f",
+  "path_projection_only": true
+}

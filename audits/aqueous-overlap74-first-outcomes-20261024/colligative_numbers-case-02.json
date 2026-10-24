@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "colligative_numbers-b39af2a6302a1683",
+    "--exact",
+    "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "c63d899b8ec8b18866bc68e5b1755cb1d377a517c199fa2462bd086715de9a74",
+  "stderr_sha256": "68cafe78a8e2a6740d6c369aac3a621c43aeec652f9e4c0539c2582b2b920744",
+  "original_record_sha256": "09a12d001b72b140cbbced97d99386073cef594678a03abf4364ec310a8a1363",
+  "path_projection_only": true
+}

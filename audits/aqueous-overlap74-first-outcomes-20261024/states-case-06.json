@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "no_temperature_is_announced_that_the_vessel_never_reached",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "ad4129aaeb3d2d3ef4b58084254729ad1b4f741bcbbff6c1d018097981827a26",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "b6d975ef70457fec97ee48ceb7a279f943d432b4b0c555d0f81604b1ce790113",
+  "path_projection_only": true
+}

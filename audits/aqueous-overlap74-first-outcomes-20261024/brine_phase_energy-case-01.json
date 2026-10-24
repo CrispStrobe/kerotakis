@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "brine_phase_energy-e7a8af648e05d8ea",
+    "--exact",
+    "pure_water_melting_conserves_independent_phase_energy",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "9659423ef0b60281caaf58e34ba0e6bc11cfbf3c631a607acd1c1219e8bb3949",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "dbd8e1dbc3a618d5faf4aeeca78662a40d1e735e9e9a8ed896a23f61b551c7f4",
+  "path_projection_only": true
+}

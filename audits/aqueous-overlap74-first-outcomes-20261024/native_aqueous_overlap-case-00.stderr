@@ -1,0 +1,4 @@
+
+thread 'fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid' (8879) panicked at crates/kerotakis-phreeqc/tests/native_aqueous_overlap.rs:223:5:
+base first: charge changed -5.481726184086710e-15 -> 2.588648392864989e-10 eq
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

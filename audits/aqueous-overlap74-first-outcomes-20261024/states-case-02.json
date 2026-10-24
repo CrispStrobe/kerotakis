@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "ed2d22cd2e1a4c065d12248e23d9723cd7515bcc954bb581b29026ce40a039a0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "6f4dc317ccffc345e56f624946f96db9fb2930ce67b3179fada8978e77c89289",
+  "path_projection_only": true
+}

@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "cargo",
+    "clippy",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "-p",
+    "kerotakis-phreeqc",
+    "-p",
+    "kerotakis-wasm",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "b7c7743131a7dd678fdf6ccb1285e53f0043bd17abcc947822adfea4c5709824",
+  "original_record_sha256": "6073389b0191f5f8b9de6f52958f935140578111a19833843c61980cde4d9f6d",
+  "path_projection_only": true
+}

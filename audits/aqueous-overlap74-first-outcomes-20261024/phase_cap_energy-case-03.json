@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "phase_cap_energy-9d7bbb446fa7ded0",
+    "--exact",
+    "eutectic_inside_direct_conserves_without_false_refusal",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "5c8de4b800227e343ec32732c44d1623304332b35cf3f8b7f473e52ead3939d4",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "f16d1d9d46a82636d16eaff5c3ae3c9420aa10d0112479eeb2e738652a05eccd",
+  "path_projection_only": true
+}

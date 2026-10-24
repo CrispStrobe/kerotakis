@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "ac61e10ae3dd86125430126b3a44fc6fe6f383c7aee7c4875246d36bc4daa908",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "5493bd4af0865c61f8b9641d13c9926aedc9bc2f00bb9453ddab8d33e7e368e1",
+  "path_projection_only": true
+}

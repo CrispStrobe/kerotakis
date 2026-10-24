@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "aqueous_overlap_ownership-b30c2e83f1285335",
+    "--exact",
+    "selected_owner_failure_decline_or_partial_answer_does_not_consume_stock",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "dbd9748ee3e26e06543997b0f50048ff9e2f4c15adee680347c9eb8531055617",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "60b4301bc656629def1b46b68bce211b86a0f9c0b01e7019d0c218e338e31b43",
+  "path_projection_only": true
+}

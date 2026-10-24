@@ -1,0 +1,7 @@
+# Actual nearby-input component diagnostic
+
+The separately frozen protocol increases acid from0.005mol to0.00505mol. It used the captured `a0177cff` CLI once, without rebuilding, under a fresh resource gate and one-CPU/1.5GiB/30-second cap. Actual runtime0.68seconds, process exit0. The raw JSON still fails the frozen gas-adjusted formal-charge expectation: final charge2.588676047e−10eq. This is a diagnostic failure, despite successful process execution.
+
+Independent Decimal arithmetic on the raw stock and actual CO2 outflow reproduces positive sodium, acetate and inorganic-carbon residuals of7.2860093e−11mol,1.839617162466e−11mol and4.6503246645e−11mol. Each lies below1e−10; their combined basis/charge error exceeds it. The measured relation `delta(charge) ≈ delta(Na) + 4*delta(inorganic C)` holds here to7.12e−18eq; it is a diagnostic identity for this represented mixture, not a new chemical law. Total physical carbon alone hides the amplified charge error.
+
+`RESULT.json` binds actual source/tree/lock, compressed and restored executable, protocol and raw streams. `COMPONENT-ARITHMETIC.json` preserves independent component totals. The exact0.005mol trace was separately issued remotely and remains pending at this checkpoint; these nearby values do not replace it. Full source/product acceptance and original qualification remain pending. The [gas-component repair contract](../gas-component-conservation-20261024/FORECAST.md) admits only small native readback residue and demands physical element AND charge closure without fictitious counterions.

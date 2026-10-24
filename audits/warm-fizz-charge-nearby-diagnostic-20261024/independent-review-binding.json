@@ -1,0 +1,7 @@
+{
+  "review_sha256": "ec4f0944f34d69256402744c92ae1530c0909877618862e21b5812adc0503077",
+  "read_only": true,
+  "nearby_not_exact_input": true,
+  "component_arithmetic_independently_reproduced": true,
+  "private_full_receipt_retained": true
+}

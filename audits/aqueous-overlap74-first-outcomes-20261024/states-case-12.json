@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "9e2d17b3912b8b1ea7bb2fcc4298b4bfd463ae60d6b10434fff00947f2a73380",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "ce5d60938f47cccfd18b44a407b61ad94b860641e8adf0b75acec352cc7a4be0",
+  "path_projection_only": true
+}

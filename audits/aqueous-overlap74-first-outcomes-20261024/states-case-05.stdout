@@ -1,0 +1,6 @@
+
+running 1 test
+test water_does_not_go_below_zero_while_it_is_still_freezing ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.00s
+

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "partial_freezing-2f8951fc864cd7de",
+    "--exact",
+    "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "f59608c8c0733e650a3d9c0b914b21dbb5e967f81f0eb8a8bfcf61f4aa5fe1fa",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "c5516399f28a0ff0464b8d36c2714db8ebf7d040f11d2dc70d2b955310e500cd",
+  "path_projection_only": true
+}

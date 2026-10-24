@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "partial_freezing-2f8951fc864cd7de",
+    "--exact",
+    "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "6f12c53087a1af3406efb31358efa9f07b7b56dcd057acecc51499112c0274df",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "244a48fec474a61a4750b9e2055b715cd211275696855a4e35ea7269885bc6e6",
+  "path_projection_only": true
+}

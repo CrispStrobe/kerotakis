@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "aqueous_overlap_ownership-b30c2e83f1285335",
+    "--exact",
+    "a_selected_no_op_cannot_inherit_an_old_complete_answer",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "047df77851b9f2162d01119c473348647708e3a18cfc60b045546261ab76390f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "9f3706ce3ffa08e68989149df16a48eae79707e307a3ee23e126d93d44d2948e",
+  "path_projection_only": true
+}

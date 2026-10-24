@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "kerotakis_phreeqc-404910599a198ef9",
+    "--exact",
+    "aqueous::numerical_water_activity_tests::invalid_particle_census_refuses_without_report_fallback",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "791c476547d4e8b07d1a0f21eeeebfa7e3559c68e0117791ba5c801f4e0e7ac1",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "3006ca98470585df38f1ed357cf32a813d81125124b26b0ff3234148d4c8cffe",
+  "path_projection_only": true
+}

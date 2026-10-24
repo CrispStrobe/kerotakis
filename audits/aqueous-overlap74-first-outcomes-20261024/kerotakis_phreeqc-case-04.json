@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "kerotakis_phreeqc-404910599a198ef9",
+    "--exact",
+    "aqueous::numerical_water_activity_tests::protonation_rebuild_preserves_positive_trace_share_of_authoritative_total",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "a15d40061be681089af1a30b724b63c9e1713d8ba9b81b257d2af4ece154afc0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "5e1091930e1f9e1d05a95105a9bc14e4a156329197a1df3929033adae92859f1",
+  "path_projection_only": true
+}

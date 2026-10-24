@@ -1,0 +1,115 @@
+{
+  "source": "a0177cff67cf13bcf460521d5bef34d026953296",
+  "tree": "1d8f1a3186b94785b47ee8b55a4c845b798957e9",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "original_manifest_sha256": "879eb43f218124d4bcbec12a39a5d57afb0cd4591203026c1804f4b8381fadb4",
+  "actual_named_controls": 74,
+  "actual_passes": 71,
+  "actual_failures": 3,
+  "script_sha256": "6d0afbbb4827f7f05a7a6c03f5182c04ab1e9a0d150eae0427fc85b2d97707f1",
+  "original_native_failures": [
+    {
+      "target": "native_aqueous_overlap",
+      "test": "fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid",
+      "record": "native_aqueous_overlap-case-00",
+      "exit_status": 101,
+      "rows": [
+        [
+          "fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "2"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "native_aqueous_overlap",
+      "test": "open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner",
+      "record": "native_aqueous_overlap-case-01",
+      "exit_status": 101,
+      "rows": [
+        [
+          "open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "2"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "native_aqueous_overlap",
+      "test": "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row",
+      "record": "native_aqueous_overlap-case-02",
+      "exit_status": 101,
+      "rows": [
+        [
+          "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "2"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    }
+  ],
+  "copied_raw_members": {
+    "native_aqueous_overlap-case-01.stdout": {
+      "sha256": "0ff7735968329b28d0157e3b9e51ce4a0bde6be0fd6080457effb9bf982e279a",
+      "bytes": 300
+    },
+    "native_aqueous_overlap-case-01.stderr": {
+      "sha256": "c7fd9df702d5b1d250aa82c1414048c7c7ad5c4deca3e8b1202602943ca1be21",
+      "bytes": 314
+    },
+    "native_aqueous_overlap-case-00.stderr": {
+      "sha256": "4382d57ab0f7b40d51ff3c5146b6d419e3e0234334334ae445514ede8503f322",
+      "bytes": 334
+    },
+    "full-1536-sweep.stdout": {
+      "sha256": "56db4eff31f26a448c91e98eda7a1009d0820687f44274be04b1a44a6c2fd50d",
+      "bytes": 87
+    },
+    "native_aqueous_overlap-case-02.stderr": {
+      "sha256": "6e39860ba37c537ccf89d3fa0941f05b20f66c07056f9e20b088f53a3ed8f94e",
+      "bytes": 322
+    },
+    "particle_census-case-01.stdout": {
+      "sha256": "99eecbc23ea637867b271d7ea5e92a4fa3eaab6797a608e8989a5646658cd1ef",
+      "bytes": 191
+    },
+    "native_aqueous_overlap-case-00.stdout": {
+      "sha256": "8eb1dcc4800e11944329e2cdce3721d5624858306efd856fc8a3347b2cf9c554",
+      "bytes": 328
+    },
+    "native_aqueous_overlap-case-02.stdout": {
+      "sha256": "e4fddee2ecb83ccef44450f897a2cd893881761cc2d82cccf5e87e1ad7b97d6b",
+      "bytes": 300
+    }
+  }
+}

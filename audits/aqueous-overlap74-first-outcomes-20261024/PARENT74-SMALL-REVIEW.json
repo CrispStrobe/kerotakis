@@ -1,0 +1,53 @@
+{
+  "source": "a0177cff67cf13bcf460521d5bef34d026953296",
+  "tree": "1d8f1a3186b94785b47ee8b55a4c845b798957e9",
+  "worker_sha256": "1b87a6844c2638c4bfb8085f780736adbf3fe565feb43cc25fb53ff4bd5b2310",
+  "plan_sha256": "2a421fc73099a761bef22a9a164a9b294e546af38b014281f480e43879358296",
+  "manifest_sha256": "879eb43f218124d4bcbec12a39a5d57afb0cd4591203026c1804f4b8381fadb4",
+  "closed_members": 387,
+  "small_bodies_hashed": 374,
+  "local_archive_bodies_read": false,
+  "full_source_or_product_accepted": false,
+  "scientific_selections": 0,
+  "actual_observed_passes": 71,
+  "actual_failed_controls": [
+    {
+      "target": "native_aqueous_overlap",
+      "test": "fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid",
+      "exit_status": 101
+    },
+    {
+      "target": "native_aqueous_overlap",
+      "test": "open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner",
+      "exit_status": 101
+    },
+    {
+      "target": "native_aqueous_overlap",
+      "test": "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row",
+      "exit_status": 101
+    }
+  ],
+  "all_named_controls_collected": true,
+  "original-cycle-cli": {
+    "exit_status": 0,
+    "stdout_sha256": "5c319cf4db38da0f8fb2db3fb1557cda3992237eeced3d482540e82938e45de9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "carbonate-acetic-cli": {
+    "exit_status": 0,
+    "stdout_sha256": "d04c1362a8eb1f0e5ff4e10fb329edd215c76046de88a92cc300f0a6cc906723",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "bicarbonate-phosphoric-cli": {
+    "exit_status": 0,
+    "stdout_sha256": "7d0a8e198b7e7c356dac66d3655a87feba4fe2b21dd84de70e9164ecf47b96cb",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "full-1536-sweep": {
+    "exit_status": 0,
+    "stdout_sha256": "56db4eff31f26a448c91e98eda7a1009d0820687f44274be04b1a44a6c2fd50d",
+    "stderr_sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469"
+  },
+  "original_cli_solver_failed": [],
+  "full_sweep_tail": "\nswept 1536 states \u2014 1536 ran, 8 step(s) stated a refusal\nno invariant was violated.\n"
+}

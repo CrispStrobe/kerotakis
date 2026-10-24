@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "kero",
+    "sweep"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "56db4eff31f26a448c91e98eda7a1009d0820687f44274be04b1a44a6c2fd50d",
+  "stderr_sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469",
+  "original_record_sha256": "1f1b4b5b49c5c611d14ba0d3ff434a93e3f8edcac117b353041a3db0ee4aa494",
+  "path_projection_only": true
+}

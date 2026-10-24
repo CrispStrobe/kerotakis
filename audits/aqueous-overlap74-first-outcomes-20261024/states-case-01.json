@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "phase_passes_account_for_water_in_untouched_phases",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "e3e81e2bf8c240d36e8731026e05fb1c95feb02946485853ab4733a9e971e85f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "fba8adc66f6283cb6c168f2b95429df2d4f79a3697f28912ed1f30a9f3044bb9",
+  "path_projection_only": true
+}

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "partial_freezing-2f8951fc864cd7de",
+    "--exact",
+    "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "389dfac115b182b78249169b1a43e3b67e7c0ed5f6f58adc8bc0db6ccee040e4",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "406058d157e3c2bfe9771c1f1634cc6daea8496ad04fcaec683b747da77cfb21",
+  "path_projection_only": true
+}

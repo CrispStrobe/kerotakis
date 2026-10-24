@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "particle_census-01384d2363d61758",
+    "--exact",
+    "carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "99eecbc23ea637867b271d7ea5e92a4fa3eaab6797a608e8989a5646658cd1ef",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "c0e1a273b417c5177a6723b7bd55a9056b1262c779ee2f17be855dd7dd579146",
+  "path_projection_only": true
+}

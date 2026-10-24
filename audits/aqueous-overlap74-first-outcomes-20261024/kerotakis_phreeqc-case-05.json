@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "kerotakis_phreeqc-404910599a198ef9",
+    "--exact",
+    "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "89ad44fcb310819a118fc351cca3118499693549cbd3c9b9137b0fef82aba862",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "a3a5fc9cc228df2e18a0691a95aa1e9c516a8e0309fd0adbb6c8d0d3dcd67cb8",
+  "path_projection_only": true
+}

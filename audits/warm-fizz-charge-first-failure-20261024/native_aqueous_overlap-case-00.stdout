@@ -1,0 +1,11 @@
+
+running 1 test
+test fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid ... FAILED
+
+failures:
+
+failures:
+    fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.62s
+

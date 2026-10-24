@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "kero",
+    "run",
+    "audits/phase-particle-precision-20261023/corrected-cli-protocol.kero",
+    "--json"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "5c319cf4db38da0f8fb2db3fb1557cda3992237eeced3d482540e82938e45de9",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "4ed73edd31a8dc502e51660cbd317313b3b0d7debf42c7408a1caeeb3ef48374",
+  "path_projection_only": true
+}

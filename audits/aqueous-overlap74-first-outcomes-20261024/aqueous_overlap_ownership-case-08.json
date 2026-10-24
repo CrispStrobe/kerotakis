@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "aqueous_overlap_ownership-b30c2e83f1285335",
+    "--exact",
+    "a_zero_sized_borrowed_owner_cannot_claim_instance_identity",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "39cf420c228005922cb9f320ab6c420dacdf3590084f29732c8db4a1a9f895a5",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "7804fce8a2d68f0ed4cbd6ccb58136e4ca24afe2f6c002aea4bb5b437aa621fb",
+  "path_projection_only": true
+}

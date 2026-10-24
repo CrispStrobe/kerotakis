@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "colligative_numbers-b39af2a6302a1683",
+    "--exact",
+    "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "a2d6ae9e1707322ce05f7d023e6b172409fd657fe29f1464dffd8d17c8e92895",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "2f4cc529c1e3ad0590fbbba2520f40d602b5d5b6114d5027ce332a42513b512e",
+  "path_projection_only": true
+}

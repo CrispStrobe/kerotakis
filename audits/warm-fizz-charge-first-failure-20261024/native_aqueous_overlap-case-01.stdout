@@ -1,0 +1,11 @@
+
+running 1 test
+test open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner ... FAILED
+
+failures:
+
+failures:
+    open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.62s
+

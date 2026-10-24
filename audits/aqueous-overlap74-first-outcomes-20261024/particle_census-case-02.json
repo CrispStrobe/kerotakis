@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "particle_census-01384d2363d61758",
+    "--exact",
+    "native_particle_census_retains_precision_and_matches_independent_mol_columns",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "84c2fdec5941f63efc8f956032391d559350151f939563048334db009a375905",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "2b6527c6d435c382d0c0e0dc5bdb7204a769c0773b059328819a7fb53a957660",
+  "path_projection_only": true
+}

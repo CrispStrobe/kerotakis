@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "aqueous_overlap_ownership-b30c2e83f1285335",
+    "--exact",
+    "an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "aba512e96bcad6922e1b61537a94bc7d30662173b58419ab116114878dfef35e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "5e5c169828b101fb9541460136f39c66e78beafec2e24873b30904740535b3be",
+  "path_projection_only": true
+}

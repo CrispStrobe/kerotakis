@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "kerotakis_core-cc46c2728eb7ca65",
+    "--exact",
+    "solve::phase_residual_certificate_tests::small_water_proposal_cannot_hide_chemical_drift_or_invalid_native_state",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "7377e564747fe94e0e5635b3c4a0a8f1af622b6c35f5bbd45f1ebd6a531e611b",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "17a651a0fcb156a67790a69353b1b76a68f34a46ee3d2dc2c8315899f5737199",
+  "path_projection_only": true
+}

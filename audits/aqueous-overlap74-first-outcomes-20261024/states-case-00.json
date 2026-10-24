@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "water_phase_passes_preserve_unrelated_trace_portions_exactly",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "41e8aac37f89a26d6a85dc9a73abacb631e0e6454ff73f7df4d13b7e49c6d202",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "be6485f3a97347e6d1940887b814c6b36af0c0359a28df069d6eeac41865d931",
+  "path_projection_only": true
+}

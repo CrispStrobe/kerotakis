@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "states-929ed8192f7983d9",
+    "--exact",
+    "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "d28af09ed7966e9b004a87be8c909eb0123af9c2f4af1171464e6c60fc474922",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_record_sha256": "e5e601171c13d11f81070d9a6a323a3dfec2a17cad77ae8d43ebc82fe54478da",
+  "path_projection_only": true
+}
