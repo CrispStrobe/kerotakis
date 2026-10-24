@@ -15,7 +15,7 @@ pub fn add_with_native_material_closure(
 ) -> Vec<Event> {
     let before = bench
         .vessel(vessel)
-        .unwrap_or_else(|| panic!("{context}: missing vessel before input"))
+        .unwrap_or_else(|error| panic!("{context}: missing vessel before input: {error:?}"))
         .clone();
     let species_id = SpeciesId::new(species);
     let amount = Moles(moles);
@@ -45,7 +45,7 @@ pub fn add_with_native_material_closure(
     );
     let after = bench
         .vessel(vessel)
-        .unwrap_or_else(|| panic!("{context}: missing vessel after input"));
+        .unwrap_or_else(|error| panic!("{context}: missing vessel after input: {error:?}"));
     assert_complete_native_current(after, context);
     let solution = after.solution.as_ref().expect("checked current solution");
     // Routing announcements are intentionally deduplicated when the native
