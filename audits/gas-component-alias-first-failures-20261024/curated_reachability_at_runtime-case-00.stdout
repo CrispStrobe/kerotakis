@@ -1,0 +1,11 @@
+
+running 1 test
+test every_curated_reaction_is_reachable_in_every_order ... FAILED
+
+failures:
+
+failures:
+    every_curated_reaction_is_reachable_in_every_order
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.65s
+
