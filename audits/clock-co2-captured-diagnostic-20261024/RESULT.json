@@ -1,0 +1,17 @@
+{
+  "source": "a0177cff67cf13bcf460521d5bef34d026953296",
+  "tree": "1d8f1a3186b94785b47ee8b55a4c845b798957e9",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "cli_sha256": "02e8a605bdf8e5138fbdcd15b516edff97c3a0b3cadf50e9009e788515502d09",
+  "cli_bytes": 104325400,
+  "gzip_sha256": "c05f46a39934a1f4043ea89ae589866ec933f28f7d92e619044ea06109b8b17b",
+  "protocol_sha256": "02dacec1e72ef3bd067f899b6e9d648a18b5980a829d0b5cc81d9ae831f92d32",
+  "exit_status": 0,
+  "elapsed_seconds": 0.9319605139899068,
+  "cpu_limit": 1,
+  "as_limit_mib": 1536,
+  "wall_limit_seconds": 30,
+  "stdout_sha256": "98000b5f64e488d4556584edabdd92a47e1c5e0d81a3ec4635797af964acd4c1",
+  "stderr_sha256": "19ddce91a064df0383b2abd966ed9241d26bd6281457544b4887de592cd1bdc9",
+  "scientific_or_original_selection": false
+}

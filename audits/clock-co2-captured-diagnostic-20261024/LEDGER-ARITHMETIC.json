@@ -1,0 +1,47 @@
+{
+  "source": "a0177cff67cf13bcf460521d5bef34d026953296",
+  "protocol_sha256": "02dacec1e72ef3bd067f899b6e9d648a18b5980a829d0b5cc81d9ae831f92d32",
+  "gas_crossings": [
+    {
+      "event": "gas_absorbed",
+      "species": "CO2",
+      "moles": "0.0000010555342178004468"
+    }
+  ],
+  "all_wait_event_types": {
+    "temperature_changed": 1,
+    "neutralised": 1,
+    "solution_characterized": 1,
+    "gas_absorbed": 1
+  },
+  "physical_elements": {
+    "C": {
+      "expected": "0.0000010555342178004468",
+      "actual": "0.00000105553421780045875482452",
+      "error": "1.195482452E-20"
+    },
+    "H": {
+      "expected": "11.069553982792118",
+      "actual": "11.06955398279211907986901",
+      "error": "1.07986901E-15"
+    },
+    "Na": {
+      "expected": "0.001",
+      "actual": "0.000999999999999757",
+      "error": "-2.43E-16"
+    },
+    "O": {
+      "expected": "5.5352791024644946008936",
+      "actual": "5.53527699139605953991771964904",
+      "error": "-0.00000211106843506097588035096"
+    }
+  },
+  "formal_charge": {
+    "expected": "0E-22",
+    "actual": "0.00000422213687095886859000000",
+    "error": "0.00000422213687095886859000000"
+  },
+  "unchanged_budget": "1e-10 mol/eq",
+  "scientific_or_product_acceptance": false,
+  "pending_after": "0.0"
+}

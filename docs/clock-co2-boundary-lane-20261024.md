@@ -1,5 +1,7 @@
 # Next scope: clock-owned CO₂ material boundary (source-only proposal)
 
+**Measured precursor:** [A distinct resource-gated captured-CLI diagnostic](../audits/clock-co2-captured-diagnostic-20261024/README.md) now confirms an actual old-source failure: water100mL/NaOH0.001mol/wait3600s absorbs1.0555342178e−6molCO2, closes C/H/Na, but loses2.1110684351e−6mol of expected O and gains4.2221368710e−6eq of charge. It reports no solver failure. Preserve this sourcea0177 first failure; it is not current-candidate execution. Freeze the successor's exact contract before code and retain1e−10 budgets.
+
 Source inspected: frozen candidate `c0b6acbaa8fb722ad78921b4b11626d579469106`, tree `21c9e8310cbb6491521738fd0af0530f63a22bab`. This note proposes a later lane. It records no executed result and changes no runtime or test source. Wait for the active 106-case hosted acceptance and preserve its first failures before opening a new source-first audit. The candidate explicitly excludes pending transfers; no positive-time closure claim follows from its zero-time controls.
 
 ## Current ownership and signs
