@@ -1,0 +1,36 @@
+{
+  "trace_source": "a0177cff67cf13bcf460521d5bef34d026953296",
+  "trace_stderr_sha256": "718d571002980c8161dd00e14a72063f6a7c55b87142b1a170447b23691b0cb1",
+  "trace_result_sha256": "a3ff722f97cf441327e7f861f71a9e21b2cf42d9007c773937efd13f563ae8a2",
+  "current107_source_uses_same_warm_nine_decimal_water_branch": true,
+  "components": {
+    "Na": {
+      "requested_mol": "0.020000000000004334",
+      "written_molality": "0.2004073868606",
+      "written_water_kg": "0.099796721",
+      "actually_supplied_mol": "0.0200000000728663640926",
+      "input_error_mol": "7.28620300926E-11",
+      "native_readback_total_mol": "0.020000000072864427",
+      "readback_minus_written_mol": "-1.9370926E-15"
+    },
+    "Acetate": {
+      "requested_mol": "0.00505",
+      "written_molality": "0.05060286518228",
+      "written_water_kg": "0.099796721",
+      "actually_supplied_mol": "0.00505000001839661130388",
+      "input_error_mol": "1.839661130388E-11",
+      "native_readback_total_mol": "0.00505000001839617162466",
+      "readback_minus_written_mol": "-4.3967922E-16"
+    },
+    "C": {
+      "requested_mol": "0.012764742324932544738",
+      "written_molality": "0.1279074326644",
+      "written_water_kg": "0.099796721",
+      "actually_supplied_mol": "0.0127647423714354134324",
+      "input_error_mol": "4.65028686944E-11",
+      "native_readback_total_mol": "0.012764742371435791383",
+      "readback_minus_written_mol": "3.779506E-16"
+    }
+  },
+  "not_current107_trace_or_qualification": true
+}

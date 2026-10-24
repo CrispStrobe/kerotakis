@@ -1,0 +1,4 @@
+
+thread 'unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row' (8941) panicked at crates/kerotakis-phreeqc/tests/native_aqueous_overlap.rs:399:9:
+zero-time 0: measured/basis coordinate drift 0.000000005428514067803685 mol/eq
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
