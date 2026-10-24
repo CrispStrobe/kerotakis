@@ -1,0 +1,29 @@
+error[E0593]: closure is expected to take 1 argument, but it takes 0 arguments
+  --> crates/kerotakis-phreeqc/tests/support/native_material_checks.rs:18:10
+   |
+18 |         .unwrap_or_else(|| panic!("{context}: missing vessel before input"))
+   |          ^^^^^^^^^^^^^^ -- takes 0 arguments
+   |          |
+   |          expected closure that takes 1 argument
+   |
+help: consider changing the closure to take and ignore the expected argument
+   |
+18 |         .unwrap_or_else(|_| panic!("{context}: missing vessel before input"))
+   |                          +
+
+error[E0593]: closure is expected to take 1 argument, but it takes 0 arguments
+  --> crates/kerotakis-phreeqc/tests/support/native_material_checks.rs:48:10
+   |
+48 |         .unwrap_or_else(|| panic!("{context}: missing vessel after input"));
+   |          ^^^^^^^^^^^^^^ -- takes 0 arguments
+   |          |
+   |          expected closure that takes 1 argument
+   |
+help: consider changing the closure to take and ignore the expected argument
+   |
+48 |         .unwrap_or_else(|_| panic!("{context}: missing vessel after input"));
+   |                          +
+
+For more information about this error, try `rustc --explain E0593`.
+error: could not compile `kerotakis-phreeqc` (test "curated_reachability_at_runtime") due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...

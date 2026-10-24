@@ -1,0 +1,17 @@
+{
+  "source": "c0b6acbaa8fb722ad78921b4b11626d579469106",
+  "tree": "21c9e8310cbb6491521738fd0af0530f63a22bab",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "original_manifest_sha256": "d7d74c9b33baeb7d1782c265b6d22378fcb6d1f517728679e48da2b3555b9027",
+  "worker_sha256": "722cb9be60277dcb511ceb9c3c5701586562ba1a2b95fab296c5b2f88ed98981",
+  "plan_sha256": "52b215a02ea2114bdff4e269ba12a22ce4a9807b5424fe11cb28fe981dfe609b",
+  "original_clippy_stderr_sha256": "3173703919fe7af93df96e3a6884f613952b28f6b9a689d6044805041fdd0de4",
+  "exact_excerpt_sha256": "2742dc8cd4382f231d55ef20ef04ce55639c405cca401ce3183215fe6092b5d9",
+  "format_exit": 0,
+  "clippy_exit": 101,
+  "tests_not_reached": 106,
+  "wasm32_cli_sweep_not_reached": true,
+  "independent_saved_review_sha256": "5d39734d712b73ccd62215173ab3fa1198c36a3e101eda9923f4f8e42ab1a3ef",
+  "source_after_not_reached": true,
+  "scientific_selections": 0
+}
