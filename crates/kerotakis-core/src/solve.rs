@@ -100,6 +100,23 @@ pub trait Equilibrator {
     fn applies(&self, _vessel: &Vessel) -> bool {
         true
     }
+    /// Cheap probe: only a curated row with typed aqueous overlap requires
+    /// the stack to seek a later trusted owner.
+    fn has_delegable_aqueous_overlap(&self, _vessel: &Vessel) -> bool {
+        false
+    }
+    /// Route eligibility with an actual later aqueous owner selected.
+    fn applies_with_aqueous_owner(&self, vessel: &Vessel, _owned: bool) -> bool {
+        self.applies(vessel)
+    }
+    /// Route execution with the same ownership decision as eligibility.
+    fn equilibrate_with_aqueous_owner(
+        &mut self,
+        vessel: &mut Vessel,
+        _owned: bool,
+    ) -> Result<Vec<Event>, SolveError> {
+        self.equilibrate(vessel)
+    }
     /// Whether a *chemistry* engine claims this state — one that decides
     /// what reacts, as opposed to the physical mixing pass that moves heat
     /// around and the honesty pass that only reports.
@@ -261,6 +278,25 @@ pub struct SolverStack {
     pub solvers: Vec<Box<dyn Equilibrator>>,
     pub last_routes: Vec<SolverRoute>,
     required_conservation_tolerance: Option<f64>,
+    pending_aqueous_overlap: Option<PendingAqueousOverlap>,
+    aqueous_overlap_refused: bool,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum AqueousOverlapOwner {
+    Installed(usize),
+    External(usize),
+}
+
+#[derive(Clone, Copy, Debug)]
+struct PendingAqueousOverlap {
+    owner: AqueousOverlapOwner,
+    vessel: crate::vessel::VesselId,
+}
+
+fn external_owner_identity(solver: &mut dyn Equilibrator) -> usize {
+    let pointer: *mut dyn Equilibrator = solver;
+    pointer as *mut () as usize
 }
 
 impl SolverStack {
@@ -269,6 +305,40 @@ impl SolverStack {
             solvers,
             last_routes: Vec::new(),
             required_conservation_tolerance: None,
+            pending_aqueous_overlap: None,
+            aqueous_overlap_refused: false,
+        }
+    }
+
+    /// Begin one complete equilibrium question, including a browser's
+    /// borrowed aqueous route between installed ranges.
+    pub fn begin_equilibration(&mut self) {
+        self.last_routes.clear();
+        self.pending_aqueous_overlap = None;
+        self.aqueous_overlap_refused = false;
+    }
+
+    /// A typed refusal in this equilibrium question. A host with a borrowed
+    /// aqueous stage must stop its remaining stages when this is true.
+    pub fn aqueous_overlap_refused(&self) -> bool {
+        self.aqueous_overlap_refused
+    }
+
+    fn overlap_failure(&mut self, vessel: &mut Vessel, detail: &str) -> Event {
+        self.aqueous_overlap_refused = true;
+        vessel.invalidate_aqueous_diagnostics();
+        self.last_routes.push(SolverRoute {
+            solver: "aqueous-overlap-ownership".into(),
+            kind: SolverRouteKind::Computed,
+            chemistry: true,
+            outcome: SolverRouteOutcome::Failed,
+            vessel: Some(vessel.id),
+            reason: Some(detail.into()),
+        });
+        Event::SolverFailed {
+            vessel: vessel.id,
+            solver: "aqueous-overlap-ownership".into(),
+            detail: detail.into(),
         }
     }
     /// Require represented molecular-inventory and formal-charge closure from
@@ -295,6 +365,8 @@ impl SolverStack {
             solvers,
             last_routes: Vec::new(),
             required_conservation_tolerance: Some(tolerance),
+            pending_aqueous_overlap: None,
+            aqueous_overlap_refused: false,
         })
     }
 
@@ -305,23 +377,190 @@ impl SolverStack {
         range: std::ops::Range<usize>,
         vessel: &mut Vessel,
     ) -> Result<Vec<Event>, SolveError> {
-        let solvers = self
-            .solvers
-            .get_mut(range)
-            .ok_or_else(|| SolveError::NotConverged {
+        self.equilibrate_range_owned(range, vessel, None)
+    }
+
+    /// The browser passes the SAME borrowed aqueous adapter here and to
+    /// `equilibrate_external`. Ownership is selected at the curated rung,
+    /// after any preceding installed route has changed the vessel.
+    pub fn equilibrate_range_with_external_aqueous(
+        &mut self,
+        range: std::ops::Range<usize>,
+        vessel: &mut Vessel,
+        external: &mut dyn Equilibrator,
+    ) -> Result<Vec<Event>, SolveError> {
+        self.equilibrate_range_owned(range, vessel, Some(external))
+    }
+
+    fn equilibrate_range_owned(
+        &mut self,
+        range: std::ops::Range<usize>,
+        vessel: &mut Vessel,
+        mut external: Option<&mut dyn Equilibrator>,
+    ) -> Result<Vec<Event>, SolveError> {
+        if range.start > range.end || range.end > self.solvers.len() {
+            return Err(SolveError::NotConverged {
                 solver: "solver-stack".into(),
                 detail: "requested route range is outside the installed stack".into(),
-            })?;
+            });
+        }
         let mut events = Vec::new();
-        for solver in solvers {
-            events.extend(run_solver_route(
-                solver.as_mut(),
+        if self.pending_aqueous_overlap.is_some() {
+            events.push(self.overlap_failure(
+                vessel,
+                "selected aqueous owner was not executed before the next installed range",
+            ));
+            self.pending_aqueous_overlap = None;
+            return Ok(events);
+        }
+        for index in range.clone() {
+            let overlap = self.solvers[index].has_delegable_aqueous_overlap(vessel);
+            let mut delegated = false;
+            let mut ambiguous = false;
+            let mut unidentifiable_external = false;
+            if overlap {
+                let mut owners = Vec::new();
+                for later in index + 1..range.end {
+                    let solver = self.solvers[later].as_mut();
+                    if solver.trusted_aqueous_readback().is_some()
+                        && solver.applies(vessel)
+                        && solver.chemistry_applies(vessel)
+                    {
+                        owners.push(AqueousOverlapOwner::Installed(later));
+                    }
+                }
+                if let Some(solver) = external.as_deref_mut() {
+                    if solver.trusted_aqueous_readback().is_some()
+                        && solver.applies(vessel)
+                        && solver.chemistry_applies(vessel)
+                    {
+                        // A zero-sized trait object has no unique data address;
+                        // it cannot prove that the subsequently borrowed route
+                        // is the same selected instance.
+                        if std::mem::size_of_val(solver) == 0 {
+                            unidentifiable_external = true;
+                        } else {
+                            owners.push(AqueousOverlapOwner::External(external_owner_identity(
+                                solver,
+                            )));
+                        }
+                    }
+                }
+                match (unidentifiable_external, owners.as_slice()) {
+                    (true, _) => {
+                        delegated = true;
+                        ambiguous = true;
+                        events.push(self.overlap_failure(vessel, "borrowed zero-sized aqueous owner has no unique instance identity; curated overlap was not consumed"));
+                    }
+                    (false, []) => {}
+                    (false, [owner]) => {
+                        delegated = true;
+                        self.pending_aqueous_overlap = Some(PendingAqueousOverlap {
+                            owner: *owner,
+                            vessel: vessel.id,
+                        });
+                    }
+                    (false, _) => {
+                        delegated = true;
+                        ambiguous = true;
+                        events.push(self.overlap_failure(vessel, "multiple trusted applicable aqueous owners; curated overlap was not consumed"));
+                    }
+                }
+            }
+            let selected = self.pending_aqueous_overlap.is_some_and(|pending| {
+                pending.vessel == vessel.id
+                    && pending.owner == AqueousOverlapOwner::Installed(index)
+            });
+            let checkpoint = selected.then(|| vessel.clone());
+            if selected {
+                // A selected owner must answer this input. An inherited
+                // complete answer cannot certify a no-op or a late decline.
+                vessel.solution = None;
+                vessel.resolved.invalidate();
+            }
+            let mut more = run_solver_route_with_aqueous_owner(
+                self.solvers[index].as_mut(),
                 vessel,
                 self.required_conservation_tolerance,
                 &mut self.last_routes,
+                delegated,
+            );
+            if selected {
+                more = self.finish_selected_aqueous(
+                    vessel,
+                    checkpoint.expect("selected checkpoint"),
+                    more,
+                );
+            }
+            events.append(&mut more);
+            if ambiguous || self.aqueous_overlap_refused {
+                // There is no selected authority. Do not run either
+                // candidate or any later route and mistake its answer for
+                // this row's.
+                return Ok(events);
+            }
+        }
+        if range.end == self.solvers.len()
+            && self
+                .pending_aqueous_overlap
+                .is_some_and(|pending| matches!(pending.owner, AqueousOverlapOwner::Installed(_)))
+        {
+            events.push(self.overlap_failure(
+                vessel,
+                "selected aqueous owner was absent from the terminal installed range",
             ));
+            self.pending_aqueous_overlap = None;
         }
         Ok(events)
+    }
+
+    fn finish_selected_aqueous(
+        &mut self,
+        vessel: &mut Vessel,
+        checkpoint: Vessel,
+        events: Vec<Event>,
+    ) -> Vec<Event> {
+        self.pending_aqueous_overlap = None;
+        let succeeded = self.last_routes.last().is_some_and(|route| {
+            matches!(route.outcome, SolverRouteOutcome::Succeeded { .. })
+                && route.chemistry
+                && route.vessel == Some(vessel.id)
+        });
+        let complete = vessel.solution.as_ref().is_some_and(|info| {
+            info.scope == crate::vessel::SolutionScope::Complete && info.provenance.is_some()
+        });
+        let no_nested_failure = !events
+            .iter()
+            .any(|event| matches!(event, Event::SolverFailed { .. }));
+        if succeeded && complete && no_nested_failure {
+            return events;
+        }
+        *vessel = checkpoint;
+        vessel.invalidate_aqueous_diagnostics();
+        if let Some(route) = self.last_routes.last_mut() {
+            // Preserve an explicit owner decline or failure; the separate
+            // overlap route records that the deferred row had no owner answer.
+            if matches!(route.outcome, SolverRouteOutcome::Succeeded { .. }) {
+                route.outcome = SolverRouteOutcome::Failed;
+                route.reason = Some(
+                    "deferred curated overlap received no accepted complete aqueous answer".into(),
+                );
+            }
+        }
+        let mut retained: Vec<Event> = events
+            .into_iter()
+            .filter(|event| {
+                matches!(
+                    event,
+                    Event::NotYetModeled { .. } | Event::SolverFailed { .. }
+                )
+            })
+            .collect();
+        retained.push(self.overlap_failure(
+            vessel,
+            "deferred curated overlap received no accepted complete aqueous answer",
+        ));
+        retained
     }
 
     /// Run a borrowed owning adapter between installed stages. This preserves
@@ -331,6 +570,27 @@ impl SolverStack {
         solver: &mut dyn Equilibrator,
         vessel: &mut Vessel,
     ) -> Vec<Event> {
+        if let Some(pending) = self.pending_aqueous_overlap {
+            if pending.vessel != vessel.id
+                || pending.owner != AqueousOverlapOwner::External(external_owner_identity(solver))
+            {
+                self.pending_aqueous_overlap = None;
+                return vec![self.overlap_failure(
+                    vessel,
+                    "borrowed aqueous owner differs from the selected adapter or vessel",
+                )];
+            }
+            let checkpoint = vessel.clone();
+            vessel.solution = None;
+            vessel.resolved.invalidate();
+            let events = run_solver_route(
+                solver,
+                vessel,
+                self.required_conservation_tolerance,
+                &mut self.last_routes,
+            );
+            return self.finish_selected_aqueous(vessel, checkpoint, events);
+        }
         run_solver_route(
             solver,
             vessel,
@@ -392,70 +652,87 @@ fn run_solver_route(
     required: Option<f64>,
     routes: &mut Vec<SolverRoute>,
 ) -> Vec<Event> {
+    run_solver_route_with_aqueous_owner(solver, vessel, required, routes, false)
+}
+
+fn run_solver_route_with_aqueous_owner(
+    solver: &mut dyn Equilibrator,
+    vessel: &mut Vessel,
+    required: Option<f64>,
+    routes: &mut Vec<SolverRoute>,
+    aqueous_owner: bool,
+) -> Vec<Event> {
     let mut events = Vec::new();
     let solver_name = solver.name().to_string();
     let kind = solver.route_kind();
-    let chemistry = solver.chemistry_applies(vessel);
-    if !solver.applies(vessel) {
+    let applies = solver.applies_with_aqueous_owner(vessel, aqueous_owner);
+    let chemistry = applies && solver.chemistry_applies(vessel);
+    if !applies {
         routes.push(SolverRoute {
             solver: solver_name,
             kind,
             chemistry,
             outcome: SolverRouteOutcome::NotApplicable,
             vessel: Some(vessel.id),
-            reason: decline_reason(solver, vessel),
+            reason: if aqueous_owner && solver.has_delegable_aqueous_overlap(vessel) {
+                Some("typed curated overlap deferred to selected trusted aqueous route".into())
+            } else {
+                decline_reason(solver, vessel)
+            },
         });
         return events;
     }
     let checkpoint = vessel.clone();
-    let result = solver.equilibrate(vessel).and_then(|more| {
-        let mut errors = SolverStack::validate_result(
-            &checkpoint,
-            vessel,
-            &more,
-            required,
-            solver.element_conservation_tolerance(),
-        );
-        if errors.is_empty() {
-            // Gas this solver sent out of the vessel, booked on the
-            // step's snapshot before the next solver runs: the
-            // aqueous tail prices the whole step's heat, and the
-            // carbon dioxide a curated row evolved ahead of it must
-            // not cease to exist on the way. `GasContained` stays a
-            // portion and is not an outward transfer.
-            if let Some(start) = vessel.step_start.as_mut() {
-                for event in &more {
-                    match event {
-                        Event::GasEvolved { species, moles, .. } => {
-                            start.note_gas_out(species, moles.0);
+    let result = solver
+        .equilibrate_with_aqueous_owner(vessel, aqueous_owner)
+        .and_then(|more| {
+            let mut errors = SolverStack::validate_result(
+                &checkpoint,
+                vessel,
+                &more,
+                required,
+                solver.element_conservation_tolerance(),
+            );
+            if errors.is_empty() {
+                // Gas this solver sent out of the vessel, booked on the
+                // step's snapshot before the next solver runs: the
+                // aqueous tail prices the whole step's heat, and the
+                // carbon dioxide a curated row evolved ahead of it must
+                // not cease to exist on the way. `GasContained` stays a
+                // portion and is not an outward transfer.
+                if let Some(start) = vessel.step_start.as_mut() {
+                    for event in &more {
+                        match event {
+                            Event::GasEvolved { species, moles, .. } => {
+                                start.note_gas_out(species, moles.0);
+                            }
+                            Event::GasAbsorbed { species, moles, .. } => {
+                                start.note_gas_out(species, -moles.0);
+                            }
+                            _ => {}
                         }
-                        Event::GasAbsorbed { species, moles, .. } => {
-                            start.note_gas_out(species, -moles.0);
-                        }
-                        _ => {}
                     }
                 }
-            }
 
-            if vessel
-                .step_start
-                .as_ref()
-                .is_some_and(|start| start.gas_out.iter().any(|(_, n)| !n.0.is_finite()))
-            {
-                errors.push(crate::delta::DeltaError::InvalidState {
-                    field: "accumulated gas boundary".into(),
-                });
+                if vessel
+                    .step_start
+                    .as_ref()
+                    .is_some_and(|start| start.gas_out.iter().any(|(_, n)| !n.0.is_finite()))
+                {
+                    errors.push(crate::delta::DeltaError::InvalidState {
+                        field: "accumulated gas boundary".into(),
+                    });
+                }
             }
-        }
-        if errors.is_empty() {
-            Ok(more)
-        } else {
-            Err(SolveError::NotConverged {
-                solver: solver.name().into(),
-                detail: format!("invalid solver result: {errors:?}"),
-            })
-        }
-    });
+            if errors.is_empty() {
+                Ok(more)
+            } else {
+                Err(SolveError::NotConverged {
+                    solver: solver.name().into(),
+                    detail: format!("invalid solver result: {errors:?}"),
+                })
+            }
+        });
     match result {
         Ok(more) => {
             routes.push(SolverRoute {
@@ -540,7 +817,7 @@ impl Equilibrator for SolverStack {
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
-        self.last_routes.clear();
+        self.begin_equilibration();
         self.equilibrate_range(0..self.solvers.len(), vessel)
     }
 
