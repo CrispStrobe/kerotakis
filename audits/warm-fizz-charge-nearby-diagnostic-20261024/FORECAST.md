@@ -1,0 +1,7 @@
+# Separately frozen nearby-input charge diagnostic
+
+The exacta0177 warm first failure uses0.005mol acetic acid and violates formal-charge closure by2.588648392864989e−10eq. Its captured-CLI exact-case trace is already issued remotely; do not rerun or replace that request. This distinct prospective control increases acid by1% to0.00505mol with the same0.02mol bicarbonate/100mL water. Use the exact captureda0177 debug CLI/actual lock41bb; no compilation, code change, original experiment or product acceptance is involved.
+
+Expect complete gas-adjusted H/O/element/formal-charge closure at1e−10mol/eq and no SolverFailed. The measured nearby residual may pass or fail; retain it without retuning either input or budget. Native analytical totals, gas transfer and reconstructed acid/base basis are diagnostic evidence; they do not establish empirical accuracy. Compare exact native components separately, including carbonateC and acetateC, rather than relying only on total physicalC.
+
+Run once with native input/readback tracing under a fresh load/memory/storage gate, one CPU, bounded memory and execution time. Preserve every raw byte, executable/archive hash, source/tree/lock binding and actual process exit. This is a small captured-binary diagnostic only, not a build or full test run. Any unregistered component, missing raw state or unresolved reservoir is an evidence gap, never zero by default.
