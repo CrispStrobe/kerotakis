@@ -5887,10 +5887,19 @@ fn certify_projected_protonation(
         let fractions = protonation.get(key).ok_or_else(|| {
             component_projection_error(format!("missing native protonation split for {key}"))
         })?;
+        // Several native species can book to the same registry species:
+        // CO2 and H2CO3 both retain their separate shares under CO2(aq).
+        // Certify the declared multiplicity, not a one-to-one name mapping.
+        let mut expected_keys = BTreeMap::<&str, usize>::new();
+        for (_, species) in split {
+            *expected_keys.entry(species).or_default() += 1;
+        }
+        let mut actual_keys = BTreeMap::<&str, usize>::new();
+        for (species, _) in fractions {
+            *actual_keys.entry(species).or_default() += 1;
+        }
         if fractions.len() != split.len()
-            || split.iter().any(|(_, species)| {
-                fractions.iter().filter(|(name, _)| name == species).count() != 1
-            })
+            || actual_keys != expected_keys
             || fractions
                 .iter()
                 .any(|(_, fraction)| !fraction.is_finite() || *fraction < 0.0)
@@ -6217,6 +6226,33 @@ mod gas_component_projection_tests {
         assert!(certify_projected_protonation(&ions, &fractions).is_err());
         fractions.insert("N(-3)".into(), vec![("NH3", f64::NAN), ("NH4+", 1.0)]);
         assert!(certify_projected_protonation(&ions, &fractions).is_err());
+    }
+
+    #[test]
+    fn declared_native_alias_multiplicity_preserves_all_keyed_fractions() {
+        let ions = vec![("C".into(), 0.02)];
+        // Synthetic shares test mapping semantics, not a measured distribution.
+        let shares = vec![
+            ("CO2(aq)", 0.2),
+            ("CO2(aq)", 0.1),
+            ("HCO3-", 0.3),
+            ("CO3-2", 0.4),
+        ];
+        let check =
+            |shares| certify_projected_protonation(&ions, &BTreeMap::from([("C".into(), shares)]));
+        assert!(check(shares.clone()).is_ok());
+        let mut permuted = shares.clone();
+        permuted.reverse();
+        assert!(check(permuted).is_ok());
+        let mut missing_alias = shares.clone();
+        missing_alias.remove(0);
+        assert!(check(missing_alias).is_err());
+        let mut replaced_alias = shares.clone();
+        replaced_alias[1].0 = "HCO3-";
+        assert!(check(replaced_alias).is_err());
+        let mut wrong_duplicate = shares;
+        wrong_duplicate[2].0 = "CO2(aq)";
+        assert!(check(wrong_duplicate).is_err());
     }
 
     #[test]
