@@ -1,0 +1,7 @@
+# Corrected helper: same106 controls, separate changed source
+
+One bounded hosted CPU successor was issued on `5af1963a5493bce024da2a8bf94a06937a420838`, tree `03fa4ac965bb1059c548192173c16d4671c73d63`. `binding.json` freezes exact source, worker, plan, expected lock and every selected name. All106 identities match the first attempt; the only crate change fromc0b6 is the two reviewed test-helper Result error closures. Runtime and physical assertions are unchanged.
+
+The [first compiler stop](../gas-component106-compiler-first-failure-20261024/README.md) remains immutable: formatting passed; all106 tests, wasm32, CLI and sweep were NOT_REACHED. This changed-source job is separate, not an old-job reissue. Actual new outcomes are pending. Collect and independently verify generated lock, source pins before/after, named raw results, executable metadata/bytes under appropriate resource gates, strict compiler gates, all three CLI cases and full1536 sweep. A provider completion or a process exit0 alone cannot earn a scientific pass.
+
+PR859 remains draft until applicable current-source acceptance. Full own fleet/native platforms/protected checks, normal exact-head integration and15API/86browser changed-release acceptance remain pending. The independently measured old-source CO2 clock failure is scoped separately and has not been repaired by these helper changes. Original qualification stays338/468.
