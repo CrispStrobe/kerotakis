@@ -1,0 +1,107 @@
+{
+  "free_proton": {
+    "before": 2.5034835693210863e-11,
+    "after": 2.5034835661937358e-11,
+    "delta": -3.127350499330215e-20
+  },
+  "free_hydroxide": {
+    "before": 6.910451555139058e-06,
+    "after": 6.910451551369273e-06,
+    "delta": -3.769785353292202e-15
+  },
+  "solute_charge": {
+    "before": 0.0016110626489495364,
+    "after": 0.0016110680461393183,
+    "delta": 5.397189781902734e-09
+  },
+  "temperature": {
+    "before": 296.95077317504115,
+    "after": 296.9507731755384,
+    "delta": 4.972662281943485e-10
+  },
+  "pending_co2_transfer_mol": {
+    "before": 0.0,
+    "after": 9.578224184059453e-20,
+    "delta": 9.578224184059453e-20
+  },
+  "sum_abs_scalar_drift": 5.39719355171936e-09,
+  "events": [
+    {
+      "event": "gas_evolved",
+      "moles": 1.010299747846e-08,
+      "species": "CO2",
+      "vessel": 0
+    },
+    {
+      "event": "solution_characterized",
+      "ionic_strength": 0.2032398493677,
+      "ph": 9.727951100236,
+      "vessel": 0
+    }
+  ],
+  "stock_deltas": [
+    {
+      "species": "CH3COO-",
+      "phase": "aqueous",
+      "before": 0.004999960134073251,
+      "after": 0.004999960134198057,
+      "delta": 1.2480554784088937e-13
+    },
+    {
+      "species": "CH3COOH",
+      "phase": "aqueous",
+      "before": 3.986592674874161e-08,
+      "after": 3.9865802270888426e-08,
+      "delta": -1.2447785318041278e-13
+    },
+    {
+      "species": "CO2(aq)",
+      "phase": "aqueous",
+      "before": 1.9587240013730614e-06,
+      "after": 1.958712789451247e-06,
+      "delta": -1.1211921814214165e-11
+    },
+    {
+      "species": "CO3-2",
+      "phase": "aqueous",
+      "before": 0.003618781050330461,
+      "after": 0.0036187857448107983,
+      "delta": 4.694480337449902e-09
+    },
+    {
+      "species": "Cl-",
+      "phase": "aqueous",
+      "before": 0.001,
+      "after": 0.0010000000000004651,
+      "delta": 4.651227319962814e-16
+    },
+    {
+      "species": "HCO3-",
+      "phase": "aqueous",
+      "before": 0.0061514151163162955,
+      "after": 0.00615140033005033,
+      "delta": -1.478626596509991e-08
+    },
+    {
+      "species": "Na+",
+      "phase": "aqueous",
+      "before": 0.021000000000000005,
+      "after": 0.021000000000009768,
+      "delta": 9.76302372279747e-15
+    },
+    {
+      "species": "base_equivalents",
+      "phase": "aqueous",
+      "before": 0.0016110626489495294,
+      "after": 0.0016110680461302943,
+      "delta": 5.3971807648101056e-09
+    },
+    {
+      "species": "water",
+      "phase": "liquid",
+      "before": 5.542895732580462,
+      "after": 5.5428957372750665,
+      "delta": 4.6946047049800654e-09
+    }
+  ]
+}
