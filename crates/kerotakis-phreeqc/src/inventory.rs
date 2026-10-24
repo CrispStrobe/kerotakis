@@ -17,7 +17,7 @@
 //! 1.30x under a perturbation that must move hydroxide 2.33x. The
 //! measurement was never missing — `Vessel::free_hydroxide` had it, and
 //! moved by exactly 2.33x — so the fix is the name.
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 use kerotakis_core::{
     ledger::ConservedLedger, species, Event, Moles, Phase, Portion, SolveError, SpeciesId, Vessel,
@@ -163,4 +163,135 @@ pub(crate) fn complete_basis(
         }
     }
     Ok(())
+}
+
+/// The admitted gas-aware component projection must also close the physical
+/// ledger after the H/O basis is rebuilt. The source charge is authoritative:
+/// a deliberately charged inlet is not silently neutralised.
+pub(crate) fn certify_gas_aware_inventory(
+    before: &Vessel,
+    after: &Vessel,
+    events: &[Event],
+    reservoirs: &[&str],
+) -> Result<(), SolveError> {
+    let refused = |detail: String| SolveError::NotConverged {
+        solver: "phreeqc-inventory".into(),
+        detail: format!("gas-aware physical ledger: {detail}"),
+    };
+    if before.id != after.id {
+        return Err(refused("vessel identity changed".into()));
+    }
+    for vessel in [before, after] {
+        for portion in &vessel.contents {
+            let formula = species::lookup(&portion.species)
+                .and_then(|data| kerotakis_core::stoich::parse_formula(data.formula).ok());
+            if formula.is_none() || !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
+                return Err(refused(format!("unresolved portion {}", portion.species.0)));
+            }
+        }
+    }
+    let mut expected = ConservedLedger::from_vessel(before);
+    for event in events {
+        let (event_vessel, species_id, moles, sign) = match event {
+            Event::GasEvolved {
+                vessel,
+                species,
+                moles,
+            } => (vessel, species, moles.0, -1.0),
+            Event::GasAbsorbed {
+                vessel,
+                species,
+                moles,
+            } => (vessel, species, moles.0, 1.0),
+            _ => continue,
+        };
+        if *event_vessel != before.id
+            || !reservoirs.contains(&species_id.0.as_str())
+            || !moles.is_finite()
+            || moles < 0.0
+        {
+            return Err(refused(format!("unowned gas crossing {}", species_id.0)));
+        }
+        let signed_moles = sign * moles;
+        let formula = species::lookup(species_id)
+            .and_then(|data| kerotakis_core::stoich::parse_formula(data.formula).ok())
+            .ok_or_else(|| refused(format!("unresolved reservoir gas {}", species_id.0)))?;
+        for (element, count) in formula.counts {
+            *expected.elements.entry(element).or_default() += count * signed_moles;
+        }
+        expected.charge += formula.charge * signed_moles;
+    }
+    let actual = ConservedLedger::from_vessel(after);
+    let elements: BTreeSet<_> = expected
+        .elements
+        .keys()
+        .chain(actual.elements.keys())
+        .collect();
+    for element in elements {
+        let left = expected.elements.get(element).copied().unwrap_or(0.0);
+        let right = actual.elements.get(element).copied().unwrap_or(0.0);
+        if !left.is_finite() || !right.is_finite() || (right - left).abs() > 1e-10 {
+            return Err(refused(format!(
+                "{element} changed {left:.15e} -> {right:.15e} mol"
+            )));
+        }
+    }
+    if !expected.charge.is_finite()
+        || !actual.charge.is_finite()
+        || (actual.charge - expected.charge).abs() > 1e-10
+    {
+        return Err(refused(format!(
+            "charge changed {:.15e} -> {:.15e} eq",
+            expected.charge, actual.charge
+        )));
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod gas_aware_certificate_tests {
+    use super::*;
+    use kerotakis_core::VesselId;
+
+    #[test]
+    fn charged_input_is_preserved_and_same_element_charge_change_is_refused() {
+        let mut charged = Vessel::new(VesselId(0), "charged input");
+        charged.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        charged.deposit(SpeciesId::new("Na+"), Moles(0.01), Phase::Aqueous);
+        assert!(certify_gas_aware_inventory(&charged, &charged, &[], &[]).is_ok());
+
+        let mut before = Vessel::new(VesselId(0), "formal charge control");
+        before.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        before.deposit(SpeciesId::new("Fe+2"), Moles(0.001), Phase::Aqueous);
+        let mut after = before.clone();
+        after.contents.retain(|portion| portion.species.0 != "Fe+2");
+        after.deposit(SpeciesId::new("Fe+3"), Moles(0.001), Phase::Aqueous);
+        let error = certify_gas_aware_inventory(&before, &after, &[], &[]).unwrap_err();
+        assert!(error.to_string().contains("charge changed"), "{error}");
+    }
+
+    #[test]
+    fn gas_boundary_sign_vessel_and_nonnegative_amount_are_checked() {
+        let mut before = Vessel::new(VesselId(0), "gas boundary");
+        before.deposit(SpeciesId::new("CO2"), Moles(0.001), Phase::Aqueous);
+        let after = Vessel::new(VesselId(0), "gas boundary");
+        let out = Event::GasEvolved {
+            vessel: before.id,
+            species: SpeciesId::new("CO2"),
+            moles: Moles(0.001),
+        };
+        assert!(certify_gas_aware_inventory(&before, &after, &[out], &["CO2"]).is_ok());
+        let invalid = Event::GasEvolved {
+            vessel: before.id,
+            species: SpeciesId::new("CO2"),
+            moles: Moles(-0.001),
+        };
+        assert!(certify_gas_aware_inventory(&before, &after, &[invalid], &["CO2"]).is_err());
+        let wrong_vessel = Event::GasEvolved {
+            vessel: VesselId(1),
+            species: SpeciesId::new("CO2"),
+            moles: Moles(0.001),
+        };
+        assert!(certify_gas_aware_inventory(&before, &after, &[wrong_vessel], &["CO2"]).is_err());
+    }
 }
