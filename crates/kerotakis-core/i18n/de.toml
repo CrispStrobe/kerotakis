@@ -1924,6 +1924,7 @@ whole_milk-casein = "KASEIN IST WEITERHIN NICHT MODELLIERT, SEINE PUFFERWIRKUNG 
 "model.with-feed-tp-fallback" = "{model}; TP-Rückgriff auf die Flüssigbrennstoff-Zuführung bei der ausdrücklich angegebenen Zündzonentemperatur"
 
 [routing]
+provisional-model-replay = "vorläufige Wiederholung des Modells mit dem ursprünglichen Stoffbestand; die endgültige Route wird mit einer neuen regulären wässrigen Berechnung geprüft"
 "silver-ammine" = "gewählt, weil Silber und reduzierter Stickstoff die Silber-Ammoniak-Komplexe aus minteq.v4.dat benötigen (NIST46.4-Einträge 204901 und 204902); die Elementabdeckung des Standarddatensatzes enthält diese Ligandenspezies nicht"
 solvent-relation-only = "keine dargestellte Säure, Base, kein Salz, keine Oberfläche, kein Austauscher, kein Gasübergang und kein reaktiver wässriger Gelöststoff; die Lösungsmittelbeziehung wurde ohne Aufruf von IPhreeqc ausgewertet, das gesamte Zuschauer-Inventar blieb dabei erhalten"
 mix-by-fraction = "MIX: zwei gelöste Lösungen anteilig gemischt"

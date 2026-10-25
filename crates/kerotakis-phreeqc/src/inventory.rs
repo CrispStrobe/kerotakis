@@ -42,6 +42,54 @@ impl ClockCo2Boundary {
     }
 }
 
+/// Opaque recipe mass has no elemental formula in `ConservedLedger`. It can
+/// accompany a certified aqueous clock boundary only as an unchanged owner.
+/// Check its actual state, including the numerical progress fields, rather
+/// than treating the represented-atom ledger as a whole-mixture proof.
+pub(crate) fn valid_opaque_clock_stock(vessel: &Vessel) -> bool {
+    vessel.unresolved_materials.iter().all(|portion| {
+        portion.amount.is_finite()
+            && portion.amount >= 0.0
+            && portion.protein_denatured_fraction.is_finite()
+            && (0.0..=1.0).contains(&portion.protein_denatured_fraction)
+            && portion.enzyme_hydrolysis.as_ref().is_none_or(|state| {
+                state.converted_fraction.is_finite()
+                    && (0.0..=1.0).contains(&state.converted_fraction)
+            })
+    })
+}
+
+pub(crate) fn certify_opaque_clock_stock(
+    before: &Vessel,
+    after: &Vessel,
+) -> Result<(), SolveError> {
+    let same = before.unresolved_materials.len() == after.unresolved_materials.len()
+        && before
+            .unresolved_materials
+            .iter()
+            .zip(&after.unresolved_materials)
+            .all(|(left, right)| {
+                left == right
+                    && left.amount.to_bits() == right.amount.to_bits()
+                    && left.protein_denatured_fraction.to_bits()
+                        == right.protein_denatured_fraction.to_bits()
+                    && match (&left.enzyme_hydrolysis, &right.enzyme_hydrolysis) {
+                        (Some(a), Some(b)) => {
+                            a.converted_fraction.to_bits() == b.converted_fraction.to_bits()
+                        }
+                        (None, None) => true,
+                        _ => false,
+                    }
+            });
+    if !valid_opaque_clock_stock(before) || !valid_opaque_clock_stock(after) || !same {
+        return Err(SolveError::NotConverged {
+            solver: "phreeqc-inventory".into(),
+            detail: "opaque clock inventory changed or is invalid".into(),
+        });
+    }
+    Ok(())
+}
+
 fn clock_formula(
     clock: ClockCo2Boundary,
     vessel: VesselId,
@@ -232,6 +280,9 @@ pub(crate) fn certify_gas_aware_inventory(
     if before.id != after.id {
         return Err(refused("vessel identity changed".into()));
     }
+    if !before.unresolved_materials.is_empty() || !after.unresolved_materials.is_empty() {
+        certify_opaque_clock_stock(before, after)?;
+    }
     for vessel in [before, after] {
         for portion in &vessel.contents {
             let formula = species::lookup(&portion.species)
@@ -308,7 +359,52 @@ pub(crate) fn certify_gas_aware_inventory(
 #[cfg(test)]
 mod gas_aware_certificate_tests {
     use super::*;
-    use kerotakis_core::VesselId;
+    use kerotakis_core::{
+        enzyme::EnzymeFamily,
+        material::MaterialBasis,
+        vessel::{EnzymeHydrolysisState, UnresolvedMaterialPortion},
+        VesselId,
+    };
+
+    #[test]
+    fn opaque_clock_owner_preserves_every_unresolved_field_and_rejects_invalid_stock() {
+        let mut before = Vessel::new(VesselId(0), "opaque owner");
+        before.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "whole_milk".into(),
+            recipe_id: "household/whole-milk-surrogate".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 12.0,
+            enzyme_hydrolysis: Some(EnzymeHydrolysisState {
+                family: EnzymeFamily::Lactase,
+                converted_fraction: 0.25,
+                carried_enzyme_denatured: false,
+            }),
+            protein_denatured_fraction: 0.0,
+        });
+        assert!(certify_opaque_clock_stock(&before, &before).is_ok());
+        let mut changed = before.clone();
+        changed.unresolved_materials[0].amount = 11.999;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        changed = before.clone();
+        changed.unresolved_materials[0].recipe_version = 2;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        changed = before.clone();
+        changed.unresolved_materials[0].protein_denatured_fraction = 0.1;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        changed = before.clone();
+        changed.unresolved_materials[0]
+            .enzyme_hydrolysis
+            .as_mut()
+            .expect("progress")
+            .converted_fraction = 0.26;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        changed = before.clone();
+        changed.unresolved_materials[0].amount = f64::NAN;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        changed.unresolved_materials[0].amount = -1.0;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+    }
 
     #[test]
     fn charged_input_is_preserved_and_same_element_charge_change_is_refused() {

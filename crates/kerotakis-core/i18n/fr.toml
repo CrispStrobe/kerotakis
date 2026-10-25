@@ -1667,6 +1667,7 @@ whole_milk-casein = "LA CASÉINE N'EST TOUJOURS PAS MODÉLISÉE, SON EFFET TAMPO
 "model.with-feed-tp-fallback" = "{model} ; repli TP sur l'alimentation en combustible liquide à la température de zone d'allumage explicitement indiquée"
 
 [routing]
+provisional-model-replay = "recalcul provisoire du modèle à partir de l’inventaire initial ; le choix final est vérifié par un nouveau calcul aqueux ordinaire"
 "silver-ammine" = "choisi parce que l'argent et l'azote réduit nécessitent les complexes argent-ammoniac présents dans minteq.v4.dat (entrées NIST46.4 204901 et 204902) ; la couverture élémentaire du jeu de données par défaut ne comprend pas ces espèces de ligands"
 solvent-relation-only = "aucun acide, aucune base, aucun sel, aucune surface, aucun échangeur, aucun transfert gazeux et aucun soluté aqueux réactif représentés ; la relation du solvant a été évaluée sans appel à IPhreeqc, et tout l'inventaire spectateur est resté conservé"
 mix-by-fraction = "MIX : deux solutions dissoutes mélangées proportionnellement"

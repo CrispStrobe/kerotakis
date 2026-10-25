@@ -145,6 +145,43 @@ fn strict_ledger(vessel: &Vessel, context: &str) -> ConservedLedger {
 fn assert_boundary_closed(before: &Vessel, after: &Vessel, events: &[Event], context: &str) {
     let mut expected = strict_ledger(before, context);
     for event in events {
+        if let Event::VesselSealed {
+            vessel,
+            headspace_volume,
+            trapped_air,
+        } = event
+        {
+            assert_eq!(*vessel, before.id, "{context}: seal has wrong owner");
+            let already_finite = matches!(
+                before.headspace,
+                vessel::Headspace::Sealed { .. } | vessel::Headspace::PressureControlled { .. }
+            );
+            let supplied = if already_finite {
+                0.0
+            } else {
+                before.pressure.0 * headspace_volume.0 / (8_314.462_618 * before.temperature.0)
+            };
+            assert!(
+                supplied.is_finite()
+                    && supplied >= 0.0
+                    && trapped_air.0.is_finite()
+                    && (trapped_air.0 - supplied).abs() <= 1e-10,
+                "{context}: seal did not report its actual ideal-gas input"
+            );
+            // Sealing imports a real boundary inventory. A swept vessel
+            // traps nitrogen; an open one traps the stated dry room air.
+            let (nitrogen, oxygen, carbon_dioxide) =
+                if matches!(before.headspace, vessel::Headspace::Swept { .. }) {
+                    (1.0, 0.0, 0.0)
+                } else {
+                    (0.7901, 0.2095, 0.0004)
+                };
+            *expected.elements.entry("N".to_owned()).or_default() += 2.0 * nitrogen * trapped_air.0;
+            *expected.elements.entry("O".to_owned()).or_default() +=
+                2.0 * (oxygen + carbon_dioxide) * trapped_air.0;
+            *expected.elements.entry("C".to_owned()).or_default() += carbon_dioxide * trapped_air.0;
+            continue;
+        }
         let (species_id, amount, sign, owner) = match event {
             Event::GasAbsorbed {
                 vessel,
@@ -297,7 +334,28 @@ fn bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate() 
     let after = bench.vessel(VesselId(0)).expect("after bare-water solve");
     assert_current_aqueous(after, "bare-water earned carrier", true);
     assert_boundary_closed(&before_spend, after, &events, "bare-water earned carrier");
-    assert_eq!(co2_crossings(&events), vec![(true, earned)]);
+    let crossings = co2_crossings(&events);
+    let inlets: Vec<_> = crossings
+        .iter()
+        .copied()
+        .filter(|(inlet, _)| *inlet)
+        .collect();
+    assert_eq!(
+        inlets,
+        vec![(true, earned)],
+        "earned clock inlet must occur once"
+    );
+    let outlets: Vec<_> = crossings
+        .iter()
+        .copied()
+        .filter(|(inlet, _)| !*inlet)
+        .collect();
+    assert!(
+        outlets.iter().map(|(_, amount)| amount).sum::<f64>() <= earned,
+        "bare water cannot release more carbon than its actual inlet"
+    );
+    // Native equilibrium may release part of this inlet. Every outward
+    // crossing remains in the independent full-element/charge ledger above.
     assert_eq!(after.pending_co2_transfer_mol, 0.0);
     assert!(before
         .contents

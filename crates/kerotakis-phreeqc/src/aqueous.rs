@@ -716,7 +716,7 @@ impl PhreeqcEquilibrator {
                 ));
                 }
             }
-            if first.gas_components_certified
+            if first.component_certificate.is_certified()
                 && first
                     .events
                     .iter()
@@ -726,10 +726,11 @@ impl PhreeqcEquilibrator {
                     "first gas-aware aqueous answer reported a solver failure",
                 ));
             }
-            // Projection alone does not attest a complete solution when an
-            // unrelated retained spectator makes this a partial route. Only a
-            // trusted, complete native answer enters the new physical loop.
-            if !first.gas_components_certified
+            // Projection alone does not attest a current native answer. A
+            // clock-owned opaque recipe stays outside the represented
+            // solution and gets a separate immutable-stock certificate;
+            // the represented solution itself must still be Complete.
+            if !first.component_certificate.is_certified()
                 || trial
                     .solution
                     .as_ref()
@@ -745,7 +746,13 @@ impl PhreeqcEquilibrator {
                 return Ok((first.events, first.heat_quote_j, false, 0.0));
             }
             let route = first.db_tag;
+            let component_owner = first.component_certificate;
             let clock_applied = first.clock_co2_applied_mol;
+            if component_owner == ComponentCertificate::ClockWithOpaque && clock_applied == 0.0 {
+                return Err(canonical_closure_error(
+                    "opaque aqueous owner has no spent clock boundary",
+                ));
+            }
             if !clock_applied.is_finite()
                 || (clock_applied != 0.0
                     && (owner_start.pending_co2_transfer_mol.abs()
@@ -784,6 +791,9 @@ impl PhreeqcEquilibrator {
                 &reservoir_refs,
                 clock,
             )?;
+            if component_owner == ComponentCertificate::ClockWithOpaque {
+                crate::inventory::certify_opaque_clock_stock(&owner_start, &trial)?;
+            }
             let mut previous_state = trial.clone();
             let mut previous_pass = first;
             while calls < MAX_CANONICAL_AQUEOUS_PASSES {
@@ -797,7 +807,8 @@ impl PhreeqcEquilibrator {
                 trial.step_start = Some(private_snapshot);
                 calls += 1;
                 let pass = solve(&mut trial, &all_events, true, None)?;
-                if !pass.gas_components_certified
+                if !pass.component_certificate.is_certified()
+                    || pass.component_certificate != component_owner
                     || pass.clock_co2_applied_mol != 0.0
                     || pass
                         .events
@@ -861,6 +872,9 @@ impl PhreeqcEquilibrator {
                     &reservoir_refs,
                     clock,
                 )?;
+                if component_owner == ComponentCertificate::ClockWithOpaque {
+                    crate::inventory::certify_opaque_clock_stock(&owner_start, &trial)?;
+                }
                 let closed = canonical_physical_delta_closed(
                     &previous_state,
                     &trial,
@@ -3580,6 +3594,19 @@ enum HeatMode {
     DissolutionFallback,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ComponentCertificate {
+    Uncertified,
+    Represented,
+    ClockWithOpaque,
+}
+
+impl ComponentCertificate {
+    fn is_certified(self) -> bool {
+        self != Self::Uncertified
+    }
+}
+
 struct AqueousPass {
     events: Vec<Event>,
     /// Priced mode is a whole-step state-function quote. The existing
@@ -3588,7 +3615,7 @@ struct AqueousPass {
     /// not carry earlier solvers' dissolution events.
     heat_quote_j: f64,
     heat_mode: HeatMode,
-    gas_components_certified: bool,
+    component_certificate: ComponentCertificate,
     db_tag: &'static str,
     reservoirs: Vec<String>,
     /// The actual clock parcel posed in this pass's analytical totals.
@@ -3791,8 +3818,6 @@ fn canonical_physical_delta_closed(
         || !after.exchanges.is_empty()
         || !before.solid_solutions.is_empty()
         || !after.solid_solutions.is_empty()
-        || !before.unresolved_materials.is_empty()
-        || !after.unresolved_materials.is_empty()
         || !before.material_objects.is_empty()
         || !after.material_objects.is_empty()
         || !before.adsorbed.is_empty()
@@ -3805,6 +3830,9 @@ fn canonical_physical_delta_closed(
         return Err(canonical_closure_error(
             "aqueous ownership, dataset or heat mode changed during canonical reentry",
         ));
+    }
+    if !before.unresolved_materials.is_empty() || !after.unresolved_materials.is_empty() {
+        crate::inventory::certify_opaque_clock_stock(before, after)?;
     }
     let before_info = before
         .solution
@@ -4210,7 +4238,7 @@ fn cumulative_dissolution_fallback<'a>(events: impl IntoIterator<Item = &'a Even
 #[cfg(test)]
 mod canonical_physical_closure_tests {
     use super::*;
-    use kerotakis_core::VesselId;
+    use kerotakis_core::{material::MaterialBasis, vessel::UnresolvedMaterialPortion, VesselId};
 
     fn state() -> Vessel {
         let mut vessel = Vessel::new(VesselId(0), "canonical control");
@@ -4250,7 +4278,7 @@ mod canonical_physical_closure_tests {
             events: Vec::new(),
             heat_quote_j: joules,
             heat_mode: HeatMode::Priced,
-            gas_components_certified: true,
+            component_certificate: ComponentCertificate::Represented,
             db_tag: "wateq4f",
             reservoirs: vec!["CO2".into()],
             clock_co2_applied_mol: 0.0,
@@ -4541,6 +4569,46 @@ mod canonical_physical_closure_tests {
         assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
         assert_eq!(vessel.step_start, original_snapshot);
         assert_eq!(vessel.pending_co2_transfer_mol, 5e-7);
+    }
+
+    #[test]
+    fn opaque_clock_owner_rejects_second_pass_mutation_and_restores_caller() {
+        // Controlled answer sequence exercises the actual private driver,
+        // not a native-chemistry prediction. The first answer owns its clock
+        // carbon; the next answer changes only opaque recipe mass.
+        let mut vessel = state();
+        vessel.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "whole_milk".into(),
+            recipe_id: "household/whole-milk-surrogate".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 12.0,
+            enzyme_hydrolysis: None,
+            protein_denatured_fraction: 0.0,
+        });
+        vessel.pending_co2_transfer_mol = 2e-6;
+        vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+        let original = serde_json::to_vec(&vessel).unwrap();
+        let mut calls = 0;
+        let error = PhreeqcEquilibrator::solve_at_temperature_with(
+            &mut vessel,
+            |candidate, _past, _reentry, _route| {
+                calls += 1;
+                let mut pass = quote(0.0);
+                pass.component_certificate = ComponentCertificate::ClockWithOpaque;
+                if calls == 1 {
+                    candidate.deposit(SpeciesId::new("CO2(aq)"), Moles(2e-6), Phase::Aqueous);
+                    pass.clock_co2_applied_mol = 2e-6;
+                } else {
+                    candidate.unresolved_materials[0].amount += 0.001;
+                }
+                Ok(pass)
+            },
+        )
+        .expect_err("opaque mass cannot change during canonical reentry");
+        assert!(matches!(error, SolveError::NotConverged { .. }));
+        assert_eq!(calls, 2);
+        assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
     }
 
     #[test]
@@ -4886,7 +4954,7 @@ impl PhreeqcEquilibrator {
                 events: Vec::new(),
                 heat_quote_j: 0.0,
                 heat_mode: HeatMode::Inactive,
-                gas_components_certified: false,
+                component_certificate: ComponentCertificate::Uncertified,
                 db_tag: "",
                 reservoirs: Vec::new(),
                 clock_co2_applied_mol: 0.0,
@@ -5314,7 +5382,13 @@ impl PhreeqcEquilibrator {
             events,
             heat_quote_j: q_joules,
             heat_mode,
-            gas_components_certified,
+            component_certificate: if !gas_components_certified {
+                ComponentCertificate::Uncertified
+            } else if vessel.unresolved_materials.is_empty() {
+                ComponentCertificate::Represented
+            } else {
+                ComponentCertificate::ClockWithOpaque
+            },
             db_tag,
             reservoirs: reservoirs.into_iter().map(str::to_string).collect(),
             clock_co2_applied_mol: problem.clock_co2_applied_mol,
@@ -7309,6 +7383,42 @@ fn add_gas_component_transfer(
     true
 }
 
+/// A clock may pose a known aqueous subproblem beside conserved recipe matter
+/// whose formula is explicitly unknown. Its represented contents must all be
+/// owned by this adapter; only the separate unresolved portions may remain
+/// opaque, and they are certified unchanged after every native pass.
+fn opaque_clock_component_owner(
+    vessel: &Vessel,
+    problem: &Problem,
+    certified_reentry: bool,
+) -> bool {
+    !vessel.unresolved_materials.is_empty()
+        && (problem.clock_co2_applied_mol != 0.0 || certified_reentry)
+        && crate::inventory::valid_opaque_clock_stock(vessel)
+        && !holds_unspeciated_acid(vessel)
+        && !holds_unspeciated_solute(vessel)
+        && vessel.contents.iter().all(|portion| {
+            let amount = portion.moles.0;
+            if !amount.is_finite() || amount < 0.0 {
+                return false;
+            }
+            if amount == 0.0 {
+                return true;
+            }
+            if portion.phase == Phase::Gas {
+                return problem
+                    .gases
+                    .iter()
+                    .any(|(_, species, _)| species == &portion.species.0)
+                    || (vessel.owns_headspace_gas()
+                        && matches!(portion.species.0.as_str(), "N2" | "O2"));
+            }
+            derived::role(&portion.species.0).is_some()
+                || (portion.phase == Phase::Aqueous
+                    && species::is_acid_base_basis(&portion.species.0))
+        })
+}
+
 /// Project only numerical native readback residue onto exact, independently
 /// owned analytical components. This narrow class has no typed interface or
 /// finite external dose; a gas may cross an admitted reservoir or redistribute
@@ -7332,7 +7442,8 @@ fn project_gas_aware_components(
     if !problem.surfaces.is_empty()
         || !problem.exchanges.is_empty()
         || !problem.solid_solutions.is_empty()
-        || !vessel.unresolved_materials.is_empty()
+        || (!vessel.unresolved_materials.is_empty()
+            && !opaque_clock_component_owner(vessel, problem, certified_reentry))
         || !vessel.material_objects.is_empty()
         || !vessel.adsorbed.is_empty()
         || !vessel.electrodes.is_empty()
@@ -7505,7 +7616,11 @@ fn project_gas_aware_components(
 #[cfg(test)]
 mod gas_component_projection_tests {
     use super::*;
-    use kerotakis_core::{Grams, SurfaceModel, VesselId};
+    use kerotakis_core::{
+        material::MaterialBasis,
+        vessel::{MaterialObject, MaterialObjectState, UnresolvedMaterialPortion},
+        Grams, SurfaceModel, VesselId,
+    };
 
     fn open_problem() -> Problem {
         Problem {
@@ -7538,6 +7653,153 @@ mod gas_component_projection_tests {
             ("Acetate".into(), 0.005 - 2e-10),
             ("C".into(), carbon),
         ]
+    }
+
+    #[test]
+    fn milk_and_culture_recipe_components_have_derived_owners_or_are_explicitly_opaque() {
+        let milk = kerotakis_core::material::lookup("whole_milk", None).expect("milk recipe");
+        let expanded = milk.expand(103.0, 0).expect("100 mL milk expansion");
+        let components: BTreeSet<_> = expanded
+            .components
+            .iter()
+            .map(|component| component.species_id.as_str())
+            .collect();
+        assert_eq!(
+            components,
+            BTreeSet::from([
+                "water",
+                "K+",
+                "Na+",
+                "Ca+2",
+                "Cl-",
+                "H2PO4-",
+                "C6H5O7-3",
+                "octacalcium_phosphate",
+            ])
+        );
+        for key in components.into_iter().chain(["lactic_acid", "lactate"]) {
+            assert!(derived::role(key).is_some(), "{key} needs a native owner");
+        }
+        assert!(expanded.unresolved_amount > 0.0);
+        let culture = kerotakis_core::material::lookup("yoghurt_culture", None)
+            .expect("starter culture recipe");
+        let expanded_culture = culture.expand(1.0, 0).expect("one gram culture");
+        assert!(expanded_culture.components.is_empty());
+        assert!(expanded_culture.unresolved_amount > 0.0);
+    }
+
+    #[test]
+    fn opaque_owner_is_clock_only_and_requires_every_represented_component() {
+        let mut vessel = Vessel::new(VesselId(0), "known serum plus opaque recipe");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("Na+"), Moles(0.02), Phase::Aqueous);
+        vessel.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "whole_milk".into(),
+            recipe_id: "household/whole-milk-surrogate".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 12.0,
+            enzyme_hydrolysis: None,
+            protein_denatured_fraction: 0.0,
+        });
+        let mut problem = open_problem();
+        let mut ions = readback(0.02 + 1e-10);
+        assert!(
+            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
+        );
+        problem.clock_co2_applied_mol = 1e-6;
+        assert!(opaque_clock_component_owner(&vessel, &problem, false));
+        let mut ions = readback(0.02 + 1e-10);
+        assert!(
+            project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
+        );
+        problem.clock_co2_applied_mol = 0.0;
+        assert!(opaque_clock_component_owner(&vessel, &problem, true));
+        assert!(!opaque_clock_component_owner(&vessel, &problem, false));
+
+        problem.clock_co2_applied_mol = 1e-6;
+        vessel.deposit(
+            SpeciesId::new("unmapped_reactive_ion"),
+            Moles(0.001),
+            Phase::Aqueous,
+        );
+        assert!(!opaque_clock_component_owner(&vessel, &problem, false));
+        vessel
+            .contents
+            .retain(|portion| portion.species.0 != "unmapped_reactive_ion");
+        // The current registered ionic gap is iodate: KIO3 has a real
+        // formula but no derived role on the routed native datasets.
+        assert!(species::lookup_key("KIO3").is_some());
+        assert!(derived::role("KIO3").is_none());
+        vessel.deposit(SpeciesId::new("KIO3"), Moles(0.001), Phase::Aqueous);
+        assert!(!opaque_clock_component_owner(&vessel, &problem, false));
+        let mut ions = readback(0.02 + 1e-10);
+        assert!(
+            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
+        );
+        vessel
+            .contents
+            .retain(|portion| portion.species.0 != "KIO3");
+        problem.external_gases[0].kind = ExternalGasKind::Dose;
+        let mut ions = readback(0.02 + 1e-10);
+        assert!(
+            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
+        );
+        problem.external_gases[0].kind = ExternalGasKind::Reservoir;
+        problem.surfaces.push(SurfaceSites {
+            label: "unsupported interface".into(),
+            model: SurfaceModel::HydrousFerricOxide,
+            mass: Grams(0.09),
+            specific_area_m2_per_g: 600.0,
+            strong_capacity: Moles(5e-6),
+            weak_capacity: Moles(2e-4),
+            occupancy: vec![],
+            water_release: Moles(0.0),
+        });
+        let mut ions = readback(0.02 + 1e-10);
+        assert!(
+            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
+        );
+        problem.surfaces.clear();
+        vessel.material_objects.push(MaterialObject {
+            material: "prepared spectator".into(),
+            recipe_id: "test/prepared".into(),
+            recipe_version: 1,
+            mass_g: 1.0,
+            components: vec![],
+            state: MaterialObjectState::default(),
+        });
+        let mut ions = readback(0.02 + 1e-10);
+        assert!(
+            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
+        );
+        vessel.material_objects.clear();
+        vessel.unresolved_materials[0].amount = f64::NAN;
+        assert!(!opaque_clock_component_owner(&vessel, &problem, false));
+    }
+
+    #[test]
+    fn clock_overdraw_cannot_be_admitted_by_opaque_owner() {
+        let mut vessel = Vessel::new(VesselId(0), "clock overdraw");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("Na+"), Moles(1e-4), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("HCO3-"), Moles(1e-4), Phase::Aqueous);
+        vessel.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "whole_milk".into(),
+            recipe_id: "household/whole-milk-surrogate".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 12.0,
+            enzyme_hydrolysis: None,
+            protein_denatured_fraction: 0.0,
+        });
+        vessel.pending_co2_transfer_mol = 2e-6;
+        let supported = partition(&vessel).expect("represented carbonate and water");
+        assert!(validate_clock_boundary(&vessel, Some(&supported)).is_ok());
+        assert!(opaque_clock_component_owner(&vessel, &supported, false));
+        vessel.pending_co2_transfer_mol = -1e-3;
+        let problem = partition(&vessel).expect("represented carbonate and water");
+        assert!(validate_clock_boundary(&vessel, Some(&problem)).is_err());
     }
 
     #[test]
