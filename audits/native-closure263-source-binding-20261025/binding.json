@@ -1,0 +1,22 @@
+{
+  "source": "b42b0843489745b0513c964e2022f75f2547170b",
+  "tree": "713d135c5b7e8414e10ee48569253fb5d7421f39",
+  "candidate_ref": "fix/aqueous-native-closure-candidate-20261025",
+  "worker_sha256": "e873a2d1a8ac10c1d70c664f7409f2c65286471b58462f4e30430e207ccebe5a",
+  "controller_sha256": "b4a56c1f156a537f88d5e74f1285ad895f24e02f81fcfe30d3fe4a5d11de96f7",
+  "plan_sha256": "63524bee8f741fe3104e576aa2f6d760f9fa0f30746783b6e5ce05d3d53dbd7a",
+  "metadata_sha256": "28371a083037a9ad668803b0f2c0ea8cabe6137df374adbdb9163f2d85a701a1",
+  "selected_forecast": 263,
+  "targets_forecast": 38,
+  "cache_only_cargo_args": {
+    "acid_permanganate_cache_only": [
+      "--no-default-features"
+    ],
+    "aqueous_continuation_cache_only": [
+      "--no-default-features"
+    ]
+  },
+  "all_other_cargo_args_empty": true,
+  "all_original_identities_retained": true,
+  "no_full_source_or_product_acceptance_claim": true
+}
