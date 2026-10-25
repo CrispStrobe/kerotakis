@@ -1,5 +1,7 @@
 # Fresh-agent handoff —2026-10-24
 
+**Current155 sourcee6690708 —2026-10-25:** [One exact-selection compiler successor is issued](../audits/clock155-compiler-followup-binding-20261025/README.md). Firste096155attempt stops at Clippy with all155/downstream NOT_REACHED. Preserve that stop and bcb121/123 raw failures. Observe this producer without duplication, then finish normaldelivery, more originalqualification andi18n before closing the user-authorized six-lane task.
+
 **Current155 execution —2026-10-25:** [One sourcee096e11e job is issued](../audits/clock-component155-source-binding-20261025/README.md), retaining123 plus32 controls. [Actual predecessor121/123 failures](../audits/canonical123-first-failures-20261025/FORECAST.md) and seven sweep violations are immutable. [Combined typed-clock/route replay](clock-and-route-closure-20261025.md) is statically reviewed, not yet natively accepted. Observe this producer without duplication; then finish the user-authorized delivery, further originalqualification andi18n lanes before closing the task. Earlier dated pending notes preserve history.
 
 **Current execution —2026-10-25:** [One123-control successor is issued](../audits/warm-canonical123-source-binding-20261025/README.md) on sourcebcb766b7; all112 predecessors retained. Observe this producer; do not issue another. [Physical closure implementation](warm-canonical-closure-20261025.md) has static review and remains pending native acceptance. Completed112110/2 retain5407 provenance. The six lanes in checkpoint-20261024 remain ordered; no original qualification has changed.
@@ -8,7 +10,7 @@ This current scope supersedes the dated checkpoints below. Read `docs/STATUS.md`
 
 | Front | Current fact |
 | --- | --- |
-| Source | Draft [PR859](https://github.com/CrispStrobe/kerotakis/pull/859), head `e096e11e4c36ea18149aa00e8c8ba3ef80046a0b`, tree `72adb8160c878a886d41d81797b951d503ab5047`. Candidate is pushed; integration is pending. |
+| Source | Draft [PR859](https://github.com/CrispStrobe/kerotakis/pull/859), head `e6690708c63983e7f696caafce38008b27660245`, tree `7b007727fa1047717e12397881ea2ee3fd6ff8ae`. Candidate is pushed; integration is pending. |
 | Historical107 focus | [Source102:104/107](../audits/aqueous-input-roundtrip-first-failures-20261024/FORECAST.md); three failures, strict compiler gates pass, full1536 has two violations, carbonate CLI emits SolverFailed. Endpoint carbon hits the conserved-component bound; zero-time scalar drift is5.4285e−9 against1e−10. |
 | First successor attempt | [Sourcec0b6 compiler stop](../audits/gas-component106-compiler-first-failure-20261024/README.md): formatting passed, Clippy E0593; all106 tests/wasm32/CLI/sweep NOT_REACHED. |
 | Completed successor | **110/112 PASS**, compiler/three CLI protocols pass, full1536 has zero invariant violations. One fixture admission error and one typed-zero physical reentry drift remain. See [current checkpoint](checkpoint-20261024.md). |

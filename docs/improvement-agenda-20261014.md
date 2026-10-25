@@ -1,5 +1,7 @@
 # Ordered improvement agenda — 2026-10-14
 
+**Current compiler successor —2026-10-25:** [Sourcee6690708 runs the identical155 selection](../audits/clock155-compiler-followup-binding-20261025/README.md) after the [e096 compiler stop](../audits/clock155-compiler-first-failure-20261025/FORECAST.md). Zero tests ran on e096; no chemical failure/pass is inferred. Current native/full delivery/originalqualification/i18n remain pending;338/468 unchanged.
+
 **Current2026-10-25:** [Sourcee096e11e combines typed clock carbon and original-input model replay](clock-and-route-closure-20261025.md). [One155-control successor is issued](../audits/clock-component155-source-binding-20261025/README.md), retaining all123 identities plus32 controls. Actual predecessor is121/123 with seven sweep violations, not acceptance. Current results/full delivery/further originals/i18n remain pending;338/468 unchanged.
 
 **2026-10-25 active successor:** [Sourcebcb766b7](warm-canonical-closure-20261025.md) implements bounded physical canonical reentry, fixture admission and atomic rollback. [One123-control hosted job is issued](../audits/warm-canonical123-source-binding-20261025/README.md), retaining all112 controls plus11; actual results pending. Clock, normaldelivery, furtheroriginals andi18n remain next;338/468 unchanged.
