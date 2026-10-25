@@ -1,0 +1,17 @@
+# Six curiosity failures: source repair and acceptance
+
+Both native platforms on PR head `0289f607` and tested merge `3bf37101` complete the workspace tests but fail the 500-prompt curiosity gate with the same six runtime failures and nine route drifts. The [original forecasts](FORECAST.md), [exact protocols](protocols.json), and [captured native outputs](captured/observations.json) remain immutable. No original experiment qualification is added.
+
+## Implementation being reviewed
+
+- **aq-064:** Apply the [joint reservoir endpoint contract](RESERVOIR-ENDPOINT-ADMISSION.md). Only a unique neutral outward reservoir with a real component/atom witness can receive the tiny missing aqueous residual. Preserve native gas readback, component and physical atom budgets; decline ambiguous, finite-dose, mineral and unwitnessed cases. Replay the unchanged protocol plus nearby doses, full H/O/C/charge ledgers and a zero-time repeat.
+- **aq-090 and mat-115:** Apply the [mineral reference contract](MINERAL-HEAT-ADMISSION.md). A new heat fallback requires the exact derived and routed mineral, balanced registry formula and native products, and explicit finite native reaction enthalpy. Real native master species or water can supply a zero reference; Alkalinity aliases cannot. Unbalanced hydration water declines. Keep existing curated/explicit references and the heat threshold. Replay the exact half and four-fifths chalk decants with receiver and whole-bench ledgers, adiabatic heat closure and zero-time stability. The historical heat-mode explanation remains a hypothesis until execution.
+- **bio-050, bio-072 and bio-074:** Admit only reviewed immutable glucose/fructose/cellulose formula units and the typed pepsin catalyst beside an already admitted opaque recipe. Compare species, phase and amount bits exactly before/after the native clock boundary. Unknown acids/ions still decline. The catalyst catalogue carbon placeholder is excluded from physical carbon claims while its dose is certified unchanged. Preserve recipe identity, amount and progress, represented H/O/elements/charge and actual signed gas. These controls do not claim pepsin molecular composition or cabbage fermentation.
+
+## Route-only changes
+
+For aq-061, bio-004 and mat-124, actual captured outcomes change from curated to computed because native equilibrium owns the bicarbonate/acetic-acid state. Update only those three observed route labels and reason codes; keep every original script, forecast and physical requirement. None of the six runtime failures is reclassified as a pass. A burst sealed vessel can return to ambient pressure after venting; that observation alone neither proves nor disproves reaction.
+
+## Required execution and delivery
+
+Formatting and source review precede one new exact-head hosted full CI and full own-fleet run. All existing tests, strict compiler checks, browser/real-Wasm checks, all 500 curiosity protocols and physical budgets remain required. New tests are unexecuted until their actual logs are reviewed. Preserve first failures from any successor. After full acceptance, use normal exact-head auto-merge for PR859, verify the actual merge and producer lock, deploy once and assess the retained 15 API and 86 browser controls. Scientific domain limits remain explicit holds. Then earn further unchanged original qualifications and complete runtime diagnostic EN/DE/FR delivery before closing the ordered task.
