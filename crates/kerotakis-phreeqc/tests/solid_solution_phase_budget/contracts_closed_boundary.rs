@@ -63,6 +63,7 @@ fn fixture(
         &[],
         &final_crystals,
         &value,
+        false,
     )?;
     Ok(ions)
 }

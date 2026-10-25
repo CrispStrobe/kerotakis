@@ -65,6 +65,7 @@ fn controlled_fixture(
         &[],
         &final_crystals,
         &value,
+        false,
     )?;
     Ok(ions)
 }

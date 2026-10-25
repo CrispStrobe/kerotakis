@@ -878,9 +878,9 @@ impl PhreeqcEquilibrator {
                 previous_state = trial.clone();
                 previous_pass = pass;
             }
-            Err(canonical_closure_error(format!(
+            return Err(canonical_closure_error(format!(
             "physical aqueous/gas answer did not close within {MAX_CANONICAL_AQUEOUS_PASSES} passes"
-        )))
+        )));
         }
     }
 

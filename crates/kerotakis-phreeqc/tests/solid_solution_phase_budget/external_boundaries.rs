@@ -49,6 +49,7 @@ fn boundary(
         &[],
         &crystals,
         &value,
+        false,
     )?;
     Ok(ions)
 }

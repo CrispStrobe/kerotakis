@@ -17,7 +17,7 @@ fn overdraw_fixture() -> (PhreeqcEquilibrator, Vessel) {
     vessel.free_proton = 1e-8;
     vessel.free_hydroxide = 1e-6;
     let setup = solver
-        .setup_problem(&vessel)
+        .setup_problem(&vessel, None)
         .expect("supported setup")
         .expect("aqueous problem");
     let mut values = BTreeMap::<String, f64>::new();

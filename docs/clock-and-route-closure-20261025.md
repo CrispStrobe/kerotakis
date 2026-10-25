@@ -1,5 +1,7 @@
 # Typed clock boundary and transactional native route closure —2026-10-25
 
+**Actual first155 attempt:** sourcee096 reaches strictClippy and stops on one missing return and seven stale private fixture calls. All155 tests and downstream gates areNOT_REACHED. [The preserved stop and compatibility-only contract](../audits/clock155-compiler-first-failure-20261025/FORECAST.md) bind the successor without changing physical assertions or parameters.
+
 Actual predecessorbcb766b7 passes121/123controls; formatting/strictClippy/wasm32 pass. The original CaCl2/AgNO3 CLI passes, but carbonate/phosphoric CLIs containSolverFailed and full1536 has seven temperature/phase violations. Actual first failures, captured diagnostics and prospective contracts are preserved in `audits/canonical123-first-failures-20261025/`; older110/112results retain5407provenance. No predecessor is reclassified as accepted.
 
 ## Candidate implementation, actual acceptance pending
