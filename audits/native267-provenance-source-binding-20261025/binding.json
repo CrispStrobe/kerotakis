@@ -1,0 +1,15 @@
+{
+  "source": "9abcacd5ed9b312c708fda3deb9d6e25aa24095d",
+  "tree": "e2c54a024803f460a1dd1689ed98cfea9325062b",
+  "worker_sha256": "8c0f2418e578f0845fbb8d9e278937b5f0710e359e4d4e054a5b4bcb283ca474",
+  "controller_sha256": "228b83a11c918de1fa0a437b489cbcef9294036e68a93dde9392db689b84dd2a",
+  "plan_sha256": "28e6d4b4ac2a360a5f419522b6c3660154c5158a24c01ad14501598e6c93be88",
+  "metadata_sha256": "fb36d657a46efe72dfa3b194ad453ae0b156e495a440f86ff21dcbd015087d29",
+  "parent_review_complete": true,
+  "selected_controls": 267,
+  "targets": 39,
+  "all_267_identities_retained": true,
+  "only_test_option_accesses_changed": true,
+  "strict_compiler_feature_panic_archive_cli_sweep_gates_retained": true,
+  "no_full_source_or_product_acceptance_claim": true
+}
