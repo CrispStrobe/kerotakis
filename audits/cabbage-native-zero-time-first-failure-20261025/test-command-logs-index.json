@@ -1,0 +1,14 @@
+{
+  "native_cabbage_thermal_dom-case-00.json": {
+    "sha256": "c2bfdc2c9615432c3d6666b1494e746ad35815b88522e5b7980dd286d7dd78d1",
+    "bytes": 478
+  },
+  "native_cabbage_thermal_dom-case-00.stderr": {
+    "sha256": "1efd63f1fd22f82ca695d3bd6fcd4206b1fd0bbacb9dc919c8863f40d9da877e",
+    "bytes": 302
+  },
+  "native_cabbage_thermal_dom-case-00.stdout": {
+    "sha256": "2dc72dc72bca060c955a5b3732d9079c0fef31b5e1e287f6ea2ecef8f772654f",
+    "bytes": 292
+  }
+}
