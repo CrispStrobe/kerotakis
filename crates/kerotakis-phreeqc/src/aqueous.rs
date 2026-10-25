@@ -1227,8 +1227,8 @@ impl PhreeqcEquilibrator {
         &mut self,
         trial: &mut Vessel,
     ) -> Result<(Vec<Event>, f64, bool, f64), SolveError> {
-        Self::solve_at_temperature_with(trial, |candidate, past, certified_reentry, hint| {
-            self.solve_once(candidate, past, certified_reentry, hint)
+        Self::solve_at_temperature_with(trial, |candidate, past, owner, hint| {
+            self.solve_once(candidate, past, owner, hint)
         })
     }
 
@@ -1240,7 +1240,12 @@ impl PhreeqcEquilibrator {
         mut solve: F,
     ) -> Result<(Vec<Event>, f64, bool, f64), SolveError>
     where
-        F: FnMut(&mut Vessel, &[Event], bool, FirstPoseHint) -> Result<AqueousPass, SolveError>,
+        F: FnMut(
+            &mut Vessel,
+            &[Event],
+            ComponentCertificate,
+            FirstPoseHint,
+        ) -> Result<AqueousPass, SolveError>,
     {
         let owner_start = vessel.clone();
         let caller_snapshot = owner_start.step_start.clone();
@@ -1262,7 +1267,12 @@ impl PhreeqcEquilibrator {
             let mut trial = owner_start.clone();
             trial.step_start = Some(heat_origin.clone());
             calls += 1;
-            let first = solve(&mut trial, &[], false, first_hint)?;
+            let first = solve(
+                &mut trial,
+                &[],
+                ComponentCertificate::Uncertified,
+                first_hint,
+            )?;
             if let Some(tag) = first_hint.primary_route {
                 let info = trial
                     .solution
@@ -1367,15 +1377,19 @@ impl PhreeqcEquilibrator {
             let mut all_events = first.events.clone();
             let mut own_gas_out = BTreeMap::<SpeciesId, f64>::new();
             signed_external_gas(&trial, &first.events, &mut own_gas_out)?;
-            crate::inventory::certify_gas_aware_inventory(
-                &owner_start,
-                &trial,
-                &net_gas_events(&trial, &own_gas_out),
-                &reservoir_refs,
-                clock,
-            )?;
-            if component_owner == ComponentCertificate::ClockWithOpaque {
-                crate::inventory::certify_opaque_clock_stock(&owner_start, &trial)?;
+            if component_owner == ComponentCertificate::Static {
+                crate::inventory::certify_static_inventory(&owner_start, &trial, &all_events)?;
+            } else {
+                crate::inventory::certify_gas_aware_inventory(
+                    &owner_start,
+                    &trial,
+                    &net_gas_events(&trial, &own_gas_out),
+                    &reservoir_refs,
+                    clock,
+                )?;
+                if component_owner == ComponentCertificate::ClockWithOpaque {
+                    crate::inventory::certify_opaque_clock_stock(&owner_start, &trial)?;
+                }
             }
             let mut previous_state = trial.clone();
             let mut previous_pass = first;
@@ -1389,7 +1403,12 @@ impl PhreeqcEquilibrator {
                 }
                 trial.step_start = Some(private_snapshot);
                 calls += 1;
-                let pass = solve(&mut trial, &all_events, true, FirstPoseHint::default())?;
+                let pass = solve(
+                    &mut trial,
+                    &all_events,
+                    component_owner,
+                    FirstPoseHint::default(),
+                )?;
                 if !pass.component_certificate.is_certified()
                     || pass.component_certificate != component_owner
                     || pass.clock_co2_applied_mol != 0.0
@@ -1485,15 +1504,19 @@ impl PhreeqcEquilibrator {
                     .map(String::as_str)
                     .collect::<Vec<_>>();
                 signed_external_gas(&trial, &pass.events, &mut own_gas_out)?;
-                crate::inventory::certify_gas_aware_inventory(
-                    &owner_start,
-                    &trial,
-                    &net_gas_events(&trial, &own_gas_out),
-                    &reservoir_refs,
-                    clock,
-                )?;
-                if component_owner == ComponentCertificate::ClockWithOpaque {
-                    crate::inventory::certify_opaque_clock_stock(&owner_start, &trial)?;
+                if component_owner == ComponentCertificate::Static {
+                    crate::inventory::certify_static_inventory(&owner_start, &trial, &pass.events)?;
+                } else {
+                    crate::inventory::certify_gas_aware_inventory(
+                        &owner_start,
+                        &trial,
+                        &net_gas_events(&trial, &own_gas_out),
+                        &reservoir_refs,
+                        clock,
+                    )?;
+                    if component_owner == ComponentCertificate::ClockWithOpaque {
+                        crate::inventory::certify_opaque_clock_stock(&owner_start, &trial)?;
+                    }
                 }
                 let closed = canonical_physical_delta_closed(
                     &previous_state,
@@ -4088,6 +4111,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             &new_exchanges,
             &new_solid_solutions,
             &value,
+            ComponentCertificate::Uncertified,
             false,
         );
         let (new_phases, new_gases, ph, mu, gas_components_certified) = match balance {
@@ -4232,6 +4256,9 @@ enum ComponentCertificate {
     Uncertified,
     Represented,
     ClockWithOpaque,
+    /// A closed gas-free represented aqueous subset with immutable optical
+    /// and/or opaque spectators. No new acid, gas or reporter chemistry.
+    Static,
 }
 
 impl ComponentCertificate {
@@ -4465,7 +4492,9 @@ fn canonical_physical_delta_closed(
             "aqueous ownership, dataset or heat mode changed during canonical reentry",
         ));
     }
-    if !before.unresolved_materials.is_empty() || !after.unresolved_materials.is_empty() {
+    if before_heat.component_certificate == ComponentCertificate::Static {
+        crate::inventory::certify_static_immutable_stock(before, after)?;
+    } else if !before.unresolved_materials.is_empty() || !after.unresolved_materials.is_empty() {
         crate::inventory::certify_opaque_clock_stock(before, after)?;
     }
     let before_info = before
@@ -4920,6 +4949,54 @@ mod canonical_physical_closure_tests {
         }
     }
 
+    #[test]
+    fn static_certificate_requires_current_native_numerical_coordinates() {
+        // Pure admission predicate, not a synthetic chemistry result.
+        let mut vessel = state();
+        assert!(complete_static_diagnostics(&vessel));
+        vessel.solution.as_mut().unwrap().particle_molality = None;
+        assert!(!complete_static_diagnostics(&vessel));
+        vessel.solution.as_mut().unwrap().particle_molality = Some(0.1);
+        vessel.solution.as_mut().unwrap().scope = SolutionScope::SolventOnly;
+        assert!(!complete_static_diagnostics(&vessel));
+        vessel.solution.as_mut().unwrap().scope = SolutionScope::Complete;
+        vessel.solution.as_mut().unwrap().species.clear();
+        assert!(!complete_static_diagnostics(&vessel));
+    }
+
+    #[test]
+    fn static_owner_spends_global_eight_pass_cap_and_rolls_back() {
+        // Controlled answer sequence exercises the same production bounded
+        // driver that native static answers enter. It is not a chemistry
+        // forecast: alternating diagnostics are intentionally nonphysical.
+        let mut vessel = state();
+        let original = serde_json::to_vec(&vessel).unwrap();
+        let mut calls = 0;
+        let failure = PhreeqcEquilibrator::solve_at_temperature_with(
+            &mut vessel,
+            |candidate, _, owner, _| {
+                calls += 1;
+                assert_eq!(
+                    owner,
+                    if calls == 1 {
+                        ComponentCertificate::Uncertified
+                    } else {
+                        ComponentCertificate::Static
+                    }
+                );
+                candidate.free_proton = if calls.is_multiple_of(2) { 0.0 } else { 1e-9 };
+                let mut pass = quote(0.0);
+                pass.component_certificate = ComponentCertificate::Static;
+                pass.reservoirs.clear();
+                Ok(pass)
+            },
+        )
+        .expect_err("alternating physical diagnostics cannot close a static answer");
+        assert!(matches!(failure, SolveError::NotConverged { .. }));
+        assert_eq!(calls, MAX_CANONICAL_AQUEOUS_PASSES);
+        assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
+    }
+
     #[cfg(feature = "engine")]
     #[test]
     fn original_bicarbonate_boundary_keeps_the_one_molal_route_selection() {
@@ -5227,14 +5304,16 @@ mod canonical_physical_closure_tests {
         let mut calls = 0;
         let error = PhreeqcEquilibrator::solve_at_temperature_with(
             &mut vessel,
-            |candidate, _past, _reentry, _route| {
+            |candidate, _past, owner, _route| {
                 calls += 1;
                 let mut pass = quote(0.0);
                 pass.component_certificate = ComponentCertificate::ClockWithOpaque;
                 if calls == 1 {
+                    assert_eq!(owner, ComponentCertificate::Uncertified);
                     candidate.deposit(SpeciesId::new("CO2(aq)"), Moles(2e-6), Phase::Aqueous);
                     pass.clock_co2_applied_mol = 2e-6;
                 } else {
+                    assert_eq!(owner, ComponentCertificate::ClockWithOpaque);
                     candidate.unresolved_materials[0].amount += 0.001;
                 }
                 Ok(pass)
@@ -5262,7 +5341,7 @@ mod canonical_physical_closure_tests {
                 let mut pass = quote(0.0);
                 match calls {
                     1 => {
-                        assert!(!certified_reentry);
+                        assert_eq!(certified_reentry, ComponentCertificate::Uncertified);
                         assert_eq!(hint, FirstPoseHint::default());
                         candidate
                             .contents
@@ -5277,7 +5356,7 @@ mod canonical_physical_closure_tests {
                         });
                     }
                     2 => {
-                        assert!(certified_reentry);
+                        assert!(certified_reentry.is_certified());
                         assert_eq!(hint, FirstPoseHint::default());
                         assert_eq!(candidate.pending_co2_transfer_mol, 0.0);
                         assert_eq!(prior.len(), 1);
@@ -5286,7 +5365,7 @@ mod canonical_physical_closure_tests {
                         // hypothetical state. This answer must be discarded.
                     }
                     3 => {
-                        assert!(!certified_reentry);
+                        assert_eq!(certified_reentry, ComponentCertificate::Uncertified);
                         assert_eq!(hint.primary_route, Some("wateq4f"));
                         assert_eq!(hint.secondary, SecondaryFirstHint::Auto);
                         assert!(prior.is_empty());
@@ -5300,7 +5379,7 @@ mod canonical_physical_closure_tests {
                         pass.clock_co2_applied_mol = 2e-6;
                     }
                     4 => {
-                        assert!(certified_reentry);
+                        assert!(certified_reentry.is_certified());
                         assert_eq!(hint, FirstPoseHint::default());
                         assert!(prior.is_empty());
                         assert_eq!(candidate.pending_co2_transfer_mol, 0.0);
@@ -5334,7 +5413,7 @@ mod canonical_physical_closure_tests {
             &mut vessel,
             |candidate, _, certified_reentry, hint| {
                 calls += 1;
-                let tag = if certified_reentry {
+                let tag = if certified_reentry.is_certified() {
                     if active_route == "pitzer" {
                         "wateq4f"
                     } else {
@@ -5343,7 +5422,7 @@ mod canonical_physical_closure_tests {
                 } else {
                     hint.primary_route.unwrap_or("pitzer")
                 };
-                if !certified_reentry {
+                if !certified_reentry.is_certified() {
                     active_route = tag;
                 }
                 candidate.solution.as_mut().unwrap().ionic_strength =
@@ -5823,7 +5902,7 @@ impl PhreeqcEquilibrator {
         &mut self,
         vessel: &mut Vessel,
         prior_physical_events: &[Event],
-        certified_reentry: bool,
+        owner: ComponentCertificate,
         hint: FirstPoseHint,
     ) -> Result<AqueousPass, SolveError> {
         if hint.primary_route.is_some() {
@@ -5853,6 +5932,10 @@ impl PhreeqcEquilibrator {
                 ),
             });
         };
+        // Only the ordinary native owner may opt this gas-free subset into
+        // canonical closure. MIX has its own admission and never inherits a
+        // certificate merely because it also called the readback helper.
+        let static_requested = static_component_owner(vessel, &problem, owner);
 
         // The state this step starts from.
         //
@@ -5914,7 +5997,8 @@ impl PhreeqcEquilibrator {
                 &new_exchanges,
                 &new_solid_solutions,
                 &value,
-                certified_reentry,
+                owner,
+                static_requested,
             )?;
 
         if gas_components_certified {
@@ -6066,13 +6150,17 @@ impl PhreeqcEquilibrator {
         };
         crate::inventory::complete_basis(&before_inventory, vessel, &events, &reservoirs, clock)?;
         if gas_components_certified {
-            crate::inventory::certify_gas_aware_inventory(
-                &before_inventory,
-                vessel,
-                &events,
-                &reservoirs,
-                clock,
-            )?;
+            if static_requested {
+                crate::inventory::certify_static_inventory(&before_inventory, vessel, &events)?;
+            } else {
+                crate::inventory::certify_gas_aware_inventory(
+                    &before_inventory,
+                    vessel,
+                    &events,
+                    &reservoirs,
+                    clock,
+                )?;
+            }
         }
         vessel.refresh_pressure();
         if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
@@ -6286,17 +6374,29 @@ impl PhreeqcEquilibrator {
             }
         }
 
+        let component_certificate = if !gas_components_certified {
+            ComponentCertificate::Uncertified
+        } else if static_requested {
+            if !static_component_owner(vessel, &problem, owner) {
+                return Err(canonical_closure_error(
+                    "static aqueous owner changed after native readback",
+                ));
+            }
+            if heat_mode == HeatMode::Priced && complete_static_diagnostics(vessel) {
+                ComponentCertificate::Static
+            } else {
+                ComponentCertificate::Uncertified
+            }
+        } else if vessel.unresolved_materials.is_empty() {
+            ComponentCertificate::Represented
+        } else {
+            ComponentCertificate::ClockWithOpaque
+        };
         Ok(AqueousPass {
             events,
             heat_quote_j: q_joules,
             heat_mode,
-            component_certificate: if !gas_components_certified {
-                ComponentCertificate::Uncertified
-            } else if vessel.unresolved_materials.is_empty() {
-                ComponentCertificate::Represented
-            } else {
-                ComponentCertificate::ClockWithOpaque
-            },
+            component_certificate,
             db_tag,
             reservoirs: reservoirs.into_iter().map(str::to_string).collect(),
             clock_co2_applied_mol: problem.clock_co2_applied_mol,
@@ -7466,7 +7566,8 @@ impl PhreeqcEquilibrator {
         new_exchanges: &[ExchangeSites],
         new_solid_solutions: &[SolidSolution],
         value: &dyn Fn(&str) -> Option<f64>,
-        certified_reentry: bool,
+        owner: ComponentCertificate,
+        static_requested: bool,
     ) -> Result<
         (
             Vec<(String, f64)>,
@@ -7716,7 +7817,8 @@ impl PhreeqcEquilibrator {
             new_ions,
             &mut new_phases,
             &new_gases,
-            certified_reentry,
+            owner,
+            static_requested,
         )?;
         let ph = value("pH").ok_or_else(|| missing("pH"))?;
         let mu = value("mu").ok_or_else(|| missing("mu"))?;
@@ -8498,17 +8600,95 @@ fn exhausted_reservoir_endpoint_correction(
     Some((0, element.clone(), corrected_amount))
 }
 
-/// A clock may pose a known aqueous subproblem beside conserved recipe matter
-/// whose formula is explicitly unknown. Its represented contents must all be
-/// owned by this adapter; only the separate unresolved portions may remain
-/// opaque, and they are certified unchanged after every native pass.
+/// A static calculation may pose a known aqueous subproblem beside conserved
+/// recipe matter whose formula is explicitly unknown. Its represented contents
+/// must all be owned by this adapter; only the separate unresolved portions
+/// may remain opaque, and they are certified unchanged after every native
+/// pass. This authority is gas-free and clock-free. The reviewed reporters
+/// remain byte-stable spectators; they gain no chemistry or buffering claim.
+fn static_component_owner(vessel: &Vessel, problem: &Problem, owner: ComponentCertificate) -> bool {
+    matches!(
+        owner,
+        ComponentCertificate::Uncertified | ComponentCertificate::Static
+    ) && problem.clock_co2_applied_mol == 0.0
+        && !problem.solvent_only
+        && vessel.pending_co2_transfer_mol == 0.0
+        && !vessel.owns_headspace_gas()
+        && !vessel
+            .contents
+            .iter()
+            .any(|portion| portion.phase == Phase::Gas)
+        && problem.gases.is_empty()
+        && problem.external_gases.is_empty()
+        && problem.surfaces.is_empty()
+        && problem.exchanges.is_empty()
+        && problem.solid_solutions.is_empty()
+        && vessel.surfaces.is_empty()
+        && vessel.exchanges.is_empty()
+        && vessel.solid_solutions.is_empty()
+        && vessel.material_objects.is_empty()
+        && vessel.adsorbed.is_empty()
+        && vessel.electrodes.is_empty()
+        && problem.kgw.is_finite()
+        && problem.kgw > 0.0
+        && !problem.totals.is_empty()
+        && problem
+            .totals
+            .iter()
+            .all(|(_, amount)| amount.is_finite() && *amount >= 0.0)
+        && problem.phases.iter().all(|(phase, amount, _)| {
+            amount.is_finite() && *amount >= 0.0 && (!phase.ends_with("(g)") || *amount == 0.0)
+        })
+        && crate::inventory::valid_opaque_clock_stock(vessel)
+        && crate::inventory::valid_static_immutable_spectators(vessel)
+        && !holds_unspeciated_acid(vessel)
+        && !holds_unspeciated_solute(vessel)
+}
+
+/// The first static answer must already be a complete *native* represented
+/// answer. A missing selected-output column cannot become a certificate just
+/// because a solver hook returned `Some(solution)`.
+fn complete_static_diagnostics(vessel: &Vessel) -> bool {
+    let Some(info) = vessel
+        .solution
+        .as_ref()
+        .filter(|info| info.scope == SolutionScope::Complete)
+    else {
+        return false;
+    };
+    info.provenance.as_ref().is_some_and(|route| {
+        !route.engine.is_empty() && !route.dataset.is_empty() && !route.model.is_empty()
+    }) && info.ph.is_finite()
+        && info.ionic_strength.is_finite()
+        && info.ionic_strength >= 0.0
+        && info
+            .solvent_kg
+            .is_some_and(|water| water.is_finite() && water > 0.0)
+        && info
+            .particle_molality
+            .is_some_and(|particles| particles.is_finite() && particles >= 0.0)
+        && info
+            .species
+            .iter()
+            .find(|species| species.name == "H2O")
+            .is_some_and(|water| water.activity.is_finite() && water.activity > 0.0)
+        && vessel.free_proton.is_finite()
+        && vessel.free_proton >= 0.0
+        && vessel.free_hydroxide.is_finite()
+        && vessel.free_hydroxide >= 0.0
+        && vessel.solute_charge.is_finite()
+        && vessel
+            .co2_partial_pressure_atm
+            .is_some_and(|pressure| pressure.is_finite() && pressure >= 0.0)
+}
+
 fn opaque_clock_component_owner(
     vessel: &Vessel,
     problem: &Problem,
-    certified_reentry: bool,
+    owner: ComponentCertificate,
 ) -> bool {
     !vessel.unresolved_materials.is_empty()
-        && (problem.clock_co2_applied_mol != 0.0 || certified_reentry)
+        && (problem.clock_co2_applied_mol != 0.0 || owner == ComponentCertificate::ClockWithOpaque)
         && crate::inventory::valid_opaque_clock_stock(vessel)
         && crate::inventory::valid_clock_immutable_spectators(vessel)
         && !holds_unspeciated_acid(vessel)
@@ -8547,20 +8727,35 @@ fn project_gas_aware_components(
     new_ions: &mut [(String, f64)],
     new_phases: &mut [(String, f64)],
     new_gases: &[(String, String, f64)],
-    certified_reentry: bool,
+    owner: ComponentCertificate,
+    static_requested: bool,
 ) -> Result<bool, SolveError> {
+    // A zero-amount native gas *candidate* does not own a gas boundary.
+    // A positive native gas readback does: the static class must decline it
+    // before any component normalization or certificate is attempted.
+    let static_candidate = static_requested
+        && static_component_owner(vessel, problem, owner)
+        && new_gases.is_empty()
+        && new_phases.iter().all(|(phase, amount)| {
+            !phase.ends_with("(g)") || (amount.is_finite() && *amount >= 0.0 && *amount <= TRACE)
+        });
     if problem.external_gases.is_empty()
         && problem.gases.is_empty()
         && problem.clock_co2_applied_mol == 0.0
-        && !certified_reentry
+        && !owner.is_certified()
+        && !static_candidate
     {
+        return Ok(false);
+    }
+    if owner == ComponentCertificate::Static && !static_candidate {
         return Ok(false);
     }
     if !problem.surfaces.is_empty()
         || !problem.exchanges.is_empty()
         || !problem.solid_solutions.is_empty()
         || (!vessel.unresolved_materials.is_empty()
-            && !opaque_clock_component_owner(vessel, problem, certified_reentry))
+            && !opaque_clock_component_owner(vessel, problem, owner)
+            && !static_candidate)
         || !vessel.material_objects.is_empty()
         || !vessel.adsorbed.is_empty()
         || !vessel.electrodes.is_empty()
@@ -8655,6 +8850,16 @@ fn project_gas_aware_components(
             ) {
                 return Ok(false);
             }
+        } else if static_candidate
+            && *initial == 0.0
+            && final_amount <= TRACE
+            && EQUILIBRIUM_GASES
+                .iter()
+                .any(|(candidate, _)| *candidate == phase.as_str())
+        {
+            // The selected output listed a reviewed gas candidate at zero
+            // on both sides. It transferred no matter and creates no owner.
+            continue;
         } else if let Some(mineral) = derived::phase_by_name(phase) {
             if final_amount < 0.0 {
                 return Err(component_projection_error(format!(
@@ -8830,8 +9035,147 @@ mod gas_component_projection_tests {
             new_ions,
             &mut phases,
             new_gases,
-            certified_reentry,
+            if certified_reentry {
+                ComponentCertificate::ClockWithOpaque
+            } else {
+                ComponentCertificate::Uncertified
+            },
+            false,
         )
+    }
+
+    fn static_problem() -> Problem {
+        Problem {
+            kgw: 0.10949,
+            solvent_only: false,
+            clock_co2_applied_mol: 0.0,
+            totals: vec![("C".into(), 0.03774), ("Na".into(), 0.07548)],
+            phases: vec![("CO2(g)".into(), 0.0, -3.408)],
+            gases: vec![],
+            external_gases: vec![],
+            surfaces: vec![],
+            exchanges: vec![],
+            solid_solutions: vec![],
+            elements: vec!["C".into(), "Na".into()],
+        }
+    }
+
+    fn static_vessel() -> Vessel {
+        let mut vessel = Vessel::new(VesselId(0), "static optical reporter mechanism");
+        vessel.deposit(SpeciesId::new("water"), Moles(6.0), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("Na+"), Moles(0.07548), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("CO3-2"), Moles(0.03774), Phase::Aqueous);
+        vessel.deposit(
+            SpeciesId::new("anthocyanin"),
+            Moles(6.690_753_378_830_455e-6),
+            Phase::Aqueous,
+        );
+        vessel.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "red_cabbage_juice".into(),
+            recipe_id: "household/red-cabbage-juice-surrogate".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 0.197,
+            enzyme_hydrolysis: None,
+            protein_denatured_fraction: 0.0,
+        });
+        vessel
+    }
+
+    #[test]
+    fn static_component_owner_needs_typed_gas_free_ladder_and_keeps_clock_distinct() {
+        // Pure eligibility/projection mechanism. No synthetic native output
+        // is presented as a chemistry measurement.
+        let vessel = static_vessel();
+        let problem = static_problem();
+        assert!(static_component_owner(
+            &vessel,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
+        assert!(static_component_owner(
+            &vessel,
+            &problem,
+            ComponentCertificate::Static
+        ));
+        assert!(!static_component_owner(
+            &vessel,
+            &problem,
+            ComponentCertificate::ClockWithOpaque
+        ));
+        let mut ions = problem.totals.clone();
+        let mut phases = vec![("CO2(g)".into(), 0.0)];
+        assert!(project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut ions,
+            &mut phases,
+            &[],
+            ComponentCertificate::Uncertified,
+            true,
+        )
+        .unwrap());
+        assert_eq!(phases[0].1, 0.0);
+
+        let mut positive_gas = vec![("CO2(g)".into(), 2.0 * TRACE)];
+        let mut unprojected = problem.totals.clone();
+        assert!(!project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut unprojected,
+            &mut positive_gas,
+            &[],
+            ComponentCertificate::Uncertified,
+            true,
+        )
+        .unwrap());
+        assert_eq!(unprojected, problem.totals);
+
+        let mut changed = vessel.clone();
+        changed
+            .contents
+            .iter_mut()
+            .find(|p| p.species.0 == "anthocyanin")
+            .unwrap()
+            .phase = Phase::Solid;
+        assert!(!static_component_owner(
+            &changed,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
+        changed = vessel.clone();
+        changed.deposit(SpeciesId::new("malic_acid"), Moles(0.001), Phase::Aqueous);
+        assert!(!static_component_owner(
+            &changed,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
+        changed = vessel.clone();
+        changed.deposit(SpeciesId::new("KIO3"), Moles(0.001), Phase::Aqueous);
+        assert!(!static_component_owner(
+            &changed,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
+        changed = vessel.clone();
+        changed.pending_co2_transfer_mol = 2e-6;
+        assert!(!static_component_owner(
+            &changed,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
+        let mut dose = problem.clone();
+        dose.external_gases.push(ExternalGas {
+            phase: "CO2(g)".into(),
+            species: "CO2".into(),
+            initial_moles: 0.001,
+            kind: ExternalGasKind::Dose,
+        });
+        assert!(!static_component_owner(
+            &vessel,
+            &dose,
+            ComponentCertificate::Uncertified
+        ));
     }
 
     #[test]
@@ -8885,7 +9229,11 @@ mod gas_component_projection_tests {
         let mut ions = readback(0.02 + 1e-10);
         assert!(!project(&vessel, &problem, &mut ions, &[], &[], false,).unwrap());
         problem.clock_co2_applied_mol = 1e-6;
-        assert!(opaque_clock_component_owner(&vessel, &problem, false));
+        assert!(opaque_clock_component_owner(
+            &vessel,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
         let mut ions = readback(0.02 + 1e-10);
         assert!(project(
             &vessel,
@@ -8897,8 +9245,16 @@ mod gas_component_projection_tests {
         )
         .unwrap());
         problem.clock_co2_applied_mol = 0.0;
-        assert!(opaque_clock_component_owner(&vessel, &problem, true));
-        assert!(!opaque_clock_component_owner(&vessel, &problem, false));
+        assert!(opaque_clock_component_owner(
+            &vessel,
+            &problem,
+            ComponentCertificate::ClockWithOpaque
+        ));
+        assert!(!opaque_clock_component_owner(
+            &vessel,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
 
         problem.clock_co2_applied_mol = 1e-6;
         vessel.deposit(
@@ -8906,7 +9262,11 @@ mod gas_component_projection_tests {
             Moles(0.001),
             Phase::Aqueous,
         );
-        assert!(!opaque_clock_component_owner(&vessel, &problem, false));
+        assert!(!opaque_clock_component_owner(
+            &vessel,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
         vessel
             .contents
             .retain(|portion| portion.species.0 != "unmapped_reactive_ion");
@@ -8915,7 +9275,11 @@ mod gas_component_projection_tests {
         assert!(species::lookup_key("KIO3").is_some());
         assert!(derived::role("KIO3").is_none());
         vessel.deposit(SpeciesId::new("KIO3"), Moles(0.001), Phase::Aqueous);
-        assert!(!opaque_clock_component_owner(&vessel, &problem, false));
+        assert!(!opaque_clock_component_owner(
+            &vessel,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
         let mut ions = readback(0.02 + 1e-10);
         assert!(!project(&vessel, &problem, &mut ions, &[], &[], false,).unwrap());
         vessel
@@ -8950,7 +9314,11 @@ mod gas_component_projection_tests {
         assert!(!project(&vessel, &problem, &mut ions, &[], &[], false,).unwrap());
         vessel.material_objects.clear();
         vessel.unresolved_materials[0].amount = f64::NAN;
-        assert!(!opaque_clock_component_owner(&vessel, &problem, false));
+        assert!(!opaque_clock_component_owner(
+            &vessel,
+            &problem,
+            ComponentCertificate::Uncertified
+        ));
     }
 
     #[test]
@@ -8971,7 +9339,11 @@ mod gas_component_projection_tests {
         vessel.pending_co2_transfer_mol = 2e-6;
         let supported = partition(&vessel).expect("represented carbonate and water");
         assert!(validate_clock_boundary(&vessel, Some(&supported)).is_ok());
-        assert!(opaque_clock_component_owner(&vessel, &supported, false));
+        assert!(opaque_clock_component_owner(
+            &vessel,
+            &supported,
+            ComponentCertificate::Uncertified
+        ));
         vessel.pending_co2_transfer_mol = -1e-3;
         let problem = partition(&vessel).expect("represented carbonate and water");
         assert!(validate_clock_boundary(&vessel, Some(&problem)).is_err());
@@ -9060,6 +9432,7 @@ mod gas_component_projection_tests {
             &mut ions,
             &mut phases,
             &[],
+            ComponentCertificate::Uncertified,
             false,
         )
         .unwrap());
@@ -9150,6 +9523,7 @@ mod gas_component_projection_tests {
             &mut ions,
             &mut phases,
             &[],
+            ComponentCertificate::Uncertified,
             false,
         )
         .unwrap());
@@ -9169,6 +9543,7 @@ mod gas_component_projection_tests {
             &mut ions,
             &mut phases,
             &[],
+            ComponentCertificate::Uncertified,
             false,
         )
         .is_err());
@@ -9252,6 +9627,7 @@ mod gas_component_projection_tests {
                     "mu" => Some(0.1),
                     _ => None,
                 },
+                ComponentCertificate::Uncertified,
                 false,
             );
             let error = result.expect_err("invalid raw gas must not be clamped");
