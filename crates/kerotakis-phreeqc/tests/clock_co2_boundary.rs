@@ -308,7 +308,7 @@ fn bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate() 
 #[test]
 fn positive_subfloor_clock_transfer_is_parked_then_accumulates_and_spends_once() {
     let (mut bench, mut stack) = add_water_and_maybe_base(true);
-    let mut clock = GasExchangeClock;
+    let clock = GasExchangeClock;
     {
         let vessel = &mut bench.vessels[0];
         assert!(vessel.co2_partial_pressure_atm.is_some());
@@ -384,7 +384,7 @@ fn positive_subfloor_clock_transfer_is_parked_then_accumulates_and_spends_once()
 #[test]
 fn already_earned_subfloor_parcel_survives_sealing_without_further_uptake() {
     let (mut bench, mut stack) = add_water_and_maybe_base(true);
-    let mut clock = GasExchangeClock;
+    let clock = GasExchangeClock;
     clock
         .advance(
             &mut bench.vessels[0],
@@ -573,7 +573,7 @@ fn cached_and_fresh_native_adapters_spend_the_same_clock_carrier_once() {
     // This direct adapter call is a new operation after setup; do not reuse
     // the Bench snapshot captured for the preceding NaOH addition.
     initial.step_start = Some(StepStart::capture(&initial));
-    let mut clock = GasExchangeClock;
+    let clock = GasExchangeClock;
     clock
         .advance(
             &mut initial,

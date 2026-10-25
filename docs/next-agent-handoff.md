@@ -1,5 +1,7 @@
 # Fresh-agent handoff —2026-10-22
 
+**Latest strict compiler successor —2026-10-25:** Source d01bb090 passes formatting but stops on three unused mutable clock-test bindings; all155 controls and downstream wasm/CLI/full1536 are NOT_REACHED. [First failure and pre-edit contract](../audits/clock155-test-mut-first-failure-20261025/FORECAST.md) are preserved. The successor removes only those three `mut` keywords, retaining every input, assertion, selection and compiler flag. Full delivery, additional original qualification and runtime i18n remain required;338/468 is unchanged.
+
 **StrictClippy follow-up —2026-10-25:** e669 fixes the prior type errors, then strictClippy stops on one needless borrow; all155/downstream checks areNOT_REACHED. [Preserved first log](../audits/clock155-clippy-first-failure-20261025/FORECAST.md) precedes the one-character source correction. Identical155 acceptance is pending; delivery/originals/i18n remain open.
 
 **155 compiler follow-up —2026-10-25:** [Firste096 attempt stops before tests](../audits/clock155-compiler-first-failure-20261025/FORECAST.md): formatting passes, strictClippy reports one loop-return and seven private-call compatibility errors. All155controls/CLI/sweep/wasm areNOT_REACHED. The compatibility-only correction preserves all assertions, models and budgets; its separately bound successor is pending. Full delivery, more originals andi18n remain required;338/468 unchanged.
