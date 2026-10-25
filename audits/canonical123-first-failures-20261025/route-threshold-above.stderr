@@ -1,0 +1,126 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9699999999999997e-2
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 5.000000000000e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000567466835e-1
+   pH           9.998414844290e+00
+   pe           4.000000000000e+00
+   mu           6.976206106925e-01
+   mass_H2O     1.000567466835e-01
+   C            3.016713321571e-01
+   Na           4.997164275006e-01
+   m_H+         2.021884439507e-10
+   m_OH-        1.532110572544e-04
+   m_CO2        1.229850137870e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      1.037548506660e-01
+   m_CO3-2      1.979041829898e-01
+   la_H2O       -4.900136345490e-03
+   CO2(g)       1.981574793668e-02
+   d_CO2(g)     1.981574793668e-02
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  -5.000000000000e-02
+   particle_molality 8.015409709172e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     1.0005672670142080e-1
+    pe        4  O2(g)  -0.68
+    C 3.016713924032e-1
+    Na 4.997165272976e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000813110032e-1
+   pH           9.921748614131e+00
+   pe           1.070755892679e+01
+   mu           4.421233326290e-01
+   mass_H2O     1.000813110032e-01
+   C            2.879099384468e-01
+   C(-4)        0.000000000000e+00
+   Na           4.995937752895e-01
+   m_H+         1.558108863981e-10
+   m_OH-        1.287029593343e-04
+   m_CO2        1.201843102417e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      6.993882223406e-02
+   m_CO3-2      8.024432748266e-02
+   la_H2O       -4.826855167384e-03
+   CO2(g)       1.369847972730e-03
+   d_CO2(g)     1.369847972730e-03
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.501593952372e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     1.0008131100320000e-1
+    C 2.879099384468e-1
+    Na 4.995937752895e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
