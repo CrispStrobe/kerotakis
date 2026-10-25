@@ -1,0 +1,15 @@
+{
+  "source": "ec7084c3e71b596629ae25d9595374344d59fafa",
+  "tree": "02bda182dc542664683c6cbc878f381a288f0b0b",
+  "worker_sha256": "950cdf9ffee47f3bcba0841e27b3c16ae84c555bfccec00e4d245ab2d0ab9412",
+  "controller_sha256": "dd7d59221694691503db4d3f805d087eb5b9e173f25dcf473bcf6863762b5a69",
+  "plan_sha256": "3a01dc13d0caeb902ed4e7eb24bc046c276c2e2ed3ef843eebbc9e7e7519b582",
+  "metadata_sha256": "d4e6e84c06808eb83961cb87b14bcd5c5fd0b0f3cd40657dd8dcd4226433175b",
+  "parent_review_complete": true,
+  "selected_controls": 267,
+  "targets": 39,
+  "all_263_prior_identities_retained": true,
+  "two_refusal_atomicity_and_two_lesson_controls_added": true,
+  "strict_feature_panic_pack_compiler_wasm_cli_sweep_reviewed": true,
+  "no_full_source_or_product_acceptance_claim": true
+}
