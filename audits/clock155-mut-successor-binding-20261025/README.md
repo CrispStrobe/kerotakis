@@ -1,0 +1,5 @@
+# Identical155 fixture compiler successor —2026-10-25
+
+[PR859](https://github.com/CrispStrobe/kerotakis/pull/859) source `6e44feab03a646b412c123b21b275e3b95942931`, tree `e4aa4c8dad734b370c77100ea47a1c201d3c4a50`, is pushed and frozen for one hosted CPU validation. The [prior strict-lint failure and pre-edit forecast](https://github.com/CrispStrobe/kerotakis/blob/4685f446/audits/clock155-test-mut-first-failure-20261025/FORECAST.md) remain immutable. Exactly three unnecessary `mut` keywords were removed from the new clock fixture; runtime, test inputs/assertions, physical budgets and flags are unchanged.
+
+The [binding](binding.json) and [exact selection](selection.json) retain all155 identities/16targets, the three CLI protocols and full1536-state sweep, formatting, strict affected all-target Clippy, wasm32 and the frozen generated lock. Actual results are pending; the predecessor ran zero tests and all155/downstream were NOT_REACHED. Do not infer a pass from a compiler repair. Full own-fleet/platform/protected/product acceptance, normal integration, further original qualification and structured runtime i18n remain pending. Qualified originals stay338/468.

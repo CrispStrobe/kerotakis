@@ -1,0 +1,19 @@
+{
+  "source": "6e44feab03a646b412c123b21b275e3b95942931",
+  "tree": "e4aa4c8dad734b370c77100ea47a1c201d3c4a50",
+  "worker_sha256": "900243f4b7f19a8673b73304922d47a76e4897b9e9176cde00f662318e75c593",
+  "controller_sha256": "5a871095fabc769b16378c72594a22bafcd990cd33b579ace41d0c0959778c54",
+  "plan_sha256": "a3afd46b19603da3d5cf6573fe2c0fd55a9ed8c04e5c674583888c6eded5df12",
+  "expected_controls": 155,
+  "expected_target_count": 16,
+  "prior155_identical_selection": true,
+  "same_three_cli_full1536_and_compiler_gates": true,
+  "no_source_overlays_or_new_dependency_lock": true,
+  "source_review_only": true,
+  "actual_results_pending": true,
+  "issue_utc": "2026-10-25T09:47:45.520298+00:00",
+  "independent_change_review_sha256": "b11533dd02aa552d4826c6dd38947d6c16a8562d505a188289a48234ecd4b0ab",
+  "prior_result": "d01: formatPASS; strictClippyFAIL unused_mut; all155/downstreamNOT_REACHED",
+  "qualified_originals": 338,
+  "target_originals": 468
+}
