@@ -1,0 +1,5 @@
+# Native267 optional-provenance compiler failure —2026-10-25
+
+The [ec708267-control producer](../native-closure267-source-binding-20261025/README.md) stops in strict affected Clippy with five E0609 errors in the new lesson test. Its provenance field is `Option<Provenance>`, but the fixture reads dataset/model as if mandatory. Formatting passes; all267 native controls, wasm32, three CLI protocols and full1536 are NOT_REACHED. Source-before and41bb lock are authenticated; source-after is absent. [Raw bindings](binding.json) preserve this first failure and its independent saved review.
+
+Before code, scope a test-only successor: explicitly require `Some` provenance through `as_ref().expect(...)` before comparing dataset/model or checking the MINTEQ route. Missing provenance must fail the control; do not turn it into an empty string or skip the assertion. Keep every267 identity, all physical/model/heat assertions, feature configuration, strict compiler and downstream gates unchanged. No production code or old lesson golden is changed. The native and product acceptance remains pending on the separately bound successor.

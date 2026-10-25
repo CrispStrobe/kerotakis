@@ -96,8 +96,10 @@ fn zero_repeat(bench: &mut Bench, solver: &mut SolverStack, label: &str) {
     assert_eq!(b.scope, vessel::SolutionScope::Complete);
     assert!((a.ph - b.ph).abs() <= 1e-6);
     assert!((a.ionic_strength - b.ionic_strength).abs() <= 1e-10);
-    assert_eq!(a.provenance.dataset, b.provenance.dataset);
-    assert_eq!(a.provenance.model, b.provenance.model);
+    let before_route = a.provenance.as_ref().expect("initial native provenance");
+    let after_route = b.provenance.as_ref().expect("repeated native provenance");
+    assert_eq!(before_route.dataset, after_route.dataset);
+    assert_eq!(before_route.model, after_route.model);
 }
 
 fn ideal_gas(vessel: &Vessel) {
@@ -185,6 +187,8 @@ fn balloon_heat(mut before: Vessel, after: &Vessel, new_soda: bool) {
         .as_ref()
         .unwrap()
         .provenance
+        .as_ref()
+        .expect("original balloon native provenance")
         .dataset
         .starts_with("minteq.v4"));
     // Both sides use the boundary in force during this equilibrium step.
