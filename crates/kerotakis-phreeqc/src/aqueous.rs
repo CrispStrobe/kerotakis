@@ -456,13 +456,17 @@ pub struct CacheEntry {
     /// Set when the electron balance was struck but did not *pin* pe — the
     /// equivalence point of a titration, where the potential is undefined.
     ///
-    /// Stored the negative way round on purpose. `#[serde(default)]` gives
-    /// `false` for an entry written before this field existed, and `false`
-    /// has to mean "nothing unusual": the other polarity would have every
-    /// pre-warmed result in the shipped demo quietly stop reporting a
-    /// potential.
+    /// Stored the negative way round for legacy wire compatibility:
+    /// `#[serde(default)]` gives `false` for an entry written before this
+    /// field existed. That default is not electron authority. A produced
+    /// witness or the actual current open-oxygen pose must qualify pe.
     #[serde(default)]
     pub pe_undetermined: bool,
+    /// Optional source-produced proof of the electron boundary that owned
+    /// this cached result. Old cache JSON has no witness and cannot acquire
+    /// one merely because `pe_undetermined` defaulted to false.
+    #[serde(default, skip_serializing_if = "PeAuthority::is_unwitnessed")]
+    pub pe_authority: PeAuthority,
 }
 
 /// How supersaturated a phase must be before we admit we are ignoring it,
@@ -581,6 +585,222 @@ struct PeSearch {
     mid: f64,
 }
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PeAuthority {
+    /// A native pe column or a legacy cache's default boolean is not an
+    /// electron boundary. Imported entries start here until the actual pose
+    /// or a new coupled solve witnesses one.
+    #[default]
+    Unwitnessed,
+    /// The reviewed fast-redox electron budget paid its residual and found
+    /// a bracketed root, rather than merely returning a trial distribution.
+    CoupledRoot,
+    /// The electron budget settled at equivalence without a finite root.
+    CoupledUnpinned,
+    /// The actual canonical input imposed the open atmospheric O2 poise.
+    OpenOxygen,
+}
+
+impl PeAuthority {
+    fn is_unwitnessed(&self) -> bool {
+        *self == Self::Unwitnessed
+    }
+
+    fn publishes_pe(self) -> bool {
+        matches!(self, Self::CoupledRoot | Self::OpenOxygen)
+    }
+}
+
+/// An atmospheric headspace label alone does not pose an electron boundary:
+/// check the exact branch that wrote the native input as well. Finite sealed
+/// O2 carried in GAS_PHASE_RAW is material stock, not this imposed poise.
+fn open_oxygen_pe_authority(vessel: &Vessel, db_tag: &str, input: &str) -> PeAuthority {
+    if vessel.uses_atmospheric_reservoir()
+        && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
+        && input.lines().any(|candidate| {
+            candidate.split_whitespace().collect::<Vec<_>>()
+                == ["pe", "4", ATMOSPHERIC_OXYGEN, ATMOSPHERIC_LOG_PO2]
+        })
+    {
+        PeAuthority::OpenOxygen
+    } else {
+        PeAuthority::Unwitnessed
+    }
+}
+
+fn current_pe_authority(
+    recorded: PeAuthority,
+    coupled_now: bool,
+    coupling_failed: bool,
+    vessel: &Vessel,
+    db_tag: &str,
+    input: &str,
+) -> PeAuthority {
+    match recorded {
+        PeAuthority::CoupledRoot | PeAuthority::CoupledUnpinned
+            if coupled_now && !coupling_failed =>
+        {
+            recorded
+        }
+        PeAuthority::OpenOxygen | PeAuthority::Unwitnessed if !coupled_now && !coupling_failed => {
+            open_oxygen_pe_authority(vessel, db_tag, input)
+        }
+        _ => PeAuthority::Unwitnessed,
+    }
+}
+
+#[cfg(test)]
+mod pe_authority_tests {
+    use super::*;
+    use kerotakis_core::{Liters, VesselId};
+
+    fn ammonia_state(sealed: bool) -> Vessel {
+        let mut vessel = Vessel::new(VesselId(0), "one reduced-nitrogen state");
+        vessel.deposit(
+            SpeciesId::new("water"),
+            Moles(3.873_993_893_977_241_6),
+            Phase::Liquid,
+        );
+        vessel.deposit(SpeciesId::new("NH4+"), Moles(0.00008), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("Cl-"), Moles(0.00008), Phase::Aqueous);
+        if sealed {
+            vessel.headspace = Headspace::Sealed {
+                volume: Liters(0.035),
+            };
+            vessel.deposit(SpeciesId::new("N2"), Moles(0.00113), Phase::Gas);
+            vessel.deposit(SpeciesId::new("O2"), Moles(0.0003), Phase::Gas);
+        }
+        vessel
+    }
+
+    #[test]
+    fn only_the_actual_open_oxygen_input_or_paid_coupled_root_witnesses_pe() {
+        let open = ammonia_state(false);
+        let sealed = ammonia_state(true);
+        let open_problem = partition(&open).expect("represented aqueous ammonia");
+        let sealed_problem = partition(&sealed).expect("represented finite ammonia gas");
+        assert!(redox_coupling(&open_problem, "wateq4f").is_none());
+        assert!(redox_coupling(&sealed_problem, "wateq4f").is_none());
+        let open_input = build_input(&open, &open_problem, "wateq4f");
+        let sealed_input = build_input(&sealed, &sealed_problem, "wateq4f");
+        assert_eq!(
+            current_pe_authority(
+                PeAuthority::Unwitnessed,
+                false,
+                false,
+                &open,
+                "wateq4f",
+                &open_input
+            ),
+            PeAuthority::OpenOxygen
+        );
+        assert_eq!(
+            current_pe_authority(
+                PeAuthority::Unwitnessed,
+                false,
+                false,
+                &sealed,
+                "wateq4f",
+                &sealed_input
+            ),
+            PeAuthority::Unwitnessed,
+            "finite inert O2 gas cannot stand in for the open pe input"
+        );
+        assert_eq!(
+            current_pe_authority(
+                PeAuthority::OpenOxygen,
+                false,
+                false,
+                &sealed,
+                "wateq4f",
+                &sealed_input
+            ),
+            PeAuthority::Unwitnessed,
+            "a cached open marker cannot change the current sealed pose"
+        );
+        assert_eq!(
+            current_pe_authority(
+                PeAuthority::Unwitnessed,
+                false,
+                false,
+                &open,
+                "pitzer",
+                &open_input
+            ),
+            PeAuthority::Unwitnessed,
+            "a dataset without atmospheric O2 cannot borrow another route's input"
+        );
+        assert_eq!(
+            current_pe_authority(
+                PeAuthority::CoupledRoot,
+                true,
+                false,
+                &sealed,
+                "wateq4f",
+                &sealed_input
+            ),
+            PeAuthority::CoupledRoot
+        );
+        assert_eq!(
+            current_pe_authority(
+                PeAuthority::CoupledUnpinned,
+                true,
+                false,
+                &sealed,
+                "wateq4f",
+                &sealed_input
+            ),
+            PeAuthority::CoupledUnpinned
+        );
+        assert!(!PeAuthority::CoupledUnpinned.publishes_pe());
+        assert_eq!(
+            current_pe_authority(
+                PeAuthority::CoupledRoot,
+                true,
+                true,
+                &sealed,
+                "wateq4f",
+                &sealed_input
+            ),
+            PeAuthority::Unwitnessed,
+            "a failed electron root cannot become authoritative on fallback"
+        );
+        assert_eq!(
+            current_pe_authority(
+                PeAuthority::CoupledRoot,
+                false,
+                false,
+                &sealed,
+                "wateq4f",
+                &sealed_input
+            ),
+            PeAuthority::Unwitnessed,
+            "a cached root from a different current problem is not a witness"
+        );
+    }
+
+    #[test]
+    fn legacy_default_false_is_not_a_witness_but_new_cache_metadata_round_trips() {
+        let old = serde_json::json!({
+            "key": "old canonical input", "rows": [], "species": [],
+            "pe_undetermined": false
+        });
+        let old: CacheEntry = serde_json::from_value(old).expect("old cache wire shape");
+        assert_eq!(old.pe_authority, PeAuthority::Unwitnessed);
+        let old_json = serde_json::to_value(&old).unwrap();
+        assert!(old_json.get("pe_authority").is_none());
+
+        let mut current = old;
+        current.pe_authority = PeAuthority::CoupledRoot;
+        let encoded = serde_json::to_value(&current).unwrap();
+        assert_eq!(encoded["pe_authority"], "coupled_root");
+        let decoded: CacheEntry = serde_json::from_value(encoded).unwrap();
+        assert_eq!(decoded.pe_authority, PeAuthority::CoupledRoot);
+        assert!(!decoded.pe_undetermined);
+    }
+}
+
 #[derive(Clone)]
 struct CachedSolve {
     rows: Vec<Vec<String>>,
@@ -588,6 +808,7 @@ struct CachedSolve {
     saturation: Vec<(String, f64)>,
     redox_adjusted: bool,
     pe_determined: bool,
+    pe_authority: PeAuthority,
 }
 
 /// An outside aqueous solver: database tag and canonical input in, the
@@ -1365,6 +1586,7 @@ impl PhreeqcEquilibrator {
                     saturation: c.saturation.clone(),
                     redox_adjusted: c.redox_adjusted,
                     pe_undetermined: !c.pe_determined,
+                    pe_authority: c.pe_authority,
                 })
                 .collect(),
             neutralisation_kj_per_mol,
@@ -1375,6 +1597,16 @@ impl PhreeqcEquilibrator {
     pub fn import_cache(&mut self, data: CacheData) -> usize {
         let before = self.cache.len();
         for mut e in data.entries {
+            // A serialized witness must agree with the old endpoint bit.
+            // An absent witness is valid old JSON, but never proves pe.
+            if (matches!(
+                e.pe_authority,
+                PeAuthority::CoupledRoot | PeAuthority::OpenOxygen
+            ) && e.pe_undetermined)
+                || (e.pe_authority == PeAuthority::CoupledUnpinned && !e.pe_undetermined)
+            {
+                continue;
+            }
             // New canonical inputs demand numerical water activity on import
             // too. Legacy keys remain distinct and cannot answer these inputs.
             let numerical = e.key.lines().any(|line| line.trim() == "-activities H2O")
@@ -1401,6 +1633,7 @@ impl PhreeqcEquilibrator {
                     saturation: e.saturation,
                     redox_adjusted: e.redox_adjusted,
                     pe_determined: !e.pe_undetermined,
+                    pe_authority: e.pe_authority,
                 })
             });
         }
@@ -3415,6 +3648,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         };
         let cached = Rc::new(CachedSolve {
             pe_determined: !out.pe_undetermined,
+            pe_authority: PeAuthority::Unwitnessed,
             rows: out.selected,
             speciation,
             saturation: parse_saturation_indices(&out.report),
@@ -5251,6 +5485,19 @@ impl PhreeqcEquilibrator {
         let solvent_activity =
             self.solvent_activity_second_opinion(vessel, &problem, db_tag, &value);
 
+        // An imported legacy raw answer can be reused for chemistry, but
+        // its default `pe_undetermined=false` is not an electron witness.
+        // The exact current input can still prove an open oxygen poise.
+        // Coupled imports were recomputed by dispatch_solve above.
+        let pe_authority = current_pe_authority(
+            cached.pe_authority,
+            redox_coupling(&problem, db_tag).is_some(),
+            coupling_failed.is_some(),
+            vessel,
+            db_tag,
+            &input,
+        );
+
         Self::finalize_solution_info(
             vessel,
             &problem,
@@ -5261,6 +5508,7 @@ impl PhreeqcEquilibrator {
             &cached.saturation,
             coupling_failed,
             cached.pe_determined,
+            pe_authority,
             redox_constrained,
             &value,
             &unnameable,
@@ -6051,7 +6299,18 @@ impl PhreeqcEquilibrator {
         // deterministic canonicalisation of (species set, amounts, T) — same
         // state, same answer, no engine call.
         let mut coupling_failed: Option<String> = None;
-        let cached = if let Some(hit) = self.cache.get(&key) {
+        let coupling = redox_coupling(problem, db_tag);
+        let coupled_problem = coupling.is_some();
+        // A legacy imported cache has no proof that its pe came from a
+        // bracketed electron root. Recompute that one result rather than
+        // treating the old default `pe_undetermined=false` as a witness.
+        let cached = if let Some(hit) = self.cache.get(&key).filter(|hit| {
+            !coupled_problem
+                || matches!(
+                    hit.pe_authority,
+                    PeAuthority::CoupledRoot | PeAuthority::CoupledUnpinned
+                )
+        }) {
             self.cache_hits += 1;
             Rc::clone(hit)
         } else {
@@ -6067,9 +6326,16 @@ impl PhreeqcEquilibrator {
             if env_dump_input_all() {
                 eprintln!("--- PHREEQC input ---\n{input}---");
             }
-            let out = match redox_coupling(problem, db_tag) {
+            let (out, pe_authority) = match coupling {
                 Some(coupling) => match self.solve_coupled(vessel, problem, db_tag, &coupling) {
-                    Ok(out) => out,
+                    Ok(out) => {
+                        let authority = if out.pe_undetermined {
+                            PeAuthority::CoupledUnpinned
+                        } else {
+                            PeAuthority::CoupledRoot
+                        };
+                        (out, authority)
+                    }
                     // A coupled solve can fail where an uncoupled one
                     // succeeds, and the reason is chemistry rather than
                     // arithmetic: iron(II) oxidised near neutral pH wants
@@ -6080,11 +6346,11 @@ impl PhreeqcEquilibrator {
                     // failure is said out loud rather than swallowed.
                     Err(e) => {
                         coupling_failed = Some(e.to_string());
-                        self.run_raw(db_tag, input)?
+                        (self.run_raw(db_tag, input)?, PeAuthority::Unwitnessed)
                     }
                 },
                 None => match self.run_raw(db_tag, input) {
-                    Ok(out) => out,
+                    Ok(out) => (out, open_oxygen_pe_authority(vessel, db_tag, input)),
                     // A refusal may be about how the question was posed
                     // rather than about the chemistry. Ask it the other way
                     // round — most of the salt as solid, dissolving to
@@ -6097,7 +6363,11 @@ impl PhreeqcEquilibrator {
                     Err(e) => match condense_supersaturated(problem) {
                         Some(recast) => {
                             let recast_input = build_input(vessel, &recast, db_tag);
-                            self.run_raw(db_tag, &recast_input).map_err(|_| e)?
+                            let authority = open_oxygen_pe_authority(vessel, db_tag, &recast_input);
+                            (
+                                self.run_raw(db_tag, &recast_input).map_err(|_| e)?,
+                                authority,
+                            )
                         }
                         None => return Err(e),
                     },
@@ -6106,6 +6376,7 @@ impl PhreeqcEquilibrator {
             let speciation = numerical_species_distribution(&out.report, &out.selected)?;
             let cached = Rc::new(CachedSolve {
                 pe_determined: !out.pe_undetermined,
+                pe_authority,
                 rows: out.selected,
                 speciation,
                 saturation: parse_saturation_indices(&out.report),
@@ -6114,7 +6385,12 @@ impl PhreeqcEquilibrator {
             if self.cache.len() >= 10_000 {
                 self.cache.clear(); // simple bound; refine when profiling says so
             }
-            self.cache.insert(key, Rc::clone(&cached));
+            // A failed coupled root has a real warning on this route. Do
+            // not cache its raw fallback without that warning and let a
+            // later hit silently turn the fallback into a coupled success.
+            if coupling_failed.is_none() {
+                self.cache.insert(key, Rc::clone(&cached));
+            }
             cached
         };
         Ok((cached, coupling_failed))
@@ -7076,6 +7352,7 @@ impl PhreeqcEquilibrator {
         saturation: &[(String, f64)],
         coupling_failed: Option<String>,
         pe_determined: bool,
+        pe_authority: PeAuthority,
         redox_constrained: bool,
         value: &dyn Fn(&str) -> Option<f64>,
         unnameable: &[(String, f64)],
@@ -7162,14 +7439,15 @@ impl PhreeqcEquilibrator {
         // to six and the gauge to a part in a million, and moves pe from
         // 12.780243 to -0.055944 — about 760 mV of nothing.
         //
-        // `redox` is the observable that says a couple is actually there:
-        // how each element is split between its states, empty when no
-        // element presents a split. Requiring it is the difference between
-        // "this dataset knows carbon can be reduced" and "this beaker has
-        // an oxidising power". The control says the same: FeCl3 in water
-        // reports one redox row and a pe that agrees to four significant
-        // figures across the same reordering (18.65875 / 18.65716).
-        let pe_constrained = redox_constrained && pe_determined && !redox.is_empty();
+        // A redox row alone is only a reported valence inventory: the
+        // sealed ammonia case has one N(-3) row while native pe wanders
+        // between otherwise identical physical states. The input/solve
+        // branch must also witness an electron potential. FeCl3 in an open
+        // vessel retains its actually posed atmospheric O2 boundary; a
+        // paid, bracketed Fe/Mn electron balance has its own authority.
+        // An imported cache's old default boolean cannot create either.
+        let pe_constrained =
+            redox_constrained && pe_determined && pe_authority.publishes_pe() && !redox.is_empty();
         // The whole routing line, composed before the record is built.
         //
         // Three clauses, each of them optional, each of them a sentence in
@@ -9900,6 +10178,7 @@ mod numerical_water_activity_tests {
             saturation: vec![],
             redox_adjusted: false,
             pe_undetermined: false,
+            pe_authority: super::PeAuthority::Unwitnessed,
         }
     }
 
