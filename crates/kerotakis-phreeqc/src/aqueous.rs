@@ -21,7 +21,6 @@ use kerotakis_core::{
     SolutionInfo, SolutionScope, SolveError, SpeciesDetail, SpeciesId, SurfaceOccupancy,
     SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
 };
-use serde::{Deserialize as _, Serialize as _};
 
 #[cfg(feature = "engine")]
 const RESET_NUMBERED_REACTANTS: &str = "DELETE\n    -all\nEND\n";
