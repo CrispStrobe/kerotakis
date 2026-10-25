@@ -1,0 +1,21 @@
+# Typed clock CO2 boundary — prospective source-first contract2026-10-25
+
+Prerequisite sourcebcb766b7e606c6f67c27be8c4977a23ce3beff08/treefd34dc3bd93a331bce245d193d7e29b6e97b2b9d is under one123-control hosted validation. This isolated successor does not mutate that active head or assume its outcome. Fold it only after reviewing the prerequisite results and any required repairs.
+
+Preserved actual precursor on sourcea0177: open water100mL/NaOH0.001mol/wait3600s absorbs1.0555342178e-6molCO2, but loses2.1110684351e-6molO and gains4.2221368710e-6eqcharge despite exit0/noSolverFailed. Copied original protocol/output/arithmetic retain their provenance. No bcb-source positive-wait execution is asserted. Source review shows its clock boundary still reaches native analyticalC but not inner H/O/charge/heat certificates, and pending is cleared only after diagnostics-only canonical posing on excluded paths.
+
+## Prospective carrier and ownership
+
+Carry exact actual clock CO2 applied in Problem, computed at the point partition adds C to its analytical target. Never add that carbon twice or cache the mutable boundary owner with native rows. Pass a typed virtual CO2 boundary through complete_basis, strict whole-owner material/charge certification and signed heat gas_out, independently of native reservoir events. A first NaOH inlet must not require an existing CO2 native gas phase or fabricate finite gas inventory.
+
+On the first private native pass, commit the parcel into physical contents and clear the spent pending before canonical physical reentry; later inner passes must carry zero new clock application. Thermal guesses still clone the original pending source, so each hypothetical trial applies once and only the accepted trial emits one public clock event at its actual signed amount. Native gas events remain separately owned and netted once. Whole-owner certification and heat include both boundary kinds once. Retained headspace gas stays internal.
+
+Keep the original rate, strict1e-6mol spending floor, native settings, input precision, cap8/thermal64/phase32 and1e-10mol/eq,1e-6K,0.001J budgets. Subfloor finite pending is a parked obligation, not physical contents or a reason to exclude otherwise valid component proof. An earned subfloor parcel may persist across sealing; no new earning under sealed/swept conditions is introduced. Refuse nonfinite, ambiguous unsupported or negative-overdraw spending atomically rather than silently clamping a target while reporting the larger parcel. Retain original pending on all errors.
+
+MIX must decline nonzero pending on either source or target so ordinary typed ownership handles it. Native caches hold numerical answers only; a hit still applies this request's current clock owner. If first committed clockC creates the ordinary zero-inventory CO2 candidate on reentry, admit only that precisely reviewed owner emergence, without allowing unrelated route/model/phase changes. Interfaces/ambiguous valence/unresolved ownership remain explicit limits. Do not claim complete unpriced thermochemistry or empirical gas-rate/mass calibration.
+
+## Required controls
+
+Retain all123 prior identities, original3CLI/full1536/compiler gates. Add pure typed-carrier/sign/first-no-native-phase/subfloor/nonfinite/negative-overdraw/MIX ownership controls and actual native positive-wait ledger/current-answer checks. Exercise bare-water and mildNaOH first uptake, cache/fresh, short-wait accumulation across the unchanged floor, earned parcel across sealing, valid negative/overdraw, primary/phase-wrapper thermal retries, no double spend and rollback. Every committed physical atom includingH/O andformalcharge must match inputs plus actual native andclock gas within1e-10. The original old-source failing protocol must pass its unchanged successor ledger. Scientific passes cannot be inferred from process success or a gas event.
+
+Freeze additional precise test names/selections before the successor's hosted issue; preserve all raw first failures and NOT_REACHED branches. New code remains unaccepted until source-bound hosted execution, independent saved review and applicable full/platform/product delivery. Further originals and i18n stay later ordered lanes.
