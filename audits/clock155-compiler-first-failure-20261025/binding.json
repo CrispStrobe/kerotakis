@@ -1,0 +1,21 @@
+{
+  "source": "e096e11e4c36ea18149aa00e8c8ba3ef80046a0b",
+  "tree": "72adb8160c878a886d41d81797b951d503ab5047",
+  "manifest_sha256": "d9392907b156559fac9b62c231ef0a5ab18ed73dc87ad022778d8fadd9be5cea",
+  "format_exit": 0,
+  "affected_clippy_exit": 101,
+  "expected_controls": 155,
+  "actual_test_passes": 0,
+  "not_reached": 155,
+  "wasm32_cli_and_full1536": "NOT_REACHED",
+  "source_before_pins_verified": true,
+  "source_after": "NOT_REACHED",
+  "closed_members": 53,
+  "non_gzip_bodies_hashed": 52,
+  "executable_archives": 0,
+  "independent_review_sha256": "a4ae62e2641f42fc90babc41632447fb149e1c665eba0c40ce3dd52173c42c94",
+  "independent_correction_sha256": "46478c9026cda4ce0f448f55b229059b2d4f5757835119fb54df11b9588e4650",
+  "original_stderr_sha256": "2074a0ce94930ca6d1a823e3e5355484e80c590333bf7cfab727e6a2a166ee34",
+  "public_stderr_sha256": "ae6972ed5360513aa037d1f306678cc4c4a2d244f8f593e432eb6c0c0b828524",
+  "projection": "Only ephemeral checkout prefix replaced with repository-relative paths; diagnostics and quantities unchanged. Original bytes preserved separately."
+}
