@@ -57,6 +57,7 @@ fn overdraw_fixture() -> (PhreeqcEquilibrator, Vessel) {
             saturation: Vec::new(),
             redox_adjusted: false,
             pe_determined: true,
+            pe_authority: PeAuthority::Unwitnessed,
         }),
     );
     (solver, vessel)

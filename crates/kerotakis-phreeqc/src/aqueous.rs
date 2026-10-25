@@ -5259,7 +5259,7 @@ mod canonical_physical_closure_tests {
         vessel.pending_co2_transfer_mol = 5e-7;
         vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
         let original = serde_json::to_vec(&vessel).unwrap();
-        let mut calls = 0;
+        let mut calls: usize = 0;
         let error =
             PhreeqcEquilibrator::solve_at_temperature_with(&mut vessel, |candidate, _, _, hint| {
                 calls += 1;
