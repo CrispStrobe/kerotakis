@@ -1,0 +1,156 @@
+{
+  "binding": {
+    "source": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+    "expected_tree": "2da5f8e0b57b66c2b4fcbf1106c2b084b73bf17c",
+    "artifact_declared_tested_merge": "2523fa3c43e9e837cf2fd8eba09afc4962e7d231",
+    "binary_sha256": "97d0a11e45716d0e788007c063c86ef0ff4baaf678f275e7f3c6bff8d2739541",
+    "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+    "artifact_id": 12613373909,
+    "archive_sha256": "337f354d62020b538029c1ec7f695987b8ed1e8559004287a4d921f5d952627b",
+    "four_closed_members_verified": true,
+    "no_native_execution": true,
+    "merge_parent_tree_verification_pending": false,
+    "tree": "2da5f8e0b57b66c2b4fcbf1106c2b084b73bf17c",
+    "tested_merge": "2523fa3c43e9e837cf2fd8eba09afc4962e7d231",
+    "parents": [
+      "ccf30b2aeac4042ffe79942d4c8746ec10a553ef",
+      "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f"
+    ]
+  },
+  "classification": "TWO_CHANGED_SOURCE_DIAGNOSTIC_CONTROLS_PASS_NOT_FULL_ACCEPTANCE",
+  "cases": [
+    {
+      "id": "aq023-powder-first",
+      "steps": [
+        {
+          "T_K": 298.15,
+          "ph": 6.997375771104036,
+          "ionic_strength": 1.006060803128269e-07
+        },
+        {
+          "T_K": 299.0361806969971,
+          "ph": 11.27430790772,
+          "ionic_strength": 0.2746680858184
+        },
+        {
+          "T_K": 300.79632892098334,
+          "ph": 10.93444603909,
+          "ionic_strength": 0.2753722266665
+        }
+      ],
+      "water_mol": 5.53393383937012,
+      "solvent_kg": 0.09969381811625,
+      "known_input": {
+        "H": 11.068553982792118,
+        "O": 5.576734628109649,
+        "charge": 0.0,
+        "Na": 0.02830509114239348,
+        "C": 0.01415254557119674,
+        "Ca": 0.01,
+        "Cl": 0.02
+      },
+      "known_output": {
+        "Ca": 0.010000000000000984,
+        "charge": 1.5458120894429328e-14,
+        "Cl": 0.02000000000000266,
+        "Na": 0.028305091142387544,
+        "C": 0.014152545571202263,
+        "O": 5.576734628109649,
+        "H": 11.068553982792116
+      },
+      "known_residual": {
+        "charge": 1.5458120894429328e-14,
+        "Ca": 9.835882108788496e-16,
+        "Na": -5.936223734792634e-15,
+        "O": 0.0,
+        "H": -1.7763568394002505e-15,
+        "Cl": 2.661065812148422e-15,
+        "C": 5.523359547510154e-15
+      },
+      "opaque": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ],
+      "solver_failed": [],
+      "gas_crossings": [],
+      "stdout_sha256": "79d1991e509c1f7a08a2ce44b149e620fb871e1462de678671f85c91a9514157",
+      "stderr_sha256": "ef66a7df9320001bf2616ee68a1e4e398f041e33e8178f4c24de4b9a03209804"
+    },
+    {
+      "id": "aq023-salt-first",
+      "steps": [
+        {
+          "T_K": 298.15,
+          "ph": 6.997375771104036,
+          "ionic_strength": 1.006060803128269e-07
+        },
+        {
+          "T_K": 300.13550014932787,
+          "ph": 6.866341435292,
+          "ionic_strength": 0.3009027865714
+        },
+        {
+          "T_K": 300.7963309400608,
+          "ph": 10.93444603928,
+          "ionic_strength": 0.2753722272926
+        }
+      ],
+      "water_mol": 5.533933826154804,
+      "solvent_kg": 0.09969381787819,
+      "known_input": {
+        "H": 11.068553982792118,
+        "O": 5.576734628109649,
+        "charge": 0.0,
+        "Ca": 0.01,
+        "Cl": 0.02,
+        "Na": 0.02830509114239348,
+        "C": 0.01415254557119674
+      },
+      "known_output": {
+        "Ca": 0.009999999999997171,
+        "charge": 1.1117842757535357e-14,
+        "Cl": 0.019999999999994314,
+        "Na": 0.028305091142399413,
+        "C": 0.014152545571198032,
+        "O": 5.576734628109649,
+        "H": 11.068553982792116
+      },
+      "known_residual": {
+        "charge": 1.1117842757535357e-14,
+        "Ca": -2.8293339893181724e-15,
+        "Na": 5.93275428784068e-15,
+        "O": 0.0,
+        "H": -1.7763568394002505e-15,
+        "Cl": -5.686423554251974e-15,
+        "C": 1.2923689896027213e-15
+      },
+      "opaque": [
+        {
+          "amount": 3.5,
+          "basis": "mass_fraction",
+          "material": "laundry_detergent",
+          "protein_denatured_fraction": 0.0,
+          "recipe_id": "household/laundry-detergent-powder",
+          "recipe_version": 1
+        }
+      ],
+      "solver_failed": [],
+      "gas_crossings": [],
+      "stdout_sha256": "286ec9005dc9672186bf6f1d3514ce6a19581541e89d7615216bbedd3140f0b9",
+      "stderr_sha256": "08d9c2df0963bed53d8e7091b94340f6ca2d9bb4b085f657d4d2c55d91992152"
+    }
+  ],
+  "comparison": {
+    "temperature_difference_K": 2.0190774421280366e-06,
+    "ionic_strength_relative": 2.2736497842576886e-09,
+    "ph_absolute": 1.899991275422508e-10,
+    "water_relative": 2.3880509482505797e-09
+  },
+  "scope": "Actual receipt-derived known matter/charge and original order limits. Opaque remainder retained without formula. Heat traces support restored reference pricing; no physical heat calibration and no original qualification assigned."
+}

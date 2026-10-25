@@ -10,27 +10,31 @@ The [current CLI receipt](../audits/order-heat-c7-cli-binding-20261025/README.md
 
 Qualification remains338/468 unique originals (342 catalog rows).130 remain;63 more are needed for401. Unsupported chemistry, model-domain holds, transport completion and exit0 are not scientific passes.
 
-## 1. Serialization and physical canonical reentry — implemented, retain acceptance
+## 1. Serialization — implemented, retain acceptance
 
-The [cache transport first failures](../audits/native43-cache-transport-first-failures-20261025/FORECAST.md), [consumer admission](../audits/native43-cache-transport-first-failures-20261025/CACHE-CONSUMER-ADMISSION.md) and [lesson adjudication](../audits/lesson-current-model-adjudication-20261025/FORECAST.md) preserve the original evidence. The source uses a fixed binary cache layout with marker/version; old JSON remains readable, old binary requires regeneration. Optional stale cache cannot disable an available live engine. Keep the actual real-Wasm bridge, startup and physical reentry checks. Three revised lesson strings are model snapshots, supported by stock/gas/heat/zero-time controls, not empirical calibration.
+The [cache transport first failures](../audits/native43-cache-transport-first-failures-20261025/FORECAST.md), [consumer admission](../audits/native43-cache-transport-first-failures-20261025/CACHE-CONSUMER-ADMISSION.md) and [lesson adjudication](../audits/lesson-current-model-adjudication-20261025/FORECAST.md) preserve the original evidence. The source uses a fixed binary cache layout with marker/version; old JSON remains readable, old binary requires regeneration. Optional stale cache cannot disable an available live engine. Keep the actual real-Wasm bridge and startup checks.
 
-## 2. Clock CO2 and curiosity failures — implemented, retain acceptance
+## 2. Physical canonical reentry — implemented, retain acceptance
+
+Retain the physical reentry, material, gas, heat and zero-time checks. Three revised lesson strings are model snapshots supported by those controls, not empirical calibration.
+
+## 3. Clock CO2 and curiosity failures — implemented, retain acceptance
 
 The [six first failures](../audits/curiosity0289-first-failures-20261025/SOURCE-REPAIR.md) led to narrow immutable clock-spectator ownership, routed mineral heat and exhausted-reservoir closure repairs. Preserve unknown-owner and ambiguous-reservoir refusals, all H/O/C/charge limits, finite-dose partition, zero-time behavior and ordinary amount floors. The [finite-dose first witness](../audits/aq064-finite-dose-ledger-first-witness-20261025/FORECAST.md) shows why absorbed gas is a share of an already booked finite inlet, not a second inlet. The two [nearby doses](../audits/reservoir-two-nearby-20261025/RESULTS.md) ran once without SolverFailed. Do not replay unchanged cases.
 
 Actual3d passed all12 new controls and all33 fleet jobs, but both native platforms and preflight failed the existing detergent order test. Its later physical-ledger assertions were unreached. The [two captured histories](../audits/order-heat-current3d-20261025/SOURCE-ADMISSION.md) have different final temperatures, no gas transfer and separate known-ledger closure within1.4e-14mol/eq, with3.5g unresolved recipe mass retained.
 
-## 3. Finish current source acceptance and normal delivery
+## 4. Finish current source acceptance and normal delivery
 
 The [current heat repair](../audits/order-heat-export-successor-binding-20261025/README.md) adds the exact anhydrous Na2CO3 standard dissolution reference and balanced dissociation. It preserves298.15K, infinite dilution and±0.126kJ/mol uncertainty, identifies the directly read evaluation and inaccessible attributed primary paper, and makes no finite-concentration calibration claim. The reviewed source row survives export with its full metadata. Only that row’s generated position changes; all other records and old scalar expectations remain exact. Retain the full byte-regeneration check and every original order command/tolerance. New controls cover formula/charge balance, dissolution sign and Hess closure on three native bases.
 
-Assess current full preflight, both native platforms, all applicable platform/Wasm/browser checks and all33 fleet jobs, including142 steps/29 law reports/500 curiosity requirements. Inspect actual logs for the new reference control and the original order test, not just a workflow summary. If the order test fails, freeze its first current log and use the [changed-source thermal trace forecast](../audits/order-heat-c7-trace-20261025/FORECAST.md); do not add a bath, change quantities or widen limits. Its two CLI histories are prepared but unissued at this documentation checkpoint. Resource gates must pass independently before execution; a closed gate is not an experiment failure.
+Assess current full preflight, both native platforms, all applicable platform/Wasm/browser checks and all33 fleet jobs, including142 steps/29 law reports/500 curiosity requirements. Inspect actual logs for the new reference control and the original order test, not just a workflow summary. If the order test fails, freeze its first current log and use the [changed-source thermal trace forecast](../audits/order-heat-c7-trace-20261025/FORECAST.md); do not add a bath, change quantities or widen limits. The [two changed-source CLI histories](../audits/order-heat-c7-trace-20261025/RESULTS.md) have now run once: their original comparisons pass, temperatures differ by2.01908e-6K and separate known ledgers close within1.55e-14mol/eq. Full native acceptance remains independent. Do not replay these histories unchanged. Resource gates must pass independently before execution; a closed gate is not an experiment failure.
 
 After exact-head source review and non-protected acceptance, ready PR859 and enable normal auto-merge under [PR policy](PR-WORKFLOW.md). Preserve branch protection and exact reviewed head; verify actual merged parents/tree afterward. Deploy that actual main once, authenticate its actual artifact/native/producer lock and frontend assets, then assess the retained15API/86browser [product acceptance](phase-current-product-acceptance-lane-20261023.md). Baseline11API/82browser and four additional behaviors are distinct obligations. Save actual per-step worker replies; final-only state cannot fill intermediate stock gaps. Retain scientific domain holds explicitly. A prepared runner, zero exit or changed model label is not product acceptance.
 
 Any product assessor pinned to the complete registry must bind the actual new pack. Independently prove all consumed composition and water records unchanged; preserve the strict hash check. Do not reuse a prior source-bound production launcher or author acceptance/integration receipts before they are true.
 
-## 4. Earn further unchanged-original qualifications
+## 5. Earn further unchanged-original qualifications
 
 After delivery assessment, start a bounded original subset: EN002 milk/lactase, EN008 distinct enzyme substrate pools, LI004 pigment bleaching, and conditional FE006 milk fermentation. Use the immutable original scripts and criteria in `audits/new-experiments-201-20261016/originals/new-experiments-diverse-100-20261016.json`. Preserve complete per-step API receipts with actual deployed source/native/lock/revision bindings and every first failure. No automatic retry of an ambiguous issued request.
 
@@ -38,7 +42,7 @@ Require actual substrate/product extent and appropriate untreated/single-enzyme 
 
 If actual lactase/protease clock ownership fails, inspect registered activity-family ownership and placeholder-formula accounting. Admit only a demonstrated immutable typed owner, with acid/ion/unknown/phase/drift negatives; never blanket-admit aliases or placeholder carbon. This is a conditional prospective gap, not a claimed current failure. AB035/GS013 retain literal1mmol forecasts where preseal losses remain confounding. TH015 MIX thermal ownership and SP003 distillation precision remain separate [source lanes](remaining-original-followups-20261022.md).
 
-## 5. Complete owned runtime diagnostic localization and deliver it
+## 6. Complete owned runtime diagnostic localization and deliver it
 
 After delivery and original review, implement [stable typed reasons and locale rendering](peroxide-medium-and-i18n-20261019.md). Refresh the exact constructor/pattern inventory on the actual implementation head. Add optional boxed Phrase metadata to the existing NotConverged error and SolverFailed event while preserving raw solver/detail and error Display. Old JSON without the field must read; None must serialize the old shape. No claim of old positional binary Event compatibility follows from JSON tests; check actual binary consumers separately.
 

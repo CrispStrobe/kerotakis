@@ -1,0 +1,375 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+    Ca 1.003009027081e-1
+    Cl 2.006018054162e-1
+EQUILIBRIUM_PHASES 1
+    Portlandite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Ca Cl
+    -equilibrium_phases Portlandite
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9699999999999997e-2
+    Ca 1.003009027081e-1
+    Cl 2.006018054162e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Ca Cl
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+    [d] Ca+2         ph=2 moved=+0.010000000 h=+0.000 -> +0.0000 kJ
+    [d] CaCl2        ph=0 moved=-0.010000000 h=+82.800 -> -0.8280 kJ
+    [d] Cl-          ph=2 moved=+0.020000000 h=+0.000 -> +0.0000 kJ
+    [d] __free_hydroxide ph=2 moved=+0.000000001 h=+55.907 -> +0.0000 kJ
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      26.9855
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+    Ca 1.003009027081e-1
+    Cl 2.006018054162e-1
+EQUILIBRIUM_PHASES 1
+    Portlandite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Ca Cl
+    -equilibrium_phases Portlandite
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      26.9855
+    pH        7  charge
+    water     9.9699999999999997e-2
+    Ca 1.003009027081e-1
+    Cl 2.006018054162e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Ca Cl
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+    [d] Ca+2         ph=2 moved=+0.010000000 h=+0.000 -> +0.0000 kJ
+    [d] CaCl2        ph=0 moved=-0.010000000 h=+82.800 -> -0.8280 kJ
+    [d] Cl-          ph=2 moved=+0.020000000 h=+0.000 -> +0.0000 kJ
+    [d] __free_hydroxide ph=2 moved=+0.000000003 h=+55.907 -> +0.0000 kJ
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      26.9779
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+    C 1.419513096409e-1
+    Ca 1.003009027081e-1
+    Cl 2.006018054162e-1
+    Na 2.839026192818e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Calcite 0 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+    Portlandite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Ca Cl Na C(-4)
+    -equilibrium_phases CO2(g) Calcite Halite Nahcolite Portlandite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      26.9779
+    pH        7  charge
+    water     9.9701057975400006e-2
+    C 4.165772464616e-2
+    Ca 7.759685650613e-6
+    Cl 2.005996767349e-1
+    Na 2.838996066559e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Ca Cl Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+    [d] CO2(aq)      ph=2 moved=+0.000000006 h=-24.008 -> -0.0000 kJ
+    [d] CO3-2        ph=2 moved=+0.003818820 h=+0.000 -> +0.0000 kJ
+    [d] Ca+2         ph=2 moved=-0.009999226 h=+0.000 -> -0.0000 kJ
+    [d] CaCO3        ph=0 moved=+0.009999226 h=+9.611 -> +0.0961 kJ
+    [d] HCO3-        ph=2 moved=+0.000334494 h=-14.899 -> -0.0050 kJ
+    [d] Na+          ph=2 moved=+0.028305091 h=+0.000 -> +0.0000 kJ
+    [d] Na2CO3       ph=0 moved=-0.014152546 h=+26.656 -> -0.3773 kJ
+    [d] __free_hydroxide ph=2 moved=+0.000151174 h=+55.907 -> +0.0085 kJ
+    [d] water        ph=1 moved=-0.000334500 h=+0.000 -> -0.0000 kJ
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      27.6462
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+    C 1.419513096409e-1
+    Ca 1.003009027081e-1
+    Cl 2.006018054162e-1
+    Na 2.839026192818e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Calcite 0 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+    Portlandite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Ca Cl Na C(-4)
+    -equilibrium_phases CO2(g) Calcite Halite Nahcolite Portlandite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      27.6462
+    pH        7  charge
+    water     9.9701066230969998e-2
+    C 4.165777796211e-2
+    Ca 7.816450351223e-6
+    Cl 2.005996601246e-1
+    Na 2.838995831481e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Ca Cl Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+    [d] CO2(aq)      ph=2 moved=+0.000000006 h=-24.008 -> -0.0000 kJ
+    [d] CO3-2        ph=2 moved=+0.003810161 h=+0.000 -> +0.0000 kJ
+    [d] Ca+2         ph=2 moved=-0.009999221 h=+0.000 -> -0.0000 kJ
+    [d] CaCO3        ph=0 moved=+0.009999221 h=+9.611 -> +0.0961 kJ
+    [d] HCO3-        ph=2 moved=+0.000343158 h=-14.899 -> -0.0051 kJ
+    [d] Na+          ph=2 moved=+0.028305091 h=+0.000 -> +0.0000 kJ
+    [d] Na2CO3       ph=0 moved=-0.014152546 h=+26.656 -> -0.3773 kJ
+    [d] __free_hydroxide ph=2 moved=+0.000152472 h=+55.907 -> +0.0085 kJ
+    [d] water        ph=1 moved=-0.000343164 h=+0.000 -> -0.0000 kJ
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      27.6463
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+    C 1.419513096409e-1
+    Ca 1.003009027081e-1
+    Cl 2.006018054162e-1
+    Na 2.839026192818e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Calcite 0 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+    Portlandite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Ca Cl Na C(-4)
+    -equilibrium_phases CO2(g) Calcite Halite Nahcolite Portlandite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      27.6463
+    pH        7  charge
+    water     9.9701066232219998e-2
+    C 4.165777797018e-2
+    Ca 7.816458946939e-6
+    Cl 2.005996601221e-1
+    Na 2.838995831446e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Ca Cl Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+    [d] CO2(aq)      ph=2 moved=+0.000000006 h=-24.008 -> -0.0000 kJ
+    [d] CO3-2        ph=2 moved=+0.003810160 h=+0.000 -> +0.0000 kJ
+    [d] Ca+2         ph=2 moved=-0.009999221 h=+0.000 -> -0.0000 kJ
+    [d] CaCO3        ph=0 moved=+0.009999221 h=+9.611 -> +0.0961 kJ
+    [d] HCO3-        ph=2 moved=+0.000343159 h=-14.899 -> -0.0051 kJ
+    [d] Na+          ph=2 moved=+0.028305091 h=+0.000 -> +0.0000 kJ
+    [d] Na2CO3       ph=0 moved=-0.014152546 h=+26.656 -> -0.3773 kJ
+    [d] __free_hydroxide ph=2 moved=+0.000152472 h=+55.907 -> +0.0085 kJ
+    [d] water        ph=1 moved=-0.000343165 h=+0.000 -> -0.0000 kJ
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      27.6463
+    pH        7  charge
+    water     9.9693817878178811e-2
+    pe        4  O2(g)  -0.68
+    C 4.166080674699e-2
+    Ca 7.817027251604e-6
+    Cl 2.006142449518e-1
+    Na 2.839202243913e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Calcite 0 9.999220690706e-3
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+    Portlandite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Ca Cl Na C(-4)
+    -equilibrium_phases CO2(g) Calcite Halite Nahcolite Portlandite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
