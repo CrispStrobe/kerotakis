@@ -1,10 +1,12 @@
 # Fresh-agent handoff —2026-10-24
 
+**Current execution —2026-10-25:** [One123-control successor is issued](../audits/warm-canonical123-source-binding-20261025/README.md) on sourcebcb766b7; all112 predecessors retained. Observe this producer; do not issue another. [Physical closure implementation](warm-canonical-closure-20261025.md) has static review and remains pending native acceptance. Completed112110/2 retain5407 provenance. The six lanes in checkpoint-20261024 remain ordered; no original qualification has changed.
+
 This current scope supersedes the dated checkpoints below. Read `docs/STATUS.md`, the ordered agenda and PR workflow first. Private operating details and producer ownership remain in the ignored operating handoff; public source/evidence paths are below.
 
 | Front | Current fact |
 | --- | --- |
-| Source | Draft [PR859](https://github.com/CrispStrobe/kerotakis/pull/859), head `5407ab541517310b155f76efdab1bd835ba9b5a1`, tree `c1077f69c5f6a46136360b2d3078100f520f2a77`. Candidate is pushed; integration is pending. |
+| Source | Draft [PR859](https://github.com/CrispStrobe/kerotakis/pull/859), head `bcb766b7e606c6f67c27be8c4977a23ce3beff08`, tree `fd34dc3bd93a331bce245d193d7e29b6e97b2b9d`. Candidate is pushed; integration is pending. |
 | Last scientific focus | [Source102:104/107](../audits/aqueous-input-roundtrip-first-failures-20261024/FORECAST.md); three failures, strict compiler gates pass, full1536 has two violations, carbonate CLI emits SolverFailed. Endpoint carbon hits the conserved-component bound; zero-time scalar drift is5.4285e−9 against1e−10. |
 | First successor attempt | [Sourcec0b6 compiler stop](../audits/gas-component106-compiler-first-failure-20261024/README.md): formatting passed, Clippy E0593; all106 tests/wasm32/CLI/sweep NOT_REACHED. |
 | Completed successor | **110/112 PASS**, compiler/three CLI protocols pass, full1536 has zero invariant violations. One fixture admission error and one typed-zero physical reentry drift remain. See [current checkpoint](checkpoint-20261024.md). |

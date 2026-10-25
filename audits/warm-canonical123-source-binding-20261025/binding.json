@@ -1,0 +1,22 @@
+{
+  "source": "bcb766b7e606c6f67c27be8c4977a23ce3beff08",
+  "tree": "fd34dc3bd93a331bce245d193d7e29b6e97b2b9d",
+  "worker_sha256": "8bf41f80ffd92013a4542f5cf1d53cf5e4f940c88ac4b6fa7ea0c8d7ba17f4f9",
+  "controller_sha256": "c6abe12ed1017bb436b55da2c3ac5bceb57eb226ef06a80b8ddb81305ac79c05",
+  "plan_sha256": "ab3b2af92ea5ecc599428c34265c9b5d8549c7f7255dd6b14309ff7808c6041c",
+  "expected_controls": 123,
+  "expected_target_count": 15,
+  "prior112_all_retained": true,
+  "exact_three_cli_protocols_and_full1536_sweep": true,
+  "canonical_format_strict_affected_clippy_and_wasm32_check": true,
+  "no_source_overlays_or_new_dependency_lock": true,
+  "issued_utc": "2026-10-25T07:20:38.610073+00:00",
+  "actual_results_pending": true,
+  "new_original_selections": 0,
+  "prior112_actual_passes": 110,
+  "prior112_actual_failures": 2,
+  "source_first_contract": "audits/warm-canonical-first-failures-20261025/FORECAST.md",
+  "source_first_commit": "894e72ba",
+  "initial_local_resource_and_account_admission_stops_preserved": true,
+  "admission_stops_before_any_remote_push": true
+}
