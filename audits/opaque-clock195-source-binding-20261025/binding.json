@@ -1,0 +1,49 @@
+{
+  "source": "2a98eec40ea9ece2ff22b1722e8c98b9c824937f",
+  "tree": "d1ef719e3ac8b2fb754a3d78b1ca3403d9e937f6",
+  "worker_sha256": "9c5c19611fdfdaaccc18600d0a94694a33e3783331a8fb3ae868820e29267d11",
+  "controller_sha256": "ddbdeda48ee958b106bca50b7b73601a0ca0d1feb177cacd4d57628de3fa8235",
+  "plan_sha256": "f59591e69ad265fa4bd76c13fa6a04e744cc4188bb72d58ce55e05f6e404f490",
+  "metadata_sha256": "e2d0ff856796d03eb6c6066461b8f3b57acf5a7859e31ce5baf2c769ef326fbd",
+  "expected_controls": 195,
+  "expected_targets": 21,
+  "retained_previous_identities": 155,
+  "new_unit_cases": 5,
+  "added_target_cases": {
+    "opaque_clock_boundary": 2,
+    "lactate_speciation": 4,
+    "composed_locale": 17,
+    "curiosity": 2,
+    "corpus_perturbation": 10
+  },
+  "explicitly_ignored_existing_tests": {
+    "curiosity": [
+      "curiosity_full_reports_every_prompt_or_failure"
+    ],
+    "corpus_perturbation": [
+      "sweep"
+    ]
+  },
+  "parent_opaque_clock_source_review_sha256": "68b7ba5f93f49a8ddaefbdfae0c9df3f577488dbce7aa47703ad97100d410e7b",
+  "prior155_saved_independent_review_sha256": "60e2e15c69958d0373080334d257d63edb913899d46cda2724057597474f164b",
+  "prior155_manifest_sha256": "386bc370acc1776b34e1b54ad132571bb835905c67da0899531f7a63a0fd9099",
+  "dependency_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "strict_compiler_packages": [
+    "kerotakis-core",
+    "kerotakis-phreeqc",
+    "kerotakis-wasm",
+    "kerotakis-cli"
+  ],
+  "cli_integration_build_uses_cargo_test_no_run": true,
+  "cli_bin_exe_injection_is_cargo_owned": true,
+  "all_named_results_pending": true,
+  "known_full_acceptance_gaps": [
+    "finite-headspace ammonia",
+    "strong-acid carbonate fizz",
+    "lesson numerical goldens"
+  ],
+  "issue_utc": "2026-10-25T11:06:39.767662+00:00",
+  "actual_results_pending": true,
+  "scientific_original_qualifications": 0,
+  "qualified_originals_unchanged": 338
+}
