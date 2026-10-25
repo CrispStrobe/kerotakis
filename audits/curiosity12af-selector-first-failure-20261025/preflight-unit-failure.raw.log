@@ -1,0 +1,17 @@
+2026-10-25T18:48:03.6645064Z failures:
+2026-10-25T18:48:03.6645185Z 
+2026-10-25T18:48:03.6645557Z ---- enthalpy::tests::calcite_reference_prices_solid_and_analytical_aqueous_on_each_routed_basis stdout ----
+2026-10-25T18:48:03.6646010Z 
+2026-10-25T18:48:03.6646573Z thread 'enthalpy::tests::calcite_reference_prices_solid_and_analytical_aqueous_on_each_routed_basis' (17073) panicked at crates/kerotakis-phreeqc/src/enthalpy.rs:696:13:
+2026-10-25T18:48:03.6647329Z wateq4f: 14.83228
+2026-10-25T18:48:03.6647675Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-25T18:48:03.6648000Z 
+2026-10-25T18:48:03.6648003Z 
+2026-10-25T18:48:03.6648084Z failures:
+2026-10-25T18:48:03.6648482Z     enthalpy::tests::calcite_reference_prices_solid_and_analytical_aqueous_on_each_routed_basis
+2026-10-25T18:48:03.6648874Z 
+2026-10-25T18:48:03.6649158Z test result: FAILED. 161 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.87s
+2026-10-25T18:48:03.6649547Z 
+2026-10-25T18:48:03.6664068Z [1m[91merror[0m: test failed, to rerun pass `-p kerotakis-phreeqc --lib`
+2026-10-25T18:48:03.6717019Z ##[error]Process completed with exit code 101.
+2026-10-25T18:48:03.6887676Z Post job cleanup.

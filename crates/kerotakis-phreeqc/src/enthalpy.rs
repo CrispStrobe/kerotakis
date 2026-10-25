@@ -680,20 +680,31 @@ mod tests {
     }
 
     /// The native phase reaction, not a nearest curated salt or a registry
-    /// heat-capacity guess, supplies this reference. The analytical aqueous
-    /// amount is its master-ion equivalent and incurs no solid dissolution.
+    /// heat-capacity guess, supplies the solid reference. The pre-existing
+    /// exact native aqueous-complex heat keeps priority where the database
+    /// gives one; only its absence admits the analytical master-ion fallback.
+    /// This preserves a legacy reference, not a new molecular-state claim.
     #[test]
     fn calcite_reference_prices_solid_and_analytical_aqueous_on_each_routed_basis() {
-        for (db, dissolution) in [("wateq4f", -9.610_648), ("minteq.v4", -8.0)] {
-            let phase = &derived::index_for(db).phases["Calcite"];
+        for (db, dissolution, native_aqueous) in [
+            ("wateq4f", -9.610_648, 3.545 * 4.184),
+            ("minteq.v4", -8.0, 16.0),
+        ] {
+            let index = derived::index_for(db);
+            let phase = &index.phases["Calcite"];
             assert_eq!(derived::phase_in_db("Calcite", db), Some("Calcite"));
             assert_eq!(phase.products.len(), 2);
             assert!((phase.delta_h_kj.expect("phase delta H") - dissolution).abs() < 1e-9);
+            assert_eq!(
+                index.species_delta_h_kj.get("CaCO3").copied(),
+                Some(native_aqueous),
+                "{db}: explicit aqueous complex reference"
+            );
             let solid = species_enthalpy("CaCO3", Phase::Solid, db).expect("Calcite solid");
-            let analytical =
+            let native =
                 species_enthalpy("CaCO3", Phase::Aqueous, db).expect("dissolved CaCO3 amount");
             assert!((solid + dissolution).abs() < 1e-9, "{db}: {solid}");
-            assert!(analytical.abs() < 1e-12, "{db}: {analytical}");
+            assert!((native - native_aqueous).abs() < 1e-12, "{db}: {native}");
         }
         // Pitzer's inline -delta_h is attached to the log_k line; the
         // source parser instead takes the slope of its separate -analytic

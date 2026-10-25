@@ -1,0 +1,279 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.2200000000000004e-2
+    Cl 1.855823107098e0
+    Na 1.855823107098e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Na
+    -equilibrium_phases Halite
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      23.3126
+    pH        7  charge
+    water     9.2200000000000004e-2
+    Cl 1.855823107098e0
+    Na 1.855823107098e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Na
+    -equilibrium_phases Halite
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      23.3126
+    pH        7  charge
+    water     9.2200000000000018e-2
+    Cl 1.855823107098e0
+    Na 1.855823107098e0
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Na
+    -equilibrium_phases Halite
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.2200000000000018e-2
+    C 1.406890788935e-5
+    Cl 1.855823107098e0
+    Na 1.855823107098e0
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Cl Na
+    -equilibrium_phases CO2(g) Halite Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.2199994874279254e-2
+    C 1.303520969723e-5
+    Cl 1.855823210270e0
+    Na 1.855823210270e0
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Cl Na
+    -equilibrium_phases CO2(g) Halite Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.2199994874282820e-2
+    C 1.303520872963e-5
+    Cl 1.855823210270e0
+    Na 1.855823210270e0
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Cl Na
+    -equilibrium_phases CO2(g) Halite Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0001
+    pH        7  charge
+    water     9.2200000000000018e-2
+    C 1.406890788935e-5
+    Cl 1.855823107098e0
+    Na 1.855823107098e0
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Cl Na
+    -equilibrium_phases CO2(g) Halite Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0001
+    pH        7  charge
+    water     9.2199994874282390e-2
+    C 1.303518062966e-5
+    Cl 1.855823210270e0
+    Na 1.855823210270e0
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Cl Na
+    -equilibrium_phases CO2(g) Halite Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0001
+    pH        7  charge
+    water     9.2199994874285970e-2
+    C 1.303517966196e-5
+    Cl 1.855823210270e0
+    Na 1.855823210270e0
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Cl Na
+    -equilibrium_phases CO2(g) Halite Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---

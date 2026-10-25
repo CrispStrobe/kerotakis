@@ -1,0 +1,74 @@
+{
+  "source": "12afbb264d90820e7685cbf4d9efa5cd2ef51f2b",
+  "tree": "aea0a5e25234288bd903b1c01f24984f09c2a6c4",
+  "tested_merge": "a7ebf20b7b4939fdb1a5fcfbf2b8d9addc12630b",
+  "native_sha256": "ee71f79c947cb9ab993169834d138ff7882c5ff07d2d99c16cf7701ecae759fe",
+  "actual_producer_lock_sha256": "480aec7ac77e82e3e1966a3a28f640862cfcadffa41ce47b8c10ebc3c3bc6e76",
+  "cli_artifact_id": 12610320572,
+  "cli_artifact_sha256": "d8d8b05efaf29c52fa1a958fea438e2cb3ab855a5375d451f416007ca59da9df",
+  "cases": [
+    {
+      "id": "aq-064",
+      "exit_status": 0,
+      "solver_failures": [
+        {
+          "detail": "phreeqc-canonical could not solve this state: secondary solvent selector changed outside a witnessed input-floor replay",
+          "event": "solver_failed",
+          "solver": "phreeqc-aqueous",
+          "vessel": 0
+        }
+      ],
+      "operation_rows": 3,
+      "stdout_sha256": "6dc0e39c412966e45506a7ff3160c8d3308c3ff1a794c6c8be0a9092fb173f50",
+      "stderr_sha256": "22c588de0bdf40e3fc5313cb93f734279ffc538c1d41d63c2258281e09b6a7ec",
+      "script_sha256": "fb7d0d557b853a1e963cbb17643d5584ea19a2b99ea9d3889c95d7a56c75fa65"
+    },
+    {
+      "id": "aq-090",
+      "exit_status": 0,
+      "solver_failures": [],
+      "operation_rows": 4,
+      "stdout_sha256": "1dceb506102458408af2cbd304dedee401a650e99708a82a8b89c75b210ed9a0",
+      "stderr_sha256": "93e77e5791419f50717ef7622a30c0313db821fe72e94113b8583d692582dc3f",
+      "script_sha256": "a069cfa27f88e414ad4a1c7c65c2de5bd0fce3da4ff53ed5d34a8980a7111229"
+    },
+    {
+      "id": "bio-050",
+      "exit_status": 0,
+      "solver_failures": [],
+      "operation_rows": 6,
+      "stdout_sha256": "b3281f080d4cb93cfc21b885e1843a800f173b33f418ff85396ec678057e48cb",
+      "stderr_sha256": "a2e19a86f1e431c5933213a15159be1081ec7fcf7aa4088ca105f14d44a4b645",
+      "script_sha256": "e3a86a705e87851d3a29298bbca1f863fe16cb5ad8e2f1d05fa8fe34acd53c95"
+    },
+    {
+      "id": "bio-072",
+      "exit_status": 0,
+      "solver_failures": [],
+      "operation_rows": 4,
+      "stdout_sha256": "1318c7f7f4fc5fea3c9d23ef2b09af2e7c0076e3890e37307f563422d64b9f84",
+      "stderr_sha256": "0f53978d6c330a8fb26f9b31d8c7d07ff3e3f589c546ad08783fbdc1309b895f",
+      "script_sha256": "4495ddfe6230fde04c253317b144deacffd9dfedfdcaaaabe2aa23c377237b05"
+    },
+    {
+      "id": "bio-074",
+      "exit_status": 0,
+      "solver_failures": [],
+      "operation_rows": 4,
+      "stdout_sha256": "c98258931bf9245b233fee5f9decca945adbd3f4cf67d68c4b1635d44dee4d5f",
+      "stderr_sha256": "7355a95e91e648dd6ba5bf36cd1670389599466e80692efb502427e096848657",
+      "script_sha256": "c4d61bd37da3eb85066d1bd6070005795da650316d35d2c5a880b1201dd68767"
+    },
+    {
+      "id": "mat-115",
+      "exit_status": 0,
+      "solver_failures": [],
+      "operation_rows": 4,
+      "stdout_sha256": "ba77b8407543792314ffcdaaf390734345d485918cd603718332e1444958b02c",
+      "stderr_sha256": "4979475f2901289ef6df4372a220dec4396813541377f913a1a2186d938c2465",
+      "script_sha256": "e89350ea538753fe3a4f0fe3a77005310d25206785023b177aa62a9a23790f29"
+    }
+  ],
+  "selector_trace_sha256": "de6e017e0e092a8a08a5b33ca2a0c13f77a94e307c87b8dc85364194311678fb",
+  "scientific_original_qualifications_added": 0
+}

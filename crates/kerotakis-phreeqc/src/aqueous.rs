@@ -6776,7 +6776,6 @@ impl PhreeqcEquilibrator {
             || !problem.exchanges.is_empty()
             || !problem.solid_solutions.is_empty()
             || !problem.gases.is_empty()
-            || problem.solvent_only
         {
             return decline(SecondaryDisposition::Declined(SecondaryDecline::Unsupported), "a surface, exchanger, solid solution or finite gas headspace owns part of this composition");
         }
@@ -10881,7 +10880,10 @@ pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
 
 #[cfg(test)]
 mod numerical_water_activity_tests {
-    use super::{numerical_species_distribution, PhreeqcEquilibrator, Problem};
+    use super::{
+        numerical_species_distribution, ExternalGas, ExternalGasKind, PhreeqcEquilibrator, Problem,
+        SecondaryDisposition, SecondaryFirstHint,
+    };
     use kerotakis_core::{Moles, Phase, Portion, SpeciesId, Vessel, VesselId};
 
     const REPORT: &str = "Distribution of species\nH2O 5.551e+01 9.500e-01 1.744 -0.022 0.0\nNa+ 1.000e+00 0.7000 0 -0.15 -0.15\n-----\n";
@@ -11031,6 +11033,87 @@ mod numerical_water_activity_tests {
                 "{bad}"
             );
         }
+    }
+
+    #[test]
+    fn pure_solvent_floor_is_not_misclassified_as_unsupported_or_queried() {
+        let mut solver = PhreeqcEquilibrator::new().expect("equilibrator fixture");
+        let vessel = Vessel::new(VesselId(0), "pure solvent selector fixture");
+        let pure_solvent = Problem {
+            kgw: 0.1,
+            solvent_only: true,
+            clock_co2_applied_mol: 0.0,
+            totals: vec![],
+            phases: vec![],
+            gases: vec![],
+            external_gases: vec![],
+            surfaces: vec![],
+            exchanges: vec![],
+            solid_solutions: vec![],
+            elements: vec![],
+        };
+        let no_readback = |_column: &str| None;
+
+        let floor = solver.solvent_activity_second_opinion(
+            &vessel,
+            &pure_solvent,
+            "wateq4f",
+            &no_readback,
+            SecondaryFirstHint::Auto,
+        );
+        assert_eq!(floor.disposition, SecondaryDisposition::BelowInputFloor);
+        assert_eq!(solver.engine_calls(), 0);
+        assert_eq!(solver.cache_hits(), 0);
+        assert_eq!(solver.solvent_activity_engine_calls, 0);
+        assert_eq!(solver.solvent_activity_cache_hits, 0);
+
+        let mut interface = pure_solvent.clone();
+        interface
+            .surfaces
+            .push(kerotakis_core::vessel::SurfaceSites {
+                label: "actual interface ownership".into(),
+                model: kerotakis_core::SurfaceModel::HydrousFerricOxide,
+                mass: kerotakis_core::Grams(0.09),
+                specific_area_m2_per_g: 600.0,
+                strong_capacity: Moles(5e-6),
+                weak_capacity: Moles(2e-4),
+                occupancy: vec![],
+                water_release: Moles(0.0),
+            });
+        let unsupported_interface = solver.solvent_activity_second_opinion(
+            &vessel,
+            &interface,
+            "wateq4f",
+            &no_readback,
+            SecondaryFirstHint::Auto,
+        );
+        assert_eq!(
+            unsupported_interface.disposition,
+            SecondaryDisposition::Declined(super::SecondaryDecline::Unsupported)
+        );
+
+        let mut dose = pure_solvent;
+        dose.external_gases.push(ExternalGas {
+            phase: "CO2(g)".into(),
+            species: "CO2".into(),
+            initial_moles: 1e-3,
+            kind: ExternalGasKind::Dose,
+        });
+        let unsupported_dose = solver.solvent_activity_second_opinion(
+            &vessel,
+            &dose,
+            "wateq4f",
+            &no_readback,
+            SecondaryFirstHint::Auto,
+        );
+        assert_eq!(
+            unsupported_dose.disposition,
+            SecondaryDisposition::Declined(super::SecondaryDecline::Unsupported)
+        );
+        assert_eq!(solver.engine_calls(), 0);
+        assert_eq!(solver.cache_hits(), 0);
+        assert_eq!(solver.solvent_activity_engine_calls, 0);
+        assert_eq!(solver.solvent_activity_cache_hits, 0);
     }
 
     #[test]
