@@ -653,8 +653,13 @@ impl PhreeqcEquilibrator {
     fn solve_at_temperature(
         &mut self,
         trial: &mut Vessel,
-    ) -> Result<(Vec<Event>, f64, bool), SolveError> {
-        Self::solve_at_temperature_with(trial, |candidate, past| self.solve_once(candidate, past))
+    ) -> Result<(Vec<Event>, f64, bool, f64), SolveError> {
+        Self::solve_at_temperature_with(
+            trial,
+            |candidate, past, certified_reentry, forced_route| {
+                self.solve_once(candidate, past, certified_reentry, forced_route)
+            },
+        )
     }
 
     /// The closure is private to this module. Tests can supply a controlled
@@ -663,98 +668,220 @@ impl PhreeqcEquilibrator {
     fn solve_at_temperature_with<F>(
         vessel: &mut Vessel,
         mut solve: F,
-    ) -> Result<(Vec<Event>, f64, bool), SolveError>
+    ) -> Result<(Vec<Event>, f64, bool, f64), SolveError>
     where
-        F: FnMut(&mut Vessel, &[Event]) -> Result<AqueousPass, SolveError>,
+        F: FnMut(
+            &mut Vessel,
+            &[Event],
+            bool,
+            Option<&'static str>,
+        ) -> Result<AqueousPass, SolveError>,
     {
-        let mut trial = vessel.clone();
-        let caller_snapshot = trial.step_start.clone();
+        let owner_start = vessel.clone();
+        let caller_snapshot = owner_start.step_start.clone();
         let heat_origin = caller_snapshot
             .clone()
-            .unwrap_or_else(|| kerotakis_core::vessel::StepStart::capture(&trial));
-        let owner_start = trial.clone();
-        trial.step_start = Some(heat_origin.clone());
-        let first = solve(&mut trial, &[])?;
-        if first.gas_components_certified
-            && first
-                .events
-                .iter()
-                .any(|event| matches!(event, Event::SolverFailed { .. }))
-        {
-            return Err(canonical_closure_error(
-                "first gas-aware aqueous answer reported a solver failure",
-            ));
-        }
-        // Projection alone does not attest a complete solution when an
-        // unrelated retained spectator makes this a partial route. Only a
-        // trusted, complete native answer enters the new physical loop.
-        if !first.gas_components_certified
-            || trial
-                .solution
-                .as_ref()
-                .is_none_or(|info| info.scope != SolutionScope::Complete)
-        {
-            trial.step_start = caller_snapshot;
-            *vessel = trial;
-            return Ok((first.events, first.heat_quote_j, false));
-        }
-        let route = first.db_tag;
-        let reservoirs = first.reservoirs.iter().cloned().collect::<BTreeSet<_>>();
-        let reservoir_refs = reservoirs.iter().map(String::as_str).collect::<Vec<_>>();
-        let mut all_events = first.events.clone();
-        let mut own_gas_out = BTreeMap::<SpeciesId, f64>::new();
-        signed_external_gas(&trial, &first.events, &mut own_gas_out)?;
-        crate::inventory::certify_gas_aware_inventory(
-            &owner_start,
-            &trial,
-            &net_gas_events(&trial, &own_gas_out),
-            &reservoir_refs,
-        )?;
-        let mut previous_state = trial.clone();
-        let mut previous_pass = first;
-        for _ in 1..MAX_CANONICAL_AQUEOUS_PASSES {
-            let mut private_snapshot = heat_origin.clone();
-            for (species, signed) in &own_gas_out {
-                private_snapshot.note_gas_out(species, *signed);
+            .unwrap_or_else(|| kerotakis_core::vessel::StepStart::capture(&owner_start));
+        let mut calls = 0;
+        let mut forced_first_route: Option<&'static str> = None;
+        'replay: loop {
+            if calls >= MAX_CANONICAL_AQUEOUS_PASSES {
+                return Err(canonical_closure_error(format!(
+                "physical aqueous/gas answer did not close within {MAX_CANONICAL_AQUEOUS_PASSES} passes"
+            )));
             }
-            trial.step_start = Some(private_snapshot);
-            let pass = solve(&mut trial, &all_events)?;
-            let next_reservoirs = pass.reservoirs.iter().cloned().collect::<BTreeSet<_>>();
-            if !pass.gas_components_certified
-                || pass.db_tag != route
-                || next_reservoirs != reservoirs
-                || pass
+            // A route change invalidates the entire hypothetical answer,
+            // including its outward gas and spent clock parcel. Begin again
+            // with the immutable owner input and heat origin.
+            let mut trial = owner_start.clone();
+            trial.step_start = Some(heat_origin.clone());
+            calls += 1;
+            let first = solve(&mut trial, &[], false, forced_first_route)?;
+            if let Some(tag) = forced_first_route {
+                let info = trial
+                    .solution
+                    .as_ref()
+                    .filter(|info| info.scope == SolutionScope::Complete);
+                let measured = info.map(|info| info.ionic_strength);
+                let in_domain = match tag {
+                    "wateq4f" => {
+                        measured.is_some_and(|mu| mu.is_finite() && (0.0..=1.0).contains(&mu))
+                    }
+                    "pitzer" => measured.is_some_and(|mu| mu.is_finite() && mu >= 0.0),
+                    _ => false,
+                };
+                if first.db_tag != tag || !in_domain {
+                    return Err(canonical_closure_error(
+                    "forced replay route did not produce a complete answer inside its activity-model domain",
+                ));
+                }
+            }
+            if first.gas_components_certified
+                && first
                     .events
                     .iter()
                     .any(|event| matches!(event, Event::SolverFailed { .. }))
             {
                 return Err(canonical_closure_error(
-                    "gas-aware aqueous route or ownership changed during reentry",
+                    "first gas-aware aqueous answer reported a solver failure",
                 ));
             }
-            signed_external_gas(&trial, &pass.events, &mut own_gas_out)?;
+            // Projection alone does not attest a complete solution when an
+            // unrelated retained spectator makes this a partial route. Only a
+            // trusted, complete native answer enters the new physical loop.
+            if !first.gas_components_certified
+                || trial
+                    .solution
+                    .as_ref()
+                    .is_none_or(|info| info.scope != SolutionScope::Complete)
+            {
+                if first.clock_co2_applied_mol != 0.0 || forced_first_route.is_some() {
+                    return Err(canonical_closure_error(
+                        "clock CO2 or model replay lacks a complete certified native answer",
+                    ));
+                }
+                trial.step_start = caller_snapshot;
+                *vessel = trial;
+                return Ok((first.events, first.heat_quote_j, false, 0.0));
+            }
+            let route = first.db_tag;
+            let clock_applied = first.clock_co2_applied_mol;
+            if !clock_applied.is_finite()
+                || (clock_applied != 0.0
+                    && (owner_start.pending_co2_transfer_mol.abs()
+                        <= kerotakis_core::clock::CO2_TRANSFER_FLOOR_MOL
+                        || owner_start.pending_co2_transfer_mol != clock_applied))
+            {
+                return Err(canonical_closure_error(
+                    "clock CO2 parcel did not match its typed input",
+                ));
+            }
+            let clock = crate::inventory::ClockCo2Boundary {
+                vessel: trial.id,
+                applied_mol: clock_applied,
+            };
+            // Only this private candidate spends the clock parcel. Every outer
+            // temperature guess still starts from the original pending input.
+            if clock_applied != 0.0 {
+                trial.pending_co2_transfer_mol = 0.0;
+            }
+            let mut reservoirs = first.reservoirs.iter().cloned().collect::<BTreeSet<_>>();
+            // Earlier native crossings retain their original reservoir owner
+            // even if exact outward clock removal leaves no carbon candidate on
+            // a later reentry.
+            let mut owned_reservoirs = reservoirs.clone();
+            let reservoir_refs = owned_reservoirs
+                .iter()
+                .map(String::as_str)
+                .collect::<Vec<_>>();
+            let mut all_events = first.events.clone();
+            let mut own_gas_out = BTreeMap::<SpeciesId, f64>::new();
+            signed_external_gas(&trial, &first.events, &mut own_gas_out)?;
             crate::inventory::certify_gas_aware_inventory(
                 &owner_start,
                 &trial,
                 &net_gas_events(&trial, &own_gas_out),
                 &reservoir_refs,
+                clock,
             )?;
-            let closed =
-                canonical_physical_delta_closed(&previous_state, &trial, &previous_pass, &pass)?;
-            all_events.extend(pass.events.iter().cloned());
-            if closed {
-                let events =
-                    closed_aqueous_events(&owner_start, &trial, &all_events, &own_gas_out)?;
-                trial.step_start = caller_snapshot;
-                *vessel = trial;
-                return Ok((events, pass.heat_quote_j, true));
+            let mut previous_state = trial.clone();
+            let mut previous_pass = first;
+            while calls < MAX_CANONICAL_AQUEOUS_PASSES {
+                let mut private_snapshot = heat_origin.clone();
+                for (species, signed) in &own_gas_out {
+                    private_snapshot.note_gas_out(species, *signed);
+                }
+                if clock_applied != 0.0 {
+                    private_snapshot.note_gas_out(&SpeciesId::new("CO2"), -clock_applied);
+                }
+                trial.step_start = Some(private_snapshot);
+                calls += 1;
+                let pass = solve(&mut trial, &all_events, true, None)?;
+                if !pass.gas_components_certified
+                    || pass.clock_co2_applied_mol != 0.0
+                    || pass
+                        .events
+                        .iter()
+                        .any(|event| matches!(event, Event::SolverFailed { .. }))
+                {
+                    return Err(canonical_closure_error(
+                        "gas-aware aqueous route or ownership changed during reentry",
+                    ));
+                }
+                if trial
+                    .solution
+                    .as_ref()
+                    .is_none_or(|info| info.scope != SolutionScope::Complete)
+                {
+                    return Err(canonical_closure_error(
+                        "route-changing aqueous reentry lacked a complete native answer",
+                    ));
+                }
+                if pass.db_tag != route {
+                    if !matches!(
+                        (route, pass.db_tag),
+                        ("pitzer", "wateq4f") | ("wateq4f", "pitzer")
+                    ) {
+                        return Err(canonical_closure_error(
+                            "unsupported aqueous model transition",
+                        ));
+                    }
+                    forced_first_route = Some(pass.db_tag);
+                    continue 'replay;
+                }
+                let next_reservoirs = pass.reservoirs.iter().cloned().collect::<BTreeSet<_>>();
+                let only_clock_co2_emerged = clock_applied != 0.0
+                    && !reservoirs.contains("CO2")
+                    && next_reservoirs.len() == reservoirs.len() + 1
+                    && next_reservoirs.contains("CO2")
+                    && reservoirs.is_subset(&next_reservoirs);
+                let only_physical_co2_exhausted =
+                    reviewed_co2_exhaustion(&reservoirs, &next_reservoirs, &trial);
+                if next_reservoirs != reservoirs
+                    && !only_clock_co2_emerged
+                    && !only_physical_co2_exhausted
+                {
+                    return Err(canonical_closure_error(
+                        "gas-aware aqueous route or ownership changed during reentry",
+                    ));
+                }
+                if only_clock_co2_emerged || only_physical_co2_exhausted {
+                    reservoirs = next_reservoirs;
+                    owned_reservoirs.extend(reservoirs.iter().cloned());
+                }
+                let reservoir_refs = owned_reservoirs
+                    .iter()
+                    .map(String::as_str)
+                    .collect::<Vec<_>>();
+                signed_external_gas(&trial, &pass.events, &mut own_gas_out)?;
+                crate::inventory::certify_gas_aware_inventory(
+                    &owner_start,
+                    &trial,
+                    &net_gas_events(&trial, &own_gas_out),
+                    &reservoir_refs,
+                    clock,
+                )?;
+                let closed = canonical_physical_delta_closed(
+                    &previous_state,
+                    &trial,
+                    &previous_pass,
+                    &pass,
+                )?;
+                all_events.extend(pass.events.iter().cloned());
+                if closed {
+                    let events =
+                        closed_aqueous_events(&owner_start, &trial, &all_events, &own_gas_out)?;
+                    trial.step_start = caller_snapshot;
+                    *vessel = trial;
+                    return Ok((events, pass.heat_quote_j, true, clock_applied));
+                }
+                previous_state = trial.clone();
+                previous_pass = pass;
             }
-            previous_state = trial.clone();
-            previous_pass = pass;
-        }
-        Err(canonical_closure_error(format!(
+            Err(canonical_closure_error(format!(
             "physical aqueous/gas answer did not close within {MAX_CANONICAL_AQUEOUS_PASSES} passes"
         )))
+        }
     }
 
     /// Install an outside solver. See [`SolveOutput`].
@@ -1408,6 +1535,9 @@ struct Problem {
     /// are deliberately absent from the input and must not be rebuilt as if
     /// the aqueous engine had modelled them.
     solvent_only: bool,
+    /// Exact off-ledger CO2 parcel added to `totals[C]` by this pose.
+    /// It is a clock boundary, not a native gas phase or a cached answer.
+    clock_co2_applied_mol: f64,
     /// Element totals in solution, mol.
     totals: Vec<(String, f64)>,
     /// Phases: (name, initial moles, target saturation index).
@@ -1960,6 +2090,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     let mut gases: Vec<(String, String, f64)> = Vec::new();
     let mut external_gases: Vec<ExternalGas> = Vec::new();
     let mut solutes = 0;
+    let mut clock_co2_applied_mol = 0.0;
 
     let mut add_total = |el: &str, moles: f64| {
         if let Some(entry) = totals.iter_mut().find(|(e, _)| e == el) {
@@ -2201,6 +2332,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             .map(|(_, moles)| *moles)
             .sum();
         let applied = vessel.pending_co2_transfer_mol.max(-carbon_now);
+        clock_co2_applied_mol = applied;
         if applied != 0.0 {
             match totals.iter_mut().find(|(el, _)| el == "C") {
                 Some(entry) => entry.1 += applied,
@@ -2352,6 +2484,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     Some(Problem {
         kgw,
         solvent_only,
+        clock_co2_applied_mol,
         totals,
         phases,
         gases,
@@ -2810,6 +2943,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         // different vessel is a guess, not a memory. The warm start exists
         // for the temperature fixed point *inside* this call.
         self.warm_pe = None;
+        validate_clock_boundary(vessel, partition(vessel).as_ref())?;
         if let Some(boundary) = kerotakis_core::nonaqueous::peroxide_medium_boundary(vessel) {
             return Ok(vec![boundary]);
         }
@@ -2880,29 +3014,14 @@ impl Equilibrator for PhreeqcEquilibrator {
                 ),
             });
         }
-        // EXP-57: how much carbon crosses the surface this step. It is
-        // held here and applied inside `partition`, and deliberately NOT
-        // cleared until the solve has settled: the temperature fixed point
-        // below re-solves a copy of `start` up to eight times, and a
-        // transfer that vanished after the first pass would make the
-        // iterations disagree about what is in the beaker.
-        // Left PARKED below the floor rather than dropped: a wait too
-        // short to be worth a solve still moved carbon, and it is spent
-        // once enough of it has piled up. `partition` reads the same
-        // threshold, so the two never disagree about whether this step
-        // carried anything.
-        let gas_exchange_mol = if vessel.pending_co2_transfer_mol.abs()
-            > kerotakis_core::clock::CO2_TRANSFER_FLOOR_MOL
-        {
-            vessel.pending_co2_transfer_mol
-        } else {
-            0.0
-        };
+        // Each thermal guess starts with the same unspent clock input. The
+        // private aqueous answer records what was actually posed and spent;
+        // only that settled answer may produce the one public clock event.
         let start = vessel.clone();
         let t0 = start.temperature.0;
         let mut guess = t0;
         let mut volume_guess = start.headspace_volume();
-        let mut settled: Option<(Vessel, Vec<Event>, f64, bool)> = None;
+        let mut settled: Option<(Vessel, Vec<Event>, f64, bool, f64)> = None;
         let mut fixed_point_converged = false;
         let mut last_temperature_residual = f64::INFINITY;
         let mut previous_guess: Option<f64> = None;
@@ -2915,7 +3034,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             {
                 trial.headspace = Headspace::PressureControlled { pressure, volume };
             }
-            let (events, q_joules, physical_canonical_closed) =
+            let (events, q_joules, physical_canonical_closed, clock_applied) =
                 self.solve_at_temperature(&mut trial)?;
             // Enthalpy, not temperature, is what survives a solve.
             //
@@ -2982,7 +3101,13 @@ impl Equilibrator for PhreeqcEquilibrator {
             // temperature with its speciation.  `next` is the enthalpy-map
             // residual used only to decide convergence; storing it beside a
             // solution computed at `guess` was the original feed-order bug.
-            settled = Some((trial, events, guess, physical_canonical_closed));
+            settled = Some((
+                trial,
+                events,
+                guess,
+                physical_canonical_closed,
+                clock_applied,
+            ));
             previous_guess = Some(guess);
             guess = next;
             volume_guess = next_volume;
@@ -3002,7 +3127,8 @@ impl Equilibrator for PhreeqcEquilibrator {
             });
         }
 
-        let Some((solved, mut events, t_final, physical_canonical_closed)) = settled else {
+        let Some((solved, mut events, t_final, physical_canonical_closed, clock_applied)) = settled
+        else {
             let mut notes = unspeciated_acid_notes(&start);
             notes.extend(unspeciated_solute_notes(&start));
             notes.extend(component_charge_note);
@@ -3058,28 +3184,20 @@ impl Equilibrator for PhreeqcEquilibrator {
             *pressure = vessel.pressure;
             *total_moles = vessel.gas_moles();
         }
-        if gas_exchange_mol != 0.0 {
-            // Spent, and announced here rather than by the clock that sized
-            // it: one parcel, one engine describing it. KID-11 is explicit
-            // that a transfer reported twice is how an observable comes to
-            // be doubled.
-            //
-            // The amount reported is the one the clock sized, which
-            // `partition` will only have trimmed if the vessel held less
-            // carbon than the clock believed — and both read that carbon
-            // off the same ledger, so they agree except at the last digit.
-            vessel.pending_co2_transfer_mol = 0.0;
-            events.push(if gas_exchange_mol > 0.0 {
+        if clock_applied != 0.0 {
+            // The private candidate already spent this exact parcel. Native
+            // reservoir crossings are separate, collected by the driver.
+            events.push(if clock_applied > 0.0 {
                 Event::GasAbsorbed {
                     vessel: vessel.id,
                     species: SpeciesId::new("CO2"),
-                    moles: Moles(gas_exchange_mol),
+                    moles: Moles(clock_applied),
                 }
             } else {
                 Event::GasEvolved {
                     vessel: vessel.id,
                     species: SpeciesId::new("CO2"),
-                    moles: Moles(-gas_exchange_mol),
+                    moles: Moles(-clock_applied),
                 }
             });
         }
@@ -3104,6 +3222,8 @@ impl Equilibrator for PhreeqcEquilibrator {
             }) || !source.surfaces.is_empty()
                 || !source.exchanges.is_empty()
                 || !source.solid_solutions.is_empty()
+                || source.pending_co2_transfer_mol != 0.0
+                || !source.pending_co2_transfer_mol.is_finite()
         }) {
             return None;
         }
@@ -3208,6 +3328,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let merged_problem = Problem {
             kgw: problem_a.kgw * frac_a + problem_b.kgw * frac_b,
             solvent_only: false,
+            clock_co2_applied_mol: 0.0,
             totals: {
                 let mut t: Vec<(String, f64)> = Vec::new();
                 for (el, moles) in &problem_a.totals {
@@ -3320,6 +3441,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             &new_exchanges,
             &new_solid_solutions,
             &value,
+            false,
         );
         let (new_phases, new_gases, ph, mu, gas_components_certified) = match balance {
             Ok(v) => v,
@@ -3354,9 +3476,13 @@ impl Equilibrator for PhreeqcEquilibrator {
             .filter(|g| matches!(g.kind, ExternalGasKind::Reservoir))
             .map(|g| g.species.as_str())
             .collect();
-        if let Err(error) =
-            crate::inventory::complete_basis(&before_inventory, vessel, &events, &reservoirs)
-        {
+        if let Err(error) = crate::inventory::complete_basis(
+            &before_inventory,
+            vessel,
+            &events,
+            &reservoirs,
+            crate::inventory::ClockCo2Boundary::none(before_inventory.id),
+        ) {
             *vessel = before_inventory;
             return abandoned(error);
         }
@@ -3366,6 +3492,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 vessel,
                 &events,
                 &reservoirs,
+                crate::inventory::ClockCo2Boundary::none(vessel.id),
             ) {
                 *vessel = before_inventory;
                 return abandoned(error);
@@ -3464,6 +3591,73 @@ struct AqueousPass {
     gas_components_certified: bool,
     db_tag: &'static str,
     reservoirs: Vec<String>,
+    /// The actual clock parcel posed in this pass's analytical totals.
+    /// Native reservoir events remain separate.
+    clock_co2_applied_mol: f64,
+}
+
+fn validate_clock_boundary(vessel: &Vessel, problem: Option<&Problem>) -> Result<(), SolveError> {
+    let pending = vessel.pending_co2_transfer_mol;
+    if !pending.is_finite() {
+        return Err(canonical_closure_error(
+            "nonfinite pending clock CO2 parcel",
+        ));
+    }
+    let spendable = pending.abs() > kerotakis_core::clock::CO2_TRANSFER_FLOOR_MOL;
+    let applied = problem.map_or(0.0, |problem| problem.clock_co2_applied_mol);
+    if !applied.is_finite()
+        || (spendable && (problem.is_none() || applied != pending))
+        || (!spendable && applied != 0.0)
+    {
+        return Err(canonical_closure_error(
+            "pending clock CO2 parcel is unsupported or exceeds available carbon",
+        ));
+    }
+    if applied != 0.0
+        && problem.is_some_and(|problem| {
+            problem
+                .totals
+                .iter()
+                .filter(|(element, _)| element == "C" || element.starts_with("C("))
+                .count()
+                != 1
+                || !problem.totals.iter().any(|(element, _)| element == "C")
+        })
+    {
+        return Err(canonical_closure_error(
+            "clock CO2 cannot be assigned to an ambiguous carbon component",
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(test)]
+mod clock_co2_boundary_tests {
+    use super::*;
+    use kerotakis_core::VesselId;
+
+    #[test]
+    fn clock_pose_keeps_parked_parcel_and_refuses_overdraw_or_ambiguous_carbon() {
+        let mut vessel = Vessel::new(VesselId(4), "clock input");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        vessel.pending_co2_transfer_mol = 1e-7;
+        let parked = partition(&vessel);
+        assert_eq!(parked.as_ref().unwrap().clock_co2_applied_mol, 0.0);
+        assert!(validate_clock_boundary(&vessel, parked.as_ref()).is_ok());
+
+        vessel.pending_co2_transfer_mol = 2e-6;
+        let posed = partition(&vessel);
+        assert_eq!(posed.as_ref().unwrap().clock_co2_applied_mol, 2e-6);
+        assert!(validate_clock_boundary(&vessel, posed.as_ref()).is_ok());
+        let mut ambiguous = posed.unwrap();
+        ambiguous.totals.push(("C(4)".into(), 1e-7));
+        assert!(validate_clock_boundary(&vessel, Some(&ambiguous)).is_err());
+
+        vessel.pending_co2_transfer_mol = -2e-6;
+        assert!(validate_clock_boundary(&vessel, partition(&vessel).as_ref()).is_err());
+        vessel.pending_co2_transfer_mol = f64::NAN;
+        assert!(validate_clock_boundary(&vessel, partition(&vessel).as_ref()).is_err());
+    }
 }
 
 fn canonical_closure_error(detail: impl Into<String>) -> SolveError {
@@ -3471,6 +3665,87 @@ fn canonical_closure_error(detail: impl Into<String>) -> SolveError {
         solver: "phreeqc-canonical".into(),
         detail: detail.into(),
     }
+}
+
+/// A CO2 owner can disappear only when the *native inorganic C component*
+/// has reached the existing raw portion floor. Organic analytical keys such
+/// as Acetate and Lactate contain carbon atoms but do not pose native C.
+/// Positive mineral and retained-gas inventories are checked separately;
+/// the later pass must still certify cumulative physical C/H/O/charge.
+fn reviewed_co2_exhaustion(
+    previous: &BTreeSet<String>,
+    current: &BTreeSet<String>,
+    vessel: &Vessel,
+) -> bool {
+    if !previous.contains("CO2")
+        || current.contains("CO2")
+        || current.len() + 1 != previous.len()
+        || !current.is_subset(previous)
+    {
+        return false;
+    }
+    let Some(problem) = partition(vessel) else {
+        return false;
+    };
+    let is_native_carbon = |key: &str| key == "C" || key.starts_with("C(");
+    let mut inorganic_carbon = 0.0;
+    for (key, amount) in &problem.totals {
+        if is_native_carbon(key) {
+            if !amount.is_finite() || *amount < 0.0 {
+                return false;
+            }
+            inorganic_carbon += amount;
+        }
+    }
+    if !inorganic_carbon.is_finite() || !(0.0..=TRACE).contains(&inorganic_carbon) {
+        return false;
+    }
+    for portion in &vessel.contents {
+        if !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
+            return false;
+        }
+        if portion.moles.0 <= TRACE {
+            continue;
+        }
+        match portion.phase {
+            Phase::Solid => match derived::role(&portion.species.0) {
+                Some(DerivedRole::Mineral { phase, .. }) => {
+                    let Some(mineral) = derived::phase_by_name(&phase) else {
+                        return false;
+                    };
+                    if mineral
+                        .elements
+                        .iter()
+                        .any(|(key, amount)| is_native_carbon(key) && *amount > 0.0)
+                    {
+                        return false;
+                    }
+                }
+                Some(DerivedRole::Dissolves(elements)) => {
+                    if elements
+                        .iter()
+                        .any(|(key, amount)| is_native_carbon(key) && *amount > 0.0)
+                    {
+                        return false;
+                    }
+                }
+                Some(DerivedRole::Solvent) => {}
+                None => return false,
+            },
+            Phase::Gas => {
+                let Some(formula) = species::lookup(&portion.species)
+                    .and_then(|row| kerotakis_core::stoich::parse_formula(row.formula).ok())
+                else {
+                    return false;
+                };
+                if formula.counts.get("C").is_some_and(|count| *count > 0.0) {
+                    return false;
+                }
+            }
+            _ => {}
+        }
+    }
+    true
 }
 
 fn physical_stock(vessel: &Vessel) -> Result<BTreeMap<(SpeciesId, Phase), f64>, SolveError> {
@@ -3552,10 +3827,9 @@ fn canonical_physical_delta_closed(
     if before_route.engine != after_route.engine
         || before_route.dataset != after_route.dataset
         || before_route.model != after_route.model
-        || before_route.source_key() != after_route.source_key()
     {
         return Err(canonical_closure_error(
-            "aqueous provenance changed during canonical reentry",
+            "aqueous engine, dataset or model changed during canonical reentry",
         ));
     }
     let activity = |info: &SolutionInfo| {
@@ -3565,6 +3839,31 @@ fn canonical_physical_delta_closed(
             .map(|species| species.activity)
     };
     let mut stable = true;
+    stable &= stable_optional_coordinate(before_info.pe, after_info.pe, 1e-6)?;
+    let redox_coordinates =
+        |info: &SolutionInfo| -> Result<BTreeMap<(String, i32), f64>, SolveError> {
+            let mut coordinates = BTreeMap::new();
+            for state in &info.redox {
+                if !state.molality.is_finite()
+                    || state.molality < 0.0
+                    || coordinates
+                        .insert((state.element.clone(), state.oxidation), state.molality)
+                        .is_some()
+                {
+                    return Err(canonical_closure_error(
+                        "invalid typed aqueous redox coordinate",
+                    ));
+                }
+            }
+            Ok(coordinates)
+        };
+    let previous_redox = redox_coordinates(before_info)?;
+    let current_redox = redox_coordinates(after_info)?;
+    for key in previous_redox.keys().chain(current_redox.keys()) {
+        let previous = previous_redox.get(key).copied().unwrap_or(0.0);
+        let current = current_redox.get(key).copied().unwrap_or(0.0);
+        stable &= (current - previous).abs() <= 1e-10;
+    }
     for (a, b, tolerance) in [
         (before.free_proton, after.free_proton, 1e-10),
         (before.free_hydroxide, after.free_hydroxide, 1e-10),
@@ -3717,7 +4016,6 @@ fn closed_aqueous_events(
 ) -> Result<Vec<Event>, SolveError> {
     let mut final_events = Vec::new();
     let mut dissolved = BTreeMap::<SpeciesId, f64>::new();
-    let mut routed = None;
     let mut characterised = None;
     let mut headspace = None;
     for event in passes {
@@ -3735,11 +4033,7 @@ fn closed_aqueous_events(
             Event::Precipitated { species, moles, .. } => {
                 *dissolved.entry(species.clone()).or_insert(0.0) -= moles.0;
             }
-            Event::SolutionRouted { .. } => {
-                if routed.is_none() {
-                    routed = Some(event.clone());
-                }
-            }
+            Event::SolutionRouted { .. } => {}
             Event::SolutionCharacterized { .. } => characterised = Some(event.clone()),
             Event::HeadspaceEquilibrated { .. } => headspace = Some(event.clone()),
             _ => {
@@ -3749,8 +4043,20 @@ fn closed_aqueous_events(
             }
         }
     }
-    if let Some(event) = routed {
-        final_events.push(event);
+    // Inner routing explanations are provisional. The accepted physical
+    // state owns the one explanation a reader can receive for this call.
+    let final_provenance = after
+        .solution
+        .as_ref()
+        .filter(|info| info.scope == SolutionScope::Complete)
+        .and_then(|info| info.provenance.as_ref())
+        .ok_or_else(|| canonical_closure_error("accepted aqueous state lacks provenance"))?;
+    let final_source_key = final_provenance.source_key();
+    if before.aqueous_routing_said.as_deref() != Some(final_source_key.as_str()) {
+        final_events.push(Event::SolutionRouted {
+            vessel: after.id,
+            provenance: final_provenance.clone(),
+        });
     }
     for (species, signed) in dissolved {
         if !signed.is_finite() {
@@ -3947,7 +4253,203 @@ mod canonical_physical_closure_tests {
             gas_components_certified: true,
             db_tag: "wateq4f",
             reservoirs: vec!["CO2".into()],
+            clock_co2_applied_mol: 0.0,
         }
+    }
+
+    #[cfg(feature = "engine")]
+    #[test]
+    fn original_bicarbonate_boundary_keeps_the_one_molal_route_selection() {
+        let solver = PhreeqcEquilibrator::new().expect("native dataset constructor");
+        let make_input = |bicarbonate_mol: f64| {
+            let mut vessel = Vessel::new(VesselId(0), "original bicarbonate route boundary");
+            vessel.deposit(
+                SpeciesId::new("water"),
+                Moles(5.534_276_991_396_059),
+                Phase::Liquid,
+            );
+            vessel.deposit(
+                SpeciesId::new("NaHCO3"),
+                Moles(bicarbonate_mol),
+                Phase::Solid,
+            );
+            vessel
+        };
+        let dilute = make_input(0.049);
+        let concentrated = make_input(0.05);
+        let dilute_problem = partition(&dilute).expect("represented dilute bicarbonate");
+        let concentrated_problem =
+            partition(&concentrated).expect("represented boundary bicarbonate");
+        assert!((concentrated_problem.kgw - 0.0997).abs() < 1e-12);
+        let dilute_potential = potential_molality(&dilute_problem, dilute.temperature.0);
+        let concentrated_potential =
+            potential_molality(&concentrated_problem, concentrated.temperature.0);
+        assert!(
+            dilute_potential < 1.0,
+            "unchanged potential-load rule: {dilute_potential}"
+        );
+        assert!(
+            concentrated_potential > 1.0,
+            "unchanged potential-load rule: {concentrated_potential}"
+        );
+        let dilute_setup = solver.setup_problem(&dilute, None).unwrap().unwrap();
+        let concentrated_setup = solver.setup_problem(&concentrated, None).unwrap().unwrap();
+        assert_eq!(dilute_setup.db_tag, "wateq4f");
+        assert_eq!(concentrated_setup.db_tag, "pitzer");
+        assert!(concentrated_setup
+            .problem
+            .phases
+            .iter()
+            .any(|(phase, moles, _)| phase == "Nahcolite" && *moles > 0.0));
+        assert_eq!(
+            solver.engine_calls(),
+            0,
+            "test must inspect setup, not solve the state"
+        );
+    }
+
+    #[test]
+    fn changed_explanation_keeps_physical_authority_and_publishes_only_final_route() {
+        let mut before = state();
+        let first_provenance = before
+            .solution
+            .as_ref()
+            .unwrap()
+            .provenance
+            .as_ref()
+            .unwrap()
+            .clone();
+        before.aqueous_routing_said = Some(first_provenance.source_key());
+        let mut after = before.clone();
+        after
+            .solution
+            .as_mut()
+            .unwrap()
+            .provenance
+            .as_mut()
+            .unwrap()
+            .say_routing(Phrase::bare(
+                "test.canonical-final",
+                "accepted final explanation",
+            ));
+        let final_provenance = after
+            .solution
+            .as_ref()
+            .unwrap()
+            .provenance
+            .as_ref()
+            .unwrap()
+            .clone();
+        after.aqueous_routing_said = Some(final_provenance.source_key());
+        assert_ne!(first_provenance.source_key(), final_provenance.source_key());
+        assert!(
+            canonical_physical_delta_closed(&before, &after, &quote(0.0), &quote(0.0)).unwrap()
+        );
+
+        let provisional = Event::SolutionRouted {
+            vessel: before.id,
+            provenance: first_provenance,
+        };
+        let events =
+            closed_aqueous_events(&before, &after, &[provisional], &BTreeMap::new()).unwrap();
+        let routed = events
+            .iter()
+            .filter_map(|event| match event {
+                Event::SolutionRouted { provenance, .. } => Some(provenance),
+                _ => None,
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(routed, vec![&final_provenance]);
+
+        let same_final = closed_aqueous_events(&after, &after, &[], &BTreeMap::new()).unwrap();
+        assert!(!same_final
+            .iter()
+            .any(|event| matches!(event, Event::SolutionRouted { .. })));
+    }
+
+    #[test]
+    fn actual_model_or_typed_electron_authority_cannot_change_under_narrative_cover() {
+        let before = state();
+        let mut changed = before.clone();
+        changed
+            .solution
+            .as_mut()
+            .unwrap()
+            .provenance
+            .as_mut()
+            .unwrap()
+            .model = "another model".into();
+        assert!(
+            canonical_physical_delta_closed(&before, &changed, &quote(0.0), &quote(0.0)).is_err()
+        );
+
+        let mut changed = before.clone();
+        changed.solution.as_mut().unwrap().pe = Some(3.0);
+        assert!(
+            canonical_physical_delta_closed(&before, &changed, &quote(0.0), &quote(0.0)).is_err()
+        );
+
+        let mut before_redox = before.clone();
+        before_redox
+            .solution
+            .as_mut()
+            .unwrap()
+            .redox
+            .push(kerotakis_core::RedoxState {
+                element: "Fe".into(),
+                oxidation: 2,
+                molality: 0.001,
+            });
+        let mut after_redox = before_redox.clone();
+        after_redox.solution.as_mut().unwrap().redox[0].molality += 2e-10;
+        assert!(!canonical_physical_delta_closed(
+            &before_redox,
+            &after_redox,
+            &quote(0.0),
+            &quote(0.0)
+        )
+        .unwrap());
+    }
+
+    #[test]
+    fn only_exhausted_native_inorganic_carbon_can_remove_the_co2_owner() {
+        let previous = BTreeSet::from(["CO2".to_string(), "O2".to_string()]);
+        let without_co2 = BTreeSet::from(["O2".to_string()]);
+        let without_o2 = BTreeSet::from(["CO2".to_string()]);
+        let mut vessel = state();
+        assert!(!reviewed_co2_exhaustion(&previous, &without_co2, &vessel));
+        vessel
+            .contents
+            .retain(|portion| portion.species.0 != "HCO3-");
+        vessel.deposit(SpeciesId::new("CH3COOH"), Moles(0.005), Phase::Liquid);
+        let acetate_problem = partition(&vessel).unwrap();
+        assert!(acetate_problem
+            .totals
+            .iter()
+            .any(|(key, _)| key == "Acetate"));
+        assert!(!acetate_problem
+            .totals
+            .iter()
+            .any(|(key, _)| key == "C" || key.starts_with("C(")));
+        assert!(reviewed_co2_exhaustion(&previous, &without_co2, &vessel));
+        assert!(!reviewed_co2_exhaustion(&previous, &without_o2, &vessel));
+        vessel.deposit(SpeciesId::new("HCO3-"), Moles(2.0 * TRACE), Phase::Aqueous);
+        assert!(!reviewed_co2_exhaustion(&previous, &without_co2, &vessel));
+        vessel
+            .contents
+            .retain(|portion| portion.species.0 != "HCO3-");
+        vessel.deposit(SpeciesId::new("CaCO3"), Moles(2.0 * TRACE), Phase::Solid);
+        assert!(!reviewed_co2_exhaustion(&previous, &without_co2, &vessel));
+        vessel
+            .contents
+            .retain(|portion| portion.species.0 != "CaCO3");
+        vessel.deposit(SpeciesId::new("CO2"), Moles(2.0 * TRACE), Phase::Gas);
+        assert!(!reviewed_co2_exhaustion(&previous, &without_co2, &vessel));
+        vessel
+            .contents
+            .retain(|portion| !(portion.species.0 == "CO2" && portion.phase == Phase::Gas));
+        vessel.deposit(SpeciesId::new("CO2"), Moles(2.0 * TRACE), Phase::Solid);
+        assert!(!reviewed_co2_exhaustion(&previous, &without_co2, &vessel));
     }
 
     #[test]
@@ -4027,7 +4529,7 @@ mod canonical_physical_closure_tests {
         let mut calls: usize = 0;
         let failure = PhreeqcEquilibrator::solve_at_temperature_with(
             &mut vessel,
-            |candidate, _prior_events| {
+            |candidate, _prior_events, _certified_reentry, _forced_route| {
                 calls += 1;
                 candidate.free_proton = if calls.is_multiple_of(2) { 0.0 } else { 1e-9 };
                 Ok(quote(0.0))
@@ -4039,6 +4541,118 @@ mod canonical_physical_closure_tests {
         assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
         assert_eq!(vessel.step_start, original_snapshot);
         assert_eq!(vessel.pending_co2_transfer_mol, 5e-7);
+    }
+
+    #[test]
+    fn route_replay_discards_first_models_gas_and_clock_then_starts_from_original_owner() {
+        // Controlled driver sequence, not a claim about native chemistry.
+        let mut vessel = state();
+        vessel.deposit(SpeciesId::new("CO2(aq)"), Moles(1e-8), Phase::Aqueous);
+        vessel.pending_co2_transfer_mol = 2e-6;
+        vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+        let original = vessel.clone();
+        let mut calls = 0;
+        let (events, _, closed, clock) = PhreeqcEquilibrator::solve_at_temperature_with(
+            &mut vessel,
+            |candidate, prior, certified_reentry, forced_route| {
+                calls += 1;
+                let mut pass = quote(0.0);
+                match calls {
+                    1 => {
+                        assert!(!certified_reentry);
+                        assert_eq!(forced_route, None);
+                        candidate
+                            .contents
+                            .retain(|portion| portion.species.0 != "CO2(aq)");
+                        candidate.deposit(SpeciesId::new("CO2(aq)"), Moles(2e-6), Phase::Aqueous);
+                        pass.db_tag = "pitzer";
+                        pass.clock_co2_applied_mol = 2e-6;
+                        pass.events.push(Event::GasEvolved {
+                            vessel: candidate.id,
+                            species: SpeciesId::new("CO2"),
+                            moles: Moles(1e-8),
+                        });
+                    }
+                    2 => {
+                        assert!(certified_reentry);
+                        assert_eq!(forced_route, None);
+                        assert_eq!(candidate.pending_co2_transfer_mol, 0.0);
+                        assert_eq!(prior.len(), 1);
+                        assert_eq!(candidate.step_start.as_ref().unwrap().gas_out.len(), 1);
+                        // WATEQ was discovered only on the Pitzer-modified
+                        // hypothetical state. This answer must be discarded.
+                    }
+                    3 => {
+                        assert!(!certified_reentry);
+                        assert_eq!(forced_route, Some("wateq4f"));
+                        assert!(prior.is_empty());
+                        assert_eq!(candidate.contents, original.contents);
+                        assert_eq!(
+                            candidate.pending_co2_transfer_mol,
+                            original.pending_co2_transfer_mol
+                        );
+                        assert_eq!(candidate.step_start, original.step_start);
+                        candidate.deposit(SpeciesId::new("CO2(aq)"), Moles(2e-6), Phase::Aqueous);
+                        pass.clock_co2_applied_mol = 2e-6;
+                    }
+                    4 => {
+                        assert!(certified_reentry);
+                        assert_eq!(forced_route, None);
+                        assert!(prior.is_empty());
+                        assert_eq!(candidate.pending_co2_transfer_mol, 0.0);
+                        assert_eq!(candidate.step_start.as_ref().unwrap().gas_out.len(), 1);
+                    }
+                    _ => panic!("replay exceeded the expected four controlled queries"),
+                }
+                Ok(pass)
+            },
+        )
+        .unwrap();
+        assert_eq!(calls, 4);
+        assert!(closed);
+        assert_eq!(clock, 2e-6);
+        assert_eq!(vessel.pending_co2_transfer_mol, 0.0);
+        assert_eq!(vessel.step_start, original.step_start);
+        assert!(!events
+            .iter()
+            .any(|event| matches!(event, Event::GasEvolved { .. })));
+    }
+
+    #[test]
+    fn route_oscillation_spends_the_same_global_eight_query_budget_and_rolls_back() {
+        let mut vessel = state();
+        vessel.pending_co2_transfer_mol = 5e-7;
+        vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+        let original = serde_json::to_vec(&vessel).unwrap();
+        let mut calls = 0;
+        let mut active_route = "pitzer";
+        let failure = PhreeqcEquilibrator::solve_at_temperature_with(
+            &mut vessel,
+            |candidate, _, certified_reentry, forced_route| {
+                calls += 1;
+                let tag = if certified_reentry {
+                    if active_route == "pitzer" {
+                        "wateq4f"
+                    } else {
+                        "pitzer"
+                    }
+                } else {
+                    forced_route.unwrap_or("pitzer")
+                };
+                if !certified_reentry {
+                    active_route = tag;
+                }
+                candidate.solution.as_mut().unwrap().ionic_strength =
+                    if tag == "pitzer" { 1.2 } else { 0.1 };
+                let mut pass = quote(0.0);
+                pass.db_tag = tag;
+                Ok(pass)
+            },
+        )
+        .expect_err("alternating routed models cannot spend a fresh budget on each replay");
+        assert!(matches!(failure, SolveError::NotConverged { .. }));
+        assert_eq!(calls, MAX_CANONICAL_AQUEOUS_PASSES);
+        assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
     }
 }
 
@@ -4173,7 +4787,7 @@ impl PhreeqcEquilibrator {
         if scope == SolutionScope::SolventOnly {
             return Ok(());
         }
-        let Ok(Some(setup)) = self.setup_problem(vessel) else {
+        let Ok(Some(setup)) = self.setup_problem(vessel, None) else {
             return Ok(());
         };
         if setup.problem.solvent_only {
@@ -4251,7 +4865,14 @@ impl PhreeqcEquilibrator {
         &mut self,
         vessel: &mut Vessel,
         prior_physical_events: &[Event],
+        certified_reentry: bool,
+        forced_route: Option<&'static str>,
     ) -> Result<AqueousPass, SolveError> {
+        if forced_route.is_some() {
+            // A provisional answer on another database must not reuse an
+            // electron-search guess from the abandoned model.
+            self.warm_pe = None;
+        }
         let Some(SolveSetup {
             problem,
             db_tag,
@@ -4259,7 +4880,7 @@ impl PhreeqcEquilibrator {
             freed_phases,
             input,
             key,
-        }) = self.setup_problem(vessel)?
+        }) = self.setup_problem(vessel, forced_route)?
         else {
             return Ok(AqueousPass {
                 events: Vec::new(),
@@ -4268,6 +4889,7 @@ impl PhreeqcEquilibrator {
                 gas_components_certified: false,
                 db_tag: "",
                 reservoirs: Vec::new(),
+                clock_co2_applied_mol: 0.0,
             });
         };
 
@@ -4331,10 +4953,15 @@ impl PhreeqcEquilibrator {
                 &new_exchanges,
                 &new_solid_solutions,
                 &value,
+                certified_reentry,
             )?;
 
         if gas_components_certified {
             certify_projected_protonation(&new_ions, &protonation)?;
+        } else if problem.clock_co2_applied_mol != 0.0 {
+            return Err(canonical_closure_error(
+                "clock CO2 parcel lacks a certified native component projection",
+            ));
         }
 
         let (mut events, contents) = Self::rebuild_contents_and_events(
@@ -4472,13 +5099,18 @@ impl PhreeqcEquilibrator {
             .filter(|g| matches!(g.kind, ExternalGasKind::Reservoir))
             .map(|g| g.species.as_str())
             .collect();
-        crate::inventory::complete_basis(&before_inventory, vessel, &events, &reservoirs)?;
+        let clock = crate::inventory::ClockCo2Boundary {
+            vessel: vessel.id,
+            applied_mol: problem.clock_co2_applied_mol,
+        };
+        crate::inventory::complete_basis(&before_inventory, vessel, &events, &reservoirs, clock)?;
         if gas_components_certified {
             crate::inventory::certify_gas_aware_inventory(
                 &before_inventory,
                 vessel,
                 &events,
                 &reservoirs,
+                clock,
             )?;
         }
         vessel.refresh_pressure();
@@ -4608,6 +5240,15 @@ impl PhreeqcEquilibrator {
                     None => gas_out.push((species.0.clone(), signed)),
                 }
             }
+            // The clock parcel was already posed in SOLUTION totals, so it
+            // is not among native gas events. The whole-step heat boundary
+            // nevertheless owes this inlet/outlet exactly once.
+            if problem.clock_co2_applied_mol != 0.0 {
+                match gas_out.iter_mut().find(|(key, _)| key == "CO2") {
+                    Some((_, amount)) => *amount -= problem.clock_co2_applied_mol,
+                    None => gas_out.push(("CO2".into(), -problem.clock_co2_applied_mol)),
+                }
+            }
             match enthalpy::heat_released_j(
                 &before_contents,
                 before_oh,
@@ -4676,11 +5317,18 @@ impl PhreeqcEquilibrator {
             gas_components_certified,
             db_tag,
             reservoirs: reservoirs.into_iter().map(str::to_string).collect(),
+            clock_co2_applied_mol: problem.clock_co2_applied_mol,
         })
     }
 
-    fn setup_problem(&self, vessel: &Vessel) -> Result<Option<SolveSetup>, SolveError> {
-        let Some(mut problem) = partition(vessel) else {
+    fn setup_problem(
+        &self,
+        vessel: &Vessel,
+        forced_route: Option<&'static str>,
+    ) -> Result<Option<SolveSetup>, SolveError> {
+        let partitioned = partition(vessel);
+        validate_clock_boundary(vessel, partitioned.as_ref())?;
+        let Some(mut problem) = partitioned else {
             return Ok(None);
         };
 
@@ -4707,7 +5355,7 @@ impl PhreeqcEquilibrator {
             .elements
             .iter()
             .all(|el| derived::index_for("pitzer").has_element(el));
-        let (db_tag, mut routing) = if needs_silver_ammine(&problem.elements) {
+        let (mut db_tag, mut routing) = if needs_silver_ammine(&problem.elements) {
             (
                 "minteq.v4",
                 Phrase::bare(
@@ -4751,6 +5399,53 @@ impl PhreeqcEquilibrator {
                 ),
             )
         };
+        if let Some(requested) = forced_route {
+            let transition_is_reviewed = matches!(requested, "pitzer" | "wateq4f")
+                && (db_tag == requested
+                    || matches!(
+                        (db_tag, requested),
+                        ("pitzer", "wateq4f") | ("wateq4f", "pitzer")
+                    ));
+            let target = derived::index_for(requested);
+            let original_is_representable = problem
+                .elements
+                .iter()
+                .all(|element| target.has_element(element))
+                && problem
+                    .phases
+                    .iter()
+                    .filter(|(_, moles, _)| *moles > 0.0)
+                    .all(|(phase, _, _)| posed_phase(phase, requested).is_some())
+                && problem
+                    .gases
+                    .iter()
+                    .all(|(phase, _, _)| target.has_phase(phase))
+                && problem
+                    .external_gases
+                    .iter()
+                    .all(|gas| target.has_phase(&gas.phase));
+            if !transition_is_reviewed
+                || !original_is_representable
+                || needs_extended
+                || needs_silver_ammine(&problem.elements)
+                || !problem.surfaces.is_empty()
+                || !problem.exchanges.is_empty()
+                || !problem.solid_solutions.is_empty()
+                || !vessel.unresolved_materials.is_empty()
+                || !vessel.material_objects.is_empty()
+                || !vessel.adsorbed.is_empty()
+                || !vessel.electrodes.is_empty()
+            {
+                return Err(canonical_closure_error(
+                    "replay route cannot represent the original analytical and phase owners",
+                ));
+            }
+            db_tag = requested;
+            routing = Phrase::bare(
+                "routing.provisional-model-replay",
+                "provisional model replay from the original material input; final routing is verified by a fresh ordinary aqueous pose",
+            );
+        }
         if potential_molality > 1.0 && db_tag != "pitzer" {
             // The caveat is a clause AROUND the choice, not a string glued
             // after it: a language that puts the qualification first can
@@ -5692,7 +6387,7 @@ impl PhreeqcEquilibrator {
         ))
     }
 
-    #[allow(clippy::type_complexity)]
+    #[allow(clippy::type_complexity, clippy::too_many_arguments)]
     fn apply_balance_corrections(
         vessel: &Vessel,
         problem: &Problem,
@@ -5701,6 +6396,7 @@ impl PhreeqcEquilibrator {
         new_exchanges: &[ExchangeSites],
         new_solid_solutions: &[SolidSolution],
         value: &dyn Fn(&str) -> Option<f64>,
+        certified_reentry: bool,
     ) -> Result<
         (
             Vec<(String, f64)>,
@@ -5944,8 +6640,14 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
-        let gas_components_certified =
-            project_gas_aware_components(vessel, problem, new_ions, &new_phases, &new_gases)?;
+        let gas_components_certified = project_gas_aware_components(
+            vessel,
+            problem,
+            new_ions,
+            &new_phases,
+            &new_gases,
+            certified_reentry,
+        )?;
         let ph = value("pH").ok_or_else(|| missing("pH"))?;
         let mu = value("mu").ok_or_else(|| missing("mu"))?;
         Ok((new_phases, new_gases, ph, mu, gas_components_certified))
@@ -6618,8 +7320,13 @@ fn project_gas_aware_components(
     new_ions: &mut [(String, f64)],
     new_phases: &[(String, f64)],
     new_gases: &[(String, String, f64)],
+    certified_reentry: bool,
 ) -> Result<bool, SolveError> {
-    if problem.external_gases.is_empty() && problem.gases.is_empty() {
+    if problem.external_gases.is_empty()
+        && problem.gases.is_empty()
+        && problem.clock_co2_applied_mol == 0.0
+        && !certified_reentry
+    {
         return Ok(false);
     }
     if !problem.surfaces.is_empty()
@@ -6629,7 +7336,6 @@ fn project_gas_aware_components(
         || !vessel.material_objects.is_empty()
         || !vessel.adsorbed.is_empty()
         || !vessel.electrodes.is_empty()
-        || vessel.pending_co2_transfer_mol != 0.0
         || problem
             .external_gases
             .iter()
@@ -6805,6 +7511,7 @@ mod gas_component_projection_tests {
         Problem {
             kgw: 0.1,
             solvent_only: false,
+            clock_co2_applied_mol: 0.0,
             totals: vec![
                 ("Na".into(), 0.02),
                 ("Acetate".into(), 0.005),
@@ -6833,6 +7540,35 @@ mod gas_component_projection_tests {
         ]
     }
 
+    #[test]
+    fn clock_only_component_projection_requires_typed_first_or_reentry_owner() {
+        let vessel = Vessel::new(VesselId(0), "clock-only projection");
+        let mut problem = open_problem();
+        problem.phases.clear();
+        problem.external_gases.clear();
+        let mut first = readback(0.02 + 1e-10);
+        problem.clock_co2_applied_mol = 1e-6;
+        assert!(
+            project_gas_aware_components(&vessel, &problem, &mut first, &[], &[], false,).unwrap()
+        );
+        assert!((amount(&first, "C") - 0.02).abs() < 1e-16);
+
+        problem.clock_co2_applied_mol = 0.0;
+        let mut ordinary = readback(0.02 + 1e-10);
+        assert!(
+            !project_gas_aware_components(&vessel, &problem, &mut ordinary, &[], &[], false,)
+                .unwrap()
+        );
+        assert!(
+            project_gas_aware_components(&vessel, &problem, &mut ordinary, &[], &[], true,)
+                .unwrap()
+        );
+        let mut invalid = readback(0.021);
+        assert!(
+            project_gas_aware_components(&vessel, &problem, &mut invalid, &[], &[], true,).is_err()
+        );
+    }
+
     fn amount(ions: &[(String, f64)], key: &str) -> f64 {
         ions.iter()
             .find(|(candidate, _)| candidate == key)
@@ -6851,6 +7587,7 @@ mod gas_component_projection_tests {
             &mut outward,
             &[("CO2(g)".into(), 0.005)],
             &[],
+            false,
         )
         .unwrap());
         assert!((amount(&outward, "Na") - 0.02).abs() < 1e-16);
@@ -6868,6 +7605,7 @@ mod gas_component_projection_tests {
             &mut inward,
             &[("CO2(g)".into(), -0.003)],
             &[],
+            false,
         )
         .unwrap());
         assert!((amount(&inward, "C") - 0.023).abs() < 1e-16);
@@ -6947,6 +7685,7 @@ mod gas_component_projection_tests {
                     "mu" => Some(0.1),
                     _ => None,
                 },
+                false,
             );
             let error = result.expect_err("invalid raw gas must not be clamped");
             assert!(error.to_string().contains("invalid raw finite gas column"));
@@ -6968,6 +7707,7 @@ mod gas_component_projection_tests {
             &mut ions,
             &[],
             &[("CO2(g)".into(), "CO2".into(), 0.006)],
+            false,
         )
         .unwrap());
         assert!((amount(&ions, "C") - 0.024).abs() < 1e-16);
@@ -6991,6 +7731,7 @@ mod gas_component_projection_tests {
             &mut ions,
             &[],
             &[("NH3(g)".into(), "NH3".into(), 0.0)],
+            false,
         )
         .unwrap());
         assert!((amount(&ions, "N(-3)") - 0.021).abs() < 1e-16);
@@ -7034,6 +7775,7 @@ mod gas_component_projection_tests {
                 &mut ions,
                 &[("CO2(g)".into(), 0.005)],
                 &[],
+                false,
             )
             .is_err());
         }
@@ -7045,6 +7787,7 @@ mod gas_component_projection_tests {
             &mut ions,
             &[("CO2(g)".into(), 0.005)],
             &[],
+            false,
         )
         .unwrap());
         problem.external_gases[0].kind = ExternalGasKind::Reservoir;
@@ -7064,6 +7807,7 @@ mod gas_component_projection_tests {
             &mut ions,
             &[("CO2(g)".into(), 0.005)],
             &[],
+            false,
         )
         .unwrap());
         problem.surfaces.clear();
@@ -7074,6 +7818,7 @@ mod gas_component_projection_tests {
             &mut ions,
             &[("CO2(g)".into(), 0.005)],
             &[],
+            false,
         )
         .unwrap());
     }
@@ -8737,6 +9482,7 @@ mod numerical_water_activity_tests {
         let problem = Problem {
             kgw: 1.0,
             solvent_only: false,
+            clock_co2_applied_mol: 0.0,
             totals: vec![("N(-3)".into(), total_n), ("Cl".into(), total_n)],
             phases: vec![],
             gases: vec![],

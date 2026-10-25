@@ -21,7 +21,48 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use kerotakis_core::{
     ledger::ConservedLedger, species, Event, Moles, Phase, Portion, SolveError, SpeciesId, Vessel,
+    VesselId,
 };
+
+/// Carbon already posed in native analytical totals from a clock parcel.
+/// This is a virtual material boundary for local basis/certification only:
+/// it is neither a native gas phase nor a public gas event.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub(crate) struct ClockCo2Boundary {
+    pub(crate) vessel: VesselId,
+    pub(crate) applied_mol: f64,
+}
+
+impl ClockCo2Boundary {
+    pub(crate) fn none(vessel: VesselId) -> Self {
+        Self {
+            vessel,
+            applied_mol: 0.0,
+        }
+    }
+}
+
+fn clock_formula(
+    clock: ClockCo2Boundary,
+    vessel: VesselId,
+) -> Result<Option<kerotakis_core::stoich::Formula>, SolveError> {
+    if clock.vessel != vessel || !clock.applied_mol.is_finite() {
+        return Err(SolveError::NotConverged {
+            solver: "phreeqc-inventory".into(),
+            detail: "invalid clock CO2 boundary owner or amount".into(),
+        });
+    }
+    if clock.applied_mol == 0.0 {
+        return Ok(None);
+    }
+    let formula = species::lookup_key("CO2")
+        .and_then(|row| kerotakis_core::stoich::parse_formula(row.formula).ok())
+        .ok_or_else(|| SolveError::NotConverged {
+            solver: "phreeqc-inventory".into(),
+            detail: "clock CO2 has no known physical formula".into(),
+        })?;
+    Ok(Some(formula))
+}
 
 /// A portion that is a coordinate of the acid/base/water basis rather than
 /// an amount of a substance. `complete_basis` strips these and rewrites
@@ -53,6 +94,7 @@ pub(crate) fn complete_basis(
     after: &mut Vessel,
     events: &[Event],
     reservoirs: &[&str],
+    clock: ClockCo2Boundary,
 ) -> Result<(), SolveError> {
     let before_ledger = ConservedLedger::from_vessel(before);
     let mut target = before_ledger.elements;
@@ -78,6 +120,14 @@ pub(crate) fn complete_basis(
             for (element, count) in formula.counts {
                 *target.entry(element).or_default() += moles * count;
             }
+        }
+    }
+    if let Some(formula) = clock_formula(clock, before.id)? {
+        let h = formula.counts.get("H").copied().unwrap_or(0.0);
+        let o = formula.counts.get("O").copied().unwrap_or(0.0);
+        gas_excess += clock.applied_mol * (h - 2.0 * o);
+        for (element, count) in formula.counts {
+            *target.entry(element).or_default() += clock.applied_mol * count;
         }
     }
     // The before vessel, split the same way the after vessel is about to
@@ -173,6 +223,7 @@ pub(crate) fn certify_gas_aware_inventory(
     after: &Vessel,
     events: &[Event],
     reservoirs: &[&str],
+    clock: ClockCo2Boundary,
 ) -> Result<(), SolveError> {
     let refused = |detail: String| SolveError::NotConverged {
         solver: "phreeqc-inventory".into(),
@@ -221,6 +272,12 @@ pub(crate) fn certify_gas_aware_inventory(
         }
         expected.charge += formula.charge * signed_moles;
     }
+    if let Some(formula) = clock_formula(clock, before.id)? {
+        for (element, count) in formula.counts {
+            *expected.elements.entry(element).or_default() += count * clock.applied_mol;
+        }
+        expected.charge += formula.charge * clock.applied_mol;
+    }
     let actual = ConservedLedger::from_vessel(after);
     let elements: BTreeSet<_> = expected
         .elements
@@ -258,7 +315,14 @@ mod gas_aware_certificate_tests {
         let mut charged = Vessel::new(VesselId(0), "charged input");
         charged.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
         charged.deposit(SpeciesId::new("Na+"), Moles(0.01), Phase::Aqueous);
-        assert!(certify_gas_aware_inventory(&charged, &charged, &[], &[]).is_ok());
+        assert!(certify_gas_aware_inventory(
+            &charged,
+            &charged,
+            &[],
+            &[],
+            ClockCo2Boundary::none(charged.id)
+        )
+        .is_ok());
 
         let mut before = Vessel::new(VesselId(0), "formal charge control");
         before.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
@@ -266,7 +330,14 @@ mod gas_aware_certificate_tests {
         let mut after = before.clone();
         after.contents.retain(|portion| portion.species.0 != "Fe+2");
         after.deposit(SpeciesId::new("Fe+3"), Moles(0.001), Phase::Aqueous);
-        let error = certify_gas_aware_inventory(&before, &after, &[], &[]).unwrap_err();
+        let error = certify_gas_aware_inventory(
+            &before,
+            &after,
+            &[],
+            &[],
+            ClockCo2Boundary::none(before.id),
+        )
+        .unwrap_err();
         assert!(error.to_string().contains("charge changed"), "{error}");
     }
 
@@ -280,18 +351,80 @@ mod gas_aware_certificate_tests {
             species: SpeciesId::new("CO2"),
             moles: Moles(0.001),
         };
-        assert!(certify_gas_aware_inventory(&before, &after, &[out], &["CO2"]).is_ok());
+        assert!(certify_gas_aware_inventory(
+            &before,
+            &after,
+            &[out],
+            &["CO2"],
+            ClockCo2Boundary::none(before.id)
+        )
+        .is_ok());
         let invalid = Event::GasEvolved {
             vessel: before.id,
             species: SpeciesId::new("CO2"),
             moles: Moles(-0.001),
         };
-        assert!(certify_gas_aware_inventory(&before, &after, &[invalid], &["CO2"]).is_err());
+        assert!(certify_gas_aware_inventory(
+            &before,
+            &after,
+            &[invalid],
+            &["CO2"],
+            ClockCo2Boundary::none(before.id)
+        )
+        .is_err());
         let wrong_vessel = Event::GasEvolved {
             vessel: VesselId(1),
             species: SpeciesId::new("CO2"),
             moles: Moles(0.001),
         };
-        assert!(certify_gas_aware_inventory(&before, &after, &[wrong_vessel], &["CO2"]).is_err());
+        assert!(certify_gas_aware_inventory(
+            &before,
+            &after,
+            &[wrong_vessel],
+            &["CO2"],
+            ClockCo2Boundary::none(before.id)
+        )
+        .is_err());
+    }
+
+    #[test]
+    fn virtual_clock_carbon_is_signed_and_independent_of_native_reservoirs() {
+        let mut before = Vessel::new(VesselId(7), "clock boundary");
+        before.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        let mut after = before.clone();
+        after.deposit(SpeciesId::new("CO2"), Moles(2e-6), Phase::Aqueous);
+        let inlet = ClockCo2Boundary {
+            vessel: before.id,
+            applied_mol: 2e-6,
+        };
+        assert!(certify_gas_aware_inventory(&before, &after, &[], &[], inlet).is_ok());
+        let outlet = ClockCo2Boundary {
+            applied_mol: -2e-6,
+            ..inlet
+        };
+        assert!(certify_gas_aware_inventory(&after, &before, &[], &[], outlet).is_ok());
+        assert!(certify_gas_aware_inventory(&before, &after, &[], &[], outlet).is_err());
+        assert!(certify_gas_aware_inventory(
+            &before,
+            &after,
+            &[],
+            &[],
+            ClockCo2Boundary {
+                vessel: VesselId(8),
+                ..inlet
+            },
+        )
+        .is_err());
+        assert!(certify_gas_aware_inventory(
+            &before,
+            &after,
+            &[],
+            &[],
+            ClockCo2Boundary {
+                applied_mol: f64::NAN,
+                ..inlet
+            },
+        )
+        .is_err());
     }
 }

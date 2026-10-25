@@ -658,3 +658,115 @@ fn native_result_cache_reentry_matches_a_fresh_equilibrator() {
     assert_eq!(repeated_events, fresh_events, "cached/fresh events differ");
     assert_eq!(first_events, repeated_events, "first/cached events differ");
 }
+
+#[test]
+fn bicarbonate_at_pitzer_potential_load_replays_to_wateq_and_repeats_without_drift() {
+    let mut bench = Bench::new();
+    let mut stack = production_stack();
+    apply_with_ledger(&mut bench, &mut stack, "add v1 water 100mL", "setup");
+    let dose = apply_with_ledger(
+        &mut bench,
+        &mut stack,
+        "add v1 NaHCO3 0.05mol",
+        "high-bicarbonate route replay",
+    );
+    assert!(
+        dose.iter()
+            .filter(|event| matches!(event,
+                Event::GasEvolved { species, .. } | Event::GasAbsorbed { species, .. }
+                    if species.0 == "CO2"))
+            .count()
+            <= 1,
+        "route replay published multiple provisional CO2 crossings: {dose:?}"
+    );
+    assert_no_ionic_curated_replay(&dose, "high-bicarbonate route replay");
+
+    let settled = bench
+        .vessel(VesselId(0))
+        .expect("settled high-bicarbonate vessel")
+        .clone();
+    assert_native_current(&settled, "high-bicarbonate route replay");
+    let solution = settled.solution.as_ref().expect("current native solution");
+    let provenance = solution
+        .provenance
+        .as_ref()
+        .expect("actual native route provenance");
+    assert!(
+        provenance.engine.contains("IPhreeqc"),
+        "high-bicarbonate answer is not from the native engine: {provenance:?}"
+    );
+    assert_eq!(provenance.dataset_file(), "wateq4f.dat");
+    assert!(
+        provenance.model.starts_with("WATEQ Debye-Hückel extension"),
+        "route replay did not settle on the ordinary WATEQ model: {provenance:?}"
+    );
+    assert!(
+        solution.ionic_strength.is_finite() && solution.ionic_strength <= 1.0,
+        "WATEQ final ionic strength is outside its unchanged route boundary: {}",
+        solution.ionic_strength
+    );
+
+    // Re-run the same already-accepted material state at zero elapsed time.
+    // Each repeat must close from its own actual contents and publish at most
+    // one net CO2 boundary event; no gas amount or equilibrium outcome is
+    // hard-coded from the captured predecessor.
+    for repeat in 0..3 {
+        let before = bench.vessel(VesselId(0)).expect("before repeat").clone();
+        let events = bench
+            .step_with(
+                Operator::Wait { seconds: 0.0 },
+                &mut stack,
+                &PermissiveScreen,
+            )
+            .expect("typed zero-time bicarbonate repeat");
+        assert!(
+            !events
+                .iter()
+                .any(|event| matches!(event, Event::SolverFailed { .. })),
+            "zero-time high-bicarbonate repeat {repeat}: {events:?}"
+        );
+        let after = bench.vessel(VesselId(0)).expect("after repeat");
+        assert_gas_adjusted_ledger(
+            &before,
+            after,
+            &events,
+            None,
+            &format!("zero-time high-bicarbonate repeat {repeat}"),
+        );
+        assert_native_current(after, "zero-time high-bicarbonate repeat");
+        let solution = after
+            .solution
+            .as_ref()
+            .expect("current zero-time native solution");
+        let provenance = solution
+            .provenance
+            .as_ref()
+            .expect("current zero-time native route provenance");
+        assert!(
+            provenance.engine.contains("IPhreeqc"),
+            "zero-time repeat left the native engine: {provenance:?}"
+        );
+        assert_eq!(provenance.dataset_file(), "wateq4f.dat");
+        assert!(
+            provenance.model.starts_with("WATEQ Debye-Hückel extension"),
+            "zero-time repeat changed WATEQ authority: {provenance:?}"
+        );
+        assert!(
+            solution.ionic_strength.is_finite() && (0.0..=1.0).contains(&solution.ionic_strength),
+            "zero-time repeat left the WATEQ activity domain: {}",
+            solution.ionic_strength
+        );
+        assert_native_physical_state_stable(
+            &before,
+            after,
+            &format!("zero-time high-bicarbonate repeat {repeat}"),
+        );
+        assert_net_co2_event_once(
+            &before,
+            after,
+            &events,
+            &format!("zero-time high-bicarbonate repeat {repeat}"),
+        );
+        assert_no_ionic_curated_replay(&events, "zero-time high-bicarbonate repeat");
+    }
+}

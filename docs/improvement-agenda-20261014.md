@@ -1,5 +1,7 @@
 # Ordered improvement agenda — 2026-10-14
 
+**2026-10-25 combined candidate:** [Typed clock boundary and original-input route replay](clock-and-route-closure-20261025.md) follow the actual121/123 predecessor (two failures, seven sweep violations). Static review is complete; exact successor native acceptance is pending. All123 identities and physical budgets remain. Full/platform/product delivery, further originals and structuredi18n remain ordered next;338/468 unchanged. This supersedes older pending notes below.
+
 The integrated [2026-10-24 checkpoint](checkpoint-20261024.md) preserves predecessor112 results. The current candidate update below supersedes its pending notes; public evidence remains source-bound.
 
 **2026-10-25 active repair:** [Bounded physical canonical reentry](warm-canonical-closure-20261025.md) follows the actual110/112 first failures. Fixture admission, strict physical/gas/heat iteration and atomic rollback are implemented with static review; hosted successor acceptance is pending. Clock boundary, delivery, further originals andi18n remain ordered next;338/468 remains unchanged. Older dated pending notes preserve history.
