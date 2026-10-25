@@ -1,0 +1,30 @@
+{
+  "source": "9abcacd5ed9b312c708fda3deb9d6e25aa24095d",
+  "tree": "e2c54a024803f460a1dd1689ed98cfea9325062b",
+  "selected_controls": 267,
+  "reached": 232,
+  "passed": 231,
+  "failed": 1,
+  "not_reached": 35,
+  "format_clippy_wasm_exit_statuses": [
+    0,
+    0,
+    0
+  ],
+  "fatal_list_mismatch": {
+    "target": "redox_isolation_probe",
+    "planned_direct_tests": 3,
+    "actual_listed_tests": 4,
+    "additional_imported_unit": "redox_isolation::tests::isolated_phase_keeps_inline_thermodynamic_parameters_exactly"
+  },
+  "failed_test": "redox_titrimetry::a_swept_flask_reports_the_default_pe_rather_than_the_couple",
+  "failure": "the burette must walk the curve",
+  "case_log_archive_members": 696,
+  "outer_members": 340,
+  "manifest_sha256": "f7c8069877b403efab9aa3888a8419b9a28336f92a5dfa160f0587f5b01fcbd2",
+  "independent_saved_review_sha256": "7fd80af6c1b9e50b2411c7b38184fc2710c3f1164b39276801e66a9b51d6602d",
+  "source_after": "absent",
+  "cli_and_full1536": "NOT_REACHED",
+  "native_binary_gzip_bodies": "metadata only; case-log tar body independently verified",
+  "original_qualification": 338
+}

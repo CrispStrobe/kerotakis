@@ -13,7 +13,7 @@ fn stack() -> SolverStack {
 
 fn step(bench: &mut Bench, solver: &mut SolverStack, op: Operator, label: &str) -> Vec<Event> {
     let events = bench.step_with(op, solver, &PermissiveScreen).unwrap();
-    println!(
+    eprintln!(
         "{}",
         serde_json::json!({"label": label, "vessel": &bench.vessels[0], "events": &events})
     );
@@ -207,7 +207,7 @@ fn balloon_heat(mut before: Vessel, after: &Vessel, new_soda: bool) {
     let chemical_heat = minteq_reference_energy_j(&before) - minteq_reference_energy_j(after);
     let sensible = integrated_sensible_j(after, 298.15, after.temperature.0) - initial_sensible;
     let residual = chemical_heat - sensible;
-    println!(
+    eprintln!(
         "{}",
         serde_json::json!({"chemical_heat_j": chemical_heat,
         "sensible_change_j": sensible, "residual_j": residual})
@@ -297,7 +297,7 @@ fn kitchen_bicarbonate_compares_adiabatic_and_matched_bath_without_new_ph_golden
                 "bicarbonate dissolution cools"
             );
         }
-        println!(
+        eprintln!(
             "{}",
             serde_json::json!({"held_at_298_15_k": held, "reading": vessel})
         );
