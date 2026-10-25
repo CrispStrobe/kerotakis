@@ -1,0 +1,68 @@
+{
+  "source": "ac7ab04db91bf1420f802404cc1e2eb6ab22fa12",
+  "tree": "f4b86f8b41c63ced8bc060b65f4dfa7b7b4b9e3e",
+  "lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "outcome_counts": {
+    "PASS": 41,
+    "FAIL": 2
+  },
+  "manifest_sha256": "7e3b01611f3d47dbca777bb64481143085ff125029cbb316d79d8f0a56d175f7",
+  "independent_review_sha256": "d3c98e11ba0dd988d15407c62c1c8285331f2d15764b5e938cb39c8b3bf96580",
+  "independent_lesson_detail_sha256": "16bdfc14d2ffa5cf241c2d3b2582509c34f127993de75dbb961bcb26b3ae54a6",
+  "compiler_gates": {
+    "format-check": {
+      "observed": true,
+      "exit_status": 0,
+      "passed": true
+    },
+    "changed-package-clippy": {
+      "observed": true,
+      "exit_status": 0,
+      "passed": true
+    }
+  },
+  "cli_and_sweep": {
+    "original-cycle-cli": {
+      "observed": true,
+      "exit_status": 0,
+      "machine_json_valid": true,
+      "no_solver_failed_event": true,
+      "execution_observation_pass": true
+    },
+    "carbonate-acetic-cli": {
+      "observed": true,
+      "exit_status": 0,
+      "machine_json_valid": true,
+      "no_solver_failed_event": true,
+      "execution_observation_pass": true
+    },
+    "bicarbonate-phosphoric-cli": {
+      "observed": true,
+      "exit_status": 0,
+      "machine_json_valid": true,
+      "no_solver_failed_event": true,
+      "execution_observation_pass": true
+    },
+    "full-1536-sweep": {
+      "observed": true,
+      "exit_status": 0,
+      "all_1536_ran": true,
+      "refusal_steps": 29,
+      "zero_physical_invariant_violations": true,
+      "execution_observation_pass": true
+    }
+  },
+  "case_log_archive_stream_verified": true,
+  "executable_bodies_decompressed": false,
+  "source_proofs": {
+    "source-before": {
+      "observed": true,
+      "source_and_lock_bound": true
+    },
+    "source-after": {
+      "observed": true,
+      "source_and_lock_bound": true
+    }
+  },
+  "new_original_qualifications": 0
+}
