@@ -1,0 +1,18 @@
+{
+  "source": "e096e11e4c36ea18149aa00e8c8ba3ef80046a0b",
+  "tree": "72adb8160c878a886d41d81797b951d503ab5047",
+  "worker_sha256": "d56e349eff1d99618d0398d0e4bbd2765a099d8caf2b623dafc53bce084d461d",
+  "controller_sha256": "30b154a35bebdf2b1d608d93ff7ccb36252bf2fad6e5c815526557601719b821",
+  "plan_sha256": "f1042617688e5d61a85abf792489398644207bba5074894a1137977f98cc7172",
+  "expected_controls": 155,
+  "expected_target_count": 16,
+  "prior123_all_retained": true,
+  "same_three_cli_full1536_and_compiler_gates": true,
+  "no_source_overlays_or_new_dependency_lock": true,
+  "issued_utc": "2026-10-25T08:55:15.713529+00:00",
+  "actual_results_pending": true,
+  "prior123_actual_passes": 121,
+  "prior123_actual_failures": 2,
+  "new_original_selections": 0,
+  "independent_source_review_sha256": "f5e3b5012034a6d413fc4155a7152c89ec822ec315044637a6bde77681b1eb0f"
+}

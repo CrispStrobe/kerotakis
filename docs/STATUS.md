@@ -1,5 +1,7 @@
 # Kerotakis current state —2026-10-22
 
+**Current2026-10-25:** [Sourcee096e11e combines typed clock carbon and original-input model replay](clock-and-route-closure-20261025.md). [One155-control successor is issued](../audits/clock-component155-source-binding-20261025/README.md), retaining all123 identities plus32 controls. Actual predecessor is121/123 with seven sweep violations, not acceptance. Current results/full delivery/further originals/i18n remain pending;338/468 unchanged.
+
 **2026-10-25 active successor:** [Sourcebcb766b7](warm-canonical-closure-20261025.md) implements bounded physical canonical reentry, fixture admission and atomic rollback. [One123-control hosted job is issued](../audits/warm-canonical123-source-binding-20261025/README.md), retaining all112 controls plus11; actual results pending. Clock, normaldelivery, furtheroriginals andi18n remain next;338/468 unchanged.
 
 **Latest checkpoint —2026-10-24:** [Current results and ordered continuation](checkpoint-20261024.md) supersede earlier pending notes:110/112 focused controls pass; compiler and three CLI protocols pass; full1536 has zero invariant violations. Fixture admission and canonical physical reentry remain open. PR859 stays draft; qualification remains338/468. No new runtime or qualification in this wrap-up.
