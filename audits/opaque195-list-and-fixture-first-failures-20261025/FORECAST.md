@@ -1,0 +1,9 @@
+# Actual opaque-clock195 partial result —2026-10-25
+
+Source2a98eec4/tree d1ef719e reaches166 of195 planned controls:164 pass, two fail,29 are not reached. All prior155 identities pass. Strict compiler/wasm pass; source-after, three CLI protocols and full1536 are NOT_REACHED. First outcomes and their [binding](binding.json) are immutable. No original is newly qualified.
+
+The two failures are control defects: the projector unit declares a CO2(g) phase but supplies no phase readback; the native clock control sends `wait 0s` through the intentionally positive-duration command parser instead of using the typed zero-time operator. The worker then requires exact equality with17 planned composed-locale names; its source parser omitted the valid18th test carrying an interposed should_panic attribute. Do not call it ignored or drop it.
+
+Before editing: supply the declared native CO2(g) zero-transfer readback in the unit fixture; retain projector admission and all quantities. Use the actual typed Wait{seconds:0} API for the declared zero-time native control and repeat, preserving every physical/opaque/once-only assertion. Fix no command-parser or production chemistry rule.
+
+Freeze a separate continuation on the byte-equivalent production source: run only these two corrected controls, all18 composed-locale controls, two nonignored curiosity controls and ten nonignored corpus controls (32), plus the three CLI protocols/full1536 and any genuinely unreached acceptance. Retain exact complete executable-list names, with documented ignored tests separate from selected executions; recognize ordinary should-panic result rows without weakening count/name/exit checks. Preserve the164 observations with their actual source; missing source-after is a limitation, not a full acceptance claim. Full/platform/fleet/protected/integration/product acceptance remains required. Ammonia/carbonate and lesson numerical adjudication stay open.
