@@ -1,0 +1,13 @@
+{
+  "source": "12afbb264d90820e7685cbf4d9efa5cd2ef51f2b",
+  "tree": "aea0a5e25234288bd903b1c01f24984f09c2a6c4",
+  "parent": "0289f607b67cb5cb2c37f36a01ecbc7c62a4f3aa",
+  "pull_request": 859,
+  "ci_run": 40221536738,
+  "full_fleet_run": 40221536770,
+  "state": "ISSUED_PENDING_ACTUAL_OUTCOMES",
+  "predecessor_originals_qualified": 338,
+  "fixed_originals": 468,
+  "new_qualification_claims": 0,
+  "production_changed": false
+}
