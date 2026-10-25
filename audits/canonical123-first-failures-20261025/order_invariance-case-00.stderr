@@ -1,0 +1,7 @@
+
+thread 'the_same_beaker_reads_the_same_solvent_mass_in_either_order' (9052) panicked at crates/kerotakis-phreeqc/tests/order_invariance.rs:113:5:
+the solvent mass still depends on the order the beaker was filled in:
+              solvent_kg     ionic strength   pH             contents[water]
+salt first    0.0996939731   0.2759702852     10.9521300644   5.5339424445
+powder first  0.0996939734   0.2759702846     10.9521300643   5.5339424570
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

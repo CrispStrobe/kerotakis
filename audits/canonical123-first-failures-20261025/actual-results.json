@@ -1,0 +1,82 @@
+{
+  "source": "bcb766b7e606c6f67c27be8c4977a23ce3beff08",
+  "tree": "fd34dc3bd93a331bce245d193d7e29b6e97b2b9d",
+  "manifest_sha256": "5c29def90f89124fc8e7e2202d94a76120afe68a5ccb59f2e8c8b353939cbe27",
+  "closed_members": 566,
+  "non_gzip_bodies_hashed": 549,
+  "archives_body_verified": false,
+  "actual_passes": 121,
+  "actual_failures": [
+    [
+      "particle_census",
+      "carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift"
+    ],
+    [
+      "order_invariance",
+      "the_same_beaker_reads_the_same_solvent_mass_in_either_order"
+    ]
+  ],
+  "gates": {
+    "format-check": 0,
+    "affected-clippy": 0,
+    "wasm32-check": 0,
+    "original-cycle-cli": 0,
+    "carbonate-acetic-cli": 0,
+    "bicarbonate-phosphoric-cli": 0,
+    "full-1536-sweep": 1
+  },
+  "cli_solver_failures": {
+    "original-cycle-cli": [],
+    "carbonate-acetic-cli": [
+      {
+        "detail": "phreeqc-canonical could not solve this state: aqueous provenance changed during canonical reentry",
+        "event": "solver_failed",
+        "solver": "phreeqc-aqueous",
+        "vessel": 0
+      },
+      {
+        "detail": "deferred curated overlap received no accepted complete aqueous answer",
+        "event": "solver_failed",
+        "solver": "aqueous-overlap-ownership",
+        "vessel": 0
+      },
+      {
+        "detail": "phreeqc-canonical could not solve this state: aqueous provenance changed during canonical reentry",
+        "event": "solver_failed",
+        "solver": "phreeqc-aqueous",
+        "vessel": 0
+      },
+      {
+        "detail": "deferred curated overlap received no accepted complete aqueous answer",
+        "event": "solver_failed",
+        "solver": "aqueous-overlap-ownership",
+        "vessel": 0
+      }
+    ],
+    "bicarbonate-phosphoric-cli": [
+      {
+        "detail": "phreeqc-canonical could not solve this state: gas-aware aqueous route or ownership changed during reentry",
+        "event": "solver_failed",
+        "solver": "phreeqc-aqueous",
+        "vessel": 0
+      },
+      {
+        "detail": "phreeqc-canonical could not solve this state: aqueous provenance changed during canonical reentry",
+        "event": "solver_failed",
+        "solver": "phreeqc-aqueous",
+        "vessel": 0
+      },
+      {
+        "detail": "phreeqc-canonical could not solve this state: aqueous provenance changed during canonical reentry",
+        "event": "solver_failed",
+        "solver": "phreeqc-aqueous",
+        "vessel": 0
+      }
+    ]
+  },
+  "scientific_or_product_accepted": false,
+  "new_original_selections": 0,
+  "sweep_stdout": "\nswept 1536 states \u2014 1536 ran, 130 step(s) stated a refusal\n7 violation(s):\n\n  StatesAgreeWithTemperature \u2014 7 case(s)\n    \u00b7 liquid water at 252.53 K, freezes at 289.75 K\n      in: water 100mL + Na2CO3 0.02mol + [CH3COOH 0.05mol] + [cool v1 20kJ]\n    \u00b7 liquid water at 250.97 K, freezes at 273.15 K\n      in: water 100mL + NaHCO3 0.05mol + [] + [cool v1 20kJ]\n    \u00b7 liquid water at 251.14 K, freezes at 273.15 K\n      in: water 100mL + NaHCO3 0.05mol + [HCl 0.02mol] + [cool v1 20kJ]\n    \u00b7 liquid water at 251.20 K, freezes at 273.15 K\n      in: water 100mL + NaHCO3 0.05mol + [H3PO4 0.02mol] + [cool v1 20kJ]\n    \u00b7 \u2026 and 3 more\n",
+  "independent_review_sha256": "a8438eb260c6fdf41d841ceb0addd9805a9439e82436e2c7a4c0918e3c89dd21",
+  "independent_order_adjudication_sha256": "6c1f2f7ee4d11fb409c51fc67b0ad87e8bcd28de13f1e03bfc8e560882828d8d"
+}
