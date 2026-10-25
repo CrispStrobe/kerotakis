@@ -17,6 +17,10 @@ fn step(bench: &mut Bench, solver: &mut SolverStack, op: Operator) {
         stoich::parse_formula(data.formula).expect("input stock formula");
     }
     let mut expected = ConservedLedger::from_vessel(before);
+    let finite_co2_dose = match &op {
+        Operator::Add { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+        _ => None,
+    };
     if let Operator::Add { species, moles, .. } = &op {
         let formula = stoich::parse_formula(species::lookup(species).expect("input").formula)
             .expect("formula");
@@ -28,6 +32,8 @@ fn step(bench: &mut Bench, solver: &mut SolverStack, op: Operator) {
     let events = bench
         .step_with(op.clone(), solver, &PermissiveScreen)
         .expect("step");
+    let mut absorbed_from_dose = 0.0;
+    let mut vented_from_dose = 0.0;
     for event in &events {
         assert!(
             !matches!(event, Event::SolverFailed { .. }),
@@ -54,10 +60,31 @@ fn step(bench: &mut Bench, solver: &mut SolverStack, op: Operator) {
         let amount = sign * moles;
         let formula = stoich::parse_formula(species::lookup(species).expect("gas").formula)
             .expect("gas formula");
+        if sign > 0.0 && species.0 == "CO2" && finite_co2_dose.is_some() {
+            // The full Add was already booked above. This event tells how
+            // much of that finite gas dose entered solution; it is not a
+            // second room-air inlet. Unused dose still leaves as GasEvolved.
+            absorbed_from_dose += moles;
+            continue;
+        }
+        if sign < 0.0 && species.0 == "CO2" && finite_co2_dose.is_some() {
+            vented_from_dose += moles;
+        }
         for (element, count) in formula.counts {
             *expected.elements.entry(element).or_default() += count * amount;
         }
         expected.charge += formula.charge * amount;
+    }
+    if let Some(dose) = finite_co2_dose {
+        assert!(dose.is_finite() && dose >= 0.0);
+        assert!(
+            absorbed_from_dose <= dose,
+            "finite CO2 uptake {absorbed_from_dose} exceeds supplied dose {dose}"
+        );
+        assert!(
+            (absorbed_from_dose + vented_from_dose - dose).abs() <= 1e-10,
+            "finite CO2 dose must be accounted for by retained uptake and venting"
+        );
     }
     let after = bench.vessels.first().expect("result vessel");
     assert!(after.unresolved_materials.is_empty());
