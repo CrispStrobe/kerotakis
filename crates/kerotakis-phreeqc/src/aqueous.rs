@@ -647,6 +647,21 @@ fn load_native_database(tag: &str) -> Result<Phreeqc, PhreeqcError> {
     Phreeqc::with_database(&database.database)
 }
 
+#[cfg(feature = "engine")]
+fn canonical_diagnostic_state(vessel: &Vessel) -> serde_json::Value {
+    serde_json::json!({
+        "contents": &vessel.contents,
+        "solution": &vessel.solution,
+        "free_proton_mol": vessel.free_proton,
+        "free_hydroxide_mol": vessel.free_hydroxide,
+        "solute_charge_mol": vessel.solute_charge,
+        "temperature_k": vessel.temperature.0,
+        "pressure_pa": vessel.pressure.0,
+        "pending_clock_co2_mol": vessel.pending_co2_transfer_mol,
+        "headspace": vessel.headspace
+    })
+}
+
 impl PhreeqcEquilibrator {
     /// Settle the physical aqueous/gas answer at one thermal guess. The
     /// caller owns the candidate vessel; no intermediate answer is public.
@@ -696,7 +711,43 @@ impl PhreeqcEquilibrator {
             let mut trial = owner_start.clone();
             trial.step_start = Some(heat_origin.clone());
             calls += 1;
-            let first = solve(&mut trial, &[], false, forced_first_route)?;
+            let before = trial.clone();
+            let first = match solve(&mut trial, &[], false, forced_first_route) {
+                Ok(pass) => {
+                    eprintln!(
+                        "CANONICAL_DIAGNOSTIC {}",
+                        serde_json::json!({
+                            "call": calls,
+                            "stage": "first_pass",
+                            "requested_route": forced_first_route,
+                            "db_tag": pass.db_tag,
+                            "clock_co2_applied_mol": pass.clock_co2_applied_mol,
+                            "heat_quote_j": pass.heat_quote_j,
+                            "events": &pass.events,
+                            "gas_components_certified": pass.gas_components_certified,
+                            "closed": null,
+                            "before": canonical_diagnostic_state(&before),
+                            "after": canonical_diagnostic_state(&trial),
+                            "error": null
+                        })
+                    );
+                    pass
+                }
+                Err(error) => {
+                    eprintln!(
+                        "CANONICAL_DIAGNOSTIC {}",
+                        serde_json::json!({
+                            "call": calls,
+                            "stage": "first_pass",
+                            "requested_route": forced_first_route,
+                            "before": canonical_diagnostic_state(&before),
+                            "after": canonical_diagnostic_state(&trial),
+                            "error": error.to_string()
+                        })
+                    );
+                    return Err(error);
+                }
+            };
             if let Some(tag) = forced_first_route {
                 let info = trial
                     .solution
@@ -796,7 +847,45 @@ impl PhreeqcEquilibrator {
                 }
                 trial.step_start = Some(private_snapshot);
                 calls += 1;
-                let pass = solve(&mut trial, &all_events, true, None)?;
+                let before = trial.clone();
+                let pass = match solve(&mut trial, &all_events, true, None) {
+                    Ok(pass) => {
+                        eprintln!(
+                            "CANONICAL_DIAGNOSTIC {}",
+                            serde_json::json!({
+                                "call": calls,
+                                "stage": "reentry_pass",
+                                "requested_route": null,
+                                "prior_event_count": all_events.len(),
+                                "db_tag": pass.db_tag,
+                                "clock_co2_applied_mol": pass.clock_co2_applied_mol,
+                                "heat_quote_j": pass.heat_quote_j,
+                                "events": &pass.events,
+                                "gas_components_certified": pass.gas_components_certified,
+                                "closed": null,
+                                "before": canonical_diagnostic_state(&before),
+                                "after": canonical_diagnostic_state(&trial),
+                                "error": null
+                            })
+                        );
+                        pass
+                    }
+                    Err(error) => {
+                        eprintln!(
+                            "CANONICAL_DIAGNOSTIC {}",
+                            serde_json::json!({
+                                "call": calls,
+                                "stage": "reentry_pass",
+                                "requested_route": null,
+                                "prior_event_count": all_events.len(),
+                                "before": canonical_diagnostic_state(&before),
+                                "after": canonical_diagnostic_state(&trial),
+                                "error": error.to_string()
+                            })
+                        );
+                        return Err(error);
+                    }
+                };
                 if !pass.gas_components_certified
                     || pass.clock_co2_applied_mol != 0.0
                     || pass
@@ -861,12 +950,36 @@ impl PhreeqcEquilibrator {
                     &reservoir_refs,
                     clock,
                 )?;
-                let closed = canonical_physical_delta_closed(
+                let closed_result = canonical_physical_delta_closed(
                     &previous_state,
                     &trial,
                     &previous_pass,
                     &pass,
-                )?;
+                );
+                match &closed_result {
+                    Ok(closed) => eprintln!(
+                        "CANONICAL_DIAGNOSTIC {}",
+                        serde_json::json!({
+                            "call": calls,
+                            "stage": "closure_check",
+                            "closed": closed,
+                            "before": canonical_diagnostic_state(&before),
+                            "after": canonical_diagnostic_state(&trial)
+                        })
+                    ),
+                    Err(error) => eprintln!(
+                        "CANONICAL_DIAGNOSTIC {}",
+                        serde_json::json!({
+                            "call": calls,
+                            "stage": "closure_check",
+                            "closed": null,
+                            "before": canonical_diagnostic_state(&before),
+                            "after": canonical_diagnostic_state(&trial),
+                            "error": error.to_string()
+                        })
+                    ),
+                }
+                let closed = closed_result?;
                 all_events.extend(pass.events.iter().cloned());
                 if closed {
                     let events =
