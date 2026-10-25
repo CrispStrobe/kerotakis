@@ -1,0 +1,96 @@
+{
+  "source": "c928bbbb50ef0939da7fd4dd7176e0846f945575",
+  "tree": "5680a7f4c996026e81a688d94d371fe280d4c08d",
+  "runtime_base": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "only_runtime_delta": [
+    "crates/kerotakis-phreeqc/src/aqueous.rs",
+    "crates/kerotakis-phreeqc/src/inventory.rs",
+    "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs"
+  ],
+  "dependency_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "source_pins": {
+    "Cargo.toml": {
+      "sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+      "git_blob": "ac217f7030a22079c14d4b420b7a753961f03b7d"
+    },
+    "crates/kerotakis-phreeqc/Cargo.toml": {
+      "sha256": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+      "git_blob": "12bcd1af60851e22c402c5d9cc1ce528f4cdbe17"
+    },
+    "crates/kerotakis-phreeqc/src/aqueous.rs": {
+      "sha256": "9e63f383c073ff399889b9fceab7905251b8c1eae52eb14751d6aabe547b5f31",
+      "git_blob": "c77709810ec554671da2678543cbad3603d4c5f9"
+    },
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": {
+      "sha256": "5e49a8348b60e9b91661a682861cca09cacdf0cd87183936f71aa0403b2b57ff",
+      "git_blob": "27d34fa68a180cd8784d7606008962f005eb7426"
+    },
+    "data/registry/registry-source-v1.json": {
+      "sha256": "db8496e677d3482e9faef01167b9d621ff32c7dc9219a7c690f7f9546c9d1d73",
+      "git_blob": "aa1c28d29f29746457ad3cae363cf333039e9897"
+    },
+    "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs": {
+      "sha256": "4bf7855bd69e15ce4f7afd9002646d8bed81caaf39e32e29d0fe059ed5f057e4",
+      "git_blob": "dea28f8a6f38fc778efc21e889986c355c6b3920"
+    },
+    "crates/kerotakis-phreeqc/src/inventory.rs": {
+      "sha256": "8d9bf0e05c0c4d7bf54f41257f990cbe879b21d290e33181455ffea2013e7cce",
+      "git_blob": "9fa42b4fbb7b706d83cd41086ac73151f298649c"
+    }
+  },
+  "targets": [
+    {
+      "target": "native_cabbage_thermal_dom",
+      "package": "kerotakis-phreeqc",
+      "kind": "integration",
+      "path": "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs",
+      "source_sha256": "4bf7855bd69e15ce4f7afd9002646d8bed81caaf39e32e29d0fe059ed5f057e4",
+      "cargo_args": [
+        "--features",
+        "engine"
+      ],
+      "listed_tests": [
+        "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+        "plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock"
+      ],
+      "tests": [
+        "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+        "plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock"
+      ],
+      "should_panic_tests": [],
+      "test_deadline_seconds": 120
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "package": "kerotakis-phreeqc",
+      "kind": "lib",
+      "path": "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "source_sha256": "9e63f383c073ff399889b9fceab7905251b8c1eae52eb14751d6aabe547b5f31",
+      "cargo_args": [
+        "--features",
+        "engine"
+      ],
+      "listed_tests": null,
+      "tests": [
+        "aqueous::canonical_physical_closure_tests::static_certificate_requires_current_native_numerical_coordinates",
+        "aqueous::canonical_physical_closure_tests::static_owner_spends_global_eight_pass_cap_and_rolls_back",
+        "aqueous::gas_component_projection_tests::static_component_owner_needs_typed_gas_free_ladder_and_keeps_clock_distinct",
+        "inventory::static_immutable_certificate_tests::passive_ladder_is_static_only_and_every_spectator_bit_is_immutable",
+        "inventory::static_immutable_certificate_tests::static_owner_does_not_accept_unknown_ions_or_gas_and_clock_boundaries",
+        "aqueous::canonical_physical_closure_tests::opaque_clock_owner_rejects_second_pass_mutation_and_restores_caller",
+        "aqueous::gas_component_projection_tests::opaque_owner_is_clock_only_and_requires_every_represented_component",
+        "aqueous::gas_component_projection_tests::clock_only_component_projection_requires_typed_first_or_reentry_owner",
+        "inventory::gas_aware_certificate_tests::clock_spectators_are_exact_immutable_stock_not_new_native_components",
+        "inventory::gas_aware_certificate_tests::opaque_clock_owner_preserves_every_unresolved_field_and_rejects_invalid_stock"
+      ],
+      "should_panic_tests": [],
+      "test_deadline_seconds": 120
+    }
+  ],
+  "selected_controls": 12,
+  "target_count": 2,
+  "purpose": "Changed-source static canonical repair: exact original first-failing cabbage control, plain carbonate companion, five new pure mechanism controls and five existing clock/rollback controls. Focus is not full-source/product acceptance.",
+  "original_first_failing_test_sha256": "2515dd03fa00842b9860caec7ebae978f4363df8db3e58dfe3f599a9ccfdd78d",
+  "original_test_is_exact_byte_prefix": true,
+  "actual_result": "PENDING"
+}
