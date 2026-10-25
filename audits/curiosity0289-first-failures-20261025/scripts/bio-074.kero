@@ -1,0 +1,4 @@
+add v1 cabbage 100g
+add v1 NaCl 10g
+wait 24h
+measure v1 ph

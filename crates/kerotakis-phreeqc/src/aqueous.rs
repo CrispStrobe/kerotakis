@@ -7715,7 +7715,7 @@ impl PhreeqcEquilibrator {
             vessel,
             problem,
             new_ions,
-            &new_phases,
+            &mut new_phases,
             &new_gases,
             certified_reentry,
         )?;
@@ -8382,6 +8382,123 @@ fn add_gas_component_transfer(
     true
 }
 
+/// A reservoir phase can certify an exhausted aqueous endpoint when its
+/// independently bounded amount closes the tiny analytical residual. The
+/// correction belongs to the gas transfer, never to an invented aqueous ion.
+fn exhausted_reservoir_endpoint_correction(
+    vessel: &Vessel,
+    problem: &Problem,
+    new_ions: &[(String, f64)],
+    new_phases: &[(String, f64)],
+) -> Option<(usize, String, f64)> {
+    if problem.external_gases.len() != 1
+        || !problem.gases.is_empty()
+        || problem.phases.len() != 1
+        || new_phases.len() != 1
+        || problem.clock_co2_applied_mol != 0.0
+        || vessel.owns_headspace_gas()
+        || vessel
+            .contents
+            .iter()
+            .any(|portion| portion.phase == Phase::Gas)
+        || !problem.surfaces.is_empty()
+        || !problem.exchanges.is_empty()
+        || !problem.solid_solutions.is_empty()
+        || !vessel.unresolved_materials.is_empty()
+        || !vessel.material_objects.is_empty()
+        || !vessel.adsorbed.is_empty()
+        || !vessel.electrodes.is_empty()
+    {
+        return None;
+    }
+    let gas = &problem.external_gases[0];
+    if gas.kind != ExternalGasKind::Reservoir
+        || !ATMOSPHERIC
+            .iter()
+            .any(|(phase, species, _)| *phase == gas.phase && *species == gas.species)
+        || gas.phase != format!("{}(g)", gas.species)
+        || problem.phases[0].0 != gas.phase
+        || new_phases[0].0 != gas.phase
+    {
+        return None;
+    }
+    let registry = species::lookup_key(&gas.species)?;
+    let formula = kerotakis_core::stoich::parse_formula(registry.formula).ok()?;
+    let phase_formula = crate::dbindex::parse_formula(gas.phase.trim_end_matches("(g)"))?;
+    if formula.charge != 0.0 || formula.counts != phase_formula {
+        return None;
+    }
+    let mut physical_elements = formula.counts.iter().filter(|(element, count)| {
+        element.as_str() != "H" && element.as_str() != "O" && **count > 0.0
+    });
+    let (element, coefficient) = physical_elements.next()?;
+    if physical_elements.next().is_some() || !coefficient.is_finite() || *coefficient <= 0.0 {
+        return None;
+    }
+    let totals: Vec<_> = problem
+        .totals
+        .iter()
+        .filter(|(key, _)| key != "H" && key != "O")
+        .collect();
+    if totals.len() != 1 || totals[0].0.as_str() != element.as_str() {
+        return None;
+    }
+    // Tagged or duplicate native rows would make the endpoint's component
+    // owner ambiguous even if they happen to share the same base element.
+    if new_ions
+        .iter()
+        .any(|(key, _)| key.split('(').next().unwrap_or(key) == element && key != element)
+    {
+        return None;
+    }
+    let current: f64 = new_ions
+        .iter()
+        .filter(|(key, _)| key == element)
+        .map(|(_, amount)| *amount)
+        .sum();
+    let input_total = totals[0].1;
+    let coefficient = *coefficient;
+    let target_before = input_total + (gas.initial_moles - new_phases[0].1) * coefficient;
+    let initial = gas.initial_moles;
+    let final_amount = new_phases[0].1;
+    if !initial.is_finite()
+        || initial < 0.0
+        || !final_amount.is_finite()
+        || final_amount <= initial
+        || !current.is_finite()
+        || current != 0.0
+        || !target_before.is_finite()
+        || target_before <= 0.0
+    {
+        return None;
+    }
+    let correction = target_before / coefficient;
+    let gas_readback_bound = 1e-14_f64.max(initial.abs().max(final_amount.abs()) * 1e-7);
+    if !correction.is_finite() || correction <= 0.0 || correction > gas_readback_bound {
+        return None;
+    }
+    for count in formula.counts.values() {
+        let moved = correction * count;
+        if !moved.is_finite() || moved.abs() > 1e-10 {
+            return None;
+        }
+    }
+    let moved_charge = correction * formula.charge;
+    if !moved_charge.is_finite() || moved_charge.abs() > 1e-10 {
+        return None;
+    }
+    let corrected_amount = final_amount + correction;
+    let residual = input_total + (initial - corrected_amount) * coefficient;
+    if !corrected_amount.is_finite()
+        || corrected_amount < initial
+        || !residual.is_finite()
+        || residual.abs() > 1e-14
+    {
+        return None;
+    }
+    Some((0, element.clone(), corrected_amount))
+}
+
 /// A clock may pose a known aqueous subproblem beside conserved recipe matter
 /// whose formula is explicitly unknown. Its represented contents must all be
 /// owned by this adapter; only the separate unresolved portions may remain
@@ -8394,6 +8511,7 @@ fn opaque_clock_component_owner(
     !vessel.unresolved_materials.is_empty()
         && (problem.clock_co2_applied_mol != 0.0 || certified_reentry)
         && crate::inventory::valid_opaque_clock_stock(vessel)
+        && crate::inventory::valid_clock_immutable_spectators(vessel)
         && !holds_unspeciated_acid(vessel)
         && !holds_unspeciated_solute(vessel)
         && vessel.contents.iter().all(|portion| {
@@ -8415,6 +8533,7 @@ fn opaque_clock_component_owner(
             derived::role(&portion.species.0).is_some()
                 || (portion.phase == Phase::Aqueous
                     && species::is_acid_base_basis(&portion.species.0))
+                || crate::inventory::clock_spectator(portion)
         })
 }
 
@@ -8427,7 +8546,7 @@ fn project_gas_aware_components(
     vessel: &Vessel,
     problem: &Problem,
     new_ions: &mut [(String, f64)],
-    new_phases: &[(String, f64)],
+    new_phases: &mut [(String, f64)],
     new_gases: &[(String, String, f64)],
     certified_reentry: bool,
 ) -> Result<bool, SolveError> {
@@ -8467,7 +8586,7 @@ fn project_gas_aware_components(
     {
         return Err(component_projection_error("invalid finite gas readback"));
     }
-    for (phase, amount) in new_phases {
+    for (phase, amount) in new_phases.iter() {
         if !amount.is_finite()
             || (*amount < 0.0
                 && !problem.external_gases.iter().any(|gas| {
@@ -8479,6 +8598,8 @@ fn project_gas_aware_components(
             )));
         }
     }
+    let exhausted_endpoint =
+        exhausted_reservoir_endpoint_correction(vessel, problem, new_ions, new_phases);
     let mut keys = BTreeSet::<String>::new();
     keys.extend(problem.totals.iter().map(|(key, _)| key.clone()));
     keys.extend(new_ions.iter().map(|(key, _)| key.clone()));
@@ -8504,8 +8625,8 @@ fn project_gas_aware_components(
     for (key, amount) in &problem.totals {
         *targets.entry(key.clone()).or_default() += amount;
     }
-    for (phase, initial, _) in &problem.phases {
-        let Some((_, final_amount)) = new_phases
+    for (phase_index, (phase, initial, _)) in problem.phases.iter().enumerate() {
+        let Some((_, raw_final_amount)) = new_phases
             .iter()
             .find(|(candidate, _)| candidate.as_str() == phase.as_str())
         else {
@@ -8513,11 +8634,15 @@ fn project_gas_aware_components(
                 "missing phase readback {phase}"
             )));
         };
-        if !initial.is_finite() || *initial < 0.0 || !final_amount.is_finite() {
+        if !initial.is_finite() || *initial < 0.0 || !raw_final_amount.is_finite() {
             return Err(component_projection_error(format!(
                 "invalid phase amount {phase}"
             )));
         }
+        let final_amount = exhausted_endpoint
+            .as_ref()
+            .filter(|(endpoint_index, _, _)| *endpoint_index == phase_index)
+            .map_or(*raw_final_amount, |(_, _, corrected)| *corrected);
         if let Some(gas) = problem
             .external_gases
             .iter()
@@ -8527,19 +8652,19 @@ fn project_gas_aware_components(
                 &mut targets,
                 &unique_keys,
                 phase,
-                gas.initial_moles - *final_amount,
+                gas.initial_moles - final_amount,
             ) {
                 return Ok(false);
             }
         } else if let Some(mineral) = derived::phase_by_name(phase) {
-            if *final_amount < 0.0 {
+            if final_amount < 0.0 {
                 return Err(component_projection_error(format!(
                     "negative mineral amount {phase}"
                 )));
             }
             for (key, coefficient) in &mineral.elements {
                 *targets.entry(key.clone()).or_default() +=
-                    (*initial - *final_amount) * *coefficient;
+                    (*initial - final_amount) * *coefficient;
             }
         } else {
             // Even a trace with no identified owner is outside this
@@ -8585,7 +8710,20 @@ fn project_gas_aware_components(
     {
         return Ok(false);
     }
-    for (key, target) in targets {
+    for (key, mut target) in targets {
+        if exhausted_endpoint
+            .as_ref()
+            .is_some_and(|(_, endpoint_key, _)| endpoint_key == &key)
+        {
+            if !target.is_finite() || target.abs() > 1e-14 {
+                return Err(component_projection_error(format!(
+                    "exhausted reservoir endpoint did not close {key}: residual={target}"
+                )));
+            }
+            // Exact zero is assigned only after the registered gas-phase
+            // witness has been corrected and the constrained total recomputed.
+            target = 0.0;
+        }
         let current: f64 = new_ions
             .iter()
             .filter(|(candidate, _)| candidate.as_str() == key.as_str())
@@ -8608,6 +8746,9 @@ fn project_gas_aware_components(
                 }
             }
         }
+    }
+    if let Some((phase_index, _, corrected_amount)) = exhausted_endpoint {
+        new_phases[phase_index].1 = corrected_amount;
     }
     Ok(true)
 }
@@ -8652,6 +8793,46 @@ mod gas_component_projection_tests {
             ("Acetate".into(), 0.005 - 2e-10),
             ("C".into(), carbon),
         ]
+    }
+
+    fn exhausted_co2_problem(input_carbon: f64, reservoir_initial: f64) -> Problem {
+        Problem {
+            kgw: 0.0997,
+            solvent_only: false,
+            clock_co2_applied_mol: 0.0,
+            totals: vec![("C".into(), input_carbon)],
+            phases: vec![("CO2(g)".into(), 0.0, -12.0)],
+            gases: vec![],
+            external_gases: vec![ExternalGas {
+                phase: "CO2(g)".into(),
+                species: "CO2".into(),
+                initial_moles: reservoir_initial,
+                kind: ExternalGasKind::Reservoir,
+            }],
+            surfaces: vec![],
+            exchanges: vec![],
+            solid_solutions: vec![],
+            elements: vec!["C".into()],
+        }
+    }
+
+    fn project(
+        vessel: &Vessel,
+        problem: &Problem,
+        new_ions: &mut [(String, f64)],
+        new_phases: &[(String, f64)],
+        new_gases: &[(String, String, f64)],
+        certified_reentry: bool,
+    ) -> Result<bool, SolveError> {
+        let mut phases = new_phases.to_vec();
+        super::project_gas_aware_components(
+            vessel,
+            problem,
+            new_ions,
+            &mut phases,
+            new_gases,
+            certified_reentry,
+        )
     }
 
     #[test]
@@ -8703,13 +8884,11 @@ mod gas_component_projection_tests {
         });
         let mut problem = open_problem();
         let mut ions = readback(0.02 + 1e-10);
-        assert!(
-            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
-        );
+        assert!(!project(&vessel, &problem, &mut ions, &[], &[], false,).unwrap());
         problem.clock_co2_applied_mol = 1e-6;
         assert!(opaque_clock_component_owner(&vessel, &problem, false));
         let mut ions = readback(0.02 + 1e-10);
-        assert!(project_gas_aware_components(
+        assert!(project(
             &vessel,
             &problem,
             &mut ions,
@@ -8739,17 +8918,13 @@ mod gas_component_projection_tests {
         vessel.deposit(SpeciesId::new("KIO3"), Moles(0.001), Phase::Aqueous);
         assert!(!opaque_clock_component_owner(&vessel, &problem, false));
         let mut ions = readback(0.02 + 1e-10);
-        assert!(
-            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
-        );
+        assert!(!project(&vessel, &problem, &mut ions, &[], &[], false,).unwrap());
         vessel
             .contents
             .retain(|portion| portion.species.0 != "KIO3");
         problem.external_gases[0].kind = ExternalGasKind::Dose;
         let mut ions = readback(0.02 + 1e-10);
-        assert!(
-            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
-        );
+        assert!(!project(&vessel, &problem, &mut ions, &[], &[], false,).unwrap());
         problem.external_gases[0].kind = ExternalGasKind::Reservoir;
         problem.surfaces.push(SurfaceSites {
             label: "unsupported interface".into(),
@@ -8762,9 +8937,7 @@ mod gas_component_projection_tests {
             water_release: Moles(0.0),
         });
         let mut ions = readback(0.02 + 1e-10);
-        assert!(
-            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
-        );
+        assert!(!project(&vessel, &problem, &mut ions, &[], &[], false,).unwrap());
         problem.surfaces.clear();
         vessel.material_objects.push(MaterialObject {
             material: "prepared spectator".into(),
@@ -8775,9 +8948,7 @@ mod gas_component_projection_tests {
             state: MaterialObjectState::default(),
         });
         let mut ions = readback(0.02 + 1e-10);
-        assert!(
-            !project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
-        );
+        assert!(!project(&vessel, &problem, &mut ions, &[], &[], false,).unwrap());
         vessel.material_objects.clear();
         vessel.unresolved_materials[0].amount = f64::NAN;
         assert!(!opaque_clock_component_owner(&vessel, &problem, false));
@@ -8815,25 +8986,15 @@ mod gas_component_projection_tests {
         problem.external_gases.clear();
         let mut first = readback(0.02 + 1e-10);
         problem.clock_co2_applied_mol = 1e-6;
-        assert!(
-            project_gas_aware_components(&vessel, &problem, &mut first, &[], &[], false,).unwrap()
-        );
+        assert!(project(&vessel, &problem, &mut first, &[], &[], false,).unwrap());
         assert!((amount(&first, "C") - 0.02).abs() < 1e-16);
 
         problem.clock_co2_applied_mol = 0.0;
         let mut ordinary = readback(0.02 + 1e-10);
-        assert!(
-            !project_gas_aware_components(&vessel, &problem, &mut ordinary, &[], &[], false,)
-                .unwrap()
-        );
-        assert!(
-            project_gas_aware_components(&vessel, &problem, &mut ordinary, &[], &[], true,)
-                .unwrap()
-        );
+        assert!(!project(&vessel, &problem, &mut ordinary, &[], &[], false,).unwrap());
+        assert!(project(&vessel, &problem, &mut ordinary, &[], &[], true,).unwrap());
         let mut invalid = readback(0.021);
-        assert!(
-            project_gas_aware_components(&vessel, &problem, &mut invalid, &[], &[], true,).is_err()
-        );
+        assert!(project(&vessel, &problem, &mut invalid, &[], &[], true,).is_err());
     }
 
     fn amount(ions: &[(String, f64)], key: &str) -> f64 {
@@ -8848,7 +9009,7 @@ mod gas_component_projection_tests {
         let vessel = Vessel::new(VesselId(0), "pure bookkeeping");
         let problem = open_problem();
         let mut outward = readback(0.015 + 3e-10);
-        assert!(project_gas_aware_components(
+        assert!(project(
             &vessel,
             &problem,
             &mut outward,
@@ -8866,7 +9027,7 @@ mod gas_component_projection_tests {
             ("Acetate".into(), 0.005),
             ("C".into(), 0.023 + 4e-10),
         ];
-        assert!(project_gas_aware_components(
+        assert!(project(
             &vessel,
             &problem,
             &mut inward,
@@ -8877,6 +9038,146 @@ mod gas_component_projection_tests {
         .unwrap());
         assert!((amount(&inward, "C") - 0.023).abs() < 1e-16);
         assert!((amount(&inward, "Acetate") - 0.005).abs() < 1e-16);
+    }
+
+    #[test]
+    fn exhausted_registered_reservoir_closes_only_gas_amount_at_native_precision() {
+        // Frozen aq-064 target from the saved capture: native dissolved C is
+        // exactly zero while the external CO2 reservoir carries the residue.
+        let residual = 1.806_367_555_534_649_2e-14;
+        let input = 0.034_050_065_360_08;
+        let raw_gas_out = input - residual;
+        let problem = exhausted_co2_problem(input, 0.0);
+        let vessel = Vessel::new(VesselId(0), "exhausted CO2 endpoint");
+        let mut ions = vec![("C".into(), 0.0)];
+        let mut phases = vec![("CO2(g)".into(), raw_gas_out)];
+        let original_endpoint =
+            problem.totals[0].1 + problem.external_gases[0].initial_moles - phases[0].1;
+        assert!((original_endpoint - residual).abs() < 1e-17);
+
+        assert!(super::project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut ions,
+            &mut phases,
+            &[],
+            false,
+        )
+        .unwrap());
+        assert_eq!(ions, vec![("C".into(), 0.0)]);
+        assert!(phases[0].1 > raw_gas_out, "outward flow remains outward");
+        let constrained =
+            problem.totals[0].1 + problem.external_gases[0].initial_moles - phases[0].1;
+        assert!(constrained.abs() <= 1e-14, "{constrained:.17e}");
+        assert!(phases[0].1.is_finite() && phases[0].1 >= 0.0);
+
+        let co2 = species::lookup_key("CO2").expect("registered neutral gas");
+        let formula = kerotakis_core::stoich::parse_formula(co2.formula).unwrap();
+        assert_eq!(formula.charge, 0.0);
+        let moved_gas = phases[0].1 - raw_gas_out;
+        for count in formula.counts.values() {
+            assert!((moved_gas * *count).abs() <= 1e-10);
+        }
+        assert!((moved_gas * formula.charge).abs() <= 1e-10);
+    }
+
+    #[test]
+    fn exhausted_endpoint_requires_one_outward_registered_reservoir_only() {
+        let residual = 1.806_367_555_534_649_2e-14;
+        let input = 0.034_050_065_360_08;
+        let raw_gas_out = input - residual;
+        let vessel = Vessel::new(VesselId(0), "endpoint negative witnesses");
+
+        let assert_no_correction =
+            |problem: Problem, phases: Vec<(String, f64)>, ions: &mut Vec<(String, f64)>| {
+                assert!(super::exhausted_reservoir_endpoint_correction(
+                    &vessel, &problem, ions, &phases,
+                )
+                .is_none());
+            };
+
+        let mut ions = vec![("C".into(), 0.0)];
+        let mut dose = exhausted_co2_problem(input, 0.0);
+        dose.external_gases[0].kind = ExternalGasKind::Dose;
+        assert_no_correction(dose, vec![("CO2(g)".into(), raw_gas_out)], &mut ions);
+        let mut dose = exhausted_co2_problem(input, 0.0);
+        dose.external_gases[0].kind = ExternalGasKind::Dose;
+        let phases = vec![("CO2(g)".into(), raw_gas_out)];
+        assert!(!project(&vessel, &dose, &mut ions, &phases, &[], false).unwrap());
+
+        let mut ions = vec![("C".into(), 0.0)];
+        let mut competing_gas = exhausted_co2_problem(input, 0.0);
+        competing_gas.external_gases.push(ExternalGas {
+            phase: "HBr(g)".into(),
+            species: "HBr".into(),
+            initial_moles: 0.0,
+            kind: ExternalGasKind::Reservoir,
+        });
+        assert_no_correction(
+            competing_gas,
+            vec![("CO2(g)".into(), raw_gas_out)],
+            &mut ions,
+        );
+
+        let mut ions = vec![("C".into(), 0.0)];
+        let mut competing_mineral = exhausted_co2_problem(input, 0.0);
+        competing_mineral.phases.push(("Calcite".into(), 0.0, 0.0));
+        assert_no_correction(
+            competing_mineral,
+            vec![("CO2(g)".into(), raw_gas_out), ("Calcite".into(), 0.0)],
+            &mut ions,
+        );
+
+        let mut ions = vec![("C".into(), 0.0)];
+        let too_large = exhausted_co2_problem(input + 2e-10, 0.0);
+        let correction = too_large.totals[0].1 - raw_gas_out;
+        assert!(correction > 1e-10);
+        assert_no_correction(too_large, vec![("CO2(g)".into(), raw_gas_out)], &mut ions);
+
+        let mut ions = vec![("C".into(), 0.0)];
+        let insufficient_precision = exhausted_co2_problem(1e-13, 0.0);
+        assert_no_correction(
+            insufficient_precision,
+            vec![("CO2(g)".into(), 5e-14)],
+            &mut ions,
+        );
+
+        let mut ions = vec![("C".into(), 0.0), ("Na".into(), 1e-6)];
+        let problem = exhausted_co2_problem(input, 0.0);
+        let mut phases = vec![("CO2(g)".into(), raw_gas_out)];
+        assert!(!super::project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut ions,
+            &mut phases,
+            &[],
+            false,
+        )
+        .unwrap());
+        assert_eq!(phases[0].1, raw_gas_out, "declined projection is atomic");
+
+        let inward_problem = exhausted_co2_problem(input, input + 1e-6);
+        let inward = vec![("CO2(g)".into(), 1e-6)];
+        let mut inward_ions = vec![("C".into(), 0.0)];
+        assert_no_correction(inward_problem, inward, &mut inward_ions);
+
+        let mut ions = vec![("C".into(), -1e-30)];
+        let mut valid = exhausted_co2_problem(input, 0.0);
+        let mut phases = vec![("CO2(g)".into(), raw_gas_out)];
+        assert!(super::project_gas_aware_components(
+            &vessel,
+            &valid,
+            &mut ions,
+            &mut phases,
+            &[],
+            false,
+        )
+        .is_err());
+        valid.external_gases[0].initial_moles = f64::NAN;
+        let ions = vec![("C".into(), 0.0)];
+        assert!(
+            exhausted_reservoir_endpoint_correction(&vessel, &valid, &ions, &phases,).is_none()
+        );
     }
 
     #[test]
@@ -8968,7 +9269,7 @@ mod gas_component_projection_tests {
         problem.external_gases.clear();
         problem.gases.push(("CO2(g)".into(), "CO2".into(), 0.0));
         let mut ions = readback(0.024 + 1e-10);
-        assert!(project_gas_aware_components(
+        assert!(project(
             &vessel,
             &problem,
             &mut ions,
@@ -8992,7 +9293,7 @@ mod gas_component_projection_tests {
         problem.gases.push(("NH3(g)".into(), "NH3".into(), 0.0));
         vessel.deposit(SpeciesId::new("NH3"), Moles(0.001), Phase::Gas);
         let mut ions = vec![("N(-3)".into(), 0.021 + 2e-10), ("Cl".into(), 0.02)];
-        assert!(project_gas_aware_components(
+        assert!(project(
             &vessel,
             &problem,
             &mut ions,
@@ -9036,7 +9337,7 @@ mod gas_component_projection_tests {
         let mut problem = open_problem();
         for carbon in [0.016, f64::NAN, -0.01] {
             let mut ions = readback(carbon);
-            assert!(project_gas_aware_components(
+            assert!(project(
                 &vessel,
                 &problem,
                 &mut ions,
@@ -9048,7 +9349,7 @@ mod gas_component_projection_tests {
         }
         let mut ions = readback(0.015);
         problem.external_gases[0].kind = ExternalGasKind::Dose;
-        assert!(!project_gas_aware_components(
+        assert!(!project(
             &vessel,
             &problem,
             &mut ions,
@@ -9068,7 +9369,7 @@ mod gas_component_projection_tests {
             occupancy: vec![],
             water_release: Moles(0.0),
         });
-        assert!(!project_gas_aware_components(
+        assert!(!project(
             &vessel,
             &problem,
             &mut ions,
@@ -9079,7 +9380,7 @@ mod gas_component_projection_tests {
         .unwrap());
         problem.surfaces.clear();
         problem.totals.push(("C(-4)".into(), 1e-4));
-        assert!(!project_gas_aware_components(
+        assert!(!project(
             &vessel,
             &problem,
             &mut ions,

@@ -1,0 +1,147 @@
+{
+  "source": "0289f607b67cb5cb2c37f36a01ecbc7c62a4f3aa",
+  "tree": "a76e726bfb2f31a543c415ed4deb5ff9b67cdef5",
+  "actual_tested_merge": "3bf371013484d722e74756a16da35af63f4718ac",
+  "actual_cli_sha256": "93fe465b31d9093cc4ea00b4d72885b45007a28ddda949cd608e11db521aae8b",
+  "actual_cli_lock_sha256": "480aec7ac77e82e3e1966a3a28f640862cfcadffa41ce47b8c10ebc3c3bc6e76",
+  "cases": [
+    {
+      "id": "aq-061",
+      "source": "tests/coverage/curiosity-v1/aqueous-household.toml",
+      "source_blob_sha256": "274c5e2d05727842387c0dee440425fcdc67960fe2ccf681443080b41eab30d6",
+      "script_sha256": "fc571f35a918563e010735d33544824895361474004ec7c5e2c775ff4f4b53e8",
+      "question": "Will a sealed vinegar-and-baking-soda bottle build pressure?",
+      "owning_task": "CAP-25",
+      "expected": "computed",
+      "script": [
+        "add v1 water 100mL",
+        "seal v1 100mL",
+        "add v1 NaHCO3 0.05mol",
+        "add v1 CH3COOH 0.05mol",
+        "measure v1 pressure"
+      ]
+    },
+    {
+      "id": "aq-064",
+      "source": "tests/coverage/curiosity-v1/aqueous-household.toml",
+      "source_blob_sha256": "274c5e2d05727842387c0dee440425fcdc67960fe2ccf681443080b41eab30d6",
+      "script_sha256": "fb7d0d557b853a1e963cbb17643d5584ea19a2b99ea9d3889c95d7a56c75fa65",
+      "question": "Can nitrogen sweeping remove dissolved carbon dioxide from water?",
+      "owning_task": "EXP-25",
+      "expected": "computed",
+      "script": [
+        "add v1 water 100mL",
+        "add v1 CO2 0.01mol",
+        "sweep v1 1bar"
+      ]
+    },
+    {
+      "id": "aq-090",
+      "source": "tests/coverage/curiosity-v1/aqueous-household.toml",
+      "source_blob_sha256": "274c5e2d05727842387c0dee440425fcdc67960fe2ccf681443080b41eab30d6",
+      "script_sha256": "a069cfa27f88e414ad4a1c7c65c2de5bd0fce3da4ff53ed5d34a8980a7111229",
+      "question": "Can decanting move half the liquid while leaving settled chalk behind?",
+      "owning_task": "EXP-18",
+      "expected": "computed",
+      "script": [
+        "new",
+        "add v1 water 100mL",
+        "add v1 CaCO3 5g",
+        "decant v1 v2 0.5"
+      ]
+    },
+    {
+      "id": "bio-004",
+      "source": "tests/coverage/curiosity-v1/food-organic-bio.toml",
+      "source_blob_sha256": "a53f1afab07e37b7cb6ad81e9321285ce166fb5ae0d49e3f9f3f65add613b5f7",
+      "script_sha256": "dc100f4c216d878b97094355c693adc5596b03435601f83e151b55d38fd67165",
+      "question": "Why does baking soda make bubbles in an acidic cake batter?",
+      "owning_task": "BRD-014",
+      "expected": "qualitative",
+      "script": [
+        "add v1 water 100mL",
+        "add v1 NaHCO3 0.02mol",
+        "add v1 CH3COOH 0.02mol",
+        "look v1"
+      ]
+    },
+    {
+      "id": "bio-050",
+      "source": "tests/coverage/curiosity-v1/food-organic-bio.toml",
+      "source_blob_sha256": "a53f1afab07e37b7cb6ad81e9321285ce166fb5ae0d49e3f9f3f65add613b5f7",
+      "script_sha256": "e3a86a705e87851d3a29298bbca1f863fe16cb5ad8e2f1d05fa8fe34acd53c95",
+      "question": "Does pepsin stop working in a basic solution?",
+      "owning_task": "BRD-050",
+      "expected": null,
+      "script": [
+        "add v1 protein 1g",
+        "add v1 water 100mL",
+        "add v1 NaOH 0.01mol",
+        "add v1 pepsin 0.001mol",
+        "wait 1h",
+        "look v1"
+      ]
+    },
+    {
+      "id": "bio-072",
+      "source": "tests/coverage/curiosity-v1/food-organic-bio.toml",
+      "source_blob_sha256": "a53f1afab07e37b7cb6ad81e9321285ce166fb5ae0d49e3f9f3f65add613b5f7",
+      "script_sha256": "4495ddfe6230fde04c253317b144deacffd9dfedfdcaaaabe2aa23c377237b05",
+      "question": "Why does sauerkraut become acidic as it ferments?",
+      "owning_task": "BRD-052",
+      "expected": null,
+      "script": [
+        "add v1 cabbage 100g",
+        "add v1 NaCl 2g",
+        "wait 24h",
+        "measure v1 ph"
+      ]
+    },
+    {
+      "id": "bio-074",
+      "source": "tests/coverage/curiosity-v1/food-organic-bio.toml",
+      "source_blob_sha256": "a53f1afab07e37b7cb6ad81e9321285ce166fb5ae0d49e3f9f3f65add613b5f7",
+      "script_sha256": "c4d61bd37da3eb85066d1bd6070005795da650316d35d2c5a880b1201dd68767",
+      "question": "Does salt concentration slow vegetable fermentation?",
+      "owning_task": "BRD-052",
+      "expected": null,
+      "script": [
+        "add v1 cabbage 100g",
+        "add v1 NaCl 10g",
+        "wait 24h",
+        "measure v1 ph"
+      ]
+    },
+    {
+      "id": "mat-115",
+      "source": "tests/coverage/curiosity-v1/materials-handling.toml",
+      "source_blob_sha256": "4c3094b0d6be1d98c0369c6e96c4fb0d271801869a940f88e195b28a502e3c43",
+      "script_sha256": "e89350ea538753fe3a4f0fe3a77005310d25206785023b177aa62a9a23790f29",
+      "question": "Can decanting separate sand from water after it settles?",
+      "owning_task": "EXP-2",
+      "expected": "qualitative",
+      "script": [
+        "add v1 water 100mL",
+        "add v1 CaCO3 5g",
+        "new",
+        "decant v1 v2 0.8"
+      ]
+    },
+    {
+      "id": "mat-124",
+      "source": "tests/coverage/curiosity-v1/materials-handling.toml",
+      "source_blob_sha256": "4c3094b0d6be1d98c0369c6e96c4fb0d271801869a940f88e195b28a502e3c43",
+      "script_sha256": "694ace1afd8e8d7b3b5f8c0bbfd6a57bb473ee5238f7964c2ad92313891acd23",
+      "question": "Why must mass measurements include every vessel and escaped gas?",
+      "owning_task": "CAP-1",
+      "expected": "qualitative",
+      "script": [
+        "add v1 water 100mL",
+        "add v1 NaHCO3 1g",
+        "add v1 CH3COOH 1g",
+        "measure v1 balance"
+      ]
+    }
+  ],
+  "no_scientific_qualification": true
+}

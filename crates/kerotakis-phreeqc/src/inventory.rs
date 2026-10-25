@@ -24,6 +24,8 @@ use kerotakis_core::{
     VesselId,
 };
 
+use crate::derived;
+
 /// Carbon already posed in native analytical totals from a clock parcel.
 /// This is a virtual material boundary for local basis/certification only:
 /// it is neither a native gas phase nor a public gas event.
@@ -59,6 +61,89 @@ pub(crate) fn valid_opaque_clock_stock(vessel: &Vessel) -> bool {
     })
 }
 
+/// Only these reviewed, non-native formula units and the typed catalyst may
+/// accompany a clock-owned aqueous answer. The carbohydrates have exact
+/// registry compositions; pepsin is an immutable catalyst dose whose `C`
+/// formula is explicitly a placeholder, not a molecule-count claim.
+pub(crate) fn clock_spectator(portion: &Portion) -> bool {
+    let key = portion.species.0.as_str();
+    let phase_ok = match key {
+        "glucose" | "fructose" => matches!(portion.phase, Phase::Solid | Phase::Aqueous),
+        "cellulose" => portion.phase == Phase::Solid,
+        "pepsin" => portion.phase == Phase::Aqueous,
+        _ => false,
+    };
+    if !phase_ok || !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
+        return false;
+    }
+    if key == "pepsin" {
+        return kerotakis_core::enzyme::family_of(key).is_some()
+            && species::lookup(&portion.species).is_some_and(|row| row.formula == "C");
+    }
+    let expected = if key == "cellulose" {
+        "C6H10O5"
+    } else {
+        "C6H12O6"
+    };
+    species::lookup(&portion.species).is_some_and(|row| {
+        row.formula == expected
+            && kerotakis_core::stoich::parse_formula(row.formula)
+                .is_ok_and(|formula| formula.charge == 0.0)
+    })
+}
+
+fn non_native_spectators(vessel: &Vessel) -> Vec<(String, Phase, u64)> {
+    let mut portions = vessel
+        .contents
+        .iter()
+        .filter(|portion| {
+            portion.moles.0 != 0.0
+                && portion.phase != Phase::Gas
+                && derived::role(&portion.species.0).is_none()
+                && !species::is_acid_base_basis(&portion.species.0)
+        })
+        .map(|portion| {
+            (
+                portion.species.0.clone(),
+                portion.phase,
+                portion.moles.0.to_bits(),
+            )
+        })
+        .collect::<Vec<_>>();
+    portions.sort();
+    portions
+}
+
+pub(crate) fn valid_clock_immutable_spectators(vessel: &Vessel) -> bool {
+    vessel.contents.iter().all(|portion| {
+        if portion.moles.0 == 0.0
+            || portion.phase == Phase::Gas
+            || derived::role(&portion.species.0).is_some()
+            || species::is_acid_base_basis(&portion.species.0)
+        {
+            true
+        } else {
+            clock_spectator(portion)
+        }
+    })
+}
+
+/// The generic ledger parses the enzyme catalogue's placeholder `C` as a
+/// formula unit. For this narrowly admitted catalyst the exact dose is
+/// certified unchanged instead; subtract that placeholder from the physical
+/// component comparison. No carbon atom count for pepsin is claimed.
+fn clock_known_component_ledger(vessel: &Vessel, exclude_opaque_catalyst: bool) -> ConservedLedger {
+    let mut ledger = ConservedLedger::from_vessel(vessel);
+    if exclude_opaque_catalyst {
+        for portion in &vessel.contents {
+            if portion.species.0 == "pepsin" && clock_spectator(portion) {
+                *ledger.elements.entry("C".into()).or_default() -= portion.moles.0;
+            }
+        }
+    }
+    ledger
+}
+
 pub(crate) fn certify_opaque_clock_stock(
     before: &Vessel,
     after: &Vessel,
@@ -81,10 +166,16 @@ pub(crate) fn certify_opaque_clock_stock(
                         _ => false,
                     }
             });
-    if !valid_opaque_clock_stock(before) || !valid_opaque_clock_stock(after) || !same {
+    if !valid_opaque_clock_stock(before)
+        || !valid_opaque_clock_stock(after)
+        || !same
+        || !valid_clock_immutable_spectators(before)
+        || !valid_clock_immutable_spectators(after)
+        || non_native_spectators(before) != non_native_spectators(after)
+    {
         return Err(SolveError::NotConverged {
             solver: "phreeqc-inventory".into(),
-            detail: "opaque clock inventory changed or is invalid".into(),
+            detail: "opaque clock inventory or immutable spectator changed or is invalid".into(),
         });
     }
     Ok(())
@@ -292,7 +383,8 @@ pub(crate) fn certify_gas_aware_inventory(
             }
         }
     }
-    let mut expected = ConservedLedger::from_vessel(before);
+    let opaque_clock_owner = !before.unresolved_materials.is_empty();
+    let mut expected = clock_known_component_ledger(before, opaque_clock_owner);
     for event in events {
         let (event_vessel, species_id, moles, sign) = match event {
             Event::GasEvolved {
@@ -329,7 +421,7 @@ pub(crate) fn certify_gas_aware_inventory(
         }
         expected.charge += formula.charge * clock.applied_mol;
     }
-    let actual = ConservedLedger::from_vessel(after);
+    let actual = clock_known_component_ledger(after, opaque_clock_owner);
     let elements: BTreeSet<_> = expected
         .elements
         .keys()
@@ -403,6 +495,75 @@ mod gas_aware_certificate_tests {
         changed.unresolved_materials[0].amount = f64::NAN;
         assert!(certify_opaque_clock_stock(&before, &changed).is_err());
         changed.unresolved_materials[0].amount = -1.0;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+    }
+
+    #[test]
+    fn clock_spectators_are_exact_immutable_stock_not_new_native_components() {
+        let mut before = Vessel::new(VesselId(0), "reviewed neutral spectators");
+        before.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "cabbage remainder".into(),
+            recipe_id: "food/cabbage".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 1.8,
+            enzyme_hydrolysis: None,
+            protein_denatured_fraction: 0.0,
+        });
+        before.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        before.deposit(SpeciesId::new("glucose"), Moles(0.01), Phase::Aqueous);
+        before.deposit(SpeciesId::new("fructose"), Moles(0.01), Phase::Aqueous);
+        before.deposit(SpeciesId::new("cellulose"), Moles(0.01), Phase::Solid);
+        before.deposit(SpeciesId::new("pepsin"), Moles(0.001), Phase::Aqueous);
+        assert!(valid_clock_immutable_spectators(&before));
+        assert!(certify_opaque_clock_stock(&before, &before).is_ok());
+        // The catalyst's catalogue formula is a placeholder. Its amount is
+        // proved unchanged; the component ledger must not claim its C atom.
+        let known = clock_known_component_ledger(&before, true);
+        assert!((known.elements["C"] - 0.18).abs() < 1e-12);
+
+        let mut changed = before.clone();
+        changed
+            .contents
+            .iter_mut()
+            .find(|p| p.species.0 == "glucose")
+            .expect("sugar")
+            .moles
+            .0 += 1e-13;
+        assert!(
+            certify_opaque_clock_stock(&before, &changed).is_err(),
+            "even sub-budget spectator drift is not a native correction"
+        );
+        changed = before.clone();
+        changed
+            .contents
+            .iter_mut()
+            .find(|p| p.species.0 == "cellulose")
+            .expect("fibre")
+            .phase = Phase::Aqueous;
+        assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        for (species, phase) in [
+            ("KIO3", Phase::Aqueous),
+            ("malic_acid", Phase::Aqueous),
+            ("unknown_clock_ion", Phase::Solid),
+        ] {
+            changed = before.clone();
+            changed.deposit(SpeciesId::new(species), Moles(0.001), phase);
+            assert!(
+                !valid_clock_immutable_spectators(&changed),
+                "{species} cannot inherit the neutral witness"
+            );
+            assert!(certify_opaque_clock_stock(&before, &changed).is_err());
+        }
+        changed = before.clone();
+        changed
+            .contents
+            .iter_mut()
+            .find(|p| p.species.0 == "pepsin")
+            .expect("catalyst")
+            .moles
+            .0 = f64::NAN;
+        assert!(!valid_clock_immutable_spectators(&changed));
         assert!(certify_opaque_clock_stock(&before, &changed).is_err());
     }
 

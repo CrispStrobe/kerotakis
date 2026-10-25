@@ -1,0 +1,175 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.2200000000000004e-2
+    pe        4  O2(g)  -0.68
+    Cl 3.711646214197e-1
+    Na 3.711646214197e-1
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Na
+    -equilibrium_phases Halite
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.2200000000000004e-2
+    Cl 3.711646214197e-1
+    Na 3.711646214197e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Na
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.6625
+    pH        7  charge
+    water     9.2200000000000004e-2
+    pe        4  O2(g)  -0.68
+    Cl 3.711646214197e-1
+    Na 3.711646214197e-1
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Na
+    -equilibrium_phases Halite
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.6625
+    pH        7  charge
+    water     9.2200000000000004e-2
+    Cl 3.711646214197e-1
+    Na 3.711646214197e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Na
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.6625
+    pH        7  charge
+    water     9.2200000000000018e-2
+    pe        4  O2(g)  -0.68
+    Cl 3.711646214197e-1
+    Na 3.711646214197e-1
+EQUILIBRIUM_PHASES 1
+    Halite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   Cl Na
+    -equilibrium_phases Halite
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.2200000000000018e-2
+    pe        4  O2(g)  -0.68
+    C 1.358795768910e-5
+    Cl 3.711646214197e-1
+    Na 3.711646214197e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Halite 0 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Cl Na C(-4)
+    -equilibrium_phases CO2(g) Halite Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
