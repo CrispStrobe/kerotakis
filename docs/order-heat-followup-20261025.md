@@ -9,11 +9,11 @@ The same preflight then fails `the_same_beaker_reads_the_same_solvent_mass_in_ei
 | Salt first | 0.0996939731 | 0.2759702852 | 10.9521300644 | 5.5339424445 |
 | Powder first | 0.0996940239 | 0.2761694037 | 10.9579919224 | 5.5339452597 |
 
-Only the preceding solvent-to-water checks have passed when the ionic-strength assertion fails. The later cross-order pH/water comparisons and gas-adjusted H/O/element/charge assertions are **unreached**, not passes. Temperatures, gas transfers and heat-pricing modes have not yet been captured for these two current-source protocols.
+Only the preceding solvent-to-water checks have passed when the ionic-strength assertion fails. The later cross-order pH/water comparisons and gas-adjusted H/O/element/charge assertions are **unreached**, not passes. Both exact histories have now been captured once in the [immutable measured capsule](../audits/order-heat-current3d-20261025/SOURCE-ADMISSION.md). Salt-first ends at300.1316387105029K and powder-first at299.9119677430168K, with no gas transfers or SolverFailed events. A separate known-formula receipt calculation closes H/O/C/Ca/Na/Cl/charge within1.4e-14mol/eq and preserves the3.5g unresolved remainder; this does not make the original unreached assertions passes. Heat-mode tracing has not been executed. Full CI is terminal: both native platforms and preflight fail the same order test; remaining checks and all33 fleet jobs pass.
 
-## Lane A: capture the actual two histories
+## Lane A: exact histories captured — do not replay unchanged
 
-Run each exact three-command protocol once on an authenticated current-source CLI, preserving complete per-operation JSON, stderr/native input traces, source/tree, executable hash and actual producer lock. Use permitted hosted execution or the project's bounded local-execution gates. Do not rebuild locally when its gates are closed.
+The two protocols below have each run once on the authenticated current-source CLI. Their complete per-operation JSON, stderr, exact scripts, source/tree, executable hash and actual producer lock are preserved in the capsule. Do not repeat them unchanged. A changed source requires its own successor and fresh resource checks.
 
 ```text
 add v1 water 100mL
