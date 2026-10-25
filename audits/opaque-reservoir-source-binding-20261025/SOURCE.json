@@ -1,0 +1,135 @@
+{
+  "source": "aafdcd5ad2fb0e212a2dc6c36e49d02b9b5ba8eb",
+  "tree": "9d129728a47571751e70c10f7f809085ac598e9a",
+  "runtime_base": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "only_runtime_delta": [
+    "crates/kerotakis-phreeqc/src/aqueous.rs",
+    "crates/kerotakis-phreeqc/src/inventory.rs",
+    "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/cancellation.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts_closed_boundary.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_boundaries.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_raw.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/raw_carbon.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement.rs",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement_closed_boundary.rs"
+  ],
+  "dependency_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "source_pins": {
+    "Cargo.toml": {
+      "sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+      "git_blob": "ac217f7030a22079c14d4b420b7a753961f03b7d"
+    },
+    "crates/kerotakis-phreeqc/Cargo.toml": {
+      "sha256": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+      "git_blob": "12bcd1af60851e22c402c5d9cc1ce528f4cdbe17"
+    },
+    "crates/kerotakis-phreeqc/src/aqueous.rs": {
+      "sha256": "85aa0f9791f4a555ee5c7ab574fb8a40158a6b3d38f3428ef1c102bbb771d92d",
+      "git_blob": "14f87c34f84ca0ac6cafdf189afd6248d74ba2b0"
+    },
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": {
+      "sha256": "5e49a8348b60e9b91661a682861cca09cacdf0cd87183936f71aa0403b2b57ff",
+      "git_blob": "27d34fa68a180cd8784d7606008962f005eb7426"
+    },
+    "data/registry/registry-source-v1.json": {
+      "sha256": "db8496e677d3482e9faef01167b9d621ff32c7dc9219a7c690f7f9546c9d1d73",
+      "git_blob": "aa1c28d29f29746457ad3cae363cf333039e9897"
+    },
+    "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs": {
+      "sha256": "4bf7855bd69e15ce4f7afd9002646d8bed81caaf39e32e29d0fe059ed5f057e4",
+      "git_blob": "dea28f8a6f38fc778efc21e889986c355c6b3920"
+    },
+    "crates/kerotakis-phreeqc/src/inventory.rs": {
+      "sha256": "6098fb6eafd443cffa14b3fbc74e12c8465df933586ca7381959b8b7b0a2169c",
+      "git_blob": "4bcb41f145aa8b14ca3ad3c6190d375ea75d89f7"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_boundaries.rs": {
+      "sha256": "cf9b8066da2f9f9803ee2d46df865bfbf7748181c60ca04a757311462ced7620",
+      "git_blob": "22b6c6ab938ed43598520c11a554dcfcfaf5a2f4"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/cancellation.rs": {
+      "sha256": "5efe948221bd9646cefd87d47c46cd6bfd0f5fc58bccda7aadd6be04ac0ef098",
+      "git_blob": "b24cb745406681afc0e1fed55fc22951bffe2e62"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts.rs": {
+      "sha256": "de4a06af57da5e3716562539e176e90fa543d41576230440fcbd72ebf17b2754",
+      "git_blob": "3c4faa4cba5dc893e612993f750b4aa2bc53c1f1"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/raw_carbon.rs": {
+      "sha256": "365b95735e424df61aa5cb7a52aa497c1c22ce6b91d862b33160839bf0edfaef",
+      "git_blob": "f0ae4688f8dd864586f37dd66859343cbaa65ba8"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_raw.rs": {
+      "sha256": "3221999249c2c2686403223cfd39deac791922d8971889620037ca5471d3a519",
+      "git_blob": "5da41636a5f12fbfae52f345fc3442c23fb6d61c"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement_closed_boundary.rs": {
+      "sha256": "7f5dec6a54fe56aa400669a74cd557a5daecf805d538c424a188f3000fb521d9",
+      "git_blob": "a18c2234418dad3c282c4df6db744f1673876dc1"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts_closed_boundary.rs": {
+      "sha256": "4475e1b72e0bb707ae3e7b5027f9843f03d77ccb625b17cd650eedb99684c73f",
+      "git_blob": "a0bdf12dcac642dbafca8b331748e9d719624dd5"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement.rs": {
+      "sha256": "1d75e857c9a8268fbcb965223b0c4979ae35f39f550303d926eb03f20d6e1e0f",
+      "git_blob": "500604ad67519da12ffc4df456a20abd98a3d43b"
+    }
+  },
+  "targets": [
+    {
+      "target": "native_cabbage_thermal_dom",
+      "package": "kerotakis-phreeqc",
+      "kind": "integration",
+      "path": "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs",
+      "source_sha256": "4bf7855bd69e15ce4f7afd9002646d8bed81caaf39e32e29d0fe059ed5f057e4",
+      "cargo_args": [
+        "--features",
+        "engine"
+      ],
+      "listed_tests": [
+        "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+        "plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock"
+      ],
+      "tests": [
+        "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+        "plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock"
+      ],
+      "should_panic_tests": [],
+      "test_deadline_seconds": 120
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "package": "kerotakis-phreeqc",
+      "kind": "lib",
+      "path": "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "source_sha256": "85aa0f9791f4a555ee5c7ab574fb8a40158a6b3d38f3428ef1c102bbb771d92d",
+      "cargo_args": [
+        "--features",
+        "engine"
+      ],
+      "listed_tests": null,
+      "tests": [
+        "aqueous::canonical_physical_closure_tests::reservoir_certificate_requires_current_native_numerical_coordinates",
+        "aqueous::canonical_physical_closure_tests::reservoir_opaque_owner_spends_global_eight_pass_cap_and_rolls_back",
+        "aqueous::gas_component_projection_tests::reservoir_opaque_owner_requires_explicit_native_opt_in_and_keeps_clock_distinct",
+        "inventory::reservoir_opaque_immutable_certificate_tests::passive_ladder_is_reservoir_only_and_every_spectator_bit_is_immutable",
+        "inventory::reservoir_opaque_immutable_certificate_tests::reservoir_owner_checks_signed_gas_and_rejects_unknown_ions_or_clock",
+        "aqueous::canonical_physical_closure_tests::opaque_clock_owner_rejects_second_pass_mutation_and_restores_caller",
+        "aqueous::gas_component_projection_tests::opaque_owner_is_clock_only_and_requires_every_represented_component",
+        "aqueous::gas_component_projection_tests::clock_only_component_projection_requires_typed_first_or_reentry_owner",
+        "inventory::gas_aware_certificate_tests::clock_spectators_are_exact_immutable_stock_not_new_native_components",
+        "inventory::gas_aware_certificate_tests::opaque_clock_owner_preserves_every_unresolved_field_and_rejects_invalid_stock"
+      ],
+      "should_panic_tests": [],
+      "test_deadline_seconds": 120
+    }
+  ],
+  "selected_controls": 12,
+  "target_count": 2,
+  "purpose": "Narrow c7-based opaque-plus-atmospheric-reservoir repair; exact original cabbage/ plain carbonate native controls, five new ownership/ledger/cap controls and five retained clock controls. No Static code, no full-source/product acceptance.",
+  "test_file_unchanged_from_first_c928_execution": true,
+  "actual_outcomes": "PENDING"
+}
