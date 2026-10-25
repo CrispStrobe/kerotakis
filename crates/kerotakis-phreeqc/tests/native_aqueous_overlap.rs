@@ -403,3 +403,258 @@ fn unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row() {
         assert_no_ionic_curated_replay(&events, &format!("zero-time {repeat}"));
     }
 }
+
+fn native_stocks_by_species_and_phase(
+    vessel: &Vessel,
+) -> std::collections::BTreeMap<(String, Phase), f64> {
+    let mut stocks = std::collections::BTreeMap::new();
+    for portion in &vessel.contents {
+        *stocks
+            .entry((portion.species.0.clone(), portion.phase))
+            .or_insert(0.0) += portion.moles.0;
+    }
+    stocks
+}
+
+fn assert_native_physical_state_stable(before: &Vessel, after: &Vessel, context: &str) {
+    let before_stocks = native_stocks_by_species_and_phase(before);
+    let after_stocks = native_stocks_by_species_and_phase(after);
+    let keys: BTreeSet<_> = before_stocks
+        .keys()
+        .chain(after_stocks.keys())
+        .cloned()
+        .collect();
+    for (species, phase) in keys {
+        let before_moles = before_stocks
+            .get(&(species.clone(), phase))
+            .copied()
+            .unwrap_or(0.0);
+        let after_moles = after_stocks
+            .get(&(species.clone(), phase))
+            .copied()
+            .unwrap_or(0.0);
+        assert!(
+            before_moles.is_finite()
+                && after_moles.is_finite()
+                && (before_moles - after_moles).abs() <= 1e-10,
+            "{context}: {species} {phase:?} changed {before_moles:.15e} -> {after_moles:.15e} mol"
+        );
+    }
+    assert!(
+        (before.free_proton - after.free_proton).abs() <= 1e-10
+            && (before.free_hydroxide - after.free_hydroxide).abs() <= 1e-10
+            && (before.solute_charge - after.solute_charge).abs() <= 1e-10,
+        "{context}: proton/hydroxide/solute-charge coordinates changed"
+    );
+    assert!(
+        before.temperature.0.is_finite()
+            && after.temperature.0.is_finite()
+            && (before.temperature.0 - after.temperature.0).abs() <= 1e-6,
+        "{context}: temperature changed beyond the 1e-6 K physical budget"
+    );
+    let before_solution = before.solution.as_ref().expect("before native solution");
+    let after_solution = after.solution.as_ref().expect("after native solution");
+    assert_eq!(
+        before_solution.scope, after_solution.scope,
+        "{context}: solution scope changed"
+    );
+    assert!(
+        (before_solution.ph - after_solution.ph).abs() <= 1e-6,
+        "{context}: pH changed"
+    );
+    assert!(
+        (before_solution.ionic_strength - after_solution.ionic_strength).abs() <= 1e-10,
+        "{context}: ionic strength changed"
+    );
+    let before_particles = before_solution
+        .particle_molality
+        .expect("before particle census");
+    let after_particles = after_solution
+        .particle_molality
+        .expect("after particle census");
+    assert!(
+        (before_particles - after_particles).abs() <= 1e-10,
+        "{context}: numerical particle molality changed"
+    );
+}
+
+fn assert_net_co2_event_once(before: &Vessel, after: &Vessel, events: &[Event], context: &str) {
+    let crossings: Vec<_> = events
+        .iter()
+        .filter(|event| {
+            matches!(event,
+                Event::GasEvolved { species, .. } | Event::GasAbsorbed { species, .. }
+                    if species.0 == "CO2")
+        })
+        .collect();
+    assert!(
+        crossings.len() <= 1,
+        "{context}: provisional reentry published multiple net CO2 crossings: {crossings:?}"
+    );
+    let outward = events
+        .iter()
+        .filter_map(|event| match event {
+            Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+            _ => None,
+        })
+        .sum::<f64>();
+    let inward = events
+        .iter()
+        .filter_map(|event| match event {
+            Event::GasAbsorbed { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+            _ => None,
+        })
+        .sum::<f64>();
+    let before_carbon = strict_ledger(before)
+        .elements
+        .get("C")
+        .copied()
+        .unwrap_or(0.0);
+    let after_carbon = strict_ledger(after)
+        .elements
+        .get("C")
+        .copied()
+        .unwrap_or(0.0);
+    assert!(
+        (outward - inward - (before_carbon - after_carbon)).abs() <= 1e-10,
+        "{context}: net CO2 event does not match actual carbon-stock change"
+    );
+}
+
+#[test]
+fn native_reentry_preserves_each_zero_time_stock_and_publishes_net_gas_once() {
+    let mut bench = Bench::new();
+    let mut stack = production_stack();
+    apply_with_ledger(&mut bench, &mut stack, "add v1 water 100mL", "setup");
+    apply_with_ledger(&mut bench, &mut stack, "add v1 NaHCO3 0.02mol", "setup");
+    let fizz = apply_with_ledger(
+        &mut bench,
+        &mut stack,
+        "add v1 CH3COOH 0.005mol",
+        "initial fizz",
+    );
+    assert_eq!(
+        fizz.iter()
+            .filter(|event| matches!(event,
+                Event::GasEvolved { species, .. } | Event::GasAbsorbed { species, .. }
+                    if species.0 == "CO2"))
+            .count(),
+        1,
+        "initial native fizz must publish its net external CO2 crossing once"
+    );
+    assert!(gas_event_moles(&fizz, false) > 1e-4);
+    apply_with_ledger(
+        &mut bench,
+        &mut stack,
+        "add v1 NaCl 0.001mol",
+        "unrelated addition",
+    );
+
+    for repeat in 0..3 {
+        let before = bench.vessel(VesselId(0)).expect("before repeat").clone();
+        let events = bench
+            .step_with(
+                Operator::Wait { seconds: 0.0 },
+                &mut stack,
+                &PermissiveScreen,
+            )
+            .expect("typed zero-time repeat");
+        assert!(
+            !events
+                .iter()
+                .any(|event| matches!(event, Event::SolverFailed { .. })),
+            "zero-time repeat {repeat}: {events:?}"
+        );
+        let after = bench.vessel(VesselId(0)).expect("after repeat");
+        assert_gas_adjusted_ledger(&before, after, &events, None, "native zero-time repeat");
+        assert_native_current(after, "native zero-time repeat");
+        assert_native_physical_state_stable(&before, after, "native zero-time repeat");
+        assert_net_co2_event_once(&before, after, &events, "native zero-time repeat");
+        assert_no_ionic_curated_replay(&events, "native zero-time repeat");
+    }
+}
+
+fn native_overlap_seed() -> Vessel {
+    let mut vessel = Vessel::new(VesselId(0), "native cache parity");
+    vessel.deposit(SpeciesId::new("water"), Moles(5.55), Phase::Liquid);
+    // Explicit dissolved components are the native adapter's actual aqueous
+    // inventory; this avoids posing solid or undissociated salt as if it were
+    // already a solution component.
+    vessel.deposit(SpeciesId::new("Na+"), Moles(0.021), Phase::Aqueous);
+    vessel.deposit(SpeciesId::new("HCO3-"), Moles(0.02), Phase::Aqueous);
+    vessel.deposit(SpeciesId::new("Cl-"), Moles(0.001), Phase::Aqueous);
+    vessel.deposit(SpeciesId::new("CH3COOH"), Moles(0.005), Phase::Liquid);
+    vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+    vessel
+}
+
+#[test]
+fn native_result_cache_reentry_matches_a_fresh_equilibrator() {
+    let initial = native_overlap_seed();
+    let mut cached = initial.clone();
+    let mut cache_solver = PhreeqcEquilibrator::new().expect("native PHREEQC engine");
+    let first_events = cache_solver
+        .equilibrate(&mut cached)
+        .expect("first native characterization");
+    assert_native_current(&cached, "first native characterization");
+    assert_gas_adjusted_ledger(
+        &initial,
+        &cached,
+        &first_events,
+        None,
+        "first native characterization",
+    );
+    let engine_calls_after_first = cache_solver.engine_calls();
+    assert!(
+        engine_calls_after_first > 0,
+        "first answer must come from PHREEQC"
+    );
+    let cache_hits_before_repeat = cache_solver.cache_hits();
+
+    let mut cached_repeat = initial.clone();
+    let repeated_events = cache_solver
+        .equilibrate(&mut cached_repeat)
+        .expect("cached native characterization");
+    assert_native_current(&cached_repeat, "cached native characterization");
+    assert_gas_adjusted_ledger(
+        &initial,
+        &cached_repeat,
+        &repeated_events,
+        None,
+        "cached native characterization",
+    );
+    assert_eq!(
+        cache_solver.engine_calls(),
+        engine_calls_after_first,
+        "identical canonical input must not call the native engine again"
+    );
+    assert!(
+        cache_solver.cache_hits() > cache_hits_before_repeat,
+        "identical canonical input must prove a result-cache hit"
+    );
+
+    let mut fresh = initial.clone();
+    let mut fresh_solver = PhreeqcEquilibrator::new().expect("fresh native PHREEQC engine");
+    let fresh_events = fresh_solver
+        .equilibrate(&mut fresh)
+        .expect("fresh native characterization");
+    assert!(
+        fresh_solver.engine_calls() > 0,
+        "fresh answer must call PHREEQC"
+    );
+    assert_native_current(&fresh, "fresh native characterization");
+    assert_gas_adjusted_ledger(
+        &initial,
+        &fresh,
+        &fresh_events,
+        None,
+        "fresh native characterization",
+    );
+    assert_eq!(
+        format!("{cached_repeat:?}"),
+        format!("{fresh:?}"),
+        "cached and fresh answers must agree across full vessel state"
+    );
+    assert_eq!(repeated_events, fresh_events, "cached/fresh events differ");
+    assert_eq!(first_events, repeated_events, "first/cached events differ");
+}
