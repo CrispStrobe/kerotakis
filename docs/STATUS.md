@@ -1,4 +1,6 @@
-# Kerotakis current state —2026-10-22
+# Kerotakis current state —2026-10-25
+
+**Current export-complete source —2026-10-25:** [Sourcec7aa38bd](../audits/order-heat-export-successor-binding-20261025/README.md) preserves the new carbonate reference’s provenance, conditions and uncertainty through registry regeneration; every legacy heat assertion and the full byte comparison remain. Full exact-head CI/fleet is pending. Normal delivery/product assessment, further unchanged originals and owned runtime diagnostic localization remain ordered;338/468 and production are unchanged.
 
 **Anhydrous-carbonate successor —2026-10-25:** [Sourcef69e6e51](../audits/order-heat-successor-source-binding-20261025/README.md) adds sourced standard Na2CO3 heat and balanced dissociation, preserving every original order assertion. New exact-head full CI/fleet acceptance is pending. No deployment or original qualification is claimed;338/468 remains unchanged.
 
