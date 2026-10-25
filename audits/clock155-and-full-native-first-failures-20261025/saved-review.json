@@ -1,0 +1,1970 @@
+{
+  "source": "6e44feab03a646b412c123b21b275e3b95942931",
+  "tree": "e4aa4c8dad734b370c77100ea47a1c201d3c4a50",
+  "plan_sha256": "a3afd46b19603da3d5cf6573fe2c0fd55a9ed8c04e5c674583888c6eded5df12",
+  "worker_sha256": "900243f4b7f19a8673b73304922d47a76e4897b9e9176cde00f662318e75c593",
+  "actual_lock_expected_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "terminal": "COMPLETED",
+  "stop_record": null,
+  "source_proofs": {
+    "source-before": {
+      "observed": true,
+      "source": "6e44feab03a646b412c123b21b275e3b95942931",
+      "tree": "e4aa4c8dad734b370c77100ea47a1c201d3c4a50",
+      "all_pins_match": true
+    },
+    "source-after": {
+      "observed": true,
+      "source": "6e44feab03a646b412c123b21b275e3b95942931",
+      "tree": "e4aa4c8dad734b370c77100ea47a1c201d3c4a50",
+      "all_pins_match": true
+    }
+  },
+  "expected_target_count": 16,
+  "expected_control_identities": 155,
+  "identities_unique": true,
+  "previous_123_all_retained": true,
+  "previous_155_selection_identical": true,
+  "review_chain_bindings": {
+    "base_v2_source_review_sha256": "f5e3b5012034a6d413fc4155a7152c89ec822ec315044637a6bde77681b1eb0f",
+    "compatibility_review_sha256": "79b370cd6d8b3c0a208ef8a00d37d2276e08b51155b3433017684181d7c6ef04",
+    "lint_only_review_sha256": "f5245aefa26bd7b008de7d12cef923458748db1f142d3acd038f0752bc3491c7",
+    "prior155_lint_saved_review_sha256": "5a1fa233e68cb66146d7659d139eaff530c9fe589be3afdc30b893f0f67a829a"
+  },
+  "new_control_ids": [
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::a_beakers_conductance_is_arithmetic_on_its_geometry"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::a_negative_interval_is_no_time_at_all"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::a_room_temperature_beaker_says_nothing_in_thirty_seconds"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::a_sealed_vessel_exchanges_nothing_with_the_room"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::a_supersaturated_vessel_is_left_to_the_aqueous_adapter"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::a_thermostatted_vessel_does_not_drift"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::a_thousand_short_waits_are_not_nothing"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::an_alkaline_vessel_may_take_up_more_than_henry_allows"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::an_empty_beaker_left_at_flame_temperature_cools_on_the_glass_alone"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::an_open_beaker_of_plain_water_takes_up_room_carbon"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::an_unsolved_vessel_exchanges_nothing"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::the_gas_surface_is_the_mouth_and_not_the_wall"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::the_standard_clocks_keep_their_order"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::the_transfer_never_overshoots_equilibrium"
+    ],
+    [
+      "kerotakis-core",
+      "kerotakis_core",
+      "clock::tests::the_uptake_is_the_published_transfer_velocity"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "clock_co2_boundary",
+      "already_earned_subfloor_parcel_survives_sealing_without_further_uptake"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "clock_co2_boundary",
+      "bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "clock_co2_boundary",
+      "cached_and_fresh_native_adapters_spend_the_same_clock_carrier_once"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "clock_co2_boundary",
+      "mild_base_original_hour_wait_closes_h_o_charge_and_books_actual_co2_once"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "clock_co2_boundary",
+      "native_mix_declines_a_pending_carrier_in_either_source_or_target"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "clock_co2_boundary",
+      "positive_subfloor_clock_transfer_is_parked_then_accumulates_and_spends_once"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "clock_co2_boundary",
+      "valid_negative_carrier_removes_all_native_carbon_and_overdraw_refuses_atomically"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "kerotakis_phreeqc",
+      "aqueous::canonical_physical_closure_tests::actual_model_or_typed_electron_authority_cannot_change_under_narrative_cover"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "kerotakis_phreeqc",
+      "aqueous::canonical_physical_closure_tests::changed_explanation_keeps_physical_authority_and_publishes_only_final_route"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "kerotakis_phreeqc",
+      "aqueous::canonical_physical_closure_tests::only_exhausted_native_inorganic_carbon_can_remove_the_co2_owner"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "kerotakis_phreeqc",
+      "aqueous::canonical_physical_closure_tests::original_bicarbonate_boundary_keeps_the_one_molal_route_selection"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "kerotakis_phreeqc",
+      "aqueous::canonical_physical_closure_tests::route_oscillation_spends_the_same_global_eight_query_budget_and_rolls_back"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "kerotakis_phreeqc",
+      "aqueous::canonical_physical_closure_tests::route_replay_discards_first_models_gas_and_clock_then_starts_from_original_owner"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "kerotakis_phreeqc",
+      "aqueous::clock_co2_boundary_tests::clock_pose_keeps_parked_parcel_and_refuses_overdraw_or_ambiguous_carbon"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "kerotakis_phreeqc",
+      "aqueous::gas_component_projection_tests::clock_only_component_projection_requires_typed_first_or_reentry_owner"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "kerotakis_phreeqc",
+      "inventory::gas_aware_certificate_tests::virtual_clock_carbon_is_signed_and_independent_of_native_reservoirs"
+    ],
+    [
+      "kerotakis-phreeqc",
+      "native_aqueous_overlap",
+      "bicarbonate_at_pitzer_potential_load_replays_to_wateq_and_repeats_without_drift"
+    ]
+  ],
+  "test_outcomes": [
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "water_phase_passes_preserve_unrelated_trace_portions_exactly",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "41e8aac37f89a26d6a85dc9a73abacb631e0e6454ff73f7df4d13b7e49c6d202",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "phase_passes_account_for_water_in_untouched_phases",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e3e81e2bf8c240d36e8731026e05fb1c95feb02946485853ab4733a9e971e85f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "native_numeric_particle_census_sets_liquidus_despite_rounded_species_rows",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "ed2d22cd2e1a4c065d12248e23d9723cd7515bcc954bb581b29026ce40a039a0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "historical_solution_without_numeric_census_keeps_old_liquidus_and_wire_shape",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "6de417d7f2e2161923e7f999472016407dbb444d2c85ee73c7c1993b2109cd97",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "exhausted_phase_coupling_fails_its_route_and_rolls_back_partial_phase_state",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e42c63ecbf67466a671b5cb0e82d5741b9680c83f08342c0f04a2ce7d23db11b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "water_does_not_go_below_zero_while_it_is_still_freezing",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "7cc1028cf917bbe82d8829ab04914cbd536d31e08e7349e59c31ea2bf02833dd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "no_temperature_is_announced_that_the_vessel_never_reached",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "ad4129aaeb3d2d3ef4b58084254729ad1b4f741bcbbff6c1d018097981827a26",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "enough_cooling_freezes_it_solid_and_then_chills_the_ice",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "ac61e10ae3dd86125430126b3a44fc6fe6f383c7aee7c4875246d36bc4daa908",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "ice_melts_again_when_warmed",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "fa7cf0c852ed66264a380e77b45d5b19581f93e352aed1833501c52d499981e7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "a_frozen_vessel_has_no_ph",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "ca0285841ea71d4be445a274bc99976547d39929a7052d59b768809821bf70b0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "phase_coupling_respeciates_the_residual_brine_until_both_states_agree",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "0062a7573cf84d33f544b9ede9ccdcb864de356eacd125505322bf62a492adf0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "partial_freezing_stops_with_liquid_at_the_declared_model_boundary",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "85de9ca7c5640b5a7491277b391b1c8a2f968939f6c6f86f4044115aa3c9a1ac",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "the_ideal_route_stops_at_its_own_range_and_names_that_instead",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "9e2d17b3912b8b1ea7bb2fcc4298b4bfd463ae60d6b10434fff00947f2a73380",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "a_solution_past_the_stated_range_is_refused_a_transition_rather_than_given_one",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "70fcb434742e02d11e27da7494cf0ef26acfbebb2ea861706dd7b214c58d0433",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "states",
+      "test": "the_boundary_is_announced_only_when_the_brine_actually_reached_it",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "45c3af2d1d7b68a0c82c1bb27dc49e3d94c223be1d48fb2fc07b3510382fa1a9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy",
+      "test": "pure_water_freezing_conserves_independent_phase_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "be085d2bbf889afcd4eccbd718401ab7d9320291b3e4d52691ed875f5b7a18cf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy",
+      "test": "pure_water_melting_conserves_independent_phase_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "811227d71ec402c16977262d0a8353aee367043a77b813152c3742ff5e7f3e4e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy",
+      "test": "dilute_brine_freezing_conserves_independent_phase_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "de35de35a6b36f4a4b750e9241e564f5da520c28db15d79689ef04472908bc13",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy",
+      "test": "intermediate_brine_freezing_conserves_independent_phase_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "1c6c54ae4565cba2e49e23445c6878c0cff09af77f5b9280a6f8b2ae8bbf8d27",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy",
+      "test": "stronger_brine_freezing_conserves_independent_phase_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "697ff54532c05e5f5abf2dd5885f9c866ced10805555e43373510ae983d5498f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy",
+      "test": "dilute_brine_melting_conserves_independent_phase_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "d513c7d9925aa4e04b670082d694734a007caba1f1aad6f01cb5e4efba00621f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy",
+      "test": "intermediate_brine_melting_conserves_independent_phase_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "34d6492773c3536302b73d6c68e3fbc4b8959967e4c22fae4a8b3d6436b61f55",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "brine_phase_energy",
+      "test": "stronger_brine_melting_conserves_independent_phase_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "2582db8f0e8821a1297c5ffb6ebe383af6224a54f6b634f3043dd381c4c5897f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "ideal_inside_direct_conserves_without_false_refusal",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "3690afa5aeecef875f161656c30fe740642300455f608863406a89b328519768",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "ideal_exact_direct_commits_only_closed_boundary",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "6200ef4f50ef5b078a9085d3f1a446223825f71ee94ac96f9190600ad26426d5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "ideal_outside_direct_refuses_before_mutation_and_repeats",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "83b846c5880c4cf48581e793cdbfcb47de14082d0db49f0d17b7ecad4def27de",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "eutectic_inside_direct_conserves_without_false_refusal",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "eb8f4c9b9cd404b19ef7bdc23739188e2dbfdf2b7ddf0b028f5e9674eef377d3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "eutectic_exact_direct_commits_only_closed_boundary",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "4e6ed10ebd1b7818ceaef77a7cd9d639359aa86eac6ce72c7804315bc985d94d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "eutectic_outside_direct_refuses_before_mutation_and_repeats",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "0d6b9a034038871bad60134c9cf46bc2e0adc395b4a7f4158a829dcec2afb2cc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "ideal_inside_real_cool_closes_delivered_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "c3bd0b29c337efeea3236045976ecab57fc40103d0a4cfa5d387e898a9b31043",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "ideal_exact_real_cool_closes_delivered_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "f988d9dcba0525a5d63f2a7856f27594330ea874cee38d0762f6e0e7a4c1370d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "ideal_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "8e044b5a46798b8fae921af2889c8d8cf65530d59b1f96b662a454386a7e4fd6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "eutectic_inside_real_cool_closes_delivered_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "f773a0d3af287af380868b2ce7f0223f290db4ba15488adf6ff3801ee9918ca0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "eutectic_exact_real_cool_closes_delivered_energy",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "bc6257a01d35f15372ad9b36cd15ffb8abfb8e7e678799dbbb85244aac731290",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "phase_cap_energy",
+      "test": "eutectic_outside_real_cool_preserves_delivered_energy_and_refuses",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "572f3985d12889947195769a04dcdbb6d052205be7b67f8db10c2a2eb3608999",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "partial_freezing",
+      "test": "cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "52eb4dbac8d673eb6ff22c613877e0402107637fd02840b52357c110ad7441fc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "partial_freezing",
+      "test": "cooling_reactive_lime_solutions_reports_the_settled_temperature",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e3cce74d66c097b48ca5f4abecae4ec16011767b7568457e5ff93a9266ace06f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "partial_freezing",
+      "test": "quantized_thermal_cycle_still_reaches_the_phase_coupled_state",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "fcb5dc2ed95c3b372c9ce675a7d447cce19275cea2176ef3876c7affc1041472",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "partial_freezing",
+      "test": "hot_saturated_kcl_reaches_the_strict_thermal_fixed_point",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "0228414c2e99ac3a6df1271758bceb157aa830c0062c6b043bcde337290dfefa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "partial_freezing",
+      "test": "concentrated_cooling_protocols_settle_without_report_activity_quantization_cycles",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "c2323a72bdfcadd6bf707717c09a537bf7814c91903cd93cae0738362562f9a4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "particle_census",
+      "test": "original_nearby_and_no_silver_cooling_and_partial_rewarming_settle",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "8d391b81a5ff99108ecdc19fccab0223418197b49959770301ae59fba2639cf8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "particle_census",
+      "test": "carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e345a745b24e95d82daa5dd790cc63358ffea8412973ae9137093fd3320e0223",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "particle_census",
+      "test": "native_particle_census_retains_precision_and_matches_independent_mol_columns",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "b2bfd9221072016a72808c1e2290fafd648939bc269c3463ee1045321d9835e2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "colligative_numbers",
+      "test": "a_textbook_spoonful_of_salt_freezes_the_water_near_minus_three_point_four",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "3988cb7257251c9605982f7110fb15151eea7c428a77d8637469bc5bc4d7afe2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "colligative_numbers",
+      "test": "a_tenth_molal_brine_is_answered_by_a_model_and_not_by_raoult",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "a4407e423454647bb3892f94a4511815823699ae601626b8f24070037799016d",
+      "stderr_sha256": "8437f4866c5598cb5b9bf8ffab8f292c342b88511f90ab9e567b535e0ba6ef74"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "colligative_numbers",
+      "test": "a_hundredth_molal_brine_is_left_on_raoults_law_and_costs_one_solve",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "b6828f05fffe79296a58eb0cce0e74dcbe417de90b9fe6e71660468eab1af303",
+      "stderr_sha256": "68cafe78a8e2a6740d6c369aac3a621c43aeec652f9e4c0539c2582b2b920744"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "colligative_numbers",
+      "test": "a_saturated_brine_boils_hotter_than_the_dilute_law_allows",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "c975496d00609122d96c36de621dba70f7dad8f001b55057c87a03fa9a26a3a6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "colligative_numbers",
+      "test": "a_mole_of_sugar_raises_the_boiling_point_by_half_a_degree",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "3cfc081a80c7cd0c38a4c83c2e00941ab955ac0950514b2bee322325f7593fdc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "colligative_numbers",
+      "test": "salt_beats_sugar_on_the_path_by_about_a_factor_of_twelve",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "1976e84fb372ace2363e94e3972df26ff6a2d37d30dcc0e100c9199ea60bede9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "scene_golden",
+      "test": "five_release_lessons_match_numeric_scene_golden",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "269cb445640f8850e4d3e41d939838b6bed9cda9603c85f4cb37655102f38528",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::numerical_particle_census_uses_final_precise_native_value",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "daf0f012f105f9d617732b7677862bf9e5d71ae37f2e1cbe0b0dab9205e94681",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::invalid_particle_census_refuses_without_report_fallback",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "d5b9caf10e5d9091be199947086758c1bc2de0edf02c48e091384b99b58feea3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::numerical_activity_keeps_distinct_states_with_the_same_rounded_report",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "277e37bd290a26990355d02a08999ecc6d4aa0da9e665b4226504dedb489b455",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::numerical_activity_uses_the_final_native_solution_row",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e8e16c793907d4e3bcff9f8e7c6efc9a7da622564fe3efd5b237d5a0aa202a40",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::measured_coordinates_use_final_numerical_row_below_report_floor",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "3cdd9938159f3781c9f57cf3f7fabef8f34623d0f70fcaf57a6131dadbcc2bef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::measured_coordinates_reject_invalid_present_cells_but_allow_legacy_absence",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "f722cf5a15d0177bfb9554cbf9e59e516b27cdd6b53f3aad50d9af7cf3c44673",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::protonation_rebuild_preserves_positive_trace_share_of_authoritative_total",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "8361e7497c9f2a6d35ee0b3897429d8045cb7a38ba7c71a9c5c2708438bb1693",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::cold_and_icy_inputs_preserve_both_source_solvent_budgets_and_temperature",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "2ea0bac67551b127d4a8ae6d74487d91f5119804297dcddb1256e0e2d32b7a2c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::current_cache_cannot_bypass_numeric_particle_validation",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "4e95020628b07c229592d4b490801c17736a69555c8cb55bc64c8534b3ec074a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::imported_current_cache_normalizes_water_from_numerical_rows",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "0538013a17a195ed654aee20ad332b14dcb3c2f1b7ab5f6adfaf7e57660d6e6f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::imported_current_cache_rejects_missing_or_invalid_numerical_activity",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "2dffc15c0074c4788243a79d7a3430cb641602164594253adba1a3b922bafa13",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::numerical_water_activity_tests::missing_or_invalid_numerical_activity_refuses_instead_of_using_the_report",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "2864ba3ba0113d54ee3e582989efda265bfc8127e173566dbe92c40ad3c7b82e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::clock_only_component_projection_requires_typed_first_or_reentry_owner",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "67b658ec5c5b41f2365b3d5ebe5378231fa15cb94322b3b0079512f1ed9f801b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::reservoir_out_and_in_preserve_independent_native_components",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "d1730e59f051aa8a2e0b09104b356e2c9248573f02ef14f93dd24f2186f6aff6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::raw_analytical_components_cannot_hide_invalid_valence_readback",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "c21c096c2f921bc53ad408fc56c71d70cde155f64489ce38c59abab9ddd4bb7c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::certified_components_require_complete_native_protonation",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "2280d0255dbfc77eb3e8441b398c3f3bc1ea8839d142991493ef01a2715d592d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::declared_native_alias_multiplicity_preserves_all_keyed_fractions",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "a1ca39f354166037d947c688477af7b185b6e449f2a0844903b431b49209ce39",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::raw_finite_gas_readback_refuses_invalid_values_before_projection",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "172f58bb2de6bfd627e24fa8e7509b18923296148ed471a7b898cb56f3264453",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::finite_gas_redistribution_uses_owned_initial_and_final_amounts",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "a08ae85d728b778bc358269850f8af105b1764c147a5eb1fc11ba410de5af8d9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::tagged_state_stays_tagged_and_protonation_fractions_stay_native",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "c66f991427b88108b770e304780f6a4b0a24f913515db5f0a95a24be800712cb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::oversized_invalid_and_unsupported_inputs_never_project",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "40253a470f00b3d2739667fcd7b3d2a64098823c8ebb9a20907ea3ea2ca35f44",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::finite_gas_temperature_serialization_tests::warm_fractional_primary_and_mix_inputs_round_trip_supplied_solutes",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "832753f10033fa54e77ffb16c6725a0d3a526ad3dfe69f230f5859e4971d42cf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::finite_gas_temperature_serialization_tests::finite_gas_input_round_trips_fractional_solvent_and_aqueous_carbon",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "ed347c9bb2b18b811d9db5dd2e428e031a9da8ab6175437fa1eada25b3434e36",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::finite_gas_temperature_serialization_tests::gas_initializer_round_trips_owned_moles_at_recorded_fractional_temperatures",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "97ea0213b1b2bdd5b6e06fdefcd7168064e8ae63e9d37fc2860fce3fb4bc3820",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::original_bicarbonate_boundary_keeps_the_one_molal_route_selection",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "d6f83b86973738af64a92d83a2498b0b3e1817d638a57d76398c78b4b6e9f367",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::changed_explanation_keeps_physical_authority_and_publishes_only_final_route",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "64a566fbed8ac4263294d466dcce786facab34b6663c4a25d8b6f93dd3563486",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::actual_model_or_typed_electron_authority_cannot_change_under_narrative_cover",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "8fc5a8a675d9a901d0f2a3ed2c2f8e1dfa2efd56376827436235cbba1102934d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::only_exhausted_native_inorganic_carbon_can_remove_the_co2_owner",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "f43beb359cb06bc27c8503ef68d23a11f194a6cc9d65d6e4c73a3dddbb8cd079",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::individual_stock_and_global_heat_both_have_to_close",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e4643a37e97f79ea851aa55dea4736a66744c54b38d114035dbafb189864f34c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::signed_gas_and_unpriced_fallback_keep_all_native_inner_passes",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "0e30ccf7298cba21acff2007f6cbb85e502808997bd48bf16f200ebcf25fae74",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::bounded_driver_exhausts_and_restores_caller_on_unclosed_answers",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "48f898a25c6fd70c7036822211b86aa258b431b5f6529776224c644b572981e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::route_replay_discards_first_models_gas_and_clock_then_starts_from_original_owner",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "ac34164bd5c1f32556a2be2f46f2aaa9471cda6066d87d4a17354e6f4a63ebae",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::route_oscillation_spends_the_same_global_eight_query_budget_and_rolls_back",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "f0f944b11622914e07dd9bfa4c1ae01a473483cb9316e09d31394a9541a76dfc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::clock_co2_boundary_tests::clock_pose_keeps_parked_parcel_and_refuses_overdraw_or_ambiguous_carbon",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "c4b2770cf1fca338a6f402b9a621884dea57d6f86e8f83af637f0b5b0f6afb12",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::gas_aware_certificate_tests::charged_input_is_preserved_and_same_element_charge_change_is_refused",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "017014527a0e1b94ac63c80a565f677247c1fe2cec80c4fa2b889b6e1f677ae7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::gas_aware_certificate_tests::gas_boundary_sign_vessel_and_nonnegative_amount_are_checked",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "910425e5553b491685f090f3406ed9b83b150359df94842f2022b65998ef5363",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::gas_aware_certificate_tests::virtual_clock_carbon_is_signed_and_independent_of_native_reservoirs",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "071318fcc7da19c499bc8a4a4daa74fa48696231f42da4c9d98201a1652d1f38",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "solve::phase_residual_certificate_tests::frozen_reference_microproposal_has_a_joint_material_and_energy_certificate",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "ac3a2999a4eea2ac1dd300161f97fde5710f0a2c7c72f6d091fadde00d8c6f24",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "solve::phase_residual_certificate_tests::small_water_proposal_cannot_hide_chemical_drift_or_invalid_native_state",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "7377e564747fe94e0e5635b3c4a0a8f1af622b6c35f5bbd45f1ebd6a531e611b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::the_standard_clocks_keep_their_order",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "fd394d88f2790bf4e14334d50ebb1ff1f55b4fa2211516b55f139469c2b9eac5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::a_beakers_conductance_is_arithmetic_on_its_geometry",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e4bf094d701f76cd965b8f8eaca4b74c1872899171c01309bd3b0c13587ab00d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::a_room_temperature_beaker_says_nothing_in_thirty_seconds",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "70763a596242b2c645f08753a6c0ad9d06815946397553363bfc1b1fe0fcf3fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::an_empty_beaker_left_at_flame_temperature_cools_on_the_glass_alone",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "a7d86c8258ec206be27e844091c6493a7a0f8111e2ce5600ad0d2c4f60a9895f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::a_thermostatted_vessel_does_not_drift",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "aab50f7c93df65328d60bfcfac72507e1312099f2f987693754aec37eab41189",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::a_negative_interval_is_no_time_at_all",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "19192a125119105c2ebe98d1e212f75fe2f931495d52450f43e0d19dbeb86389",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::the_gas_surface_is_the_mouth_and_not_the_wall",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "5e291dd66786007cf9c11a9e4ed8012ffac65d5dc6d5475d3054757f49c14bb2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::an_open_beaker_of_plain_water_takes_up_room_carbon",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "0b36c01c5386f110c3ed85289eee87e7333fdfdf36be22fb224293ab0eab4a01",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::the_uptake_is_the_published_transfer_velocity",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "9c8f4c781335d793485387e47e93c18d4ed74550860c879a14c47893b18f89fb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::a_supersaturated_vessel_is_left_to_the_aqueous_adapter",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "c2809e8a54c7062a42aa63e012d2027ac190ecf94aba53f945fb316cfe822842",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::the_transfer_never_overshoots_equilibrium",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e5222884426e5adc484cee1057124aed32a826e18eb5ab96d78115f42bde50fb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::a_sealed_vessel_exchanges_nothing_with_the_room",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "a82d4f1117e66402fb7a90ffac053056c9fda2adef6e0e22c13b1edcd9e4efc1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::an_alkaline_vessel_may_take_up_more_than_henry_allows",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "7e3ae9f262e0d12ed9a07e087180192f2e62bfefcc43afe2073dc913402e0b07",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::a_thousand_short_waits_are_not_nothing",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "33493c5b47d04d6c79e3af25c1f912e2cc5ef38368e96d858eaab65c9c9309b3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "kerotakis_core",
+      "test": "clock::tests::an_unsolved_vessel_exchanges_nothing",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "823012e78f1efe94712d6c090cd0fdbc5fb348ea4c07fdc605a285becff06ecb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "test": "direct_and_no_owner_stacks_keep_the_original_curated_fallback",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "dff6fb0766656f546399122df51e9643737a52868325e54bf762057daa89508b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "test": "an_untagged_bicarbonate_bottle_row_still_runs_before_an_aqueous_owner",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "aba512e96bcad6922e1b61537a94bc7d30662173b58419ab116114878dfef35e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "test": "selected_complete_owner_gets_only_tagged_row_and_preserves_stock",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "ebec50b780d71ebd6bec20521149464ad0798c5fb41adada09af02851dee97df",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "test": "selected_owner_failure_decline_or_partial_answer_does_not_consume_stock",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "dbd9748ee3e26e06543997b0f50048ff9e2f4c15adee680347c9eb8531055617",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "test": "a_failed_selected_owner_stops_later_installed_routes",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "61da72b0214f6314d0dfbc84477e0a77c3dae940b61f309967804ed4d82ec97f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "test": "a_selected_no_op_cannot_inherit_an_old_complete_answer",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "047df77851b9f2162d01119c473348647708e3a18cfc60b045546261ab76390f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "test": "ambiguous_owners_fail_without_choosing_one",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "b5de519fe2414e1c3cf31065dd8cfe6ced5f704ac21c164dd03e6d3e3aaf6fa5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "test": "borrowed_owner_must_be_the_selected_instance_and_cannot_leak_to_next_range",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e83607c147756d39cdbd40e24a596e0cebbc0ec6a593265c4a593c5712612952",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-core",
+      "target": "aqueous_overlap_ownership",
+      "test": "a_zero_sized_borrowed_owner_cannot_claim_instance_identity",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "39cf420c228005922cb9f320ab6c420dacdf3590084f29732c8db4a1a9f895a5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "native_aqueous_overlap",
+      "test": "fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "5e26d55b40670e8105962c72417b1a899379762a3e337fde7fe73bd9f3d397d6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "native_aqueous_overlap",
+      "test": "open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "205afb7f9dc054a5c6c20b53019806e34ff98d6f556e97fd22ca94c21b3ba90c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "native_aqueous_overlap",
+      "test": "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "0205f9595d18f5a100949668fa5633dc6dccfa58ac667684c8bd7ac0e5bc8b36",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "native_aqueous_overlap",
+      "test": "native_reentry_preserves_each_zero_time_stock_and_publishes_net_gas_once",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "0ef8dd347277d26169a85c4a666ce9b3a330b51b9a2464f35c41cb726f708b38",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "native_aqueous_overlap",
+      "test": "native_result_cache_reentry_matches_a_fresh_equilibrator",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "83d9093acf1a97e96486cebf5115ef8f91f7d81fe2a92f6d13c63e1003de3497",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "native_aqueous_overlap",
+      "test": "bicarbonate_at_pitzer_potential_load_replays_to_wateq_and_repeats_without_drift",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "786a4f9e170d0e9cdcf01192ee2a85ddbd63e9e11a65be00e528247b231250a5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "hydrochloric_acid_is_acidic",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "fe3ab560cf6388991a1d3bcf1c1e39b3ae9f9829e117d7483fed8336887634a8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "sodium_hydroxide_is_basic",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "59281a2de67da24d422dcc7e2f9f5a7fed2f984006b01d0651651708207296bc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "titration_walks_the_curve_to_equivalence",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "b415ec40a2cb259a1334c973d9a8384ff0992f840806e8564e3cc6bba81700e7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "dissolving_sodium_hydroxide_warms_the_water",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "1db0fc3529b24dcfa0c64b93d541eb535f89c7b569db4c12299e13821982e1f8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "endothermic_salt_cools_slightly",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "1bae078e5cfbf2ff0206f049e6ffba81d9bdc87ac0759c861a72d9aa02684f74",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "bleach_and_ammonia_warns_then_shows_the_chloramine",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "fcac5512f84b54535fd5a06bff424adbb31b836f0d2126da18732e99c32c611b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "household_cleaner_recipes_reach_the_same_warning_and_reaction",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "f0daa6b52de806e305fff5a0f97b8549ceb373d8cd4076fe3ad8c3a84b6bbafd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "decanting_bleach_into_ammonia_warns_first",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "4afab5558969c605c972826da0371ac47530b713b7d16d514a141b105376ef57",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "the_titrate_verb_finds_the_equivalence_point",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "2313a722c565ca653f65c023b9d4b89796c29502c28ce8601e4ffbfbc0a097de",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "household_ammonia_computes_its_own_ph",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "519d6be8ee534d7e0634aa3e9eec9b75b829b5477f01a208d9884978d50a750d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "an_ammonia_solution_is_still_made_of_ammonia",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "9a000e10e816786d28825e7d509074da89ef8ce585736569c26413e57e0df623",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "ammonium_chloride_is_still_an_ammonium_salt",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "a94cb4bb5da3f8d848280eeaebb02e184eb9d50403ab8b766077f86b817405bd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "vinegar_and_baking_soda_fizz_in_water",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "ffb973f456b2b3c9eb1fdb1b5f811b305bec4a43d70df7cc716ba8bd6b612814",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "vinegar_dissolves_the_calcium_carbonate_in_an_eggshell",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "517f2d1e631f66d908c6fc83032c15edc5e953ae30716295c52c7d1448795e16",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "the_volcano_cools_when_the_acid_goes_in_first",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "5a8a86a8fbe01cfdfc59d3949c6e498b1e2f3104a89201c050b5faeec97a4cce",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "the_volcano_cools_whichever_order_you_build_it_in",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "11658f5e0f0b3dd45de35f5f9c84dab3e84b92ca6d7bcd426fed3dad4233bc51",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "bleach_and_acid_release_chlorine_in_either_order",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "99533cf82b912a9691303b2c54638553fb242c5233ba9e9a28c8714fed2a06b1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "bleach_and_table_salt_do_nothing",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "9c56b170948429ecdb24f6bf9cf02d5c743357c3af65485e1a6f97d78727ed10",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "a_trace_of_acid_makes_only_a_trace_of_chlorine",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "c675754ff642fd705c600f65b7d57e625d78265dfcbed989e39309974a95dd39",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "bleach_and_vinegar_warn_in_either_order",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "632945ebf538b6d653f6f63180838a486e22e682f0373fd7a069adcd5102fc8c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "vinegar_alone_raises_no_alarm",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "461bbfa80c44753b4bc402d903573997522b30374db52c3fc86c31c35f93b5b0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "acid_base",
+      "test": "bleach_never_claims_again_that_no_database_defines_it",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "645a1fd6f0dfc6f9552f57954e140fa79cd63d5c00c699d8fdda02751a50f932",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "curated_reachability_at_runtime",
+      "test": "every_curated_reaction_is_reachable_in_every_order",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "b2b7a9a638a5c997e184d4bbc269e249284ca8a6927d5e5dce569035f5e3c410",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "order_invariance",
+      "test": "the_same_beaker_reads_the_same_solvent_mass_in_either_order",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "e8b9550d24b9cb3a27c7820363971cc5da59ea6310f8685f05dd130e8cb768d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "order_invariance",
+      "test": "the_canonical_pose_costs_at_most_one_solve_per_equilibration",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "f7a44f88581bb8094511a8f192be01aeb4e3ef073809234c88294d4ccc7d6d21",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "reaction_heat",
+      "test": "a_strong_acid_and_a_strong_base_warm_the_same_either_way_round",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "9c613c9f6f72586bb9acd3d62d1ec125e51b5bdd842488cc596336a20f95d655",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "reaction_heat",
+      "test": "an_instant_cold_pack_gets_cold",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "427cc73e8a6a64f46b935d0f0864861b6ad8c8c62750391bf8e627c50bb78d18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "reaction_heat",
+      "test": "the_volcano_gets_cold",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "2f3b7ed248d0e37966cd2901332e6e20859e0e4d6a7786f4517292d601d32845",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "reaction_heat",
+      "test": "the_volcano_cools_the_same_whichever_way_round_you_pour_it",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "6bee01f8f53910ec026de70eff52f92513f3b71cfa348270ea2024a159e9b8f3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "clock_co2_boundary",
+      "test": "mild_base_original_hour_wait_closes_h_o_charge_and_books_actual_co2_once",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "071b77daa94b7413d0ee31762529b22387f93248869ac65f69e176a616969cbc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "clock_co2_boundary",
+      "test": "bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate",
+      "exit_status": 101,
+      "record_shape_valid": true,
+      "result": "FAIL/INCOMPLETE",
+      "stdout_sha256": "a025e26c28ebbd7ba1f81354df56ac07324134862b0eb300cf348261a7bade8b",
+      "stderr_sha256": "dd3de933ba01023363202f280f0b03ea9973169635e8a7ac6f4bf025e1377e33"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "clock_co2_boundary",
+      "test": "positive_subfloor_clock_transfer_is_parked_then_accumulates_and_spends_once",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "bb307f78366d9febfbb4dde31203097d44288927db3d6f2b5c4335eeebe0ce0e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "clock_co2_boundary",
+      "test": "already_earned_subfloor_parcel_survives_sealing_without_further_uptake",
+      "exit_status": 101,
+      "record_shape_valid": true,
+      "result": "FAIL/INCOMPLETE",
+      "stdout_sha256": "459ff3938cbdf25663c16679882615d44f0a1a0d62adb5e8d7cf7b2112237ee2",
+      "stderr_sha256": "1d8a3edc39fdeddd66acf09304bd3ce00aaf291eb7273f7fd8d6b06e41c084e9"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "clock_co2_boundary",
+      "test": "valid_negative_carrier_removes_all_native_carbon_and_overdraw_refuses_atomically",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "bada7d347dfbd1f12b151a0daa391eedc00e589e22d2520ad4741875c3466991",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "clock_co2_boundary",
+      "test": "native_mix_declines_a_pending_carrier_in_either_source_or_target",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "50b1288ccee3b02202d192f17ea96d82bf31c45bc8a1ba2db6a8e62ffa9a2eb9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "clock_co2_boundary",
+      "test": "cached_and_fresh_native_adapters_spend_the_same_clock_carrier_once",
+      "exit_status": 0,
+      "record_shape_valid": true,
+      "result": "PASS",
+      "stdout_sha256": "24d86540de5475125698bb9f41ba4e354496fc12fd2eb9ac2e2582c81ad66fbd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "valid_named_test_passes": 153,
+  "test_failures_or_not_reached": [
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "clock_co2_boundary",
+      "test": "bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate",
+      "exit_status": 101,
+      "record_shape_valid": true,
+      "result": "FAIL/INCOMPLETE",
+      "stdout_sha256": "a025e26c28ebbd7ba1f81354df56ac07324134862b0eb300cf348261a7bade8b",
+      "stderr_sha256": "dd3de933ba01023363202f280f0b03ea9973169635e8a7ac6f4bf025e1377e33"
+    },
+    {
+      "package": "kerotakis-phreeqc",
+      "target": "clock_co2_boundary",
+      "test": "already_earned_subfloor_parcel_survives_sealing_without_further_uptake",
+      "exit_status": 101,
+      "record_shape_valid": true,
+      "result": "FAIL/INCOMPLETE",
+      "stdout_sha256": "459ff3938cbdf25663c16679882615d44f0a1a0d62adb5e8d7cf7b2112237ee2",
+      "stderr_sha256": "1d8a3edc39fdeddd66acf09304bd3ce00aaf291eb7273f7fd8d6b06e41c084e9"
+    }
+  ],
+  "format_clippy_wasm_gates": {
+    "format-check": {
+      "observed": true,
+      "exit_status": 0,
+      "error_type": null,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true
+    },
+    "affected-clippy": {
+      "observed": true,
+      "exit_status": 0,
+      "error_type": null,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3f88f9a37c8833ed3c8eb91d7429ebc9008d560b97ba82d603ad3c4b2d7968ff",
+      "passed": true
+    },
+    "wasm32-check": {
+      "observed": true,
+      "exit_status": 0,
+      "error_type": null,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e26d2a19f99a8ad2d22729ebe222ef2298a039df4fbd38d00f8e31d219c8f819",
+      "passed": true
+    }
+  },
+  "target_binary_metadata_only": {
+    "states": {
+      "worker_claimed_executable_sha256": "f04885fb3027d8c2c15775cdbe1c3788bc4811bb9ceed069d214fc7281e61524",
+      "worker_claimed_bytes": 55836176,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "brine_phase_energy": {
+      "worker_claimed_executable_sha256": "8555d555603189586f99e670999bbe9760784b622334fa37080ff116ed2a46d6",
+      "worker_claimed_bytes": 45016624,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "phase_cap_energy": {
+      "worker_claimed_executable_sha256": "238b76950e4224ae0cc441b636e5d08f6242bde34b95eb7a2df2fb6ca54c28ab",
+      "worker_claimed_bytes": 55868408,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "partial_freezing": {
+      "worker_claimed_executable_sha256": "242b1c188975d1ea5dafad7c7d46ebea231819494a60a0dac192ca94441ef851",
+      "worker_claimed_bytes": 87044048,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "particle_census": {
+      "worker_claimed_executable_sha256": "c3fe2c8dbef5860d6f2cb83483eb7ea5a472d07c086d8cae6b24b3cfd7d216e7",
+      "worker_claimed_bytes": 87234952,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "colligative_numbers": {
+      "worker_claimed_executable_sha256": "5d7cf5e1b65581fd40a153b29e5ac05e58578ba300f11ef6dd33874154ae2366",
+      "worker_claimed_bytes": 86849568,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "scene_golden": {
+      "worker_claimed_executable_sha256": "120a98ff7bc854a25d70a8b84948ed285e5a8a2b22ae0dcf5e1c6b046cd4f417",
+      "worker_claimed_bytes": 57056160,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "kerotakis_phreeqc": {
+      "worker_claimed_executable_sha256": "e5ea03845839568af22ea7545ba3d48367bc157ec8e3a244cc3d8fb4963d0314",
+      "worker_claimed_bytes": 61068896,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "kerotakis_core": {
+      "worker_claimed_executable_sha256": "0926501ca45636391c6e7aabb3d044ca281d33b7ec3f4ae1cd99af2d0c646ed8",
+      "worker_claimed_bytes": 75535624,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "aqueous_overlap_ownership": {
+      "worker_claimed_executable_sha256": "4c5ef51956e4f726c59297e9c264214e2c04c4e9459a05e57a98a17ce6e1dd8f",
+      "worker_claimed_bytes": 45621104,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "native_aqueous_overlap": {
+      "worker_claimed_executable_sha256": "77a1b49e55f7c390ed0f92716d24c808602c8e3a2e6a8f82b27486fd227ea750",
+      "worker_claimed_bytes": 87217632,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "acid_base": {
+      "worker_claimed_executable_sha256": "5d328a2e782fad812a4afd4c7ea365ea7b3ee93cc1baf14a8748608242e65229",
+      "worker_claimed_bytes": 67593152,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "curated_reachability_at_runtime": {
+      "worker_claimed_executable_sha256": "5ac29ab22d26d6f19b8d30ef100b3f6dded76f754d9f0c5b0379cb37070c2ddc",
+      "worker_claimed_bytes": 86766384,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "order_invariance": {
+      "worker_claimed_executable_sha256": "f5493635150dfb41f20cd6fad072725abdfc5f77a7444cecf8cd4c2299f9247e",
+      "worker_claimed_bytes": 86637920,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "reaction_heat": {
+      "worker_claimed_executable_sha256": "1af822f1c1cb15f464b2b7f45f96d52e2188eb615ca8904f9f5e61a3a995d86d",
+      "worker_claimed_bytes": 86259616,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    },
+    "clock_co2_boundary": {
+      "worker_claimed_executable_sha256": "92573bf1ada8a06ddb7f890221df38ccfb1520cbf377a1b029b0e13301bf8c75",
+      "worker_claimed_bytes": 87651384,
+      "gzip_metadata_matches_manifest": true,
+      "executable_body_rehashed": false
+    }
+  },
+  "cli_binary_metadata_only": {
+    "worker_claimed_executable_sha256": "f382d85b0c10e9e5f8ef2bc57c4908022961fceeb4cd31151634094ca7f405e4",
+    "worker_claimed_bytes": 105122448,
+    "gzip_metadata_matches_manifest": true,
+    "executable_body_rehashed": false
+  },
+  "three_cli_observations": {
+    "original-cycle-cli": {
+      "observed": true,
+      "source_script_sha256": "a95e59408c36731599dcdf2a95457be77ddbfd1c6282a720fc80e0c2a5ec1ec8",
+      "exit_status": 0,
+      "stdout_sha256": "d232493ce958d6502a07e912c8b87a7b20a0ce116c13d2f681d250fea9aebebb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "json_rows": 5,
+      "malformed_json_lines": [],
+      "solver_failed_events": [],
+      "no_solver_failed_observed": true,
+      "exit_zero_and_no_solver_failed": true,
+      "scientific_acceptance": false
+    },
+    "carbonate-acetic-cli": {
+      "observed": true,
+      "source_script_sha256": "7a4356e73368ad63c7a28baf927ca3b6ae8a2794b3d93f1d916f4fee9e91d16a",
+      "exit_status": 0,
+      "stdout_sha256": "7805706322ce13df7f9c20bdd6cc63984fda8f56c67e0a49a42abd1bcb7ebadc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "json_rows": 5,
+      "malformed_json_lines": [],
+      "solver_failed_events": [],
+      "no_solver_failed_observed": true,
+      "exit_zero_and_no_solver_failed": true,
+      "scientific_acceptance": false
+    },
+    "bicarbonate-phosphoric-cli": {
+      "observed": true,
+      "source_script_sha256": "c98d40cbca3f222a2b2bab7746b539ecde810061cf17f686c136e4825d4dc0c6",
+      "exit_status": 0,
+      "stdout_sha256": "72b4c6b97634f5eb064685cd7a07a08a798a471b3bc9ebc43a6c4ab34af0020e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "json_rows": 5,
+      "malformed_json_lines": [],
+      "solver_failed_events": [],
+      "no_solver_failed_observed": true,
+      "exit_zero_and_no_solver_failed": true,
+      "scientific_acceptance": false
+    }
+  },
+  "full_1536_sweep": {
+    "observed": true,
+    "invariant_violations": null,
+    "scientific_acceptance": false,
+    "exit_status": 0,
+    "stdout_sha256": "61a03e993a08b488cbdc82f212cf3003b37c9f4dfb40ca0f50ad4ec989b5b714",
+    "stderr_sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469",
+    "summary_exact_1536_and_all_ran": true,
+    "refusal_steps": 29,
+    "no_invariant_statement": true,
+    "violation_headers": [],
+    "zero_invariant_violations_observed": true
+  },
+  "manifest_sha256": "386bc370acc1776b34e1b54ad132571bb835905c67da0899531f7a63a0fd9099",
+  "manifest_members_plus_manifest": 670,
+  "nongzip_members_hashed": 652,
+  "gzip_archives_metadata_only": 17,
+  "gzip_body_opened_or_rehashed": false,
+  "worker_reported_executable_hashes_independently_rehashed": false,
+  "scientific_selections_or_promotion": 0,
+  "full_source_platform_product_or_calibration_acceptance": false,
+  "evidence_limits": [
+    "This is the bounded 155-control clock-component focus projection, not a complete original source/test or executable archive collection.",
+    "Compressed test and CLI executable bodies were not opened or rehashed; their hashes remain worker metadata claims only.",
+    "A named test PASS records only an exact test process transcript with exit 0 and the expected one-test summary.",
+    "CLI and sweep observations do not establish chemistry calibration, product acceptance, or fleet-wide compatibility.",
+    "A STOPPED worker is a partial result; controls without captured records are reported NOT_REACHED, never passed."
+  ]
+}

@@ -1,5 +1,7 @@
 # Fresh-agent handoff —2026-10-24
 
+**Actual155 and full-native regressions —2026-10-25:** [Source6e44 reaches153/155](../audits/clock155-and-full-native-first-failures-20261025/FORECAST.md): two clock-test expectation defects remain; strict compiler/wasm, three CLI protocols and all1536 sweep states pass with29 refusal steps and zero invariant violations. Both full native platforms expose14 failures, including milk clock ownership and finite-headspace ammonia convergence; full preflight also fails. [The scoped known-subset clock repair](../audits/clock-known-subset-owner-20261025/FORECAST.md), two fixture corrections and missing routing translations are in preparation, without acceptance. PR859 stays draft. Full delivery, further originals and diagnostic i18n remain required;338/468 unchanged.
+
 **Current identical155 successor —2026-10-25:** [Source6e44feab is issued once](../audits/clock155-mut-successor-binding-20261025/README.md), with exactly three unnecessary mutable fixture bindings removed after the preserved d01 strict-lint stop. Runtime and every155 assertion/selection are unchanged. Actual focused/full/delivery results remain pending;338/468 originals is unchanged. Finish normal delivery, further original qualification and structured runtime i18n before closing the six-lane task.
 
 **Current155 sourcee6690708 —2026-10-25:** [One exact-selection compiler successor is issued](../audits/clock155-compiler-followup-binding-20261025/README.md). Firste096155attempt stops at Clippy with all155/downstream NOT_REACHED. Preserve that stop and bcb121/123 raw failures. Observe this producer without duplication, then finish normaldelivery, more originalqualification andi18n before closing the user-authorized six-lane task.
@@ -18,6 +20,8 @@ This current scope supersedes the dated checkpoints below. Read `docs/STATUS.md`
 | Completed successor | **110/112 PASS**, compiler/three CLI protocols pass, full1536 has zero invariant violations. One fixture admission error and one typed-zero physical reentry drift remain. See [current checkpoint](checkpoint-20261024.md). |
 | Separate confirmed defect | [Old-source positive-wait CO2 failure](../audits/clock-co2-captured-diagnostic-20261024/README.md): O error−2.111e−6mol, charge error+4.222e−6eq despite exit0/no SolverFailed. Not repaired or retagged as current-source execution. |
 | Original qualification | 342 catalog entries,338 unique fixed468 originals.130 originals remain;63 more earned originals are needed for401. No new selection this checkpoint. |
+
+Current prerequisites supersede earlier source-specific pending notes: preserve the completed153/155 producer and both full-native first failures; finish the typed known-subset certificate and two independently reviewed fixture corrections, diagnose carbonate/ammonia from exact-source residual traces, and physically adjudicate lesson/corpus changes. Keep all155 controls and add every affected full-native target. Do not remove exception rows, update golden numbers, raise cap8 or relax Complete projection merely to clear CI. A separate observational diagnostic is not source acceptance. Then continue the six lanes below through delivery, additional original qualification and structured diagnostic localization.
 
 Execute these lanes in order:
 
