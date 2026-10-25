@@ -74,6 +74,90 @@ const MAX_THERMAL_FIXED_POINT_PASSES: usize = 64;
 /// become the accepted state. This is independent of the thermal ceiling.
 const MAX_CANONICAL_AQUEOUS_PASSES: usize = 8;
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+struct FirstPoseHint {
+    primary_route: Option<&'static str>,
+    secondary: SecondaryFirstHint,
+}
+
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+enum SecondaryFirstHint {
+    #[default]
+    Auto,
+    /// A provisional query already proved that the ordinary selector
+    /// declines below its input floor. The next pose must verify this.
+    Skip,
+    /// Ask a provisional lean question while retaining every output and
+    /// capability gate. The following ordinary pose must admit it.
+    Probe,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum SecondaryDecline {
+    AlreadyPrimary,
+    Unsupported,
+    MissingReadback,
+    EngineFailure,
+    InvalidResult,
+    BelowOutputParticleFloor,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum SecondaryDisposition {
+    Accepted,
+    BelowInputFloor,
+    SkippedForReplay,
+    Declined(SecondaryDecline),
+}
+
+struct SecondaryResult {
+    provenance: Option<kerotakis_core::vessel::SolventActivityProvenance>,
+    disposition: SecondaryDisposition,
+}
+
+impl SecondaryResult {
+    fn declined(disposition: SecondaryDisposition) -> Self {
+        Self {
+            provenance: None,
+            disposition,
+        }
+    }
+}
+
+/// Only a measured input-floor transition permits an owner replay. Other
+/// missing/unsupported/native failures remain ordinary refusals.
+fn secondary_floor_replay(
+    before: SecondaryDisposition,
+    after: SecondaryDisposition,
+) -> Option<SecondaryFirstHint> {
+    match (before, after) {
+        (SecondaryDisposition::Accepted, SecondaryDisposition::BelowInputFloor) => {
+            Some(SecondaryFirstHint::Skip)
+        }
+        (SecondaryDisposition::BelowInputFloor, SecondaryDisposition::Accepted) => {
+            Some(SecondaryFirstHint::Probe)
+        }
+        _ => None,
+    }
+}
+
+/// Parse the actual secondary selected-output column. A valid osmotic
+/// coefficient does not by itself certify the reported ionic strength:
+/// `from_speciation` uses an ideal fallback when mu is nonpositive.
+fn secondary_ionic_strength(rows: &[Vec<String>]) -> Result<f64, SecondaryDecline> {
+    let cell = rows
+        .first()
+        .and_then(|head| head.iter().position(|h| h == "mu"))
+        .and_then(|i| rows.last().and_then(|row| row.get(i)))
+        .ok_or(SecondaryDecline::MissingReadback)?;
+    let mu = cell
+        .parse::<f64>()
+        .map_err(|_| SecondaryDecline::InvalidResult)?;
+    (mu.is_finite() && mu >= 0.0)
+        .then_some(mu)
+        .ok_or(SecondaryDecline::InvalidResult)
+}
+
 use crate::derived::{self, DerivedRole, ATMOSPHERIC, EQUILIBRIUM_GASES};
 use crate::enthalpy;
 
@@ -875,12 +959,9 @@ impl PhreeqcEquilibrator {
         &mut self,
         trial: &mut Vessel,
     ) -> Result<(Vec<Event>, f64, bool, f64), SolveError> {
-        Self::solve_at_temperature_with(
-            trial,
-            |candidate, past, certified_reentry, forced_route| {
-                self.solve_once(candidate, past, certified_reentry, forced_route)
-            },
-        )
+        Self::solve_at_temperature_with(trial, |candidate, past, certified_reentry, hint| {
+            self.solve_once(candidate, past, certified_reentry, hint)
+        })
     }
 
     /// The closure is private to this module. Tests can supply a controlled
@@ -891,12 +972,7 @@ impl PhreeqcEquilibrator {
         mut solve: F,
     ) -> Result<(Vec<Event>, f64, bool, f64), SolveError>
     where
-        F: FnMut(
-            &mut Vessel,
-            &[Event],
-            bool,
-            Option<&'static str>,
-        ) -> Result<AqueousPass, SolveError>,
+        F: FnMut(&mut Vessel, &[Event], bool, FirstPoseHint) -> Result<AqueousPass, SolveError>,
     {
         let owner_start = vessel.clone();
         let caller_snapshot = owner_start.step_start.clone();
@@ -904,7 +980,8 @@ impl PhreeqcEquilibrator {
             .clone()
             .unwrap_or_else(|| kerotakis_core::vessel::StepStart::capture(&owner_start));
         let mut calls = 0;
-        let mut forced_first_route: Option<&'static str> = None;
+        let mut first_hint = FirstPoseHint::default();
+        let mut secondary_replayed = false;
         'replay: loop {
             if calls >= MAX_CANONICAL_AQUEOUS_PASSES {
                 return Err(canonical_closure_error(format!(
@@ -917,8 +994,8 @@ impl PhreeqcEquilibrator {
             let mut trial = owner_start.clone();
             trial.step_start = Some(heat_origin.clone());
             calls += 1;
-            let first = solve(&mut trial, &[], false, forced_first_route)?;
-            if let Some(tag) = forced_first_route {
+            let first = solve(&mut trial, &[], false, first_hint)?;
+            if let Some(tag) = first_hint.primary_route {
                 let info = trial
                     .solution
                     .as_ref()
@@ -936,6 +1013,23 @@ impl PhreeqcEquilibrator {
                     "forced replay route did not produce a complete answer inside its activity-model domain",
                 ));
                 }
+            }
+            match first_hint.secondary {
+                SecondaryFirstHint::Skip
+                    if first.secondary_disposition != SecondaryDisposition::SkippedForReplay =>
+                {
+                    return Err(canonical_closure_error(
+                        "secondary replay did not skip its first pose",
+                    ));
+                }
+                SecondaryFirstHint::Probe
+                    if first.secondary_disposition != SecondaryDisposition::Accepted =>
+                {
+                    return Err(canonical_closure_error(
+                        "secondary replay did not produce a valid provisional auxiliary answer",
+                    ));
+                }
+                _ => {}
             }
             if first.component_certificate.is_certified()
                 && first
@@ -957,7 +1051,7 @@ impl PhreeqcEquilibrator {
                     .as_ref()
                     .is_none_or(|info| info.scope != SolutionScope::Complete)
             {
-                if first.clock_co2_applied_mol != 0.0 || forced_first_route.is_some() {
+                if first.clock_co2_applied_mol != 0.0 || first_hint != FirstPoseHint::default() {
                     return Err(canonical_closure_error(
                         "clock CO2 or model replay lacks a complete certified native answer",
                     ));
@@ -1027,7 +1121,7 @@ impl PhreeqcEquilibrator {
                 }
                 trial.step_start = Some(private_snapshot);
                 calls += 1;
-                let pass = solve(&mut trial, &all_events, true, None)?;
+                let pass = solve(&mut trial, &all_events, true, FirstPoseHint::default())?;
                 if !pass.component_certificate.is_certified()
                     || pass.component_certificate != component_owner
                     || pass.clock_co2_applied_mol != 0.0
@@ -1058,8 +1152,45 @@ impl PhreeqcEquilibrator {
                             "unsupported aqueous model transition",
                         ));
                     }
-                    forced_first_route = Some(pass.db_tag);
+                    first_hint.primary_route = Some(pass.db_tag);
+                    first_hint.secondary = SecondaryFirstHint::Auto;
                     continue 'replay;
+                }
+                if previous_pass.secondary_disposition == SecondaryDisposition::SkippedForReplay
+                    && pass.secondary_disposition != SecondaryDisposition::BelowInputFloor
+                {
+                    return Err(canonical_closure_error(
+                        "ordinary selector did not verify the provisional secondary skip",
+                    ));
+                }
+                if first_hint.secondary == SecondaryFirstHint::Probe
+                    && pass.secondary_disposition != SecondaryDisposition::Accepted
+                {
+                    return Err(canonical_closure_error(
+                        "ordinary selector did not admit the provisional secondary probe",
+                    ));
+                }
+                if let Some(next) = secondary_floor_replay(
+                    previous_pass.secondary_disposition,
+                    pass.secondary_disposition,
+                ) {
+                    if secondary_replayed {
+                        return Err(canonical_closure_error(
+                            "secondary selector changed after its owner replay",
+                        ));
+                    }
+                    secondary_replayed = true;
+                    first_hint.secondary = next;
+                    continue 'replay;
+                }
+                if previous_pass.secondary_disposition != pass.secondary_disposition
+                    && !(previous_pass.secondary_disposition
+                        == SecondaryDisposition::SkippedForReplay
+                        && pass.secondary_disposition == SecondaryDisposition::BelowInputFloor)
+                {
+                    return Err(canonical_closure_error(
+                        "secondary solvent selector changed outside a witnessed input-floor replay",
+                    ));
                 }
                 let next_reservoirs = pass.reservoirs.iter().cloned().collect::<BTreeSet<_>>();
                 let only_clock_co2_emerged = clock_applied != 0.0
@@ -3855,6 +3986,7 @@ struct AqueousPass {
     /// The actual clock parcel posed in this pass's analytical totals.
     /// Native reservoir events remain separate.
     clock_co2_applied_mol: f64,
+    secondary_disposition: SecondaryDisposition,
 }
 
 fn validate_clock_boundary(vessel: &Vessel, problem: Option<&Problem>) -> Result<(), SolveError> {
@@ -4516,6 +4648,7 @@ mod canonical_physical_closure_tests {
             db_tag: "wateq4f",
             reservoirs: vec!["CO2".into()],
             clock_co2_applied_mol: 0.0,
+            secondary_disposition: SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
         }
     }
 
@@ -4856,13 +4989,13 @@ mod canonical_physical_closure_tests {
         let mut calls = 0;
         let (events, _, closed, clock) = PhreeqcEquilibrator::solve_at_temperature_with(
             &mut vessel,
-            |candidate, prior, certified_reentry, forced_route| {
+            |candidate, prior, certified_reentry, hint| {
                 calls += 1;
                 let mut pass = quote(0.0);
                 match calls {
                     1 => {
                         assert!(!certified_reentry);
-                        assert_eq!(forced_route, None);
+                        assert_eq!(hint, FirstPoseHint::default());
                         candidate
                             .contents
                             .retain(|portion| portion.species.0 != "CO2(aq)");
@@ -4877,7 +5010,7 @@ mod canonical_physical_closure_tests {
                     }
                     2 => {
                         assert!(certified_reentry);
-                        assert_eq!(forced_route, None);
+                        assert_eq!(hint, FirstPoseHint::default());
                         assert_eq!(candidate.pending_co2_transfer_mol, 0.0);
                         assert_eq!(prior.len(), 1);
                         assert_eq!(candidate.step_start.as_ref().unwrap().gas_out.len(), 1);
@@ -4886,7 +5019,8 @@ mod canonical_physical_closure_tests {
                     }
                     3 => {
                         assert!(!certified_reentry);
-                        assert_eq!(forced_route, Some("wateq4f"));
+                        assert_eq!(hint.primary_route, Some("wateq4f"));
+                        assert_eq!(hint.secondary, SecondaryFirstHint::Auto);
                         assert!(prior.is_empty());
                         assert_eq!(candidate.contents, original.contents);
                         assert_eq!(
@@ -4899,7 +5033,7 @@ mod canonical_physical_closure_tests {
                     }
                     4 => {
                         assert!(certified_reentry);
-                        assert_eq!(forced_route, None);
+                        assert_eq!(hint, FirstPoseHint::default());
                         assert!(prior.is_empty());
                         assert_eq!(candidate.pending_co2_transfer_mol, 0.0);
                         assert_eq!(candidate.step_start.as_ref().unwrap().gas_out.len(), 1);
@@ -4930,7 +5064,7 @@ mod canonical_physical_closure_tests {
         let mut active_route = "pitzer";
         let failure = PhreeqcEquilibrator::solve_at_temperature_with(
             &mut vessel,
-            |candidate, _, certified_reentry, forced_route| {
+            |candidate, _, certified_reentry, hint| {
                 calls += 1;
                 let tag = if certified_reentry {
                     if active_route == "pitzer" {
@@ -4939,7 +5073,7 @@ mod canonical_physical_closure_tests {
                         "pitzer"
                     }
                 } else {
-                    forced_route.unwrap_or("pitzer")
+                    hint.primary_route.unwrap_or("pitzer")
                 };
                 if !certified_reentry {
                     active_route = tag;
@@ -4955,6 +5089,260 @@ mod canonical_physical_closure_tests {
         assert!(matches!(failure, SolveError::NotConverged { .. }));
         assert_eq!(calls, MAX_CANONICAL_AQUEOUS_PASSES);
         assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
+    }
+
+    fn secondary_provenance() -> kerotakis_core::vessel::SolventActivityProvenance {
+        kerotakis_core::vessel::SolventActivityProvenance {
+            dataset: "pitzer.dat".into(),
+            model: "Pitzer".into(),
+            dataset_phrase: None,
+            model_phrase: None,
+            water_activity: 0.9989,
+            particle_molality: 0.06,
+            ionic_strength: 0.03,
+        }
+    }
+
+    fn secondary_answer(
+        candidate: &mut Vessel,
+        disposition: SecondaryDisposition,
+        heat_j: f64,
+    ) -> AqueousPass {
+        candidate.solution.as_mut().unwrap().solvent_activity =
+            (disposition == SecondaryDisposition::Accepted).then(secondary_provenance);
+        let mut pass = quote(heat_j);
+        pass.secondary_disposition = disposition;
+        pass
+    }
+
+    #[test]
+    fn auxiliary_floor_replay_discards_provisional_gas_clock_and_heat() {
+        let mut vessel = state();
+        vessel.pending_co2_transfer_mol = 2e-6;
+        vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+        let original = vessel.clone();
+        let mut calls = 0;
+        let (events, heat, closed, clock) = PhreeqcEquilibrator::solve_at_temperature_with(
+            &mut vessel,
+            |candidate, prior, reentry, hint| {
+                calls += 1;
+                match calls {
+                    1 => {
+                        assert!(!reentry && prior.is_empty());
+                        assert_eq!(hint, FirstPoseHint::default());
+                        candidate.deposit(
+                            SpeciesId::new("CO2(aq)"),
+                            Moles(2e-6 - 1e-8),
+                            Phase::Aqueous,
+                        );
+                        let mut pass =
+                            secondary_answer(candidate, SecondaryDisposition::Accepted, 99.0);
+                        pass.clock_co2_applied_mol = 2e-6;
+                        pass.events.push(Event::GasEvolved {
+                            vessel: candidate.id,
+                            species: SpeciesId::new("CO2"),
+                            moles: Moles(1e-8),
+                        });
+                        Ok(pass)
+                    }
+                    2 => {
+                        assert!(reentry && prior.len() == 1);
+                        assert_eq!(candidate.pending_co2_transfer_mol, 0.0);
+                        Ok(secondary_answer(
+                            candidate,
+                            SecondaryDisposition::BelowInputFloor,
+                            99.0,
+                        ))
+                    }
+                    3 => {
+                        assert!(!reentry && prior.is_empty());
+                        assert_eq!(hint.secondary, SecondaryFirstHint::Skip);
+                        assert_eq!(candidate.contents, original.contents);
+                        assert_eq!(candidate.pending_co2_transfer_mol, 2e-6);
+                        assert_eq!(candidate.step_start, original.step_start);
+                        candidate.deposit(SpeciesId::new("CO2(aq)"), Moles(2e-6), Phase::Aqueous);
+                        let mut pass = secondary_answer(
+                            candidate,
+                            SecondaryDisposition::SkippedForReplay,
+                            0.0,
+                        );
+                        pass.clock_co2_applied_mol = 2e-6;
+                        Ok(pass)
+                    }
+                    4 => {
+                        assert!(reentry && prior.is_empty());
+                        assert_eq!(hint, FirstPoseHint::default());
+                        Ok(secondary_answer(
+                            candidate,
+                            SecondaryDisposition::BelowInputFloor,
+                            0.0,
+                        ))
+                    }
+                    _ => panic!("secondary replay exceeded its four controlled poses"),
+                }
+            },
+        )
+        .expect("ordinary floor agrees after fresh owner replay");
+        assert_eq!(calls, 4);
+        assert!(closed);
+        assert_eq!(heat, 0.0);
+        assert_eq!(clock, 2e-6);
+        assert_eq!(vessel.pending_co2_transfer_mol, 0.0);
+        assert_eq!(vessel.step_start, original.step_start);
+        assert!(!events
+            .iter()
+            .any(|event| matches!(event, Event::GasEvolved { .. })));
+    }
+
+    #[test]
+    fn reverse_floor_replay_probes_only_first_pose_then_requires_ordinary_admission() {
+        let mut vessel = state();
+        let mut calls = 0;
+        let (_, _, closed, _) = PhreeqcEquilibrator::solve_at_temperature_with(
+            &mut vessel,
+            |candidate, _, reentry, hint| {
+                calls += 1;
+                let disposition = match calls {
+                    1 => {
+                        assert!(!reentry && hint == FirstPoseHint::default());
+                        SecondaryDisposition::BelowInputFloor
+                    }
+                    2 => {
+                        assert!(reentry && hint == FirstPoseHint::default());
+                        SecondaryDisposition::Accepted
+                    }
+                    3 => {
+                        assert!(!reentry && hint.secondary == SecondaryFirstHint::Probe);
+                        SecondaryDisposition::Accepted
+                    }
+                    4 => {
+                        assert!(reentry && hint == FirstPoseHint::default());
+                        SecondaryDisposition::Accepted
+                    }
+                    _ => panic!("secondary replay exceeded its four controlled poses"),
+                };
+                Ok(secondary_answer(candidate, disposition, 0.0))
+            },
+        )
+        .expect("ordinary selector agrees with provisional probe");
+        assert!(closed);
+        assert_eq!(calls, 4);
+        assert!(vessel.solution.as_ref().unwrap().solvent_activity.is_some());
+    }
+
+    #[test]
+    fn auxiliary_other_declines_never_authorize_replay_and_floor_spends_global_cap() {
+        for reason in [
+            SecondaryDecline::AlreadyPrimary,
+            SecondaryDecline::Unsupported,
+            SecondaryDecline::MissingReadback,
+            SecondaryDecline::EngineFailure,
+            SecondaryDecline::InvalidResult,
+            SecondaryDecline::BelowOutputParticleFloor,
+        ] {
+            assert_eq!(
+                secondary_floor_replay(
+                    SecondaryDisposition::Accepted,
+                    SecondaryDisposition::Declined(reason)
+                ),
+                None
+            );
+            assert_eq!(
+                secondary_floor_replay(
+                    SecondaryDisposition::Declined(reason),
+                    SecondaryDisposition::Accepted
+                ),
+                None
+            );
+        }
+        let mut vessel = state();
+        vessel.pending_co2_transfer_mol = 5e-7;
+        vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+        let original = serde_json::to_vec(&vessel).unwrap();
+        let mut calls = 0;
+        let error =
+            PhreeqcEquilibrator::solve_at_temperature_with(&mut vessel, |candidate, _, _, hint| {
+                calls += 1;
+                let disposition = match calls {
+                    1 => SecondaryDisposition::Accepted,
+                    2 => SecondaryDisposition::BelowInputFloor,
+                    3 => {
+                        assert_eq!(hint.secondary, SecondaryFirstHint::Skip);
+                        SecondaryDisposition::SkippedForReplay
+                    }
+                    _ => SecondaryDisposition::BelowInputFloor,
+                };
+                if calls >= 3 {
+                    candidate.free_proton = if calls.is_multiple_of(2) { 1e-9 } else { 0.0 };
+                }
+                Ok(secondary_answer(candidate, disposition, 0.0))
+            })
+            .expect_err("discarded selector poses count against the same eight-pose cap");
+        assert!(matches!(error, SolveError::NotConverged { .. }));
+        assert_eq!(calls, MAX_CANONICAL_AQUEOUS_PASSES);
+        assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
+    }
+
+    #[test]
+    fn auxiliary_engine_or_capability_change_cannot_replay_or_commit() {
+        for initial in [
+            SecondaryDisposition::Accepted,
+            SecondaryDisposition::BelowInputFloor,
+        ] {
+            for reason in [
+                SecondaryDecline::EngineFailure,
+                SecondaryDecline::Unsupported,
+                SecondaryDecline::InvalidResult,
+            ] {
+                let mut vessel = state();
+                let original = serde_json::to_vec(&vessel).unwrap();
+                let mut calls = 0;
+                let error = PhreeqcEquilibrator::solve_at_temperature_with(
+                    &mut vessel,
+                    |candidate, _, _, hint| {
+                        assert_eq!(hint, FirstPoseHint::default());
+                        calls += 1;
+                        let disposition = if calls == 1 {
+                            initial
+                        } else {
+                            SecondaryDisposition::Declined(reason)
+                        };
+                        Ok(secondary_answer(candidate, disposition, 0.0))
+                    },
+                )
+                .expect_err("optional engine or model authority cannot change during reentry");
+                assert!(matches!(error, SolveError::NotConverged { .. }));
+                assert_eq!(calls, 2);
+                assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
+            }
+        }
+    }
+
+    #[test]
+    fn secondary_selected_output_mu_must_be_finite_and_nonnegative() {
+        let read = |value: &str| {
+            secondary_ionic_strength(&[
+                vec!["pH".into(), "mu".into()],
+                vec!["7".into(), value.into()],
+            ])
+        };
+        assert_eq!(read("0"), Ok(0.0));
+        assert_eq!(read("0.031"), Ok(0.031));
+        for value in ["-0.01", "NaN", "inf", "-inf"] {
+            assert_eq!(read(value), Err(SecondaryDecline::InvalidResult));
+            assert_eq!(
+                secondary_floor_replay(
+                    SecondaryDisposition::Accepted,
+                    SecondaryDisposition::Declined(SecondaryDecline::InvalidResult),
+                ),
+                None,
+            );
+        }
+        assert_eq!(read("not-a-number"), Err(SecondaryDecline::InvalidResult));
+        assert_eq!(
+            secondary_ionic_strength(&[vec!["pH".into()], vec!["7".into()]]),
+            Err(SecondaryDecline::MissingReadback)
+        );
     }
 }
 
@@ -5168,9 +5556,9 @@ impl PhreeqcEquilibrator {
         vessel: &mut Vessel,
         prior_physical_events: &[Event],
         certified_reentry: bool,
-        forced_route: Option<&'static str>,
+        hint: FirstPoseHint,
     ) -> Result<AqueousPass, SolveError> {
-        if forced_route.is_some() {
+        if hint.primary_route.is_some() {
             // A provisional answer on another database must not reuse an
             // electron-search guess from the abandoned model.
             self.warm_pe = None;
@@ -5182,7 +5570,7 @@ impl PhreeqcEquilibrator {
             freed_phases,
             input,
             key,
-        }) = self.setup_problem(vessel, forced_route)?
+        }) = self.setup_problem(vessel, hint.primary_route)?
         else {
             return Ok(AqueousPass {
                 events: Vec::new(),
@@ -5192,6 +5580,9 @@ impl PhreeqcEquilibrator {
                 db_tag: "",
                 reservoirs: Vec::new(),
                 clock_co2_applied_mol: 0.0,
+                secondary_disposition: SecondaryDisposition::Declined(
+                    SecondaryDecline::Unsupported,
+                ),
             });
         };
 
@@ -5482,8 +5873,9 @@ impl PhreeqcEquilibrator {
         // One number the dataset that answered the chemistry could not
         // supply. See `solvent_activity_second_opinion` for the band it is
         // asked in and what it costs.
-        let solvent_activity =
-            self.solvent_activity_second_opinion(vessel, &problem, db_tag, &value);
+        let secondary =
+            self.solvent_activity_second_opinion(vessel, &problem, db_tag, &value, hint.secondary);
+        let solvent_activity = secondary.provenance;
 
         // An imported legacy raw answer can be reused for chemistry, but
         // its default `pe_undetermined=false` is not an electron witness.
@@ -5640,6 +6032,7 @@ impl PhreeqcEquilibrator {
             db_tag,
             reservoirs: reservoirs.into_iter().map(str::to_string).collect(),
             clock_co2_applied_mol: problem.clock_co2_applied_mol,
+            secondary_disposition: secondary.disposition,
         })
     }
 
@@ -6086,7 +6479,8 @@ impl PhreeqcEquilibrator {
         problem: &Problem,
         db_tag: &str,
         value: &dyn Fn(&str) -> Option<f64>,
-    ) -> Option<kerotakis_core::vessel::SolventActivityProvenance> {
+        hint: SecondaryFirstHint,
+    ) -> SecondaryResult {
         const SECOND: &str = "pitzer";
         // `KERO_TRACE_SOLVENT_ACTIVITY=1` says which of the gates below
         // turned a vessel away, in the same spirit as `KERO_DUMP_INPUT`.
@@ -6095,14 +6489,18 @@ impl PhreeqcEquilibrator {
         // work: the first version of this declined every OPEN beaker on a
         // condition that read as "no gas boundary", which is most of this
         // bench, and nothing said so.
-        let decline = |reason: &str| -> Option<kerotakis_core::vessel::SolventActivityProvenance> {
+        let decline = |disposition: SecondaryDisposition, reason: &str| -> SecondaryResult {
             if std::env::var("KERO_TRACE_SOLVENT_ACTIVITY").is_ok() {
                 eprintln!("solvent-activity second opinion declined: {reason}");
             }
-            None
+            SecondaryResult::declined(disposition)
         };
+        if hint == SecondaryFirstHint::Skip {
+            return SecondaryResult::declined(SecondaryDisposition::SkippedForReplay);
+        }
         if db_tag == SECOND {
             return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::AlreadyPrimary),
                 "the chemistry already routed to pitzer, so its own H2O row is the activity",
             );
         }
@@ -6112,7 +6510,7 @@ impl PhreeqcEquilibrator {
             || !problem.gases.is_empty()
             || problem.solvent_only
         {
-            return decline("a surface, exchanger, solid solution or finite gas headspace owns part of this composition");
+            return decline(SecondaryDisposition::Declined(SecondaryDecline::Unsupported), "a surface, exchanger, solid solution or finite gas headspace owns part of this composition");
         }
         // An external gas RESERVOIR is not a reason to decline, and reading
         // it as one is what made the first version of this feature fire on
@@ -6137,11 +6535,17 @@ impl PhreeqcEquilibrator {
             .iter()
             .any(|gas| !matches!(gas.kind, ExternalGasKind::Reservoir))
         {
-            return decline("an external gas DOSE is carried as a phase, not as a total");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
+                "an external gas DOSE is carried as a phase, not as a total",
+            );
         }
         let brine = derived::index_for(SECOND);
         if !problem.elements.iter().all(|el| brine.has_element(el)) {
-            return decline("pitzer.dat cannot express every element here");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
+                "pitzer.dat cannot express every element here",
+            );
         }
         // A phase that came out of the solve holding matter is a phase the
         // lean problem has nowhere to put. For a mineral that means the
@@ -6173,13 +6577,19 @@ impl PhreeqcEquilibrator {
         // solution merely for having a solid in the beaker.
         let solved_kgw = value("mass_H2O").unwrap_or(problem.kgw);
         if !(solved_kgw.is_finite() && solved_kgw > 0.0) {
-            return decline("no solvent mass");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::MissingReadback),
+                "no solvent mass",
+            );
         }
         // A valence-tagged element would need `build_input`'s own merge to
         // be repeated here, and every such problem is a redox one that the
         // gate below declines anyway. Declining early keeps one rule.
         if problem.elements.iter().any(|el| el.contains('(')) {
-            return decline("a valence-tagged element belongs to a redox problem");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
+                "a valence-tagged element belongs to a redox problem",
+            );
         }
         let mut dissolved: Vec<(String, f64)> = Vec::new();
         for el in &problem.elements {
@@ -6187,19 +6597,32 @@ impl PhreeqcEquilibrator {
                 Some(molality) if molality.is_finite() && molality > 0.0 => {
                     dissolved.push((el.clone(), molality * solved_kgw));
                 }
-                Some(_) => {}
+                Some(molality) if molality == 0.0 => {}
+                Some(_) => {
+                    return decline(
+                        SecondaryDisposition::Declined(SecondaryDecline::InvalidResult),
+                        &format!("negative or nonfinite dissolved total read back for {el}"),
+                    )
+                }
                 // An element with no readback column would be silently
                 // dropped from the lean problem, which is matter quietly
                 // disappearing — the one thing this engine keeps having to
                 // root out. Decline instead.
-                None => return decline(&format!("no dissolved total read back for {el}")),
+                None => {
+                    return decline(
+                        SecondaryDisposition::Declined(SecondaryDecline::MissingReadback),
+                        &format!("no dissolved total read back for {el}"),
+                    )
+                }
             }
         }
         let posed: f64 = dissolved.iter().map(|(_, n)| n).sum::<f64>() / solved_kgw;
-        if !posed.is_finite() || posed < SECOND_OPINION_MIN_MOLALITY {
-            return decline("dissolved element totals are below the molality floor");
+        if !posed.is_finite() {
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::InvalidResult),
+                "nonfinite dissolved element total molality",
+            );
         }
-
         let mut lean = problem.clone();
         lean.totals = dissolved;
         lean.kgw = solved_kgw;
@@ -6215,18 +6638,38 @@ impl PhreeqcEquilibrator {
         // solving can keep the route it had. Declining here is what keeps the
         // worst case of this feature one ordinary solve rather than a search.
         if redox_coupling(&lean, SECOND).is_some() {
-            return decline("the lean problem would be redox-coupled");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
+                "the lean problem would be redox-coupled",
+            );
         }
 
         let input = build_input(vessel, &lean, SECOND);
         let Ok(database_hash) = crate::native_namespace::fingerprint(SECOND) else {
-            return decline("pitzer.dat has no fingerprint");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
+                "pitzer.dat has no fingerprint",
+            );
         };
+        // Classify the floor only after every non-native capability gate.
+        // A typed floor witness must mean the lean question would otherwise
+        // be admissible, rather than hiding an unsupported redox owner.
+        if posed < SECOND_OPINION_MIN_MOLALITY && hint != SecondaryFirstHint::Probe {
+            return decline(
+                SecondaryDisposition::BelowInputFloor,
+                "dissolved element totals are below the molality floor",
+            );
+        }
         let key = format!("#solvent-activity-v1:{SECOND}:{database_hash}\n{input}");
         let engine_before = self.engine_calls;
         let cached = match self.dispatch_solve(vessel, &lean, SECOND, &input, key) {
             Ok((cached, _)) => cached,
-            Err(error) => return decline(&format!("the second solve refused: {error}")),
+            Err(error) => {
+                return decline(
+                    SecondaryDisposition::Declined(SecondaryDecline::EngineFailure),
+                    &format!("the second solve refused: {error}"),
+                )
+            }
         };
         if self.engine_calls > engine_before {
             self.solvent_activity_engine_calls += 1;
@@ -6235,24 +6678,30 @@ impl PhreeqcEquilibrator {
         }
 
         let Some(water) = cached.speciation.iter().find(|sp| sp.name == "H2O") else {
-            return decline("the second speciation reported no H2O row");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::MissingReadback),
+                "the second speciation reported no H2O row",
+            );
         };
         let Ok(particle_molality) = numerical_particle_molality(&cached.rows) else {
-            return decline("the second solve reported no numerical particle census");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::MissingReadback),
+                "the second solve reported no numerical particle census",
+            );
         };
         if !particle_molality.is_finite() || particle_molality < SECOND_OPINION_MIN_MOLALITY {
-            return decline("the second speciation reported too few particles");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::BelowOutputParticleFloor),
+                "the second speciation reported too few particles",
+            );
         }
-        let ionic_strength = {
-            let rows = &cached.rows;
-            let parsed = rows
-                .first()
-                .and_then(|head| head.iter().position(|h| h == "mu"))
-                .and_then(|i| rows.last().and_then(|row| row.get(i)))
-                .and_then(|cell| cell.parse::<f64>().ok());
-            match parsed {
-                Some(mu) => mu,
-                None => return decline("the second solve reported no ionic strength"),
+        let ionic_strength = match secondary_ionic_strength(&cached.rows) {
+            Ok(mu) => mu,
+            Err(reason) => {
+                return decline(
+                    SecondaryDisposition::Declined(reason),
+                    "the second solve reported missing, negative or nonfinite ionic strength",
+                )
             }
         };
         // The same plausibility gate `SolventActivity::from_speciation`
@@ -6268,7 +6717,7 @@ impl PhreeqcEquilibrator {
         .osmotic_coefficient
         .is_none()
         {
-            return decline(&format!(
+            return decline(SecondaryDisposition::Declined(SecondaryDecline::InvalidResult), &format!(
                 "the activity is not one an osmotic model produced: a_w = {} at {particle_molality} mol/kgw",
                 water.activity
             ));
@@ -6276,15 +6725,18 @@ impl PhreeqcEquilibrator {
 
         let dataset = dataset_phrase(SECOND);
         let model = brine.activity_model.phrase();
-        Some(kerotakis_core::vessel::SolventActivityProvenance {
-            dataset: dataset.render(Locale::EN),
-            model: model.render(Locale::EN),
-            dataset_phrase: Some(dataset),
-            model_phrase: Some(model),
-            water_activity: water.activity,
-            particle_molality,
-            ionic_strength,
-        })
+        SecondaryResult {
+            provenance: Some(kerotakis_core::vessel::SolventActivityProvenance {
+                dataset: dataset.render(Locale::EN),
+                model: model.render(Locale::EN),
+                dataset_phrase: Some(dataset),
+                model_phrase: Some(model),
+                water_activity: water.activity,
+                particle_molality,
+                ionic_strength,
+            }),
+            disposition: SecondaryDisposition::Accepted,
+        }
     }
 
     fn dispatch_solve(
