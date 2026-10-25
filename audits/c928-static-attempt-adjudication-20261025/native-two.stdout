@@ -1,0 +1,12 @@
+
+running 2 tests
+test original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock ... FAILED
+test plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock ... ok
+
+failures:
+
+failures:
+    original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.87s
+
