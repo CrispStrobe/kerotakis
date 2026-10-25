@@ -1,0 +1,19 @@
+# Canonical123 first failures and scoped successor — source-first2026-10-25
+
+Actualsourcebcb766b7/treefd34dc3b:121/123PASS. Originalfixture,typedzero/perstock/cache/cap/fallback controls pass. Formatting/strictClippy/wasm32 pass. Cost<=12passes. Particle carbonate phase control and old raw-solvent equality fail. ThreeCLI processes exit0 but carbonate/phosphoric containSolverFailed; full1536 runs allstates with130refusal steps/seven temperature/phase violations. Preserve copied raw streams and exact actual-results.json bindings; no product/original qualification. Sixteen archives remain metadata-only here.
+
+## Actual-authority versus narration
+
+Provenance::source_key includes routing Phrase shape as well as engine/dataset/model. The bounded helper already checks native db_tag, engine/dataset/model and second-opinion authority. A different explanation shape is not itself a different physical solver authority. Remove only the narrative-shape-as-physical-convergence constraint; retain actual source/model, typed redox/pe where relevant, ownership, stocks, heat and every physical budget. Add controls allowing changed explanatory shape under unchanged actual authority and still rejecting changed native dataset/model or degraded typed authority. Coalesce SolutionRouted using owner-call-start telling versus final accepted provenance, once; do not publish the first provisional explanation beside the last native state.
+
+A gas candidate can legitimately disappear after its sole physical component is exhausted. Admit only precisely reviewed zero-inventory CO2 owner changes under a latched strict analytical-owner certificate, preserving local and cumulative material/charge/heat and rejecting unrelated owner/model/interface transitions. No fictitious phase, scalar pin, skipped operator or suppressed actual gas. Use the separately frozen typed clock carrier when that owner is involved.
+
+## Obsolete order-format expectation
+
+The original test explicitly required the same nine-decimal SOLUTION water input text. Source5407 deliberately restored full precision. New captured bcb diagnostic executes the two original three-addition orders plusinspect; it has no gas crossings and closes recognized elements andcharge~1e-14 while the reconstructed waters differ1.2549563166430744e-8mol. Reported solvent masses differ2.2607e-10kg, explained by those actual water targets to1.3891e-14kg. Normalized solventkg per physicalwatermol differs~1.04e-13relative. The cause of the tiny speciation difference remains unclassified; do not call it a proven physical path effect or force the states equal. The recipe retains3.5g unresolved carrier; no complete unknown-mixture chemistry claim.
+
+Prospective corrected predicate: each reported solventkg must match its own actual watermol times the registry molar-mass conversion within the UNCHANGED1e-9relative budget, and the two normalized quantities must agree within that same bound. Add independent recognized-element/formal-charge ledgers<=1e-10 from actual explicit inlets and preserve the identical opaque material/reservoir ownership. Keep original pH1e-7,mu1e-7,waterinventoryrel1e-7,enginecall<=12, protocol, amounts and test identities. This tests the actual roundtrip basis; do not widen a tolerance or round away physical amounts. Preserve the old raw-equality failure as historical evidence. Independent adjudication is required before applying this test correction.
+
+## Successor acceptance
+
+Retain every123identity plus the typed-clock controls and new authority/event/roundtrip checks. Require the formerly failing phase and CLI protocols, full1536 zeroinvariants and allcompiler gates. No quantitative, physical, phase, iteration or native setting is relaxed. New first failures remain distinct; source/full/platform/protected normal delivery,15API/86browser, further originalqualification andi18n remain unaccepted. This forecast itself executes nothing.
