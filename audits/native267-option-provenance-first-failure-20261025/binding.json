@@ -1,0 +1,13 @@
+{
+  "source": "ec7084c3e71b596629ae25d9595374344d59fafa",
+  "tree": "02bda182dc542664683c6cbc878f381a288f0b0b",
+  "format_exit_status": 0,
+  "clippy_exit_status": 101,
+  "all_267_controls": "NOT_REACHED",
+  "wasm_three_cli_full1536": "NOT_REACHED",
+  "source_after": "absent",
+  "errors": "five E0609 accesses to fields on Option<Provenance> in lesson_thermal_contract.rs:99,100,188",
+  "raw_stderr_sha256": "730e9a7bfbb24b76a97e90f847b2d79ec84cd7716e0e4bdd7ee7978f1fc0cd30",
+  "manifest_sha256": "df81b0acfada9338a82a4447483aa756048e07c840c8b2bf55e8267aa85a48c5",
+  "independent_saved_review_sha256": "251f31cfffefe50d44bc3951fa129a42986e8cb70654f41dad50d51ce8fefb6c"
+}
