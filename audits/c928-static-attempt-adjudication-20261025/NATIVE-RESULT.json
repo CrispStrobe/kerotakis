@@ -1,0 +1,11 @@
+{
+  "exit_status": 101,
+  "error": null,
+  "elapsed_seconds": 0.9258052519871853,
+  "stdout_sha256": "fe19ce566fd4662240d142c9d8fd7f52287596d6215122986ea8ad554ff2442d",
+  "stderr_sha256": "49deedfd3988cbd17afb27a964056edf273076a7a19ee762d09131b62d080c75",
+  "native_sha256": "3e3b7c4d1b1812fe37929a0184c6b3852a2caa108204f95486647730f3c81bab",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "purpose": "First actual execution of TWO already-built c928 native integration controls; hosted producer stopped at separate unit compilation before listing/running any case. Preserve existing assertions and first failures.",
+  "no_scientific_pass_assigned": true
+}

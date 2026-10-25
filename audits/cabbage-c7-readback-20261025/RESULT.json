@@ -1,0 +1,13 @@
+{
+  "exit_status": 1,
+  "error": null,
+  "stdout_sha256": "b902ec68770fb5e57f0e06a58a53334995f26d2461c84be4ad307b97565bde36",
+  "stderr_sha256": "1b1446ecdef9294f113ea913c297cfa1bb57acb04cf2e0ba65d783bb933df5c2",
+  "source": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "binary_sha256": "97d0a11e45716d0e788007c063c86ef0ff4baaf678f275e7f3c6bff8d2739541",
+  "lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "no_pass_assigned": true,
+  "classification": "ORIGINAL_LESSON_PREFIX_COMPLETE_INVALID_DIAGNOSTIC_ZERO_DURATION_SUFFIX",
+  "zero_time": "NOT_REACHED",
+  "suffix_error": "duration must be positive"
+}

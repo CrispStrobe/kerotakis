@@ -1,0 +1,21 @@
+{
+  "source": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "tree": "2da5f8e0b57b66c2b4fcbf1106c2b084b73bf17c",
+  "ci_run": 40232998530,
+  "first_failed_browser_job": 121289382083,
+  "raw_log_sha256": "cd62ac0c6ce3179217b801d0bb50ecec03b2674927b3814b900d54463b207430",
+  "status": "HOLD_SNAPSHOT_PENDING_INDEPENDENT_PHYSICAL_READBACK",
+  "diff": [
+    {
+      "path": "[0].vessels[3].temperature-k",
+      "before": "298.15",
+      "after": "300.29"
+    },
+    {
+      "path": "[0].vessels[3].liquids[0].srgb",
+      "before": "65,140,127",
+      "after": "51,134,128"
+    }
+  ],
+  "all_other_five_scene_fields_exact": true
+}

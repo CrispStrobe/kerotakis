@@ -49,13 +49,13 @@
       },
       {
         "boiling-k": "373.55",
-        "temperature-k": "298.15",
+        "temperature-k": "300.29",
         "vessel-id": "3",
         "label": "beaker v4: The liquid is blue-green and clear.",
         "liquids": [
           {
             "species": "solution",
-            "srgb": "65,140,127",
+            "srgb": "51,134,128",
             "volume-l": "0.110016"
           }
         ],

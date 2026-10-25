@@ -1,0 +1,18 @@
+{
+  "source": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "expected_tree": "2da5f8e0b57b66c2b4fcbf1106c2b084b73bf17c",
+  "artifact_declared_tested_merge": "2523fa3c43e9e837cf2fd8eba09afc4962e7d231",
+  "binary_sha256": "97d0a11e45716d0e788007c063c86ef0ff4baaf678f275e7f3c6bff8d2739541",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "artifact_id": 12613373909,
+  "archive_sha256": "337f354d62020b538029c1ec7f695987b8ed1e8559004287a4d921f5d952627b",
+  "four_closed_members_verified": true,
+  "no_native_execution": true,
+  "merge_parent_tree_verification_pending": false,
+  "tree": "2da5f8e0b57b66c2b4fcbf1106c2b084b73bf17c",
+  "tested_merge": "2523fa3c43e9e837cf2fd8eba09afc4962e7d231",
+  "parents": [
+    "ccf30b2aeac4042ffe79942d4c8746ec10a553ef",
+    "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f"
+  ]
+}

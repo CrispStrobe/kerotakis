@@ -1,0 +1,18 @@
+{
+  "source": "aafdcd5ad2fb0e212a2dc6c36e49d02b9b5ba8eb",
+  "tree": "9d129728a47571751e70c10f7f809085ac598e9a",
+  "manifest_sha256": "5aaf4d3ca32e6169bbc8c348733dcd1af0e3eb60723c9bd8ed434c0ff5decc54",
+  "all_raw_members_verified": true,
+  "source_before_after_exact": true,
+  "actual_lock": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "controls": 12,
+  "passed": 12,
+  "failed": 0,
+  "ignored": 0,
+  "targets": 2,
+  "unit_inventory": 169,
+  "original_cabbage_all_assertions_reached": true,
+  "plain_carbonate_all_assertions_reached": true,
+  "full_source_acceptance": false,
+  "production_or_original_qualification": false
+}

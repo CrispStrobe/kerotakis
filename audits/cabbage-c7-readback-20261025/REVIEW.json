@@ -1,0 +1,25 @@
+{
+  "runtime_source": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "native_binary_sha256": "97d0a11e45716d0e788007c063c86ef0ff4baaf678f275e7f3c6bff8d2739541",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "original_independent_private_helper_sha256": "8631eeaa2cdd53a92902e259f67846b4cafa613a28d487ccdd832b1aad7ea5d5",
+  "portable_companion_sha256": "1ff53534fdcae4ba0145280d77403653655eda2051c83721f383898d40dbf6de",
+  "portable_changes": "Repository-relative paths and exact vendored Git-object read; all numerical derivation unchanged. Public RESULT is an explicit summary; complete stderr is preserved under its raw SHA and only exact heat-term lines are excerpted.",
+  "parent_review": "Derivative, kJ units, actual NASA9 interval, immutable pigment Cp, unknown common pigment reference cancellation and opaque Cp limitation checked. Current working Pitzer bytes independently matched the exact pinned Git blob.",
+  "numerical_energy_budget_J": 0.001,
+  "modeled_post_juice_residual_J": -0.0001115410248075932,
+  "max_known_atom_charge_residual_mol_eq": 2.8727020762175925e-14,
+  "native_temperature_K": 300.2931337136423,
+  "native_ph": 11.47881261225,
+  "native_ionic_strength_mol_kgw": 1.028679496755,
+  "native_route": "Pitzer",
+  "native_scene_srgb": [
+    51,
+    134,
+    128
+  ],
+  "zero_time": "NOT_REACHED",
+  "golden_decision": "HOLD_PENDING_NEW_NATIVE_ZERO_TIME_FOCUS",
+  "physical_calibration_claim": false,
+  "original_qualification_added": 0
+}

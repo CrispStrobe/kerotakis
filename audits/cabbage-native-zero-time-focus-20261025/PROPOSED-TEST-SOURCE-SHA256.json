@@ -1,0 +1,7 @@
+{
+  "runtime_base": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "target": "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs",
+  "test_source_sha256": "2515dd03fa00842b9860caec7ebae978f4363df8db3e58dfe3f599a9ccfdd78d",
+  "status": "PROSPECTIVE_UNCOMPILED_UNEXECUTED",
+  "parent_review": "Every line reviewed; corrected creation of three remaining vessels because Bench starts with v1. Existing quantities and tolerances unchanged."
+}

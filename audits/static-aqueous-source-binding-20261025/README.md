@@ -1,0 +1,9 @@
+# Static aqueous source and focused acceptance
+
+The [prospective admission](../static-aqueous-canonical-admission-20261025/FORECAST.md) is implemented on isolated source `c928bbbb50ef0939da7fd4dd7176e0846f945575`, tree `5680a7f4c996026e81a688d94d371fe280d4c08d`, above runtime c7. This test branch must not be merged. The [source binding](SOURCE.json) names the exact three-file delta, producer lock and twelve selected controls.
+
+Static and clock ownership are separate typed certificates. Only the admitted represented, gas-free, clock-free subset enters the existing bounded physical closure. Pigment reporters and unresolved recipe stock remain immutable; no opaque formula or real juice buffering is inferred. Native numerical coordinates and priced heat are required. Cap8, all scientific budgets, rollback and clock-negative controls remain unchanged.
+
+The [actual first failure](../cabbage-native-zero-time-first-failure-20261025/README.md) remains frozen: CO3-2 moves by1.9792063e-9mol on a typed zero-time evaluation, exceeding1e-10. Later temperature/pH/ionic-strength assertions were unreached. The original failing test is an exact byte prefix of the new two-test target; only a plain carbonate companion is appended. Five new pure mechanism controls and five existing clock controls accompany the two native cases. Controlled-answer tests attest admission and rollback, never chemical prediction.
+
+A bounded hosted run is being prepared/issued once; no result, full-source acceptance or new original qualification is claimed here. Before integration, require actual native outcomes, independent source review, full current-source platform/fleet checks and normal protected delivery. Keep the two cabbage DOM leaves held until actual physical closure passes. Then finish the [remaining ordered lanes](../../docs/current-continuation-20261025.md), including deployed acceptance, unchanged originals and runtime diagnostic translations.

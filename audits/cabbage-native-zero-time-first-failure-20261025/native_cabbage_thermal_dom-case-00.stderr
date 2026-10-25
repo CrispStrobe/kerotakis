@@ -1,0 +1,4 @@
+
+thread 'original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock' (3434) panicked at crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs:381:9:
+zero-time changed CO3-2 Aqueous by 1.979206319668858e-9 mol
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
