@@ -1,0 +1,7 @@
+# Cache consumer migration and live-engine startup
+
+Before the consumer edit, committed ac7ab04 `web/kerotakis.mjs::openLab` calls `loadResults` before attaching an available IPhreeqc engine. A stale incompatible pack throws there; the console startup catch then replaces it with a bare cache-only bench. The app worker already catches pack loading separately and continues live engine attachment. This is a source finding, not an executed browser failure.
+
+Keep rejected legacy binary explicit and regenerate every shipped pack with the current CLI. An optional accelerator must not prevent a supplied live engine from starting. Narrowly catch prewarm loading errors only when a real engine factory is present, continue ordinary live attachment, and offer a caller error callback. Without a live engine, propagate the cache error; never turn an invalid cache into a successful offline answer. The console callback must render a complete EN/DE/FR sentence with raw technical error separate. Do not catch failures to create or attach the real engine.
+
+Add actual existing Wasm/engine bridge controls: use malformed cache bytes with the real bench, require rejection in cache-only mode, then require the supplied live engine to attach and solve the existing un-prewarmed state. Preserve the clean startup control and every existing comparison/assertion. No mocked pH or synthetic engine result earns this control. Complete full bridge/browser and source/platform/fleet acceptance on the final source.
