@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/kaggle/temp/cabbage-zero-native/source/target/debug/deps/kerotakis_phreeqc-0edc78c5dd049097",
+    "--exact",
+    "aqueous::canonical_physical_closure_tests::opaque_clock_owner_rejects_second_pass_mutation_and_restores_caller",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "f49b66d4b774cf4031872faa48c9df911a82db819a214d308c735ae8bbe727f6",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

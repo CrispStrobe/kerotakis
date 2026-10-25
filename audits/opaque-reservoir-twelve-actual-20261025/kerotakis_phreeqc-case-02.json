@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/kaggle/temp/cabbage-zero-native/source/target/debug/deps/kerotakis_phreeqc-0edc78c5dd049097",
+    "--exact",
+    "aqueous::gas_component_projection_tests::reservoir_opaque_owner_requires_explicit_native_opt_in_and_keeps_clock_distinct",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "f7e9bfdd7501166e607b08da1b9a7be27441c6b29b5c47d5abb1ad190e0fbc12",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

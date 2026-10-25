@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/kaggle/temp/cabbage-zero-native/source/target/debug/deps/kerotakis_phreeqc-0edc78c5dd049097",
+    "--exact",
+    "aqueous::canonical_physical_closure_tests::reservoir_certificate_requires_current_native_numerical_coordinates",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "1c89507a96ba9468530f6cd4ed21a3989163f967eb6f68192c29df945ded0092",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

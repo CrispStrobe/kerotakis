@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/kaggle/temp/cabbage-zero-native/source/target/debug/deps/native_cabbage_thermal_dom-6415b23355baef64",
+    "--exact",
+    "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "8082051cee5d578dca881e1404752bbaaf69da2d60641210039d816dd70b485e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

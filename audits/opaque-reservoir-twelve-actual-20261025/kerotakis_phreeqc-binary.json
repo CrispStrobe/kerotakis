@@ -1,0 +1,11 @@
+{
+  "runtime_source": "aafdcd5ad2fb0e212a2dc6c36e49d02b9b5ba8eb",
+  "runtime_tree": "9d129728a47571751e70c10f7f809085ac598e9a",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "executable": "target/debug/deps/kerotakis_phreeqc-0edc78c5dd049097",
+  "sha256": "ead9e7fa76aa56d9304cbc95e90f1de3fab9fb027620574c60606ba0fec479bb",
+  "bytes": 62595272,
+  "gzip_sha256": "d9b6106bad601e5a7317b699a51353fa82856e2dde55e4f936ac26a4d179d5dc",
+  "gzip_bytes": 14862320,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

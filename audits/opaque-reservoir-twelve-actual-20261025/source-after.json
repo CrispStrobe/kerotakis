@@ -1,0 +1,32 @@
+{
+  "runtime_source": "aafdcd5ad2fb0e212a2dc6c36e49d02b9b5ba8eb",
+  "runtime_tree": "9d129728a47571751e70c10f7f809085ac598e9a",
+  "actual_source_pins": {
+    "Cargo.toml": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c",
+    "crates/kerotakis-phreeqc/Cargo.toml": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "85aa0f9791f4a555ee5c7ab574fb8a40158a6b3d38f3428ef1c102bbb771d92d",
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": "5e49a8348b60e9b91661a682861cca09cacdf0cd87183936f71aa0403b2b57ff",
+    "data/registry/registry-source-v1.json": "db8496e677d3482e9faef01167b9d621ff32c7dc9219a7c690f7f9546c9d1d73",
+    "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs": "4bf7855bd69e15ce4f7afd9002646d8bed81caaf39e32e29d0fe059ed5f057e4",
+    "crates/kerotakis-phreeqc/src/inventory.rs": "6098fb6eafd443cffa14b3fbc74e12c8465df933586ca7381959b8b7b0a2169c",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_boundaries.rs": "cf9b8066da2f9f9803ee2d46df865bfbf7748181c60ca04a757311462ced7620",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/cancellation.rs": "5efe948221bd9646cefd87d47c46cd6bfd0f5fc58bccda7aadd6be04ac0ef098",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts.rs": "de4a06af57da5e3716562539e176e90fa543d41576230440fcbd72ebf17b2754",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/raw_carbon.rs": "365b95735e424df61aa5cb7a52aa497c1c22ce6b91d862b33160839bf0edfaef",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_raw.rs": "3221999249c2c2686403223cfd39deac791922d8971889620037ca5471d3a519",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement_closed_boundary.rs": "7f5dec6a54fe56aa400669a74cd557a5daecf805d538c424a188f3000fb521d9",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts_closed_boundary.rs": "4475e1b72e0bb707ae3e7b5027f9843f03d77ccb625b17cd650eedb99684c73f",
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement.rs": "1d75e857c9a8268fbcb965223b0c4979ae35f39f550303d926eb03f20d6e1e0f"
+  },
+  "actual_submodule_heads": {
+    "vendor/iphreeqc": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+    "sundials-kinetics-rs": "8f2e16e6d6f00926ea28cda9b6ccb3cf2538b5fa"
+  },
+  "observer_overlays": {},
+  "actual_tracked_targets": {
+    "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs": "4bf7855bd69e15ce4f7afd9002646d8bed81caaf39e32e29d0fe059ed5f057e4",
+    "crates/kerotakis-phreeqc/src/aqueous.rs": "85aa0f9791f4a555ee5c7ab574fb8a40158a6b3d38f3428ef1c102bbb771d92d"
+  },
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "tracked_source_unchanged": true
+}

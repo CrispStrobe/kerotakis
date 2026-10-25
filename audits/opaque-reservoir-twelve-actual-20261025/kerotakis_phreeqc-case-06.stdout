@@ -1,0 +1,6 @@
+
+running 1 test
+test aqueous::gas_component_projection_tests::opaque_owner_is_clock_only_and_requires_every_represented_component ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 168 filtered out; finished in 0.15s
+

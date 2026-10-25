@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/kaggle/temp/cabbage-zero-native/source/target/debug/deps/kerotakis_phreeqc-0edc78c5dd049097",
+    "--exact",
+    "inventory::gas_aware_certificate_tests::clock_spectators_are_exact_immutable_stock_not_new_native_components",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "7e0dd76fd9b65e4f98d649f293df114df27df235803bcb9e092b3dcbaa46333e",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/kaggle/temp/cabbage-zero-native/source/target/debug/deps/kerotakis_phreeqc-0edc78c5dd049097",
+    "--exact",
+    "inventory::gas_aware_certificate_tests::opaque_clock_owner_preserves_every_unresolved_field_and_rejects_invalid_stock",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "exit_status": 0,
+  "error_type": null,
+  "stdout_sha256": "ad3a21385a51b03d9804c6d4ccadcf3bf2f1b073a3a586cdc16e1500563b9f29",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
