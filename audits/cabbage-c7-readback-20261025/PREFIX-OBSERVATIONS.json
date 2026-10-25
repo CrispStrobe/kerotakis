@@ -1,0 +1,217 @@
+{
+  "scope": "ORIGINAL_LESSON_PREFIX_VALID_ZERO_TIME_SUFFIX_NOT_REACHED",
+  "source": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "rows": 28,
+  "known_input": {
+    "H": 12.156670034884396,
+    "O": 6.191562072765151,
+    "__charge__": 0.0,
+    "C": 0.037880627344146746,
+    "Na": 0.07548024304638261
+  },
+  "known_output": {
+    "C": 0.03788062734415335,
+    "H": 12.156670034884394,
+    "O": 6.191562072765151,
+    "__charge__": 2.8727020762175925e-14,
+    "Na": 0.07548024304638488
+  },
+  "known_residual": {
+    "H": -1.7763568394002505e-15,
+    "O": 0.0,
+    "__charge__": 2.8727020762175925e-14,
+    "Na": 2.275957200481571e-15,
+    "C": 6.6058269965196814e-15
+  },
+  "unresolved_materials": [
+    {
+      "amount": 0.1970000000000005,
+      "basis": "mass_fraction",
+      "material": "red_cabbage_juice",
+      "protein_denatured_fraction": 0.0,
+      "recipe_id": "household/red-cabbage-juice-surrogate",
+      "recipe_version": 1
+    }
+  ],
+  "anthocyanin_mol_unchanged": 6.690753378830455e-06,
+  "final_v4": {
+    "temperature_K": 300.2931337136423,
+    "ph": 11.47881261225,
+    "ionic_strength": 1.028679496755,
+    "provenance": {
+      "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+      "dataset_phrase": {
+        "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+        "key": "provenance.dataset.with-gas-uptake-slice",
+        "slots": [
+          [
+            "file",
+            {
+              "text": {
+                "text": "pitzer.dat"
+              }
+            }
+          ]
+        ]
+      },
+      "dataset_sources": [
+        "-5 < a3 < 5 ? ka = DH_B * a2 * mu^0.5 / (1 + mu^a3), Appelo, 2017: Dw(I) = Dw(TK) * exp(-a * DH_A * z * sqrt_mu / (1 + ka))",
+        "The apparent volume parameters are defined in ref. 1 & 2 For Li+ additional data from Ellis, 1968, J. Chem. Soc. A, 1138",
+        "Hnedkovsky et al., 1996, JCT 28, 125",
+        "sander-2023-hbr-reference"
+      ],
+      "engine": "PHREEQC (IPhreeqc, USGS)",
+      "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+      "model_phrase": {
+        "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+        "key": "provenance.model.ion-interaction",
+        "slots": [
+          [
+            "name",
+            {
+              "text": {
+                "text": "Pitzer"
+              }
+            }
+          ]
+        ]
+      },
+      "routing": "chosen because the solution is concentrated (~1.0 mol/kgw), where the ion-interaction model is the valid one",
+      "routing_phrase": {
+        "en": "chosen because the solution is concentrated (~{molality} mol/kgw), where the ion-interaction model is the valid one",
+        "key": "routing.concentrated-ion-interaction",
+        "slots": [
+          [
+            "molality",
+            {
+              "number": {
+                "text": "1.0"
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "contents": [
+      {
+        "moles": 6.690753378830455e-06,
+        "phase": "aqueous",
+        "species": "anthocyanin"
+      },
+      {
+        "moles": 1.9967956630028576e-09,
+        "phase": "aqueous",
+        "species": "CO2(aq)"
+      },
+      {
+        "moles": 0.0005909102435411521,
+        "phase": "aqueous",
+        "species": "HCO3-"
+      },
+      {
+        "moles": 0.0371492092828611,
+        "phase": "aqueous",
+        "species": "CO3-2"
+      },
+      {
+        "moles": 0.07548024304638488,
+        "phase": "aqueous",
+        "species": "Na+"
+      },
+      {
+        "moles": 6.077677197668092,
+        "phase": "liquid",
+        "species": "water"
+      },
+      {
+        "moles": 0.0005909142370928155,
+        "phase": "aqueous",
+        "species": "base_equivalents"
+      }
+    ]
+  },
+  "scene_v4": {
+    "badges": [
+      {
+        "confidence": "computed",
+        "key": "ph",
+        "value": 11.47881261225
+      },
+      {
+        "confidence": "computed",
+        "key": "ionic_strength",
+        "value": 1.028679496755
+      }
+    ],
+    "boiling_point_k": 373.54927140725596,
+    "boundary": "open",
+    "bubbling": false,
+    "bulk_objects": [],
+    "clauses": [
+      {
+        "en": "the liquid is {colour} {clarity}",
+        "key": "look.liquid",
+        "slots": [
+          [
+            "colour",
+            {
+              "term": {
+                "en": "blue-green",
+                "section": "appearance"
+              }
+            }
+          ],
+          [
+            "clarity",
+            {
+              "phrase": {
+                "phrase": {
+                  "en": "and clear",
+                  "key": "look.clarity-clear"
+                }
+              }
+            }
+          ]
+        ]
+      }
+    ],
+    "elapsed_s": 0.0,
+    "id": 3,
+    "label": "beaker",
+    "layers": [
+      {
+        "colour_word": "blue-green",
+        "name": "solution",
+        "species": "solution",
+        "srgb": [
+          51,
+          134,
+          128
+        ],
+        "volume_l": 0.11001581114943901
+      }
+    ],
+    "liquid": {
+      "cloudiness": 0.0,
+      "colour_word": "blue-green",
+      "path_length_cm": 4.0,
+      "srgb": [
+        51,
+        134,
+        128
+      ],
+      "volume_l": 0.11001581114943901
+    },
+    "mass_g": 113.70003774011965,
+    "melting_point_k": 271.7054893681591,
+    "pressure_pa": 101325.0,
+    "solids": [],
+    "temperature_k": 300.2931337136423,
+    "words": "The liquid is blue-green and clear."
+  },
+  "gas_crossings": [],
+  "solver_failed": [],
+  "suffix_error": "duration must be positive",
+  "no_original_qualification": true,
+  "zero_time_proof": "NOT_REACHED"
+}

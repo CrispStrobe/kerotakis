@@ -1,0 +1,9 @@
+# Cabbage model readback and first diagnostic suffix refusal
+
+The complete unchanged original lesson executed on authenticated c7 native97d0a11e/actual producer lock20994508. The appended textual wait0s was rejected after that prefix because CLI durations must be positive. The process exit1 is preserved, and zero-time proof is NOT_REACHED. No repeated original execution or parser relaxation is permitted to hide this protocol error.
+
+Actual v4 temperature300.2931337136423K and scene sRGB51,134,128 agree with the observed browser model point. Its native Pitzer readback is pH11.47881261225 and I1.028679496755mol/kgw. The receipt-derived represented H/O/C/Na/charge ledger closes within2.9e-14mol/eq, pigment stock is unchanged, no gas/SolverFailed occurs, and the unresolved juice fraction remains0.197g with no invented formula or Cp. The juice surrogate only reports pH; real-extract buffering remains outside scope.
+
+The independently derived raw-Pitzer standard references and registry NASA9 water/pigment Cp give modeled post-juice energy residual−0.000112J, inside the existing0.001J numerical budget. The portable companion reproduces that calculation from exact source Git objects and saved raw readback without calling the engine or production heat helper. This is implemented-model closure, not calorimetric validation; the soda reference’s uncertainty alone is±4.755J at this dose.
+
+Only exact heat-term lines are published as an explicitly named stderr excerpt; the complete original stderr retains its recorded raw hash. The independent calculation and every first refusal remain separate from future controls. The [new native zero-time focus](../cabbage-native-zero-time-focus-20261025/FORECAST.md) must actually pass before the two semantic-DOM leaves may be refreshed. All other scenes/fields and full source/delivery/original/localization acceptance remain.338/468 and production are unchanged.
