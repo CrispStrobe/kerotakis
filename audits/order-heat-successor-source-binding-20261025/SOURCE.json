@@ -1,0 +1,10 @@
+{
+  "source": "f69e6e5171f8dfb27ebcda6fcb7747634ab1c33d",
+  "tree": "7876bc09f96d7407f5f26ee59a40e8700e5eba09",
+  "parent_runtime_change": "ba02a4bd5eb1ff99818d944fc7ce45bb987ce897",
+  "previous_measured_source": "3d21174a87938b4054ddd9ba7ca189d4749a9199",
+  "registry_sha256": "276211767a3a6018c0c7e057ac280c94e78c214a7fbd06705dbe65ac15bfcffd",
+  "ci_run": 40232508330,
+  "fleet_run": 40232508355,
+  "classification": "SOURCE_ONLY_ACCEPTANCE_PENDING"
+}

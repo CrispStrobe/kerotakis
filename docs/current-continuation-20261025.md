@@ -1,5 +1,7 @@
 # Ordered current continuation —2026-10-25
 
+**Anhydrous-carbonate successor —2026-10-25:** [Sourcef69e6e51](../audits/order-heat-successor-source-binding-20261025/README.md) adds sourced standard Na2CO3 heat and balanced dissociation, preserving every original order assertion. New exact-head full CI/fleet acceptance is pending. No deployment or original qualification is claimed;338/468 remains unchanged.
+
 This supersedes earlier pending notes in maintained summaries. Frozen forecasts, original scripts and first failures remain immutable. The user requires continuation through the last item before closing the task.
 
 **Current critical lane:** Source3d passes all12 new controls, then full preflight fails the existing detergent addition-order comparison. Complete [the exact capture and heat/data investigation](order-heat-followup-20261025.md) before delivery. No original qualification or later order-test physical ledger is credited from that failed command.

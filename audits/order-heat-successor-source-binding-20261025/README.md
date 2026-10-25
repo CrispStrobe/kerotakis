@@ -1,0 +1,9 @@
+# Anhydrous carbonate heat successor
+
+Sourcef69e6e51 follows the [measured two-order failure](../order-heat-current3d-20261025/SOURCE-ADMISSION.md). It adds one sourced standard dissolution record for anhydrous Na2CO3, one explicit balanced dissociation mapping and one new three-basis heat control. The reviewed golden changes only Na2CO3 dissolution_enthalpy_kj from null to−26.656. All other original source-data records and snapshot values remain exact. Original order commands and assertions remain unchanged.
+
+The record preserves298.15K, infinite dilution and±0.126kJ/mol uncertainty. Its citation identifies the directly read NEA evaluation and attributed1978 primary paper; the paper was not directly accessible. Only Kerotakis numeric transcription/metadata is CC0, with no publication-licence claim. This standard reference does not validate finite-concentration or all-temperature reaction heat.
+
+The new control checks the registered formula/charge balance, dissolution sign and magnitude, reverse sign, and direct-versus-intermediate calcium-carbonate Hess cycle on WATEQ/MINTEQ/Pitzer. Unknown heat remains a refusal. Formatting and bounded structural data checks pass; no local build/native execution occurred. Current [full CI](https://github.com/CrispStrobe/kerotakis/actions/runs/40232508330) and [fleet](https://github.com/CrispStrobe/kerotakis/actions/runs/40232508355) require actual assessment. No source, deployment or new original qualification pass is claimed.
+
+The product assessor retains a full registry-hash guard. Its prospective rebind independently verifies every composition and consumed liquid-water molar-mass/density record unchanged; no physical acceptance or product request occurred. Finish ordered source acceptance, normal delivery and15API/86browser assessment, further unchanged originals, then owned runtime diagnostic EN/DE/FR.338/468 remains unchanged.

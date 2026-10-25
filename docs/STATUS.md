@@ -1,5 +1,7 @@
 # Kerotakis current state —2026-10-22
 
+**Anhydrous-carbonate successor —2026-10-25:** [Sourcef69e6e51](../audits/order-heat-successor-source-binding-20261025/README.md) adds sourced standard Na2CO3 heat and balanced dissociation, preserving every original order assertion. New exact-head full CI/fleet acceptance is pending. No deployment or original qualification is claimed;338/468 remains unchanged.
+
 **Current3d results —2026-10-25:** All12 new regression controls and all33 fleet jobs pass. Both native platforms and preflight fail the existing detergent addition-order comparison. Two exact CLI histories now reproduce different final temperatures with no gas transfer; the separate known-material ledgers close. A sourced anhydrous sodium-carbonate heat correction is scoped but unimplemented. Follow [the measured order/heat lane](order-heat-followup-20261025.md) before normal delivery, product assessment, further originals and runtime diagnostic i18n. The later order-test physical ledgers are unreached.338/468 is unchanged.
 
 **Current successor —2026-10-25:** [Headde8de024](../audits/curiosity-de8-selector-successor-binding-20261025/README.md) corrects the actual12af exhausted-solvent selector refusal and one new calcite-reference fixture error. Bounded12af execution clears five of six SolverFailed cases; full successor acceptance is pending. Preserve all raw failures. Normal delivery/product assessment, further originals and runtime diagnostic i18n remain required;338/468 is unchanged.
