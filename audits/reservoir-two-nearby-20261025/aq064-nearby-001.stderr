@@ -1,0 +1,195 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+EQUILIBRIUM_PHASES 1
+    CO2(g) 0 1.000000000000e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C C(-4)
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+solvent-activity second opinion declined: an external gas DOSE is carried as a phase, not as a total
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0381
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+EQUILIBRIUM_PHASES 1
+    CO2(g) 0 1.000000000000e-3
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C C(-4)
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+solvent-activity second opinion declined: an external gas DOSE is carried as a phase, not as a total
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0381
+    pH        7  charge
+    water     9.9699879285865670e-2
+    pe        4  O2(g)  -0.68
+    C 1.003010241500e-2
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C C(-4)
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0381
+    pH        7  charge
+    water     9.9699879285865670e-2
+    C 1.003010241500e-2
+EQUILIBRIUM_PHASES 1
+    CO2(g) -12 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C C(-4)
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+solvent-activity second opinion declined: dissolved element totals are below the molality floor
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0381
+    pH        7  charge
+    water     9.9699999999999983e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+solvent-activity second opinion declined: dissolved element totals are below the molality floor
+solvent-activity second opinion declined: dissolved element totals are below the molality floor
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.9903
+    pH        7  charge
+    water     9.9699879285865670e-2
+    C 1.003010241500e-2
+EQUILIBRIUM_PHASES 1
+    CO2(g) -12 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C C(-4)
+    -equilibrium_phases CO2(g)
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+solvent-activity second opinion declined: dissolved element totals are below the molality floor
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      24.9903
+    pH        7  charge
+    water     9.9699999999999983e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -molalities H+ OH-
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+solvent-activity second opinion declined: dissolved element totals are below the molality floor
+solvent-activity second opinion declined: dissolved element totals are below the molality floor
