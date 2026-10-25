@@ -101,6 +101,8 @@ pub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[
     // correction here moves the answer without breaking the test — at
     // +18.7 the reaction comes out near +28.8, still inside 25–30.
     ("NaHCO3", &[("Na+", 1.0), ("HCO3-", 1.0)]),
+    // Anhydrous standard dissolution reference, not a hydrated mineral.
+    ("Na2CO3", &[("Na+", 2.0), ("CO3-2", 1.0)]),
     ("NaOAc", &[("Na+", 1.0), ("Acetate-", 1.0)]),
     ("Na2SO4", &[("Na+", 2.0), ("SO4-2", 1.0)]),
     ("CuSO4", &[("Cu+2", 1.0), ("SO4-2", 1.0)]),
@@ -677,6 +679,69 @@ mod tests {
         // NaCl -> two master species, so it is only its dissolution.
         let h = species_enthalpy("NaCl", Phase::Solid, DB).expect("priced");
         assert!((h - (-3.88)).abs() < 1e-9, "{h}");
+    }
+
+    /// The anhydrous reagent has its own standard reference, independent of
+    /// any hydrated carbonate phase in the native databases. Both intermediate
+    /// dissolution and direct precipitation must use that same reference.
+    #[test]
+    fn sodium_carbonate_reference_closes_dissolution_and_calcium_cycle_on_each_basis() {
+        let data = species::lookup_key("Na2CO3").expect("anhydrous reagent");
+        assert_eq!(data.dissolution_enthalpy_kj, Some(-26.656));
+        let formula = kerotakis_core::stoich::parse_formula(data.formula).unwrap();
+        let products = DISSOCIATION
+            .iter()
+            .find(|(key, _)| *key == "Na2CO3")
+            .unwrap()
+            .1;
+        let mut dissolved = kerotakis_core::stoich::Formula::default();
+        for (key, n) in products {
+            let ion = species::lookup_key(key).expect("registered dissociation product");
+            let f = kerotakis_core::stoich::parse_formula(ion.formula).unwrap();
+            for (element, count) in f.counts {
+                *dissolved.counts.entry(element).or_default() += count * n;
+            }
+            dissolved.charge += f.charge * n;
+        }
+        assert_eq!(
+            formula, dissolved,
+            "dissociation preserves atoms and charge"
+        );
+
+        for db in ["wateq4f", "minteq.v4", "pitzer"] {
+            let before = [portion("Na2CO3", 0.01, Phase::Solid)];
+            let ions = [
+                portion("Na+", 0.02, Phase::Aqueous),
+                portion("CO3-2", 0.01, Phase::Aqueous),
+            ];
+            let q = heat_released_j(&before, 0.0, &ions, 0.0, &[], db)
+                .expect("anhydrous dissolution is priced");
+            assert!((q - 266.56).abs() < 1e-9, "{db}: {q} J");
+            let reverse = heat_released_j(&ions, 0.0, &before, 0.0, &[], db).unwrap();
+            assert!((q + reverse).abs() < 1e-9, "{db}: reverse sign");
+
+            let salts = [
+                portion("Na2CO3", 0.01, Phase::Solid),
+                portion("CaCl2", 0.01, Phase::Solid),
+            ];
+            let intermediate = [
+                portion("Na2CO3", 0.01, Phase::Solid),
+                portion("Ca+2", 0.01, Phase::Aqueous),
+                portion("Cl-", 0.02, Phase::Aqueous),
+            ];
+            let precipitated = [
+                portion("CaCO3", 0.01, Phase::Solid),
+                portion("Na+", 0.02, Phase::Aqueous),
+                portion("Cl-", 0.02, Phase::Aqueous),
+            ];
+            let direct = heat_released_j(&salts, 0.0, &precipitated, 0.0, &[], db)
+                .expect("complete salt and mineral heat");
+            let first = heat_released_j(&salts, 0.0, &intermediate, 0.0, &[], db).unwrap();
+            let second = heat_released_j(&intermediate, 0.0, &precipitated, 0.0, &[], db).unwrap();
+            assert!((direct - first - second).abs() < 1e-9, "{db}: Hess cycle");
+            assert!(species_enthalpy("unregistered_carbonate", Phase::Solid, db).is_err());
+            assert!(species_enthalpy("KSCN", Phase::Solid, db).is_err());
+        }
     }
 
     /// The native phase reaction, not a nearest curated salt or a registry

@@ -1,5 +1,7 @@
 # Ordered current continuation —2026-10-25
 
+**Current sodium-carbonate heat successor —2026-10-25:** Source3d passed all33 fleet jobs and the12 new controls, but both native platforms and preflight failed the unchanged detergent order test. The [exact two-history capture](../audits/order-heat-current3d-20261025/SOURCE-ADMISSION.md) records a0.219671K final-temperature difference without gas transfer. A separate known-ledger calculation closes within1.4e-14mol/eq; original later assertions were unreached. The current patch adds an explicit sourced anhydrous Na2CO3 dissolution reference, balanced dissociation and three-basis heat controls. Existing order commands/tolerances remain unchanged. New exact-source full acceptance, normal PR859 delivery,15API/86browser assessment, further originals and owned diagnostic EN/DE/FR remain required.338/468 is unchanged. Follow [the measured thermal lane](order-heat-followup-20261025.md).
+
 This supersedes earlier pending notes in maintained summaries. Frozen forecasts, original scripts and first failures remain immutable. The user requires continuation through the last item before closing the task.
 
 **Full-run correction:** Actual0289 passes workspace/native tests, full33 fleet and real-Wasm/browser checks, but both curiosity gates fail on the same six cases. Finish [the source repair](../audits/curiosity0289-first-failures-20261025/SOURCE-REPAIR.md) with exact successor acceptance before the delivery item. No failed curiosity case or original is promoted by changing route labels.

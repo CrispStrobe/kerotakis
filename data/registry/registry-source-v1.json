@@ -1737,6 +1737,15 @@
       "origin": "https://doi.org/10.1098/rsta.1904.0020",
       "revision": "Phil. Trans. R. Soc. Lond. A 203 (1904) 189-215",
       "retrieved": "2026-09-21"
+    },
+    {
+      "id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+      "citation": "R. L. Berg and C. E. Vanderzee, Thermodynamics of carbon dioxide and carbonic acid, Journal of Chemical Thermodynamics 10 (1978) 1113-1136, doi:10.1016/0021-9614(78)90029-0. Numeric witness read in OECD NEA, Selected Ancillary Compounds (2024), NEA No. 7626, section V.7.1.3, p. 383, reaction V.163: anhydrous Na2CO3(cr) dissolving to 2 Na+(aq) + CO3-2(aq), standard enthalpy -26.656 +/- 0.126 kJ/mol at 298.15 K and infinite dilution. The primary paper was not directly accessible in this review; the NEA evaluation explicitly attributes this measurement and its extrapolation. Kerotakis releases only its numeric transcription and original metadata as CC0; no publication text, table, correlation or publication licence is redistributed or claimed.",
+      "licence": "CC0-1.0",
+      "lane": "runtime",
+      "origin": "https://www.oecd-nea.org/upload/docs/application/pdf/2024-06/cts15-selected_ancillary_compounds-r-final-rev.pdf",
+      "revision": "NEA No. 7626 (2024), section V.7.1.3, p. 383, V.163; primary DOI 10.1016/0021-9614(78)90029-0",
+      "retrieved": "2026-10-25"
     }
   ],
   "identities": [
@@ -45026,6 +45035,44 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/Na2CO3",
+      "species_id": "Na2CO3",
+      "phase": "solid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": -26.656,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": {
+            "lower": 298.15,
+            "upper": 298.15,
+            "unit": {
+              "symbol": "K",
+              "dimension": "temperature"
+            }
+          },
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": "water, infinite-dilution standard state",
+          "phase": "solid",
+          "notes": "Anhydrous Na2CO3(cr) -> 2 Na+(aq) + CO3-2(aq). Standard dissolution reference only; neither a hydrate value nor a finite-concentration or all-temperature calibration. The source-reported uncertainty is retained, not replaced by numerical heat-closure tolerances."
+        },
+        "uncertainty": {
+          "kind": "absolute",
+          "plus_minus": 0.126
+        },
+        "source_id": "literature/berg-vanderzee-anhydrous-carbonate-dissolution",
+        "method": {
+          "kind": "curated",
+          "detail": "One numeric standard dissolution reference transcribed from the NEA evaluation, reaction V.163, which explicitly attributes Berg and Vanderzee (1978); primary paper not directly read."
         }
       }
     }
