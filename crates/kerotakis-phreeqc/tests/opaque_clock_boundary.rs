@@ -19,16 +19,34 @@ fn step(bench: &mut Bench, stack: &mut SolverStack, text: &str) -> Vec<Event> {
     let operation = parse_op(text)
         .unwrap_or_else(|error| panic!("{text}: {error}"))
         .unwrap_or_else(|| panic!("{text}: no operation"));
+    step_operator(bench, stack, operation, text)
+}
+
+fn step_operator(
+    bench: &mut Bench,
+    stack: &mut SolverStack,
+    operation: Operator,
+    label: &str,
+) -> Vec<Event> {
     let events = bench
         .step_with(operation, stack, &PermissiveScreen)
-        .unwrap_or_else(|error| panic!("{text}: {error:?}"));
+        .unwrap_or_else(|error| panic!("{label}: {error:?}"));
     assert!(
         !events
             .iter()
             .any(|event| matches!(event, Event::SolverFailed { .. })),
-        "{text}: {events:?}"
+        "{label}: {events:?}"
     );
     events
+}
+
+fn zero_time_wait(bench: &mut Bench, stack: &mut SolverStack) -> Vec<Event> {
+    step_operator(
+        bench,
+        stack,
+        Operator::Wait { seconds: 0.0 },
+        "typed wait 0s",
+    )
 }
 
 fn known_ledger(vessel: &Vessel) -> ConservedLedger {
@@ -108,7 +126,7 @@ fn earned_clock_parcel_enters_known_milk_serum_once_without_changing_opaque_stoc
     assert!(earned > CO2_TRANSFER_FLOOR_MOL);
     bench.vessels[0].pending_co2_transfer_mol = earned;
     let before = bench.vessel(VesselId(0)).expect("before clock").clone();
-    let events = step(&mut bench, &mut solver, "wait 0s");
+    let events = zero_time_wait(&mut bench, &mut solver);
     let after = bench.vessel(VesselId(0)).expect("after clock");
     assert_known_boundary(&before, after, &events);
     assert_eq!(after.pending_co2_transfer_mol, 0.0);
@@ -125,7 +143,7 @@ fn earned_clock_parcel_enters_known_milk_serum_once_without_changing_opaque_stoc
         .collect();
     assert_eq!(inlets, vec![earned], "clock inlet should be announced once");
 
-    let repeat = step(&mut bench, &mut solver, "wait 0s");
+    let repeat = zero_time_wait(&mut bench, &mut solver);
     assert!(
         !repeat.iter().any(|event| matches!(
             event,

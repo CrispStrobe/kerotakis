@@ -7710,9 +7710,15 @@ mod gas_component_projection_tests {
         problem.clock_co2_applied_mol = 1e-6;
         assert!(opaque_clock_component_owner(&vessel, &problem, false));
         let mut ions = readback(0.02 + 1e-10);
-        assert!(
-            project_gas_aware_components(&vessel, &problem, &mut ions, &[], &[], false,).unwrap()
-        );
+        assert!(project_gas_aware_components(
+            &vessel,
+            &problem,
+            &mut ions,
+            &[("CO2(g)".into(), 0.0)],
+            &[],
+            false,
+        )
+        .unwrap());
         problem.clock_co2_applied_mol = 0.0;
         assert!(opaque_clock_component_owner(&vessel, &problem, true));
         assert!(!opaque_clock_component_owner(&vessel, &problem, false));
