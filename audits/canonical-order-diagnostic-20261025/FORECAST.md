@@ -1,0 +1,7 @@
+# Captured canonical-order diagnostic — before execution2026-10-25
+
+Use only the actual captured bcb766b7 CLI, rawSHA-256 b1f3698f2eda1a9f56bd4929c21446f1f0d3a272859fb88a16c645ebb9963949, generatedlock41bbdc74, from the completed123 focus. No sourcebuild or corpus replay. Its actual order-invariance test fails at the unchanged solvent-mass limit; physical-water discrepancy1.25e-8mol is independently reported.
+
+Execute the two frozen three-addition protocols plus inspect exactly once each with input/readback diagnostics. These are supporting diagnostic CLI executions, not a replacement or a new pass for the original test. Compare every physical species/phase stock, full gas/material/charge ownership, final temperatures and native inputs/provenance. Decide whether the native question remains history-dependent due numerical representation or whether open gas/heat boundaries invalidate the test's same-inventory premise. Do not force reported water to equal an expected answer, suppress gas or weaken any original numerical predicate. No preassigned scientific outcome.
+
+Admission: check current availablememory/load/storage against private tiny-native limits, oneCPU/1.5GiBaddressspace/20CPUseconds/30wallseconds per process, bounded4MiB streams. Restore/hash only this one captured CLI body on slow storage; other archives stay unopened. Preserve all raw outputs, errors, exact binary/protocol bindings and first failures. No hosted producer or original experiment qualification is issued.

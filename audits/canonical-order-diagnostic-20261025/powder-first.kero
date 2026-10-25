@@ -1,0 +1,4 @@
+add v1 water 100mL
+add v1 laundry_detergent 5g
+add v1 CaCl2 0.01mol
+inspect v1
