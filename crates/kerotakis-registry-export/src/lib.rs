@@ -596,6 +596,28 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
         "literature/bates-bower-smith-calcium-hydroxide-1956",
         "literature/berkeley-saturated-solutions-1904",
     ];
+    // Runtime SpeciesData carries the scalar but cannot retain its per-field
+    // uncertainty, conditions or source. Preserve explicitly reviewed heat
+    // records instead of exporting those claims as generic legacy data.
+    const REVIEWED_THERMO_SOURCES: &[&str] =
+        &["literature/berg-vanderzee-anhydrous-carbonate-dissolution"];
+    for record in reviewed
+        .phase_thermodynamics
+        .iter()
+        .filter(|r| REVIEWED_THERMO_SOURCES.contains(&r.quantity.source_id.as_str()))
+    {
+        let out = document
+            .phase_thermodynamics
+            .iter_mut()
+            .find(|candidate| candidate.id == record.id)
+            .ok_or_else(|| {
+                format!(
+                    "reviewed thermodynamic row {} has no runtime scalar",
+                    record.id
+                )
+            })?;
+        *out = record.clone();
+    }
     for record in reviewed
         .identities
         .iter()
@@ -657,7 +679,9 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     document
         .sources
         .extend(reviewed.sources.into_iter().filter(|source| {
-            source.id == BASIS || REVIEWED_PARAMETER_SOURCES.contains(&source.id.as_str())
+            source.id == BASIS
+                || REVIEWED_PARAMETER_SOURCES.contains(&source.id.as_str())
+                || REVIEWED_THERMO_SOURCES.contains(&source.id.as_str())
         }));
     // LAST, deliberately: after the reviewed overlay rather than inside the
     // per-species export. Nine molar masses arrive from the aqueous basis
