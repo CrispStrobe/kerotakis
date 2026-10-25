@@ -49,6 +49,7 @@ fn boundary(
         &[],
         &crystals,
         &value,
+        ComponentCertificate::Uncertified,
         false,
     )?;
     Ok(ions)

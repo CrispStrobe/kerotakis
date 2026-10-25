@@ -92,6 +92,56 @@ pub(crate) fn clock_spectator(portion: &Portion) -> bool {
     })
 }
 
+/// A named optical reporter is an immutable spectator of a narrowly owned
+/// aqueous calculation beside an open gas reservoir. Its colour is a readout, not
+/// a licence to model the pigment's acid/base chemistry or the juice's
+/// unrepresented buffering. The registry formula must be real and neutral;
+/// a placeholder like the pepsin catalogue's `C` cannot earn this path.
+pub(crate) fn passive_ladder_reporter(portion: &Portion) -> bool {
+    if portion.phase != Phase::Aqueous
+        || !portion.moles.0.is_finite()
+        || portion.moles.0 < 0.0
+        || kerotakis_core::indicator::lookup_ladder(&portion.species.0).is_none()
+    {
+        return false;
+    }
+    species::lookup(&portion.species).is_some_and(|row| {
+        row.formula != "C"
+            && kerotakis_core::stoich::parse_formula(row.formula).is_ok_and(|formula| {
+                formula.charge == 0.0
+                    && !formula.counts.is_empty()
+                    && formula
+                        .counts
+                        .values()
+                        .all(|count| count.is_finite() && *count > 0.0)
+            })
+    })
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ImmutablePolicy {
+    Clock,
+    ReservoirOptical,
+}
+
+fn valid_immutable_spectators(vessel: &Vessel, policy: ImmutablePolicy) -> bool {
+    vessel.contents.iter().all(|portion| {
+        if !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
+            return false;
+        }
+        if portion.moles.0 == 0.0
+            || portion.phase == Phase::Gas
+            || derived::role(&portion.species.0).is_some()
+            || species::is_acid_base_basis(&portion.species.0)
+        {
+            true
+        } else {
+            clock_spectator(portion)
+                || (policy == ImmutablePolicy::ReservoirOptical && passive_ladder_reporter(portion))
+        }
+    })
+}
+
 fn non_native_spectators(vessel: &Vessel) -> Vec<(String, Phase, u64)> {
     let mut portions = vessel
         .contents
@@ -115,17 +165,11 @@ fn non_native_spectators(vessel: &Vessel) -> Vec<(String, Phase, u64)> {
 }
 
 pub(crate) fn valid_clock_immutable_spectators(vessel: &Vessel) -> bool {
-    vessel.contents.iter().all(|portion| {
-        if portion.moles.0 == 0.0
-            || portion.phase == Phase::Gas
-            || derived::role(&portion.species.0).is_some()
-            || species::is_acid_base_basis(&portion.species.0)
-        {
-            true
-        } else {
-            clock_spectator(portion)
-        }
-    })
+    valid_immutable_spectators(vessel, ImmutablePolicy::Clock)
+}
+
+pub(crate) fn valid_reservoir_immutable_spectators(vessel: &Vessel) -> bool {
+    valid_immutable_spectators(vessel, ImmutablePolicy::ReservoirOptical)
 }
 
 /// The generic ledger parses the enzyme catalogue's placeholder `C` as a
@@ -148,6 +192,21 @@ pub(crate) fn certify_opaque_clock_stock(
     before: &Vessel,
     after: &Vessel,
 ) -> Result<(), SolveError> {
+    certify_immutable_stock(before, after, ImmutablePolicy::Clock)
+}
+
+pub(crate) fn certify_opaque_reservoir_stock(
+    before: &Vessel,
+    after: &Vessel,
+) -> Result<(), SolveError> {
+    certify_immutable_stock(before, after, ImmutablePolicy::ReservoirOptical)
+}
+
+fn certify_immutable_stock(
+    before: &Vessel,
+    after: &Vessel,
+    policy: ImmutablePolicy,
+) -> Result<(), SolveError> {
     let same = before.unresolved_materials.len() == after.unresolved_materials.len()
         && before
             .unresolved_materials
@@ -169,13 +228,21 @@ pub(crate) fn certify_opaque_clock_stock(
     if !valid_opaque_clock_stock(before)
         || !valid_opaque_clock_stock(after)
         || !same
-        || !valid_clock_immutable_spectators(before)
-        || !valid_clock_immutable_spectators(after)
+        || !valid_immutable_spectators(before, policy)
+        || !valid_immutable_spectators(after, policy)
         || non_native_spectators(before) != non_native_spectators(after)
     {
         return Err(SolveError::NotConverged {
             solver: "phreeqc-inventory".into(),
-            detail: "opaque clock inventory or immutable spectator changed or is invalid".into(),
+            detail: match policy {
+                ImmutablePolicy::Clock => {
+                    "opaque clock inventory or immutable spectator changed or is invalid"
+                }
+                ImmutablePolicy::ReservoirOptical => {
+                    "reservoir aqueous opaque inventory or immutable spectator changed or is invalid"
+                }
+            }
+            .into(),
         });
     }
     Ok(())
@@ -364,15 +431,85 @@ pub(crate) fn certify_gas_aware_inventory(
     reservoirs: &[&str],
     clock: ClockCo2Boundary,
 ) -> Result<(), SolveError> {
+    certify_component_inventory(
+        before,
+        after,
+        events,
+        reservoirs,
+        clock,
+        ImmutablePolicy::Clock,
+    )
+}
+
+/// The optical opaque route shares the existing signed gas-reservoir ledger.
+/// The clock remains a separate owner; its parked or spent parcel cannot be
+/// converted into an atmospheric crossing by this wrapper.
+pub(crate) fn certify_reservoir_opaque_inventory(
+    before: &Vessel,
+    after: &Vessel,
+    events: &[Event],
+    reservoirs: &[&str],
+) -> Result<(), SolveError> {
+    let unsupported_boundary = || SolveError::NotConverged {
+        solver: "phreeqc-inventory".into(),
+        detail: "reservoir opaque aqueous owner has a clock or finite gas boundary".into(),
+    };
+    if before.unresolved_materials.is_empty()
+        || after.unresolved_materials.is_empty()
+        || before.pending_co2_transfer_mol != 0.0
+        || after.pending_co2_transfer_mol != 0.0
+        || !matches!(&before.headspace, kerotakis_core::Headspace::Open)
+        || !matches!(&after.headspace, kerotakis_core::Headspace::Open)
+        || before.owns_headspace_gas()
+        || after.owns_headspace_gas()
+        || before
+            .contents
+            .iter()
+            .any(|portion| portion.phase == Phase::Gas)
+        || after
+            .contents
+            .iter()
+            .any(|portion| portion.phase == Phase::Gas)
+        || events
+            .iter()
+            .any(|event| matches!(event, Event::GasContained { .. }))
+    {
+        return Err(unsupported_boundary());
+    }
+    certify_component_inventory(
+        before,
+        after,
+        events,
+        reservoirs,
+        ClockCo2Boundary::none(before.id),
+        ImmutablePolicy::ReservoirOptical,
+    )
+}
+
+fn certify_component_inventory(
+    before: &Vessel,
+    after: &Vessel,
+    events: &[Event],
+    reservoirs: &[&str],
+    clock: ClockCo2Boundary,
+    policy: ImmutablePolicy,
+) -> Result<(), SolveError> {
+    let prefix = match policy {
+        ImmutablePolicy::Clock => "gas-aware physical ledger",
+        ImmutablePolicy::ReservoirOptical => "reservoir opaque physical ledger",
+    };
     let refused = |detail: String| SolveError::NotConverged {
         solver: "phreeqc-inventory".into(),
-        detail: format!("gas-aware physical ledger: {detail}"),
+        detail: format!("{prefix}: {detail}"),
     };
     if before.id != after.id {
         return Err(refused("vessel identity changed".into()));
     }
-    if !before.unresolved_materials.is_empty() || !after.unresolved_materials.is_empty() {
-        certify_opaque_clock_stock(before, after)?;
+    if policy == ImmutablePolicy::ReservoirOptical
+        || !before.unresolved_materials.is_empty()
+        || !after.unresolved_materials.is_empty()
+    {
+        certify_immutable_stock(before, after, policy)?;
     }
     for vessel in [before, after] {
         for portion in &vessel.contents {
@@ -383,8 +520,9 @@ pub(crate) fn certify_gas_aware_inventory(
             }
         }
     }
-    let opaque_clock_owner = !before.unresolved_materials.is_empty();
-    let mut expected = clock_known_component_ledger(before, opaque_clock_owner);
+    let exclude_opaque_catalyst =
+        policy == ImmutablePolicy::ReservoirOptical || !before.unresolved_materials.is_empty();
+    let mut expected = clock_known_component_ledger(before, exclude_opaque_catalyst);
     for event in events {
         let (event_vessel, species_id, moles, sign) = match event {
             Event::GasEvolved {
@@ -421,7 +559,7 @@ pub(crate) fn certify_gas_aware_inventory(
         }
         expected.charge += formula.charge * clock.applied_mol;
     }
-    let actual = clock_known_component_ledger(after, opaque_clock_owner);
+    let actual = clock_known_component_ledger(after, exclude_opaque_catalyst);
     let elements: BTreeSet<_> = expected
         .elements
         .keys()
@@ -446,6 +584,103 @@ pub(crate) fn certify_gas_aware_inventory(
         )));
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod reservoir_opaque_immutable_certificate_tests {
+    use super::*;
+    use kerotakis_core::{
+        material::MaterialBasis, vessel::UnresolvedMaterialPortion, Moles, VesselId,
+    };
+
+    fn reporter() -> Vessel {
+        let mut vessel = Vessel::new(VesselId(0), "reservoir reporter mechanism");
+        vessel.deposit(SpeciesId::new("water"), Moles(5.0), Phase::Liquid);
+        vessel.deposit(
+            SpeciesId::new("anthocyanin"),
+            Moles(6.690_753_378_830_455e-6),
+            Phase::Aqueous,
+        );
+        vessel.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "red_cabbage_juice".into(),
+            recipe_id: "household/red-cabbage-juice-surrogate".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 0.197,
+            enzyme_hydrolysis: None,
+            protein_denatured_fraction: 0.0,
+        });
+        vessel
+    }
+
+    #[test]
+    fn passive_ladder_is_reservoir_only_and_every_spectator_bit_is_immutable() {
+        let original = reporter();
+        let pigment = original
+            .contents
+            .iter()
+            .find(|portion| portion.species.0 == "anthocyanin")
+            .unwrap();
+        assert!(passive_ladder_reporter(pigment));
+        assert!(valid_reservoir_immutable_spectators(&original));
+        assert!(!valid_clock_immutable_spectators(&original));
+        assert!(certify_reservoir_opaque_inventory(&original, &original, &[], &[]).is_ok());
+
+        let mut changed = original.clone();
+        changed.unresolved_materials[0].amount += 1e-14;
+        assert!(certify_opaque_reservoir_stock(&original, &changed).is_err());
+        changed = original.clone();
+        changed
+            .contents
+            .iter_mut()
+            .find(|p| p.species.0 == "anthocyanin")
+            .unwrap()
+            .moles
+            .0 += 1e-14;
+        assert!(certify_opaque_reservoir_stock(&original, &changed).is_err());
+        changed = original.clone();
+        changed
+            .contents
+            .iter_mut()
+            .find(|p| p.species.0 == "anthocyanin")
+            .unwrap()
+            .phase = Phase::Solid;
+        assert!(!valid_reservoir_immutable_spectators(&changed));
+        assert!(certify_opaque_reservoir_stock(&original, &changed).is_err());
+    }
+
+    #[test]
+    fn reservoir_owner_checks_signed_gas_and_rejects_unknown_ions_or_clock() {
+        let original = reporter();
+        let mut ionic = original.clone();
+        ionic.deposit(SpeciesId::new("KIO3"), Moles(0.001), Phase::Aqueous);
+        assert!(!valid_reservoir_immutable_spectators(&ionic));
+        assert!(certify_reservoir_opaque_inventory(&ionic, &ionic, &[], &[]).is_err());
+
+        let mut clock = original.clone();
+        clock.pending_co2_transfer_mol = 2e-6;
+        assert!(certify_reservoir_opaque_inventory(&clock, &clock, &[], &[]).is_err());
+        assert!(certify_reservoir_opaque_inventory(
+            &original,
+            &original,
+            &[Event::GasEvolved {
+                vessel: original.id,
+                species: SpeciesId::new("CO2"),
+                moles: Moles(1e-12),
+            }],
+            &[],
+        )
+        .is_err());
+
+        let mut carbon = original.clone();
+        carbon.deposit(SpeciesId::new("CO2"), Moles(1e-6), Phase::Aqueous);
+        let lost = Event::GasEvolved {
+            vessel: carbon.id,
+            species: SpeciesId::new("CO2"),
+            moles: Moles(1e-6),
+        };
+        assert!(certify_reservoir_opaque_inventory(&carbon, &original, &[lost], &["CO2"],).is_ok());
+    }
 }
 
 #[cfg(test)]
