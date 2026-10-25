@@ -1,0 +1,152 @@
+{
+  "source": "ac7ab04db91bf1420f802404cc1e2eb6ab22fa12",
+  "tree": "f4b86f8b41c63ced8bc060b65f4dfa7b7b4b9e3e",
+  "lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "manifest_sha256": "7e3b01611f3d47dbca777bb64481143085ff125029cbb316d79d8f0a56d175f7",
+  "case_log_index_sha256": "3878adab75d6d13519f8d586d6e8012d2989f1348f410600e60038b274112fa5",
+  "case_archive_sha256": "ee239a2ece3f42eab9ed639e779ac3a462ec0ef6f522ffb0dbc62aab2cbe3ba5",
+  "two_actual_lesson_tests_pass": true,
+  "observations": [
+    {
+      "member": "lesson_thermal_contract-case-00.stderr",
+      "held_at_298_15_k": false,
+      "temperature_k": 294.44886068256073,
+      "ph": 9.961374005643,
+      "ionic_strength": 0.5316653382268,
+      "primary_model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+      "secondary": {
+        "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+        "dataset_phrase": {
+          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+          "key": "provenance.dataset.with-gas-uptake-slice",
+          "slots": [
+            [
+              "file",
+              {
+                "text": {
+                  "text": "pitzer.dat"
+                }
+              }
+            ]
+          ]
+        },
+        "ionic_strength": 0.8471551647437,
+        "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+        "model_phrase": {
+          "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+          "key": "provenance.model.ion-interaction",
+          "slots": [
+            [
+              "name",
+              {
+                "text": {
+                  "text": "Pitzer"
+                }
+              }
+            ]
+          ]
+        },
+        "particle_molality": 0.9377407615549,
+        "water_activity": 0.9871438262799221
+      }
+    },
+    {
+      "member": "lesson_thermal_contract-case-00.stderr",
+      "held_at_298_15_k": true,
+      "temperature_k": 298.15,
+      "ph": 9.938522522855,
+      "ionic_strength": 0.5120708530356,
+      "primary_model": "WATEQ Debye-H\u00fcckel extension (reliable to about I = 1 mol/kgw)",
+      "secondary": {
+        "dataset": "pitzer.dat, with the reviewed Sander HBr gas-uptake slice",
+        "dataset_phrase": {
+          "en": "{file}, with the reviewed Sander HBr gas-uptake slice",
+          "key": "provenance.dataset.with-gas-uptake-slice",
+          "slots": [
+            [
+              "file",
+              {
+                "text": {
+                  "text": "pitzer.dat"
+                }
+              }
+            ]
+          ]
+        },
+        "ionic_strength": 0.8517725594917,
+        "model": "Pitzer specific-ion-interaction model (valid at high ionic strength)",
+        "model_phrase": {
+          "en": "{name} specific-ion-interaction model (valid at high ionic strength)",
+          "key": "provenance.model.ion-interaction",
+          "slots": [
+            [
+              "name",
+              {
+                "text": {
+                  "text": "Pitzer"
+                }
+              }
+            ]
+          ]
+        },
+        "particle_molality": 0.9331442399602,
+        "water_activity": 0.9872186548658629
+      }
+    },
+    {
+      "member": "lesson_thermal_contract-case-01.stderr",
+      "chemical_heat_j": -1340.1632614486641,
+      "residual_j": 0.0004953769562234811,
+      "sensible_change_j": -1340.1637568256203
+    },
+    {
+      "member": "lesson_thermal_contract-case-01.stderr",
+      "command": "measure v1 pressure",
+      "temperature_k": 291.5981801991629,
+      "pressure_pa": 284459.3975152486,
+      "headspace": {
+        "boundary": "sealed",
+        "volume": 0.5
+      }
+    },
+    {
+      "member": "lesson_thermal_contract-case-01.stderr",
+      "command": "measure v1 volume",
+      "temperature_k": 291.5981801991629,
+      "pressure_pa": 284459.3975152486,
+      "headspace": {
+        "boundary": "sealed",
+        "volume": 0.5
+      }
+    },
+    {
+      "member": "lesson_thermal_contract-case-01.stderr",
+      "chemical_heat_j": -51.14684543010219,
+      "residual_j": 7.917381560673675e-05,
+      "sensible_change_j": -51.146924603917796
+    },
+    {
+      "member": "lesson_thermal_contract-case-01.stderr",
+      "command": "measure v1 pressure",
+      "temperature_k": 291.35144565722544,
+      "pressure_pa": 100000.0,
+      "headspace": {
+        "boundary": "pressure_controlled",
+        "pressure": 100000.0,
+        "volume": 1.4810476655801206
+      }
+    },
+    {
+      "member": "lesson_thermal_contract-case-01.stderr",
+      "command": "measure v1 volume",
+      "temperature_k": 291.35144565722544,
+      "pressure_pa": 100000.0,
+      "headspace": {
+        "boundary": "pressure_controlled",
+        "pressure": 100000.0,
+        "volume": 1.4810476655801206
+      }
+    }
+  ],
+  "full_source_or_calibration_acceptance": false
+}
