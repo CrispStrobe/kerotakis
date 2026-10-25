@@ -6594,15 +6594,16 @@ impl PhreeqcEquilibrator {
         let mut dissolved: Vec<(String, f64)> = Vec::new();
         for el in &problem.elements {
             match value(el) {
-                Some(molality) if molality.is_finite() && molality > 0.0 => {
-                    dissolved.push((el.clone(), molality * solved_kgw));
-                }
-                Some(molality) if molality == 0.0 => {}
-                Some(_) => {
-                    return decline(
-                        SecondaryDisposition::Declined(SecondaryDecline::InvalidResult),
-                        &format!("negative or nonfinite dissolved total read back for {el}"),
-                    )
+                Some(molality) => {
+                    if !molality.is_finite() || molality < 0.0 {
+                        return decline(
+                            SecondaryDisposition::Declined(SecondaryDecline::InvalidResult),
+                            &format!("negative or nonfinite dissolved total read back for {el}"),
+                        );
+                    }
+                    if molality > 0.0 {
+                        dissolved.push((el.clone(), molality * solved_kgw));
+                    }
                 }
                 // An element with no readback column would be silently
                 // dropped from the lean problem, which is matter quietly
