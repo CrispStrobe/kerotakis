@@ -1,0 +1,26 @@
+{
+  "source": "b42b0843489745b0513c964e2022f75f2547170b",
+  "tree": "713d135c5b7e8414e10ee48569253fb5d7421f39",
+  "all_263_native_controls": "NOT_REACHED",
+  "format_exit_status": 0,
+  "clippy_exit_status": 101,
+  "wasm_cli_full1536": "NOT_REACHED",
+  "source_after_proof": "absent",
+  "raw_stderr_sha256": "54a0818a2ad1dcecc2407a0d79e504560f411da63912725f870d4446a43d35df",
+  "manifest_sha256": "0611cdc8dd3e6d540e2d37e2480f03042c253ad6a72c4448d041816137e0876b",
+  "independent_saved_review_sha256": "2203edc383ab9901c4d3325b0dc3522d11244aa903788da64a333eb194e5b392",
+  "errors": [
+    {
+      "code": "E0689",
+      "path": "crates/kerotakis-phreeqc/src/aqueous.rs",
+      "line": 5276,
+      "cause": "untyped fixture counter calls.is_multiple_of(2)"
+    },
+    {
+      "code": "E0063",
+      "path": "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/refusal_atomicity.rs",
+      "line": 54,
+      "cause": "CachedSolve fixture missing pe_authority"
+    }
+  ]
+}
