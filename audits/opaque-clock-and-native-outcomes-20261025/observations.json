@@ -1,0 +1,38 @@
+{
+  "focused_first_source": "2a98eec40ea9ece2ff22b1722e8c98b9c824937f",
+  "first_pass": 164,
+  "first_fail": 2,
+  "first_not_reached": 29,
+  "continuation_source": "6471e8d056f92c9bfb3d550bfa68b14566f84880",
+  "continuation_pass": 32,
+  "continuation_manifest_sha256": "3ee20acd0ac43a5ff66e7f3414e091bc0dfc743c52d3b3500af4c8bfca406dc9",
+  "continuation_worker_sha256": "e2a82719fb9eb79fb78aef7cfa1fb9e115e751995d0203e3d8d025444d1b2625",
+  "continuation_independent_review_sha256": "27bc9e5c9403370795d093de4a7e5571555b80eb562516d8b882bbfeaf88049b",
+  "continuation_compiler_gates": "not rerun; prior compiler passes retain actual source",
+  "continuation_three_cli_exit_statuses": [
+    0,
+    0,
+    0
+  ],
+  "continuation_sweep_cases": 1536,
+  "continuation_sweep_refusals": 29,
+  "continuation_sweep_invariant_violations": 0,
+  "full_native_run": 40187147309,
+  "full_native_pr_head": "2a98eec40ea9ece2ff22b1722e8c98b9c824937f",
+  "full_native_jobs": {
+    "ubuntu": 121158755443,
+    "macos": 121158755429,
+    "preflight": 121158755331
+  },
+  "full_native_each_platform_failures": 6,
+  "preflight_failure_target": "lessons_replay",
+  "raw_log_sha256": {
+    "ubuntu": "4b9a82f756eb8d12a23970992030e77f2e2a50569375181542b8809fdbb808fb",
+    "macos": "86ca6231410e2d83738ac6851984bd68b5de74650ecad49fe8b97f1268284215",
+    "preflight": "df3bc360004d57268c50d8fd597856739010ffffa79c0a469fe7b93a65cb808d"
+  },
+  "originals_qualified": 338,
+  "fixed_original_population": 468,
+  "current_pe_and_auxiliary_repairs": "source review only; no current-source native acceptance",
+  "full_source_integration_product_acceptance": false
+}

@@ -1,0 +1,17 @@
+{
+  "source": "2a98eec40ea9ece2ff22b1722e8c98b9c824937f",
+  "tree": "d1ef719e3ac8b2fb754a3d78b1ca3403d9e937f6",
+  "saved_review_sha256": "843950f758437218df147f764b8d501f5e1143c0081d11da54af61646723b7a9",
+  "partial_addendum_sha256": "b34057b9c840e5705e3846f78ba8f7aa7fc7de50e83784102cb4f64e78c352b7",
+  "manifest_sha256": "cefd26576d6a5d78794484767c01bb2715c5db7608378c7f8790fa4c09d57d0c",
+  "planned_controls": 195,
+  "actual_pass": 164,
+  "actual_fail": 2,
+  "not_reached": 29,
+  "all_previous155_pass": true,
+  "omitted_valid_should_panic_control": "composed_locale::an_unresolved_static_phrase_key_fails_closed",
+  "format_clippy_wasm": "PASS",
+  "cli_three_and_full1536": "NOT_REACHED",
+  "source_after": "NOT_REACHED",
+  "new_original_qualifications": 0
+}
