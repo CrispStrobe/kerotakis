@@ -1,5 +1,7 @@
 # Kerotakis current state —2026-10-22
 
+**Current3d results —2026-10-25:** All12 new regression controls pass in full preflight, including native stock/heat/zero-time checks. Full acceptance is blocked by an existing detergent addition-order comparison. Follow [the measured order/heat lane](order-heat-followup-20261025.md) before normal delivery, product assessment, further originals and runtime diagnostic i18n. The later order-test physical ledgers are unreached.338/468 is unchanged.
+
 **Current successor —2026-10-25:** [Headde8de024](../audits/curiosity-de8-selector-successor-binding-20261025/README.md) corrects the actual12af exhausted-solvent selector refusal and one new calcite-reference fixture error. Bounded12af execution clears five of six SolverFailed cases; full successor acceptance is pending. Preserve all raw failures. Normal delivery/product assessment, further originals and runtime diagnostic i18n remain required;338/468 is unchanged.
 
 **Latest 2026-10-25:** Full head0289 passes workspace tests, all33 fleet jobs and real-Wasm/browser checks, but both native curiosity gates expose the same six runtime failures. [The scoped repair and acceptance](../audits/curiosity0289-first-failures-20261025/SOURCE-REPAIR.md) covers reservoir exhaustion, mineral heat and opaque-clock spectators; new controls still need execution. Three legitimate native route labels change separately. PR859 remains draft; integration/product acceptance, further originals and diagnostic i18n remain open.338/468 is unchanged.

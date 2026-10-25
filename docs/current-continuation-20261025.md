@@ -2,6 +2,8 @@
 
 This supersedes earlier pending notes in maintained summaries. Frozen forecasts, original scripts and first failures remain immutable. The user requires continuation through the last item before closing the task.
 
+**Current critical lane:** Source3d passes all12 new controls, then full preflight fails the existing detergent addition-order comparison. Complete [the exact capture and heat/data investigation](order-heat-followup-20261025.md) before delivery. No original qualification or later order-test physical ledger is credited from that failed command.
+
 **Full-run correction:** Actual0289 passes workspace/native tests, full33 fleet and real-Wasm/browser checks, but both curiosity gates fail on the same six cases. Finish [the source repair](../audits/curiosity0289-first-failures-20261025/SOURCE-REPAIR.md) with exact successor acceptance before the delivery item. No failed curiosity case or original is promoted by changing route labels.
 
 1. **Preserve completed physical work.** The original salt fixture, canonical physical aqueous reentry and scoped clock-carbon repairs are implemented. Actual9abc reaches231 passes/one obsolete swept expectation failure/35 unreached cases. Its [bounded successor](../audits/native43-cache-transport-first-failures-20261025/REVIEW-CLOSURE.json) reaches all43:41 pass and two exported-cache decoding failures. The revised150-dose swept control and both new lesson controls pass. All13 inventories, formatting/strict Clippy, three CLI protocols and1536 sweep states pass with29 refusal steps and zero invariant violations. The225 unaffected earlier passes remain historical on9abc. No focus is full platform/product acceptance.
