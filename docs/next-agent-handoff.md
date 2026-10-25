@@ -1,5 +1,7 @@
 # Fresh-agent handoff —2026-10-22
 
+**StrictClippy follow-up —2026-10-25:** e669 fixes the prior type errors, then strictClippy stops on one needless borrow; all155/downstream checks areNOT_REACHED. [Preserved first log](../audits/clock155-clippy-first-failure-20261025/FORECAST.md) precedes the one-character source correction. Identical155 acceptance is pending; delivery/originals/i18n remain open.
+
 **155 compiler follow-up —2026-10-25:** [Firste096 attempt stops before tests](../audits/clock155-compiler-first-failure-20261025/FORECAST.md): formatting passes, strictClippy reports one loop-return and seven private-call compatibility errors. All155controls/CLI/sweep/wasm areNOT_REACHED. The compatibility-only correction preserves all assertions, models and budgets; its separately bound successor is pending. Full delivery, more originals andi18n remain required;338/468 unchanged.
 
 **2026-10-25 combined candidate:** [Typed clock boundary and original-input route replay](clock-and-route-closure-20261025.md) follow the actual121/123 predecessor (two failures, seven sweep violations). Static review is complete; exact successor native acceptance is pending. All123 identities and physical budgets remain. Full/platform/product delivery, further originals and structuredi18n remain ordered next;338/468 unchanged. This supersedes older pending notes below.

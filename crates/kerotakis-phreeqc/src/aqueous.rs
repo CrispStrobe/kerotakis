@@ -3710,7 +3710,7 @@ fn reviewed_co2_exhaustion(
         match portion.phase {
             Phase::Solid => match derived::role(&portion.species.0) {
                 Some(DerivedRole::Mineral { phase, .. }) => {
-                    let Some(mineral) = derived::phase_by_name(&phase) else {
+                    let Some(mineral) = derived::phase_by_name(phase) else {
                         return false;
                     };
                     if mineral
