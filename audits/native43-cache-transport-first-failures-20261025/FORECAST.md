@@ -1,0 +1,11 @@
+# Exported cache transport: preserved first failures and repair contract
+
+The once-only43-control continuation on `ac7ab04db91bf1420f802404cc1e2eb6ab22fa12` reaches all43 cases:41 pass and two native-export/postcard-import controls fail. The continuation and acid/permanganate endpoint replay fail at `postcard::from_bytes`, with `DeserializeUnexpectedEnd` and `SerdeDeCustom` respectively. Preserve these actual failures and the complete closed raw evidence. The independent saved reader remains a separate pending review. No original qualification or full-source acceptance follows.
+
+`CacheEntry.pe_authority` currently uses `skip_serializing_if` for its unwitnessed value. Postcard is positional: skipping a field does not provide a named missing-field boundary. The resulting exported cache can shift the next entry/thermochemical field into the authority position or end prematurely. JSON-only roundtrip coverage did not detect this.
+
+Repair serialization at its source. Binary output must have one unambiguous fixed field layout for every authority value, and retain each source-produced witness across real exported/imported replay. Keep legacy named JSON without a witness accepted as unwitnessed; never infer electron authority from the old endpoint boolean. Explicitly distinguish new binary transport from any historical format: either provide a verified legacy decoder with unwitnessed default, or reject incompatible legacy binary safely without claiming compatibility. Do not silently reinterpret neighboring bytes as a witness. Preserve current inputs, physical budgets, cache-question identities and the two real no-engine-call acceptance controls.
+
+Add multi-entry transport controls covering all four authority states, witness/endpoint consistency and thermochemical metadata. Check both human-readable JSON behavior and actual Postcard roundtrip, malformed/truncated input and the chosen historical-binary policy. Any versioning must be shared by real cache consumers and the exported transport; no test-only alternate serializer. Do not alter solver admission or numerical chemistry to make replay green.
+
+The new swept control and both lesson thermal controls pass in this producer, but full platform/fleet/integration/product and lesson printed-value adjudication remain open. Original coverage stays338/468.

@@ -154,10 +154,20 @@ class PhreeqcPool {
 /// is an async `(filename) => text`; `opts.results` is optional pre-warmed
 /// postcard bytes, which are still worth loading because they answer
 /// instantly and keep the guided content snappy.
+/// `opts.onResultsError` receives a rejected optional cache when a live
+/// engine is available. Cache-only callers still receive the error.
 export async function openLab(Lab, opts) {
     const lab = new Lab();
-    if (opts.results) lab.loadResults(opts.results);
-    if (opts.createIPhreeqc) {
+    const hasLiveEngine = typeof opts.createIPhreeqc === "function";
+    if (opts.results) {
+        try {
+            lab.loadResults(opts.results);
+        } catch (error) {
+            if (!hasLiveEngine) throw error;
+            opts.onResultsError?.(error);
+        }
+    }
+    if (hasLiveEngine) {
         const pool = await PhreeqcPool.create(
             opts.createIPhreeqc,
             opts.loadDatabase,

@@ -1,0 +1,60 @@
+{
+  "source": "ac7ab04db91bf1420f802404cc1e2eb6ab22fa12",
+  "tree": "f4b86f8b41c63ced8bc060b65f4dfa7b7b4b9e3e",
+  "lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "manifest_sha256": "7e3b01611f3d47dbca777bb64481143085ff125029cbb316d79d8f0a56d175f7",
+  "collection_sha256": "3cd2ae5ad0cc6530f95686436d45c9a16c127303c5c160f2e2594f3b589c0489",
+  "case_archive_sha256": "ee239a2ece3f42eab9ed639e779ac3a462ec0ef6f522ffb0dbc62aab2cbe3ba5",
+  "actual_controls": 43,
+  "actual_passes": 41,
+  "actual_failures": [
+    {
+      "target": "aqueous_continuation",
+      "test": "concrete_continuation_replays_exported_cache_without_native_solves",
+      "record": "aqueous_continuation-case-00",
+      "exit_status": 101,
+      "rows": [
+        [
+          "concrete_continuation_replays_exported_cache_without_native_solves",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "3"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "acid_permanganate_endpoint",
+      "test": "actual_exported_endpoint_questions_replay_without_engine_calls",
+      "record": "acid_permanganate_endpoint-case-00",
+      "exit_status": 101,
+      "rows": [
+        [
+          "actual_exported_endpoint_questions_replay_without_engine_calls",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "4"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    }
+  ],
+  "independent_review": "pending separately; counts observed from closed producer evidence",
+  "new_original_qualifications": 0
+}

@@ -1,0 +1,39 @@
+{
+  "kind": "unissued_native43_swept_continuation_preparation",
+  "source": "ac7ab04db91bf1420f802404cc1e2eb6ab22fa12",
+  "tree": "f4b86f8b41c63ced8bc060b65f4dfa7b7b4b9e3e",
+  "candidate_ref": "fix/aqueous-native-closure-candidate-20261025",
+  "parent_review_sha256": "f18b8a2e447f5a85e8282365f91f45ab209148b738dfb46d595e0ce81406f7a4",
+  "source_first_forecast": {
+    "commit": "a82dffa405bb4a63021232320177cb09ce6cef1b",
+    "path": "audits/native267-partial-and-swept-pe-20261025/FORECAST.md",
+    "sha256": "501d31bae369fe671e3f787298c80500286081efb1ca2ff1907864d3924885c9"
+  },
+  "plan_sha256": "02ae3825b894c3949fbd095ddab1105232f12ca40531443dee367806498031f1",
+  "worker_sha256": "e0e040d1719f7b71a1284c9b2d054eef2b94bd496b374dcab4f787e563088467",
+  "controller_sha256": "87b126fad035e6ab9b8b8da4b25c29e33c692be3d32969fcdb58ca10b5a3c334",
+  "metadata_sha256": "8b9fcfeb9764ab371f73a43f6f311e7897c097e5ef6adeaadcbc8829ea14abe8",
+  "selected_controls": 43,
+  "targets": 13,
+  "case_identities_sha256": "8aafad4567042e9dc4ce782875db7bc54e12087522613665007981414acd90a2",
+  "prior_partial_manifest_sha256": "f7c8069877b403efab9aa3888a8419b9a28336f92a5dfa160f0587f5b01fcbd2",
+  "prior_partial_outcomes": {
+    "pass": 231,
+    "fail": 1,
+    "not_reached": 35
+  },
+  "unaffected_historical_passes_not_replayed": 225,
+  "affected_redox_controls_revalidated": 7,
+  "swept_identity_mapping": {
+    "a_swept_flask_reports_the_default_pe_rather_than_the_couple": "a_swept_flask_withholds_unearned_pe_and_keeps_the_burette_running"
+  },
+  "imported_redox_test_selected": "redox_isolation::tests::isolated_phase_keeps_inline_thermodynamic_parameters_exactly",
+  "exact_list_preflight_for_all_13_before_any_case": true,
+  "changed_package_strict_clippy": true,
+  "previous_wasm_status_historical_only": true,
+  "three_cli_protocols_and_full1536_retained": true,
+  "lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "no_full_source_platform_product_calibration_or_scientific_claim": true,
+  "phase": "prepared before once-only issue",
+  "parent_issue_review_sha256": "113689548aaf085cc1bbe9595579d961df22de4b6275ec79c9fed94671cf6922"
+}

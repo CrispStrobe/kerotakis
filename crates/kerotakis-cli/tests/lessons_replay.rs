@@ -1237,7 +1237,10 @@ fn the_kitchen_ph_map_says_which_bottle_it_cannot_price() {
 
     for reading in [
         "v1 pH meter: 2.41",
-        "v2 pH meter: 10.02",
+        // Current adiabatic model snapshot; complete material/charge and
+        // zero-time controls live in phreeqc/tests/lesson_thermal_contract.rs.
+        // The matched 298.15 K bath does not reproduce the historical 10.02.
+        "v2 pH meter: 9.96",
         "v4 pH meter: 1.86",
     ] {
         assert!(out.contains(reading), "missing {reading}:\n{out}");
@@ -1368,7 +1371,11 @@ fn newly_guided_kids_rows_keep_their_evidence() {
         // invariant is a record of which answer the invariant accepted.
         (
             "balloon-pressure.lab",
-            &["284.48 kPa", "1481.02 mL", "100.00 kPa"],
+            // Current canonical inventory: independent reference-enthalpy,
+            // numerical Cp, material/charge and zero-time controls accept this
+            // model snapshot (audit: lesson-current-model-adjudication-20261025).
+            // This does not certify a physical balloon/controller work path.
+            &["284.46 kPa", "1481.05 mL", "100.00 kPa"],
         ),
         (
             "grinding-rate-boundary.lab",

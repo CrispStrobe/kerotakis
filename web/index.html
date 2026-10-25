@@ -188,6 +188,7 @@ const BUNDLES = {
   "  the bench is clean again.":"  Das Labor ist wieder sauber.", "  (nothing to draw)":"  (nichts darzustellen)",
   "  no functional groups found":"  keine funktionellen Gruppen gefunden", "  (nothing happened)":"  (nichts ist passiert)",
   "  detail is now {level}.":"  Detailstufe ist jetzt {level}.", "the aqueous engine did not start: {reason}":"Die wässrige Engine ist nicht gestartet: {reason}",
+  "The prewarmed cache could not be loaded; starting the live engine: {reason}":"Der vorberechnete Cache konnte nicht geladen werden; die Live-Engine wird gestartet: {reason}",
   "Kerotakis — a bench in the browser":"Kerotakis — ein Labor im Browser",
   "A virtual chemistry laboratory that computes real chemistry — PHREEQC solving in your browser, offline.":"Ein virtuelles Chemielabor, das echte Chemie berechnet — PHREEQC im Browser, offline."
   },
@@ -217,6 +218,7 @@ const BUNDLES = {
   "  the bench is clean again.":"  la paillasse est de nouveau propre.", "  (nothing to draw)":"  (rien à dessiner)",
   "  no functional groups found":"  aucun groupe fonctionnel trouvé", "  (nothing happened)":"  (rien ne s'est passé)",
   "  detail is now {level}.":"  le niveau de détail est maintenant {level}.", "the aqueous engine did not start: {reason}":"le moteur aqueux n'a pas démarré : {reason}",
+  "The prewarmed cache could not be loaded; starting the live engine: {reason}":"Le cache précalculé n'a pas pu être chargé ; démarrage du moteur en direct : {reason}",
   },
 };
 const tr = (message, vars={}) => ((BUNDLES[locale]?.[message]) || message).replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? `{${key}}`);
@@ -337,6 +339,12 @@ async function boot() {
     lab = await openLab(Lab, {
       createIPhreeqc,
       results,
+      onResultsError: (error) => write(
+        tr("The prewarmed cache could not be loaded; starting the live engine: {reason}", {
+          reason: error instanceof Error ? error.message : String(error),
+        }),
+        "note",
+      ),
       loadDatabase: async (file) => {
         const r = await fetch(`./db/${file}`);
         if (!r.ok) throw new Error(`${file}: ${r.status}`);

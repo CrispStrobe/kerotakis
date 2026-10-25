@@ -108,6 +108,64 @@ if (vessel.solution) {
     );
 }
 
+// A stale or damaged optional Postcard pack cannot provide chemistry. With
+// no live engine, it must reject; with the real Emscripten engine available,
+// the same failed load must leave the ordinary solver attachment reachable.
+const malformedResults = Uint8Array.of(0, 1, 2, 3);
+let cacheOnlyError = null;
+let cacheOnlyCallbackCalled = false;
+try {
+    await openLab(Lab, {
+        results: malformedResults,
+        onResultsError: () => { cacheOnlyCallbackCalled = true; },
+    });
+} catch (error) {
+    cacheOnlyError = error;
+}
+check(
+    "malformed prewarm is rejected without a live engine",
+    cacheOnlyError !== null && !cacheOnlyCallbackCalled,
+    String(cacheOnlyError),
+);
+
+let reportedCacheError = null;
+const recoveredLab = await openLab(Lab, {
+    createIPhreeqc,
+    loadDatabase,
+    results: malformedResults,
+    onResultsError: (error) => { reportedCacheError = error; },
+});
+check(
+    "live startup reports the actual cache load error",
+    reportedCacheError !== null && String(reportedCacheError).length > 0,
+    String(reportedCacheError),
+);
+check("the live engine still attaches after a bad prewarm", recoveredLab.canSolve() === true);
+const recoveredOut = JSON.parse(recoveredLab.runScript(SCRIPT));
+const recoveredSolution = recoveredOut.bench.vessels[0].solution;
+check(
+    "an unprewarmed state solves after rejected cache loading",
+    recoveredSolution != null && Number.isFinite(recoveredSolution.ph) &&
+        Number.isFinite(recoveredSolution.ionic_strength),
+    renderedText(recoveredOut).slice(0, 300),
+);
+check(
+    "recovered live execution emits no solver failure",
+    recoveredOut.steps.every((step) => step.events.every((event) => event.event !== "solver_failed")),
+);
+if (vessel.solution && recoveredSolution) {
+    check(
+        "recovered and clean live engines agree on the same pH",
+        Math.abs(recoveredSolution.ph - vessel.solution.ph) < 1e-6,
+        `${recoveredSolution.ph} vs ${vessel.solution.ph}`,
+    );
+    check(
+        "recovered and clean live engines agree on ionic strength",
+        Math.abs(recoveredSolution.ionic_strength - vessel.solution.ionic_strength) < 1e-9,
+        `${recoveredSolution.ionic_strength} vs ${vessel.solution.ionic_strength}`,
+    );
+}
+
 const r1 = JSON.parse(lab.r1Acceptance());
 check("the live R1 report uses schema 1", r1.schema === 1);
 check(

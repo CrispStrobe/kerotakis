@@ -21,6 +21,7 @@ use kerotakis_core::{
     SolutionInfo, SolutionScope, SolveError, SpeciesDetail, SpeciesId, SurfaceOccupancy,
     SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
 };
+use serde::{Deserialize as _, Serialize as _};
 
 #[cfg(feature = "engine")]
 const RESET_NUMBERED_REACTANTS: &str = "DELETE\n    -all\nEND\n";
@@ -524,7 +525,7 @@ pub enum PathOutcome {
 }
 
 /// One cached solver result, keyed by database + canonical input.
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Deserialize)]
 pub struct CacheEntry {
     pub key: String,
     pub rows: Vec<Vec<String>>,
@@ -549,8 +550,62 @@ pub struct CacheEntry {
     /// Optional source-produced proof of the electron boundary that owned
     /// this cached result. Old cache JSON has no witness and cannot acquire
     /// one merely because `pe_undetermined` defaulted to false.
-    #[serde(default, skip_serializing_if = "PeAuthority::is_unwitnessed")]
+    #[serde(default)]
     pub pe_authority: PeAuthority,
+}
+
+impl serde::Serialize for CacheEntry {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        // Named JSON can omit a legacy witness. Postcard is positional and
+        // must carry this field even when it is Unwitnessed.
+        #[derive(serde::Serialize)]
+        struct Human<'a> {
+            key: &'a str,
+            rows: &'a [Vec<String>],
+            species: &'a [SpeciesDetail],
+            saturation: &'a [(String, f64)],
+            redox_adjusted: bool,
+            pe_undetermined: bool,
+            #[serde(skip_serializing_if = "PeAuthority::is_unwitnessed")]
+            pe_authority: PeAuthority,
+        }
+        #[derive(serde::Serialize)]
+        struct Binary<'a> {
+            key: &'a str,
+            rows: &'a [Vec<String>],
+            species: &'a [SpeciesDetail],
+            saturation: &'a [(String, f64)],
+            redox_adjusted: bool,
+            pe_undetermined: bool,
+            pe_authority: PeAuthority,
+        }
+        if serializer.is_human_readable() {
+            Human {
+                key: &self.key,
+                rows: &self.rows,
+                species: &self.species,
+                saturation: &self.saturation,
+                redox_adjusted: self.redox_adjusted,
+                pe_undetermined: self.pe_undetermined,
+                pe_authority: self.pe_authority,
+            }
+            .serialize(serializer)
+        } else {
+            Binary {
+                key: &self.key,
+                rows: &self.rows,
+                species: &self.species,
+                saturation: &self.saturation,
+                redox_adjusted: self.redox_adjusted,
+                pe_undetermined: self.pe_undetermined,
+                pe_authority: self.pe_authority,
+            }
+            .serialize(serializer)
+        }
+    }
 }
 
 /// How supersaturated a phase must be before we admit we are ignoring it,
@@ -560,15 +615,111 @@ pub struct CacheEntry {
 const SUPERSATURATION_REPORTING_SI: f64 = 1.0;
 
 /// A shippable pre-warmed cache.
-#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Default)]
 pub struct CacheData {
     pub entries: Vec<CacheEntry>,
     /// Thermochemical values derived from the same databases as the cached
     /// equilibria. A cache-only device needs these too: otherwise it can
     /// reproduce the composition but not the temperature, and its next
     /// content-addressed lookup describes a different state.
-    #[serde(default)]
     pub neutralisation_kj_per_mol: Vec<(String, f64)>,
+}
+
+// Existing pre-authority Postcard bytes have no fixed entry boundary at the
+// optional field. They cannot be decoded safely. Regenerate prewarmed binary
+// packs from the current source; named legacy JSON remains readable.
+const CACHE_BINARY_MAGIC: [u8; 16] = *b"KEROTAKIS-CACHE2";
+const CACHE_BINARY_VERSION: u8 = 1;
+
+#[derive(serde::Serialize)]
+struct CacheBinaryHeader {
+    magic: [u8; 16],
+    version: u8,
+}
+
+impl<'de> serde::Deserialize<'de> for CacheBinaryHeader {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let (magic, version) = <([u8; 16], u8) as serde::Deserialize>::deserialize(deserializer)?;
+        if magic != CACHE_BINARY_MAGIC || version != CACHE_BINARY_VERSION {
+            return Err(serde::de::Error::custom(
+                "incompatible prewarmed cache binary; regenerate this cache",
+            ));
+        }
+        Ok(Self { magic, version })
+    }
+}
+
+impl serde::Serialize for CacheData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        #[derive(serde::Serialize)]
+        struct Human<'a> {
+            entries: &'a [CacheEntry],
+            neutralisation_kj_per_mol: &'a [(String, f64)],
+        }
+        #[derive(serde::Serialize)]
+        struct Binary<'a> {
+            header: CacheBinaryHeader,
+            entries: &'a [CacheEntry],
+            neutralisation_kj_per_mol: &'a [(String, f64)],
+        }
+        if serializer.is_human_readable() {
+            Human {
+                entries: &self.entries,
+                neutralisation_kj_per_mol: &self.neutralisation_kj_per_mol,
+            }
+            .serialize(serializer)
+        } else {
+            Binary {
+                header: CacheBinaryHeader {
+                    magic: CACHE_BINARY_MAGIC,
+                    version: CACHE_BINARY_VERSION,
+                },
+                entries: &self.entries,
+                neutralisation_kj_per_mol: &self.neutralisation_kj_per_mol,
+            }
+            .serialize(serializer)
+        }
+    }
+}
+
+impl<'de> serde::Deserialize<'de> for CacheData {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[derive(serde::Deserialize)]
+        struct Human {
+            entries: Vec<CacheEntry>,
+            #[serde(default)]
+            neutralisation_kj_per_mol: Vec<(String, f64)>,
+        }
+        #[derive(serde::Deserialize)]
+        struct Binary {
+            header: CacheBinaryHeader,
+            entries: Vec<CacheEntry>,
+            neutralisation_kj_per_mol: Vec<(String, f64)>,
+        }
+        if deserializer.is_human_readable() {
+            let decoded = Human::deserialize(deserializer)?;
+            Ok(Self {
+                entries: decoded.entries,
+                neutralisation_kj_per_mol: decoded.neutralisation_kj_per_mol,
+            })
+        } else {
+            let decoded = Binary::deserialize(deserializer)?;
+            let _ = decoded.header;
+            Ok(Self {
+                entries: decoded.entries,
+                neutralisation_kj_per_mol: decoded.neutralisation_kj_per_mol,
+            })
+        }
+    }
 }
 
 pub struct PhreeqcEquilibrator {
@@ -882,6 +1033,124 @@ mod pe_authority_tests {
         let decoded: CacheEntry = serde_json::from_value(encoded).unwrap();
         assert_eq!(decoded.pe_authority, PeAuthority::CoupledRoot);
         assert!(!decoded.pe_undetermined);
+    }
+
+    #[test]
+    fn checked_postcard_cache_preserves_every_authority_and_thermochemical_entry() {
+        let variants = [
+            PeAuthority::Unwitnessed,
+            PeAuthority::CoupledRoot,
+            PeAuthority::CoupledUnpinned,
+            PeAuthority::OpenOxygen,
+        ];
+        let entries = variants
+            .into_iter()
+            .enumerate()
+            .map(|(index, pe_authority)| CacheEntry {
+                key: format!("controlled-transport-{index}"),
+                rows: vec![vec!["pH".into()], vec!["7".into()]],
+                species: vec![],
+                saturation: vec![("Halite".into(), index as f64)],
+                redox_adjusted: matches!(
+                    pe_authority,
+                    PeAuthority::CoupledRoot | PeAuthority::CoupledUnpinned
+                ),
+                pe_undetermined: pe_authority == PeAuthority::CoupledUnpinned,
+                pe_authority,
+            })
+            .collect();
+        let cache = CacheData {
+            entries,
+            neutralisation_kj_per_mol: vec![("wateq4f".into(), -57.3), ("minteq.v4".into(), -55.1)],
+        };
+        let bytes = postcard::to_allocvec(&cache).expect("new binary layout");
+        assert_eq!(&bytes[..CACHE_BINARY_MAGIC.len()], &CACHE_BINARY_MAGIC);
+        let replay: CacheData = postcard::from_bytes(&bytes).expect("same source cache transport");
+        assert_eq!(replay.entries.len(), 4);
+        for (entry, authority) in replay.entries.iter().zip(variants) {
+            assert_eq!(entry.pe_authority, authority);
+            assert_eq!(
+                entry.pe_undetermined,
+                authority == PeAuthority::CoupledUnpinned
+            );
+            assert_eq!(entry.rows[1][0], "7");
+        }
+        assert_eq!(
+            replay.neutralisation_kj_per_mol,
+            cache.neutralisation_kj_per_mol
+        );
+        assert_eq!(replay.entries[3].saturation[0], ("Halite".into(), 3.0));
+
+        let named = serde_json::to_value(&cache).expect("existing named shape");
+        assert!(named.get("header").is_none());
+        assert!(named["entries"][0].get("pe_authority").is_none());
+        assert_eq!(named["entries"][1]["pe_authority"], "coupled_root");
+        let from_named: CacheData = serde_json::from_value(named).unwrap();
+        assert_eq!(from_named.entries[0].pe_authority, PeAuthority::Unwitnessed);
+        assert_eq!(from_named.entries[3].pe_authority, PeAuthority::OpenOxygen);
+        let legacy: CacheData = serde_json::from_value(serde_json::json!({
+            "entries": [{"key": "old", "rows": [], "species": [], "pe_undetermined": false}]
+        }))
+        .unwrap();
+        assert_eq!(legacy.entries[0].pe_authority, PeAuthority::Unwitnessed);
+        assert!(legacy.neutralisation_kj_per_mol.is_empty());
+    }
+
+    #[test]
+    fn checked_postcard_cache_rejects_old_unknown_and_truncated_layouts() {
+        #[derive(serde::Serialize)]
+        struct OldEntry<'a> {
+            key: &'a str,
+            rows: &'a [Vec<String>],
+            species: &'a [SpeciesDetail],
+            saturation: &'a [(String, f64)],
+            redox_adjusted: bool,
+            pe_undetermined: bool,
+        }
+        #[derive(serde::Serialize)]
+        struct OldData<'a> {
+            entries: Vec<OldEntry<'a>>,
+            neutralisation_kj_per_mol: Vec<(&'a str, f64)>,
+        }
+        let rows = vec![vec!["pH".into()], vec!["7".into()]];
+        let old = OldData {
+            entries: vec![
+                OldEntry {
+                    key: "old-a",
+                    rows: &rows,
+                    species: &[],
+                    saturation: &[],
+                    redox_adjusted: false,
+                    pe_undetermined: false,
+                },
+                OldEntry {
+                    key: "old-b",
+                    rows: &rows,
+                    species: &[],
+                    saturation: &[],
+                    redox_adjusted: false,
+                    pe_undetermined: false,
+                },
+            ],
+            neutralisation_kj_per_mol: vec![("wateq4f", -57.3)],
+        };
+        let old_bytes = postcard::to_allocvec(&old).unwrap();
+        assert!(postcard::from_bytes::<CacheData>(&old_bytes).is_err());
+
+        let new_bytes = postcard::to_allocvec(&CacheData {
+            entries: vec![],
+            neutralisation_kj_per_mol: vec![("wateq4f".into(), -57.3)],
+        })
+        .unwrap();
+        for cutoff in [0, CACHE_BINARY_MAGIC.len(), new_bytes.len() - 1] {
+            assert!(postcard::from_bytes::<CacheData>(&new_bytes[..cutoff]).is_err());
+        }
+        let mut unknown = new_bytes.clone();
+        unknown[CACHE_BINARY_MAGIC.len()] = CACHE_BINARY_VERSION + 1;
+        assert!(postcard::from_bytes::<CacheData>(&unknown).is_err());
+        let mut other_format = new_bytes;
+        other_format[0] ^= 1;
+        assert!(postcard::from_bytes::<CacheData>(&other_format).is_err());
     }
 }
 
