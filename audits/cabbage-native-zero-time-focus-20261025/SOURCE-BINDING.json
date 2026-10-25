@@ -1,0 +1,13 @@
+{
+  "runtime_base": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "test_only_source": "8ebfb42783d4a07e891f5f1acc7f3d91c5985827",
+  "test_only_tree": "af7a303cd58674726703999760a99322c41ab24f",
+  "only_added_path": "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs",
+  "test_sha256": "2515dd03fa00842b9860caec7ebae978f4363df8db3e58dfe3f599a9ccfdd78d",
+  "seed_actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "worker_sha256": "1c51e502583c55a6b39c56efeca7e1be8918f38fc2fd1425bdf69e35bb86412f",
+  "classification": "ACTUAL_PRIVATE_CPU_SUBMISSION_RUNNING_NO_TEST_RESULT_YET",
+  "new_cohort": "One typed native zero-time case absent from runtime c7; no existing CI cohort repeated",
+  "first_provider_refusal": "Initial SaveKernel HTTP400 returned no version. Complete read-only account reconciliation found no created notebook. Metadata title/slug corrected; unchanged worker/test then accepted as version1. No test ran on the rejected request.",
+  "source_policy": "Isolated validation-only branch must never merge; selectively integrate reviewed test only after actual result and final acceptance."
+}
