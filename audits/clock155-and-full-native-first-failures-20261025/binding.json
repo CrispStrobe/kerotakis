@@ -1,0 +1,76 @@
+{
+  "source": "6e44feab03a646b412c123b21b275e3b95942931",
+  "tree": "e4aa4c8dad734b370c77100ea47a1c201d3c4a50",
+  "focus_actual_pass": 153,
+  "focus_actual_fail": 2,
+  "focus_not_reached": 0,
+  "focus_manifest_sha256": "386bc370acc1776b34e1b54ad132571bb835905c67da0899531f7a63a0fd9099",
+  "focus_saved_review_sha256": "60e2e15c69958d0373080334d257d63edb913899d46cda2724057597474f164b",
+  "independent_fixture_review_sha256": "350eb9be6a1b85c0695c0b022965eb8bf607d0cb9790057b94a9ee4aec09087f",
+  "format_clippy_wasm": "PASS",
+  "cli_protocols": 3,
+  "cli_solver_failed": 0,
+  "sweep_states": 1536,
+  "sweep_refusal_steps": 29,
+  "sweep_invariant_violations": 0,
+  "gh_ci_run": 40181883403,
+  "gh_tested_merge": "37bb699f26ec8921af5848f5d3a4c973a44d0cdc",
+  "gh_parents": [
+    "ccf30b2aeac4042ffe79942d4c8746ec10a553ef",
+    "6e44feab03a646b412c123b21b275e3b95942931"
+  ],
+  "gh_tested_tree": "e4aa4c8dad734b370c77100ea47a1c201d3c4a50",
+  "gh_native_first_failures": {
+    "ubuntu": {
+      "raw_sha256": "c877e81bd06b4cd40d693798dec7e4fb1a6d6ee8aa9dd15ae7d36f0d5f455915",
+      "bytes": 700096,
+      "failed_test_names": [
+        "doubling_the_corpus_leaves_every_intensive_property_alone",
+        "the_corpus_answer_depends_on_the_reagent_the_question_is_about",
+        "curiosity_smoke_routes_without_crashing",
+        "curiosity_check_rejects_a_synthetic_routing_regression",
+        "newly_guided_kids_rows_keep_their_evidence",
+        "the_kitchen_ph_map_says_which_bottle_it_cannot_price",
+        "every_composed_key_is_translated",
+        "strong_acid_on_baking_soda_also_fizzes",
+        "bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate",
+        "already_earned_subfloor_parcel_survives_sealing_without_further_uptake",
+        "acid_trapping_couples_finite_ammonia_gas_and_protonation_in_both_addition_orders",
+        "the_acid_the_fermentation_made_stays_in_the_ledger",
+        "the_counter_top_milk_is_soured_and_is_not_a_yoghurt",
+        "the_fermentation_is_what_acidifies_the_milk"
+      ]
+    },
+    "macos": {
+      "raw_sha256": "aa7b77a1bf511920840e3a55b3d5f4c95c11e4fe4a5135453befa90e73a07e41",
+      "bytes": 701411,
+      "failed_test_names": [
+        "doubling_the_corpus_leaves_every_intensive_property_alone",
+        "the_corpus_answer_depends_on_the_reagent_the_question_is_about",
+        "curiosity_smoke_routes_without_crashing",
+        "curiosity_check_rejects_a_synthetic_routing_regression",
+        "newly_guided_kids_rows_keep_their_evidence",
+        "the_kitchen_ph_map_says_which_bottle_it_cannot_price",
+        "every_composed_key_is_translated",
+        "strong_acid_on_baking_soda_also_fizzes",
+        "bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate",
+        "already_earned_subfloor_parcel_survives_sealing_without_further_uptake",
+        "acid_trapping_couples_finite_ammonia_gas_and_protonation_in_both_addition_orders",
+        "the_acid_the_fermentation_made_stays_in_the_ledger",
+        "the_counter_top_milk_is_soured_and_is_not_a_yoghurt",
+        "the_fermentation_is_what_acidifies_the_milk"
+      ]
+    },
+    "preflight": {
+      "raw_sha256": "97b4e7d02f4c8da6dbf7b8fd38688861fd07957e39743e44f77cf34adfa025f5",
+      "bytes": 108666,
+      "failed_test_names": [
+        "doubling_the_corpus_leaves_every_intensive_property_alone",
+        "the_corpus_answer_depends_on_the_reagent_the_question_is_about"
+      ]
+    }
+  },
+  "native_display_projection": "Display-only projection truncates long lines/JSON and strips ephemeral checkout prefix; raw hashes bind privately retained unmodified logs. Not raw complete logs.",
+  "archive_bodies_independently_opened": false,
+  "scientific_original_selections": 0
+}

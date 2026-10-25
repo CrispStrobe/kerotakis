@@ -1,0 +1,4 @@
+
+thread 'already_earned_subfloor_parcel_survives_sealing_without_further_uptake' (9149) panicked at crates/kerotakis-phreeqc/tests/clock_co2_boundary.rs:185:9:
+seal with parked CO2 parcel: C changed 0.000000000000000e0 -> 8.171884047346870e-6 mol
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

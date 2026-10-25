@@ -1,0 +1,11 @@
+
+running 1 test
+test bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate ... FAILED
+
+failures:
+
+failures:
+    bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.47s
+

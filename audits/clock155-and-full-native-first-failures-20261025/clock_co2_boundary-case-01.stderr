@@ -1,0 +1,6 @@
+
+thread 'bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate' (9145) panicked at crates/kerotakis-phreeqc/tests/clock_co2_boundary.rs:300:5:
+assertion `left == right` failed
+  left: [(false, 4.305745813715e-7), (true, 2e-6)]
+ right: [(true, 2e-6)]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
