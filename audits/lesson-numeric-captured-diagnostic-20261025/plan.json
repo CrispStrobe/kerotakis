@@ -1,0 +1,33 @@
+{
+  "utc": "2026-10-25T12:37:43.525912+00:00",
+  "source": "6471e8d056f92c9bfb3d550bfa68b14566f84880",
+  "tree": "b5d5e9b2e0b407e91d617415ebc4335ce67eec0d",
+  "lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "binary_sha256": "a85c98ee00ac3d7a64a7a9e7843268415481c644f058aa3da6a7a0a4c521fd6d",
+  "binary_bytes": 105147168,
+  "gzip_sha256": "85a903d3b69474f3096e93fd9a02b3772dcbee57369fefc1fc86234d50c6b572",
+  "gzip_bytes": 24781026,
+  "cases": [
+    {
+      "public_path": "lessons/balloon-pressure.lab",
+      "file": "balloon-pressure.lab",
+      "sha256": "2dc6820ba7f716e6e51dcd00306e733ebecebac2b0d1b792f025eb4adee75609"
+    },
+    {
+      "public_path": "lessons/kitchen-ph.lab",
+      "file": "kitchen-ph.lab",
+      "sha256": "583cdf8c9d143a6d72538924ee98a816f7c2633440d4795f80f956e6c27c1b0f"
+    }
+  ],
+  "observability": "Original scripts without changes; kero run SCRIPT --json captures complete machine state instead of the old golden textual comparison. No same-stock zero-time proof is inferred.",
+  "expected": "Preserve old failures and numerics; independently assess material/charge/gas/thermal/source model fields before adjudicating literals. Process exit0 is not scientific qualification.",
+  "resource_caps": {
+    "cpus": 1,
+    "address_space_bytes": 1610612736,
+    "cpu_seconds": 20,
+    "wall_seconds_each": 30,
+    "stream_limit_bytes_each": 4194304
+  },
+  "one_invocation_per_case_no_retry": true,
+  "new_original_passes": 0
+}

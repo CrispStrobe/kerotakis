@@ -1,0 +1,5 @@
+# Capture exact original lesson states before numeric adjudication —2026-10-25
+
+The saved native failures report284.46kPa/1481.05mL versus old284.48/1481.02 balloon literals, and bicarbonate pH9.96 versus10.02. Existing ideal-gas controls pass, but do not alone prove exact heat or gas split. Keep those original failures unchanged.
+
+Before one bounded captured-CLI execution per original script, freeze the [exact candidate6471 source, actual executable/lock and unchanged script hashes](plan.json). Candidate production behavior equals2a98; later unvalidated pe/auxiliary repairs are not retagged as this source. Independently hash the captured executable body and collect complete JSON snapshots, signed gas events, raw streams and exits. Use them to assess known-element/H/O/charge, trapped air, gas inventories, pressure/volume and native model/activities. Unsupported malate remains an explicit limit. A separate typed same-stock reentry control is still required where these scripts do not provide one. Do not bless new literals from their printed values or count new originals from these diagnostics.
