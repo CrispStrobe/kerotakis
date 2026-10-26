@@ -1,6 +1,6 @@
 # Kerotakis current state —2026-10-26
 
-PR859 is merged normally as `c51758fa09a8ce0089bc93bb64338a587834a405`. Source acceptance is complete; changed-release product acceptance is pending. The user requires the ordered continuation through its final localization delivery before closing the task. Read [the execution contract](current-continuation-20261025.md) and [fresh-agent scopes](next-agent-handoff.md).
+PR859 is merged normally as `c51758fa09a8ce0089bc93bb64338a587834a405`. Source acceptance and the actual11API/82browser baseline are complete; the additional-four assessment is pending. The user requires the ordered continuation through its final localization delivery before closing the task. Read [the execution contract](current-continuation-20261025.md) and [fresh-agent scopes](next-agent-handoff.md).
 
 ## Accepted source
 
@@ -14,9 +14,11 @@ The source closes serialization/live-cache startup, shared liquidus/fusion and p
 
 [Production run40284030952 attempt1](../audits/deployment-snapshot-quota-first-failure-20261026/README.md) builds frontend/native payloads but fails at provider snapshot storage HTTP402. Artifact publication and deployment are skipped; no API or browser control is issued by that attempt.
 
-After explicit user approval,17 verified unused snapshots are deleted (13.16GiB), preserving all three retained deployment/rollback snapshots. Complete inventory covers the one accessible team and39 projects; no other project has snapshots, and no sandboxes remain. Provider deletion/readback is retained. A reviewed attempt2 uses the same workflow run, accepted source and immutable delivery ref. It is issued and awaits completion; inspect actual current status before further action. Never start a duplicate deployment or replay a possibly issued request. [Snapshot lifecycle prevention](deployment-snapshot-lifecycle.md) is scoped separately.
+After explicit user approval,17 verified unused snapshots are deleted (13.16GiB), preserving all three retained deployment/rollback snapshots. Complete inventory covers the one accessible team and39 projects; no other project has snapshots, and no sandboxes remain. No further stale snapshots were found. [Snapshot lifecycle prevention](deployment-snapshot-lifecycle.md) remains separate.
 
-Last accepted production remains `beffb001` / native `2c91d792` / actual producer lock `41bbdc74`, with11API/82browser controls. Do not relabel that evidence as c517 acceptance. The new release needs actual artifact/native/producer-lock/frontend/isolation binding, all original11API/82browser checks and four additional checks in each lane:15API/86browser total. Cold concentrated-state domain holds remain explicit, not scientific passes.
+[Attempt2 succeeds and actual c517 baseline acceptance is earned](../audits/c517-deployed-baseline-and-model-holds-20261026/README.md):11API/82browser, exact source/tree/native/actual producer-lock/frontend and isolation bindings. The first browser loader failure remains preserved separately with zero earned checks. No baseline replay is needed.
+
+The four additional API protocols execute once: warm feed/wait passes; three cold mixtures retain unsupported model holds. Only the calcium/silver case has final ionic strength above the fallback range; the others require distinguishing conservative input-load warnings from actual activity-model authority. [The scoped follow-up](cold-mixture-model-authority-20261026.md) retains every domain and scientific predicate. The first additional-browser producer runs the complete calcium/silver protocol, preserving14 replies, before a late short-versus-full revision check stops its harness. Saved-only assessment retains its model hold; the other three browser protocols are not reached. A remaining-three-only successor is being prepared; do not repeat the completed first protocol. Full15API/86browser assessment remains pending.
 
 ## Experiment coverage
 

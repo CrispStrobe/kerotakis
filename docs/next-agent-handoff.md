@@ -1,20 +1,21 @@
 # Fresh-agent handoff —2026-10-26
 
+**Current deployed assessment —2026-10-26:** [Actual c517 baseline passes11API/82browser](../audits/c517-deployed-baseline-and-model-holds-20261026/README.md) after approved17-snapshot cleanup; all39 projects were checked and no other stale snapshots found. The four additional API protocols yield one pass and three explicit model holds. The first additional-browser capture preserves the complete calcium/silver protocol and its hold, then stops on a short/full revision harness check; remaining three are unreached and require a separately reviewed successor without repeating that first case. [Cold-mixture authority scopes](cold-mixture-model-authority-20261026.md) separate actual high ionic strength from conservative input-proxy warnings. Original qualification remains338/468. Complete the additional assessment, original review and owned diagnostic localization before closing the ordered task. This supersedes older pending delivery notes below.
+
+
 Continue the six ordered lanes in [the current execution contract](current-continuation-20261025.md). Lanes1–3 and full source integration are accepted; lane4 actual product assessment, lane5 original review and lane6 diagnostic localization/delivery remain open. The user explicitly requires reaching the final lane before closing the task. [STATUS](STATUS.md) gives current counts; [PR policy](PR-WORKFLOW.md) governs integration. Read the ignored private operating handoff for active controller ownership, exact local inputs, secrets and resource thresholds; none belong in public documentation.
 
 ## 1. Establish source and active work without duplicating it
 
 Actual merged main is `c51758fa09a8ce0089bc93bb64338a587834a405`, reviewed candidate `0d4dee67b47fcdbd1e80c539a1fd710de31b6e23`, common tree `638dbf446e9ac6007e97ad3f7c13ce300da40b9e`. [Source acceptance and normal PR859 integration](../audits/pending-auxiliary-full-source-and-merge-20261026/README.md) are earned:27CI successes plus expected publication skip;33 fleet jobs/142 steps/29 laws; both native platforms,36 selected controls,12-call budget and500-curiosity requirements pass. Do not rerun accepted source work or merge a broad audit branch.
 
-[Production attempt1](../audits/deployment-snapshot-quota-first-failure-20261026/README.md) fails provider snapshot quota before artifact publication/deployment/API.17 explicitly approved orphan snapshot deletions are verified; three retained deployment snapshots remain intact. A complete39-project inventory finds no others. The independently reviewed same-source attempt2 is already issued on run40284030952. Inspect current remote status, the existing controller and issued/STOPPED/collected markers first. Do not dispatch, rerun, delete or issue a duplicate request. A stopped transfer can be repaired using the same producer's saved artifact; it does not authorize re-executing an engine experiment.
-
-Last accepted product evidence is beffb001/native2c91/actual lock41bb,11API/82browser. Source acceptance does not certify the changed release. Preserve original forecasts, first compiler/native/cost/browser failures and producer-specific native/lock hashes. Never replace a new producer's lock with an older convenient hash.
+[Production attempt1](../audits/deployment-snapshot-quota-first-failure-20261026/README.md) fails provider snapshot quota before artifact publication/deployment/API.17 explicitly approved orphan snapshot deletions are verified; three retained deployment snapshots remain intact. A complete39-project inventory finds no others. The independently reviewed same-source attempt2 succeeds on run40284030952; actual c517 artifact and11API/82browser acceptance are earned. Inspect saved markers first. Do not dispatch, rerun, delete or issue duplicate requests. Preserve original forecasts, first compiler/native/cost/browser failures and producer-specific native/lock hashes. Never replace a new producer's lock with an older convenient hash.
 
 ## 2. Finish lane4: actual15API/86browser
 
-Prerequisites: the existing c517 attempt2 must complete successfully; authenticate the actual archive digest, native binary, source/tree, producer Cargo.lock, libraries, isolation snapshot and exact frontend/runtime assets. Preserve failed attempt1 separately and bind actual workflow attempt2 explicitly. Do not manufacture acceptance or integration receipts, use a prepared hash as an observation, or treat an incomplete artifact as a release.
+The actual c517 archive/native/source/tree/producer-lock/library/isolation/frontend chain is already authenticated. All original11API scripts, health/authentication/admission/concurrency controls and82 browser controls pass. Concurrent statuses remain[200,429]. Preserve these receipts; no baseline replay is needed.
 
-Run the original eleven API scripts through their existing once-only bound runner. Preserve health/authentication/admission/concurrency checks; concurrent statuses must remain[200,429]. Four additional immutable scripts are:
+Four additional immutable scripts are:
 
 - `audits/phase-particle-precision-20261023/corrected-cli-protocol.kero`;
 - `audits/phase-microtransfer-closure-20261023/carbonate-acetic.kero`;
