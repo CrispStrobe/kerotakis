@@ -76,6 +76,40 @@ fn energy(vessel: &Vessel) -> f64 {
         .sum::<f64>()
         + vessel.excess_enthalpy_j
 }
+// Variable-fusion successor: independent direct-Cp quadrature, with all
+// original phase/material/energy criteria retained unchanged.
+fn reference_liquidus(activity: f64) -> f64 {
+    let water = registry_record("water");
+    let (mut lo, mut hi) = (252.0, 273.15);
+    for _ in 0..52 {
+        let t = (lo + hi) / 2.0;
+        let n = 512;
+        let step = (t - 273.15) / n as f64;
+        let correction = (0..=n)
+            .map(|i| {
+                let u = 273.15 + step * i as f64;
+                let w = if i == 0 || i == n {
+                    1.0
+                } else if i % 2 == 0 {
+                    2.0
+                } else {
+                    4.0
+                };
+                w * (cp(&water, Phase::Liquid, u) - cp(&water, Phase::Solid, u))
+                    * (1.0 / u - 1.0 / t)
+            })
+            .sum::<f64>()
+            * step
+            / 3.0;
+        let log_a = (6010.0 * (t - 273.15) / (273.15 * t) + correction) / 8.31446261815324;
+        if log_a < activity.ln() {
+            lo = t;
+        } else {
+            hi = t;
+        }
+    }
+    (lo + hi) / 2.0
+}
 fn water_phase_moles(vessel: &Vessel, phase: Phase) -> f64 {
     vessel
         .contents
@@ -112,6 +146,7 @@ fn check(salt_moles: f64, temperature: f64, freezing: bool) {
         vessel.solution = Some(kerotakis_core::vessel::SolutionInfo {
             scope: Default::default(),
             solvent_kg: Some(0.018_015),
+            particle_molality: None,
             pe: None,
             redox: Vec::new(),
             ph: 7.0, // unused placeholder; no acid/base prediction is tested
@@ -132,8 +167,7 @@ fn check(salt_moles: f64, temperature: f64, freezing: bool) {
     let expected_particles = 2.0 * salt_moles / 0.018_015;
     assert!((admitted.solute_molality - expected_particles).abs() < 1e-12);
     let expected_activity = 1.0 / (1.0 + 2.0 * salt_moles);
-    let expected_liquidus =
-        1.0 / (1.0 / 273.15 - (8.314_462_618_153_24 / 6010.0) * expected_activity.ln());
+    let expected_liquidus = reference_liquidus(expected_activity);
     assert!((admitted.freezing_k - expected_liquidus).abs() < 1e-9);
     assert!(if freezing {
         temperature < admitted.freezing_k
@@ -209,8 +243,7 @@ fn check(salt_moles: f64, temperature: f64, freezing: bool) {
         .all(|portion| portion.moles.0.is_finite() && portion.moles.0 >= 0.0));
     let liquid_water = water_phase_moles(&vessel, Phase::Liquid);
     let final_activity = liquid_water / (liquid_water + 2.0 * salt_moles);
-    let final_liquidus =
-        1.0 / (1.0 / 273.15 - (8.314_462_618_153_24 / 6010.0) * final_activity.ln());
+    let final_liquidus = reference_liquidus(final_activity);
     assert!(
         (vessel.temperature.0 - final_liquidus).abs() <= 1e-6,
         "biphasic state must satisfy the declared ideal coexistence relation"

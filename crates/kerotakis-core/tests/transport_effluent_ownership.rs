@@ -328,6 +328,7 @@ fn zero_courant_without_invented_movement_or_heat() {
     bench.vessels[0].solution = Some(kerotakis_core::vessel::SolutionInfo {
         scope: Default::default(),
         solvent_kg: Some(0.1),
+        particle_molality: None,
         pe: None,
         redox: vec![],
         ph: 7.0,
@@ -350,6 +351,7 @@ fn zero_courant_without_invented_movement_or_heat() {
         v.solution = Some(kerotakis_core::vessel::SolutionInfo {
             scope: Default::default(),
             solvent_kg: Some(0.02),
+            particle_molality: None,
             pe: None,
             redox: vec![],
             ph: 8.0,

@@ -1,0 +1,8 @@
+{
+  "reviewed_candidate": "b166703b4c709ea691b9affa40b3449a3c07fbbb",
+  "method": "Source-schema inspection before actual compilation",
+  "finding": "The new synthetic domain-refusal SolutionInfo literal omitted the required scope and solvent_kg fields. Existing brine control and current vessel schema establish both fields.",
+  "correction": "Explicit default scope and actual 0.018015 kg solvent inventory; no production code, scientific criterion, conservation budget or expected pass changed.",
+  "compiler_or_test_execution_claimed": false,
+  "first_source_retained_in_git": true
+}

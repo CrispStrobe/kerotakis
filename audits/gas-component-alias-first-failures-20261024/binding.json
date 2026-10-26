@@ -1,0 +1,273 @@
+{
+  "source": "5af1963a5493bce024da2a8bf94a06937a420838",
+  "tree": "03fa4ac965bb1059c548192173c16d4671c73d63",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "original_manifest_sha256": "68e32dc5d40eb24f57474edccdfcdb61ffb5981e024be59dfae1b6c44bec666d",
+  "worker_sha256": "913731c8d10624267784128678042131f6bec6dfe4ae41c428a5619a0f1f1e83",
+  "plan_sha256": "01dacd7b79216561f4814d303e567d5eecd13a74bd1629f92624c0e0e2dd0315",
+  "independent_saved_review_sha256": "eb8d34e3401dfe3107654d1f60fd4536607438c856c6b3fc3c7118440032bcf5",
+  "observed_passes": 99,
+  "observed_failures": [
+    {
+      "target": "particle_census",
+      "test": "carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift",
+      "record": "particle_census-case-01",
+      "exit_status": 101,
+      "rows": [
+        [
+          "carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "2"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "native_aqueous_overlap",
+      "test": "fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid",
+      "record": "native_aqueous_overlap-case-00",
+      "exit_status": 101,
+      "rows": [
+        [
+          "fresh_bicarbonate_and_acetic_acid_fizz_in_both_addition_orders_then_accept_more_acid",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "2"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "native_aqueous_overlap",
+      "test": "open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner",
+      "record": "native_aqueous_overlap-case-01",
+      "exit_status": 101,
+      "rows": [
+        [
+          "open_and_sealed_boundaries_book_native_route_co2_to_their_actual_owner",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "2"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "native_aqueous_overlap",
+      "test": "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row",
+      "record": "native_aqueous_overlap-case-02",
+      "exit_status": 101,
+      "rows": [
+        [
+          "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "2"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "acid_base",
+      "test": "the_volcano_cools_when_the_acid_goes_in_first",
+      "record": "acid_base-case-14",
+      "exit_status": 101,
+      "rows": [
+        [
+          "the_volcano_cools_when_the_acid_goes_in_first",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "21"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "acid_base",
+      "test": "the_volcano_cools_whichever_order_you_build_it_in",
+      "record": "acid_base-case-15",
+      "exit_status": 101,
+      "rows": [
+        [
+          "the_volcano_cools_whichever_order_you_build_it_in",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "21"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "curated_reachability_at_runtime",
+      "test": "every_curated_reaction_is_reachable_in_every_order",
+      "record": "curated_reachability_at_runtime-case-00",
+      "exit_status": 101,
+      "rows": [
+        [
+          "every_curated_reaction_is_reachable_in_every_order",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    }
+  ],
+  "full1536_exit": 1,
+  "full1536_violations": 23,
+  "full1536_refusal_steps": 754,
+  "fmt_clippy_wasm32_exits": {
+    "format-check": 0,
+    "affected-clippy": 0,
+    "wasm32-check": 0
+  },
+  "copied_raw_members": {
+    "native_aqueous_overlap-case-01.stderr": {
+      "sha256": "5f0711c663a802a7f826ba8a979a7610f768df1114f71f0d2232172b51d71466",
+      "bytes": 1032
+    },
+    "full-1536-sweep.stdout": {
+      "sha256": "44be9a92e0056788383b4d5589b45c39322342445a8b4ac64c6b10fa3478820c",
+      "bytes": 641
+    },
+    "acid_base-case-15.stdout": {
+      "sha256": "fab2ffec3cc999158d166d5d16dcd76194265b0b467b263ae8b8f177e6ddae64",
+      "bytes": 259
+    },
+    "carbonate-acetic-cli.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "curated_reachability_at_runtime-case-00.stdout": {
+      "sha256": "8cb785c8633997b8db0ffb457412adb2018127bfd26cf4a3856164196e50c047",
+      "bytes": 260
+    },
+    "bicarbonate-phosphoric-cli.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "original-cycle-cli.stdout": {
+      "sha256": "5c319cf4db38da0f8fb2db3fb1557cda3992237eeced3d482540e82938e45de9",
+      "bytes": 29812
+    },
+    "native_aqueous_overlap-case-02.stdout": {
+      "sha256": "1e5679ef8db16c5db40ca5ef1160482dcd860fc1ca2cee89485d0dd369f3d7b7",
+      "bytes": 300
+    },
+    "particle_census-case-01.stdout": {
+      "sha256": "9e02f672cb2be1a783d8d04affbfdddd9d4e5057d6237d39a11e42131c18d80b",
+      "bytes": 292
+    },
+    "acid_base-case-14.stderr": {
+      "sha256": "38176a942e5b05881af2c69aee420fc5bed9579702ae60f1f2521f1abc547c59",
+      "bytes": 272
+    },
+    "native_aqueous_overlap-case-00.stdout": {
+      "sha256": "9401e4d672eb8a9734b9fcf896c3c3317b566e567a80c057818e5dc22de2be5b",
+      "bytes": 328
+    },
+    "curated_reachability_at_runtime-case-00.stderr": {
+      "sha256": "aa040e54701aa7314742e9aae33f73db18604bdc422c024f2b0fda5d1ef63f9a",
+      "bytes": 1066
+    },
+    "bicarbonate-phosphoric-cli.stdout": {
+      "sha256": "4015f8d5a565f7d5d9adde3c73bdcf2fd20d62dedd93af6f17f60d202b05a1a2",
+      "bytes": 13784
+    },
+    "native_aqueous_overlap-case-01.stdout": {
+      "sha256": "482a8380b55925871ac48f9ea4dae9ec372c99bd1babcdb9d8d43b2233c8c93d",
+      "bytes": 300
+    },
+    "acid_base-case-15.stderr": {
+      "sha256": "7203ef9e168c55a04579b0b6fc24295ab12726518dfbf65ce7371b379ef10a11",
+      "bytes": 1046
+    },
+    "full-1536-sweep.stderr": {
+      "sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469",
+      "bytes": 104
+    },
+    "carbonate-acetic-cli.stdout": {
+      "sha256": "2f148f7842e7b71997ba995bddab440f1ea4653bfc153d7df27841132b56fadc",
+      "bytes": 14155
+    },
+    "acid_base-case-14.stdout": {
+      "sha256": "4dfd72961e19cdbd252aa84762fcad572cbb95937b24b7be941e0f2cfc5c75a6",
+      "bytes": 251
+    },
+    "particle_census-case-01.stderr": {
+      "sha256": "2725a3c27fbcf676a5cbb41f482e7deed511e578555cb6c804d17b027c9b8474",
+      "bytes": 620
+    },
+    "native_aqueous_overlap-case-00.stderr": {
+      "sha256": "f57197084150a81903efde746f32053f0318767e9faccba048c174f5c71ef6fc",
+      "bytes": 1052
+    },
+    "original-cycle-cli.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native_aqueous_overlap-case-02.stderr": {
+      "sha256": "3e1ca7fa1da0ea2194a6cb796b65e733a9fab0e9849cab98649f8bbfc3ec8096",
+      "bytes": 1033
+    }
+  },
+  "scientific_or_product_acceptance": false,
+  "archive_body_verification_claimed": false
+}

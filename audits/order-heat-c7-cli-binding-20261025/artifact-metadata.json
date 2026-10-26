@@ -1,0 +1,20 @@
+{
+  "id": 12613373909,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYxMzM3MzkwOQ==",
+  "name": "chemistry-audit-cli-2523fa3c43e9e837cf2fd8eba09afc4962e7d231",
+  "size_in_bytes": 6785795,
+  "url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12613373909",
+  "archive_download_url": "https://api.github.com/repos/CrispStrobe/kerotakis/actions/artifacts/12613373909/zip",
+  "expired": false,
+  "digest": "sha256:337f354d62020b538029c1ec7f695987b8ed1e8559004287a4d921f5d952627b",
+  "created_at": "2026-10-25T21:04:37Z",
+  "updated_at": "2026-10-25T21:04:37Z",
+  "expires_at": "2026-11-01T21:04:35Z",
+  "workflow_run": {
+    "id": 40232998470,
+    "repository_id": 1338831929,
+    "head_repository_id": 1338831929,
+    "head_branch": "fix/shared-water-fusion-authority-20261023",
+    "head_sha": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f"
+  }
+}

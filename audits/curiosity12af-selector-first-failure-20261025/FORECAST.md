@@ -1,0 +1,11 @@
+# Exhausted solvent-selector classification: first failure and prospective repair
+
+Actual head `12afbb26`, tested merge `a7ebf20b`, has the same tree and produces native CLI `ee71f79c947cb9ab993169834d138ff7882c5ff07d2d99c16cf7701ecae759fe`, actual producer lock `480aec7ac77e82e3e1966a3a28f640862cfcadffa41ce47b8c10ebc3c3bc6e76`. Six unchanged original curiosity protocols ran once with that artifact under bounded resources, with full raw outputs retained here. Both chalk decants and all three opaque-clock protocols emit no SolverFailed. This is bounded execution evidence, not full regression acceptance or scientific qualification.
+
+The original aq-064 component-residual failure is passed, exposing a later canonical selector failure. A separately captured, once-only selector diagnostic on that exact protocol adds only tracing. It records a first auxiliary decline because dissolved element totals are below the molality floor, followed by an Unsupported decline using the generic surface/exchanger/finite-headspace message. The captured final native input is pure water with no component totals, phase/interface or finite headspace.
+
+## Prospective source repair
+
+The auxiliary selector currently includes `problem.solvent_only` in its generic unsupported-interface gate. Remove that one misclassification so a pure solvent traverses the existing element/capability/redox gates and ordinary zero-input molality floor. This does not authorize a second-model prediction for pure water: the ordinary zero input must still decline before any auxiliary solve. Every genuine surface, exchange, solid-solution, finite headspace, finite gas dose, unsupported element and redox gate remains unchanged. Do not admit a missing/invalid native result by relabeling it as a floor.
+
+Keep the existing canonical selector replay contract, cap8, gas/component precision and physical budgets. The unchanged aq-064 native protocol, nearby doses and zero-time controls already added in12af must now complete; existing auxiliary capability/refusal and floor/probe tests remain required. Preserve these new raw failures before any successor. Full native platforms, all500 curiosity protocols, complete33 fleet, normal delivery, deployed15API/86browser assessment, further originals and diagnostic i18n remain pending. Original qualification stays338/468.

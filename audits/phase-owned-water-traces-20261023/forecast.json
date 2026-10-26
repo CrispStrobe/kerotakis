@@ -1,0 +1,20 @@
+{
+  "kind": "frozen_source_first_successor_forecast",
+  "created_utc": "2026-10-23",
+  "base_commit": "5f380753440b182a66a2fd8d446eb71b3b8d4960",
+  "base_tree": "2b15488f6be0fd0d7021b6f12d77725f7653843a",
+  "base_blobs": {
+    "crates/kerotakis-core/src/solve.rs": "6e386b328f5432289a0069e168b6208e3b08de16",
+    "crates/kerotakis-core/tests/states.rs": "912a987d6cd9bd7de79ee046711dc0ed65ab729c"
+  },
+  "counterexample": "The 5f380 StateEquilibrator branches mutate only the water source phase, then globally remove every water portion at or below 1e-12 mol. A distinct 5e-13 mol gas-water portion therefore vanishes without an event during freezing, melting, or boiling in the current source. The successor predicate prunes liquid water for freezing/boiling and solid water for melting, retaining the gas portion byte-exact. The control requires the typed water transition and exact retained gas Portion in each branch.",
+  "clippy_first_failure": "CI40013119254 native Ubuntu job120622755266 and macOS job120622755273 fail Clippy manual_is_multiple_of in the alternating 270/272K test. Replace the parity expression with is_multiple_of(2); preserve its failure/rollback assertions.",
+  "design_limits": [
+    "The gas-water trace in an open vessel is a source bookkeeping probe, not a claim that open-vessel water vapor is a stable equilibrium state. It is deliberately outside the liquid/ice transfer ownership of these State branches.",
+    "A tiny solid-water trace cannot exercise the boiling branch at 400 K: source branch order first selects melting whenever frozen_water && now > freezing_k. Gas-water is the available untouched water phase for an exact boiling control.",
+    "The control does not cover destination-phase water traces merged by deposit; such a control would need event-adjusted total-phase accounting and an explicit floating-arithmetic bound. The existing unrelated 5e-13 mol NaCl control remains in source.",
+    "The patch changes no raw 1e-12 transfer floor, 32-pass bound, joint certificate budget, native adapter, physical model, or acceptance threshold."
+  ],
+  "status": "UNISSUED_SOURCE_ONLY_PATCH; current 61-case hosted focus remains bound to 5f380 and cannot validate or be retagged to this prospective patch",
+  "execution": "Source inspection only; no successor build or test execution. The separately issued61 focus is bound to5f380, not this successor."
+}

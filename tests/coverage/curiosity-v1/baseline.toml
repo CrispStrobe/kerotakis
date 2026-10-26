@@ -365,8 +365,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "aq-061"
 owning_task = "CAP-25"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-062"
@@ -773,8 +773,8 @@ reason_code = "typed-engine-event"
 [[observation]]
 id = "bio-004"
 owning_task = "BRD-014"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "bio-005"
@@ -2243,8 +2243,8 @@ reason_code = "computed-route"
 [[observation]]
 id = "mat-124"
 owning_task = "CAP-1"
-outcome = "curated"
-reason_code = "curated-route"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "mat-125"

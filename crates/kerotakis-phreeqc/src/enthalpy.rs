@@ -67,10 +67,10 @@
 //! the nearest available number. Charging a plausible enthalpy for the
 //! wrong substance is exactly how this went wrong before.
 
-use kerotakis_core::{species, Phase, Portion, SpeciesId};
+use kerotakis_core::{species, stoich, Phase, Portion, SpeciesId};
 use std::collections::BTreeMap;
 
-use crate::derived;
+use crate::{dbindex, derived};
 
 /// What each solid with a curated enthalpy of dissolution actually
 /// dissolves INTO, in the database's own spelling.
@@ -84,11 +84,10 @@ use crate::derived;
 /// instead of +26.8. Both look like reasonable answers. Only one of them
 /// is within a mile of what the world measures.
 ///
-/// A solid that is not in here is not priced, and its step declines by
-/// name. Deriving these by splitting formulae was considered and dropped:
-/// it would have to guess for exactly the awkward ones, and a wrong guess
-/// here is indistinguishable from a right one until someone puts a
-/// thermometer in the beaker.
+/// A solid absent from this table can only use a fully validated routed
+/// native mineral phase with explicit/index-derived reference reaction heat.
+/// Otherwise its step declines by name. Splitting a formula to guess products
+/// would have to guess for exactly the awkward cases.
 pub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[
     ("NaCl", &[("Na+", 1.0), ("Cl-", 1.0)]),
     ("KCl", &[("K+", 1.0), ("Cl-", 1.0)]),
@@ -102,6 +101,8 @@ pub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[
     // correction here moves the answer without breaking the test — at
     // +18.7 the reaction comes out near +28.8, still inside 25–30.
     ("NaHCO3", &[("Na+", 1.0), ("HCO3-", 1.0)]),
+    // Anhydrous standard dissolution reference, not a hydrated mineral.
+    ("Na2CO3", &[("Na+", 2.0), ("CO3-2", 1.0)]),
     ("NaOAc", &[("Na+", 1.0), ("Acetate-", 1.0)]),
     ("Na2SO4", &[("Na+", 2.0), ("SO4-2", 1.0)]),
     ("CuSO4", &[("Cu+2", 1.0), ("SO4-2", 1.0)]),
@@ -178,6 +179,142 @@ fn aqueous_enthalpy(key: &str, db_tag: &str) -> Option<f64> {
     idx.species_element.contains_key(key).then_some(0.0)
 }
 
+/// A product in a NEW mineral phase fallback needs its own database
+/// reference. `species_element` is insufficient: PHREEQC also records
+/// Alkalinity pseudo-masters there, which are not zero-enthalpy basis ions.
+/// An explicit species reaction heat may price a solid-phase product, but
+/// only a real master or water licenses an analytical aqueous equivalent.
+fn mineral_product_reference(product: &str, idx: &dbindex::DbIndex) -> Option<(f64, bool)> {
+    let genuine_master = idx.masters.values().any(|master| master.species == product);
+    let water = product == "H2O";
+    let heat = if water {
+        0.0
+    } else if let Some(explicit) = idx.species_delta_h_kj.get(product) {
+        *explicit
+    } else if genuine_master {
+        0.0
+    } else {
+        return None;
+    };
+    heat.is_finite().then_some((heat, water || genuine_master))
+}
+
+/// Reference enthalpies for a registry mineral on the exact phase selected
+/// by the routed database. `products` is the analytical aqueous equivalent;
+/// `solid` additionally reverses the phase's written dissolution reaction.
+/// Neither number is a guessed formation heat or a temperature-dependent Cp.
+fn mineral_reference(key: &str, db_tag: &str) -> Result<(Option<f64>, f64), Unpriced> {
+    let decline = |why: &'static str| Unpriced {
+        species: key.to_string(),
+        why,
+    };
+    let Some(derived::DerivedRole::Mineral {
+        phase: role_phase, ..
+    }) = derived::role(key)
+    else {
+        return Err(decline("no exact derived mineral owner for this solid"));
+    };
+    let Some(routed) = derived::phase_in_db(role_phase, db_tag) else {
+        return Err(decline("the routed database has no phase for this mineral"));
+    };
+    if routed != role_phase.as_str() {
+        return Err(decline(
+            "the routed phase substitutes a different mineral polymorph",
+        ));
+    }
+    let idx = derived::index_for(db_tag);
+    let phase = idx
+        .phases
+        .get(routed)
+        .ok_or_else(|| decline("the routed database does not define the selected mineral phase"))?;
+    let registry = species::lookup(&SpeciesId::new(key))
+        .filter(|row| row.standard_phase == Phase::Solid)
+        .ok_or_else(|| decline("the selected mineral has no solid registry identity"))?;
+    let (base_formula, hydrate_waters) = dbindex::split_hydrate(registry.formula);
+    // The index currently omits written H2O products from phase.products.
+    // Until that water has an explicit stoichiometric owner, a hydrate's
+    // dissolution heat cannot be balanced by the anhydrous-product check.
+    if hydrate_waters != 0.0 || phase.waters != 0.0 {
+        return Err(decline(
+            "hydration water is not balanced by this mineral reference path",
+        ));
+    }
+    let registry_atoms = dbindex::parse_formula(&base_formula)
+        .ok_or_else(|| decline("the registry mineral formula cannot be balanced"))?;
+    if phase.is_gas
+        || !phase.waters.is_finite()
+        || hydrate_waters != phase.waters
+        || registry_atoms != phase.composition
+        || derived::phase_by_name(routed).is_none_or(|owner| owner.species != key)
+        || derived::registry_solid_for(&phase.composition, phase.waters) != Some(key)
+    {
+        return Err(decline(
+            "the selected phase does not exactly match the registry mineral and hydrate",
+        ));
+    }
+    let solid_formula = stoich::parse_formula(&base_formula)
+        .map_err(|_| decline("the registry mineral has no physical formula"))?;
+    if solid_formula.charge != 0.0 || phase.products.is_empty() {
+        return Err(decline(
+            "the selected mineral has no neutral, complete dissolution reaction",
+        ));
+    }
+    let dissolution = phase
+        .delta_h_kj
+        .filter(|value| value.is_finite())
+        .ok_or_else(|| {
+            decline("the selected routed mineral states no finite reference dissolution enthalpy")
+        })?;
+    let mut product_atoms = BTreeMap::<String, f64>::new();
+    let mut product_charge = 0.0;
+    let mut product_enthalpy = 0.0;
+    let mut analytical_master_basis = true;
+    for (product, coefficient) in &phase.products {
+        if !coefficient.is_finite() || *coefficient <= 0.0 {
+            return Err(decline(
+                "the selected mineral has an invalid dissolution coefficient",
+            ));
+        }
+        let data = species::lookup(&SpeciesId::new(product.as_str()))
+            .ok_or_else(|| decline("a dissolution product has no registry formula"))?;
+        let formula = stoich::parse_formula(data.formula)
+            .map_err(|_| decline("a dissolution product has no physical formula"))?;
+        for (element, count) in formula.counts {
+            *product_atoms.entry(element).or_default() += coefficient * count;
+        }
+        product_charge += coefficient * formula.charge;
+        let (h, genuine_master_or_water) =
+            mineral_product_reference(product, idx).ok_or_else(|| {
+                decline("a dissolution product lacks a genuine master or explicit routed enthalpy")
+            })?;
+        product_enthalpy += coefficient * h;
+        // A registry analytical amount denotes the dissociated component,
+        // never a native ion pair that happens to share its name. Only a
+        // complete master-species/water basis justifies that equivalence.
+        analytical_master_basis &= genuine_master_or_water;
+    }
+    if product_charge.abs() > 1e-12
+        || product_atoms
+            .keys()
+            .any(|key| !registry_atoms.contains_key(key))
+        || registry_atoms.iter().any(|(element, amount)| {
+            (product_atoms.get(element).copied().unwrap_or(0.0) - amount).abs() > 1e-12
+        })
+        || !product_enthalpy.is_finite()
+    {
+        return Err(decline(
+            "the routed dissolution products do not balance the mineral formula",
+        ));
+    }
+    let solid = product_enthalpy - dissolution;
+    if !solid.is_finite() {
+        return Err(decline(
+            "the routed mineral reference enthalpy is nonfinite",
+        ));
+    }
+    Ok((analytical_master_basis.then_some(product_enthalpy), solid))
+}
+
 /// The enthalpy of one portion's species, kJ/mol, relative to the basis.
 pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Unpriced> {
     let idx = derived::index_for(db_tag);
@@ -237,11 +374,10 @@ pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Un
             let products = DISSOCIATION
                 .iter()
                 .find(|(k, _)| *k == key)
-                .map(|(_, p)| *p)
-                .ok_or(Unpriced {
-                    species: key.to_string(),
-                    why: "no curated dissociation for this solid, so where it goes is unknown",
-                })?;
+                .map(|(_, p)| *p);
+            let Some(products) = products else {
+                return mineral_reference(key, db_tag).map(|(_, solid)| solid);
+            };
             let dissolution = species::lookup(&SpeciesId::new(key))
                 .and_then(|d| d.dissolution_enthalpy_kj)
                 .ok_or(Unpriced {
@@ -263,6 +399,25 @@ pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Un
         // of MIXING to `hmix`, where it already lives, rather than counting
         // it twice.
         Phase::Liquid | Phase::Aqueous => {
+            // `CaCO3` here is an analytical amount of the mineral already
+            // dissolved. A native ion pair with the same spelling is not
+            // automatically that amount, and no solid dissolution remains
+            // to be charged. Curated mappings keep their existing priority.
+            if phase == Phase::Aqueous
+                && !DISSOCIATION.iter().any(|(name, _)| *name == key)
+                && !idx.species_delta_h_kj.contains_key(key)
+                && matches!(
+                    derived::role(key),
+                    Some(derived::DerivedRole::Mineral { .. })
+                )
+            {
+                return mineral_reference(key, db_tag).and_then(|(products, _)| {
+                    products.ok_or(Unpriced {
+                        species: key.to_string(),
+                        why: "analytical mineral products are not a complete master-species basis",
+                    })
+                });
+            }
             if let Some(h) = aqueous_enthalpy(key, db_tag) {
                 return Ok(h);
             }
@@ -524,6 +679,159 @@ mod tests {
         // NaCl -> two master species, so it is only its dissolution.
         let h = species_enthalpy("NaCl", Phase::Solid, DB).expect("priced");
         assert!((h - (-3.88)).abs() < 1e-9, "{h}");
+    }
+
+    /// The anhydrous reagent has its own standard reference, independent of
+    /// any hydrated carbonate phase in the native databases. Both intermediate
+    /// dissolution and direct precipitation must use that same reference.
+    #[test]
+    fn sodium_carbonate_reference_closes_dissolution_and_calcium_cycle_on_each_basis() {
+        let data = species::lookup_key("Na2CO3").expect("anhydrous reagent");
+        assert_eq!(data.dissolution_enthalpy_kj, Some(-26.656));
+        let formula = kerotakis_core::stoich::parse_formula(data.formula).unwrap();
+        let products = DISSOCIATION
+            .iter()
+            .find(|(key, _)| *key == "Na2CO3")
+            .unwrap()
+            .1;
+        let mut dissolved = kerotakis_core::stoich::Formula::default();
+        for (key, n) in products {
+            let ion = species::lookup_key(key).expect("registered dissociation product");
+            let f = kerotakis_core::stoich::parse_formula(ion.formula).unwrap();
+            for (element, count) in f.counts {
+                *dissolved.counts.entry(element).or_default() += count * n;
+            }
+            dissolved.charge += f.charge * n;
+        }
+        assert_eq!(
+            formula, dissolved,
+            "dissociation preserves atoms and charge"
+        );
+
+        for db in ["wateq4f", "minteq.v4", "pitzer"] {
+            let before = [portion("Na2CO3", 0.01, Phase::Solid)];
+            let ions = [
+                portion("Na+", 0.02, Phase::Aqueous),
+                portion("CO3-2", 0.01, Phase::Aqueous),
+            ];
+            let q = heat_released_j(&before, 0.0, &ions, 0.0, &[], db)
+                .expect("anhydrous dissolution is priced");
+            assert!((q - 266.56).abs() < 1e-9, "{db}: {q} J");
+            let reverse = heat_released_j(&ions, 0.0, &before, 0.0, &[], db).unwrap();
+            assert!((q + reverse).abs() < 1e-9, "{db}: reverse sign");
+
+            let salts = [
+                portion("Na2CO3", 0.01, Phase::Solid),
+                portion("CaCl2", 0.01, Phase::Solid),
+            ];
+            let intermediate = [
+                portion("Na2CO3", 0.01, Phase::Solid),
+                portion("Ca+2", 0.01, Phase::Aqueous),
+                portion("Cl-", 0.02, Phase::Aqueous),
+            ];
+            let precipitated = [
+                portion("CaCO3", 0.01, Phase::Solid),
+                portion("Na+", 0.02, Phase::Aqueous),
+                portion("Cl-", 0.02, Phase::Aqueous),
+            ];
+            let direct = heat_released_j(&salts, 0.0, &precipitated, 0.0, &[], db)
+                .expect("complete salt and mineral heat");
+            let first = heat_released_j(&salts, 0.0, &intermediate, 0.0, &[], db).unwrap();
+            let second = heat_released_j(&intermediate, 0.0, &precipitated, 0.0, &[], db).unwrap();
+            assert!((direct - first - second).abs() < 1e-9, "{db}: Hess cycle");
+            assert!(species_enthalpy("unregistered_carbonate", Phase::Solid, db).is_err());
+            assert!(species_enthalpy("KSCN", Phase::Solid, db).is_err());
+        }
+    }
+
+    /// The native phase reaction, not a nearest curated salt or a registry
+    /// heat-capacity guess, supplies the solid reference. The pre-existing
+    /// exact native aqueous-complex heat keeps priority where the database
+    /// gives one; only its absence admits the analytical master-ion fallback.
+    /// This preserves a legacy reference, not a new molecular-state claim.
+    #[test]
+    fn calcite_reference_prices_solid_and_analytical_aqueous_on_each_routed_basis() {
+        for (db, dissolution, native_aqueous) in [
+            ("wateq4f", -9.610_648, 3.545 * 4.184),
+            ("minteq.v4", -8.0, 16.0),
+        ] {
+            let index = derived::index_for(db);
+            let phase = &index.phases["Calcite"];
+            assert_eq!(derived::phase_in_db("Calcite", db), Some("Calcite"));
+            assert_eq!(phase.products.len(), 2);
+            assert!((phase.delta_h_kj.expect("phase delta H") - dissolution).abs() < 1e-9);
+            assert_eq!(
+                index.species_delta_h_kj.get("CaCO3").copied(),
+                Some(native_aqueous),
+                "{db}: explicit aqueous complex reference"
+            );
+            let solid = species_enthalpy("CaCO3", Phase::Solid, db).expect("Calcite solid");
+            let native =
+                species_enthalpy("CaCO3", Phase::Aqueous, db).expect("dissolved CaCO3 amount");
+            assert!((solid + dissolution).abs() < 1e-9, "{db}: {solid}");
+            assert!((native - native_aqueous).abs() < 1e-12, "{db}: {native}");
+        }
+        // Pitzer's inline -delta_h is attached to the log_k line; the
+        // source parser instead takes the slope of its separate -analytic
+        // expression. Differentiate the literal source coefficients by a
+        // symmetric finite difference, independently of dbindex's formula.
+        let log_k = |t: f64| -67.278 - 5.0767e-2 * t + 29.8956 * t.log10();
+        let t = 298.15_f64;
+        let dt = 1e-3;
+        let slope = (log_k(t + dt) - log_k(t - dt)) / (2.0 * dt);
+        let independently_derived =
+            8.314_462_618_153_24 * t * t * std::f64::consts::LN_10 * slope / 1000.0;
+        assert!((independently_derived + 12.287_557_49).abs() < 1e-5);
+        assert!((independently_derived + 12.300_96).abs() > 0.01);
+        let indexed = derived::index_for("pitzer").phases["Calcite"]
+            .delta_h_kj
+            .expect("Pitzer analytic phase reference");
+        assert!((indexed - independently_derived).abs() < 1e-6);
+        let solid = species_enthalpy("CaCO3", Phase::Solid, "pitzer").expect("Pitzer Calcite");
+        assert!((solid + indexed).abs() < 1e-9);
+        assert!(
+            species_enthalpy("CaCO3", Phase::Aqueous, "pitzer")
+                .expect("Pitzer analytical CaCO3")
+                .abs()
+                < 1e-12
+        );
+        // Existing curated values and honest unknowns retain their paths.
+        assert!((species_enthalpy("NaCl", Phase::Solid, DB).unwrap() + 3.88).abs() < 1e-9);
+        assert!(species_enthalpy("KSCN", Phase::Solid, DB).is_err());
+        assert!(species_enthalpy("CaCO3", Phase::Solid, "unknown-db").is_err());
+    }
+
+    #[test]
+    fn pseudo_master_alias_is_not_a_new_mineral_reference_and_hydrates_decline() {
+        let mut index = dbindex::DbIndex::default();
+        // The parser records Alkalinity's HCO3- alias here even though it
+        // does not put it in masters. That mapping cannot invent zero heat.
+        index.species_element.insert("HCO3-".into(), "C".into());
+        assert_eq!(mineral_product_reference("HCO3-", &index), None);
+        index.species_delta_h_kj.insert("HCO3-".into(), -14.6);
+        assert_eq!(
+            mineral_product_reference("HCO3-", &index),
+            Some((-14.6, false))
+        );
+        index.masters.insert(
+            "C".into(),
+            dbindex::MasterSpecies {
+                element: "C".into(),
+                species: "HCO3-".into(),
+            },
+        );
+        assert_eq!(
+            mineral_product_reference("HCO3-", &index),
+            Some((-14.6, true))
+        );
+        assert_eq!(mineral_product_reference("H2O", &index), Some((0.0, true)));
+        assert!(mineral_product_reference("unknown", &index).is_none());
+        let gypsum =
+            mineral_reference("gypsum", "wateq4f").expect_err("hydrate water is not priced");
+        assert_eq!(
+            gypsum.why,
+            "hydration water is not balanced by this mineral reference path"
+        );
     }
 
     /// The strong-acid/strong-base heat is not a special case in here; it

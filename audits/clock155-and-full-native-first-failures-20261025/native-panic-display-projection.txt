@@ -1,0 +1,154 @@
+2026-10-25T10:24:04.0339322Z thread 'doubling_the_corpus_leaves_every_intensive_property_alone' (15141) panicked at crates/kerotakis-cli/tests/corpus_perturbation.rs:1338:5:
+2026-10-25T10:24:04.0339820Z ["bio-070"] no longer depart from the scale claim; delete them from the recorded list and say what fixed them
+2026-10-25T10:24:04.0340195Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-25T10:24:04.0340363Z 
+
+2026-10-25T10:24:04.0340966Z thread 'the_corpus_answer_depends_on_the_reagent_the_question_is_about' (15153) panicked at crates/kerotakis-cli/tests/corpus_perturbation.rs:1324:5:
+2026-10-25T10:24:04.0341553Z 1 of 30 generated ablation cases departed with no recorded reason:
+2026-10-25T10:24:04.0342094Z   bio-069: the readout did not move: 5 readings, every one unchanged
+2026-10-25T10:24:04.0342312Z 
+2026-10-25T10:24:04.0342314Z 
+2026-10-25T10:24:04.0342385Z failures:
+2026-10-25T10:24:04.0342609Z     doubling_the_corpus_leaves_every_intensive_property_alone
+2026-10-25T10:24:04.0343032Z     the_corpus_answer_depends_on_the_reagent_the_question_is_about
+2026-10-25T10:24:04.0343264Z 
+
+2026-10-25T10:24:04.6285200Z thread 'curiosity_smoke_routes_without_crashing' (15332) panicked at crates/kerotakis-cli/tests/curiosity.rs:15:5:
+2026-10-25T10:24:04.6285475Z stdout:
+JSON report failures: {"failures": [{"id": "bio-069", "owning_task": "BRD-052", "outcome": "solver_failure", "reason_code": "solver-failed-phreeqc-aqueous", "detail": "phreeqc-canonical could not solve this state: clock CO2 parcel lacks a certified native component projection"}], "baseline_drift": [{"id": "bio-069", "kind": "changed", "baseline": {"id": "bio-069", "owning_task": "BRD-052", "outcome": "computed", "reason_code": "computed-route"}, "observed": {"id": "bio-069", "owning_task": "BRD-052", "outcome": "solver_failure", "reason_code": "solver-failed-phreeqc-aqueous"}}], "unmet_requirements": 0}
+2026-10-25T10:24:04.6581564Z [1m[91merror[0m: test failed, to rerun pass `-p kerotakis-cli --test curiosity`
+2026-10-25T10:24:04.6582022Z [1m[92m     Running[0m tests/fit.rs (target/debug/deps/fit-0024a9d34afa6442)
+2026-10-25T10:24:04.6582186Z 
+2026-10-25T10:24:04.6582260Z stderr:
+2026-10-25T10:24:04.6582324Z 
+2026-10-25T10:24:04.6582441Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-25T10:24:04.6582604Z 
+
+2026-10-25T10:24:04.6583081Z thread 'curiosity_check_rejects_a_synthetic_routing_regression' (15331) panicked at crates/kerotakis-cli/tests/curiosity.rs:121:5:
+2026-10-25T10:24:04.6583508Z assertion `left == right` failed: one injected regression, one drift line — got:
+2026-10-25T10:24:04.6583722Z [
+2026-10-25T10:24:04.6583819Z   {
+2026-10-25T10:24:04.6583923Z     "baseline": {
+2026-10-25T10:24:04.6584055Z       "id": "aq-003",
+2026-10-25T10:24:04.6584184Z       "outcome": "missing",
+2026-10-25T10:24:04.6584322Z       "owning_task": "EXP-17",
+2026-10-25T10:24:04.6584470Z       "reason_code": "computed-route"
+2026-10-25T10:24:04.6584610Z     },
+2026-10-25T10:24:04.6584712Z     "id": "aq-003",
+2026-10-25T10:24:04.6584838Z     "kind": "changed",
+2026-10-25T10:24:04.6584957Z     "observed": {
+2026-10-25T10:24:04.6585067Z       "id": "aq-003",
+2026-10-25T10:24:04.6585192Z       "outcome": "computed",
+2026-10-25T10:24:04.6585331Z       "owning_task": "EXP-17",
+2026-10-25T10:24:04.6585470Z       "reason_code": "computed-route"
+2026-10-25T10:24:04.6585606Z     }
+2026-10-25T10:24:04.6585701Z   },
+2026-10-25T10:24:04.6585794Z   {
+
+2026-10-25T10:24:43.7328866Z thread 'newly_guided_kids_rows_keep_their_evidence' (15392) panicked at crates/kerotakis-cli/tests/lessons_replay.rs:1426:13:
+2026-10-25T10:24:43.7329365Z balloon-pressure.lab lost "284.48 kPa":
+2026-10-25T10:24:43.7329643Z   v1: +50.300 g 5% white vinegar (2 known ingredient(s))
+2026-10-25T10:24:43.7331075Z   v1: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+2026-10-25T10:24:43.7332169Z   v1: pH 2.41
+2026-10-25T10:24:43.7332334Z   v1: sealed over 0.500 L of headspace, trapping 0.0204 mol of room air
+2026-10-25T10:24:43.7332525Z   v1: pH 2.41
+2026-10-25T10:24:43.7332661Z   v1: headspace settled at 1.013 bar with 0.0204 mol gas
+2026-10-25T10:24:43.7332889Z   v1: 25.0 °C → 25.0 °C
+2026-10-25T10:24:43.7333105Z   v1: +5.000 g baking soda (1 known ingredient(s))
+2026-10-25T10:24:43.7337327Z   v1: NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑
+2026-10-25T10:24:43.7337675Z   v1: 0.0417 mol carbon dioxide formed and remains in the closed headspace
+2026-10-25T10:24:43.7339926Z   v1: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid); the input has a potentially concentrated solute load (~2.5 mol/kgw, not a measured ionic strength), but the Pitzer route cannot represent all requested chemistry. This activity-model fallback is not a validated concentrated-mixture prediction
+2026-10-25T10:24:43.7341607Z   v1: 0.0178 mol baking soda (sodium bicarbonate) dissolved
+2026-10-25T10:24:43.7342036Z   v1: pH 6.80
+2026-10-25T10:24:43.7342238Z   v1: headspace settled at 2.845 bar with 0.0587 mol gas
+2026-10-25T10:24:43.7342544Z   v1: 25.0 °C → 18.4 °C
+2026-10-25T10:24:43.7342738Z   v1 pressure gauge: 284.46 kPa
+2026-10-25T10:24:43.7342960Z   v1 volume meter: 500.00 mL
+2026-10-25T10:24:43.7343229Z   v1: pressure controlled at 1.000 bar; initial headspace 0.500 L
+
+2026-10-25T10:24:43.7346463Z thread 'the_kitchen_ph_map_says_which_bottle_it_cannot_price' (15432) panicked at crates/kerotakis-cli/tests/lessons_replay.rs:1243:9:
+2026-10-25T10:24:43.7347111Z missing v2 pH meter: 10.02:
+2026-10-25T10:24:43.7347357Z   v1: +50.300 g 5% white vinegar (2 known ingredient(s))
+2026-10-25T10:24:43.7348617Z   v1: answered by minteq.v4.dat plus reviewed lactate and USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — chosen because the problem needs chemistry the default dataset lacks (organic ligands, the borrowed hypochlorite couple, or free phosphoric acid)
+2026-10-25T10:24:43.7349594Z   v1: pH 2.41
+2026-10-25T10:24:43.7349762Z   v1 pH meter: 2.41 pH
+2026-10-25T10:24:43.7349886Z   v2: new vessel
+2026-10-25T10:24:43.7349997Z   v2: +5.5343 mol water
+2026-10-25T10:24:43.7350916Z   v2: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+2026-10-25T10:24:43.7351851Z   v2: +0.0595 mol baking soda (sodium bicarbonate)
+2026-10-25T10:24:43.7353945Z   v2: answered by wateq4f.dat plus USBM IC 9429 reference-temperature complexes, with the reviewed Sander HBr gas-uptake slice — the default inorganic aqueous dataset; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on pitzer.dat, with the reviewed Sander HBr gas-uptake slice (Pitzer specific-ion-interaction model (valid at high ionic strength)), posed with no phases, gas or interfaces and asked for a_w alone
+2026-10-25T10:24:43.7355290Z   v2: 0.0595 mol baking soda (sodium bicarbonate) dissolved
+2026-10-25T10:24:43.7355541Z   v2: 0.0252 mol carbon dioxide ↑ (gas escapes the open vessel)
+2026-10-25T10:24:43.7355718Z   v2: pH 9.96
+2026-10-25T10:24:43.7355849Z   v2: 25.0 °C → 21.3 °C
+2026-10-25T10:24:43.7355969Z   v2 pH meter: 9.96 pH
+2026-10-25T10:24:43.7356090Z   v3: new vessel
+2026-10-25T10:24:43.7356199Z   v3: +5.5343 mol water
+2026-10-25T10:24:43.7356912Z   v3: answered by vendored USGS phreeqc.dat — no represented acid, base, salt, surface, exchanger, gas transfer, or reactive aqueous solute; evaluated the solvent relation without invoking IPhreeqc, while preserving all spectator inventory
+2026-10-25T10:24:43.7357404Z   v3: +0.0472 mol washing soda (sodium carbonate)
+
+2026-10-25T10:26:51.3735086Z thread 'every_composed_key_is_translated' (16980) panicked at crates/kerotakis-core/tests/composed_locale.rs:285:9:
+2026-10-25T10:26:51.3735412Z 1 of 249 sentences the engine composes have no de translation.
+2026-10-25T10:26:51.3735788Z These are not missing strings in a catalogue — they are the lines
+2026-10-25T10:26:51.3736019Z the engine writes itself, and a reader of de sees them in English
+2026-10-25T10:26:51.3736242Z inside an otherwise translated lesson.
+2026-10-25T10:26:51.3736564Z 
+2026-10-25T10:26:51.3736888Z   routing.provisional-model-replay  (kerotakis-phreeqc/aqueous.rs)  = "provisional model replay from the original material input; final routing is verified by a fresh ordinary aqueous pose"
+2026-10-25T10:26:51.3737270Z 
+2026-10-25T10:26:51.3737272Z 
+2026-10-25T10:26:51.3737316Z failures:
+2026-10-25T10:26:51.3737431Z     every_composed_key_is_translated
+2026-10-25T10:26:51.3737531Z 
+
+2026-10-25T10:28:01.0277268Z thread 'strong_acid_on_baking_soda_also_fizzes' (19139) panicked at crates/kerotakis-phreeqc/tests/carbonate.rs:204:5:
+2026-10-25T10:28:01.0277587Z strong acid must expel the carbonate as CO2, got -0 mol
+2026-10-25T10:28:01.0277824Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-25T10:28:01.0277986Z 
+2026-10-25T10:28:01.0277988Z 
+2026-10-25T10:28:01.0278040Z failures:
+2026-10-25T10:28:01.0278169Z     strong_acid_on_baking_soda_also_fizzes
+2026-10-25T10:28:01.0278271Z 
+
+2026-10-25T10:28:02.2704568Z thread 'bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate' (19162) panicked at crates/kerotakis-phreeqc/tests/clock_co2_boundary.rs:300:5:
+2026-10-25T10:28:02.2704936Z assertion `left == right` failed
+2026-10-25T10:28:02.2705124Z   left: [(false, 4.305745813715e-7), (true, 2e-6)]
+2026-10-25T10:28:02.2705298Z  right: [(true, 2e-6)]
+2026-10-25T10:28:02.2705489Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-25T10:28:02.2705652Z 
+
+2026-10-25T10:28:02.2706233Z thread 'already_earned_subfloor_parcel_survives_sealing_without_further_uptake' (19161) panicked at crates/kerotakis-phreeqc/tests/clock_co2_boundary.rs:185:9:
+2026-10-25T10:28:02.2706653Z seal with parked CO2 parcel: C changed 0.000000000000000e0 -> 8.171884047346870e-6 mol
+2026-10-25T10:28:02.2706821Z 
+2026-10-25T10:28:02.2706823Z 
+2026-10-25T10:28:02.2706867Z failures:
+2026-10-25T10:28:02.2707037Z     already_earned_subfloor_parcel_survives_sealing_without_further_uptake
+2026-10-25T10:28:02.2707304Z     bare_water_spends_an_explicitly_earned_carrier_without_claiming_a_new_rate
+2026-10-25T10:28:02.2707464Z 
+
+2026-10-25T10:28:03.0166097Z thread 'acid_trapping_couples_finite_ammonia_gas_and_protonation_in_both_addition_orders' (19176) panicked at crates/kerotakis-phreeqc/tests/coupled_ammonia.rs:34:5:
+2026-10-25T10:28:03.0166877Z [Added { vessel: VesselId(0), species: SpeciesId("NH3"), moles: Moles(8e-5), total_after: Some(Moles(8e-5)) }, SolverFailed { vessel: VesselId(0), solver: "phreeqc-aqueous", detail: "phreeqc-canonical could not solve this state: physical aqueous/gas answer did not close within 8 passes" }]
+2026-10-25T10:28:03.0167512Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-25T10:28:03.0167673Z 
+2026-10-25T10:28:03.0167676Z 
+2026-10-25T10:28:03.0167719Z failures:
+2026-10-25T10:28:03.0167901Z     acid_trapping_couples_finite_ammonia_gas_and_protonation_in_both_addition_orders
+2026-10-25T10:28:03.0168080Z 
+
+2026-10-25T10:28:14.5843596Z thread 'the_acid_the_fermentation_made_stays_in_the_ledger' (19356) panicked at crates/kerotakis-phreeqc/tests/lactate_speciation.rs:83:5:
+2026-10-25T10:28:14.5844163Z both forms should carry some of it: 0.0008533573147383379 acid, -0 anion
+2026-10-25T10:28:14.5844388Z 
+
+2026-10-25T10:28:14.5845082Z thread 'the_counter_top_milk_is_soured_and_is_not_a_yoghurt' (19358) panicked at crates/kerotakis-phreeqc/tests/lactate_speciation.rs:127:10:
+2026-10-25T10:28:14.5845568Z a fermented milk must be characterised
+2026-10-25T10:28:14.5846012Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-25T10:28:14.5846250Z 
+
+2026-10-25T10:28:14.5846880Z thread 'the_fermentation_is_what_acidifies_the_milk' (19359) panicked at crates/kerotakis-phreeqc/tests/lactate_speciation.rs:165:10:
+2026-10-25T10:28:14.5847330Z yoghurt
+2026-10-25T10:28:14.5847416Z 
+2026-10-25T10:28:14.5847418Z 
+2026-10-25T10:28:14.5847486Z failures:
+2026-10-25T10:28:14.5847680Z     the_acid_the_fermentation_made_stays_in_the_ledger
+2026-10-25T10:28:14.5847962Z     the_counter_top_milk_is_soured_and_is_not_a_yoghurt
+2026-10-25T10:28:14.5848230Z     the_fermentation_is_what_acidifies_the_milk
+2026-10-25T10:28:14.5848394Z 

@@ -1,0 +1,11 @@
+
+running 1 test
+test aqueous::finite_gas_temperature_serialization_tests::warm_fractional_primary_and_mix_inputs_round_trip_supplied_solutes ... FAILED
+
+failures:
+
+failures:
+    aqueous::finite_gas_temperature_serialization_tests::warm_fractional_primary_and_mix_inputs_round_trip_supplied_solutes
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 130 filtered out; finished in 0.14s
+

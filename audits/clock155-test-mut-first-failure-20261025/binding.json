@@ -1,0 +1,13 @@
+{
+  "source": "d01bb09048bb8fccd239c383bd274916f9894742",
+  "raw_stderr_sha256": "9ab1ce8f7ff3e00db868a4ac9ab7b33ac5a1cd048304de7308e5aa995a6ae4aa",
+  "projection_sha256": "beb4bea8642336518e3eb757cf5f2ea351b611f324f9bdf409881a6d7f0983ec",
+  "manifest_sha256": "c562069e42ea9ec15c203ed19190969dd3c26c08579c54ddce6305c800a4449f",
+  "expected_tests": 155,
+  "actual_tests_run": 0,
+  "not_reached_tests": 155,
+  "format": "PASS",
+  "strict_clippy": "FAIL: three unused_mut in clock_co2_boundary integration fixture",
+  "wasm_cli_full1536": "NOT_REACHED",
+  "projection": "Only ephemeral producer checkout prefix replaced. Raw remains privately preserved."
+}

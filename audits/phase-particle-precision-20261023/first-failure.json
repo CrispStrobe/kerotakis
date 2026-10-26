@@ -1,0 +1,49 @@
+{
+  "source": "6164acd8bad09890fa042b262f665f460d91908d",
+  "source_tree": "f4c683f1f367541dd23c50b9b71e14c73e755faa",
+  "workflow_merge_source": "1701370c1980ac06a6e5f043b49509122922480e",
+  "job_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/39979992632/job/120522449534",
+  "first_job_raw_log_sha256": "c9f6c2aad0d2f5164c8a2767205630075d8919d4a7ae6facf9588119ac0e540b",
+  "actual_cli_binary_sha256": "0b874e014437feb85fb88081b6b31dd7223d77e58dfea7291ef353b24d5430d0",
+  "actual_cli_lock_sha256": "5742dcabf055b684d544b15007f429e362014f65b33aee4cc660b79a9c38835a",
+  "actual_phase_transfers": 32,
+  "last_transfers": [
+    {
+      "at": 270.0256587206213,
+      "event": "state_changed",
+      "from": "solid",
+      "kind": "melting",
+      "moles": 0.00011159257639927061,
+      "shifted_by": -3.1243412793786547,
+      "species": "water",
+      "to": "liquid",
+      "vessel": 0
+    },
+    {
+      "at": 270.02745730318657,
+      "event": "state_changed",
+      "from": "liquid",
+      "kind": "freezing",
+      "moles": 0.00011159257640021511,
+      "shifted_by": -3.1225426968134116,
+      "species": "water",
+      "to": "solid",
+      "vessel": 0
+    }
+  ],
+  "final_temperature_k": 270.027387010178,
+  "first_cli_attempt": {
+    "exit_status": 1,
+    "reason": "An unsupported reset command was rejected before any simulation; exact stderr retained privately",
+    "raw_stderr_sha256": "638a6d38f5641ccd342c59572f06218d9d50cb892cfdd7dd530ded56dde38aa9"
+  },
+  "corrected_cli_exit_status": 0,
+  "simulation_converged": false,
+  "solver_failed_event": {
+    "detail": "aqueous/ice state did not settle within 32 bounded passes (last water transfer 1.116e-4 mol at 270.027387 K)",
+    "event": "solver_failed",
+    "solver": "phase-coupled",
+    "vessel": 0
+  },
+  "no_build_or_large_local_execution": true
+}

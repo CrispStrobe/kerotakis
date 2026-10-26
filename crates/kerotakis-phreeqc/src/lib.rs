@@ -28,7 +28,8 @@ mod phase_diagnostics;
 pub mod pourbaix;
 mod redox_isolation;
 pub use aqueous::{
-    CacheData, CacheEntry, PathOutcome, PathResult, PhreeqcEquilibrator, SolveHook, SolveOutput,
+    CacheData, CacheEntry, PathOutcome, PathResult, PeAuthority, PhreeqcEquilibrator, SolveHook,
+    SolveOutput,
 };
 
 /// The exact native database namespace expected by an external solver hook.

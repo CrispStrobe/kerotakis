@@ -1,0 +1,1014 @@
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 4.900000000000e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000729459996e-1
+   pH           9.919740770652e+00
+   pe           1.072000149487e+01
+   mu           4.346745253543e-01
+   mass_H2O     1.000729459996e-01
+   C            2.826697813145e-01
+   C(-4)        0.000000000000e+00
+   Na           4.896428251467e-01
+   m_H+         1.564147260343e-10
+   m_OH-        1.278620474708e-04
+   m_CO2        1.203906213895e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      6.953277499810e-02
+   m_CO3-2      7.907833365274e-02
+   la_H2O       -4.741018659310e-03
+   CO2(g)       2.071240223879e-02
+   d_CO2(g)     2.071240223879e-02
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  -4.900000000000e-02
+   particle_molality 6.386605329489e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     1.0007294599960000e-1
+    C 2.826697813145e-1
+    Na 4.896428251467e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9971144867764164e-2
+    pe        4  O2(g)  -0.68
+    C 2.829576254091e-1
+    Na 4.901414309580e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.997118995276e-2
+   pH           9.919842583611e+00
+   pe           1.070944024361e+01
+   mu           4.350483242312e-01
+   mass_H2O     9.997118995276e-02
+   C            2.829323459971e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901412099141e-01
+   m_H+         1.563840443447e-10
+   m_OH-        1.279045816514e-04
+   m_CO2        1.203802597699e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      6.955333373352e-02
+   m_CO3-2      7.913704419916e-02
+   la_H2O       -4.745147613206e-03
+   CO2(g)       2.514455758761e-06
+   d_CO2(g)     2.514455758761e-06
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.392137094433e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9971189952759998e-2
+    C 2.829323459971e-1
+    Na 4.901412099141e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9971177422957927e-2
+    pe        4  O2(g)  -0.68
+    C 2.829323814581e-1
+    Na 4.901412713455e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.997117742851e-2
+   pH           9.919842596159e+00
+   pe           1.070944025514e+01
+   mu           4.350483702809e-01
+   mass_H2O     9.997117742851e-02
+   C            2.829323783451e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901412713183e-01
+   m_H+         1.563840405631e-10
+   m_OH-        1.279045868862e-04
+   m_CO2        1.203802584934e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      6.955333626345e-02
+   m_CO3-2      7.913705143101e-02
+   la_H2O       -4.745148144813e-03
+   CO2(g)       3.096392540098e-10
+   d_CO2(g)     3.096392540098e-10
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.392137806649e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9971177428510000e-2
+    C 2.829323783451e-1
+    Na 4.901412713183e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9971177426968968e-2
+    pe        4  O2(g)  -0.68
+    C 2.829323783495e-1
+    Na 4.901412713259e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.997117742697e-2
+   pH           9.919842596160e+00
+   pe           1.070944025514e+01
+   mu           4.350483702866e-01
+   mass_H2O     9.997117742697e-02
+   C            2.829323783491e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901412713259e-01
+   m_H+         1.563840405626e-10
+   m_OH-        1.279045868869e-04
+   m_CO2        1.203802584933e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      6.955333626377e-02
+   m_CO3-2      7.913705143191e-02
+   la_H2O       -4.745148144879e-03
+   CO2(g)       3.831279886745e-14
+   d_CO2(g)     3.831279886745e-14
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.392137806738e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      25.0000
+    pH        7  charge
+    water     9.9971177426969995e-2
+    C 2.829323783491e-1
+    Na 4.901412713259e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9661
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 4.900000000000e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000667986926e-1
+   pH           9.937229957874e+00
+   pe           1.096246413466e+01
+   mu           4.479095826953e-01
+   mass_H2O     1.000667986926e-01
+   C            2.861202848261e-01
+   C(-4)        0.000000000000e+00
+   Na           4.896729049017e-01
+   m_H+         1.502762557526e-10
+   m_OH-        1.055947600931e-04
+   m_CO2        1.305433286979e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.569278163047e-02
+   m_CO3-2      8.432556325301e-02
+   la_H2O       -4.826343506944e-03
+   CO2(g)       2.036885905645e-02
+   d_CO2(g)     2.036885905645e-02
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  -4.900000000000e-02
+   particle_molality 6.500908587236e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9661
+    pH        7  charge
+    water     1.0006679869260000e-1
+    C 2.861202848261e-1
+    Na 4.896729049017e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9661
+    pH        7  charge
+    water     9.9971785929691470e-2
+    pe        4  O2(g)  -0.68
+    C 2.863922123356e-1
+    Na 4.901382879612e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.997183080418e-2
+   pH           9.937330820016e+00
+   pe           1.095156620689e+01
+   mu           4.482713098354e-01
+   mass_H2O     9.997183080418e-02
+   C            2.863670730375e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901380679522e-01
+   m_H+         1.502467138848e-10
+   m_OH-        1.056290014127e-04
+   m_CO2        1.305324560987e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.571468763571e-02
+   m_CO3-2      8.438628694457e-02
+   la_H2O       -4.830234582857e-03
+   CO2(g)       2.500369952003e-06
+   d_CO2(g)     2.500369952003e-06
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.506120632540e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9661
+    pH        7  charge
+    water     9.9971830804179998e-2
+    C 2.863670730375e-1
+    Na 4.901380679522e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9661
+    pH        7  charge
+    water     9.9971817546345682e-2
+    pe        4  O2(g)  -0.68
+    C 2.863671110143e-1
+    Na 4.901381329522e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.997181755261e-2
+   pH           9.937330834109e+00
+   pe           1.095156617887e+01
+   mu           4.482713603529e-01
+   mass_H2O     9.997181755261e-02
+   C            2.863671075044e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901381329215e-01
+   m_H+         1.502467097566e-10
+   m_OH-        1.056290061900e-04
+   m_CO2        1.305324545803e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.571469069165e-02
+   m_CO3-2      8.438629542426e-02
+   la_H2O       -4.830235153774e-03
+   CO2(g)       3.490930417362e-10
+   d_CO2(g)     3.490930417362e-10
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.506121397273e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9661
+    pH        7  charge
+    water     9.9971817552610004e-2
+    C 2.863671075044e-1
+    Na 4.901381329215e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9661
+    pH        7  charge
+    water     9.9971817550761954e-2
+    pe        4  O2(g)  -0.68
+    C 2.863671075098e-1
+    Na 4.901381329305e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.997181755076e-2
+   pH           9.937330834111e+00
+   pe           1.095156617887e+01
+   mu           4.482713603599e-01
+   mass_H2O     9.997181755076e-02
+   C            2.863671075092e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901381329305e-01
+   m_H+         1.502467097561e-10
+   m_OH-        1.056290061907e-04
+   m_CO2        1.305324545801e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.571469069207e-02
+   m_CO3-2      8.438629542544e-02
+   la_H2O       -4.830235153854e-03
+   CO2(g)       5.769060717493e-14
+   d_CO2(g)     5.769060717493e-14
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.506121397379e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9661
+    pH        7  charge
+    water     9.9971817550759998e-2
+    C 2.863671075092e-1
+    Na 4.901381329305e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9741
+    pH        7  charge
+    water     9.9699999999999997e-2
+    pe        4  O2(g)  -0.68
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 4.900000000000e-2
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000668155832e-1
+   pH           9.937183180200e+00
+   pe           1.096181810610e+01
+   mu           4.478744412985e-01
+   mass_H2O     1.000668155832e-01
+   C            2.861108104088e-01
+   C(-4)        0.000000000000e+00
+   Na           4.896728222480e-01
+   m_H+         1.502923497995e-10
+   m_OH-        1.056489359496e-04
+   m_CO2        1.305147792315e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.567587862711e-02
+   m_CO3-2      8.431174960198e-02
+   la_H2O       -4.826113660292e-03
+   CO2(g)       2.036980229846e-02
+   d_CO2(g)     2.036980229846e-02
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  -4.900000000000e-02
+   particle_molality 6.500600709191e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9741
+    pH        7  charge
+    water     1.0006681558320001e-1
+    C 2.861108104088e-1
+    Na 4.896728222480e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9741
+    pH        7  charge
+    water     9.9971784626693705e-2
+    pe        4  O2(g)  -0.68
+    C 2.863827809861e-1
+    Na 4.901382943495e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.997182950230e-2
+   pH           9.937284045972e+00
+   pe           1.095092107179e+01
+   mu           4.482362025813e-01
+   mass_H2O     9.997182950230e-02
+   C            2.863576410103e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901380743350e-01
+   m_H+         1.502628045503e-10
+   m_OH-        1.056831974582e-04
+   m_CO2        1.305039079841e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.569778118748e-02
+   m_CO3-2      8.437246876401e-02
+   la_H2O       -4.830005383305e-03
+   CO2(g)       2.500437774000e-06
+   d_CO2(g)     2.500437774000e-06
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.505813624032e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9741
+    pH        7  charge
+    water     9.9971829502300005e-2
+    C 2.863576410103e-1
+    Na 4.901380743350e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9741
+    pH        7  charge
+    water     9.9971816245832429e-2
+    pe        4  O2(g)  -0.68
+    C 2.863576789819e-1
+    Na 4.901381393283e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.997181625210e-2
+   pH           9.937284060062e+00
+   pe           1.095092104388e+01
+   mu           4.482362530887e-01
+   mass_H2O     9.997181625210e-02
+   C            2.863576754730e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901381392976e-01
+   m_H+         1.502628004229e-10
+   m_OH-        1.056832022370e-04
+   m_CO2        1.305039064664e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.569778424204e-02
+   m_CO3-2      8.437247724057e-02
+   la_H2O       -4.830005954140e-03
+   CO2(g)       3.489977124677e-10
+   d_CO2(g)     3.489977124677e-10
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.505814388655e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9741
+    pH        7  charge
+    water     9.9971816252099999e-2
+    C 2.863576754730e-1
+    Na 4.901381392976e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9741
+    pH        7  charge
+    water     9.9971816250247786e-2
+    pe        4  O2(g)  -0.68
+    C 2.863576754783e-1
+    Na 4.901381393066e-1
+EQUILIBRIUM_PHASES 1
+    CO2(g) -3.408 0.000000000000e0
+    Nahcolite 0 0.000000000000e0
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na C(-4)
+    -equilibrium_phases CO2(g) Nahcolite
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=9.997181625025e-2
+   pH           9.937284060064e+00
+   pe           1.095092104387e+01
+   mu           4.482362530957e-01
+   mass_H2O     9.997181625025e-02
+   C            2.863576754778e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901381393066e-01
+   m_H+         1.502628004223e-10
+   m_OH-        1.056832022376e-04
+   m_CO2        1.305039064662e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.569778424247e-02
+   m_CO3-2      8.437247724175e-02
+   la_H2O       -4.830005954219e-03
+   CO2(g)       5.224873516353e-14
+   d_CO2(g)     5.224873516353e-14
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.505814388761e-01
+   elements=["C", "Na"]
+--- PHREEQC input ---
+SOLUTION 1
+    units     mol/kgw
+    temp      21.9741
+    pH        7  charge
+    water     9.9971816250250006e-2
+    C 2.863576754778e-1
+    Na 4.901381393066e-1
+SELECTED_OUTPUT
+    -reset    false
+    -high_precision true
+    -ph       true
+    -pe       true
+    -ionic_strength true
+    -water    true
+    -activities H2O
+    -totals   C Na
+    -molalities H+ OH- CO2 H2CO3 HCO3- CO3-2
+USER_PUNCH 1
+    -headings particle_molality
+    -start
+10 particles = SYS("aq", count, names$, types$, amounts)
+20 PUNCH particles / TOT("water")
+    -end
+END
+---
+readback: kgw_out=1.000668155832e-1
+   pH           9.937183180200e+00
+   pe           1.096181810610e+01
+   mu           4.478744412985e-01
+   mass_H2O     1.000668155832e-01
+   C            2.861108104088e-01
+   C(-4)        0.000000000000e+00
+   Na           4.896728222480e-01
+   m_H+         1.502923497995e-10
+   m_OH-        1.056489359496e-04
+   m_CO2        1.305147792315e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.567587862711e-02
+   m_CO3-2      8.431174960198e-02
+   la_H2O       -4.826113660292e-03
+   CO2(g)       2.036980229846e-02
+   d_CO2(g)     2.036980229846e-02
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  -4.900000000000e-02
+   particle_molality 6.500600709191e-01
+   elements=["C", "Na"]
+readback: kgw_out=9.997182950230e-2
+   pH           9.937284045972e+00
+   pe           1.095092107179e+01
+   mu           4.482362025813e-01
+   mass_H2O     9.997182950230e-02
+   C            2.863576410103e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901380743350e-01
+   m_H+         1.502628045503e-10
+   m_OH-        1.056831974582e-04
+   m_CO2        1.305039079841e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.569778118748e-02
+   m_CO3-2      8.437246876401e-02
+   la_H2O       -4.830005383305e-03
+   CO2(g)       2.500437774000e-06
+   d_CO2(g)     2.500437774000e-06
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.505813624032e-01
+   elements=["C", "Na"]
+readback: kgw_out=9.997181625210e-2
+   pH           9.937284060062e+00
+   pe           1.095092104388e+01
+   mu           4.482362530887e-01
+   mass_H2O     9.997181625210e-02
+   C            2.863576754730e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901381392976e-01
+   m_H+         1.502628004229e-10
+   m_OH-        1.056832022370e-04
+   m_CO2        1.305039064664e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.569778424204e-02
+   m_CO3-2      8.437247724057e-02
+   la_H2O       -4.830005954140e-03
+   CO2(g)       3.489977124677e-10
+   d_CO2(g)     3.489977124677e-10
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.505814388655e-01
+   elements=["C", "Na"]
+readback: kgw_out=9.997181625025e-2
+   pH           9.937284060064e+00
+   pe           1.095092104387e+01
+   mu           4.482362530957e-01
+   mass_H2O     9.997181625025e-02
+   C            2.863576754778e-01
+   C(-4)        0.000000000000e+00
+   Na           4.901381393066e-01
+   m_H+         1.502628004223e-10
+   m_OH-        1.056832022376e-04
+   m_CO2        1.305039064662e-05
+   m_H2CO3      0.000000000000e+00
+   m_HCO3-      7.569778424247e-02
+   m_CO3-2      8.437247724175e-02
+   la_H2O       -4.830005954219e-03
+   CO2(g)       5.224873516353e-14
+   d_CO2(g)     5.224873516353e-14
+   Nahcolite    0.000000000000e+00
+   d_Nahcolite  0.000000000000e+00
+   particle_molality 6.505814388761e-01
+   elements=["C", "Na"]

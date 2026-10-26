@@ -40,6 +40,7 @@ fn cell(id: usize, tracer_moles: f64, temperature_k: f64) -> Vessel {
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,
+        particle_molality: None,
         pe: None,
         redox: Vec::new(),
         ph: 7.0,

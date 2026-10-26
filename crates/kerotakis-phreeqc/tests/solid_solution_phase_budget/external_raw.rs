@@ -37,6 +37,8 @@ fn external_raw(initial: f64, final_amount: Option<f64>) -> Result<(), SolveErro
         &[],
         &crystals,
         &value,
+        ComponentCertificate::Uncertified,
+        false,
     )?;
     Ok(())
 }

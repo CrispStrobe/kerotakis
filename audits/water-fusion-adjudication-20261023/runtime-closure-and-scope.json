@@ -1,0 +1,21 @@
+{
+  "base_source": "51bc28ddc576d587b86fab8da2ee6ea120822bc4",
+  "review_stage": "Before required fixture successor commit",
+  "non_document_changes": [
+    "crates/kerotakis-core/tests/golden/scene-five.json",
+    "crates/kerotakis-phreeqc/tests/colligative_numbers.rs"
+  ],
+  "runtime_registry_cargo_lesson_workflow_changes": [],
+  "runtime_subtrees_at_base": {
+    "crates/kerotakis-core/src": "929d2a45f7e99b563d1c5e92d012e75ebdc292a2",
+    "crates/kerotakis-phreeqc/src": "257dd1b92cd9af931d61555a6dcd8b423332e857",
+    "crates/kerotakis-cea/src": "ce36ba9712b1ccb4e4cd1908d951ecfb25436c30",
+    "crates/kerotakis-thermo/src": "7cc629165a5666eb98252c56ec04cdf157775f7a",
+    "data": "0c40e6e35f9a015498a46994b4b3fddf23024cc9",
+    "lessons": "d3c2eed79f8fcc942fada55db6c4152e5e5ef0cc",
+    ".github/workflows": "3d027b6de4c9c864616a7f67f7029f5dcdea5cda"
+  },
+  "no_test_case_or_physical_tolerance_removed_or_widened": true,
+  "old_results_remain_bound_to_their_actual_source": true,
+  "successor_targeted_tests_pending": true
+}

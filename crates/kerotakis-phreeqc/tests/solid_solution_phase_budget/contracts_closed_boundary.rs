@@ -63,6 +63,8 @@ fn fixture(
         &[],
         &final_crystals,
         &value,
+        ComponentCertificate::Uncertified,
+        false,
     )?;
     Ok(ions)
 }

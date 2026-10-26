@@ -1821,6 +1821,7 @@ mod tests {
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: Some(0.1),
+            particle_molality: None,
             ph: 9.0,
             pe: None,
             redox: vec![],

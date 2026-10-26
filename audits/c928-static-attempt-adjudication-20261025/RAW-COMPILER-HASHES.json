@@ -1,0 +1,17 @@
+{
+  "kerotakis_phreeqc-build.stdout": {
+    "sha256": "54185373a80b3f11ec6e973159f8ef25676470fb239d50c72b43e507b1aa4b4e",
+    "bytes": 276522,
+    "complete_raw_preserved_privately": true
+  },
+  "kerotakis_phreeqc-build.stderr": {
+    "sha256": "a0317a2e1ce7b47c2fa50b0ad2d34e1c9c8e354cb62509663c52c61225465df9",
+    "bytes": 187,
+    "complete_raw_preserved_privately": true
+  },
+  "STOPPED.json": {
+    "sha256": "b1da5cd49cefa2b3ecac4613b130b2360aff48b9503639d731c5d74ed103f1cf",
+    "bytes": 891,
+    "complete_raw_preserved_privately": true
+  }
+}

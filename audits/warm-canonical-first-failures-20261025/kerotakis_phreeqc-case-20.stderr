@@ -1,0 +1,4 @@
+
+thread 'aqueous::finite_gas_temperature_serialization_tests::warm_fractional_primary_and_mix_inputs_round_trip_supplied_solutes' (8911) panicked at crates/kerotakis-phreeqc/src/aqueous.rs:8645:18:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

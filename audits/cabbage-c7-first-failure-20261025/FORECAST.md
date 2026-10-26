@@ -1,0 +1,11 @@
+# Cabbage thermal/colour first failure and prospective readback
+
+The [first browser job](https://github.com/CrispStrobe/kerotakis/actions/runs/40232998530/job/121289382083) differs in exactly two fields: cabbage vesselv4 temperature and liquid sRGB. All other fields of all five scenes are exact. Preserve expected/actual and source/raw-log binding before deciding whether any golden should change. No auto-blessing.
+
+The unchanged lesson adds100mL water,4g washing soda (100% anhydrous Na2CO3) and10mL red-cabbage juice to v4, with no thermostat. The newly priced dissolution reference gives a positive standard heat scale of1006.0007J with source-reported±4.755J uncertainty. That plausibly explains warming but does not prove whole-step heat, stock or the actual pH-to-colour chain. No temperature/colour calibration is earned.
+
+On authenticated c7 native97d0a11e/actual producer lock20994508, run the complete unchanged original lesson once, followed only by wait0s and inspectv4. Preserve every JSON operation and heat/input trace, exact source/script/binary/lock hashes, signed gas and opaque recipe accounting. Use the existing1CPU/1536MiB/20CPU/30wall/8MiB bounds and per-case tiny-execution resource gate. Record actual v4 temperature, pH, ionic strength, water, all stock and scene colour. Compare actual model-scoped native readback to the observed browser fields without fitting source data.
+
+Require complete known H/O/C/Na/charge closure within1e-10mol/eq, unchanged unresolved recipe identity/mass and immutable pigment stock, and explicit signed gas accounting. For zero-time repeat retain existing limits: temperature/pH1e-6, ionic strength1e-10, per-species/phase stock1e-10mol and known ledger1e-10mol/eq; no duplicate reaction/heat/gas. Check modeled sensible/chemical energy from independently identified standard references and the actual heat-capacity model, preserving any missing authority or domain hold rather than inventing data. Keep raw technical outputs and physical uncertainty separate from numerical model closure.
+
+Only after independent readback/source review may the two model-observation golden leaves change. Keep all other scenes/fields, original lesson and acceptance checks exact. Source/platform/fleet, normal delivery, original qualification and runtime localization remain pending;338/468 unchanged.

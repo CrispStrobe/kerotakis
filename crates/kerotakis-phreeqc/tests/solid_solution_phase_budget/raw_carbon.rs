@@ -62,6 +62,8 @@ fn raw_carbon(column: &str, supplied: Option<f64>) -> Result<(), SolveError> {
         &exchanges,
         &crystals,
         &value,
+        ComponentCertificate::Uncertified,
+        false,
     )?;
     Ok(())
 }

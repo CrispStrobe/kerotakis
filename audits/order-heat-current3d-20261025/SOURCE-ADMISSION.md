@@ -1,0 +1,15 @@
+# Detergent-order thermal gap: measured state and source admission
+
+The [exact pair](OBSERVATIONS.json) reproduces the full-preflight order failure on source3d, tested mergef06cc203 with the same tree, official CLIc8030e0e and actual producer lock480aec7a. Salt-first ends at300.1316387105029K; powder-first at299.9119677430168K. Neither history emits SolverFailed or a gas crossing. Powder added first remains at298.15K after Na2CO3 dissolution. These actual histories have different temperatures; the pH/ionic-strength comparison is not evidence of stale solvent mass.
+
+An independent known-formula ledger calculation against the actual Added/MaterialAdded receipts closes each history's H/O/C/Ca/Na/Cl/charge within1.4e−14mol/eq. The unresolved detergent remainder remains3.5g. This separate calculation must not be described as the original unit's ledger assertions running: they occur after its failing ionic-strength assertion and were unreached. No formula is assigned to the unknown remainder; no energy-calibration claim follows.
+
+## Prospective source change
+
+Na2CO3 has neither a curated dissociation mapping nor a registry dissolution-heat parameter. The routed WATEQ phases are hydrated carbonates, not the anhydrous reagent. Consequently its solid can make `heat_released_j` decline and use the dissolution fallback. That fallback does not retain every other known reaction heat. With the new priced Calcite reference, the two histories can therefore use inconsistent heat coverage. Preserve the measured temperatures and old failure before changing that source path.
+
+Add the missing anhydrous standard dissolution reference and the explicit balanced mapping `Na2CO3 → 2 Na+ + CO3-2`, keeping existing entries unchanged. The [OECD NEA evaluation, §V.7.1.3, p383](https://www.oecd-nea.org/upload/docs/application/pdf/2024-06/cts15-selected_ancillary_compounds-r-final-rev.pdf) selects −26.656±0.126kJ/mol at298.15K and infinite dilution. Record that source, reaction, temperature, limiting state and uncertainty in the registry. This standard reference is not a finite-concentration or all-temperature calibration. The numerical heat/conservation budget does not replace the reference's physical uncertainty.
+
+Validate formula/charge balance and reference-heat routing on the actual native bases. Retain unknown-heat refusals and all legacy known values. Preserve every assertion and exact command in the existing order-invariance test: no added bath, altered quantity, widened tolerance or fitted pH/temperature. Require its actual successor to pass; if it still fails, preserve the next failure and investigate the remaining cause. Keep the native twelve and all full source/platform/fleet acceptance.
+
+Review registry schema/code-generation/snapshot effects without unrelated value changes. Any consumer pinned to the whole registry pack must bind the new actual pack and separately prove its consumed composition/water records are unchanged. Normal PR delivery, changed-release15API/86browser assessment, original qualification and owned diagnostic EN/DE/FR remain ordered afterward.338/468 and the production release remain unchanged here.

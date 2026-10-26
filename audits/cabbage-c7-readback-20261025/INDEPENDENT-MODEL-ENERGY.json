@@ -1,0 +1,50 @@
+{
+  "capture_stdout_sha256": "b902ec68770fb5e57f0e06a58a53334995f26d2461c84be4ad307b97565bde36",
+  "initial_modeled_energy_j": 1006.0012446262491,
+  "kind": "independent_modeled_energy_check_not_calorimetry",
+  "limits": [
+    "The native route is Pitzer, not WATEQ; final ionic strength exceeds 1 mol/kgw.",
+    "The juice surrogate includes 0.197 g conserved unresolved material with no modeled Cp; no finite-concentration calorimetric calibration is inferred.",
+    "The appended CLI wait 0s suffix was rejected by the parser; zero-time re-equilibration was not reached."
+  ],
+  "pitzer_raw_sha256": "3640e62aee63a118f800b115b46a2760576e63e05e1792022315a28f75dbe9bb",
+  "post_juice_residual_j": -0.0001115410248075932,
+  "post_soda_residual_j": 2.3534312276751734e-09,
+  "registry_sha256": "db8496e677d3482e9faef01167b9d621ff32c7dc9219a7c690f7f9546c9d1d73",
+  "soda_solid_initial_reference_j": 1006.0006793221874,
+  "source": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "source_references_kj_per_mol": {
+    "CO2_aq": -24.007792000000002,
+    "HCO3_minus": -14.900963654563716,
+    "OH_minus": 56.35892733959674,
+    "solid_Na2CO3": 26.656
+  },
+  "states": [
+    {
+      "chemical_j": 0.0005653040617961428,
+      "modeled_total_j": 0.0005653040617961428,
+      "pigment_sensible_j": 0.0,
+      "temperature_k": 298.15,
+      "water_sensible_j": 0.0
+    },
+    {
+      "chemical_j": 23.189205343320832,
+      "modeled_total_j": 1006.0012446286025,
+      "pigment_sensible_j": 0.0,
+      "temperature_k": 300.5069587482209,
+      "water_sensible_j": 982.8120392852817
+    },
+    {
+      "chemical_j": 24.49800105347481,
+      "modeled_total_j": 1006.0011330852243,
+      "pigment_sensible_j": 0.010037425395086508,
+      "temperature_k": 300.2931337136423,
+      "water_sensible_j": 981.4930946063544
+    }
+  ],
+  "tree": "2da5f8e0b57b66c2b4fcbf1106c2b084b73bf17c",
+  "unchanged_numerical_budget_j": 0.001,
+  "vendor_gitlink": "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1",
+  "water_cp_at_298_15_j_per_mol_k": 75.35055745431936,
+  "water_cp_at_final_j_per_mol_k": 75.35498876773941
+}

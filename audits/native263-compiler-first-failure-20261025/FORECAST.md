@@ -1,0 +1,7 @@
+# Native263 compiler first failure —2026-10-25
+
+The [sourceb42b263-control job](../native-closure263-source-binding-20261025/README.md) stops at strict affected all-target Clippy. Formatting passes; no native control, wasm check, CLI protocol or sweep runs. All263 scientific outcomes are NOT_REACHED. Source-before and actual41bb lock are authenticated; source-after is absent. Raw first streams, closed manifest and independent review remain preserved under [these bindings](binding.json). Two saved-reader schema assumptions were corrected separately; they are not chemistry failures or hidden native passes.
+
+The compiler reports an ambiguous integer fixture counter at `aqueous.rs:5276` and an existing `CachedSolve` fixture missing the new pe-authority field in `tests/solid_solution_phase_budget/refusal_atomicity.rs:54`. Before code, scope the minimal successor: explicitly type the new counter asusize and mark the synthetic legacy fixture `PeAuthority::Unwitnessed`. A raw pe column/default determined flag must not earn electron authority. Preserve every existing overdraw/route-failure assertion and all runtime physics.
+
+Retain all263 identities and add both directly affected native refusal-atomicity controls,265 total. Preserve strict compiler/wasm gates, three CLI protocols and the full1536 sweep. No flag, assertion, count, budget or model is relaxed. Validate the separately bound exact source; do not rerun the old source or retag NOT_REACHED as pass. Full/platform/product, additional originals and diagnostic i18n remain pending.

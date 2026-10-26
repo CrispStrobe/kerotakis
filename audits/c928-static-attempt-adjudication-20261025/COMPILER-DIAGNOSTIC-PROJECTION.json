@@ -1,0 +1,332 @@
+[
+  {
+    "level": "error",
+    "message": "can't call method `is_multiple_of` on ambiguous numeric type `{integer}`",
+    "code": {
+      "code": "E0689",
+      "explanation": "A method was called on an ambiguous numeric type.\n\nErroneous code example:\n\n```compile_fail,E0689\n2.0.neg(); // error!\n```\n\nThis error indicates that the numeric value for the method being passed exists\nbut the type of the numeric value or binding could not be identified.\n\nThe error happens on numeric literals and on numeric bindings without an\nidentified concrete type:\n\n```compile_fail,E0689\nlet x = 2.0;\nx.neg();  // same error as above\n```\n\nBecause of this, you must give the numeric literal or binding a type:\n\n```\nuse std::ops::Neg;\n\nlet _ = 2.0_f32.neg(); // ok!\nlet x: f32 = 2.0;\nlet _ = x.neg(); // ok!\nlet _ = (2.0 as f32).neg(); // ok!\n```\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/aqueous.rs",
+        "line_start": 4987,
+        "line_end": 4987,
+        "column_start": 50,
+        "column_end": 64,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "cannot apply unary operator `!` to type `aqueous::ComponentCertificate`",
+    "code": {
+      "code": "E0600",
+      "explanation": "An unary operator was used on a type which doesn't implement it.\n\nErroneous code example:\n\n```compile_fail,E0600\nenum Question {\n    Yes,\n    No,\n}\n\n!Question::Yes; // error: cannot apply unary operator `!` to type `Question`\n```\n\nIn this case, `Question` would need to implement the `std::ops::Not` trait in\norder to be able to use `!` on it. Let's implement it:\n\n```\nuse std::ops::Not;\n\nenum Question {\n    Yes,\n    No,\n}\n\n// We implement the `Not` trait on the enum.\nimpl Not for Question {\n    type Output = bool;\n\n    fn not(self) -> bool {\n        match self {\n            Question::Yes => false, // If the `Answer` is `Yes`, then it\n                                    // returns false.\n            Question::No => true, // And here we do the opposite.\n        }\n    }\n}\n\nassert_eq!(!Question::Yes, false);\nassert_eq!(!Question::No, true);\n```\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/aqueous.rs",
+        "line_start": 5478,
+        "line_end": 5478,
+        "column_start": 33,
+        "column_end": 41,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "mismatched types",
+    "code": {
+      "code": "E0308",
+      "explanation": "Expected type did not match the received type.\n\nErroneous code examples:\n\n```compile_fail,E0308\nfn plus_one(x: i32) -> i32 {\n    x + 1\n}\n\nplus_one(\"Not a number\");\n//       ^^^^^^^^^^^^^^ expected `i32`, found `&str`\n\nif \"Not a bool\" {\n// ^^^^^^^^^^^^ expected `bool`, found `&str`\n}\n\nlet x: f32 = \"Not a float\";\n//     ---   ^^^^^^^^^^^^^ expected `f32`, found `&str`\n//     |\n//     expected due to this\n```\n\nThis error occurs when an expression was used in a place where the compiler\nexpected an expression of a different type. It can occur in several cases, the\nmost common being when calling a function and passing an argument which has a\ndifferent type than the matching type in the function declaration.\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/aqueous.rs",
+        "line_start": 5496,
+        "line_end": 5496,
+        "column_start": 33,
+        "column_end": 40,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "cannot apply unary operator `!` to type `aqueous::ComponentCertificate`",
+    "code": {
+      "code": "E0600",
+      "explanation": "An unary operator was used on a type which doesn't implement it.\n\nErroneous code example:\n\n```compile_fail,E0600\nenum Question {\n    Yes,\n    No,\n}\n\n!Question::Yes; // error: cannot apply unary operator `!` to type `Question`\n```\n\nIn this case, `Question` would need to implement the `std::ops::Not` trait in\norder to be able to use `!` on it. Let's implement it:\n\n```\nuse std::ops::Not;\n\nenum Question {\n    Yes,\n    No,\n}\n\n// We implement the `Not` trait on the enum.\nimpl Not for Question {\n    type Output = bool;\n\n    fn not(self) -> bool {\n        match self {\n            Question::Yes => false, // If the `Answer` is `Yes`, then it\n                                    // returns false.\n            Question::No => true, // And here we do the opposite.\n        }\n    }\n}\n\nassert_eq!(!Question::Yes, false);\nassert_eq!(!Question::No, true);\n```\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/aqueous.rs",
+        "line_start": 5505,
+        "line_end": 5505,
+        "column_start": 33,
+        "column_end": 41,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "mismatched types",
+    "code": {
+      "code": "E0308",
+      "explanation": "Expected type did not match the received type.\n\nErroneous code examples:\n\n```compile_fail,E0308\nfn plus_one(x: i32) -> i32 {\n    x + 1\n}\n\nplus_one(\"Not a number\");\n//       ^^^^^^^^^^^^^^ expected `i32`, found `&str`\n\nif \"Not a bool\" {\n// ^^^^^^^^^^^^ expected `bool`, found `&str`\n}\n\nlet x: f32 = \"Not a float\";\n//     ---   ^^^^^^^^^^^^^ expected `f32`, found `&str`\n//     |\n//     expected due to this\n```\n\nThis error occurs when an expression was used in a place where the compiler\nexpected an expression of a different type. It can occur in several cases, the\nmost common being when calling a function and passing an argument which has a\ndifferent type than the matching type in the function declaration.\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/aqueous.rs",
+        "line_start": 5520,
+        "line_end": 5520,
+        "column_start": 33,
+        "column_end": 40,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "cannot apply unary operator `!` to type `aqueous::ComponentCertificate`",
+    "code": {
+      "code": "E0600",
+      "explanation": "An unary operator was used on a type which doesn't implement it.\n\nErroneous code example:\n\n```compile_fail,E0600\nenum Question {\n    Yes,\n    No,\n}\n\n!Question::Yes; // error: cannot apply unary operator `!` to type `Question`\n```\n\nIn this case, `Question` would need to implement the `std::ops::Not` trait in\norder to be able to use `!` on it. Let's implement it:\n\n```\nuse std::ops::Not;\n\nenum Question {\n    Yes,\n    No,\n}\n\n// We implement the `Not` trait on the enum.\nimpl Not for Question {\n    type Output = bool;\n\n    fn not(self) -> bool {\n        match self {\n            Question::Yes => false, // If the `Answer` is `Yes`, then it\n                                    // returns false.\n            Question::No => true, // And here we do the opposite.\n        }\n    }\n}\n\nassert_eq!(!Question::Yes, false);\nassert_eq!(!Question::No, true);\n```\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/aqueous.rs",
+        "line_start": 5554,
+        "line_end": 5554,
+        "column_start": 33,
+        "column_end": 41,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "mismatched types",
+    "code": {
+      "code": "E0308",
+      "explanation": "Expected type did not match the received type.\n\nErroneous code examples:\n\n```compile_fail,E0308\nfn plus_one(x: i32) -> i32 {\n    x + 1\n}\n\nplus_one(\"Not a number\");\n//       ^^^^^^^^^^^^^^ expected `i32`, found `&str`\n\nif \"Not a bool\" {\n// ^^^^^^^^^^^^ expected `bool`, found `&str`\n}\n\nlet x: f32 = \"Not a float\";\n//     ---   ^^^^^^^^^^^^^ expected `f32`, found `&str`\n//     |\n//     expected due to this\n```\n\nThis error occurs when an expression was used in a place where the compiler\nexpected an expression of a different type. It can occur in several cases, the\nmost common being when calling a function and passing an argument which has a\ndifferent type than the matching type in the function declaration.\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/aqueous.rs",
+        "line_start": 5558,
+        "line_end": 5558,
+        "column_start": 33,
+        "column_end": 40,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "cannot apply unary operator `!` to type `aqueous::ComponentCertificate`",
+    "code": {
+      "code": "E0600",
+      "explanation": "An unary operator was used on a type which doesn't implement it.\n\nErroneous code example:\n\n```compile_fail,E0600\nenum Question {\n    Yes,\n    No,\n}\n\n!Question::Yes; // error: cannot apply unary operator `!` to type `Question`\n```\n\nIn this case, `Question` would need to implement the `std::ops::Not` trait in\norder to be able to use `!` on it. Let's implement it:\n\n```\nuse std::ops::Not;\n\nenum Question {\n    Yes,\n    No,\n}\n\n// We implement the `Not` trait on the enum.\nimpl Not for Question {\n    type Output = bool;\n\n    fn not(self) -> bool {\n        match self {\n            Question::Yes => false, // If the `Answer` is `Yes`, then it\n                                    // returns false.\n            Question::No => true, // And here we do the opposite.\n        }\n    }\n}\n\nassert_eq!(!Question::Yes, false);\nassert_eq!(!Question::No, true);\n```\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/aqueous.rs",
+        "line_start": 5562,
+        "line_end": 5562,
+        "column_start": 33,
+        "column_end": 41,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "mismatched types",
+    "code": {
+      "code": "E0308",
+      "explanation": "Expected type did not match the received type.\n\nErroneous code examples:\n\n```compile_fail,E0308\nfn plus_one(x: i32) -> i32 {\n    x + 1\n}\n\nplus_one(\"Not a number\");\n//       ^^^^^^^^^^^^^^ expected `i32`, found `&str`\n\nif \"Not a bool\" {\n// ^^^^^^^^^^^^ expected `bool`, found `&str`\n}\n\nlet x: f32 = \"Not a float\";\n//     ---   ^^^^^^^^^^^^^ expected `f32`, found `&str`\n//     |\n//     expected due to this\n```\n\nThis error occurs when an expression was used in a place where the compiler\nexpected an expression of a different type. It can occur in several cases, the\nmost common being when calling a function and passing an argument which has a\ndifferent type than the matching type in the function declaration.\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/aqueous.rs",
+        "line_start": 5566,
+        "line_end": 5566,
+        "column_start": 33,
+        "column_end": 40,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "this function takes 9 arguments but 8 arguments were supplied",
+    "code": {
+      "code": "E0061",
+      "explanation": "An invalid number of arguments was passed when calling a function.\n\nErroneous code example:\n\n```compile_fail,E0061\nfn f(u: i32) {}\n\nf(); // error!\n```\n\nThe number of arguments passed to a function must match the number of arguments\nspecified in the function signature.\n\nFor example, a function like:\n\n```\nfn f(a: u16, b: &str) {}\n```\n\nMust always be called with exactly two arguments, e.g., `f(2, \"test\")`.\n\nNote that Rust does not have a notion of optional function arguments or\nvariadic functions (except for its C-FFI).\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/contracts_closed_boundary.rs",
+        "line_start": 66,
+        "line_end": 66,
+        "column_start": 9,
+        "column_end": 14,
+        "is_primary": false
+      },
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/contracts_closed_boundary.rs",
+        "line_start": 58,
+        "line_end": 58,
+        "column_start": 5,
+        "column_end": 51,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "this function takes 9 arguments but 8 arguments were supplied",
+    "code": {
+      "code": "E0061",
+      "explanation": "An invalid number of arguments was passed when calling a function.\n\nErroneous code example:\n\n```compile_fail,E0061\nfn f(u: i32) {}\n\nf(); // error!\n```\n\nThe number of arguments passed to a function must match the number of arguments\nspecified in the function signature.\n\nFor example, a function like:\n\n```\nfn f(a: u16, b: &str) {}\n```\n\nMust always be called with exactly two arguments, e.g., `f(2, \"test\")`.\n\nNote that Rust does not have a notion of optional function arguments or\nvariadic functions (except for its C-FFI).\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/supplement_closed_boundary.rs",
+        "line_start": 68,
+        "line_end": 68,
+        "column_start": 9,
+        "column_end": 14,
+        "is_primary": false
+      },
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/supplement_closed_boundary.rs",
+        "line_start": 60,
+        "line_end": 60,
+        "column_start": 5,
+        "column_end": 51,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "this function takes 9 arguments but 8 arguments were supplied",
+    "code": {
+      "code": "E0061",
+      "explanation": "An invalid number of arguments was passed when calling a function.\n\nErroneous code example:\n\n```compile_fail,E0061\nfn f(u: i32) {}\n\nf(); // error!\n```\n\nThe number of arguments passed to a function must match the number of arguments\nspecified in the function signature.\n\nFor example, a function like:\n\n```\nfn f(a: u16, b: &str) {}\n```\n\nMust always be called with exactly two arguments, e.g., `f(2, \"test\")`.\n\nNote that Rust does not have a notion of optional function arguments or\nvariadic functions (except for its C-FFI).\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/cancellation.rs",
+        "line_start": 54,
+        "line_end": 54,
+        "column_start": 13,
+        "column_end": 18,
+        "is_primary": false
+      },
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/cancellation.rs",
+        "line_start": 46,
+        "line_end": 46,
+        "column_start": 9,
+        "column_end": 55,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "this function takes 9 arguments but 8 arguments were supplied",
+    "code": {
+      "code": "E0061",
+      "explanation": "An invalid number of arguments was passed when calling a function.\n\nErroneous code example:\n\n```compile_fail,E0061\nfn f(u: i32) {}\n\nf(); // error!\n```\n\nThe number of arguments passed to a function must match the number of arguments\nspecified in the function signature.\n\nFor example, a function like:\n\n```\nfn f(a: u16, b: &str) {}\n```\n\nMust always be called with exactly two arguments, e.g., `f(2, \"test\")`.\n\nNote that Rust does not have a notion of optional function arguments or\nvariadic functions (except for its C-FFI).\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/raw_carbon.rs",
+        "line_start": 65,
+        "line_end": 65,
+        "column_start": 9,
+        "column_end": 14,
+        "is_primary": false
+      },
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/raw_carbon.rs",
+        "line_start": 57,
+        "line_end": 57,
+        "column_start": 5,
+        "column_end": 51,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "this function takes 9 arguments but 8 arguments were supplied",
+    "code": {
+      "code": "E0061",
+      "explanation": "An invalid number of arguments was passed when calling a function.\n\nErroneous code example:\n\n```compile_fail,E0061\nfn f(u: i32) {}\n\nf(); // error!\n```\n\nThe number of arguments passed to a function must match the number of arguments\nspecified in the function signature.\n\nFor example, a function like:\n\n```\nfn f(a: u16, b: &str) {}\n```\n\nMust always be called with exactly two arguments, e.g., `f(2, \"test\")`.\n\nNote that Rust does not have a notion of optional function arguments or\nvariadic functions (except for its C-FFI).\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/external_boundaries.rs",
+        "line_start": 52,
+        "line_end": 52,
+        "column_start": 9,
+        "column_end": 14,
+        "is_primary": false
+      },
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/external_boundaries.rs",
+        "line_start": 44,
+        "line_end": 44,
+        "column_start": 5,
+        "column_end": 51,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "error",
+    "message": "this function takes 9 arguments but 8 arguments were supplied",
+    "code": {
+      "code": "E0061",
+      "explanation": "An invalid number of arguments was passed when calling a function.\n\nErroneous code example:\n\n```compile_fail,E0061\nfn f(u: i32) {}\n\nf(); // error!\n```\n\nThe number of arguments passed to a function must match the number of arguments\nspecified in the function signature.\n\nFor example, a function like:\n\n```\nfn f(a: u16, b: &str) {}\n```\n\nMust always be called with exactly two arguments, e.g., `f(2, \"test\")`.\n\nNote that Rust does not have a notion of optional function arguments or\nvariadic functions (except for its C-FFI).\n"
+    },
+    "spans": [
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/external_raw.rs",
+        "line_start": 40,
+        "line_end": 40,
+        "column_start": 9,
+        "column_end": 14,
+        "is_primary": false
+      },
+      {
+        "file_name": "crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/external_raw.rs",
+        "line_start": 32,
+        "line_end": 32,
+        "column_start": 5,
+        "column_end": 51,
+        "is_primary": true
+      }
+    ]
+  },
+  {
+    "level": "failure-note",
+    "message": "Some errors have detailed explanations: E0061, E0308, E0600, E0689.",
+    "code": null,
+    "spans": []
+  },
+  {
+    "level": "failure-note",
+    "message": "For more information about an error, try `rustc --explain E0061`.",
+    "code": null,
+    "spans": []
+  }
+]

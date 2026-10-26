@@ -1,0 +1,37 @@
+{
+  "runtime_source": "8ebfb42783d4a07e891f5f1acc7f3d91c5985827",
+  "runtime_tree": "af7a303cd58674726703999760a99322c41ab24f",
+  "actual_outcomes": [
+    {
+      "target": "native_cabbage_thermal_dom",
+      "test": "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+      "record": "native_cabbage_thermal_dom-case-00",
+      "exit_status": 101,
+      "rows": [
+        [
+          "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    }
+  ],
+  "all_named_controls_collected": true,
+  "expected_named_controls": 1,
+  "actual_target_count": 1,
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "scientific_selections": 0,
+  "runtime_fix_verified_by_execution": false,
+  "forecast_is_not_acceptance": true,
+  "focus_is_not_full_fleet": true
+}

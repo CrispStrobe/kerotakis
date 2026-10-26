@@ -61,6 +61,7 @@ fn prepared() -> Bench {
             solvent_activity: None,
             scope: Default::default(),
             solvent_kg: Some(0.072),
+            particle_molality: None,
             pe: None,
             redox: vec![],
             ph: 7.0,

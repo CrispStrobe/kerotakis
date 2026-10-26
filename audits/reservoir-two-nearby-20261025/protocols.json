@@ -1,0 +1,19 @@
+{
+  "source": "3d21174a87938b4054ddd9ba7ca189d4749a9199",
+  "tree": "7be22fc0c4d41f0ba5cd3af76c962d494554c28c",
+  "actual_tested_merge": "f06cc203c6071cff705e560ac06771258b061704",
+  "actual_cli_sha256": "c8030e0e8d1504bdc65aadd2ca23f54e394408d3e924334c87a0a4f64e9e1e70",
+  "actual_cli_lock_sha256": "480aec7ac77e82e3e1966a3a28f640862cfcadffa41ce47b8c10ebc3c3bc6e76",
+  "cases": [
+    {
+      "id": "aq064-nearby-001",
+      "dose": "0.001mol",
+      "script_sha256": "13219bd1dbcfb5e81f65574683eb1ced1087e23cae3eae762f61599e6d0f23b3"
+    },
+    {
+      "id": "aq064-nearby-020",
+      "dose": "0.02mol",
+      "script_sha256": "e91818a306bf8fc79da84353ec640bdeed13e6ad073e049066d2c11898c7cb6e"
+    }
+  ]
+}

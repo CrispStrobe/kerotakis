@@ -1,0 +1,20 @@
+{
+  "old_lock_sha256": "480aec7ac77e82e3e1966a3a28f640862cfcadffa41ce47b8c10ebc3c3bc6e76",
+  "new_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "removed_packages": [
+    [
+      "ordered-float",
+      "5.5.0",
+      "registry+https://github.com/rust-lang/crates.io-index"
+    ]
+  ],
+  "added_packages": [
+    [
+      "ordered-float",
+      "5.5.1",
+      "registry+https://github.com/rust-lang/crates.io-index"
+    ]
+  ],
+  "changed_common_entries": [],
+  "no_native_execution": true
+}

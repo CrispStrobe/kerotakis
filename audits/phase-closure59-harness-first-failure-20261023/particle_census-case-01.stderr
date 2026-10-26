@@ -1,0 +1,4 @@
+
+thread 'carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift' (4317) panicked at crates/kerotakis-phreeqc/tests/particle_census.rs:26:18:
+parse command: "duration must be positive"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

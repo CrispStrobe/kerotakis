@@ -1,0 +1,146 @@
+{
+  "source": "102e0046fea03aa2aa85d4af02c8b1c44d976fab",
+  "tree": "5ae9aec44418089882ba6fc31e0cd760406e2967",
+  "actual_producer_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "original_manifest_sha256": "3b16cf5bea26ba7ceb131e883d9230c5cff32a4ffaffd73ec14af0692beba858",
+  "actual_passes": 104,
+  "actual_failures": [
+    {
+      "target": "particle_census",
+      "test": "carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift",
+      "record": "particle_census-case-01",
+      "exit_status": 101,
+      "rows": [
+        [
+          "carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "2"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "native_aqueous_overlap",
+      "test": "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row",
+      "record": "native_aqueous_overlap-case-02",
+      "exit_status": 101,
+      "rows": [
+        [
+          "unrelated_salt_and_typed_zero_time_repeats_do_not_replay_the_ionic_row",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "2"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "curated_reachability_at_runtime",
+      "test": "every_curated_reaction_is_reachable_in_every_order",
+      "record": "curated_reachability_at_runtime-case-00",
+      "exit_status": 101,
+      "rows": [
+        [
+          "every_curated_reaction_is_reachable_in_every_order",
+          "FAILED"
+        ]
+      ],
+      "totals": [
+        [
+          "0",
+          "1",
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    }
+  ],
+  "fmt_clippy_wasm32_exits": {
+    "format-check": 0,
+    "affected-clippy": 0,
+    "wasm32-check": 0
+  },
+  "full1536_exit": 1,
+  "full1536_violations": 2,
+  "full1536_refusal_steps": 41,
+  "independent_saved_review_sha256": "31ac3ce7f967609cc23d2bc95ef1e5621cb361cb169107eb3ee5e3e76695d2d4",
+  "copied_raw_members": {
+    "bicarbonate-phosphoric-cli.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "native_aqueous_overlap-case-02.stderr": {
+      "bytes": 321,
+      "sha256": "b5dfc83026d3891dea21faf520abb7593a9fa4aee6eff8726a434588f4ec1f36"
+    },
+    "curated_reachability_at_runtime-case-00.stdout": {
+      "bytes": 260,
+      "sha256": "fc938ad49cc97e995aa10a27825c8e808bfb09b051d1fc22297da201377e6548"
+    },
+    "carbonate-acetic-cli.stdout": {
+      "bytes": 30930,
+      "sha256": "889e889c1a1b9b5d614c3d6a9ba79f2987d574dcd1f8ef394e22baa3eafc6118"
+    },
+    "full-1536-sweep.stderr": {
+      "bytes": 104,
+      "sha256": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469"
+    },
+    "original-cycle-cli.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "particle_census-case-01.stderr": {
+      "bytes": 877,
+      "sha256": "b06ddddcbbf36277bad70ece0e2b97bf5f2abc1d20cd19e1abf109e4e51aa1bc"
+    },
+    "curated_reachability_at_runtime-case-00.stderr": {
+      "bytes": 877,
+      "sha256": "74b536a7c955ba0ca790f96bfd036c3dcce077a748d53dbf66c3389b70a286ae"
+    },
+    "full-1536-sweep.stdout": {
+      "bytes": 379,
+      "sha256": "f6b911d0952b2e86d691cddc351db293ca1dd78d41fbc2bdbad351f41740b31f"
+    },
+    "carbonate-acetic-cli.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "original-cycle-cli.stdout": {
+      "bytes": 29812,
+      "sha256": "5c319cf4db38da0f8fb2db3fb1557cda3992237eeced3d482540e82938e45de9"
+    },
+    "bicarbonate-phosphoric-cli.stdout": {
+      "bytes": 35216,
+      "sha256": "ef212a677bfd7b9fb36935956a1e3dca618c842763aceb0e893ab5c116f85f73"
+    },
+    "native_aqueous_overlap-case-02.stdout": {
+      "bytes": 300,
+      "sha256": "a6c5bf30a570ee90fba2180efe22d259aa896bff09ab253351e213c0f7a3f964"
+    },
+    "particle_census-case-01.stdout": {
+      "bytes": 292,
+      "sha256": "3a7fcf344a7397e61e7d064f9bb137224f9fcb61731d21553a2c6a3ed79c37ec"
+    }
+  },
+  "scientific_or_product_acceptance": false
+}

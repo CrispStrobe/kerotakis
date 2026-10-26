@@ -1,0 +1,4 @@
+
+thread 'carbonate_weak_acid_microtransfers_settle_and_repeat_without_drift' (8851) panicked at crates/kerotakis-phreeqc/tests/particle_census.rs:597:13:
+carbonate + acetic acid original setup add v1 CH3COOH 0.0500000000mol: [Added { vessel: VesselId(0), species: SpeciesId("CH3COOH"), moles: Moles(0.05), total_after: Some(Moles(0.05)) }, SolverFailed { vessel: VesselId(0), solver: "phreeqc-aqueous", detail: "phreeqc-inventory could not solve this state: gas-aware analytical component balance: component C exceeds readback bound: target=0.0000014527471000023995, readback=0.000001452765681245311, bound=0.00000000000014527471000023993" }, SolverFailed { vessel: VesselId(0), solver: "aqueous-overlap-ownership", detail: "deferred curated overlap received no accepted complete aqueous answer" }]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

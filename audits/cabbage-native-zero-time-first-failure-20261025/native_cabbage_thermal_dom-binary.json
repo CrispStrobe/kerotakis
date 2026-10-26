@@ -1,0 +1,11 @@
+{
+  "runtime_source": "8ebfb42783d4a07e891f5f1acc7f3d91c5985827",
+  "runtime_tree": "af7a303cd58674726703999760a99322c41ab24f",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "executable": "target/debug/deps/native_cabbage_thermal_dom-6415b23355baef64",
+  "sha256": "e4f12233b2b385218c29a7e49984864c5acf9417ba27fd63ebeba0d5733012c4",
+  "bytes": 87598728,
+  "gzip_sha256": "702a41b0795bcb4348af18b9f7a464525aec11f6d4e03b9b62fd2bc703e4b365",
+  "gzip_bytes": 20939076,
+  "qualification": "Actual tracked focus test executable, not deployed release executable"
+}

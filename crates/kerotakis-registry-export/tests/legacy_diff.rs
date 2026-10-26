@@ -237,8 +237,8 @@ fn every_legacy_field_is_present_and_unchanged() {
             .count(),
         1
     );
-    // The dissolution tranche is one source record too, cited by every
-    // enthalpy of dissolution and by nothing else.
+    // Legacy dissolution values retain their own tranche. The independently
+    // reviewed anhydrous carbonate reference has a separate source below.
     let dissolution = document
         .sources
         .iter()
@@ -255,7 +255,7 @@ fn every_legacy_field_is_present_and_unchanged() {
             .count(),
         REGISTRY
             .iter()
-            .filter(|species| species.dissolution_enthalpy_kj.is_some())
+            .filter(|species| species.dissolution_enthalpy_kj.is_some() && species.key != "Na2CO3")
             .count()
     );
     assert_eq!(
@@ -521,12 +521,60 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
             assert_eq!(record.quantity.unit.symbol, "kJ/mol");
             assert_eq!(record.quantity.unit.dimension, Dimension::MolarEnergy);
             assert_eq!(record.quantity.conditions.phase, Some(phase));
-            assert_eq!(record.quantity.uncertainty, Uncertainty::Unestablished);
-            assert_eq!(
-                record.quantity.source_id, "kerotakis/dissolution-enthalpies-v1",
-                "{} dissolution enthalpy must cite its own tranche",
-                species.key
-            );
+            if species.key == "Na2CO3" {
+                assert_eq!(value, -26.656);
+                assert_eq!(
+                    record.quantity.uncertainty,
+                    Uncertainty::Absolute { plus_minus: 0.126 }
+                );
+                assert_eq!(
+                    record.quantity.source_id,
+                    "literature/berg-vanderzee-anhydrous-carbonate-dissolution"
+                );
+                let temperature = record
+                    .quantity
+                    .conditions
+                    .temperature
+                    .as_ref()
+                    .expect("reviewed dissolution reference temperature");
+                assert_eq!(temperature.lower, 298.15);
+                assert_eq!(temperature.upper, 298.15);
+                assert_eq!(temperature.unit.symbol, "K");
+                assert_eq!(temperature.unit.dimension, Dimension::Temperature);
+                assert_eq!(
+                    record.quantity.conditions.medium.as_deref(),
+                    Some("water, infinite-dilution standard state")
+                );
+                assert!(record
+                    .quantity
+                    .conditions
+                    .notes
+                    .as_deref()
+                    .unwrap()
+                    .contains("Anhydrous"));
+                let sources: Vec<_> = document
+                    .sources
+                    .iter()
+                    .filter(|source| source.id == record.quantity.source_id)
+                    .collect();
+                assert_eq!(
+                    sources.len(),
+                    1,
+                    "one reviewed source, no duplicate legacy alias"
+                );
+                assert_eq!(sources[0].lane, SourceLane::Runtime);
+                assert_eq!(sources[0].licence, "CC0-1.0");
+                assert!(sources[0]
+                    .citation
+                    .contains("primary paper was not directly accessible"));
+            } else {
+                assert_eq!(record.quantity.uncertainty, Uncertainty::Unestablished);
+                assert_eq!(
+                    record.quantity.source_id, "kerotakis/dissolution-enthalpies-v1",
+                    "{} dissolution enthalpy must cite its own tranche",
+                    species.key
+                );
+            }
             assert!(
                 matches!(record.quantity.method, Method::Curated(_)),
                 "{} dissolution enthalpy is curated, not imported",

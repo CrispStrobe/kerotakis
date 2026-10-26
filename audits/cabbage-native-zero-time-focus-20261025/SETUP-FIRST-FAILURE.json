@@ -1,0 +1,24 @@
+{
+  "runtime_base": "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+  "test_only_source": "8ebfb42783d4a07e891f5f1acc7f3d91c5985827",
+  "producer_version": 1,
+  "terminal_state": "ERROR",
+  "classification": "SOURCE_SETUP_GUARD_STOP_BEFORE_COMPILATION",
+  "failed_command": [
+    "git",
+    "diff",
+    "--name-only",
+    "c7aa38bddd6e12c694ace4abf2b5f8150cfdd33f",
+    "8ebfb42783d4a07e891f5f1acc7f3d91c5985827"
+  ],
+  "exit_status": 128,
+  "complete_output_manifest_sha256": "8aab986b5211ee0226a3fbc9c94f0a1e91c087372f98133f2145e387d68538d9",
+  "target_build_records": 0,
+  "target_execution_records": 0,
+  "first_worker_sha256": "1c51e502583c55a6b39c56efeca7e1be8918f38fc2fd1425bdf69e35bb86412f",
+  "repair": "Fetch the exact pinned runtime-base commit explicitly after shallow test-source fetch, before the unchanged delta/source verification. Test/source/lock/quantities/limits stay exact.",
+  "next_worker_sha256": "aed02d5b6d000dc6ad108bf2ee995e8448b386ea3de85fd5589e981321d2e330",
+  "next_expected_version": 2,
+  "no_test_outcome_assigned": true,
+  "no_original_qualification": true
+}

@@ -41,6 +41,7 @@ fn reported_thiocyanate_complexes_keep_unknown_spectra_explicit() {
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: Some(0.1),
+        particle_molality: None,
         ph: 2.0,
         pe: None,
         redox: vec![],

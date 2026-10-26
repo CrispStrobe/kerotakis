@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-25T11:54:18.971331+00:00",
+  "source": "7092b0c19ba77252579752bda67eb698bfa69949",
+  "tree": "a6ec27e148bdb65c125aa8b3785f766162a6533a",
+  "lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "binary_sha256": "caaea422b0e730d301cc627be779af2db6f458779bf02590ac81f3498a4b8242",
+  "binary_bytes": 67348016,
+  "gzip_sha256": "c97e7adc546482d0bc0b33e88c72037d8c061e20a91ba56a068db3891bd0da1f",
+  "gzip_bytes": 16215895,
+  "exact_test": "strong_acid_on_baking_soda_also_fizzes",
+  "argv_suffix": [
+    "--exact",
+    "strong_acid_on_baking_soda_also_fizzes",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "observability_only_env_delta": {
+    "KERO_TRACE_SOLVENT_ACTIVITY": "1"
+  },
+  "expected": "Retain existing native failure; identify the actual second-opinion decline before solvent activity becomes unavailable, no expected cause or numerical outcome blessed.",
+  "local_bounds": {
+    "cpu_threads": 1,
+    "address_space_bytes": 1610612736,
+    "cpu_seconds": 20,
+    "wall_seconds": 30,
+    "stream_limit_bytes": 4194304,
+    "requires_mem_available_mib": 4224,
+    "requires_load1_at_most": 3.5
+  },
+  "one_invocation_no_retry": true,
+  "scientific_or_original_pass": false
+}

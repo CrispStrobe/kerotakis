@@ -1,0 +1,9 @@
+# Prewarmed cache transport compatibility
+
+The cache is an optional accelerator; it never supplies electron authority merely because an endpoint flag defaults to false. Current JSON keeps the named `entries` and `neutralisation_kj_per_mol` structure. Legacy JSON lacking `pe_authority` remains readable and defaults to `Unwitnessed`. Current JSON still omits an unwitnessed authority.
+
+Binary Postcard caches now begin with the16-byte `KEROTAKIS-CACHE2` marker and binary schema version1. Every binary entry carries all seven fields, including its authority; omitting a positional field is invalid. The decoder checks the marker/version before reading entries. Old unversioned binary caches, unknown versions and truncated data are rejected; legacy binary compatibility is not claimed. Regenerate caches with `kero prewarm` from the same source as the consuming application, using the normal web build to ship matched bytes. Preserve the original source/binary/lock and cache hashes when comparing results.
+
+Both CLI exports and Wasm `loadResults` use this shared codec. Without a live engine an incompatible cache remains an error. `openLab` can continue ordinary live-engine startup after rejecting an optional cache when a callable engine factory is provided; `onResultsError` receives that actual cache error. Engine creation or attachment failures still propagate. The console reports cache recovery in English, German and French with raw technical detail retained.
+
+The source-first [transport failure contract](../audits/native43-cache-transport-first-failures-20261025/FORECAST.md) and [consumer contract](../audits/native43-cache-transport-first-failures-20261025/CACHE-CONSUMER-ADMISSION.md) preserve the actual two replay failures and required checks. Implementation is not an acceptance claim: full native/platform/preflight/fleet, Wasm/bridge and deployed product checks remain required.

@@ -1,0 +1,15 @@
+{
+  "source": "6471e8d056f92c9bfb3d550bfa68b14566f84880",
+  "tree": "b5d5e9b2e0b407e91d617415ebc4335ce67eec0d",
+  "lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "captured_cli_sha256": "a85c98ee00ac3d7a64a7a9e7843268415481c644f058aa3da6a7a0a4c521fd6d",
+  "captured_cli_bytes": 105147168,
+  "observations_sha256": "ded5fc34b56798bebb5e003aafb7eb96230be4d92296e478899803dfb45b9ddd",
+  "verifier_sha256": "958ade3e719d87e04e74e0205f3d2d7918718348815c2756d9639a809e78f372",
+  "original_independent_receipt_sha256": "829ba56b12f540a8a2ebbd63f8397182f0a173d15f64c982ed2579ad25817526",
+  "parent_portable_arithmetic_stdout_sha256": "d646f10f17bf970192d279f6575dae08ccf7f2fe1454c844258830b7fda7801c",
+  "native_executions_by_verifier": 0,
+  "scientific_pass": false,
+  "model_accounting_residual_budget_j": 0.001,
+  "full_source_or_product_acceptance": false
+}

@@ -1,0 +1,29 @@
+{
+  "source": "a0177cff67cf13bcf460521d5bef34d026953296",
+  "native_component_expected_actual_residual": {
+    "Na": [
+      "0.020000000000004334",
+      "0.020000000072864427",
+      "7.2860093E-11"
+    ],
+    "Acetate": [
+      "0.00505",
+      "0.00505000001839617162466",
+      "1.839617162466E-11"
+    ],
+    "C": [
+      "0.009761316828802544738",
+      "0.009761316875305791383",
+      "4.6503246645E-11"
+    ]
+  },
+  "formal_charge_before": "-5.482E-15",
+  "formal_charge_after": "2.588676047E-10",
+  "gas_C_out": "0.00300342549613",
+  "scalar_basis_before": "0.0018681975500843273",
+  "scalar_basis_after": "0.0015617292481367902",
+  "diagnostic_result_sha256": "a3ff722f97cf441327e7f861f71a9e21b2cf42d9007c773937efd13f563ae8a2",
+  "stdout_sha256": "ddfda42984cc9c847c8504bc34ba13c9b1f3eb3916e2fa2a7c2887db6c153a27",
+  "stderr_sha256": "718d571002980c8161dd00e14a72063f6a7c55b87142b1a170447b23691b0cb1",
+  "base_source": "a0177cff67cf13bcf460521d5bef34d026953296"
+}

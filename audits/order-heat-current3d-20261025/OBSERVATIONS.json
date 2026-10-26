@@ -1,0 +1,134 @@
+{
+  "actual_cases": [
+    {
+      "id": "aq023-salt-first",
+      "execution": {
+        "id": "aq023-salt-first",
+        "exit_status": 0,
+        "error": null,
+        "elapsed_seconds": 0.2707622910384089,
+        "stdout_sha256": "7515cf1475f058685c7b4517dbcb513a7519dc65c59e69564c923c928b997bd9",
+        "stderr_sha256": "c4b7823feaa02e3fb49183b3b51203e7ee16c47f60a1034bd73eea20444a06b9",
+        "script_sha256": "d0cc6c78c4c68da8e4dd824790e9fe13e0a808ec0c3e826e0d72d1a2b9a079f9",
+        "source": "f06cc203c6071cff705e560ac06771258b061704",
+        "tree": "7be22fc0c4d41f0ba5cd3af76c962d494554c28c",
+        "binary_sha256": "c8030e0e8d1504bdc65aadd2ca23f54e394408d3e924334c87a0a4f64e9e1e70",
+        "lock_sha256": "480aec7ac77e82e3e1966a3a28f640862cfcadffa41ce47b8c10ebc3c3bc6e76"
+      },
+      "operations": [
+        {
+          "step": 0,
+          "operator": {
+            "moles": 5.534276991396059,
+            "op": "add",
+            "species": "water",
+            "vessel": 0
+          },
+          "temperature_k": 298.15,
+          "ionic_strength": 1.006060803128269e-07,
+          "ph": 6.997375771104036,
+          "gas_events": [],
+          "solver_failures": []
+        },
+        {
+          "step": 1,
+          "operator": {
+            "moles": 0.01,
+            "op": "add",
+            "species": "CaCl2",
+            "vessel": 0
+          },
+          "temperature_k": 300.13550014932787,
+          "ionic_strength": 0.3009027865714,
+          "ph": 6.866341435292,
+          "gas_events": [],
+          "solver_failures": []
+        },
+        {
+          "step": 2,
+          "operator": {
+            "basis": "mass_fraction",
+            "material": "laundry_detergent",
+            "op": "add_material",
+            "recipe_id": "household/laundry-detergent-powder",
+            "recipe_version": 1,
+            "sample_seed": 0,
+            "total_amount": 5.0,
+            "vessel": 0
+          },
+          "temperature_k": 300.1316387105029,
+          "ionic_strength": 0.2759702852009,
+          "ph": 10.9521300644,
+          "gas_events": [],
+          "solver_failures": []
+        }
+      ]
+    },
+    {
+      "id": "aq023-powder-first",
+      "execution": {
+        "id": "aq023-powder-first",
+        "exit_status": 0,
+        "error": null,
+        "elapsed_seconds": 0.21811636100756004,
+        "stdout_sha256": "77027996e9286c3edcfc886512e837dc6ff09484cb6a236f24afae952398af41",
+        "stderr_sha256": "bbdbb1d2e644c7ee7dfb44128738a4171af1584d40ac50f004ea8274598dae9f",
+        "script_sha256": "abb0fed3e7b130d814e58d89817658d0268d20a290d5ad8d5b4c111d9d959421",
+        "source": "f06cc203c6071cff705e560ac06771258b061704",
+        "tree": "7be22fc0c4d41f0ba5cd3af76c962d494554c28c",
+        "binary_sha256": "c8030e0e8d1504bdc65aadd2ca23f54e394408d3e924334c87a0a4f64e9e1e70",
+        "lock_sha256": "480aec7ac77e82e3e1966a3a28f640862cfcadffa41ce47b8c10ebc3c3bc6e76"
+      },
+      "operations": [
+        {
+          "step": 0,
+          "operator": {
+            "moles": 5.534276991396059,
+            "op": "add",
+            "species": "water",
+            "vessel": 0
+          },
+          "temperature_k": 298.15,
+          "ionic_strength": 1.006060803128269e-07,
+          "ph": 6.997375771104036,
+          "gas_events": [],
+          "solver_failures": []
+        },
+        {
+          "step": 1,
+          "operator": {
+            "basis": "mass_fraction",
+            "material": "laundry_detergent",
+            "op": "add_material",
+            "recipe_id": "household/laundry-detergent-powder",
+            "recipe_version": 1,
+            "sample_seed": 0,
+            "total_amount": 5.0,
+            "vessel": 0
+          },
+          "temperature_k": 298.15,
+          "ionic_strength": 0.2774013005643,
+          "ph": 11.29688270951,
+          "gas_events": [],
+          "solver_failures": []
+        },
+        {
+          "step": 2,
+          "operator": {
+            "moles": 0.01,
+            "op": "add",
+            "species": "CaCl2",
+            "vessel": 0
+          },
+          "temperature_k": 299.9119677430168,
+          "ionic_strength": 0.2761694036629,
+          "ph": 10.95799192241,
+          "gas_events": [],
+          "solver_failures": []
+        }
+      ]
+    }
+  ],
+  "full_mixture_calibration_claim": false,
+  "new_original_qualifications": 0
+}

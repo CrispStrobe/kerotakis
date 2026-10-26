@@ -17,8 +17,10 @@
 //! before the aqueous tail — so on the step where a reagent is ADDED the
 //! ledger still holds it as written, and the match succeeds. Add it first
 //! instead, let it go through a solve, and its name has changed underneath
-//! the reaction. Three reactions were reachable in one order and silent in
-//! the other, and every one of them was found by accident:
+//! the reaction. The bicarbonate/acetic overlap now has an explicit native
+//! ownership route, so that pair is checked for actual final-dose CO2 and a
+//! closed native material ledger; the other curated reactions still require
+//! their existing curated-event behavior.
 //!
 //!   NaHCO₃ + CH₃COOH        vinegar and baking soda
 //!   CaCO₃ + 2 CH₃COOH       vinegar on an eggshell
@@ -28,20 +30,18 @@
 //! order where the acid is already in the beaker. Nobody would have found
 //! that from a bug report: pouring one way round worked.
 //!
-//! THIS TEST HAS BEEN CHECKED AGAINST THE BUG IT IS FOR. Delete the
-//! `HCO₃⁻ + CH₃COOH` row from `curated.rs` and it fails with
+//! Historically, deleting the ionic bicarbonate sibling made this integrated
+//! test fail on soda-first addition. That history remains frozen in the audit.
+//! The selected native owner now handles that overlap; requiring its old
+//! curated event would misidentify a working native route as silence. Direct
+//! and no-owner curated fallback remain explicit core mechanism controls.
 //!
-//!     silent when added in the order ["NaHCO3", "CH3COOH"]
-//!
-//! which is the defect kerotakis-5f found by accident. A guard that passes
-//! on a fixed tree has proved nothing about its own power; this one has
-//! been shown to catch the thing it was written for.
-//!
-//! A reaction is counted reachable if ANY curated equation fires — not
-//! necessarily its own. That is deliberate: the established remedy for a
-//! renamed reagent is a sibling row written in the names the vessel holds
-//! (`MnO₄⁻` beside `KMnO4`, `HCO₃⁻` beside `NaHCO3`), and what matters is
-//! that the capability survives, not which row carries it.
+//! For curated-owned reactions, reachability still means ANY curated
+//! equation fires — not necessarily its own. That is deliberate: the
+//! established remedy for a renamed reagent is a sibling row written in the
+//! names the vessel holds (`MnO₄⁻` beside `KMnO4`). The selected
+//! bicarbonate/acetic native route is the explicit exception and is checked
+//! above by its final-dose physical outcome and closed material ledger.
 
 #![cfg(feature = "engine")]
 
@@ -49,6 +49,8 @@ use kerotakis_core::curated::{CuratedReaction, REACTIONS};
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 use kerotakis_safety::ReactiveGroupScreen;
+#[path = "support/native_material_checks.rs"]
+mod native_material_checks;
 
 fn stack() -> SolverStack {
     SolverStack::new(vec![
@@ -119,6 +121,67 @@ fn fires_when_added_in(order: &[(&str, f64)], reaction: &CuratedReaction) -> boo
     })
 }
 
+fn is_bicarbonate_acetic_overlap(reaction: &CuratedReaction) -> bool {
+    if reaction.reactants.len() != 2 {
+        return false;
+    }
+    let has_acid = reaction
+        .reactants
+        .iter()
+        .any(|(species, _)| *species == "CH3COOH");
+    let has_bicarbonate = reaction
+        .reactants
+        .iter()
+        .any(|(species, _)| *species == "NaHCO3" || *species == "HCO3-");
+    has_acid && has_bicarbonate
+}
+
+fn native_bicarbonate_acetic_fizz_when_added_in(order: &[(&str, f64)]) -> bool {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let vessel = VesselId(0);
+    let add_water = |bench: &mut Bench, stack: &mut SolverStack| {
+        bench
+            .step_with(
+                Operator::Add {
+                    vessel,
+                    species: SpeciesId::new("water"),
+                    moles: Moles(5.5),
+                    at: None,
+                },
+                stack,
+                &ReactiveGroupScreen,
+            )
+            .unwrap_or_else(|error| panic!("water setup failed: {error:?}"))
+    };
+    let water_events = add_water(&mut bench, &mut stack);
+    assert!(
+        !water_events
+            .iter()
+            .any(|event| matches!(event, Event::SolverFailed { .. })),
+        "water setup failed: {water_events:?}"
+    );
+
+    for (index, (key, moles)) in order.iter().enumerate() {
+        // A bare bicarbonate row is a reaction identity, not a complete
+        // neutral stock. Pose the same dose with its actual Na counterion;
+        // keep its moles unchanged and count NaHCO3 in the inlet ledger.
+        let actual_stock = if *key == "HCO3-" { "NaHCO3" } else { *key };
+        let events = native_material_checks::add_with_native_material_closure(
+            &mut bench,
+            &mut stack,
+            vessel,
+            actual_stock,
+            *moles,
+            "bicarbonate/acetic order reachability",
+        );
+        if index + 1 == order.len() {
+            return native_material_checks::positive_co2_gas_out(&events) > 1e-4;
+        }
+    }
+    false
+}
+
 /// Reactions this test cannot pose, with the reason. Not a list of
 /// failures — a list of things the harness above is not equipped to build.
 const NOT_POSED: &[(&str, &str)] = &[
@@ -174,7 +237,12 @@ fn every_curated_reaction_is_reachable_in_every_order() {
         for skip in 0..amounts.len() {
             let mut order = amounts.clone();
             order.rotate_left(skip);
-            if !fires_when_added_in(&order, reaction) {
+            let reachable = if is_bicarbonate_acetic_overlap(reaction) {
+                native_bicarbonate_acetic_fizz_when_added_in(&order)
+            } else {
+                fires_when_added_in(&order, reaction)
+            };
+            if !reachable {
                 let names: Vec<&str> = order.iter().map(|(k, _)| *k).collect();
                 unreachable.push(format!(
                     "  {}\n    silent when added in the order {:?}",

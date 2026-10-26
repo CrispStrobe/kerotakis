@@ -1,0 +1,21 @@
+{
+  "source": "c8171c4ebcf8961840605f2e925b6b8265b80c8a",
+  "tree": "fbe667b20fab360afaf4da8e59acd8a422c2e42b",
+  "expected_controls": 59,
+  "actual_passes": 58,
+  "actual_failed_controls": 1,
+  "failure_kind": "New test harness used unsupported public DSL wait 0s; parser rejected before repeat loop",
+  "repair": "Use existing typed Operator::Wait { seconds: 0.0 } for the unchanged internal zero-time stability check; no DSL admission or physical assertion changed",
+  "actual_full_sweep_states": 1536,
+  "actual_full_sweep_violations": 0,
+  "original_producer_manifest_sha256": "aae1c88a35d1c341396cbffe85e2b544b58a99ee731071b3667faa4c91597eca",
+  "actual_lock_sha256": "41bbdc743cad4758007f10c040cdacb2caf1e34ce32a4348512fb16a396300cb",
+  "raw_records": {
+    "particle_census-case-01.stdout": "a71fa4b5ae77b902b8371680baf32b3fbae961cafa5ab2136ae56bbf1caa72f3",
+    "particle_census-case-01.stderr": "a9858951faa8506b85daace890e89c9570de2baee3f27c313f16be73712caf2a",
+    "full-1536-sweep.stdout": "56db4eff31f26a448c91e98eda7a1009d0820687f44274be04b1a44a6c2fd50d",
+    "full-1536-sweep.stderr": "4e7077253ab42bbf469a2e1cbb06d468cce80c3f5d0a02a0ed759b6fd5401469"
+  },
+  "full_acceptance": false,
+  "scientific_selections": 0
+}

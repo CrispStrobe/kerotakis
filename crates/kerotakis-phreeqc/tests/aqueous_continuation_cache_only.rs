@@ -18,6 +18,7 @@ fn concrete_cache_miss_and_failed_hook_cannot_reuse_an_old_solution() {
         solvent_activity: None,
         scope: SolutionScope::Complete,
         solvent_kg: Some(0.1),
+        particle_molality: None,
         ph: 7.0,
         ionic_strength: 1e-7,
         pe: None,

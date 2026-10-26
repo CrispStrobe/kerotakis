@@ -1151,7 +1151,7 @@
     "appearance": "white",
     "colour": null,
     "density": 2.54,
-    "dissolution_enthalpy_kj": null,
+    "dissolution_enthalpy_kj": -26.656,
     "dissolves_without_speciation": false,
     "flame_colour": null,
     "forms_only_above_k": null,

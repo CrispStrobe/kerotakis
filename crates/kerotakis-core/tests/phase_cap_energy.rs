@@ -1,4 +1,4 @@
-//! Prospective phase-cap conservation controls. Not executed; synthetic activity
+//! Variable-fusion successor to the frozen phase-cap controls; synthetic activity
 //! inputs are not native chemistry, measured pH, or calibration evidence.
 use kerotakis_core::*;
 use serde_json::Value;
@@ -35,12 +35,12 @@ impl Route {
     }
     fn liquidus(self, liquid_moles: f64) -> f64 {
         let aw = self.aw(PARTICLES / (MW * liquid_moles));
-        1.0 / (1.0 / REFERENCE_K - R / FUSION * aw.ln())
+        Reference::new().temperature_at(aw)
     }
     fn cap_molality(self) -> f64 {
         match self {
             Self::Ideal => 6.0,
-            Self::Eutectic => (1.0 / 252.0 - 1.0 / REFERENCE_K) * FUSION / (R * MW),
+            Self::Eutectic => -Reference::new().ln_activity(252.0) / MW,
         }
     }
     fn cap_liquid(self) -> f64 {
@@ -140,6 +140,41 @@ impl Reference {
         }
         total * dt / 3.0
     }
+    // Fubini form of the Cp correction, independently integrated directly
+    // from frozen coefficients: ∫ ΔCp(v)(1/v−1/T) dv. No production entropy,
+    // fusion or liquidus evaluator is used as the expected-value oracle.
+    fn ln_activity(&self, t: f64) -> f64 {
+        let n = 512;
+        let step = (t - REFERENCE_K) / n as f64;
+        let correction = (0..=n)
+            .map(|i| {
+                let u = REFERENCE_K + step * i as f64;
+                let w = if i == 0 || i == n {
+                    1.0
+                } else if i % 2 == 0 {
+                    2.0
+                } else {
+                    4.0
+                };
+                w * (Self::cp(&self.liquid, u) - Self::cp(&self.solid, u)) * (1.0 / u - 1.0 / t)
+            })
+            .sum::<f64>()
+            * step
+            / 3.0;
+        (FUSION * (t - REFERENCE_K) / (REFERENCE_K * t) + correction) / R
+    }
+    fn temperature_at(&self, activity: f64) -> f64 {
+        let (mut lo, mut hi) = (252.0, REFERENCE_K);
+        for _ in 0..52 {
+            let mid = (lo + hi) / 2.0;
+            if self.ln_activity(mid) < activity.ln() {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        (lo + hi) / 2.0
+    }
     fn inventory(&self, t: f64, liquid: f64, solid: f64, n: usize) -> f64 {
         liquid * Self::sensible(&self.liquid, t, n)
             + solid * (Self::sensible(&self.solid, t, n) - FUSION)
@@ -229,6 +264,7 @@ fn declare_activity(v: &mut Vessel, route: Route) {
     v.solution = Some(SolutionInfo {
         scope: Default::default(),
         solvent_kg: Some(kg),
+        particle_molality: None,
         pe: None,
         redox: vec![],
         ph: 7.0,

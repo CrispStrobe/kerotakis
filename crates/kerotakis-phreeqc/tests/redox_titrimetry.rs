@@ -9,9 +9,11 @@
 
 #![cfg(feature = "engine")]
 
+use kerotakis_core::ledger::ConservedLedger;
 use kerotakis_core::script::parse_op;
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
+use std::collections::BTreeSet;
 
 /// 0.0002 mol of oxalic acid needs 0.00008 mol of permanganate — two for
 /// five — which a 0.02 mol/L burette delivers in exactly 4.00 mL.
@@ -24,7 +26,7 @@ const STOICHIOMETRIC_ML: f64 = 4.0;
 const ONE_DROP_ML: f64 = 0.05;
 
 fn add(bench: &mut Bench, stack: &mut SolverStack, v: VesselId, key: &str, moles: f64) {
-    bench
+    let events = bench
         .step_with(
             Operator::Add {
                 vessel: v,
@@ -36,6 +38,16 @@ fn add(bench: &mut Bench, stack: &mut SolverStack, v: VesselId, key: &str, moles
             &PermissiveScreen,
         )
         .expect("step");
+    assert_no_solver_failed(&events, key);
+}
+
+fn assert_no_solver_failed(events: &[Event], context: &str) {
+    assert!(
+        !events
+            .iter()
+            .any(|event| matches!(event, Event::SolverFailed { .. })),
+        "{context}: solver failure: {events:?}"
+    );
 }
 
 fn stack() -> SolverStack {
@@ -59,6 +71,7 @@ fn flask(bench: &mut Bench, stack: &mut SolverStack) -> VesselId {
 struct Run {
     ml: f64,
     reached: bool,
+    ph_curve: Vec<(f64, f64)>,
     pe_curve: Vec<(f64, f64)>,
 }
 
@@ -67,11 +80,13 @@ fn titrated(events: &[Event]) -> Option<Run> {
         Event::Titrated {
             total_volume,
             endpoint_reached,
+            curve,
             pe_curve,
             ..
         } => Some(Run {
             ml: total_volume.0 * 1000.0,
             reached: endpoint_reached.unwrap_or(false),
+            ph_curve: curve.clone(),
             pe_curve: pe_curve.clone(),
         }),
         _ => None,
@@ -89,7 +104,101 @@ fn run(line: &str) -> (Vec<Event>, Bench) {
             &PermissiveScreen,
         )
         .expect("titrate");
+    assert_no_solver_failed(&events, line);
     (events, bench)
+}
+
+/// The public ledger ignores unknown formulas, so reject them before using it.
+fn strict_ledger(vessel: &Vessel) -> ConservedLedger {
+    assert!(vessel.unresolved_materials.is_empty());
+    assert!(vessel.surfaces.is_empty() && vessel.electrodes.is_empty());
+    assert!(vessel.material_objects.is_empty() && vessel.adsorbed.is_empty());
+    assert!(vessel.exchanges.is_empty() && vessel.solid_solutions.is_empty());
+    for portion in &vessel.contents {
+        assert!(portion.moles.0.is_finite() && portion.moles.0 >= 0.0);
+        let row = species::lookup(&portion.species)
+            .unwrap_or_else(|| panic!("unregistered portion: {}", portion.species.0));
+        stoich::parse_formula(row.formula)
+            .unwrap_or_else(|error| panic!("{}: {error}", portion.species.0));
+    }
+    ConservedLedger::from_vessel(vessel)
+}
+
+fn add_external(ledger: &mut ConservedLedger, id: &SpeciesId, moles: f64, sign: f64) {
+    assert!(
+        moles.is_finite() && moles >= 0.0,
+        "invalid inlet or gas amount"
+    );
+    assert!(sign == 1.0 || sign == -1.0);
+    let row = species::lookup(id).unwrap_or_else(|| panic!("unregistered: {}", id.0));
+    let formula =
+        stoich::parse_formula(row.formula).unwrap_or_else(|error| panic!("{}: {error}", id.0));
+    for (element, count) in formula.counts {
+        *ledger.elements.entry(element).or_default() += sign * count * moles;
+    }
+    ledger.charge += sign * formula.charge * moles;
+}
+
+fn assert_titration_ledger(before: &Vessel, after: &Vessel, events: &[Event], ml: f64) {
+    let mut expected = strict_ledger(before);
+    let volume = Liters(ml / 1000.0);
+    add_external(
+        &mut expected,
+        &SpeciesId::new("KMnO4"),
+        volume.0 * BURETTE_M,
+        1.0,
+    );
+    let water = species::lookup_key("water").expect("registered carrier water");
+    add_external(
+        &mut expected,
+        &SpeciesId::new("water"),
+        water.moles_from_liters(volume).0,
+        1.0,
+    );
+    for event in events {
+        match event {
+            Event::GasEvolved {
+                vessel,
+                species,
+                moles,
+            } => {
+                assert_eq!(*vessel, before.id);
+                add_external(&mut expected, species, moles.0, -1.0);
+            }
+            Event::GasAbsorbed {
+                vessel,
+                species,
+                moles,
+            } => {
+                assert_eq!(*vessel, before.id);
+                add_external(&mut expected, species, moles.0, 1.0);
+            }
+            _ => {}
+        }
+    }
+    let actual = strict_ledger(after);
+    let elements: BTreeSet<_> = expected
+        .elements
+        .keys()
+        .chain(actual.elements.keys())
+        .cloned()
+        .collect();
+    for element in elements {
+        let left = expected.elements.get(&element).copied().unwrap_or(0.0);
+        let right = actual.elements.get(&element).copied().unwrap_or(0.0);
+        assert!(
+            left.is_finite() && right.is_finite() && (left - right).abs() <= 1e-10,
+            "{element} changed {left:.15e} -> {right:.15e} mol"
+        );
+    }
+    assert!(
+        expected.charge.is_finite()
+            && actual.charge.is_finite()
+            && (expected.charge - actual.charge).abs() <= 1e-10,
+        "formal charge changed {:.15e} -> {:.15e} eq",
+        expected.charge,
+        actual.charge
+    );
 }
 
 // ── The self-indicating endpoint ────────────────────────────────────
@@ -195,30 +304,17 @@ fn an_open_flask_pins_its_potential_from_the_air() {
     );
 }
 
-/// Sweeping the air out does not hand the potential to the couple — it
-/// hands back PHREEQC's default. This is EXP-39's reported gap, pinned.
-///
-/// With the atmosphere removed the only redox element left is manganese,
-/// and the curated row puts all of it at Mn(II) until equivalence. One
-/// oxidation state is not a couple: there is nothing for the electron
-/// balance to bracket. What comes back is not a withheld pe, which is
-/// what `redox.rs::the_equivalence_point_reports_no_potential` shows the
-/// engine can do — it is a flat 4.0 at every one of 150 increments,
-/// which is the pe of the *input*, republished as an answer.
-///
-/// So the potentiometric endpoint is wired, honest, and unusable on this
-/// system: open, the flask reads its oxygen (~19.0, flat); swept, it
-/// reads the default (4.0, flat). Neither is a titration curve. The
-/// endpoint mode is right; what is missing is an engine that withholds
-/// pe when nothing determines it, exactly as it already does at an
-/// equivalence point. This test exists so that the day the engine stops
-/// republishing its input, it fails and says so.
+/// Sweeping the air removes the open-oxygen potential anchor. Mn and the
+/// oxalate flask do not supply an independently earned fast redox couple,
+/// so the burette can deliver its full volume without inventing a pe curve.
+/// The pH curve, material ledger and explicit no-potential refusal remain
+/// observable during that run.
 #[test]
-fn a_swept_flask_reports_the_default_pe_rather_than_the_couple() {
+fn a_swept_flask_withholds_unearned_pe_and_keeps_the_burette_running() {
     let mut bench = Bench::new();
     let mut s = stack();
     let v = flask(&mut bench, &mut s);
-    bench
+    let sweep_events = bench
         .step_with(
             Operator::Sweep {
                 vessel: v,
@@ -228,6 +324,8 @@ fn a_swept_flask_reports_the_default_pe_rather_than_the_couple() {
             &PermissiveScreen,
         )
         .expect("sweep");
+    assert_no_solver_failed(&sweep_events, "sweep");
+    let before_titrate = bench.vessel(v).expect("swept flask").clone();
     let events = bench
         .step_with(
             Operator::Titrate {
@@ -248,44 +346,60 @@ fn a_swept_flask_reports_the_default_pe_rather_than_the_couple() {
             &PermissiveScreen,
         )
         .expect("titrate");
+    assert_no_solver_failed(&events, "swept titration");
     let run = titrated(&events).unwrap_or_else(|| panic!("{events:?}"));
     assert!(!run.reached, "1e6 is not a reachable potential");
-    assert!(run.pe_curve.len() > 100, "the burette must walk the curve");
-    let spread = run
-        .pe_curve
-        .iter()
-        .map(|(_, pe)| *pe)
-        .fold(f64::NEG_INFINITY, f64::max)
-        - run
-            .pe_curve
-            .iter()
-            .map(|(_, pe)| *pe)
-            .fold(f64::INFINITY, f64::min);
-    assert!(
-        spread < 1e-9,
-        "the swept curve is flat today; a spread of {spread} means the \
-         couple has started setting the potential and this test's whole \
-         story needs rewriting (gladly)"
+    eprintln!(
+        "swept pH curve: {:?}; delivered {:.6} mL",
+        run.ph_curve, run.ml
     );
     assert!(
-        (run.pe_curve[0].1 - 4.0).abs() < 1e-6,
-        "and flat at PHREEQC's input default of pe 4, not at a computed \
-         value: got {}",
-        run.pe_curve[0].1
+        run.ph_curve.len() > 100
+            && run
+                .ph_curve
+                .iter()
+                .all(|(ml, ph)| ml.is_finite() && ph.is_finite()),
+        "the burette must return more than 100 real pH points"
     );
+    assert!(
+        (run.ml - 150.0 * ONE_DROP_ML).abs() <= 1e-9,
+        "the original 150 drops must deliver 7.5 mL, got {}",
+        run.ml
+    );
+    assert!(
+        run.pe_curve.is_empty(),
+        "unearned pe points: {:?}",
+        run.pe_curve
+    );
+    let final_vessel = bench.vessel(v).expect("titrated flask");
+    let final_info = final_vessel
+        .solution
+        .as_ref()
+        .expect("current aqueous state");
+    assert_eq!(final_info.scope, vessel::SolutionScope::Complete);
+    assert!(final_info.ph.is_finite());
+    assert_eq!(final_info.pe, None, "swept flask cannot earn pe");
+    assert_titration_ledger(&before_titrate, final_vessel, &events, run.ml);
 
-    // The refusal still tells the truth about it: a potential *was*
-    // pinned, so the reason must be the target, not the couple.
     let why = events
         .iter()
         .find_map(|e| match e {
-            Event::NotYetModeled { what, .. } if what.contains("pe") => Some(what.clone()),
+            Event::NotYetModeled {
+                what,
+                reason: Some(reason),
+                ..
+            } if reason.key == "not-modeled.titration-pe-never-pinned" => Some(what),
             _ => None,
         })
         .unwrap_or_else(|| panic!("a reason was owed: {events:?}"));
     assert!(
-        why.contains("last potential this flask pinned"),
-        "the flask did pin a potential; the refusal must not claim otherwise: {why}"
+        why.contains("no potential was pinned") && !why.contains("last potential"),
+        "the refusal must distinguish no earned potential: {why}"
+    );
+    assert!(
+        !events.iter().any(|event| matches!(event,
+            Event::NotYetModeled { what, .. } if what.contains("last potential this flask pinned"))),
+        "a swept flask must not report an unearned last potential: {events:?}"
     );
 }
 

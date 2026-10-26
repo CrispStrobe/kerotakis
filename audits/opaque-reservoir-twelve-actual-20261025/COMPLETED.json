@@ -1,0 +1,290 @@
+{
+  "runtime_source": "aafdcd5ad2fb0e212a2dc6c36e49d02b9b5ba8eb",
+  "runtime_tree": "9d129728a47571751e70c10f7f809085ac598e9a",
+  "actual_outcomes": [
+    {
+      "target": "native_cabbage_thermal_dom",
+      "test": "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+      "record": "native_cabbage_thermal_dom-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "native_cabbage_thermal_dom",
+      "test": "plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock",
+      "record": "native_cabbage_thermal_dom-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::reservoir_certificate_requires_current_native_numerical_coordinates",
+      "record": "kerotakis_phreeqc-case-00",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::canonical_physical_closure_tests::reservoir_certificate_requires_current_native_numerical_coordinates",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::reservoir_opaque_owner_spends_global_eight_pass_cap_and_rolls_back",
+      "record": "kerotakis_phreeqc-case-01",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::canonical_physical_closure_tests::reservoir_opaque_owner_spends_global_eight_pass_cap_and_rolls_back",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::reservoir_opaque_owner_requires_explicit_native_opt_in_and_keeps_clock_distinct",
+      "record": "kerotakis_phreeqc-case-02",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::gas_component_projection_tests::reservoir_opaque_owner_requires_explicit_native_opt_in_and_keeps_clock_distinct",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::reservoir_opaque_immutable_certificate_tests::passive_ladder_is_reservoir_only_and_every_spectator_bit_is_immutable",
+      "record": "kerotakis_phreeqc-case-03",
+      "exit_status": 0,
+      "rows": [
+        [
+          "inventory::reservoir_opaque_immutable_certificate_tests::passive_ladder_is_reservoir_only_and_every_spectator_bit_is_immutable",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::reservoir_opaque_immutable_certificate_tests::reservoir_owner_checks_signed_gas_and_rejects_unknown_ions_or_clock",
+      "record": "kerotakis_phreeqc-case-04",
+      "exit_status": 0,
+      "rows": [
+        [
+          "inventory::reservoir_opaque_immutable_certificate_tests::reservoir_owner_checks_signed_gas_and_rejects_unknown_ions_or_clock",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::opaque_clock_owner_rejects_second_pass_mutation_and_restores_caller",
+      "record": "kerotakis_phreeqc-case-05",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::canonical_physical_closure_tests::opaque_clock_owner_rejects_second_pass_mutation_and_restores_caller",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::opaque_owner_is_clock_only_and_requires_every_represented_component",
+      "record": "kerotakis_phreeqc-case-06",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::gas_component_projection_tests::opaque_owner_is_clock_only_and_requires_every_represented_component",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::clock_only_component_projection_requires_typed_first_or_reentry_owner",
+      "record": "kerotakis_phreeqc-case-07",
+      "exit_status": 0,
+      "rows": [
+        [
+          "aqueous::gas_component_projection_tests::clock_only_component_projection_requires_typed_first_or_reentry_owner",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::gas_aware_certificate_tests::clock_spectators_are_exact_immutable_stock_not_new_native_components",
+      "record": "kerotakis_phreeqc-case-08",
+      "exit_status": 0,
+      "rows": [
+        [
+          "inventory::gas_aware_certificate_tests::clock_spectators_are_exact_immutable_stock_not_new_native_components",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::gas_aware_certificate_tests::opaque_clock_owner_preserves_every_unresolved_field_and_rejects_invalid_stock",
+      "record": "kerotakis_phreeqc-case-09",
+      "exit_status": 0,
+      "rows": [
+        [
+          "inventory::gas_aware_certificate_tests::opaque_clock_owner_preserves_every_unresolved_field_and_rejects_invalid_stock",
+          "ok"
+        ]
+      ],
+      "totals": [
+        [
+          "1",
+          "0",
+          "0",
+          "0",
+          "168"
+        ]
+      ],
+      "complete": true,
+      "fixed_expectation_forecast_only": "PASS"
+    }
+  ],
+  "all_named_controls_collected": true,
+  "expected_named_controls": 12,
+  "actual_target_count": 2,
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "scientific_selections": 0,
+  "runtime_fix_verified_by_execution": false,
+  "forecast_is_not_acceptance": true,
+  "focus_is_not_full_fleet": true
+}

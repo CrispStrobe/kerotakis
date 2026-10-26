@@ -103,6 +103,34 @@ impl CpInterval {
         }
     }
 
+    /// ∫Cp/T dT in one interval, J/(mol K). Difference forms retain
+    /// narrow spans and use the same coefficients as the enthalpy integral.
+    fn entropy(&self, t0: f64, t1: f64) -> f64 {
+        let c = &self.coefficients;
+        let d = t1 - t0;
+        match self.form {
+            CpForm::Nasa9 => {
+                R * (c[0] * d * (t0 + t1) / (2.0 * t0.powi(2) * t1.powi(2))
+                    + c[1] * d / (t0 * t1)
+                    + c[2] * (d / t0).ln_1p()
+                    + c[3] * d
+                    + c[4] / 2.0 * (t0 + t1) * d
+                    + c[5] / 3.0 * (t0 * t0 + t0 * t1 + t1 * t1) * d
+                    + c[6] / 4.0 * (t0 + t1) * (t0 * t0 + t1 * t1) * d)
+            }
+            CpForm::Shomate => {
+                let a = t0 / 1000.0;
+                let b = t1 / 1000.0;
+                let ds = d / 1000.0;
+                c[0] * (d / t0).ln_1p()
+                    + c[1] * ds
+                    + c[2] / 2.0 * (a + b) * ds
+                    + c[3] / 3.0 * (a * a + a * b + b * b) * ds
+                    + c[4] * ds * (a + b) / (2.0 * a * a * b * b)
+            }
+        }
+    }
+
     /// ∫Cp dT between two temperatures both inside this interval, J/mol.
     ///
     /// Every term is written as a DIFFERENCE OF POWERS carrying `(t1 - t0)`
@@ -303,6 +331,35 @@ impl CpPolynomial {
             }
         }
         Some(total)
+    }
+
+    /// ∫Cp/T dT, J/(mol K), with exactly the enthalpy evaluator's
+    /// piecewise intervals and held endpoints. Nonpositive or nonfinite
+    /// temperatures have no thermodynamic entropy integral here.
+    pub fn entropy_between(&self, t0: f64, t1: f64) -> Option<f64> {
+        if !t0.is_finite() || !t1.is_finite() || t0 <= 0.0 || t1 <= 0.0 {
+            return None;
+        }
+        if t1 < t0 {
+            return self.entropy_between(t1, t0).map(|s| -s);
+        }
+        let (lo, hi) = self.range()?;
+        let mut total = 0.0;
+        if t0 < lo {
+            total += self.intervals.first()?.cp(lo) * ((t1.min(lo) - t0) / t0).ln_1p();
+        }
+        if t1 > hi {
+            let start = t0.max(hi);
+            total += self.intervals.last()?.cp(hi) * ((t1 - start) / start).ln_1p();
+        }
+        for interval in self.intervals {
+            let a = t0.max(interval.t_min);
+            let b = t1.min(interval.t_max);
+            if b > a {
+                total += interval.entropy(a, b);
+            }
+        }
+        total.is_finite().then_some(total)
     }
 
     /// The temperature this phase reaches when `joules` per mole are added

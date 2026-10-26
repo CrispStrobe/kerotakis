@@ -1,0 +1,9 @@
+# Publish pe only from a witnessed electron boundary —2026-10-25
+
+The independently authenticated observational source7092b0c1 (runtime-equivalent baseline6e44 except logging) reproduces finite-headspace ammonia nonclosure. Its final seven pe deltas oscillate from3.36e-4 to1.49e-3 against the unchanged1e-6 bound, while captured stock, charge, pH, ionic strength, solvent and heat coordinates settle. Raw source/lock/manifest, both native failures and private saved analyses are preserved; this is not a passed model or a new original qualification.
+
+Source review finds no prescribed pe and no fast-redox electron-balance solve in the sealed single N(-3) arm. A legacy pe_undetermined=false default plus one redox row currently lets the finalizer publish an unwitnessed native pe. Previous output is not fed back into the input.
+
+Before editing, freeze the generic correction: carry an ephemeral typed authority from the actual pose/solve path. A bracketed, paid coupled electron balance or the actually imposed open oxygen boundary can witness pe; a database redox capability, one valence row, inert finite O2, an old default boolean, or a vessel label alone cannot. A raw or MIX/cache/hook path must not inherit an input boundary it did not impose. Withhold unwitnessed pe rather than widening its tolerance; keep1e-6 for witnessed pe and preserve all component/H/O/charge/gas/heat predicates and cap8. Preserve wire compatibility with old cache/hook records without letting absent legacy fields attest a solved redox coordinate.
+
+Require unchanged full coupled-ammonia matrix, actual poised/open Fe and bracketed Fe/Mn positive controls, equivalence/fallback None, sealed single-valence/inert-carrier negatives, cache/fresh/browser-hook/MIX authority parity, full relevant source/platform/fleet and product acceptance. No chemistry admission, calibration, electron inventory or original forecast may be changed to pass this gate.

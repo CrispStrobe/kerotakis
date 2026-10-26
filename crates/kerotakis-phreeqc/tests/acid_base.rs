@@ -6,6 +6,8 @@
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 use kerotakis_safety::ReactiveGroupScreen;
+#[path = "support/native_material_checks.rs"]
+mod native_material_checks;
 
 fn stack() -> SolverStack {
     SolverStack::new(vec![
@@ -600,11 +602,39 @@ fn the_volcano_cools_whichever_order_you_build_it_in() {
         let v = VesselId(0);
         add(&mut bench, &mut stack, v, "water", 2.7);
         let events = if soda_first {
-            add(&mut bench, &mut stack, v, "NaHCO3", 0.05);
-            add(&mut bench, &mut stack, v, "CH3COOH", 0.042)
+            native_material_checks::add_with_native_material_closure(
+                &mut bench,
+                &mut stack,
+                v,
+                "NaHCO3",
+                0.05,
+                "volcano soda first",
+            );
+            native_material_checks::add_with_native_material_closure(
+                &mut bench,
+                &mut stack,
+                v,
+                "CH3COOH",
+                0.042,
+                "volcano final acid dose",
+            )
         } else {
-            add(&mut bench, &mut stack, v, "CH3COOH", 0.042);
-            add(&mut bench, &mut stack, v, "NaHCO3", 0.05)
+            native_material_checks::add_with_native_material_closure(
+                &mut bench,
+                &mut stack,
+                v,
+                "CH3COOH",
+                0.042,
+                "volcano acid first",
+            );
+            native_material_checks::add_with_native_material_closure(
+                &mut bench,
+                &mut stack,
+                v,
+                "NaHCO3",
+                0.05,
+                "volcano final soda dose",
+            )
         };
         (bench.vessel(v).unwrap().temperature.to_celsius(), events)
     };
@@ -615,17 +645,14 @@ fn the_volcano_cools_whichever_order_you_build_it_in() {
             "the volcano is endothermic and the beaker gets colder \
              (soda_first={soda_first}), got {t:.1} °C"
         );
-        // And it reaches a reviewed equation either way round. Renaming is
-        // symmetric, so this needs a row written on the SALT and one on the
-        // ION; whichever reagent went through a solve first, one of the two
-        // still names what is in the vessel.
+        // The selected native route owns this overlap. Require actual CO2 on
+        // the final dose; a curated event from an earlier step cannot stand
+        // in for the reaction at this addition. The helper also binds fresh
+        // complete native diagnostics and closes every represented element,
+        // including H/O and formal charge, against the actual inlet and gas.
         assert!(
-            events.iter().any(|e| matches!(
-                e,
-                Event::ReactionOccurred { equation, .. }
-                    if equation.contains("NaHCO") || equation.contains("HCO₃⁻")
-            )),
-            "a curated equation is reachable in either order \
+            native_material_checks::positive_co2_gas_out(&events) > 1e-4,
+            "native final dose did not emit material CO2 \
              (soda_first={soda_first}): {events:?}"
         );
     }

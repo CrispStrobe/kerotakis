@@ -16,6 +16,7 @@ fn solved(v: &mut Vessel, ph: f64) {
     v.solution = Some(SolutionInfo {
         scope: Default::default(),
         solvent_kg: Some(0.1),
+        particle_molality: None,
         pe: None,
         redox: Vec::new(),
         ph,

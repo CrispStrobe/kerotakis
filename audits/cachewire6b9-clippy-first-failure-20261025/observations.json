@@ -1,0 +1,18 @@
+{
+  "source": "6b928abb56d255559e0349b334092b8972323459",
+  "tree": "e85ab0ff739d63c9a055f4b6853b530940e1a20e",
+  "run": 40213984686,
+  "actual_failures": {
+    "121231945892": "macOS native strict Clippy unused Deserialize and Serialize imports",
+    "121231945907": "Ubuntu native strict Clippy unused Deserialize and Serialize imports",
+    "121231946269": "cache-only Wasm host strict lint unused Deserialize and Serialize imports"
+  },
+  "logs_sha256": {
+    "121231945892.log": "297dbf3344412f03df1f24f53efb3d8a5bceb71d79ae07195d52ab0ee71a26c3",
+    "121231946269.log": "39fc7abe5a31862c9c573cbd6dd565d2d62e858027652f1f88b4ab230b4c1c3d",
+    "121231945907.log": "fbdb468aa0850b3d1eba344e5f4c576dcad524db0e9ad1dbca4b9984af520513",
+    "RUN-METADATA.json": "0aca61295f684281d03543c958d0cd977aa5237de6143d7a694b449fb980d7fd"
+  },
+  "native_tests_in_failed_jobs": "NOT_REACHED",
+  "source_runtime_fix_accepted": false
+}

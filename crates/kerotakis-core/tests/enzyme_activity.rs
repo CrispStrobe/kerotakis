@@ -189,6 +189,7 @@ fn at_ph(bench: &mut Bench, ph: f64) {
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: None,
+        particle_molality: None,
         ph,
         pe: None,
         redox: Vec::new(),

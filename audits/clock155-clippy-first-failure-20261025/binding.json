@@ -1,0 +1,12 @@
+{
+  "source": "e6690708c63983e7f696caafce38008b27660245",
+  "tree": "7b007727fa1047717e12397881ea2ee3fd6ff8ae",
+  "manifest_sha256": "ddae869a8d614ec76a757e8c743b362d669e2fc0257743a6c4a0b73a51dba41a",
+  "original_stderr_sha256": "2de554aaa4c7347a489389187129514486e10d675e5c49eeb320dfb9c0cc5338",
+  "public_stderr_sha256": "c8fc472003bc200c33bad03fa0c86c293672c4191b9aeb2363f9866bfa6307e7",
+  "format_exit": 0,
+  "strict_clippy_exit": 101,
+  "actual_test_passes": 0,
+  "all155_wasm_cli_sweep": "NOT_REACHED",
+  "projection": "Only ephemeral checkout prefix removed; original raw bytes remain separately preserved."
+}

@@ -27,6 +27,7 @@ fn prepared(solute: &str, scale: f64) -> Bench {
         solvent_activity: None,
         scope: Default::default(),
         solvent_kg: Some(0.054 * scale),
+        particle_molality: None,
         pe: None,
         redox: vec![],
         ph: 10.0,
