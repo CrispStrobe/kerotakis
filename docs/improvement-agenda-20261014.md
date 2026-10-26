@@ -233,3 +233,5 @@ Documentation PR835 `173be8a2` merged normally as `2eab41c4` after all25 applica
 
 
 The fresh four-file documentation update is [PR837](https://github.com/CrispStrobe/kerotakis/pull/837), exact reviewed head `841593be`, ready with normal auto-merge enabled. It starts from actual main `2eab41c4`, pins61 authenticated public audit links to `e83413d3` and changes no runtime/workflow/scientific contract. Observe protected CI and verify actual merged parents/tree afterward; do not churn its accepted head for optional snapshot edits.
+
+[Measured CI acceleration lanes](ci-runner-acceleration-20261026.md) now scope dependency-gated removal of duplicated native work, complete fleet sharding and exact-contract build reuse. Preserve the active reviewed source and every existing logical command/law; apply these changes after current delivery. Historical timings are wall/queue observations, not promised speedups.

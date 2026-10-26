@@ -1,0 +1,4473 @@
+{
+  "scope": "Observed historical accepted-run job timestamps, not CPU/billing measurements or a promised speedup",
+  "source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "current_candidate_unchanged": "b629f1d02447a5a73ab4352c794228565a8c1681",
+  "workflows": {
+    "CI": {
+      "run": 40280911837,
+      "job_count": 28,
+      "queue_seconds_sum": 817.0,
+      "wall_seconds_sum": 6449.0,
+      "largest_job_walls": [
+        {
+          "name": "Full preflight execution",
+          "id": 121433819184,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 1456.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 11.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 13.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install cargo-deny",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "librsvg and Pillow, so the icon check actually runs",
+              "seconds": 12.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run tools/preflight.sh",
+              "seconds": 1405.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "id": 121433819384,
+          "conclusion": "success",
+          "queue_seconds": 58.0,
+          "job_wall_seconds": 1377.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 15.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Format",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Clippy",
+              "seconds": 163.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Test",
+              "seconds": 974.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Aqueous continuation cache-only adapter",
+              "seconds": 65.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Codex \u2014 every claim must still compute",
+              "seconds": 80.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Curiosity coverage \u2014 the recorded route is still the route",
+              "seconds": 53.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve regenerated snapshots for review",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Reviewed documentation needs no native build",
+              "seconds": 0.0,
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "id": 121433819279,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 1010.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Format",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Clippy",
+              "seconds": 104.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Test",
+              "seconds": 736.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Aqueous continuation cache-only adapter",
+              "seconds": 44.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Codex \u2014 every claim must still compute",
+              "seconds": 52.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Curiosity coverage \u2014 the recorded route is still the route",
+              "seconds": 39.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve regenerated snapshots for review",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Reviewed documentation needs no native build",
+              "seconds": 0.0,
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "id": 121433819305,
+          "conclusion": "success",
+          "queue_seconds": 9.0,
+          "job_wall_seconds": 700.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 12.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run mymindstorm/setup-emsdk@v14",
+              "seconds": 22.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install wasm-bindgen",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build the site",
+              "seconds": 330.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The packaged Pages engine executes the reviewed BASIC profile",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run the page headlessly",
+              "seconds": 14.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Five lesson scenes match their semantic DOM goldens",
+              "seconds": 181.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Types hold (svelte-check)",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The bench is an installable, offline-first PWA",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The German build renders German",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The responsive bench meets UX invariants",
+              "seconds": 88.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fluid animation keeps accepted fill bounds and scene colours",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Package the site",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "id": 121433819325,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 441.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Lint the cache-only browser host",
+              "seconds": 61.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Test the cache-only browser host",
+              "seconds": 60.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install wasm-bindgen",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build the wasm lab",
+              "seconds": 166.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Pre-warm the lessons",
+              "seconds": 123.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run the bench in a wasm runtime",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Protocol conformance against the wasm host",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ],
+      "largest_queues": [
+        {
+          "name": "GPU release tools (deterministic)",
+          "id": 121433819396,
+          "queue_seconds": 88.0
+        },
+        {
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "id": 121433819419,
+          "queue_seconds": 72.0
+        },
+        {
+          "name": "feos adapter (aarch64-linux-android)",
+          "id": 121433819403,
+          "queue_seconds": 66.0
+        },
+        {
+          "name": "Current registry source export",
+          "id": 121433819420,
+          "queue_seconds": 66.0
+        },
+        {
+          "name": "IPhreeqc wasm gate",
+          "id": 121433819390,
+          "queue_seconds": 63.0
+        }
+      ],
+      "all_jobs": [
+        {
+          "name": "Classify complete change range",
+          "id": 121433769600,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 8.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Test conservative classifier",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Classify exact event range",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Full preflight execution",
+          "id": 121433819184,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 1456.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 11.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 13.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install cargo-deny",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "librsvg and Pillow, so the icon check actually runs",
+              "seconds": 12.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run tools/preflight.sh",
+              "seconds": 1405.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Core and data schemas compile to wasm32",
+          "id": 121433819211,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 64.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Check core, data and scene physics on wasm",
+              "seconds": 36.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "BRD-080 viewer decision spike",
+          "id": 121433819241,
+          "conclusion": "success",
+          "queue_seconds": 54.0,
+          "job_wall_seconds": 101.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm test",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run build",
+              "seconds": 15.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Exercise both viewers, every fixture, teardown and offline boundary",
+              "seconds": 67.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Presentation authority adapters",
+          "id": 121433819248,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 42.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Every vitest file in the app runs",
+              "seconds": 27.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Test (native) (ubuntu-latest)",
+          "id": 121433819279,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 1010.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Format",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Clippy",
+              "seconds": 104.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Test",
+              "seconds": 736.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Aqueous continuation cache-only adapter",
+              "seconds": 44.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Codex \u2014 every claim must still compute",
+              "seconds": 52.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Curiosity coverage \u2014 the recorded route is still the route",
+              "seconds": 39.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve regenerated snapshots for review",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Reviewed documentation needs no native build",
+              "seconds": 0.0,
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "The native host still compiles",
+          "id": 121433819288,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 106.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 8.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The shell payload tauri-build looks for",
+              "seconds": 57.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "cargo check",
+              "seconds": 23.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "MY-BASIC preview (ubuntu-latest)",
+          "id": 121433819304,
+          "conclusion": "success",
+          "queue_seconds": 37.0,
+          "job_wall_seconds": 19.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 8.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Differential and live preview corpus",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "The demo page, in a real browser",
+          "id": 121433819305,
+          "conclusion": "success",
+          "queue_seconds": 9.0,
+          "job_wall_seconds": 700.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 12.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run mymindstorm/setup-emsdk@v14",
+              "seconds": 22.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install wasm-bindgen",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build the site",
+              "seconds": 330.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The packaged Pages engine executes the reviewed BASIC profile",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run the page headlessly",
+              "seconds": 14.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Five lesson scenes match their semantic DOM goldens",
+              "seconds": 181.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Types hold (svelte-check)",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The bench is an installable, offline-first PWA",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The German build renders German",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The responsive bench meets UX invariants",
+              "seconds": 88.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fluid animation keeps accepted fill bounds and scene colours",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Package the site",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Legacy BASIC oracle (development only)",
+          "id": 121433819312,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 21.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Independently verify Stage 6 classifications",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "The bench in WebAssembly",
+          "id": 121433819325,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 441.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Lint the cache-only browser host",
+              "seconds": 61.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Test the cache-only browser host",
+              "seconds": 60.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install wasm-bindgen",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build the wasm lab",
+              "seconds": 166.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Pre-warm the lessons",
+              "seconds": 123.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run the bench in a wasm runtime",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Protocol conformance against the wasm host",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "The two wasm halves, together",
+          "id": 121433819327,
+          "conclusion": "success",
+          "queue_seconds": 45.0,
+          "job_wall_seconds": 400.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run mymindstorm/setup-emsdk@v14",
+              "seconds": 26.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Install wasm-bindgen",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build the bench for the browser",
+              "seconds": 168.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build IPhreeqc for the browser",
+              "seconds": 77.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record the desktop answer",
+              "seconds": 102.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Solve in the browser and compare",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "feos adapter (aarch64-apple-ios)",
+          "id": 121433819329,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 34.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile the locked disposable adapter",
+              "seconds": 13.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "feos adapter (wasm32-unknown-unknown)",
+          "id": 121433819331,
+          "conclusion": "success",
+          "queue_seconds": 20.0,
+          "job_wall_seconds": 32.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 11.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile the locked disposable adapter",
+              "seconds": 15.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Theme contrast tokens",
+          "id": 121433819341,
+          "conclusion": "success",
+          "queue_seconds": 55.0,
+          "job_wall_seconds": 9.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Enforce WCAG AA theme pairs",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Shell payload (windows-latest)",
+          "id": 121433819348,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 17.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 8.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Which interpreter is this, exactly",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The Python half of the shell payload",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The payload is not empty, and the accents survived",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Every workflow that reaches a tomllib tool names its Python",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "npm cannot run a shell script on Windows",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Nothing that ships may pass --without-codex",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "MY-BASIC preview (macos-latest)",
+          "id": 121433819349,
+          "conclusion": "success",
+          "queue_seconds": 24.0,
+          "job_wall_seconds": 38.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 12.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Differential and live preview corpus",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "IPhreeqc under MSVC",
+          "id": 121433819364,
+          "conclusion": "success",
+          "queue_seconds": 38.0,
+          "job_wall_seconds": 323.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 17.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 17.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "cargo test --no-run -p kerotakis-phreeqc",
+              "seconds": 275.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Test (native) (macos-latest)",
+          "id": 121433819384,
+          "conclusion": "success",
+          "queue_seconds": 58.0,
+          "job_wall_seconds": 1377.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 15.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Format",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Clippy",
+              "seconds": 163.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Test",
+              "seconds": 974.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Aqueous continuation cache-only adapter",
+              "seconds": 65.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Codex \u2014 every claim must still compute",
+              "seconds": 80.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Curiosity coverage \u2014 the recorded route is still the route",
+              "seconds": 53.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve regenerated snapshots for review",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Reviewed documentation needs no native build",
+              "seconds": 0.0,
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "IPhreeqc wasm gate",
+          "id": 121433819390,
+          "conclusion": "success",
+          "queue_seconds": 63.0,
+          "job_wall_seconds": 66.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run mymindstorm/setup-emsdk@v14",
+              "seconds": 19.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Build IPhreeqc to wasm",
+              "seconds": 37.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "AgCl end-to-end in wasm",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "GPU release tools (deterministic)",
+          "id": 121433819396,
+          "conclusion": "success",
+          "queue_seconds": 88.0,
+          "job_wall_seconds": 7.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Test asset, probe, evaluator, and audit tooling",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "feos adapter (aarch64-linux-android)",
+          "id": 121433819403,
+          "conclusion": "success",
+          "queue_seconds": 66.0,
+          "job_wall_seconds": 20.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile the locked disposable adapter",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Shell payload (ubuntu-22.04)",
+          "id": 121433819408,
+          "conclusion": "success",
+          "queue_seconds": 62.0,
+          "job_wall_seconds": 8.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Which interpreter is this, exactly",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The Python half of the shell payload",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "The payload is not empty, and the accents survived",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Every workflow that reaches a tomllib tool names its Python",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "npm cannot run a shell script on Windows",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Nothing that ships may pass --without-codex",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "feos adapter (x86_64-pc-windows-msvc)",
+          "id": 121433819414,
+          "conclusion": "success",
+          "queue_seconds": 45.0,
+          "job_wall_seconds": 46.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 8.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 7.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile the locked disposable adapter",
+              "seconds": 19.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "feos adapter (aarch64-apple-darwin)",
+          "id": 121433819419,
+          "conclusion": "success",
+          "queue_seconds": 72.0,
+          "job_wall_seconds": 27.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 10.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile the locked disposable adapter",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Current registry source export",
+          "id": 121433819420,
+          "conclusion": "success",
+          "queue_seconds": 66.0,
+          "job_wall_seconds": 74.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 5.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Fetch SUNDIALS (not vendored; pinned by checksum)",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Diff every legacy registry field",
+              "seconds": 47.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Generate the reviewable source document",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Generated source document is checked in exactly",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Publish the demo",
+          "id": 121437384560,
+          "conclusion": "skipped",
+          "queue_seconds": 0.0,
+          "job_wall_seconds": 0.0,
+          "steps": []
+        },
+        {
+          "name": "Full preflight gate",
+          "id": 121441156779,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 3.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Require classifier and the appropriate preflight outcome",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    "FLEET": {
+      "run": 40280911865,
+      "job_count": 33,
+      "queue_seconds_sum": 883.0,
+      "wall_seconds_sum": 570.0,
+      "largest_job_walls": [
+        {
+          "name": "Build audited CLI once",
+          "id": 121433769583,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 218.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo build --release -p kerotakis-cli",
+              "seconds": 196.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run sha256sum target/release/kero > binary-sha256.txt",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Frozen fleet 459-488",
+          "id": 121434868235,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 17.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Prepare the evidence envelope",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify the analyzer rejects missing evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record all 30 process-isolated experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply independent laws and matched controls",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Frozen fleet 195-218",
+          "id": 121434868307,
+          "conclusion": "success",
+          "queue_seconds": 14.0,
+          "job_wall_seconds": 16.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Prepare the evidence envelope",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify the frozen analyzer rejects missing evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record all 24 process-isolated experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply independent laws and matched controls",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 gas-production-transfer",
+          "id": 121434868553,
+          "conclusion": "success",
+          "queue_seconds": 24.0,
+          "job_wall_seconds": 16.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet filtration-evaporation",
+          "id": 121434868352,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 14.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ],
+      "largest_queues": [
+        {
+          "name": "Source fleet v2 thermochemical-paths",
+          "id": 121434868527,
+          "queue_seconds": 153.0
+        },
+        {
+          "name": "Source fleet v2 analytical-observables",
+          "id": 121434868488,
+          "queue_seconds": 97.0
+        },
+        {
+          "name": "Source fleet v2 materials-transport",
+          "id": 121434868402,
+          "queue_seconds": 85.0
+        },
+        {
+          "name": "All 288 source-informed v2 cases",
+          "id": 121435683355,
+          "queue_seconds": 63.0
+        },
+        {
+          "name": "Source fleet v2 household-biochemistry",
+          "id": 121434868505,
+          "queue_seconds": 61.0
+        }
+      ],
+      "all_jobs": [
+        {
+          "name": "Build audited CLI once",
+          "id": 121433769583,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 218.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run dtolnay/rust-toolchain@stable",
+              "seconds": 9.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run Swatinem/rust-cache@v2",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run cargo build --release -p kerotakis-cli",
+              "seconds": 196.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run sha256sum target/release/kero > binary-sha256.txt",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run Swatinem/rust-cache@v2",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Frozen fleet 459-488",
+          "id": 121434868235,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 17.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 6.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Prepare the evidence envelope",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify the analyzer rejects missing evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record all 30 process-isolated experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply independent laws and matched controls",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v3 aqueous-selectivity",
+          "id": 121434868276,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 11.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v3 manifests and analyzer mutations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v3 experiments",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v3 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v3 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v3 successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Frozen fleet 195-218",
+          "id": 121434868307,
+          "conclusion": "success",
+          "queue_seconds": 14.0,
+          "job_wall_seconds": 16.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 4.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Prepare the evidence envelope",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify the frozen analyzer rejects missing evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record all 24 process-isolated experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply independent laws and matched controls",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 polyprotic-carbonate",
+          "id": 121434868320,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 11.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v3 metal-ligand",
+          "id": 121434868322,
+          "conclusion": "success",
+          "queue_seconds": 13.0,
+          "job_wall_seconds": 9.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v3 manifests and analyzer mutations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v3 experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v3 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v3 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v3 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v3 water-energy",
+          "id": 121434868335,
+          "conclusion": "success",
+          "queue_seconds": 13.0,
+          "job_wall_seconds": 9.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v3 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v3 experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v3 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v3 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v3 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet solubility-precipitation",
+          "id": 121434868336,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 11.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet gas-boundaries",
+          "id": 121434868337,
+          "conclusion": "success",
+          "queue_seconds": 1.0,
+          "job_wall_seconds": 11.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v3 organic-equilibrium",
+          "id": 121434868344,
+          "conclusion": "success",
+          "queue_seconds": 28.0,
+          "job_wall_seconds": 13.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v3 manifests and analyzer mutations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v3 experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v3 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v3 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v3 successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet distillation",
+          "id": 121434868345,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 12.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet filtration-evaporation",
+          "id": 121434868352,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 14.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet acid-base-buffers",
+          "id": 121434868360,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 12.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v3 ionic-conductivity",
+          "id": 121434868366,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 9.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v3 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v3 experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v3 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v3 named relations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v3 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet electrochemistry",
+          "id": 121434868390,
+          "conclusion": "success",
+          "queue_seconds": 13.0,
+          "job_wall_seconds": 9.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet organic-equilibria",
+          "id": 121434868396,
+          "conclusion": "success",
+          "queue_seconds": 2.0,
+          "job_wall_seconds": 12.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 materials-transport",
+          "id": 121434868402,
+          "conclusion": "success",
+          "queue_seconds": 85.0,
+          "job_wall_seconds": 11.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 separation-trains",
+          "id": 121434868423,
+          "conclusion": "success",
+          "queue_seconds": 53.0,
+          "job_wall_seconds": 10.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet observables-negative-controls",
+          "id": 121434868429,
+          "conclusion": "success",
+          "queue_seconds": 15.0,
+          "job_wall_seconds": 11.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 quantitative-solutions",
+          "id": 121434868431,
+          "conclusion": "success",
+          "queue_seconds": 18.0,
+          "job_wall_seconds": 11.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 kinetics-boundaries",
+          "id": 121434868435,
+          "conclusion": "success",
+          "queue_seconds": 53.0,
+          "job_wall_seconds": 12.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet mixing-transfer",
+          "id": 121434868447,
+          "conclusion": "success",
+          "queue_seconds": 15.0,
+          "job_wall_seconds": 11.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 redox-cells",
+          "id": 121434868461,
+          "conclusion": "success",
+          "queue_seconds": 16.0,
+          "job_wall_seconds": 12.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet thermal-phase-paths",
+          "id": 121434868464,
+          "conclusion": "success",
+          "queue_seconds": 15.0,
+          "job_wall_seconds": 11.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen manifests and analyzer mutations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated experiments",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 crystallisation-boundaries",
+          "id": 121434868467,
+          "conclusion": "success",
+          "queue_seconds": 52.0,
+          "job_wall_seconds": 9.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 analytical-observables",
+          "id": 121434868488,
+          "conclusion": "success",
+          "queue_seconds": 97.0,
+          "job_wall_seconds": 10.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 phase-colligative",
+          "id": 121434868489,
+          "conclusion": "success",
+          "queue_seconds": 31.0,
+          "job_wall_seconds": 14.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 household-biochemistry",
+          "id": 121434868505,
+          "conclusion": "success",
+          "queue_seconds": 61.0,
+          "job_wall_seconds": 9.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 thermochemical-paths",
+          "id": 121434868527,
+          "conclusion": "success",
+          "queue_seconds": 153.0,
+          "job_wall_seconds": 9.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "Source fleet v2 gas-production-transfer",
+          "id": 121434868553,
+          "conclusion": "success",
+          "queue_seconds": 24.0,
+          "job_wall_seconds": 16.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run chmod +x target/release/kero",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate frozen v2 manifests and analyzer mutations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Record 24 process-isolated v2 experiments",
+              "seconds": 3.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Bind the frozen v2 contract and harness to the evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Apply frozen v2 named relations",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Preserve raw v2 successes and failures",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "All 240 source-informed cases",
+          "id": 121435003246,
+          "conclusion": "success",
+          "queue_seconds": 19.0,
+          "job_wall_seconds": 6.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 tools/chemistry-audit/aggregate_source_fleets.py downloaded-evidence",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "All 120 source-informed v3 cases",
+          "id": 121435074632,
+          "conclusion": "success",
+          "queue_seconds": 13.0,
+          "job_wall_seconds": 6.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 tools/chemistry-audit/aggregate_source_fleets_3.py downloaded-evidence-v3",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "name": "All 288 source-informed v2 cases",
+          "id": 121435683355,
+          "conclusion": "success",
+          "queue_seconds": 63.0,
+          "job_wall_seconds": 8.0,
+          "steps": [
+            {
+              "name": "Set up job",
+              "seconds": 1.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v6",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/download-artifact@v7",
+              "seconds": 2.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 tools/chemistry-audit/aggregate_source_fleets_2.py downloaded-evidence-v2",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v6",
+              "seconds": 0.0,
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "seconds": 0.0,
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "raw_metadata_sha256": {
+    "CI-RAW-JOBS.json": "56eb4a8c64e10a39ea6f5495e6b85058270858069eafb3c39baab7f0d0dbefd4",
+    "FLEET-RAW-JOBS.json": "db00d1a1a302be27cbf811d211851e2fea96a3b1b6a0308956553f8bcafd7b30"
+  }
+}
