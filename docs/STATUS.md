@@ -1,6 +1,6 @@
 # Kerotakis current state —2026-10-26
 
-The [first diagnostic candidate fails compilation and strict lint](../audits/owned-diagnostic-first-compile-failure-20261026/README.md). The successor fixes actual selected-table plumbing and the refusal-test assertion idiom; hosted successor acceptance is pending. Source-only review is not compiler acceptance.
+The [first diagnostic candidate fails compilation and strict lint](../audits/owned-diagnostic-first-compile-failure-20261026/README.md). The successor fixes actual selected-table plumbing and the refusal-test assertion idiom; hosted successor acceptance is pending. Source-only review is not compiler acceptance. The [bounded successor also stops before tests](../audits/owned-diagnostic-bounded-preflight-failure-20261026/README.md), exposing included test call sites and a cache-only feature gate. Both are repaired without weakening checks; registered chemical-name localization is also corrected and gains actual refusal controls. New-head execution remains pending.
 
 **Diagnostic candidate in progress:** The candidate now adds optional typed reasons and eight propagation paths, learner rendering separate from raw technical detail, and199 EN/DE/FR reason contracts. Refusal reasons are chosen at typed source branches; raw native-run/hook failures remain opaque. Source formatting/catalog checks pass; compiler, actual diagnostic transcripts, full native/platform/Wasm/browser/fleet, integration and changed-release acceptance are still pending. No c517 result is retagged as candidate acceptance.
 

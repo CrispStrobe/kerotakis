@@ -1,6 +1,6 @@
 //! Bounded sulfate-acidified permanganate/peroxide stoichiometric endpoint.
 //! This is neither a rate law nor a complete thermal/product-domain model.
-use crate::aqueous_continuation::{continue_via, CurrentAqueousAnswer};
+use crate::aqueous_continuation::{continue_via, diagnostic_species_slot, CurrentAqueousAnswer};
 use crate::curated::{CuratedReaction, PostAqueousEndpoint, REACTIONS};
 use crate::ledger::ConservedLedger;
 use crate::ops::{Event, NotModelledCause};
@@ -174,7 +174,7 @@ impl EndpointRefusal<'_> {
                 "solver-reason.endpoint.reactant-debit",
                 "The endpoint could not debit {species}: {remaining} mol remained after requesting {requested} mol.",
                 vec![
-                    ("species".into(), Slot::term("species", *species)),
+                    ("species".into(), diagnostic_species_slot(species)),
                     ("remaining".into(), Slot::number(remaining_moles.to_string())),
                     ("requested".into(), Slot::number(requested_moles.to_string())),
                 ],
@@ -311,6 +311,26 @@ pub(crate) fn run(
 mod refusal_tests {
     use super::{refused, EndpointRefusal};
     use crate::SolveError;
+
+    #[test]
+    fn actual_debit_refusal_uses_registered_translated_species_name() {
+        let mut vessel = crate::Vessel::new(crate::VesselId(0), "empty endpoint");
+        let before = format!("{vessel:?}");
+        let error = super::debit(&mut vessel, "MnO4-", 0.25, &[crate::Phase::Aqueous])
+            .expect_err("an empty vessel cannot supply the admitted reactant");
+        assert_eq!(format!("{vessel:?}"), before);
+        assert_eq!(error.to_string(), "acidic-permanganate-peroxide could not solve this state: eligible reactant debit did not match admitted extent");
+        let reason = error.owned_reason().unwrap();
+        assert_eq!(reason.key, "solver-reason.endpoint.reactant-debit");
+        for tag in ["de", "fr"] {
+            let locale = crate::Locale::parse(tag);
+            let expected = locale
+                .lookup("species.permanganate ion")
+                .expect("registered permanganate translation");
+            assert!(reason.render(locale).contains(expected));
+            assert!(!reason.render(locale).contains("MnO4-"));
+        }
+    }
 
     #[test]
     fn endpoint_refusals_keep_typed_reason_and_raw_detail() {

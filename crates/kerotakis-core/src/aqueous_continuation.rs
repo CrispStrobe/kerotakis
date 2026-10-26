@@ -167,9 +167,9 @@ enum ContinuationRefusal<'a> {
     ReceiptStateMismatch,
 }
 
-fn diagnostic_species_slot(key: &str) -> Slot {
-    if crate::species::lookup_key(key).is_some() {
-        Slot::term("species", key)
+pub(crate) fn diagnostic_species_slot(key: &str) -> Slot {
+    if let Some(species) = crate::species::lookup_key(key) {
+        Slot::term("species", species.name)
     } else {
         Slot::text(key)
     }
@@ -534,6 +534,38 @@ pub fn continue_without_reaction_heat(
 #[cfg(test)]
 mod refusal_tests {
     use super::{refused, ContinuationRefusal};
+
+    #[test]
+    fn actual_contained_gas_refusal_translates_registered_names_and_keeps_unknown_keys() {
+        use crate::{Event, Moles, SpeciesId, Vessel, VesselId};
+        let vessel = Vessel::new(VesselId(0), "no headspace");
+        let event = Event::GasContained {
+            vessel: vessel.id,
+            species: SpeciesId::new("O2"),
+            moles: Moles(0.0),
+        };
+        let error = super::validate_change(&vessel, &vessel, &[event])
+            .expect_err("contained gas requires a real owned headspace");
+        assert_eq!(error.to_string(), "aqueous-continuation could not solve this state: contained gas requires an owned headspace");
+        let phrase = error.owned_reason().unwrap();
+        assert_eq!(
+            phrase.key,
+            "solver-reason.continuation.gas-without-headspace"
+        );
+        for tag in ["de", "fr"] {
+            let locale = crate::Locale::parse(tag);
+            let expected = locale
+                .lookup("species.oxygen")
+                .expect("registered oxygen translation");
+            assert!(phrase.render(locale).contains(expected));
+            assert!(!phrase.render(locale).contains("O2"));
+        }
+        assert_eq!(
+            super::diagnostic_species_slot("unknown_native_gas_ä"),
+            crate::phrase::Slot::text("unknown_native_gas_ä"),
+            "unknown labels are technical text, never invented translation terms"
+        );
+    }
 
     #[test]
     fn continuation_gas_refusal_keeps_reason_slots_and_raw_detail() {

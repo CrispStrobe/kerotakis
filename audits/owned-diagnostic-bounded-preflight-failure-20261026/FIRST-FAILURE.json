@@ -1,0 +1,33 @@
+{
+  "source": "b979e45a8ac6433d0df6335903ae7aa231a165b6",
+  "tree": "d88bb6fedcdd24f91fcd247337d15dc5731f114a",
+  "worker_sha256": "4305cee58cbd1b2918d0d8e330ab2031578e9621c70339ca38eef5a5068b7de5",
+  "producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "state": "STRICT_PREFLIGHT_FAILS_BEFORE_ANY_SELECTED_TEST",
+  "command": [
+    "cargo",
+    "clippy",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "-p",
+    "kerotakis-cea",
+    "-p",
+    "kerotakis-phreeqc",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit_status": 101,
+  "selected_tests_executed": 0,
+  "raw_compiler_stderr_sha256": "ca46a2f1835d1f4ccb78cbeb2b0735075148ecc30015682a2483d2d4f18b1d6e",
+  "producer_manifest_sha256": "511cf4364c8bac53415b002816fd63e638351ecacf611f5c20df48ae6156b972",
+  "excerpt_sha256": "ffd1a22bd1ffe3286a954e50d0573c513c525f86bab56e7a4313aa8ee80e3ce0",
+  "causes": [
+    "Included private test modules were not updated for the helper selected-output-table parameter.",
+    "The cache-only reason enum variant needs the same feature gate as its cache-only rejecting branch."
+  ],
+  "repair": "Update all included call sites without altering fixture data or assertions; gate the reason variant and match arm to their actual owner feature.",
+  "qualification": "No new source-protocol or scientific pass is earned by this failed preflight."
+}

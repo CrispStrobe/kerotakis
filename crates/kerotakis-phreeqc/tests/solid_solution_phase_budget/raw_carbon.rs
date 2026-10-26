@@ -57,6 +57,7 @@ fn raw_carbon(column: &str, supplied: Option<f64>) -> Result<(), SolveError> {
     PhreeqcEquilibrator::apply_balance_corrections(
         &vessel,
         &problem,
+        &rows,
         &mut ions,
         &mut surfaces,
         &exchanges,

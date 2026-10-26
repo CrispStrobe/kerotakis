@@ -5152,6 +5152,7 @@ enum AqueousReason {
     PinnedInstanceLoadFailed,
     #[cfg(feature = "engine")]
     ReusedEngineResetFailed,
+    #[cfg(not(feature = "engine"))]
     CacheMiss,
     RedoxBalanceOutsideWater,
     RedoxReadbackUnavailable,
@@ -5434,6 +5435,7 @@ impl AqueousReason {
                 "solver-reason.aqueous.reused-engine-reset-failed",
                 "The reused native engine could not be reset before the next solve.",
             ),
+            #[cfg(not(feature = "engine"))]
             Self::CacheMiss => (
                 "solver-reason.aqueous.cache-only-miss",
                 "This solver has no live engine for the requested state, and no cached result is available.",

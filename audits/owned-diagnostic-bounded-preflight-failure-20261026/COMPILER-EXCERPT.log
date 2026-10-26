@@ -1,0 +1,228 @@
+error[E0061]: this function takes 10 arguments but 9 arguments were supplied
+    --> crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/contracts_closed_boundary.rs:58:5
+     |
+  58 |     PhreeqcEquilibrator::apply_balance_corrections(
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+  61 |         &mut ions,
+     |         --------- expected `&[std::vec::Vec<std::string::String>]`, found `&mut std::vec::Vec<(std::string::String, f64)>`
+  62 |         &mut [],
+     |         ------- expected `&mut std::vec::Vec<(std::string::String, f64)>`, found `&mut [_; 0]`
+  63 |         &[],
+     |         --- argument #5 of type `&mut [kerotakis_core::SurfaceSites]` is missing
+     |
+note: associated function defined here
+    --> crates/kerotakis-phreeqc/src/aqueous.rs:9644:8
+     |
+9644 |     fn apply_balance_corrections(
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+9649 |         new_surfaces: &mut [SurfaceSites],
+     |         ---------------------------------
+help: did you mean
+     |
+  58 ~     PhreeqcEquilibrator::apply_balance_corrections(
+  59 +         &vessel,
+  60 +         &problem,
+  61 +         &mut [],
+  62 +         &mut ions,
+  63 +         /* &mut [SurfaceSites] */,
+  64 +         &[],
+  65 +         &final_crystals,
+  66 +         &value,
+  67 +         ComponentCertificate::Uncertified,
+  68 +         false,
+  69 ~     )?;
+     |
+
+error[E0061]: this function takes 10 arguments but 9 arguments were supplied
+    --> crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/supplement_closed_boundary.rs:60:5
+     |
+  60 |     PhreeqcEquilibrator::apply_balance_corrections(
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+  63 |         &mut ions,
+     |         --------- expected `&[std::vec::Vec<std::string::String>]`, found `&mut std::vec::Vec<(std::string::String, f64)>`
+  64 |         &mut [],
+     |         ------- expected `&mut std::vec::Vec<(std::string::String, f64)>`, found `&mut [_; 0]`
+  65 |         &[],
+     |         --- argument #5 of type `&mut [kerotakis_core::SurfaceSites]` is missing
+     |
+note: associated function defined here
+    --> crates/kerotakis-phreeqc/src/aqueous.rs:9644:8
+     |
+9644 |     fn apply_balance_corrections(
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+9649 |         new_surfaces: &mut [SurfaceSites],
+     |         ---------------------------------
+help: did you mean
+     |
+  60 ~     PhreeqcEquilibrator::apply_balance_corrections(
+  61 +         &vessel,
+  62 +         &problem,
+  63 +         &mut [],
+  64 +         &mut ions,
+  65 +         /* &mut [SurfaceSites] */,
+  66 +         &[],
+  67 +         &final_crystals,
+  68 +         &value,
+  69 +         ComponentCertificate::Uncertified,
+  70 +         false,
+  71 ~     )?;
+     |
+
+error[E0061]: this function takes 10 arguments but 9 arguments were supplied
+    --> crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/cancellation.rs:46:9
+     |
+  46 |         PhreeqcEquilibrator::apply_balance_corrections(
+     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+  49 |             &mut ions,
+     |             --------- expected `&[std::vec::Vec<std::string::String>]`, found `&mut std::vec::Vec<(_, f64)>`
+  50 |             &mut [],
+     |             ------- expected `&mut std::vec::Vec<(std::string::String, f64)>`, found `&mut [_; 0]`
+  51 |             &[],
+     |             --- argument #5 of type `&mut [kerotakis_core::SurfaceSites]` is missing
+     |
+note: associated function defined here
+    --> crates/kerotakis-phreeqc/src/aqueous.rs:9644:8
+     |
+9644 |     fn apply_balance_corrections(
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+9649 |         new_surfaces: &mut [SurfaceSites],
+     |         ---------------------------------
+help: did you mean
+     |
+  46 ~         PhreeqcEquilibrator::apply_balance_corrections(
+  47 +             &vessel,
+  48 +             &problem,
+  49 +             &mut [],
+  50 +             &mut ions,
+  51 +             /* &mut [SurfaceSites] */,
+  52 +             &[],
+  53 +             &crystals,
+  54 +             &value,
+  55 +             ComponentCertificate::Uncertified,
+  56 +             false,
+  57 +         )
+     |
+
+error[E0061]: this function takes 10 arguments but 9 arguments were supplied
+    --> crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/raw_carbon.rs:57:5
+     |
+  57 |     PhreeqcEquilibrator::apply_balance_corrections(
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+  60 |         &mut ions,
+     |         --------- argument #3 of type `&[std::vec::Vec<std::string::String>]` is missing
+     |
+note: associated function defined here
+    --> crates/kerotakis-phreeqc/src/aqueous.rs:9644:8
+     |
+9644 |     fn apply_balance_corrections(
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+9647 |         rows: &[Vec<String>],
+     |         --------------------
+help: provide the argument
+     |
+  57 |     PhreeqcEquilibrator::apply_balance_corrections(
+  58 |         &vessel,
+  59 |         &problem,
+  60 ~         /* &[Vec<String>] */,
+  61 ~         &mut ions,
+     |
+
+error[E0061]: this function takes 10 arguments but 9 arguments were supplied
+    --> crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/external_boundaries.rs:44:5
+     |
+  44 |     PhreeqcEquilibrator::apply_balance_corrections(
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+  47 |         &mut ions,
+     |         --------- expected `&[std::vec::Vec<std::string::String>]`, found `&mut std::vec::Vec<(_, f64)>`
+  48 |         &mut [],
+     |         ------- expected `&mut std::vec::Vec<(std::string::String, f64)>`, found `&mut [_; 0]`
+  49 |         &[],
+     |         --- argument #5 of type `&mut [kerotakis_core::SurfaceSites]` is missing
+     |
+note: associated function defined here
+    --> crates/kerotakis-phreeqc/src/aqueous.rs:9644:8
+     |
+9644 |     fn apply_balance_corrections(
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+9649 |         new_surfaces: &mut [SurfaceSites],
+     |         ---------------------------------
+help: did you mean
+     |
+  44 ~     PhreeqcEquilibrator::apply_balance_corrections(
+  45 +         &vessel,
+  46 +         &problem,
+  47 +         &mut [],
+  48 +         &mut ions,
+  49 +         /* &mut [SurfaceSites] */,
+  50 +         &[],
+  51 +         &crystals,
+  52 +         &value,
+  53 +         ComponentCertificate::Uncertified,
+  54 +         false,
+  55 ~     )?;
+     |
+
+error[E0061]: this function takes 10 arguments but 9 arguments were supplied
+    --> crates/kerotakis-phreeqc/src/../tests/solid_solution_phase_budget/external_raw.rs:32:5
+     |
+  32 |     PhreeqcEquilibrator::apply_balance_corrections(
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+  35 |         &mut ions,
+     |         --------- expected `&[std::vec::Vec<std::string::String>]`, found `&mut std::vec::Vec<(_, {float})>`
+  36 |         &mut [],
+     |         ------- expected `&mut std::vec::Vec<(std::string::String, f64)>`, found `&mut [_; 0]`
+  37 |         &[],
+     |         --- argument #5 of type `&mut [kerotakis_core::SurfaceSites]` is missing
+     |
+note: associated function defined here
+    --> crates/kerotakis-phreeqc/src/aqueous.rs:9644:8
+     |
+9644 |     fn apply_balance_corrections(
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+9649 |         new_surfaces: &mut [SurfaceSites],
+     |         ---------------------------------
+help: did you mean
+     |
+  32 ~     PhreeqcEquilibrator::apply_balance_corrections(
+  33 +         &vessel,
+  34 +         &problem,
+  35 +         &mut [],
+  36 +         &mut ions,
+  37 +         /* &mut [SurfaceSites] */,
+  38 +         &[],
+  39 +         &crystals,
+  40 +         &value,
+  41 +         ComponentCertificate::Uncertified,
+  42 +         false,
+  43 ~     )?;
+     |
+
+error: variant `CacheMiss` is never constructed
+    --> crates/kerotakis-phreeqc/src/aqueous.rs:5155:5
+     |
+5088 | enum AqueousReason {
+     |      ------------- variant in this enum
+...
+5155 |     CacheMiss,
+     |     ^^^^^^^^^
+     |
+     = note: `AqueousReason` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+     = note: `-D dead-code` implied by `-D warnings`
+     = help: to override `-D warnings` add `#[expect(dead_code)]` or `#[allow(dead_code)]`
+
+error: could not compile `kerotakis-phreeqc` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+For more information about this error, try `rustc --explain E0061`.
+error: could not compile `kerotakis-phreeqc` (lib test) due to 6 previous errors
