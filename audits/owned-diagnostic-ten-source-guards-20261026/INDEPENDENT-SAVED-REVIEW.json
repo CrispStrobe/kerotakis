@@ -1,0 +1,21 @@
+{
+  "scope": "Projection of independent saved-only review; original private report hash retained without publishing host details.",
+  "source": "b629f1d02447a5a73ab4352c794228565a8c1681",
+  "tree": "054c62a5a7381b4608d8e0b22c94cd2fc8037782",
+  "private_review_sha256": "44d8a932cf7ee82b46202c1a04b76ab88248e1c409643680fec7fb751b8b0663",
+  "collected_file_entries_verified": 66,
+  "producer_manifest_entries_verified": 65,
+  "strict_selected_three_package_all_target_clippy_exit": 0,
+  "selected_passes": [
+    6,
+    2,
+    1,
+    1
+  ],
+  "failed_ignored_measured": 0,
+  "CEA_filtered": 21,
+  "core_library_filtered_each": 624,
+  "unique_actual_test_binary_hashes": 3,
+  "owned_DE_FR_reason_raw_detail_and_unknown_label_preserved": true,
+  "full_source_or_scientific_acceptance_claim": false
+}

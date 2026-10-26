@@ -1,0 +1,58 @@
+{
+  "state": "BOUNDED_COMPILER_AND_TEN_SOURCE_GUARDS_PASS",
+  "source": "b629f1d02447a5a73ab4352c794228565a8c1681",
+  "tree": "054c62a5a7381b4608d8e0b22c94cd2fc8037782",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "strict_three_package_all_target_clippy": true,
+  "actual_selected_tests": 10,
+  "DE_FR_failure_capability_unknown_registry_transcripts": true,
+  "scope": "Software/source guard contracts; no physical chemistry qualification and not full native/platform/Wasm/browser/own-fleet acceptance",
+  "science_claim": false,
+  "producer_manifest_sha256": "85b2affe5aec9e3c585c5f20c30e02e1670aba45c91bd2806256b8ea3fb8dcbd",
+  "worker_sha256": "7bfcebf02fa5b9494b2088835572c2906f0e6191acec39b27fee6b65a3edd46e",
+  "strict_clippy_command": [
+    "cargo",
+    "clippy",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "-p",
+    "kerotakis-cea",
+    "-p",
+    "kerotakis-phreeqc",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "actual_strict_clippy_exit": 0,
+  "strict_clippy_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "strict_clippy_stderr_sha256": "8a8f91be5fb05c2d36efa0d9d140a316dfbef93f8b9926f4dac40feb5ca0e5a2",
+  "producer_test_binaries": [
+    {
+      "bytes": 53365784,
+      "path": "target/debug/deps/owned_solver_reason-7bd4fa719e05aa34",
+      "sha256": "e26ba7fca864448db31118f310b7d86c0c90b8c18fb483418160a0f86f9556a9"
+    },
+    {
+      "bytes": 48923872,
+      "path": "target/debug/deps/kerotakis_cea-2ccab6b18eddc09a",
+      "sha256": "9a9fedbae0e5af0a4c8067f5b33ff9d3eb7d3798bae831b65143436130381676"
+    },
+    {
+      "bytes": 75694920,
+      "path": "target/debug/deps/kerotakis_core-ae71437a256bbe6b",
+      "sha256": "84f3b44a0778fb7a5d28d634b5072314779b0e08460322d752bc9e48031e8c0d"
+    },
+    {
+      "bytes": 75694920,
+      "path": "target/debug/deps/kerotakis_core-ae71437a256bbe6b",
+      "sha256": "84f3b44a0778fb7a5d28d634b5072314779b0e08460322d752bc9e48031e8c0d"
+    }
+  ],
+  "pipeline_runs_pending": {
+    "CI": 40382362398,
+    "own_fleet": 40382346536
+  },
+  "full_source_or_product_acceptance": false
+}

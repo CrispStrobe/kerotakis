@@ -1,0 +1,11 @@
+
+running 2 tests
+test thermal::owned_failure_reason_tests::typed_cea_failures_keep_context_reason_and_original_error_display ... ok
+test thermal::owned_failure_reason_tests::unknown_registry_name_has_owned_reason_and_unchanged_technical_detail ... OWNED-UNKNOWN-REGISTRY-GUARD [de] v1: Löser 'cea-thermal' fehlgeschlagen: Für eine CEA-Spezies gibt es keinen passenden Namen im Speziesregister: unregistered-CEA-label.
+Technische Details: the equilibrium contains unregistered-CEA-label, which has no name in the registry
+OWNED-UNKNOWN-REGISTRY-GUARD [fr] v1 : échec du solveur « cea-thermal » : Aucune espèce du registre ne correspond à cette espèce CEA : unregistered-CEA-label.
+Détail technique : the equilibrium contains unregistered-CEA-label, which has no name in the registry
+ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 0.25s
+

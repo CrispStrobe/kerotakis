@@ -1,0 +1,43 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--lib",
+    "acid_endpoint::refusal_tests::actual_debit_refusal_uses_registered_translated_species_name",
+    "--",
+    "--exact",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "elapsed_seconds": 37.961,
+  "exit_code": 0,
+  "expected_test_count": 1,
+  "observed_qualified_test_names": [
+    "acid_endpoint::refusal_tests::actual_debit_refusal_uses_registered_translated_species_name"
+  ],
+  "observed_test_names": [
+    "actual_debit_refusal_uses_registered_translated_species_name"
+  ],
+  "producer_test_binaries": [
+    {
+      "bytes": 75694920,
+      "path": "target/debug/deps/kerotakis_core-ae71437a256bbe6b",
+      "sha256": "84f3b44a0778fb7a5d28d634b5072314779b0e08460322d752bc9e48031e8c0d"
+    }
+  ],
+  "stderr_sha256": "618dc0b09f22304cc93beae6172d4d0eebc905470f16ac8ce295b8a9a869c8ce",
+  "stdout_sha256": "7e7a97f55454a2986993fa39b455282aaced048e92acd9344c1b002626cb5f24",
+  "test_summary_rows": [
+    [
+      1,
+      0,
+      0,
+      0,
+      624
+    ]
+  ],
+  "timed_out": false
+}

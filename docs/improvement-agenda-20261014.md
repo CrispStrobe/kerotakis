@@ -1,5 +1,7 @@
 # Ordered improvement agenda — 2026-10-14
 
+**Owned diagnostic candidate — actual bounded pass:** [Ten source guards and strict three-package/all-target Clippy pass](../audits/owned-diagnostic-ten-source-guards-20261026/README.md) on `b629f1d0`, including actual DE/FR diagnostic transcripts and registered chemical names. [PR861](https://github.com/CrispStrobe/kerotakis/pull/861) remains draft while exact-head full platform/browser/own-fleet checks run. All first failures are preserved; no scientific count, full-source acceptance or new deployment is inferred. Keep this candidate head stable and finish normal integration, applicable release checks and final summaries before closing the ordered user task.
+
 **Complete assessment; localization delivery next —2026-10-26:** [Actual15API/86browser is assessed](../audits/c517-fifteen-eighty-six-complete-assessment-20261026/README.md), with12/3 and83/3 pass/unsupported counts. [LI004 independently qualifies](../audits/original-li004-current-source-qualified-20261026/README.md), raising the ledger to339/468 unique originals and343 entries. EN002/EN008/FE006 retain specific [milk-matrix physical holds and doable scopes](milk-matrix-physical-closure-20261026.md); narrow aggregate annotations pass and missing molecular products alone are not a hold. Continue owned diagnostic EN/DE/FR implementation and its full delivery before closing the current ordered loop. Historical notes below retain their actual earlier counts and source bindings.
 
 

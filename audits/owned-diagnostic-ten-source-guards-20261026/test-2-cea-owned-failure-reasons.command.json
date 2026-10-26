@@ -1,0 +1,44 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-cea",
+    "--lib",
+    "owned_failure_reason_tests",
+    "--",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "elapsed_seconds": 83.7,
+  "exit_code": 0,
+  "expected_test_count": 2,
+  "observed_qualified_test_names": [
+    "thermal::owned_failure_reason_tests::typed_cea_failures_keep_context_reason_and_original_error_display",
+    "thermal::owned_failure_reason_tests::unknown_registry_name_has_owned_reason_and_unchanged_technical_detail"
+  ],
+  "observed_test_names": [
+    "typed_cea_failures_keep_context_reason_and_original_error_display",
+    "unknown_registry_name_has_owned_reason_and_unchanged_technical_detail"
+  ],
+  "producer_test_binaries": [
+    {
+      "bytes": 48923872,
+      "path": "target/debug/deps/kerotakis_cea-2ccab6b18eddc09a",
+      "sha256": "9a9fedbae0e5af0a4c8067f5b33ff9d3eb7d3798bae831b65143436130381676"
+    }
+  ],
+  "stderr_sha256": "59b72763f7bd53bf97a7ed73f18ccebf03d9d0434e3660ddc848b3bb54f0dede",
+  "stdout_sha256": "32ec98aaf1f5f66835a1c3c68bf8e07c838a77061aa32c37615580590482a656",
+  "test_summary_rows": [
+    [
+      2,
+      0,
+      0,
+      0,
+      21
+    ]
+  ],
+  "timed_out": false
+}

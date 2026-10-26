@@ -1,0 +1,6 @@
+
+running 1 test
+test acid_endpoint::refusal_tests::actual_debit_refusal_uses_registered_translated_species_name ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 624 filtered out; finished in 0.08s
+

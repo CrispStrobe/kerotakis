@@ -1,5 +1,7 @@
 # Kerotakis current state —2026-10-26
 
+**Owned diagnostic candidate — actual bounded pass:** [Ten source guards and strict three-package/all-target Clippy pass](../audits/owned-diagnostic-ten-source-guards-20261026/README.md) on `b629f1d0`, including actual DE/FR diagnostic transcripts and registered chemical names. [PR861](https://github.com/CrispStrobe/kerotakis/pull/861) remains draft while exact-head full platform/browser/own-fleet checks run. All first failures are preserved; no scientific count, full-source acceptance or new deployment is inferred. Keep this candidate head stable and finish normal integration, applicable release checks and final summaries before closing the ordered user task.
+
 The ordered continuation has reached its last lane: owned diagnostic EN/DE/FR implementation and final delivery. Lanes1–3, source integration, deployed15API/86browser assessment and the four-original review are complete. The user requires completing that last delivery before closing the task. Read [the execution contract](current-continuation-20261025.md), [implementation scope](owned-diagnostic-scope-20261026.md) and [fresh-agent handoff](next-agent-handoff.md).
 
 ## Accepted source

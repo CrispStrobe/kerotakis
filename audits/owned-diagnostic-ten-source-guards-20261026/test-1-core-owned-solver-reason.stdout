@@ -1,0 +1,29 @@
+
+running 6 tests
+test actual_missing_adapter_capability_has_localized_owned_reason ... OWNED-ADAPTER-CAPABILITY [de] v1: Löser 'diagnostic-contract-fixture' fehlgeschlagen: Diese Solver-Umhüllung stellt keinen vertrauenswürdigen Adapter für eine wässrige Rücklesung bereit.
+Technische Details: aqueous-continuation could not solve this state: equilibrator has no trusted aqueous readback adapter
+OWNED-ADAPTER-CAPABILITY [fr] v1 : échec du solveur « diagnostic-contract-fixture » : Cette enveloppe de solveur ne fournit pas d’adaptateur de lecture aqueuse fiable.
+Détail technique : aqueous-continuation could not solve this state: equilibrator has no trusted aqueous readback adapter
+ok
+test actual_policy_refusal_crosses_the_production_solver_stack ... OWNED-POLICY-REFUSAL [en] v1: solver 'owned-reason-policy-probe' failed: The required conservation tolerance must be finite and lie strictly between zero and one.
+Technical detail: solver-stack could not solve this state: required conservation tolerance must be finite and between zero and one
+OWNED-POLICY-REFUSAL [en] v1: solver 'owned-reason-policy-probe' failed: The required conservation tolerance must be finite and lie strictly between zero and one.
+Technical detail: solver-stack could not solve this state: required conservation tolerance must be finite and between zero and one
+OWNED-POLICY-REFUSAL [de] v1: Löser 'owned-reason-policy-probe' fehlgeschlagen: Die erforderliche Erhaltungstoleranz muss endlich sein und strikt zwischen null und eins liegen.
+Technische Details: solver-stack could not solve this state: required conservation tolerance must be finite and between zero and one
+OWNED-POLICY-REFUSAL [de] v1: Löser 'owned-reason-policy-probe' fehlgeschlagen: Die erforderliche Erhaltungstoleranz muss endlich sein und strikt zwischen null und eins liegen.
+Technische Details: solver-stack could not solve this state: required conservation tolerance must be finite and between zero and one
+OWNED-POLICY-REFUSAL [fr] v1 : échec du solveur « owned-reason-policy-probe » : La tolérance de conservation requise doit être finie et strictement comprise entre zéro et un.
+Détail technique : solver-stack could not solve this state: required conservation tolerance must be finite and between zero and one
+OWNED-POLICY-REFUSAL [fr] v1 : échec du solveur « owned-reason-policy-probe » : La tolérance de conservation requise doit être finie et strictement comprise entre zéro et un.
+Détail technique : solver-stack could not solve this state: required conservation tolerance must be finite and between zero and one
+ok
+test all_new_owned_reason_catalog_keys_resolve_with_equal_placeholders ... ok
+test old_solver_failure_json_round_trips_without_a_new_field ... ok
+test owned_reason_round_trips_and_does_not_change_error_display ... ok
+test raw_upstream_failure_is_not_given_a_manufactured_owned_reason ... OPAQUE-UPSTREAM-NONE-PROTOCOL-FIXTURE [de] v1: Löser 'opaque-upstream-protocol-fixture' fehlgeschlagen: opaque-upstream-protocol-fixture could not solve this state: vendor fixture: unknown external label Label_ä
+OPAQUE-UPSTREAM-NONE-PROTOCOL-FIXTURE [fr] v1 : solveur « opaque-upstream-protocol-fixture » en échec : opaque-upstream-protocol-fixture could not solve this state: vendor fixture: unknown external label Label_ä
+ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+

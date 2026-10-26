@@ -1,0 +1,43 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--lib",
+    "aqueous_continuation::refusal_tests::actual_contained_gas_refusal_translates_registered_names_and_keeps_unknown_keys",
+    "--",
+    "--exact",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "elapsed_seconds": 0.581,
+  "exit_code": 0,
+  "expected_test_count": 1,
+  "observed_qualified_test_names": [
+    "aqueous_continuation::refusal_tests::actual_contained_gas_refusal_translates_registered_names_and_keeps_unknown_keys"
+  ],
+  "observed_test_names": [
+    "actual_contained_gas_refusal_translates_registered_names_and_keeps_unknown_keys"
+  ],
+  "producer_test_binaries": [
+    {
+      "bytes": 75694920,
+      "path": "target/debug/deps/kerotakis_core-ae71437a256bbe6b",
+      "sha256": "84f3b44a0778fb7a5d28d634b5072314779b0e08460322d752bc9e48031e8c0d"
+    }
+  ],
+  "stderr_sha256": "95fc7288c6e0606211a596cd642f0c85c7d33e7a8d9bbfde5b2bc871bd3b14d4",
+  "stdout_sha256": "c93f9eb7656afd8eea05ddd0969220b20e09501a59f3adc1f7565377e4089b0d",
+  "test_summary_rows": [
+    [
+      1,
+      0,
+      0,
+      0,
+      624
+    ]
+  ],
+  "timed_out": false
+}

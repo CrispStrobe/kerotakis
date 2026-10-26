@@ -1,0 +1,46 @@
+{
+  "INDEPENDENT-SAVED-REVIEW.json": {
+    "bytes": 795,
+    "sha256": "9eb35f0441a8a829cccd5d28751a3904c3dda8f7a63d2d35ea21af701fee8fb9"
+  },
+  "README.md": {
+    "bytes": 1979,
+    "sha256": "b09df8a5678221ff3d0448236441e0c13efe54031ee6f526d6bfd85507768a71"
+  },
+  "SOURCE.json": {
+    "bytes": 2164,
+    "sha256": "1b9588949d0becc0238c6d80ff243549fbe291da645a012d280073dc978e3617"
+  },
+  "test-1-core-owned-solver-reason.command.json": {
+    "bytes": 1651,
+    "sha256": "35edab5fd4c52da126c911572f7c8e53a916cd5a54d1931189730b5ab02fe06c"
+  },
+  "test-1-core-owned-solver-reason.stdout": {
+    "bytes": 3425,
+    "sha256": "94501015b3de396d7e3a51f7b1e85a68d5c192a36d3a72d2c06b768c7606d094"
+  },
+  "test-2-cea-owned-failure-reasons.command.json": {
+    "bytes": 1214,
+    "sha256": "6ea7ecd49e53a08c8c8e33ad2d8375c43cef523d1057b27971c8ba2cb2d59af9"
+  },
+  "test-2-cea-owned-failure-reasons.stdout": {
+    "bytes": 891,
+    "sha256": "32ec98aaf1f5f66835a1c3c68bf8e07c838a77061aa32c37615580590482a656"
+  },
+  "test-3-acid_endpoint-registered-chemical-name.command.json": {
+    "bytes": 1090,
+    "sha256": "deed910f6c87fb5c05754fccba7429970b8f78d1ce6801493b4e5ba85f89fb53"
+  },
+  "test-3-acid_endpoint-registered-chemical-name.stdout": {
+    "bytes": 217,
+    "sha256": "7e7a97f55454a2986993fa39b455282aaced048e92acd9344c1b002626cb5f24"
+  },
+  "test-4-aqueous_continuation-registered-chemical-name.command.json": {
+    "bytes": 1160,
+    "sha256": "fa5de608f78e5173cf4c5067a586efeb7a20f42a2ebf10ce653e1bdf7fbfb175"
+  },
+  "test-4-aqueous_continuation-registered-chemical-name.stdout": {
+    "bytes": 243,
+    "sha256": "c93f9eb7656afd8eea05ddd0969220b20e09501a59f3adc1f7565377e4089b0d"
+  }
+}

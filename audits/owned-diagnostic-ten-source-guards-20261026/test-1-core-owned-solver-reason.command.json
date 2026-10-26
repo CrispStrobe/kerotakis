@@ -1,0 +1,52 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "kerotakis-core",
+    "--test",
+    "owned_solver_reason",
+    "--",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "elapsed_seconds": 167.416,
+  "exit_code": 0,
+  "expected_test_count": 6,
+  "observed_qualified_test_names": [
+    "actual_missing_adapter_capability_has_localized_owned_reason",
+    "actual_policy_refusal_crosses_the_production_solver_stack",
+    "all_new_owned_reason_catalog_keys_resolve_with_equal_placeholders",
+    "old_solver_failure_json_round_trips_without_a_new_field",
+    "owned_reason_round_trips_and_does_not_change_error_display",
+    "raw_upstream_failure_is_not_given_a_manufactured_owned_reason"
+  ],
+  "observed_test_names": [
+    "actual_missing_adapter_capability_has_localized_owned_reason",
+    "actual_policy_refusal_crosses_the_production_solver_stack",
+    "all_new_owned_reason_catalog_keys_resolve_with_equal_placeholders",
+    "old_solver_failure_json_round_trips_without_a_new_field",
+    "owned_reason_round_trips_and_does_not_change_error_display",
+    "raw_upstream_failure_is_not_given_a_manufactured_owned_reason"
+  ],
+  "producer_test_binaries": [
+    {
+      "bytes": 53365784,
+      "path": "target/debug/deps/owned_solver_reason-7bd4fa719e05aa34",
+      "sha256": "e26ba7fca864448db31118f310b7d86c0c90b8c18fb483418160a0f86f9556a9"
+    }
+  ],
+  "stderr_sha256": "9dd2a43bcc623eea9a29d0b10d7e2ad4cd28bcd35926303e6c110ea768ad3fdd",
+  "stdout_sha256": "94501015b3de396d7e3a51f7b1e85a68d5c192a36d3a72d2c06b768c7606d094",
+  "test_summary_rows": [
+    [
+      6,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "timed_out": false
+}
