@@ -14,7 +14,7 @@ The source closes serialization/live-cache startup, shared liquidus/fusion and p
 
 [Production run40284030952 attempt1](../audits/deployment-snapshot-quota-first-failure-20261026/README.md) builds frontend/native payloads but fails at provider snapshot storage HTTP402. Artifact publication and deployment are skipped; no API or browser control is issued by that attempt.
 
-After explicit user approval,17 verified unused snapshots are deleted (13.16GiB), preserving all three retained deployment/rollback snapshots. Complete inventory covers the one accessible team and39 projects; no other project has snapshots, and no sandboxes remain. No further stale snapshots were found. [Snapshot lifecycle prevention](deployment-snapshot-lifecycle.md) remains separate.
+After explicit user approval,17 verified unused snapshots are deleted (13.16GiB), preserving all three retained deployment/rollback snapshots. Complete inventory covers the one accessible team and39 projects; no other project has snapshots, and no sandboxes remain. A [fresh post-deployment39-project scan](../audits/deployment-snapshot-quota-post-deploy-verification-20261026/README.md) finds zero new orphans: four live snapshots match four retained deployments, including the new release. The17 deleted records are tombstones. [Snapshot lifecycle prevention](deployment-snapshot-lifecycle.md) remains separate.
 
 [Attempt2 succeeds and actual c517 baseline acceptance is earned](../audits/c517-deployed-baseline-and-model-holds-20261026/README.md):11API/82browser, exact source/tree/native/actual producer-lock/frontend and isolation bindings. The first browser loader failure remains preserved separately with zero earned checks. No baseline replay is needed.
 
