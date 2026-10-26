@@ -43,3 +43,5 @@ After that, use disjoint bounded subsets of the remaining129: [remaining-origina
 Follow [PR policy](PR-WORKFLOW.md), check private resource thresholds before substantial work, and keep host/process/account/credential details ignored. Historical status entries remain in immutable Git history; stale pending notes do not authorize duplicate runs.
 
 [Measured CI acceleration lanes](ci-runner-acceleration-20261026.md) now scope dependency-gated removal of duplicated native work, complete fleet sharding and exact-contract build reuse. Preserve the active reviewed source and every existing logical command/law; apply these changes after current delivery. Historical timings are wall/queue observations, not promised speedups.
+
+The [owned source-gate follow-up](owned-diagnostic-source-gate-followup-20261026.md) scopes two observed source-parser/inventory limitations without alleging missing current translations: handle cfg-test items precisely and derive helper-selected reason keys automatically. Current199 contracts pass; strengthen future regression coverage after current delivery without resetting its accepted validation head.

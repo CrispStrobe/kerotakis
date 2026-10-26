@@ -1,0 +1,15 @@
+{
+  "scope": "Source-only parser regression observations; not a chemistry execution or a claim that current 199 catalogs are incomplete",
+  "source": "b629f1d02447a5a73ab4352c794228565a8c1681",
+  "tool_blob_sha256": "e8dbb883c2841bd8433d8b590a0ddafc51889b752476cd9575fc22a5381dcdfc",
+  "test_variant_fixture": "enum Reason {\n    Real,\n    #[cfg(test)]\n    Fixture,\n}\nimpl Reason {\n    fn phrase(self) -> Phrase {\n        Phrase::bare(\"solver-reason.probe.real\", \"A real production refusal.\")\n    }\n}\n",
+  "actual_filtered_text": "enum Reason {\n    Real,\n    \n",
+  "production_key_retained": false,
+  "wrapped_literal_fixture": "impl Reason {\nfn phrase(self) -> Phrase {\nlet (key, en) = match self {\nSelf::Real => (\"solver-reason.probe.real\", \"A real production refusal.\"),\n};\nPhrase::bare(key, en)\n}\n}\n",
+  "actual_phrase_call_keys": [],
+  "actual_mentioned_keys": [
+    "solver-reason.probe.real"
+  ],
+  "current_199_catalog_tests_pass_separately": true,
+  "active_head_changed": false
+}
