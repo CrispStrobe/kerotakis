@@ -22,7 +22,7 @@ Both browser harness failures remain preserved. The first baseline loader fails 
 
 ## Original experiment coverage
 
-The [working catalog](../audits/working-experiments-20261026-reviewed-pigment-one.json) has343 entries representing **339/468 unique originals**.129 remain;62 more earned originals are needed for401. Every previous342 object is preserved. These qualifications span explicitly bound sources and domains; they are not a uniform replay on latest production or empirical calibration.
+The [working catalog](https://github.com/CrispStrobe/kerotakis/blob/8e75e480/audits/working-experiments-20261026-reviewed-pigment-one.json) has343 entries representing **339/468 unique originals**.129 remain;62 more earned originals are needed for401. Every previous342 object is preserved. These qualifications span explicitly bound sources and domains; they are not a uniform replay on latest production or empirical calibration.
 
 [Original LI004 independently qualifies](../audits/original-li004-current-source-qualified-20261026/README.md) within its forecast's curated pigment-identity-versus-dilution scope. All44 available vessel readbacks close known elements includingH/O and charge to8.88e−16mol/eq under the unchanged1e−10 bound. Actual UVvis wavelengths differ; no numerical cross-wavelength absorbance-loss claim or empirical oxidised-product identification is earned.
 

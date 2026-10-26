@@ -1,0 +1,18 @@
+# D3-EN-002: Lactase acts on the milk substrate pool, not on free glucose
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 whole_milk 40g
+add v1 lactase 0.05g
+add v2 whole_milk 40g
+add v3 water 35mL
+add v3 glucose 2g
+add v3 lactase 0.05g
+wait 30min
+look v1
+look v2
+look v3
+measure v1 balance
+measure v2 balance
+inspect

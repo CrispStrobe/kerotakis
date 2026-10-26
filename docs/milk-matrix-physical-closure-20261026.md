@@ -1,5 +1,7 @@
 # Milk-matrix physical closure —2026-10-26
 
+[Actual unchanged protocols, first complete replies and scoped holds](../audits/original-milk-matrix-current-source-holds-20261026/README.md) are public and source-bound.
+
 Unchanged originals EN002, EN008 and FE006 execute once on accepted c51758fa with completeHTTP200 replies and exit0. EN002/EN008 correctly retain separate source-owned enzyme conversion annotations and their negative/single/combined controls. FE006 consumes reported substrate and produces matching lactic inventory. None earns a new original qualification: the represented milk recipe emits the analytical-component-charge limitation, enzyme extent depends on that solutionpH, and FE006 explicitly withholds casein buffering belowpH5. Do not characterize these as missing aliases, missing enzyme reactions or runtime failures.
 
 The originals explicitly permit conserved aggregate milk/gelatin representations. Absence of resolved glucose, galactose or peptide molecules alone is not a rejection criterion. Preserve the original question and acceptance boundaries. Any physical hold must identify the actual charge/pH, stock ownership or observable that blocks the question; never invent a stronger molecular-product requirement.
