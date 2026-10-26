@@ -1,0 +1,6 @@
+2026-10-26T00:41:06.8290160Z test enthalpy::tests::sodium_carbonate_reference_closes_dissolution_and_calcium_cycle_on_each_basis ... ok
+2026-10-26T00:41:55.4731360Z test plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock ... ok
+2026-10-26T00:41:55.4992440Z test original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock ... ok
+2026-10-26T00:42:18.7139640Z test the_same_beaker_reads_the_same_solvent_mass_in_either_order ... ok
+2026-10-26T00:42:45.7404480Z test every_legacy_field_is_present_and_unchanged ... ok
+2026-10-26T00:42:45.7701580Z test checked_in_source_document_is_current_byte_for_byte ... ok

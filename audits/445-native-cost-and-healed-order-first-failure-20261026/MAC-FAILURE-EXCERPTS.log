@@ -1,0 +1,21 @@
+2026-10-26T00:32:37.1407930Z ---- addition_order_does_not_change_where_the_corpus_ends_up stdout ----
+2026-10-26T00:32:37.1408980Z 
+2026-10-26T00:32:37.1410190Z thread 'addition_order_does_not_change_where_the_corpus_ends_up' (72957) panicked at crates/kerotakis-cli/tests/corpus_perturbation.rs:1338:5:
+2026-10-26T00:32:37.1411250Z ["aq-023"] no longer depart from the order claim; delete them from the recorded list and say what fixed them
+2026-10-26T00:32:37.1412430Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-26T00:32:37.1412860Z 
+2026-10-26T00:32:37.1412950Z 
+2026-10-26T00:32:37.1413200Z failures:
+2026-10-26T00:32:37.1414330Z     addition_order_does_not_change_where_the_corpus_ends_up
+2026-10-26T00:32:37.1414710Z 
+
+2026-10-26T00:42:18.7141720Z ---- the_canonical_pose_costs_at_most_one_solve_per_equilibration stdout ----
+2026-10-26T00:42:18.7142400Z 
+2026-10-26T00:42:18.7143490Z thread 'the_canonical_pose_costs_at_most_one_solve_per_equilibration' (124437) panicked at crates/kerotakis-phreeqc/tests/order_invariance.rs:307:5:
+2026-10-26T00:42:18.7145980Z aq-023 cost 27 engine calls; it cost 8 before the canonical pose and 9 after, and the budget is there so a second re-pose cannot be added without someone noticing
+2026-10-26T00:42:18.7147460Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+2026-10-26T00:42:18.7148270Z 
+2026-10-26T00:42:18.7148270Z 
+2026-10-26T00:42:18.7148990Z failures:
+2026-10-26T00:42:18.7149440Z     the_canonical_pose_costs_at_most_one_solve_per_equilibration
+2026-10-26T00:42:18.7149790Z 

@@ -1,0 +1,22 @@
+{
+  "head": "44552bb153cd97b232145619688431eede419600",
+  "tested_merge": "32b984cfd02ffae340af138bb3192c2b02f23bc7",
+  "tree": "b6ca6e9ab7a518a2d4d9bc2a9b1926576e30f02c",
+  "ci_run": 40246334631,
+  "native_macos_job": 121331209794,
+  "complete_native_log_sha256": "e55173330902de9e42b21af85c00de6bd9e026b2bf6b3500095e59536f2410b3",
+  "complete_native_log_bytes": 624935,
+  "full_raw_retained_privately": true,
+  "public_logs": "selected exact raw excerpts/witness lines, not complete job log",
+  "native_job_failed": true,
+  "failures": [
+    "aq-023 healed but retained in recorded Order exception list",
+    "engine invocation count27 exceeds unchanged budget12 (historical observed9)"
+  ],
+  "later_native_cache_codex_curiosity": "NOT_REACHED",
+  "physical_order_cabbage_hess_export": "PASS on this source",
+  "browser_job": 121331209971,
+  "browser_all_five_dom_and_downstream": "PASS on this source",
+  "full_source_accepted": false,
+  "original_count": 338
+}
