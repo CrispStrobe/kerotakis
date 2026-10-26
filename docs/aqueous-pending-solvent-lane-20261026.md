@@ -8,6 +8,8 @@ The [445 full-source outcomes](../audits/445-full-acceptance-outcomes-20261026/R
 
 The predeclared trace records eight primary and eight auxiliary cache-miss questions. Two pairs belong to CaCl2 thermal poses, three to detergent thermal guesses, and three to canonical reentries at the final temperature. Physical reentries are real work. Deferring only auxiliary queries at discarded thermal guesses saves too little. No repeated unchanged execution is needed to discover these facts.
 
+The [frozen36-control source and hosted plan](../audits/pending-auxiliary-source-binding-20261026/FORECAST.md) now have [actual36/36 focused results](../audits/pending-auxiliary-thirty-six-actual-20261026/README.md); full final-source delivery remains required.
+
 ## Source contract
 
 Separate auxiliary preparation from fulfillment. A private exact question must own the dataset fingerprint, canonical input/key and actual vessel/thermal context. Pending authority is distinct from accepted, declined and replay-skip states. Only ReservoirWithOpaque may retain pending work; other owners keep their ordinary query schedule. Preserve all existing native capability, input/output floor, numerical and provenance checks.
