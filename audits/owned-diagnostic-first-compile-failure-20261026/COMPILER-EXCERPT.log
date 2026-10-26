@@ -1,0 +1,30 @@
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5596111Z [1m[91merror[E0425][0m[1m: cannot find value `rows` in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5597493Z     [1m[94m--> [0mcrates/kerotakis-phreeqc/src/aqueous.rs:9833:17
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5601103Z      [1m[94m|[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5607981Z [1m[94m9833[0m [1m[94m|[0m                 rows,
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5608635Z      [1m[94m|[0m                 [1m[91m^^^^[0m [1m[91mnot found in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5609101Z 
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5609486Z [1m[91merror[E0425][0m[1m: cannot find value `rows` in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5610238Z     [1m[94m--> [0mcrates/kerotakis-phreeqc/src/aqueous.rs:9841:60
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5610705Z      [1m[94m|[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5611250Z [1m[94m9841[0m [1m[94m|[0m             let moles = value(phase).ok_or_else(|| missing(rows, phase))?;
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5611991Z      [1m[94m|[0m                                                            [1m[91m^^^^[0m [1m[91mnot found in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5612418Z 
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5612814Z [1m[91merror[E0425][0m[1m: cannot find value `rows` in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5613408Z     [1m[94m--> [0mcrates/kerotakis-phreeqc/src/aqueous.rs:9847:62
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5613875Z      [1m[94m|[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5614409Z [1m[94m9847[0m [1m[94m|[0m             let moles = value(&column).ok_or_else(|| missing(rows, &column))?;
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5615134Z      [1m[94m|[0m                                                              [1m[91m^^^^[0m [1m[91mnot found in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5615746Z 
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5616959Z [1m[91merror[E0425][0m[1m: cannot find value `rows` in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5617552Z     [1m[94m--> [0mcrates/kerotakis-phreeqc/src/aqueous.rs:9906:52
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5617993Z      [1m[94m|[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5618496Z [1m[94m9906[0m [1m[94m|[0m         let ph = value("pH").ok_or_else(|| missing(rows, "pH"))?;
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5619156Z      [1m[94m|[0m                                                    [1m[91m^^^^[0m [1m[91mnot found in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5619569Z 
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5621221Z [1m[91merror[E0425][0m[1m: cannot find value `rows` in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5621891Z     [1m[94m--> [0mcrates/kerotakis-phreeqc/src/aqueous.rs:9907:52
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5622354Z      [1m[94m|[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5622853Z [1m[94m9907[0m [1m[94m|[0m         let mu = value("mu").ok_or_else(|| missing(rows, "mu"))?;
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5623528Z      [1m[94m|[0m                                                    [1m[91m^^^^[0m [1m[91mnot found in this scope[0m
+Build audited CLI once	UNKNOWN STEP	2026-10-26T15:14:44.5623939Z 

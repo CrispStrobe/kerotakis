@@ -108,8 +108,7 @@ fn actual_missing_adapter_capability_has_localized_owned_reason() {
     let mut adapter = RefusingPolicy;
     let mut vessel = Vessel::new(VesselId(0), "capability-fixture");
     let error = aqueous_continuation::characterize_via(&mut adapter, &mut vessel)
-        .err()
-        .expect("an adapter without a trusted readback must be refused");
+        .expect_err("an adapter without a trusted readback must be refused");
     assert_eq!(
         error.owned_reason().unwrap().key,
         "solver-reason.continuation.adapter-unavailable"

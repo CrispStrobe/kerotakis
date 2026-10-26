@@ -1,0 +1,21 @@
+{
+  "source": "f61a2855f6d56fa22abd6268fab3aa9dd14b310a",
+  "tree": "12bdf0b9c773ed86479ba64a1340472cda7917c2",
+  "ci_run": 40343194391,
+  "fleet_run": 40343194372,
+  "state": "COMPILE_AND_STRICT_LINT_FAILURE_BEFORE_SCIENTIFIC_ACCEPTANCE",
+  "causes": [
+    "Selected-output diagnostic classification used rows in a helper without receiving its actual selected-output table.",
+    "The new capability-refusal test used err().expect() where its Debug success type supports expect_err(), rejected by existing strict Clippy."
+  ],
+  "repair_scope": "Pass actual cached selected-output table through both production call sites and controlled test fixture; use expect_err without changing assertions. No numeric predicate, routing, test threshold or gate changes.",
+  "raw_private_log_sha256": {
+    "CI.log": "ce7236be19f4cc77ab07f7e7d013f8bc444ca472a04b4fdf4a53d43f25800249",
+    "FLEET.log": "61101a0bcafb2f8d8ab23385d8171bea762ededf11a09a9626e1e1fe8c222ed7"
+  },
+  "excerpt_sha256": {
+    "COMPILER-EXCERPT.log": "906cfdd484962c4248c892852ebf312b1c63f03cc1256887802f026922938a0e",
+    "CLIPPY-EXCERPT.log": "8bce6d487d7e1c5a9fbce68a71a614fd94cd11087ea2b56a0c67a3a06d745719"
+  },
+  "qualification": "First failure remains frozen. Successor requires compiler and complete acceptance; source review was not compilation."
+}

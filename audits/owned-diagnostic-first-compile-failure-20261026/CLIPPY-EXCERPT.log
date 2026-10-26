@@ -1,0 +1,13 @@
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.4222930Z [1m[91merror[0m[1m: called `.err().expect()` on a `Result` value[0m
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.4319130Z    [1m[94m--> [0mcrates/kerotakis-core/tests/owned_solver_reason.rs:111:10
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.4422180Z     [1m[94m|[0m
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.4524160Z [1m[94m111[0m [1m[94m|[0m           .err()
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.4626450Z     [1m[94m|[0m [1m[91m __________^[0m
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.4728490Z [1m[94m112[0m [1m[94m|[0m [1m[91m|[0m         .expect("an adapter without a trusted readback must be refused");
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.4831010Z     [1m[94m|[0m [1m[91m|_______________^[0m [1m[91mhelp: try: `expect_err`[0m
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.4932750Z     [1m[94m|[0m
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.5036210Z     [1m[94m= [0m[1mhelp[0m: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#err_expect
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.5135880Z     [1m[94m= [0m[1mnote[0m: `-D clippy::err-expect` implied by `-D warnings`
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.5239770Z     [1m[94m= [0m[1mhelp[0m: to override `-D warnings` add `#[allow(clippy::err_expect)]`
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.5340280Z 
+Test (native) (macos-latest)	UNKNOWN STEP	2026-10-26T15:51:14.5441940Z [1m[91merror[0m: could not compile `kerotakis-core` (test "owned_solver_reason") due to 1 previous error

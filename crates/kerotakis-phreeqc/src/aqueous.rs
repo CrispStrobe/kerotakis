@@ -4733,6 +4733,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let balance = Self::apply_balance_corrections(
             vessel,
             &merged_problem,
+            &cached.rows,
             &mut new_ions,
             &mut new_surfaces,
             &new_exchanges,
@@ -7881,6 +7882,7 @@ impl PhreeqcEquilibrator {
             Self::apply_balance_corrections(
                 vessel,
                 &problem,
+                &cached.rows,
                 &mut new_ions,
                 &mut new_surfaces,
                 &new_exchanges,
@@ -9642,6 +9644,7 @@ impl PhreeqcEquilibrator {
     fn apply_balance_corrections(
         vessel: &Vessel,
         problem: &Problem,
+        rows: &[Vec<String>],
         new_ions: &mut Vec<(String, f64)>,
         new_surfaces: &mut [SurfaceSites],
         new_exchanges: &[ExchangeSites],
@@ -11810,6 +11813,7 @@ mod gas_component_projection_tests {
             let result = PhreeqcEquilibrator::apply_balance_corrections(
                 &vessel,
                 &problem,
+                &[], // Controlled numeric reader below; no native selected-output rows.
                 &mut ions,
                 &mut [],
                 &[],
