@@ -1,0 +1,188 @@
+{
+  "source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "selected_controls": 36,
+  "targets": 5,
+  "files_sha256": {
+    "focus.py": "2c85593e5b832a6ee80cad058809607f584c38e95e32a5493f5550db4838d491",
+    "actual-plan.private.json": "435074b878fbe8ee7c7fe6e47b7001b54173d2ddc076ba4c4d2cf086b5605212",
+    "run_once.py": "00896d57e59619eb80c0978357af0beba771667a78df5c547260d00757dca75f",
+    "prior_guard.py": "49cf7e933822fa8a7792f4012c63090f02e3096315cf9430713c98cc3b2741f6",
+    "kernel-metadata.json": "7ffffd4f7c10632e600f443a434092a2e4fc87cee223a3b4cd71aa87db77be61"
+  },
+  "source_preflight": {
+    "clippy": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "-p",
+      "kerotakis-phreeqc",
+      "--all-targets",
+      "--features",
+      "engine",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "clippy_maximum_seconds": 1200,
+    "component": [
+      "rustup",
+      "component",
+      "add",
+      "clippy",
+      "--toolchain",
+      "1.99.1"
+    ],
+    "component_maximum_seconds": 300
+  },
+  "postflight_commands": [
+    {
+      "argv": [
+        "codex",
+        "lint"
+      ],
+      "maximum_seconds": 180,
+      "name": "codex-lint"
+    },
+    {
+      "argv": [
+        "coverage",
+        "curiosity",
+        "--check"
+      ],
+      "maximum_seconds": 180,
+      "name": "curiosity-coverage-check"
+    }
+  ],
+  "tests": {
+    "native_cabbage_thermal_dom": [
+      "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+      "plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock"
+    ],
+    "kerotakis_phreeqc": [
+      "aqueous::canonical_physical_closure_tests::reservoir_certificate_requires_current_native_numerical_coordinates",
+      "aqueous::canonical_physical_closure_tests::reservoir_opaque_owner_spends_global_eight_pass_cap_and_rolls_back",
+      "aqueous::gas_component_projection_tests::reservoir_opaque_owner_requires_explicit_native_opt_in_and_keeps_clock_distinct",
+      "inventory::reservoir_opaque_immutable_certificate_tests::passive_ladder_is_reservoir_only_and_every_spectator_bit_is_immutable",
+      "inventory::reservoir_opaque_immutable_certificate_tests::reservoir_owner_checks_signed_gas_and_rejects_unknown_ions_or_clock",
+      "aqueous::canonical_physical_closure_tests::opaque_clock_owner_rejects_second_pass_mutation_and_restores_caller",
+      "aqueous::gas_component_projection_tests::opaque_owner_is_clock_only_and_requires_every_represented_component",
+      "aqueous::gas_component_projection_tests::clock_only_component_projection_requires_typed_first_or_reentry_owner",
+      "inventory::gas_aware_certificate_tests::clock_spectators_are_exact_immutable_stock_not_new_native_components",
+      "inventory::gas_aware_certificate_tests::opaque_clock_owner_preserves_every_unresolved_field_and_rejects_invalid_stock",
+      "aqueous::canonical_physical_closure_tests::final_strict_heat_and_volume_both_have_to_satisfy_the_thermal_map",
+      "aqueous::canonical_physical_closure_tests::mismatched_first_pose_temperature_is_refused_without_committing",
+      "aqueous::canonical_physical_closure_tests::provisional_two_cycle_cannot_witness_final_strict_thermal_convergence",
+      "aqueous::canonical_physical_closure_tests::resumed_first_pose_counts_toward_the_same_eight_pass_cap_and_rolls_back",
+      "aqueous::canonical_physical_closure_tests::resumed_first_pose_never_repeats_native_first_input_or_recaptures_heat_origin",
+      "aqueous::canonical_physical_closure_tests::resumed_seed_replay_discards_gas_and_clock_and_uses_original_owner",
+      "aqueous::canonical_physical_closure_tests::auxiliary_floor_replay_discards_provisional_gas_clock_and_heat",
+      "aqueous::canonical_physical_closure_tests::reverse_floor_replay_probes_only_first_pose_then_requires_ordinary_admission",
+      "aqueous::canonical_physical_closure_tests::auxiliary_other_declines_never_authorize_replay_and_floor_spends_global_cap",
+      "aqueous::canonical_physical_closure_tests::auxiliary_engine_or_capability_change_cannot_replay_or_commit",
+      "aqueous::canonical_physical_closure_tests::secondary_selected_output_mu_must_be_finite_and_nonnegative",
+      "aqueous::canonical_physical_closure_tests::actual_paired_auxiliary_delta_failure_replays_eagerly_and_keeps_global_cap_rollback",
+      "aqueous::canonical_physical_closure_tests::auxiliary_decline_remains_typed_and_missing_result_cannot_be_accepted",
+      "aqueous::canonical_physical_closure_tests::both_adjacent_queued_answers_are_completed_before_full_acceptance_and_routing",
+      "aqueous::canonical_physical_closure_tests::old_controlled_adapter_cannot_invent_queued_auxiliary_answers",
+      "aqueous::canonical_physical_closure_tests::pending_floor_transition_replays_eagerly_from_original_owner",
+      "aqueous::canonical_physical_closure_tests::primary_progress_never_clears_pending_or_grants_full_acceptance",
+      "aqueous::canonical_physical_closure_tests::queued_auxiliary_refuses_database_fingerprint_input_or_key_drift",
+      "aqueous::canonical_physical_closure_tests::queued_auxiliary_refuses_wrong_stock_and_whole_step_heat_origin",
+      "aqueous::canonical_physical_closure_tests::queued_auxiliary_refuses_wrong_temperature_before_native_dispatch"
+    ],
+    "order_invariance": [
+      "the_same_beaker_reads_the_same_solvent_mass_in_either_order",
+      "the_canonical_pose_costs_at_most_one_solve_per_equilibration"
+    ],
+    "corpus_perturbation": [
+      "addition_order_does_not_change_where_the_corpus_ends_up"
+    ],
+    "secondary_selector_replay": [
+      "strong_acid_carbonate_and_near_floor_stocks_repeat_from_generated_cache"
+    ]
+  },
+  "source_pins": {
+    ".github/workflows/ci.yml": {
+      "git_blob": "26bb7bc650e0f7051499f9a2f85ef244afcfbd3a",
+      "sha256": "9c9b7c9be138e6841fbcb9d986cbce42c43757c619ec1b0a937e72ccc92a29bd"
+    },
+    "Cargo.toml": {
+      "git_blob": "ac217f7030a22079c14d4b420b7a753961f03b7d",
+      "sha256": "80aeffe25abeb7ccf99ffa839d9c37279a19052c420732abe6c008cca129187c"
+    },
+    "crates/kerotakis-cli/Cargo.toml": {
+      "git_blob": "5660668e343537a3b5a3c265e8b8df35bef151c7",
+      "sha256": "bf37c2974740c1d320e12a7f17b4172dcb37191a38b7c821827375c7667ae9d5"
+    },
+    "crates/kerotakis-cli/tests/corpus_perturbation.rs": {
+      "git_blob": "6d7bf71d6ef2157984cb05d51d9729ef507bd0dc",
+      "sha256": "f0a7547186fb63aa1801de373be7bb64f3ba33ec8716423f2d807130b9526644"
+    },
+    "crates/kerotakis-phreeqc/Cargo.toml": {
+      "git_blob": "12bcd1af60851e22c402c5d9cc1ce528f4cdbe17",
+      "sha256": "dd3d8806bcdc5f4e20e3585f611b9fdaa7c2866f0186e92d4d1e072185cc2465"
+    },
+    "crates/kerotakis-phreeqc/src/aqueous.rs": {
+      "git_blob": "6c256848a06cc6316a645ec6c67f3ce31fa6005a",
+      "sha256": "8d81313ac6a0f7ba46b4cafb6b3fa3b76b7df79332349313ff1ed95b818065b2"
+    },
+    "crates/kerotakis-phreeqc/src/enthalpy.rs": {
+      "git_blob": "27d34fa68a180cd8784d7606008962f005eb7426",
+      "sha256": "5e49a8348b60e9b91661a682861cca09cacdf0cd87183936f71aa0403b2b57ff"
+    },
+    "crates/kerotakis-phreeqc/src/inventory.rs": {
+      "git_blob": "4bcb41f145aa8b14ca3ad3c6190d375ea75d89f7",
+      "sha256": "6098fb6eafd443cffa14b3fbc74e12c8465df933586ca7381959b8b7b0a2169c"
+    },
+    "crates/kerotakis-phreeqc/tests/native_cabbage_thermal_dom.rs": {
+      "git_blob": "dea28f8a6f38fc778efc21e889986c355c6b3920",
+      "sha256": "4bf7855bd69e15ce4f7afd9002646d8bed81caaf39e32e29d0fe059ed5f057e4"
+    },
+    "crates/kerotakis-phreeqc/tests/order_invariance.rs": {
+      "git_blob": "e55aba749cc6e2943430f3f7fbc8d7bba5bc4186",
+      "sha256": "e06987ecdc23e96d325de369c542ab2667d5b22cea9feef3afeda6245d9e456c"
+    },
+    "crates/kerotakis-phreeqc/tests/secondary_selector_replay.rs": {
+      "git_blob": "95bfbcb761ed971c5ad5b843b763f4394fd3836f",
+      "sha256": "780b2d4fbb17bbc77d4b5663050bf97fafd1b0696db025f8f15e279ede2320a8"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/cancellation.rs": {
+      "git_blob": "b24cb745406681afc0e1fed55fc22951bffe2e62",
+      "sha256": "5efe948221bd9646cefd87d47c46cd6bfd0f5fc58bccda7aadd6be04ac0ef098"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts.rs": {
+      "git_blob": "3c4faa4cba5dc893e612993f750b4aa2bc53c1f1",
+      "sha256": "de4a06af57da5e3716562539e176e90fa543d41576230440fcbd72ebf17b2754"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/contracts_closed_boundary.rs": {
+      "git_blob": "a0bdf12dcac642dbafca8b331748e9d719624dd5",
+      "sha256": "4475e1b72e0bb707ae3e7b5027f9843f03d77ccb625b17cd650eedb99684c73f"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_boundaries.rs": {
+      "git_blob": "22b6c6ab938ed43598520c11a554dcfcfaf5a2f4",
+      "sha256": "cf9b8066da2f9f9803ee2d46df865bfbf7748181c60ca04a757311462ced7620"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/external_raw.rs": {
+      "git_blob": "5da41636a5f12fbfae52f345fc3442c23fb6d61c",
+      "sha256": "3221999249c2c2686403223cfd39deac791922d8971889620037ca5471d3a519"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/raw_carbon.rs": {
+      "git_blob": "f0ae4688f8dd864586f37dd66859343cbaa65ba8",
+      "sha256": "365b95735e424df61aa5cb7a52aa497c1c22ce6b91d862b33160839bf0edfaef"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement.rs": {
+      "git_blob": "500604ad67519da12ffc4df456a20abd98a3d43b",
+      "sha256": "1d75e857c9a8268fbcb965223b0c4979ae35f39f550303d926eb03f20d6e1e0f"
+    },
+    "crates/kerotakis-phreeqc/tests/solid_solution_phase_budget/supplement_closed_boundary.rs": {
+      "git_blob": "a18c2234418dad3c282c4df6db744f1673876dc1",
+      "sha256": "7f5dec6a54fe56aa400669a74cd557a5daecf805d538c424a188f3000fb521d9"
+    },
+    "data/registry/registry-source-v1.json": {
+      "git_blob": "aa1c28d29f29746457ad3cae363cf333039e9897",
+      "sha256": "db8496e677d3482e9faef01167b9d621ff32c7dc9219a7c690f7f9546c9d1d73"
+    }
+  },
+  "execution": "Not issued when frozen; all source/helper/worker review completed"
+}

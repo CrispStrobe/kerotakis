@@ -1,0 +1,1 @@
+aq-023 cost 16 engine calls; it cost 8 before the canonical pose and 9 after, and the budget is there so a second re-pose cannot be added without someone noticing

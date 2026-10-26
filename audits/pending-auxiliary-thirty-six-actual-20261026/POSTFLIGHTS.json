@@ -1,0 +1,22 @@
+{
+  "source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "records": {
+    "strict-phreeqc-clippy": {
+      "exit_status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "de00b230a0cf51e13decafde74f32a1ddaa94456d1dc169bf51030059579628d"
+    },
+    "postflight-codex-lint": {
+      "exit_status": 0,
+      "stdout_sha256": "577472ffc8873b3fd20105a6a6d7cf22906309859b32ed4dfb195932c3849599",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "postflight-curiosity-coverage-check": {
+      "exit_status": 0,
+      "stdout_sha256": "2795cccf9230412987f3b297fb150d461716814691770090d6b0929f4578ab1f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "complete_raw_streams_retained_under_hashes": true
+}

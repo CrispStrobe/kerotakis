@@ -1,0 +1,9 @@
+# Actual445 full-source outcomes
+
+Candidate44552bb153cd97b232145619688431eede419600 was tested through merge32b984cfd02ffae340af138bb3192c2b02f23bc7, treeb6ca6e9ab7a518a2d4d9bc2a9b1926576e30f02c.
+
+[CI40246334631](https://github.com/CrispStrobe/kerotakis/actions/runs/40246334631) finishes23 successful jobs, four failed and one skipped. Both native platforms pass physical order, original cabbage and plain carbonate zero-time, heat and export controls, but fail the healed aq-023 departure allowance and27 engine calls against the unchanged12-call budget. Preflight stops at the same allowance; its aggregate gate fails accordingly. Post-native cache-only, codex and500-curiosity steps are unreached. Full browser passes all five live/offline semantic DOM comparisons and downstream checks. See [complete review and raw-log hashes](CI.json).
+
+[Fleet40246334625](https://github.com/CrispStrobe/kerotakis/actions/runs/40246334625) passes all33 jobs. The unchanged workflow expands142 literal run steps and29 family groups, including the two frozen fleets. Source-informed aggregate reports contain648 cases and856 checks, with zero unmet families. These are source-fleet controls, not original experiment qualifications. Actual job metadata contains339 successful action steps; this is a separate count from142 authored run steps. See [review, exact source/binary bindings and all33 raw-log hashes](FLEET.json). Complete raw logs remain preserved under those hashes.
+
+Fleet/browser success does not override the native failure or accept a successor. The [cost optimization and compiler-only follow-up](../canonical-cost-first-compile-and-counter-followup-20261026/FORECAST.md) still require their own results and full final-source acceptance. Normal integration, actual deployed product acceptance, unchanged-original review and owned diagnostic EN/DE/FR implementation/delivery remain pending in order.338/468 and production are unchanged.

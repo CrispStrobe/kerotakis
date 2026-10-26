@@ -1,0 +1,104 @@
+{
+  "acceptance": "FAILED; no source/full-release acceptance inferred from passing browser and native subsets.",
+  "actual_tested_merge": "32b984cfd02ffae340af138bb3192c2b02f23bc7",
+  "aggregate_gate_detail": "Full preflight gate job121347659088 reads CHANGES_RESULT=success, CHANGE_MODE=full, BUILD_RESULT=failure and exits1; no independent new test failure.",
+  "branch_head": "44552bb153cd97b232145619688431eede419600",
+  "browser_five_semantic_dom_and_downstream": "browser job121331209971 success; raw lines908/913 live/offline five scenarios, 928 exact five semantic DOM, 950 svelte-check, 1028 PWA, 1081 German, 1403 UX, 1417 fluid; package site reached",
+  "failure_jobs": [
+    {
+      "id": 121331209794,
+      "name": "Test (native) (macos-latest)"
+    },
+    {
+      "id": 121331209816,
+      "name": "Full preflight execution"
+    },
+    {
+      "id": 121331209856,
+      "name": "Test (native) (ubuntu-latest)"
+    },
+    {
+      "id": 121347659088,
+      "name": "Full preflight gate"
+    }
+  ],
+  "failures": [
+    "Both native macOS and Ubuntu: stale aq-023 ORDER_DEPARTURES exception in CLI corpus_perturbation test at line1338.",
+    "Both native macOS and Ubuntu: aq-023 costs 27 engine calls versus unchanged <=12 order_invariance budget at line307.",
+    "Full preflight fail-fast at same CLI corpus exception; downstream preflight checks not reached.",
+    "Aggregate Full preflight gate fails because prerequisite jobs failed."
+  ],
+  "job_counts": {
+    "failure": 4,
+    "skipped": 1,
+    "success": 23
+  },
+  "job_total": 28,
+  "native_pass_witnesses": {
+    "calcite_reference_prices_solid_and_analytical_aqueous_on_each_routed_basis": {
+      "macos": true,
+      "ubuntu": true
+    },
+    "codex_export_matches_golden_snapshot": {
+      "macos": true,
+      "ubuntu": true
+    },
+    "hess_holds_when_a_reagent_arrives_into_a_warm_beaker": {
+      "macos": true,
+      "ubuntu": true
+    },
+    "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock": {
+      "macos": true,
+      "ubuntu": true
+    },
+    "plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock": {
+      "macos": true,
+      "ubuntu": true
+    },
+    "registry_matches_the_golden_snapshot": {
+      "macos": true,
+      "ubuntu": true
+    },
+    "the_same_beaker_reads_the_same_solvent_mass_in_either_order": {
+      "macos": true,
+      "ubuntu": true
+    }
+  },
+  "observed_utc": "2026-10-26T01:16:03.712064+00:00",
+  "raw_logs": {
+    "browser": {
+      "bytes": 172820,
+      "file": "browser-121331209971.raw.log",
+      "sha256": "65a123ddb0743f768b656128dc1e6d3aa0ef0732dee8567693dc3a5e4ec4123c"
+    },
+    "macos": {
+      "bytes": 624935,
+      "file": "native-macos-121331209794.raw.log",
+      "sha256": "e55173330902de9e42b21af85c00de6bd9e026b2bf6b3500095e59536f2410b3"
+    },
+    "preflight": {
+      "bytes": 108105,
+      "file": "preflight-121331209816.raw.log",
+      "sha256": "8b79c1350814ce664fa88b56d5fd85afb49acbaa753c5d6dbf3a7917281e59c1"
+    },
+    "preflight_gate": {
+      "bytes": 2978,
+      "file": "preflight-gate-121347659088.raw.log",
+      "sha256": "bbeb60dfcc5d544d5fef3ef8d24a15cdb45d4772b37c74e163bc07623031964a"
+    },
+    "ubuntu": {
+      "bytes": 623257,
+      "file": "native-ubuntu-121331209856.raw.log",
+      "sha256": "1c27576c81c53c5fa80175221ac08e2550da24fd6d17ee72de1f9ea80f120acf"
+    }
+  },
+  "repository": "CrispStrobe/kerotakis",
+  "reviewed_tree": "b6ca6e9ab7a518a2d4d9bc2a9b1926576e30f02c",
+  "run_conclusion": "failure",
+  "run_id": 40246334631,
+  "run_status": "completed",
+  "unreached": [
+    "Native post-cargo-test cache-only adapter, codex lint, curiosity coverage 500 and snapshots on both platforms.",
+    "Further preflight stages beyond first corpus failure."
+  ]
+}

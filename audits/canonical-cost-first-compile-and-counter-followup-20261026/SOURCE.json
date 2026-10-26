@@ -1,0 +1,9 @@
+{
+  "source": "a800cd6c37d25950618216e2a84b4cc82d072fde",
+  "tree": "71931f8326a0a0c6dc7ea7944e74f24f91db1923",
+  "base": "1d56ee1930023bcb49334c4004b34c89d42aed95",
+  "file": "crates/kerotakis-phreeqc/src/aqueous.rs",
+  "sha256": "b8cee14fc9ae0349d7cbdf837f60ea2088fa6517a5679b3caeecfd149570debc",
+  "delta": "One explicit usize annotation in controlled pass-cap unit test; production implementation and all21 selections/assertions unchanged",
+  "executed": false
+}

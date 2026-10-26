@@ -1,0 +1,55 @@
+{
+  "source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "independent_review_sha256": "cfae58dcdbdf01f350c1b887d1588fdb517cfe931a82207160bd533bd8b3dade",
+  "independent_assessment": "All103collected/102manifest/108rawcase members authenticated; source20pins/2gitlinks and actual lock exact; decompressed native binaries independently rehashed; all36cases/strictClippy/codex/500curiosity succeed. Focus only, not full release acceptance.",
+  "executables": {
+    "native_cabbage_thermal_dom": {
+      "runtime_source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+      "runtime_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+      "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+      "sha256": "2418f289b56864c43d9d694a9bc060b13f6825fca50bfa56369022c930acc27c",
+      "bytes": 87827240,
+      "gzip_sha256": "229cd53659d6130974851dcf6a551cb448050f8c255725df3670d038ef577223"
+    },
+    "kerotakis_phreeqc": {
+      "runtime_source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+      "runtime_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+      "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+      "sha256": "d23c18d7f92457106011cca9c74a9e15f302060be2490e8a79a69a11dda78ebc",
+      "bytes": 63446608,
+      "gzip_sha256": "fea94c15da5454e6374e96568314ab9ff91801a01f9450856a508894a9f1d10a"
+    },
+    "order_invariance": {
+      "runtime_source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+      "runtime_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+      "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+      "sha256": "f4686ed2c858f40d949a0e353c8f8b88c0e87745a81067eb14671e9c8bf5385d",
+      "bytes": 87008312,
+      "gzip_sha256": "123386d1e3c3a72cad0cbc2ceb2fbe7509c0f5e31f421af9f4882a11a641d824"
+    },
+    "corpus_perturbation": {
+      "runtime_source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+      "runtime_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+      "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+      "sha256": "8c55ce1822a946a407c61d9fe2c8047f37290536bbcf93fa4854626a3f8bc9dd",
+      "bytes": 46401632,
+      "gzip_sha256": "c416c91e37d592b7a874a70ca0dafd8d53cee7b9184b826f71c4f8a3b4bfd051"
+    },
+    "secondary_selector_replay": {
+      "runtime_source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+      "runtime_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+      "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+      "sha256": "45bc537880ab714f7d070ada5de3266b1d2bcbc2feea6114e73dc3aa630f60af",
+      "bytes": 66921824,
+      "gzip_sha256": "7b3096a1c5b97e854a489fc183dc5df5202d46255ba6bf2b1b525efd08b81620"
+    },
+    "kero": {
+      "runtime_source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+      "runtime_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+      "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+      "sha256": "0a6d0959e88332ce993a663f0438a4415fd2a3244a073fa7e8d60d79166c28e8",
+      "bytes": 105542320,
+      "gzip_sha256": "1e27bb870759276e98eefeca43e61d6e86b14e89da1969f80984a88b7cd0bca5"
+    }
+  }
+}
