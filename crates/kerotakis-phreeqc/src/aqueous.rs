@@ -1232,6 +1232,107 @@ impl PhreeqcEquilibrator {
         })
     }
 
+    fn first_pose_at_temperature(
+        &mut self,
+        owner: &Vessel,
+    ) -> Result<AqueousFirstPose, SolveError> {
+        Self::first_pose_at_temperature_with(owner, |trial| {
+            self.solve_once(
+                trial,
+                &[],
+                ComponentCertificate::Uncertified,
+                FirstPoseHint::default(),
+            )
+        })
+    }
+
+    fn first_pose_at_temperature_with<F>(
+        owner: &Vessel,
+        solve: F,
+    ) -> Result<AqueousFirstPose, SolveError>
+    where
+        F: FnOnce(&mut Vessel) -> Result<AqueousPass, SolveError>,
+    {
+        let owner_start = owner.clone();
+        let mut trial = owner_start.clone();
+        trial.step_start = Some(
+            owner_start
+                .step_start
+                .clone()
+                .unwrap_or_else(|| kerotakis_core::vessel::StepStart::capture(&owner_start)),
+        );
+        let pass = solve(&mut trial)?;
+        Ok(AqueousFirstPose {
+            owner_start,
+            trial,
+            pass,
+        })
+    }
+
+    fn resume_first_pose(
+        &mut self,
+        output: &mut Vessel,
+        seed: AqueousFirstPose,
+    ) -> Result<(Vec<Event>, f64, bool, f64), SolveError> {
+        Self::resume_first_pose_with(output, seed, |trial, past, owner, hint| {
+            self.solve_once(trial, past, owner, hint)
+        })
+    }
+
+    fn resume_first_pose_with<F>(
+        output: &mut Vessel,
+        seed: AqueousFirstPose,
+        mut solve: F,
+    ) -> Result<(Vec<Event>, f64, bool, f64), SolveError>
+    where
+        F: FnMut(
+            &mut Vessel,
+            &[Event],
+            ComponentCertificate,
+            FirstPoseHint,
+        ) -> Result<AqueousPass, SolveError>,
+    {
+        let AqueousFirstPose {
+            mut owner_start,
+            trial,
+            pass,
+        } = seed;
+        let pose_temperature = owner_start.temperature;
+        let pose_headspace = owner_start.headspace;
+        let heat_origin = owner_start
+            .step_start
+            .clone()
+            .unwrap_or_else(|| kerotakis_core::vessel::StepStart::capture(&owner_start));
+        let mut first = Some((trial, pass));
+        let answer =
+            Self::solve_at_temperature_with(&mut owner_start, |candidate, past, owner, hint| {
+                if let Some((trial, pass)) = first.take() {
+                    // The driver still counts this native first pose as pass1.
+                    // Replays use its immutable original owner and the normal
+                    // callback; no post-solve stock becomes a new heat origin.
+                    if !past.is_empty()
+                        || owner != ComponentCertificate::Uncertified
+                        || hint != FirstPoseHint::default()
+                        || candidate.id != trial.id
+                        || candidate.temperature != pose_temperature
+                        || trial.temperature != pose_temperature
+                        || candidate.headspace != pose_headspace
+                        || candidate.step_start.as_ref() != Some(&heat_origin)
+                    {
+                        return Err(canonical_closure_error(
+                            "first aqueous pose does not match its original temperature/owner",
+                        ));
+                    }
+                    *candidate = trial;
+                    Ok(pass)
+                } else {
+                    solve(candidate, past, owner, hint)
+                }
+            })?;
+        *output = owner_start;
+        Ok(answer)
+    }
+
     /// The closure is private to this module. Tests can supply a controlled
     /// native-answer sequence to prove cap exhaustion and rollback without
     /// changing a production route or executing a native engine locally.
@@ -3704,6 +3805,8 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut fixed_point_converged = false;
         let mut last_temperature_residual = f64::INFINITY;
         let mut previous_guess: Option<f64> = None;
+        let mut previous_was_provisional = false;
+        let mut full_strict_thermal = false;
 
         for _ in 0..MAX_THERMAL_FIXED_POINT_PASSES {
             let mut trial = start.clone();
@@ -3713,8 +3816,30 @@ impl Equilibrator for PhreeqcEquilibrator {
             {
                 trial.headspace = Headspace::PressureControlled { pressure, volume };
             }
-            let (events, q_joules, physical_canonical_closed, clock_applied) =
-                self.solve_at_temperature(&mut trial)?;
+            let mut deferred_seed = None;
+            let (mut events, q_joules, mut physical_canonical_closed, mut clock_applied) =
+                if full_strict_thermal {
+                    self.solve_at_temperature(&mut trial)?
+                } else {
+                    let seed = self.first_pose_at_temperature(&trial)?;
+                    if seed.pass.component_certificate == ComponentCertificate::ReservoirWithOpaque
+                    {
+                        // Only the new open-reservoir opaque class defers its
+                        // physical reentries. Every other owner retains the
+                        // original strict schedule, reusing this first pose.
+                        trial = seed.trial.clone();
+                        let provisional = (
+                            seed.pass.events.clone(),
+                            seed.pass.heat_quote_j,
+                            false,
+                            seed.pass.clock_co2_applied_mol,
+                        );
+                        deferred_seed = Some(seed);
+                        provisional
+                    } else {
+                        self.resume_first_pose(&mut trial, seed)?
+                    }
+                };
             // Enthalpy, not temperature, is what survives a solve.
             //
             // Dissolved matter carries no heat capacity in this model — the
@@ -3743,39 +3868,58 @@ impl Equilibrator for PhreeqcEquilibrator {
             // through 35.7 °C, and the two rectangles landed 7.25e-5 K apart
             // on the same final solution. The area under each side's own
             // Cp(T) is a state function and puts them back together.
-            let t_ref = Kelvin::STANDARD.0;
             // A vessel held at a bath temperature is held: only an adiabatic
             // one moves with the heat its own chemistry released, and letting
             // the fixed-point loop walk a thermostatted vessel away from t0
             // made the bath a suggestion.
-            let held = start.energy_between(t_ref, t0) + q_joules;
             // Unknown-heat continuation is characterisation at the supplied
             // temperature, not an adiabatic prediction. Even a Cp/water basis
             // change must not reconstruct omitted endpoint heat indirectly.
-            let next = if !matches!(start.thermal_mode, ThermalMode::Adiabatic)
-                || !kerotakis_core::aqueous_continuation::whole_step_heat_available(&start)
-            {
-                t0
-            } else if trial.heat_capacity() > 0.0 {
-                trial.temperature_after_from(t_ref, held)
-            } else {
-                t0
-            };
-            let next_volume = trial.headspace_volume();
-            let volume_converged = match (volume_guess, next_volume) {
-                (Some(before), Some(after)) if start.owns_headspace_gas() => {
-                    (after.0 - before.0).abs() < (before.0.abs() * 1e-7).max(1e-9)
-                }
-                _ => true,
-            };
+            let mut next = aqueous_temperature_target(&start, &trial, q_joules);
+            let mut next_volume = trial.headspace_volume();
             last_temperature_residual = (next - guess).abs();
-            let quantized_two_cycle = previous_guess.is_some_and(|previous| {
-                (next - previous).abs() <= 1e-12
-                    && last_temperature_residual < THERMAL_FIXED_POINT_QUANTIZATION_CYCLE_K
-            });
-            let converged = volume_converged
-                && (last_temperature_residual < THERMAL_FIXED_POINT_TOLERANCE_K
-                    || quantized_two_cycle);
+            let provisional_thermal = deferred_seed.is_some();
+            let mut converged = aqueous_thermal_pose_converged(
+                &start,
+                guess,
+                next,
+                volume_guess,
+                next_volume,
+                previous_guess.filter(|_| provisional_thermal == previous_was_provisional),
+            );
+            let mut reset_thermal_history = false;
+            if converged {
+                if let Some(seed) = deferred_seed {
+                    let (strict_events, strict_heat, strict_closed, strict_clock) =
+                        self.resume_first_pose(&mut trial, seed)?;
+                    if !strict_closed {
+                        return Err(canonical_closure_error(
+                            "deferred reservoir answer lacks strict physical closure",
+                        ));
+                    }
+                    events = strict_events;
+                    physical_canonical_closed = strict_closed;
+                    clock_applied = strict_clock;
+                    next = aqueous_temperature_target(&start, &trial, strict_heat);
+                    next_volume = trial.headspace_volume();
+                    last_temperature_residual = (next - guess).abs();
+                    // A provisional two-cycle cannot witness the strict heat
+                    // function. If final closure moves T or volume, continue
+                    // permanently with the original full-strict thermal map.
+                    converged = aqueous_thermal_pose_converged(
+                        &start,
+                        guess,
+                        next,
+                        volume_guess,
+                        next_volume,
+                        None,
+                    );
+                    if !converged {
+                        full_strict_thermal = true;
+                        reset_thermal_history = true;
+                    }
+                }
+            }
             // `trial` was solved at `guess`, so preserve that exact
             // temperature with its speciation.  `next` is the enthalpy-map
             // residual used only to decide convergence; storing it beside a
@@ -3787,7 +3931,12 @@ impl Equilibrator for PhreeqcEquilibrator {
                 physical_canonical_closed,
                 clock_applied,
             ));
-            previous_guess = Some(guess);
+            previous_guess = if reset_thermal_history {
+                None
+            } else {
+                Some(guess)
+            };
+            previous_was_provisional = provisional_thermal;
             guess = next;
             volume_guess = next_volume;
             if converged {
@@ -4275,6 +4424,51 @@ impl ComponentCertificate {
     fn is_certified(self) -> bool {
         self != Self::Uncertified
     }
+}
+
+/// One native answer at exactly one original owner temperature/volume. It may
+/// guide a private thermal guess, but earns no canonical acceptance until the
+/// unchanged strict driver consumes it as its first counted pass.
+struct AqueousFirstPose {
+    owner_start: Vessel,
+    trial: Vessel,
+    pass: AqueousPass,
+}
+
+fn aqueous_temperature_target(start: &Vessel, trial: &Vessel, q_joules: f64) -> f64 {
+    let t0 = start.temperature.0;
+    let t_ref = Kelvin::STANDARD.0;
+    let held = start.energy_between(t_ref, t0) + q_joules;
+    if !matches!(start.thermal_mode, ThermalMode::Adiabatic)
+        || !kerotakis_core::aqueous_continuation::whole_step_heat_available(start)
+    {
+        t0
+    } else if trial.heat_capacity() > 0.0 {
+        trial.temperature_after_from(t_ref, held)
+    } else {
+        t0
+    }
+}
+
+fn aqueous_thermal_pose_converged(
+    start: &Vessel,
+    guess: f64,
+    next: f64,
+    volume_guess: Option<kerotakis_core::Liters>,
+    next_volume: Option<kerotakis_core::Liters>,
+    previous_guess: Option<f64>,
+) -> bool {
+    let volume_converged = match (volume_guess, next_volume) {
+        (Some(before), Some(after)) if start.owns_headspace_gas() => {
+            (after.0 - before.0).abs() < (before.0.abs() * 1e-7).max(1e-9)
+        }
+        _ => true,
+    };
+    let residual = (next - guess).abs();
+    let quantized_two_cycle = previous_guess.is_some_and(|previous| {
+        (next - previous).abs() <= 1e-12 && residual < THERMAL_FIXED_POINT_QUANTIZATION_CYCLE_K
+    });
+    volume_converged && (residual < THERMAL_FIXED_POINT_TOLERANCE_K || quantized_two_cycle)
 }
 
 struct AqueousPass {
@@ -4960,6 +5154,149 @@ mod canonical_physical_closure_tests {
     }
 
     #[test]
+    fn resumed_first_pose_counts_toward_the_same_eight_pass_cap_and_rolls_back() {
+        let mut vessel = state();
+        vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+        let original = serde_json::to_vec(&vessel).unwrap();
+        let mut calls = 0;
+        let mut solve = |candidate: &mut Vessel,
+                         _past: &[Event],
+                         _owner: ComponentCertificate,
+                         _hint: FirstPoseHint| {
+            calls += 1;
+            candidate.free_proton = if calls.is_multiple_of(2) { 0.0 } else { 1e-9 };
+            Ok(quote(0.0))
+        };
+        let seed = PhreeqcEquilibrator::first_pose_at_temperature_with(&vessel, |candidate| {
+            solve(
+                candidate,
+                &[],
+                ComponentCertificate::Uncertified,
+                FirstPoseHint::default(),
+            )
+        })
+        .unwrap();
+        let error = PhreeqcEquilibrator::resume_first_pose_with(&mut vessel, seed, solve)
+            .expect_err("the seed must not buy a ninth physical pose");
+        assert!(matches!(error, SolveError::NotConverged { .. }));
+        assert_eq!(calls, MAX_CANONICAL_AQUEOUS_PASSES);
+        assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
+    }
+
+    #[test]
+    fn resumed_first_pose_never_repeats_native_first_input_or_recaptures_heat_origin() {
+        let mut vessel = state();
+        vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+        let origin = vessel.step_start.clone();
+        let mut calls = 0;
+        let mut solve = |candidate: &mut Vessel,
+                         past: &[Event],
+                         owner: ComponentCertificate,
+                         hint: FirstPoseHint| {
+            calls += 1;
+            assert!(past.is_empty());
+            assert_eq!(hint, FirstPoseHint::default());
+            assert_eq!(candidate.step_start, origin);
+            assert_eq!(
+                owner,
+                if calls == 1 {
+                    ComponentCertificate::Uncertified
+                } else {
+                    ComponentCertificate::Represented
+                }
+            );
+            Ok(quote(0.0))
+        };
+        let seed = PhreeqcEquilibrator::first_pose_at_temperature_with(&vessel, |candidate| {
+            solve(
+                candidate,
+                &[],
+                ComponentCertificate::Uncertified,
+                FirstPoseHint::default(),
+            )
+        })
+        .unwrap();
+        let (_, heat, closed, clock) =
+            PhreeqcEquilibrator::resume_first_pose_with(&mut vessel, seed, solve).unwrap();
+        assert_eq!(calls, 2);
+        assert!(closed);
+        assert_eq!(heat, 0.0);
+        assert_eq!(clock, 0.0);
+        assert_eq!(vessel.step_start, origin);
+    }
+
+    #[test]
+    fn mismatched_first_pose_temperature_is_refused_without_committing() {
+        let mut vessel = state();
+        let original = serde_json::to_vec(&vessel).unwrap();
+        let mut seed =
+            PhreeqcEquilibrator::first_pose_at_temperature_with(&vessel, |_| Ok(quote(0.0)))
+                .unwrap();
+        seed.trial.temperature.0 += 0.01;
+        let error = PhreeqcEquilibrator::resume_first_pose_with(&mut vessel, seed, |_, _, _, _| {
+            panic!("a mismatched seed must not issue a reentry")
+        })
+        .expect_err("a seed belongs to exactly its original temperature");
+        assert!(matches!(error, SolveError::NotConverged { .. }));
+        assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
+    }
+
+    #[test]
+    fn provisional_two_cycle_cannot_witness_final_strict_thermal_convergence() {
+        let start = state();
+        let guess = start.temperature.0;
+        let next = guess + 2e-5;
+        assert!(aqueous_thermal_pose_converged(
+            &start,
+            guess,
+            next,
+            None,
+            None,
+            Some(next),
+        ));
+        assert!(!aqueous_thermal_pose_converged(
+            &start, guess, next, None, None, None,
+        ));
+    }
+
+    #[test]
+    fn final_strict_heat_and_volume_both_have_to_satisfy_the_thermal_map() {
+        let mut start = state();
+        start.headspace = Headspace::PressureControlled {
+            pressure: kerotakis_core::Pascal(101325.0),
+            volume: kerotakis_core::Liters(0.1),
+        };
+        let guess = start.temperature.0;
+        let volume = start.headspace_volume();
+        let provisional_next = aqueous_temperature_target(&start, &start, 0.0);
+        assert!(aqueous_thermal_pose_converged(
+            &start,
+            guess,
+            provisional_next,
+            volume,
+            volume,
+            None,
+        ));
+        let strict_next = aqueous_temperature_target(&start, &start, 1.0);
+        assert!(!aqueous_thermal_pose_converged(
+            &start,
+            guess,
+            strict_next,
+            volume,
+            volume,
+            None,
+        ));
+        assert!(!aqueous_thermal_pose_converged(
+            &start,
+            guess,
+            provisional_next,
+            volume,
+            Some(kerotakis_core::Liters(0.11)),
+            None,
+        ));
+    }
+
+    #[test]
     fn reservoir_certificate_requires_current_native_numerical_coordinates() {
         // Pure admission predicate, not a synthetic chemistry result.
         let mut vessel = state();
@@ -5409,6 +5746,92 @@ mod canonical_physical_closure_tests {
             },
         )
         .unwrap();
+        assert_eq!(calls, 4);
+        assert!(closed);
+        assert_eq!(clock, 2e-6);
+        assert_eq!(vessel.pending_co2_transfer_mol, 0.0);
+        assert_eq!(vessel.step_start, original.step_start);
+        assert!(!events
+            .iter()
+            .any(|event| matches!(event, Event::GasEvolved { .. })));
+    }
+
+    #[test]
+    fn resumed_seed_replay_discards_gas_and_clock_and_uses_original_owner() {
+        // Controlled driver sequence, not a claim about native chemistry.
+        let mut vessel = state();
+        vessel.deposit(SpeciesId::new("CO2(aq)"), Moles(1e-8), Phase::Aqueous);
+        vessel.pending_co2_transfer_mol = 2e-6;
+        vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+        let original = vessel.clone();
+        let mut calls = 0;
+        let mut solve = |candidate: &mut Vessel,
+                         prior: &[Event],
+                         certified_reentry: ComponentCertificate,
+                         hint: FirstPoseHint| {
+            calls += 1;
+            let mut pass = quote(0.0);
+            match calls {
+                1 => {
+                    assert_eq!(certified_reentry, ComponentCertificate::Uncertified);
+                    assert_eq!(hint, FirstPoseHint::default());
+                    candidate
+                        .contents
+                        .retain(|portion| portion.species.0 != "CO2(aq)");
+                    candidate.deposit(SpeciesId::new("CO2(aq)"), Moles(2e-6), Phase::Aqueous);
+                    pass.db_tag = "pitzer";
+                    pass.clock_co2_applied_mol = 2e-6;
+                    pass.events.push(Event::GasEvolved {
+                        vessel: candidate.id,
+                        species: SpeciesId::new("CO2"),
+                        moles: Moles(1e-8),
+                    });
+                }
+                2 => {
+                    assert!(certified_reentry.is_certified());
+                    assert_eq!(hint, FirstPoseHint::default());
+                    assert_eq!(candidate.pending_co2_transfer_mol, 0.0);
+                    assert_eq!(prior.len(), 1);
+                    assert_eq!(candidate.step_start.as_ref().unwrap().gas_out.len(), 1);
+                    // WATEQ was discovered only on the Pitzer-modified
+                    // hypothetical state. This answer must be discarded.
+                }
+                3 => {
+                    assert_eq!(certified_reentry, ComponentCertificate::Uncertified);
+                    assert_eq!(hint.primary_route, Some("wateq4f"));
+                    assert_eq!(hint.secondary, SecondaryFirstHint::Auto);
+                    assert!(prior.is_empty());
+                    assert_eq!(candidate.contents, original.contents);
+                    assert_eq!(
+                        candidate.pending_co2_transfer_mol,
+                        original.pending_co2_transfer_mol
+                    );
+                    assert_eq!(candidate.step_start, original.step_start);
+                    candidate.deposit(SpeciesId::new("CO2(aq)"), Moles(2e-6), Phase::Aqueous);
+                    pass.clock_co2_applied_mol = 2e-6;
+                }
+                4 => {
+                    assert!(certified_reentry.is_certified());
+                    assert_eq!(hint, FirstPoseHint::default());
+                    assert!(prior.is_empty());
+                    assert_eq!(candidate.pending_co2_transfer_mol, 0.0);
+                    assert_eq!(candidate.step_start.as_ref().unwrap().gas_out.len(), 1);
+                }
+                _ => panic!("replay exceeded the expected four controlled queries"),
+            }
+            Ok(pass)
+        };
+        let seed = PhreeqcEquilibrator::first_pose_at_temperature_with(&vessel, |candidate| {
+            solve(
+                candidate,
+                &[],
+                ComponentCertificate::Uncertified,
+                FirstPoseHint::default(),
+            )
+        })
+        .unwrap();
+        let (events, _, closed, clock) =
+            PhreeqcEquilibrator::resume_first_pose_with(&mut vessel, seed, solve).unwrap();
         assert_eq!(calls, 4);
         assert!(closed);
         assert_eq!(clock, 2e-6);

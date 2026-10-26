@@ -1446,13 +1446,12 @@ const ORDER_DEPARTURES: &[(&str, &str)] = &[
     // and through 3.35e-4 mol of base equivalents at 3.8e-5. It is
     // floating-point accumulation and not a representation, and the way to
     // close it is a stabler sum rather than another solve.
-    (
-        "aq-023",
-        "base_equivalents departs by 1.26e-8 mol, the same absolute residue \
-         contents[water] carries at 2e-9 relative — arithmetic in a \
-         conserved sum, uncovered when the 1e-4 solvent-mass departure it \
-         sat under was fixed on 2026-09-18",
-    ),
+    // Fixed 2026-10-26: the sourced anhydrous Na2CO3 dissolution heat and
+    // certified reservoir/opaque physical closure now settle the named
+    // inventory and its diagnostics together. Source44552bb1 passes the
+    // unchanged native addition-order comparison and reports aq-023 healed
+    // at this gate. Remove its allowance; retain every order threshold and
+    // the independent finite-venting exception above.
 ];
 
 const SCALE_DEPARTURES: &[(&str, &str)] = &[
