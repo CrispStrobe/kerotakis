@@ -163,7 +163,7 @@ fn aq_023(second: &str, third: &str) -> Read {
         known_input.charge += sign * formula.charge * moles;
     }
     let final_ledger = ConservedLedger::from_vessel(vessel);
-    Read {
+    let reading = Read {
         solvent_kg: info
             .solvent_kg
             .expect("a characterised solution has a solvent mass"),
@@ -178,7 +178,85 @@ fn aq_023(second: &str, third: &str) -> Read {
         known_input,
         final_ledger,
         unresolved_material_amount_g: opaque.amount,
+    };
+    let before_wait = vessel.clone();
+    assert_eq!(info.scope, SolutionScope::Complete);
+    let previous_secondary = info
+        .solvent_activity
+        .as_ref()
+        .expect("the supported final mixture has native solvent diagnostics");
+    assert!(previous_secondary.dataset.starts_with("pitzer.dat"));
+    assert!(previous_secondary.model.contains("Pitzer"));
+    // This is a new native fixed-point control, not a calibrated value.
+    // Inspect the actually accepted diagnostics again after typed zero time;
+    // no authored CLI command, reagent or original comparison is changed.
+    let wait_events = bench
+        .step_with(
+            Operator::Wait { seconds: 0.0 },
+            &mut solvers,
+            &PermissiveScreen,
+        )
+        .expect("typed zero-time native re-equilibration");
+    assert!(!wait_events
+        .iter()
+        .any(|event| matches!(event, Event::SolverFailed { .. })));
+    let after_wait = bench.vessel(VesselId(0)).expect("the repeated beaker");
+    let repeated_info = after_wait.solution.as_ref().expect("the repeated solution");
+    assert_eq!(repeated_info.scope, SolutionScope::Complete);
+    let repeated_secondary = repeated_info
+        .solvent_activity
+        .as_ref()
+        .expect("zero time retains the actual native solvent answer");
+    assert_eq!(previous_secondary.dataset, repeated_secondary.dataset);
+    assert_eq!(previous_secondary.model, repeated_secondary.model);
+    for (coordinate, before, after) in [
+        (
+            "water activity",
+            previous_secondary.water_activity,
+            repeated_secondary.water_activity,
+        ),
+        (
+            "particle molality",
+            previous_secondary.particle_molality,
+            repeated_secondary.particle_molality,
+        ),
+        (
+            "ionic strength",
+            previous_secondary.ionic_strength,
+            repeated_secondary.ionic_strength,
+        ),
+    ] {
+        assert!(
+            before.is_finite() && after.is_finite() && (after - before).abs() <= 1e-10,
+            "native auxiliary {coordinate} changed at zero time: {before:.15e} -> {after:.15e}"
+        );
     }
+    assert_eq!(
+        before_wait.unresolved_materials,
+        after_wait.unresolved_materials
+    );
+    assert!((before_wait.temperature.0 - after_wait.temperature.0).abs() <= 1e-6);
+    let before_ledger = ConservedLedger::from_vessel(&before_wait);
+    let after_ledger = ConservedLedger::from_vessel(after_wait);
+    let elements: BTreeSet<_> = before_ledger
+        .elements
+        .keys()
+        .chain(after_ledger.elements.keys())
+        .collect();
+    for element in elements {
+        let before = before_ledger.elements.get(element).copied().unwrap_or(0.0);
+        let after = after_ledger.elements.get(element).copied().unwrap_or(0.0);
+        assert!(
+            before.is_finite() && after.is_finite() && (after - before).abs() <= 1e-10,
+            "{element} ledger changed during zero-time auxiliary control"
+        );
+    }
+    assert!(
+        before_ledger.charge.is_finite()
+            && after_ledger.charge.is_finite()
+            && (after_ledger.charge - before_ledger.charge).abs() <= 1e-10
+    );
+    reading
 }
 
 const SALT_FIRST: (&str, &str) = ("add v1 CaCl2 0.01mol", "add v1 laundry_detergent 5g");

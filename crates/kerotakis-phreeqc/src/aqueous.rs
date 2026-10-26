@@ -104,6 +104,8 @@ enum SecondaryDecline {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum SecondaryDisposition {
+    /// Private work, never a measured answer or a selector-floor witness.
+    Pending,
     Accepted,
     BelowInputFloor,
     SkippedForReplay,
@@ -113,6 +115,124 @@ enum SecondaryDisposition {
 struct SecondaryResult {
     provenance: Option<kerotakis_core::vessel::SolventActivityProvenance>,
     disposition: SecondaryDisposition,
+}
+
+enum PreparedSecondary {
+    Resolved(Box<SecondaryResult>),
+    Question(Box<ExactAuxiliaryQuestion>),
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum AuxiliaryPolicy {
+    Eager,
+    DeferReservoir,
+}
+
+/// The exact already-prepared native question, not a problem reconstructed
+/// from later stock. The witness associates it with one private primary pose.
+struct ExactAuxiliaryQuestion {
+    pose: Vessel,
+    problem: Problem,
+    database: &'static str,
+    database_fingerprint: String,
+    input: String,
+    key: String,
+    witness: Option<AuxiliaryPoseWitness>,
+}
+
+#[derive(Clone, PartialEq)]
+struct AuxiliaryPoseWitness {
+    heat_quote_j: f64,
+    heat_mode: HeatMode,
+    primary_database: &'static str,
+    component_owner: ComponentCertificate,
+    id: kerotakis_core::VesselId,
+    temperature: Kelvin,
+    pressure: kerotakis_core::Pascal,
+    headspace: Headspace,
+    thermal_mode: ThermalMode,
+    contents: Vec<Portion>,
+    unresolved_materials: Vec<kerotakis_core::vessel::UnresolvedMaterialPortion>,
+    solution: Option<SolutionInfo>,
+    free_proton: f64,
+    free_hydroxide: f64,
+    solute_charge: f64,
+    co2_partial_pressure_atm: Option<f64>,
+    pending_co2_transfer_mol: f64,
+    elapsed_seconds: f64,
+    excess_enthalpy_j: f64,
+    step_start: Option<kerotakis_core::vessel::StepStart>,
+    heat_input: Option<kerotakis_core::vessel::HeatInput>,
+    aqueous_heat: kerotakis_core::vessel::AqueousHeatOwnership,
+    aqueous_routing_said: Option<String>,
+}
+
+impl AuxiliaryPoseWitness {
+    fn capture(vessel: &Vessel, pass: &AqueousPass) -> Self {
+        Self {
+            heat_quote_j: pass.heat_quote_j,
+            heat_mode: pass.heat_mode,
+            primary_database: pass.db_tag,
+            component_owner: pass.component_certificate,
+            id: vessel.id,
+            temperature: vessel.temperature,
+            pressure: vessel.pressure,
+            headspace: vessel.headspace,
+            thermal_mode: vessel.thermal_mode,
+            contents: vessel.contents.clone(),
+            unresolved_materials: vessel.unresolved_materials.clone(),
+            solution: vessel.solution.clone(),
+            free_proton: vessel.free_proton,
+            free_hydroxide: vessel.free_hydroxide,
+            solute_charge: vessel.solute_charge,
+            co2_partial_pressure_atm: vessel.co2_partial_pressure_atm,
+            pending_co2_transfer_mol: vessel.pending_co2_transfer_mol,
+            elapsed_seconds: vessel.elapsed_seconds,
+            excess_enthalpy_j: vessel.excess_enthalpy_j,
+            step_start: vessel.step_start.clone(),
+            heat_input: vessel.heat_input.clone(),
+            aqueous_heat: vessel.aqueous_heat,
+            aqueous_routing_said: vessel.aqueous_routing_said.clone(),
+        }
+    }
+}
+
+impl ExactAuxiliaryQuestion {
+    fn validate_input(&self) -> Result<(), SolveError> {
+        let fingerprint =
+            crate::native_namespace::fingerprint(self.database).map_err(canonical_closure_error)?;
+        if self.database != "pitzer"
+            || fingerprint != self.database_fingerprint
+            || self.input != build_input(&self.pose, &self.problem, self.database)
+            || self.key
+                != format!(
+                    "#solvent-activity-v1:{}:{}\n{}",
+                    self.database, fingerprint, self.input
+                )
+        {
+            return Err(canonical_closure_error(
+                "queued auxiliary question lost its exact database/input binding",
+            ));
+        }
+        Ok(())
+    }
+
+    fn validate_pose(&self, vessel: &Vessel, pass: &AqueousPass) -> Result<(), SolveError> {
+        self.validate_input()?;
+        if self.witness.as_ref() != Some(&AuxiliaryPoseWitness::capture(vessel, pass))
+            || !vessel.surfaces.is_empty()
+            || !vessel.exchanges.is_empty()
+            || !vessel.solid_solutions.is_empty()
+            || !vessel.material_objects.is_empty()
+            || !vessel.adsorbed.is_empty()
+            || !vessel.electrodes.is_empty()
+        {
+            return Err(canonical_closure_error(
+                "queued auxiliary answer belongs to another primary stock/heat/temperature pose",
+            ));
+        }
+        Ok(())
+    }
 }
 
 impl SecondaryResult {
@@ -139,6 +259,51 @@ fn secondary_floor_replay(
         }
         _ => None,
     }
+}
+
+fn checked_secondary_reentry(
+    previous: SecondaryDisposition,
+    current: SecondaryDisposition,
+    first_hint: SecondaryFirstHint,
+    secondary_replayed: &mut bool,
+) -> Result<Option<SecondaryFirstHint>, SolveError> {
+    if matches!(previous, SecondaryDisposition::Pending)
+        || matches!(current, SecondaryDisposition::Pending)
+    {
+        return Err(canonical_closure_error(
+            "pending auxiliary work has no selector authority",
+        ));
+    }
+    if previous == SecondaryDisposition::SkippedForReplay
+        && current != SecondaryDisposition::BelowInputFloor
+    {
+        return Err(canonical_closure_error(
+            "ordinary selector did not verify the provisional secondary skip",
+        ));
+    }
+    if first_hint == SecondaryFirstHint::Probe && current != SecondaryDisposition::Accepted {
+        return Err(canonical_closure_error(
+            "ordinary selector did not admit the provisional secondary probe",
+        ));
+    }
+    if let Some(next) = secondary_floor_replay(previous, current) {
+        if *secondary_replayed {
+            return Err(canonical_closure_error(
+                "secondary selector changed after its owner replay",
+            ));
+        }
+        *secondary_replayed = true;
+        return Ok(Some(next));
+    }
+    if previous != current
+        && !(previous == SecondaryDisposition::SkippedForReplay
+            && current == SecondaryDisposition::BelowInputFloor)
+    {
+        return Err(canonical_closure_error(
+            "secondary solvent selector changed outside a witnessed input-floor replay",
+        ));
+    }
+    Ok(None)
 }
 
 /// Parse the actual secondary selected-output column. A valid osmotic
@@ -1227,9 +1392,22 @@ impl PhreeqcEquilibrator {
         &mut self,
         trial: &mut Vessel,
     ) -> Result<(Vec<Event>, f64, bool, f64), SolveError> {
-        Self::solve_at_temperature_with(trial, |candidate, past, owner, hint| {
-            self.solve_once(candidate, past, owner, hint)
+        Self::solve_at_temperature_using(trial, AuxiliaryPolicy::Eager, |work| {
+            self.perform_aqueous_work(work)
         })
+    }
+
+    fn perform_aqueous_work(&mut self, work: AqueousWork<'_>) -> Result<AqueousPass, SolveError> {
+        match work {
+            AqueousWork::Pose {
+                candidate,
+                past,
+                owner,
+                hint,
+                auxiliary_policy,
+            } => self.solve_once(candidate, past, owner, hint, auxiliary_policy),
+            AqueousWork::Fulfil { candidate, pass } => self.fulfil_aqueous_pass(candidate, pass),
+        }
     }
 
     fn first_pose_at_temperature(
@@ -1242,6 +1420,7 @@ impl PhreeqcEquilibrator {
                 &[],
                 ComponentCertificate::Uncertified,
                 FirstPoseHint::default(),
+                AuxiliaryPolicy::DeferReservoir,
             )
         })
     }
@@ -1274,11 +1453,10 @@ impl PhreeqcEquilibrator {
         output: &mut Vessel,
         seed: AqueousFirstPose,
     ) -> Result<(Vec<Event>, f64, bool, f64), SolveError> {
-        Self::resume_first_pose_with(output, seed, |trial, past, owner, hint| {
-            self.solve_once(trial, past, owner, hint)
-        })
+        Self::resume_first_pose_using(output, seed, |work| self.perform_aqueous_work(work))
     }
 
+    #[cfg(test)]
     fn resume_first_pose_with<F>(
         output: &mut Vessel,
         seed: AqueousFirstPose,
@@ -1292,6 +1470,28 @@ impl PhreeqcEquilibrator {
             FirstPoseHint,
         ) -> Result<AqueousPass, SolveError>,
     {
+        Self::resume_first_pose_using(output, seed, |work| match work {
+            AqueousWork::Pose {
+                candidate,
+                past,
+                owner,
+                hint,
+                ..
+            } => solve(candidate, past, owner, hint),
+            AqueousWork::Fulfil { .. } => Err(canonical_closure_error(
+                "controlled pose adapter cannot invent an auxiliary answer",
+            )),
+        })
+    }
+
+    fn resume_first_pose_using<F>(
+        output: &mut Vessel,
+        seed: AqueousFirstPose,
+        mut perform: F,
+    ) -> Result<(Vec<Event>, f64, bool, f64), SolveError>
+    where
+        F: for<'a> FnMut(AqueousWork<'a>) -> Result<AqueousPass, SolveError>,
+    {
         let AqueousFirstPose {
             mut owner_start,
             trial,
@@ -1304,8 +1504,20 @@ impl PhreeqcEquilibrator {
             .clone()
             .unwrap_or_else(|| kerotakis_core::vessel::StepStart::capture(&owner_start));
         let mut first = Some((trial, pass));
-        let answer =
-            Self::solve_at_temperature_with(&mut owner_start, |candidate, past, owner, hint| {
+        let answer = Self::solve_at_temperature_using(
+            &mut owner_start,
+            AuxiliaryPolicy::DeferReservoir,
+            |work| {
+                let AqueousWork::Pose {
+                    candidate,
+                    past,
+                    owner,
+                    hint,
+                    auxiliary_policy,
+                } = work
+                else {
+                    return perform(work);
+                };
                 if let Some((trial, pass)) = first.take() {
                     // The driver still counts this native first pose as pass1.
                     // Replays use its immutable original owner and the normal
@@ -1326,9 +1538,16 @@ impl PhreeqcEquilibrator {
                     *candidate = trial;
                     Ok(pass)
                 } else {
-                    solve(candidate, past, owner, hint)
+                    perform(AqueousWork::Pose {
+                        candidate,
+                        past,
+                        owner,
+                        hint,
+                        auxiliary_policy,
+                    })
                 }
-            })?;
+            },
+        )?;
         *output = owner_start;
         Ok(answer)
     }
@@ -1336,6 +1555,7 @@ impl PhreeqcEquilibrator {
     /// The closure is private to this module. Tests can supply a controlled
     /// native-answer sequence to prove cap exhaustion and rollback without
     /// changing a production route or executing a native engine locally.
+    #[cfg(test)]
     fn solve_at_temperature_with<F>(
         vessel: &mut Vessel,
         mut solve: F,
@@ -1347,6 +1567,28 @@ impl PhreeqcEquilibrator {
             ComponentCertificate,
             FirstPoseHint,
         ) -> Result<AqueousPass, SolveError>,
+    {
+        Self::solve_at_temperature_using(vessel, AuxiliaryPolicy::Eager, |work| match work {
+            AqueousWork::Pose {
+                candidate,
+                past,
+                owner,
+                hint,
+                ..
+            } => solve(candidate, past, owner, hint),
+            AqueousWork::Fulfil { .. } => Err(canonical_closure_error(
+                "controlled pose adapter cannot invent an auxiliary answer",
+            )),
+        })
+    }
+
+    fn solve_at_temperature_using<F>(
+        vessel: &mut Vessel,
+        mut auxiliary_policy: AuxiliaryPolicy,
+        mut perform: F,
+    ) -> Result<(Vec<Event>, f64, bool, f64), SolveError>
+    where
+        F: for<'a> FnMut(AqueousWork<'a>) -> Result<AqueousPass, SolveError>,
     {
         let owner_start = vessel.clone();
         let caller_snapshot = owner_start.step_start.clone();
@@ -1368,12 +1610,25 @@ impl PhreeqcEquilibrator {
             let mut trial = owner_start.clone();
             trial.step_start = Some(heat_origin.clone());
             calls += 1;
-            let first = solve(
-                &mut trial,
-                &[],
-                ComponentCertificate::Uncertified,
-                first_hint,
-            )?;
+            let first = perform(AqueousWork::Pose {
+                candidate: &mut trial,
+                past: &[],
+                owner: ComponentCertificate::Uncertified,
+                hint: first_hint,
+                auxiliary_policy,
+            })?;
+            if first.has_pending_secondary()?
+                && (auxiliary_policy != AuxiliaryPolicy::DeferReservoir
+                    || first.component_certificate != ComponentCertificate::ReservoirWithOpaque
+                    || trial
+                        .solution
+                        .as_ref()
+                        .is_none_or(|info| info.scope != SolutionScope::Complete))
+            {
+                return Err(canonical_closure_error(
+                    "only a complete private reservoir pose may retain pending auxiliary work",
+                ));
+            }
             if let Some(tag) = first_hint.primary_route {
                 let info = trial
                     .solution
@@ -1509,12 +1764,13 @@ impl PhreeqcEquilibrator {
                 }
                 trial.step_start = Some(private_snapshot);
                 calls += 1;
-                let pass = solve(
-                    &mut trial,
-                    &all_events,
-                    component_owner,
-                    FirstPoseHint::default(),
-                )?;
+                let mut pass = perform(AqueousWork::Pose {
+                    candidate: &mut trial,
+                    past: &all_events,
+                    owner: component_owner,
+                    hint: FirstPoseHint::default(),
+                    auxiliary_policy,
+                })?;
                 if !pass.component_certificate.is_certified()
                     || pass.component_certificate != component_owner
                     || pass.clock_co2_applied_mol != 0.0
@@ -1536,6 +1792,13 @@ impl PhreeqcEquilibrator {
                         "route-changing aqueous reentry lacked a complete native answer",
                     ));
                 }
+                let previous_pending = previous_pass.has_pending_secondary()?;
+                let current_pending = pass.has_pending_secondary()?;
+                if current_pending && component_owner != ComponentCertificate::ReservoirWithOpaque {
+                    return Err(canonical_closure_error(
+                        "non-reservoir owner retained pending auxiliary work",
+                    ));
+                }
                 if pass.db_tag != route {
                     if !matches!(
                         (route, pass.db_tag),
@@ -1545,45 +1808,33 @@ impl PhreeqcEquilibrator {
                             "unsupported aqueous model transition",
                         ));
                     }
+                    if previous_pending || current_pending {
+                        auxiliary_policy = AuxiliaryPolicy::Eager;
+                    }
                     first_hint.primary_route = Some(pass.db_tag);
                     first_hint.secondary = SecondaryFirstHint::Auto;
                     continue 'replay;
                 }
-                if previous_pass.secondary_disposition == SecondaryDisposition::SkippedForReplay
-                    && pass.secondary_disposition != SecondaryDisposition::BelowInputFloor
-                {
-                    return Err(canonical_closure_error(
-                        "ordinary selector did not verify the provisional secondary skip",
-                    ));
-                }
-                if first_hint.secondary == SecondaryFirstHint::Probe
-                    && pass.secondary_disposition != SecondaryDisposition::Accepted
-                {
-                    return Err(canonical_closure_error(
-                        "ordinary selector did not admit the provisional secondary probe",
-                    ));
-                }
-                if let Some(next) = secondary_floor_replay(
-                    previous_pass.secondary_disposition,
-                    pass.secondary_disposition,
-                ) {
-                    if secondary_replayed {
-                        return Err(canonical_closure_error(
-                            "secondary selector changed after its owner replay",
-                        ));
+                if !previous_pending && !current_pending {
+                    // Eager owners retain the original selector-before-ledger
+                    // ordering: a hypothetical rejected route is discarded
+                    // before its speculative stock/gas can be certified.
+                    if let Some(next) = checked_secondary_reentry(
+                        previous_pass.secondary_disposition,
+                        pass.secondary_disposition,
+                        first_hint.secondary,
+                        &mut secondary_replayed,
+                    )? {
+                        first_hint.secondary = next;
+                        continue 'replay;
                     }
-                    secondary_replayed = true;
-                    first_hint.secondary = next;
-                    continue 'replay;
                 }
-                if previous_pass.secondary_disposition != pass.secondary_disposition
-                    && !(previous_pass.secondary_disposition
-                        == SecondaryDisposition::SkippedForReplay
-                        && pass.secondary_disposition == SecondaryDisposition::BelowInputFloor)
-                {
-                    return Err(canonical_closure_error(
-                        "secondary solvent selector changed outside a witnessed input-floor replay",
-                    ));
+                if previous_pending != current_pending {
+                    // A capability/input-floor transition is not an auxiliary
+                    // answer. Replay eagerly from the original owner without
+                    // refunding any physical poses already spent.
+                    auxiliary_policy = AuxiliaryPolicy::Eager;
+                    continue 'replay;
                 }
                 let next_reservoirs = pass.reservoirs.iter().cloned().collect::<BTreeSet<_>>();
                 let only_clock_co2_emerged = clock_applied != 0.0
@@ -1629,12 +1880,63 @@ impl PhreeqcEquilibrator {
                         crate::inventory::certify_opaque_clock_stock(&owner_start, &trial)?;
                     }
                 }
+                if previous_pending {
+                    if canonical_primary_progress(&previous_state, &trial, &previous_pass, &pass)?
+                        == PrimaryProgress::Moving
+                    {
+                        all_events.extend(pass.events.iter().cloned());
+                        previous_state = trial.clone();
+                        previous_pass = pass;
+                        continue;
+                    }
+                    previous_pass = perform(AqueousWork::Fulfil {
+                        candidate: &mut previous_state,
+                        pass: previous_pass,
+                    })?;
+                    pass = perform(AqueousWork::Fulfil {
+                        candidate: &mut trial,
+                        pass,
+                    })?;
+                    if previous_pass.has_pending_secondary()? || pass.has_pending_secondary()? {
+                        return Err(canonical_closure_error(
+                            "paired auxiliary work was not fulfilled",
+                        ));
+                    }
+                    if previous_pass.secondary_disposition != SecondaryDisposition::Accepted
+                        || pass.secondary_disposition != SecondaryDisposition::Accepted
+                    {
+                        // Preserve native failure/decline as its actual typed
+                        // result. The old eager owner decides its disposition;
+                        // a missing result can never be promoted to Accepted.
+                        auxiliary_policy = AuxiliaryPolicy::Eager;
+                        continue 'replay;
+                    }
+                }
+                if previous_pending {
+                    if let Some(next) = checked_secondary_reentry(
+                        previous_pass.secondary_disposition,
+                        pass.secondary_disposition,
+                        first_hint.secondary,
+                        &mut secondary_replayed,
+                    )? {
+                        first_hint.secondary = next;
+                        continue 'replay;
+                    }
+                }
                 let closed = canonical_physical_delta_closed(
                     &previous_state,
                     &trial,
                     &previous_pass,
                     &pass,
                 )?;
+                if previous_pending && !closed {
+                    // Primary progress was ready, but the two actual auxiliary
+                    // answers did not close. Replay the original eager owner
+                    // now; do not spend another speculative primary pose or
+                    // refund the already-spent global physical-pass budget.
+                    auxiliary_policy = AuxiliaryPolicy::Eager;
+                    continue 'replay;
+                }
                 all_events.extend(pass.events.iter().cloned());
                 if closed {
                     let events =
@@ -4471,6 +4773,32 @@ fn aqueous_thermal_pose_converged(
     volume_converged && (residual < THERMAL_FIXED_POINT_TOLERANCE_K || quantized_two_cycle)
 }
 
+fn secondary_routing(
+    routing: Phrase,
+    solvent_activity: Option<&kerotakis_core::vessel::SolventActivityProvenance>,
+) -> Phrase {
+    match solvent_activity {
+            None => routing,
+            Some(second) => Phrase::new(
+                "routing.second-speciation-for-solvent",
+                "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+                vec![
+                    ("routing".to_string(), Slot::phrase(routing)),
+                    // Neither of these is a bare name. A dataset is a FILE
+                    // NAME with clauses welded to it and a model is a
+                    // PERSON'S NAME with a reliability range welded to it,
+                    // so each travels as its RECIPE — the names inside it
+                    // still in text slots, which are the ones no catalogue
+                    // touches. They were `Slot::text` of the finished
+                    // English, which put two English clauses in the middle
+                    // of a German routing paragraph.
+                    ("dataset".to_string(), second.dataset_slot()),
+                    ("model".to_string(), second.model_slot()),
+                ],
+            ),
+        }
+}
+
 struct AqueousPass {
     events: Vec<Event>,
     /// Priced mode is a whole-step state-function quote. The existing
@@ -4486,6 +4814,39 @@ struct AqueousPass {
     /// Native reservoir events remain separate.
     clock_co2_applied_mol: f64,
     secondary_disposition: SecondaryDisposition,
+    pending_secondary: Option<Box<ExactAuxiliaryQuestion>>,
+}
+
+impl AqueousPass {
+    fn has_pending_secondary(&self) -> Result<bool, SolveError> {
+        let pending = self.secondary_disposition == SecondaryDisposition::Pending;
+        if pending != self.pending_secondary.is_some() {
+            return Err(canonical_closure_error(
+                "inconsistent queued auxiliary authority",
+            ));
+        }
+        Ok(pending)
+    }
+}
+
+enum AqueousWork<'a> {
+    Pose {
+        candidate: &'a mut Vessel,
+        past: &'a [Event],
+        owner: ComponentCertificate,
+        hint: FirstPoseHint,
+        auxiliary_policy: AuxiliaryPolicy,
+    },
+    Fulfil {
+        candidate: &'a mut Vessel,
+        pass: AqueousPass,
+    },
+}
+
+#[derive(Debug, PartialEq, Eq)]
+enum PrimaryProgress {
+    Moving,
+    ReadyForAuxiliary,
 }
 
 fn validate_clock_boundary(vessel: &Vessel, problem: Option<&Problem>) -> Result<(), SolveError> {
@@ -4675,6 +5036,47 @@ fn canonical_physical_delta_closed(
     before_heat: &AqueousPass,
     after_heat: &AqueousPass,
 ) -> Result<bool, SolveError> {
+    if before_heat.has_pending_secondary()? || after_heat.has_pending_secondary()? {
+        return Err(canonical_closure_error(
+            "pending auxiliary authority cannot earn physical acceptance",
+        ));
+    }
+    canonical_physical_delta(before, after, before_heat, after_heat, true)
+}
+
+/// Scheduling evidence only. This never clears Pending or grants acceptance;
+/// both exact auxiliary answers and the full predicate remain mandatory.
+fn canonical_primary_progress(
+    before: &Vessel,
+    after: &Vessel,
+    before_heat: &AqueousPass,
+    after_heat: &AqueousPass,
+) -> Result<PrimaryProgress, SolveError> {
+    if before_heat.component_certificate != ComponentCertificate::ReservoirWithOpaque
+        || after_heat.component_certificate != ComponentCertificate::ReservoirWithOpaque
+        || !before_heat.has_pending_secondary()?
+        || !after_heat.has_pending_secondary()?
+    {
+        return Err(canonical_closure_error(
+            "primary progress requires two pending reservoir poses",
+        ));
+    }
+    Ok(
+        if canonical_physical_delta(before, after, before_heat, after_heat, false)? {
+            PrimaryProgress::ReadyForAuxiliary
+        } else {
+            PrimaryProgress::Moving
+        },
+    )
+}
+
+fn canonical_physical_delta(
+    before: &Vessel,
+    after: &Vessel,
+    before_heat: &AqueousPass,
+    after_heat: &AqueousPass,
+    compare_auxiliary: bool,
+) -> Result<bool, SolveError> {
     if before.id != after.id
         || before.pending_co2_transfer_mol != after.pending_co2_transfer_mol
         || !before.surfaces.is_empty()
@@ -4794,39 +5196,41 @@ fn canonical_physical_delta_closed(
         }
         stable &= stable_optional_coordinate(a, b, tolerance)?;
     }
-    if before_info
-        .solvent_activity
-        .as_ref()
-        .map(|a| (&a.dataset, &a.model))
-        != after_info
+    if compare_auxiliary {
+        if before_info
             .solvent_activity
             .as_ref()
             .map(|a| (&a.dataset, &a.model))
-    {
-        return Err(canonical_closure_error(
-            "solvent activity model changed during canonical reentry",
-        ));
-    }
-    match (&before_info.solvent_activity, &after_info.solvent_activity) {
-        (Some(a), Some(b)) => {
-            for (left, right) in [
-                (a.water_activity, b.water_activity),
-                (a.particle_molality, b.particle_molality),
-                (a.ionic_strength, b.ionic_strength),
-            ] {
-                if !left.is_finite() || !right.is_finite() {
-                    return Err(canonical_closure_error(
-                        "nonfinite second-opinion aqueous diagnostic",
-                    ));
-                }
-                stable &= (right - left).abs() <= 1e-10;
-            }
-        }
-        (None, None) => {}
-        _ => {
+            != after_info
+                .solvent_activity
+                .as_ref()
+                .map(|a| (&a.dataset, &a.model))
+        {
             return Err(canonical_closure_error(
-                "missing solvent activity provenance",
-            ))
+                "solvent activity model changed during canonical reentry",
+            ));
+        }
+        match (&before_info.solvent_activity, &after_info.solvent_activity) {
+            (Some(a), Some(b)) => {
+                for (left, right) in [
+                    (a.water_activity, b.water_activity),
+                    (a.particle_molality, b.particle_molality),
+                    (a.ionic_strength, b.ionic_strength),
+                ] {
+                    if !left.is_finite() || !right.is_finite() {
+                        return Err(canonical_closure_error(
+                            "nonfinite second-opinion aqueous diagnostic",
+                        ));
+                    }
+                    stable &= (right - left).abs() <= 1e-10;
+                }
+            }
+            (None, None) => {}
+            _ => {
+                return Err(canonical_closure_error(
+                    "missing solvent activity provenance",
+                ))
+            }
         }
     }
     let previous = physical_stock(before)?;
@@ -5150,7 +5554,365 @@ mod canonical_physical_closure_tests {
             reservoirs: vec!["CO2".into()],
             clock_co2_applied_mol: 0.0,
             secondary_disposition: SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
+            pending_secondary: None,
         }
+    }
+
+    fn pending_state() -> Vessel {
+        let mut vessel = state();
+        vessel.unresolved_materials.push(UnresolvedMaterialPortion {
+            material: "whole_milk".into(),
+            recipe_id: "household/whole-milk-surrogate".into(),
+            recipe_version: 1,
+            basis: MaterialBasis::MassFraction,
+            amount: 12.0,
+            enzyme_hydrolysis: None,
+            protein_denatured_fraction: 0.0,
+        });
+        vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
+        vessel
+    }
+
+    /// Controlled protocol answer, not a native chemistry prediction. Even its
+    /// queued question uses the actual preparer's capability/input/key logic.
+    fn pending_pass(vessel: &Vessel, heat: f64) -> AqueousPass {
+        let problem = partition(vessel).unwrap();
+        let value = |column: &str| {
+            if column == "mass_H2O" {
+                Some(0.09998)
+            } else {
+                problem
+                    .elements
+                    .iter()
+                    .any(|name| name == column)
+                    .then_some(0.1)
+            }
+        };
+        let PreparedSecondary::Question(question) = PhreeqcEquilibrator::prepare_secondary(
+            vessel,
+            &problem,
+            "wateq4f",
+            &value,
+            SecondaryFirstHint::Auto,
+        ) else {
+            panic!("controlled supported carbon question must be prepared");
+        };
+        let mut pass = quote(heat);
+        pass.component_certificate = ComponentCertificate::ReservoirWithOpaque;
+        pass.secondary_disposition = SecondaryDisposition::Pending;
+        pass.pending_secondary = Some(question);
+        let witness = AuxiliaryPoseWitness::capture(vessel, &pass);
+        pass.pending_secondary.as_mut().unwrap().witness = Some(witness);
+        pass
+    }
+
+    fn controlled_secondary(activity: f64) -> SecondaryResult {
+        let mut provenance = secondary_provenance();
+        provenance.water_activity = activity;
+        SecondaryResult {
+            provenance: Some(provenance),
+            disposition: SecondaryDisposition::Accepted,
+        }
+    }
+
+    #[test]
+    fn primary_progress_never_clears_pending_or_grants_full_acceptance() {
+        let vessel = pending_state();
+        let before = pending_pass(&vessel, 0.0);
+        let after = pending_pass(&vessel, 0.0);
+        assert_eq!(
+            canonical_primary_progress(&vessel, &vessel, &before, &after).unwrap(),
+            PrimaryProgress::ReadyForAuxiliary
+        );
+        assert!(before.has_pending_secondary().unwrap() && after.has_pending_secondary().unwrap());
+        assert!(canonical_physical_delta_closed(&vessel, &vessel, &before, &after).is_err());
+
+        let mut caller = vessel.clone();
+        let original = serde_json::to_vec(&caller).unwrap();
+        let error = PhreeqcEquilibrator::solve_at_temperature_using(
+            &mut caller,
+            AuxiliaryPolicy::DeferReservoir,
+            |work| match work {
+                AqueousWork::Pose { candidate, .. } => {
+                    let mut pass = pending_pass(candidate, 0.0);
+                    pass.component_certificate = ComponentCertificate::Represented;
+                    Ok(pass)
+                }
+                AqueousWork::Fulfil { .. } => panic!("wrong owner must fail before fulfilment"),
+            },
+        )
+        .expect_err("a represented owner cannot retain a queued reservoir answer");
+        assert!(matches!(error, SolveError::NotConverged { .. }));
+        assert_eq!(serde_json::to_vec(&caller).unwrap(), original);
+    }
+
+    #[test]
+    fn queued_auxiliary_refuses_wrong_temperature_before_native_dispatch() {
+        let vessel = pending_state();
+        let pass = pending_pass(&vessel, 0.0);
+        let question = pass.pending_secondary.as_ref().unwrap();
+        question.validate_pose(&vessel, &pass).unwrap();
+        let mut different = vessel.clone();
+        different.temperature.0 += 0.01;
+        assert!(question.validate_pose(&different, &pass).is_err());
+    }
+
+    #[test]
+    fn queued_auxiliary_refuses_wrong_stock_and_whole_step_heat_origin() {
+        let vessel = pending_state();
+        let mut pass = pending_pass(&vessel, 0.0);
+        let mut different = vessel.clone();
+        different.contents[0].moles.0 += 1e-8;
+        assert!(pass
+            .pending_secondary
+            .as_ref()
+            .unwrap()
+            .validate_pose(&different, &pass)
+            .is_err());
+        let mut different_origin = vessel.clone();
+        different_origin
+            .step_start
+            .as_mut()
+            .unwrap()
+            .gas_out
+            .push((SpeciesId::new("CO2"), Moles(1e-8)));
+        assert!(pass
+            .pending_secondary
+            .as_ref()
+            .unwrap()
+            .validate_pose(&different_origin, &pass)
+            .is_err());
+        let mut different_heat_owner = vessel.clone();
+        different_heat_owner.aqueous_heat =
+            kerotakis_core::vessel::AqueousHeatOwnership::UnmodeledContinuation;
+        assert!(pass
+            .pending_secondary
+            .as_ref()
+            .unwrap()
+            .validate_pose(&different_heat_owner, &pass)
+            .is_err());
+        pass.heat_quote_j = 1.0;
+        assert!(pass
+            .pending_secondary
+            .as_ref()
+            .unwrap()
+            .validate_pose(&vessel, &pass)
+            .is_err());
+    }
+
+    #[test]
+    fn queued_auxiliary_refuses_database_fingerprint_input_or_key_drift() {
+        let vessel = pending_state();
+        for field in ["fingerprint", "input", "key"] {
+            let mut pass = pending_pass(&vessel, 0.0);
+            let question = pass.pending_secondary.as_mut().unwrap();
+            match field {
+                "fingerprint" => question.database_fingerprint.push('0'),
+                "input" => question.input.push_str("# different question\n"),
+                "key" => question.key.push('0'),
+                _ => unreachable!(),
+            }
+            assert!(question.validate_input().is_err());
+        }
+    }
+
+    #[test]
+    fn both_adjacent_queued_answers_are_completed_before_full_acceptance_and_routing() {
+        let mut vessel = pending_state();
+        let mut operations = Vec::new();
+        let (events, _, closed, _) = PhreeqcEquilibrator::solve_at_temperature_using(
+            &mut vessel,
+            AuxiliaryPolicy::DeferReservoir,
+            |work| match work {
+                AqueousWork::Pose {
+                    candidate,
+                    auxiliary_policy,
+                    ..
+                } => {
+                    assert_eq!(auxiliary_policy, AuxiliaryPolicy::DeferReservoir);
+                    operations.push("pose");
+                    Ok(pending_pass(candidate, 0.0))
+                }
+                AqueousWork::Fulfil { candidate, pass } => {
+                    operations.push("fulfil");
+                    PhreeqcEquilibrator::complete_secondary_result(
+                        candidate,
+                        pass,
+                        controlled_secondary(0.9989),
+                    )
+                }
+            },
+        )
+        .unwrap();
+        assert!(closed);
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| matches!(event, Event::SolutionRouted { .. }))
+                .count(),
+            1
+        );
+        assert_eq!(operations, ["pose", "pose", "fulfil", "fulfil"]);
+        let info = vessel.solution.as_ref().unwrap();
+        assert_eq!(
+            info.solvent_activity.as_ref().unwrap().water_activity,
+            0.9989
+        );
+        let provenance = info.provenance.as_ref().unwrap();
+        assert!(provenance.routing.contains("second speciation"));
+        assert_eq!(provenance.routing, provenance.routing_in(Locale::EN));
+        assert_eq!(vessel.aqueous_routing_said, Some(provenance.source_key()));
+    }
+
+    #[test]
+    fn actual_paired_auxiliary_delta_failure_replays_eagerly_and_keeps_global_cap_rollback() {
+        for coordinate in ["water_activity", "particle_molality", "ionic_strength"] {
+            let mut vessel = pending_state();
+            let original = serde_json::to_vec(&vessel).unwrap();
+            let mut poses: usize = 0;
+            let mut fulfilments: usize = 0;
+            let mut eager_poses: usize = 0;
+            let failure = PhreeqcEquilibrator::solve_at_temperature_using(
+                &mut vessel,
+                AuxiliaryPolicy::DeferReservoir,
+                |work| match work {
+                    AqueousWork::Pose {
+                        candidate,
+                        auxiliary_policy,
+                        ..
+                    } => {
+                        poses += 1;
+                        if auxiliary_policy == AuxiliaryPolicy::DeferReservoir {
+                            candidate.solution.as_mut().unwrap().solvent_activity = None;
+                            Ok(pending_pass(candidate, 0.0))
+                        } else {
+                            eager_poses += 1;
+                            candidate.free_proton =
+                                if poses.is_multiple_of(2) { 0.0 } else { 1e-9 };
+                            let mut pass = quote(0.0);
+                            pass.component_certificate = ComponentCertificate::ReservoirWithOpaque;
+                            Ok(pass)
+                        }
+                    }
+                    AqueousWork::Fulfil { candidate, pass } => {
+                        fulfilments += 1;
+                        let mut result = controlled_secondary(0.9989);
+                        if fulfilments == 2 {
+                            let auxiliary = result.provenance.as_mut().unwrap();
+                            match coordinate {
+                                "water_activity" => auxiliary.water_activity += 2e-9,
+                                "particle_molality" => auxiliary.particle_molality += 2e-9,
+                                "ionic_strength" => auxiliary.ionic_strength += 2e-9,
+                                _ => unreachable!(),
+                            }
+                        }
+                        PhreeqcEquilibrator::complete_secondary_result(candidate, pass, result)
+                    }
+                },
+            )
+            .expect_err("primary stability cannot excuse an actual auxiliary mismatch");
+            assert!(matches!(failure, SolveError::NotConverged { .. }));
+            assert_eq!(poses, MAX_CANONICAL_AQUEOUS_PASSES);
+            assert_eq!(fulfilments, 2);
+            assert!(eager_poses > 0);
+            assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
+        }
+    }
+
+    #[test]
+    fn pending_floor_transition_replays_eagerly_from_original_owner() {
+        let mut vessel = pending_state();
+        let original = vessel.clone();
+        let mut poses: usize = 0;
+        let (_, _, closed, _) = PhreeqcEquilibrator::solve_at_temperature_using(
+            &mut vessel,
+            AuxiliaryPolicy::DeferReservoir,
+            |work| match work {
+                AqueousWork::Pose {
+                    candidate,
+                    past,
+                    owner,
+                    hint,
+                    auxiliary_policy,
+                } => {
+                    poses += 1;
+                    if poses == 1 {
+                        return Ok(pending_pass(candidate, 0.0));
+                    }
+                    if poses == 2 {
+                        let mut pass = quote(0.0);
+                        pass.component_certificate = ComponentCertificate::ReservoirWithOpaque;
+                        pass.secondary_disposition = SecondaryDisposition::BelowInputFloor;
+                        return Ok(pass);
+                    }
+                    assert_eq!(auxiliary_policy, AuxiliaryPolicy::Eager);
+                    if poses == 3 {
+                        assert_eq!(owner, ComponentCertificate::Uncertified);
+                        assert_eq!(hint, FirstPoseHint::default());
+                        assert!(past.is_empty());
+                        assert_eq!(candidate.contents, original.contents);
+                        assert_eq!(candidate.step_start, original.step_start);
+                    }
+                    let mut pass = quote(0.0);
+                    pass.component_certificate = ComponentCertificate::ReservoirWithOpaque;
+                    Ok(pass)
+                }
+                AqueousWork::Fulfil { .. } => panic!("a floor decision is not an invented answer"),
+            },
+        )
+        .unwrap();
+        assert!(closed);
+        assert_eq!(poses, 4);
+        assert_eq!(vessel.step_start, original.step_start);
+    }
+
+    #[test]
+    fn old_controlled_adapter_cannot_invent_queued_auxiliary_answers() {
+        let mut vessel = pending_state();
+        let original = serde_json::to_vec(&vessel).unwrap();
+        let seed = PhreeqcEquilibrator::first_pose_at_temperature_with(&vessel, |candidate| {
+            Ok(pending_pass(candidate, 0.0))
+        })
+        .unwrap();
+        let failure =
+            PhreeqcEquilibrator::resume_first_pose_with(&mut vessel, seed, |candidate, _, _, _| {
+                Ok(pending_pass(candidate, 0.0))
+            })
+            .expect_err("the old pose-only adapter has no authority to fulfil a native question");
+        assert!(matches!(failure, SolveError::NotConverged { .. }));
+        assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
+    }
+
+    #[test]
+    fn auxiliary_decline_remains_typed_and_missing_result_cannot_be_accepted() {
+        let mut vessel = pending_state();
+        let pass = pending_pass(&vessel, 0.0);
+        let resolved = PhreeqcEquilibrator::complete_secondary_result(
+            &mut vessel,
+            pass,
+            SecondaryResult::declined(SecondaryDisposition::Declined(
+                SecondaryDecline::EngineFailure,
+            )),
+        )
+        .unwrap();
+        assert_eq!(
+            resolved.secondary_disposition,
+            SecondaryDisposition::Declined(SecondaryDecline::EngineFailure)
+        );
+        assert!(!resolved.has_pending_secondary().unwrap());
+        assert!(vessel.solution.as_ref().unwrap().solvent_activity.is_none());
+        let pass = pending_pass(&vessel, 0.0);
+        let original = serde_json::to_vec(&vessel).unwrap();
+        assert!(PhreeqcEquilibrator::complete_secondary_result(
+            &mut vessel,
+            pass,
+            SecondaryResult {
+                provenance: None,
+                disposition: SecondaryDisposition::Accepted
+            },
+        )
+        .is_err());
+        assert_eq!(serde_json::to_vec(&vessel).unwrap(), original);
     }
 
     #[test]
@@ -6353,6 +7115,7 @@ impl PhreeqcEquilibrator {
         prior_physical_events: &[Event],
         owner: ComponentCertificate,
         hint: FirstPoseHint,
+        auxiliary_policy: AuxiliaryPolicy,
     ) -> Result<AqueousPass, SolveError> {
         if hint.primary_route.is_some() {
             // A provisional answer on another database must not reuse an
@@ -6379,6 +7142,7 @@ impl PhreeqcEquilibrator {
                 secondary_disposition: SecondaryDisposition::Declined(
                     SecondaryDecline::Unsupported,
                 ),
+                pending_secondary: None,
             });
         };
         // Only the ordinary native owner may opt this reviewed open-reservoir
@@ -6682,8 +7446,32 @@ impl PhreeqcEquilibrator {
         // One number the dataset that answered the chemistry could not
         // supply. See `solvent_activity_second_opinion` for the band it is
         // asked in and what it costs.
-        let secondary =
-            self.solvent_activity_second_opinion(vessel, &problem, db_tag, &value, hint.secondary);
+        let (secondary, pending_secondary) = if auxiliary_policy == AuxiliaryPolicy::DeferReservoir
+            && reservoir_requested
+            && hint == FirstPoseHint::default()
+        {
+            match Self::prepare_secondary(vessel, &problem, db_tag, &value, hint.secondary) {
+                PreparedSecondary::Resolved(result) => (*result, None),
+                PreparedSecondary::Question(question) => (
+                    SecondaryResult {
+                        provenance: None,
+                        disposition: SecondaryDisposition::Pending,
+                    },
+                    Some(question),
+                ),
+            }
+        } else {
+            (
+                self.solvent_activity_second_opinion(
+                    vessel,
+                    &problem,
+                    db_tag,
+                    &value,
+                    hint.secondary,
+                ),
+                None,
+            )
+        };
         let solvent_activity = secondary.provenance;
 
         // An imported legacy raw answer can be reused for chemistry, but
@@ -6845,7 +7633,7 @@ impl PhreeqcEquilibrator {
         } else {
             ComponentCertificate::ClockWithOpaque
         };
-        Ok(AqueousPass {
+        let mut pass = AqueousPass {
             events,
             heat_quote_j: q_joules,
             heat_mode,
@@ -6854,7 +7642,21 @@ impl PhreeqcEquilibrator {
             reservoirs: reservoirs.into_iter().map(str::to_string).collect(),
             clock_co2_applied_mol: problem.clock_co2_applied_mol,
             secondary_disposition: secondary.disposition,
-        })
+            pending_secondary,
+        };
+        if pass.pending_secondary.is_some() {
+            let witness = AuxiliaryPoseWitness::capture(vessel, &pass);
+            pass.pending_secondary
+                .as_mut()
+                .expect("present question")
+                .witness = Some(witness);
+            if component_certificate != ComponentCertificate::ReservoirWithOpaque {
+                // An unpriced/incomplete first answer cannot retain private
+                // deferred authority; preserve the ordinary eager schedule.
+                pass = self.fulfil_aqueous_pass(vessel, pass)?;
+            }
+        }
+        Ok(pass)
     }
 
     fn setup_problem(
@@ -7302,6 +8104,26 @@ impl PhreeqcEquilibrator {
         value: &dyn Fn(&str) -> Option<f64>,
         hint: SecondaryFirstHint,
     ) -> SecondaryResult {
+        match Self::prepare_secondary(vessel, problem, db_tag, value, hint) {
+            PreparedSecondary::Resolved(result) => *result,
+            PreparedSecondary::Question(question) => {
+                if question.validate_input().is_err() {
+                    return SecondaryResult::declined(SecondaryDisposition::Declined(
+                        SecondaryDecline::InvalidResult,
+                    ));
+                }
+                self.fulfil_secondary_question(&question)
+            }
+        }
+    }
+
+    fn prepare_secondary(
+        vessel: &Vessel,
+        problem: &Problem,
+        db_tag: &str,
+        value: &dyn Fn(&str) -> Option<f64>,
+        hint: SecondaryFirstHint,
+    ) -> PreparedSecondary {
         const SECOND: &str = "pitzer";
         // `KERO_TRACE_SOLVENT_ACTIVITY=1` says which of the gates below
         // turned a vessel away, in the same spirit as `KERO_DUMP_INPUT`.
@@ -7310,14 +8132,16 @@ impl PhreeqcEquilibrator {
         // work: the first version of this declined every OPEN beaker on a
         // condition that read as "no gas boundary", which is most of this
         // bench, and nothing said so.
-        let decline = |disposition: SecondaryDisposition, reason: &str| -> SecondaryResult {
+        let decline = |disposition: SecondaryDisposition, reason: &str| -> PreparedSecondary {
             if std::env::var("KERO_TRACE_SOLVENT_ACTIVITY").is_ok() {
                 eprintln!("solvent-activity second opinion declined: {reason}");
             }
-            SecondaryResult::declined(disposition)
+            PreparedSecondary::Resolved(Box::new(SecondaryResult::declined(disposition)))
         };
         if hint == SecondaryFirstHint::Skip {
-            return SecondaryResult::declined(SecondaryDisposition::SkippedForReplay);
+            return PreparedSecondary::Resolved(Box::new(SecondaryResult::declined(
+                SecondaryDisposition::SkippedForReplay,
+            )));
         }
         if db_tag == SECOND {
             return decline(
@@ -7482,8 +8306,32 @@ impl PhreeqcEquilibrator {
             );
         }
         let key = format!("#solvent-activity-v1:{SECOND}:{database_hash}\n{input}");
+        PreparedSecondary::Question(Box::new(ExactAuxiliaryQuestion {
+            pose: vessel.clone(),
+            problem: lean,
+            database: SECOND,
+            database_fingerprint: database_hash.to_string(),
+            input,
+            key,
+            witness: None,
+        }))
+    }
+
+    fn fulfil_secondary_question(&mut self, question: &ExactAuxiliaryQuestion) -> SecondaryResult {
+        const SECOND: &str = "pitzer";
+        let vessel = &question.pose;
+        let lean = &question.problem;
+        let input = &question.input;
+        let key = question.key.clone();
+        let brine = derived::index_for(SECOND);
+        let decline = |disposition: SecondaryDisposition, reason: &str| -> SecondaryResult {
+            if std::env::var("KERO_TRACE_SOLVENT_ACTIVITY").is_ok() {
+                eprintln!("solvent-activity second opinion declined: {reason}");
+            }
+            SecondaryResult::declined(disposition)
+        };
         let engine_before = self.engine_calls;
-        let cached = match self.dispatch_solve(vessel, &lean, SECOND, &input, key) {
+        let cached = match self.dispatch_solve(vessel, lean, SECOND, input, key) {
             Ok((cached, _)) => cached,
             Err(error) => {
                 return decline(
@@ -7558,6 +8406,66 @@ impl PhreeqcEquilibrator {
             }),
             disposition: SecondaryDisposition::Accepted,
         }
+    }
+
+    fn fulfil_aqueous_pass(
+        &mut self,
+        vessel: &mut Vessel,
+        pass: AqueousPass,
+    ) -> Result<AqueousPass, SolveError> {
+        if !pass.has_pending_secondary()? {
+            return Err(canonical_closure_error(
+                "no queued auxiliary question to fulfil",
+            ));
+        }
+        let question = pass.pending_secondary.as_ref().expect("checked question");
+        question.validate_pose(vessel, &pass)?;
+        let result = self.fulfil_secondary_question(question);
+        Self::complete_secondary_result(vessel, pass, result)
+    }
+
+    fn complete_secondary_result(
+        vessel: &mut Vessel,
+        mut pass: AqueousPass,
+        result: SecondaryResult,
+    ) -> Result<AqueousPass, SolveError> {
+        if !pass.has_pending_secondary()? {
+            return Err(canonical_closure_error(
+                "no queued auxiliary question to fulfil",
+            ));
+        }
+        pass.pending_secondary
+            .as_ref()
+            .expect("checked question")
+            .validate_pose(vessel, &pass)?;
+        let question = pass.pending_secondary.take().expect("checked question");
+        if result.disposition == SecondaryDisposition::Pending
+            || (result.disposition == SecondaryDisposition::Accepted) != result.provenance.is_some()
+        {
+            return Err(canonical_closure_error(
+                "native auxiliary answer remained pending",
+            ));
+        }
+        let info = vessel.solution.as_mut().ok_or_else(|| {
+            canonical_closure_error("queued auxiliary pose lost its primary solution")
+        })?;
+        let mut provenance = info.provenance.clone().ok_or_else(|| {
+            canonical_closure_error("queued auxiliary pose lost its primary provenance")
+        })?;
+        let routing = provenance.routing_phrase.clone().ok_or_else(|| {
+            canonical_closure_error("queued primary routing lacks its native recipe")
+        })?;
+        provenance.say_routing(secondary_routing(routing, result.provenance.as_ref()));
+        info.solvent_activity = result.provenance;
+        info.provenance = Some(provenance.clone());
+        // The pending explanation was private. Recompose exactly the eager
+        // announcement against its original routing history, before acceptance.
+        pass.events
+            .retain(|event| !matches!(event, Event::SolutionRouted { .. }));
+        vessel.aqueous_routing_said = question.pose.aqueous_routing_said.clone();
+        announce_routing(vessel, &provenance, &mut pass.events);
+        pass.secondary_disposition = result.disposition;
+        Ok(pass)
     }
 
     fn dispatch_solve(
@@ -8745,26 +9653,7 @@ impl PhreeqcEquilibrator {
         // is rendered beside the numbers and "two datasets answered this
         // beaker" is exactly the kind of thing a reader should not have to
         // infer.
-        let routing = match solvent_activity.as_ref() {
-            None => routing,
-            Some(second) => Phrase::new(
-                "routing.second-speciation-for-solvent",
-                "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
-                vec![
-                    ("routing".to_string(), Slot::phrase(routing)),
-                    // Neither of these is a bare name. A dataset is a FILE
-                    // NAME with clauses welded to it and a model is a
-                    // PERSON'S NAME with a reliability range welded to it,
-                    // so each travels as its RECIPE — the names inside it
-                    // still in text slots, which are the ones no catalogue
-                    // touches. They were `Slot::text` of the finished
-                    // English, which put two English clauses in the middle
-                    // of a German routing paragraph.
-                    ("dataset".to_string(), second.dataset_slot()),
-                    ("model".to_string(), second.model_slot()),
-                ],
-            ),
-        };
+        let routing = secondary_routing(routing, solvent_activity.as_ref());
         let provenance = Provenance::new(
             "PHREEQC (IPhreeqc, USGS)",
             dataset_phrase(db_tag),
