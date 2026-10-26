@@ -5158,7 +5158,7 @@ mod canonical_physical_closure_tests {
         let mut vessel = state();
         vessel.step_start = Some(kerotakis_core::vessel::StepStart::capture(&vessel));
         let original = serde_json::to_vec(&vessel).unwrap();
-        let mut calls = 0;
+        let mut calls: usize = 0;
         let mut solve = |candidate: &mut Vessel,
                          _past: &[Event],
                          _owner: ComponentCertificate,
