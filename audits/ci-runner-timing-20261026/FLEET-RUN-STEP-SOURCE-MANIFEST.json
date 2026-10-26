@@ -1,0 +1,1542 @@
+{
+  "workflow_blob_sha256": "f27783836bc5b2869a32128d857efb0af8a75d2a18902320b9121b225f14b7d3",
+  "candidate": "b629f1d02447a5a73ab4352c794228565a8c1681",
+  "accepted_baseline_source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "workflow_bytes_identical_to_baseline": true,
+  "physical_jobs": 33,
+  "authored_run_steps": 142,
+  "multiline_run_steps": 49,
+  "unit_note": "142 authored run steps, not 142 individual shell commands; every full source block and its commands must survive batching.",
+  "jobs": {
+    "Build audited CLI once": {
+      "job_template_id": "build-cli",
+      "matrix": {},
+      "authored_run_steps": [
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Run cargo build --release -p kerotakis-cli",
+          "run_block_sha256": "4b2a77b67c8d2bafc786c85d787869dfff61bf90231261f1843ac6d47ab8892e",
+          "expanded_run_block_sha256": "4b2a77b67c8d2bafc786c85d787869dfff61bf90231261f1843ac6d47ab8892e",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Run sha256sum target/release/kero > binary-sha256.txt",
+          "run_block_sha256": "43e4b2508de71016443835291eb0c0978aab56620ae40d86d113384e33e5607f",
+          "expanded_run_block_sha256": "43e4b2508de71016443835291eb0c0978aab56620ae40d86d113384e33e5607f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Frozen fleet 195-218": {
+      "job_template_id": "sixth-fleet",
+      "matrix": {},
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Prepare the evidence envelope",
+          "run_block_sha256": "24246cd9a6c4e7b69c0bff8ccd08d22ebfc36b708506ad27ac61a8e84db3547b",
+          "expanded_run_block_sha256": "24246cd9a6c4e7b69c0bff8ccd08d22ebfc36b708506ad27ac61a8e84db3547b",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Verify the frozen analyzer rejects missing evidence",
+          "run_block_sha256": "56373323599c4d893fc3aea63c19f48f68c0833b3e5a97cb6cea510143afff56",
+          "expanded_run_block_sha256": "56373323599c4d893fc3aea63c19f48f68c0833b3e5a97cb6cea510143afff56",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Record all 24 process-isolated experiments",
+          "run_block_sha256": "d13c341b8c7e29171b33d8fc2bf4d98ab79039f4b56364a4b5aa15318bb4a182",
+          "expanded_run_block_sha256": "d13c341b8c7e29171b33d8fc2bf4d98ab79039f4b56364a4b5aa15318bb4a182",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Bind the frozen contract and harness to the evidence",
+          "run_block_sha256": "72ead90bcc007b1876abae219405a7552de31e031313cef2d6ca09a531cf4e56",
+          "expanded_run_block_sha256": "72ead90bcc007b1876abae219405a7552de31e031313cef2d6ca09a531cf4e56",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 7,
+          "actual_api_step_number": 9,
+          "actual_name": "Apply independent laws and matched controls",
+          "run_block_sha256": "129555cf99c8766ea365cea2e505b47dd8b0f0ae4051c1825606f2624ed11419",
+          "expanded_run_block_sha256": "129555cf99c8766ea365cea2e505b47dd8b0f0ae4051c1825606f2624ed11419",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Frozen fleet 459-488": {
+      "job_template_id": "seventh-fleet",
+      "matrix": {},
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Prepare the evidence envelope",
+          "run_block_sha256": "24246cd9a6c4e7b69c0bff8ccd08d22ebfc36b708506ad27ac61a8e84db3547b",
+          "expanded_run_block_sha256": "24246cd9a6c4e7b69c0bff8ccd08d22ebfc36b708506ad27ac61a8e84db3547b",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Verify the analyzer rejects missing evidence",
+          "run_block_sha256": "81f80e873db6d6d10377eedca618e960aac78a12967f2d9da0a52982b162bbeb",
+          "expanded_run_block_sha256": "81f80e873db6d6d10377eedca618e960aac78a12967f2d9da0a52982b162bbeb",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Record all 30 process-isolated experiments",
+          "run_block_sha256": "e60bfcbc51537d03beb55721bcada14582393f08fe98f63cc1b814edc530d10b",
+          "expanded_run_block_sha256": "e60bfcbc51537d03beb55721bcada14582393f08fe98f63cc1b814edc530d10b",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Bind the frozen contract and harness to the evidence",
+          "run_block_sha256": "66aa07427bf11b67fbaea10470377fa3c52543aac728db5533aff0a439317a0d",
+          "expanded_run_block_sha256": "66aa07427bf11b67fbaea10470377fa3c52543aac728db5533aff0a439317a0d",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 7,
+          "actual_api_step_number": 9,
+          "actual_name": "Apply independent laws and matched controls",
+          "run_block_sha256": "4c0a930b9517cf11e523abfa8cf8cb09a8826d646d564d7870082f2214d8ac0d",
+          "expanded_run_block_sha256": "4c0a930b9517cf11e523abfa8cf8cb09a8826d646d564d7870082f2214d8ac0d",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet acid-base-buffers": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "acid-base-buffers"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "73716c194a4b8ec1cf5bc8e9b6edb5f51a6c37c739db5323b7b2d03a0b744d96",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "3b02e4eace05c69c68c5f589ad5717dab364d63d274f1b8decf511b0983d4d5b",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet solubility-precipitation": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "solubility-precipitation"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "30771a8ad9ded300028aa5db4ef888d6c362cddf1b94c93c4cb214b5029e69de",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "f7292e9ddb282c412d26b40f1776d75283f45c85baa2bcea02e872049b636cd9",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet gas-boundaries": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "gas-boundaries"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "9a4c645f87e055f95cb7dc67a2a3c69c59a7d98ce3078a1c4f03bbe9993599af",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "1126767e3ff050d89582a1adb56fd082be217df03a8af546096ff46573b26c4b",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet electrochemistry": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "electrochemistry"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "f0d3c535d91e5d959ba51e82596d3f9132c1ad9bef0fa5f8c31777c63d5d5c6d",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "c291f295887ec7aa196de49a4519c3bd8e7629655da72881128fe3d420354185",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet mixing-transfer": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "mixing-transfer"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "445fb39a358ecf458159a65b58b4dd28b34bdc4096d9411a0e136be8473842e1",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "451171cdb5b779a4fb97e03ed4d92644162ab40f7ff5ee69b7b202a7c1f7c18d",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet filtration-evaporation": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "filtration-evaporation"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "c7d7776e7f22aa108b2cf4bf746cc3eedcc815fcf7f6e2478ceaa860c3db65b1",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "34f544eaa572d6f3cc1983d466dd8f0f55c8c500526770c5525d0bab71847479",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet distillation": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "distillation"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "9a3732df717fac22017c4540892e567e455970b9be46a8503b888e3d3bb82265",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "69037fd0bfd14468af02450a765b1b064b03f1211db454955fbc71efcf27da9f",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet thermal-phase-paths": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "thermal-phase-paths"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "ade062c69d20724ed52b54a5108f215d86f67ef8ecf81858a1e4607d09196e72",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "c910162267e9b440a3f11972198b8b5fc9a187147dc0954150475d2e7f1d5f3e",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet organic-equilibria": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "organic-equilibria"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "caf0f11e479a5c9f8549586069231a1b8ea3e514446f46a4d500f04ad54c862b",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "d1d9b67b49488f34e80f3bc3eaf65414a21fee006be0dd12e59a10302e337fcc",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet observables-negative-controls": {
+      "job_template_id": "source-fleets",
+      "matrix": {
+        "family": "observables-negative-controls"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen manifests and analyzer mutations",
+          "run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "expanded_run_block_sha256": "95da318ec724c5f3a29081f1479cd8ee39371a3cfd8799b3937575238fd24ca1",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated experiments",
+          "run_block_sha256": "f89025f675a9b0d80f03576fbd6eaf4b4c11469079ddf7aa632ea822007d9d85",
+          "expanded_run_block_sha256": "3e6f571b8e5af57796698201a1a56933477a51683f8f733a417f843476739079",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Apply frozen named relations",
+          "run_block_sha256": "af60ef3730314342055afd995d4c9d2bc087be4caf24a9939c2f13ce67b7c288",
+          "expanded_run_block_sha256": "4e49b04fe4c7b6e6317b18e12467c57899f35a725d1028b0e9ce77fbfcff96a1",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "All 240 source-informed cases": {
+      "job_template_id": "source-fleet-aggregate",
+      "matrix": {},
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run python3 tools/chemistry-audit/aggregate_source_fleets.py downloaded-evidence",
+          "run_block_sha256": "eb2d24363f79d9f63cab5b2e8b6e93a876794ef03cfd6c38025a2415db424191",
+          "expanded_run_block_sha256": "eb2d24363f79d9f63cab5b2e8b6e93a876794ef03cfd6c38025a2415db424191",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 quantitative-solutions": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "quantitative-solutions"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "353851f677fd656654a9df8929500f05178536fb137bc210153857d5dcf8dbc7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "c5d9b31d9d8c1b0a175549276024a9d497a39887b0b0f01d76c2bf0562053c49",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "f3bd83145d7d01838fa8e2a731b97f4ff3f3b250cd8b78b275e8732914903186",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 polyprotic-carbonate": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "polyprotic-carbonate"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "5dcf9b6857031f532bc60c7731b21fb07544d72c8cea9dae5e821c90816b5d43",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "ddc1f732c22381901a96a23d4fa27162689c5a205f8d3ba1f2285e7e0d897d0d",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "e316c6cef8d376395431537211671688e65f6ac8127f44240d5ffff404cbc6d9",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 redox-cells": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "redox-cells"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "f301779a5b3a82b224d3c4b468f69656e7bfbfd8f4b25b6aa49e1270456e4b07",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "dde34d5addf13fc69930726d09456362e0dd013f3ad980003b831f6e5a361668",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "43bbf1f1b3927ad4288681c0ea8aa33cced355b24261a56614f84a7c84a4d5c4",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 gas-production-transfer": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "gas-production-transfer"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "1f83965007ff2a5459e23d46657b405b1167833af84abe8326832ee0a0048048",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "8184b10f70cdcccc75f206696bce369154cd7cc96fcd6a8e9a1f5745b704f100",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "0f838de1447774a0cfaae38f68ee737790af97dc0a684dd45e2781715b497f60",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 phase-colligative": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "phase-colligative"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "edb52cd927448e64ebf2a1bbbb914361183643f59167d1fe8e89d4426161fe80",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "add6d1a605923feb177196d502e5e47e194dfe54f6f2fce16bc092649ba72ffe",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "855f51298624165d8928c4106487e2f0f38e1d0d59cc639628c565a4365a9cd8",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 crystallisation-boundaries": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "crystallisation-boundaries"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "041afa30b47add7d3d6470cc7a5449aeb767954f8cc4e89e76eee894a0561ae5",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "37f6d82d8bba8026654e087403def963970ad489c3847ea3d8b193d67d876535",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "613af6b4d5040c7b8261d2506a6e32be5672df542235fcb0465e8e53e665ded5",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 separation-trains": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "separation-trains"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "40e7d79b6700a1dbf015586c2ccc78bcf1f66bf5a468bf1b54c160c48d227d04",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "e4598343a06feb62d6e5bdb7c5da0dd7f86a544dd08ccdf38df3bf0705c44db4",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "547cccc9332f04c12b974476efa07e70b83cd04a3133e2e54e9179b8a8818be6",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 kinetics-boundaries": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "kinetics-boundaries"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "a57aff822d9c23fe9e56494198d0cf489e3383cf84e57baba0f63ce2a79a31c7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "e752e1d6c3b3ddeb239a3ac9c039ea7503da7737c814a4d93aeb454f6acdf962",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "7e95040111e157cb899227e9a2abaa841186696ce868fe8e3d8e90ab4da96e3e",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 household-biochemistry": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "household-biochemistry"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "51dddba4b518ce6a4dad51d691b187eaad587ab059f9594dd92e2e60503a3bac",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "6dc2c3439bc1094a96018c9f935a1316100d3696db88801f5490b99b5215b437",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "c8e5a44f1fba8bc9290b687d6c8dbd547ddfc9dbae64740ec88869681eeb469f",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 materials-transport": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "materials-transport"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "56776f4057b43744d1e7ac2ff4e3eac3b0bfe3fdcdc2fd5104c5d7999b47594e",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "269e2d612a3f0b4de8ee3976156170f90f4a32a39fe67f7c3b7dc9eeb883bf16",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "249f0c7bd7383eac41e2876716cd50ea804988c342106be1903a2265d01c9326",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 analytical-observables": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "analytical-observables"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "bd92fd792aa4b19cd39b8d34b6537d3055897bdcd150a7c5e1b4b1e9ccc052b8",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "37950e95f95f544b87935224d2e743d10ca888e96b26bd5fa2b841fd383de9fd",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "64fb3153207f5ba8201ce8673c41207bf73452971db5f3b020b6b2fa608cf1b4",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v2 thermochemical-paths": {
+      "job_template_id": "source-fleets-v2",
+      "matrix": {
+        "family": "thermochemical-paths"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v2 manifests and analyzer mutations",
+          "run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "expanded_run_block_sha256": "33804aa5cb3c3d6e5f69112891a605ab8197c691e07e176524ca99c48496592f",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v2 experiments",
+          "run_block_sha256": "6171c014d0fad41a82b5405ad7b3c70872521535be041a5393cd6b8cb544f00c",
+          "expanded_run_block_sha256": "bc12f146861a5ab758e22bc65746ad0dc4bb90a9dcccd2a35124d1ec2834f7c6",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v2 contract and harness to the evidence",
+          "run_block_sha256": "cc32751aa2ab48b3c29d94cd9425ff98aa0b59f664df020dad5490cb22fc1850",
+          "expanded_run_block_sha256": "70a523f22d9ac0d098c55334c509ad85b0c8ef49c3165412c24138d6dd0807ff",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v2 named relations",
+          "run_block_sha256": "4db6ef0d85d14e6e48b963e548057d0b367d881c7587896599e3c119c2db47a1",
+          "expanded_run_block_sha256": "e879e2438c24fa70e81c26f52ec4cebbfd96e74e6612536b09fd56c8f3d44347",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "All 288 source-informed v2 cases": {
+      "job_template_id": "source-fleet-v2-aggregate",
+      "matrix": {},
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run python3 tools/chemistry-audit/aggregate_source_fleets_2.py downloaded-evidence-v2",
+          "run_block_sha256": "027bfb6f7b5f312b1d20709fe62298819aff6d756fc9225f0b39ab010b5fb1a6",
+          "expanded_run_block_sha256": "027bfb6f7b5f312b1d20709fe62298819aff6d756fc9225f0b39ab010b5fb1a6",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v3 water-energy": {
+      "job_template_id": "source-fleets-v3",
+      "matrix": {
+        "family": "water-energy"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v3 manifests and analyzer mutations",
+          "run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "expanded_run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v3 experiments",
+          "run_block_sha256": "f1c5940a0677780c3ae1d77d6d4a0ec47085f543ef1d7029f24e1fbd034c899c",
+          "expanded_run_block_sha256": "95d68079efd762299a8e10b9082e988c1132f8996231d4a53fd114dbd8110b9a",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v3 contract and harness to the evidence",
+          "run_block_sha256": "5252cc515f90ec1a2c27e4ac74f3e26aade81fcc6190603d442591e7b7b5c94c",
+          "expanded_run_block_sha256": "ee6614e4c94517252ae5a76850dc12cc5b9a12067edaee4b0cae425e983b453b",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v3 named relations",
+          "run_block_sha256": "c86c6bfb4d2d5a25ce54357436755e4689b1203ecf0a1278f88fb5fa88c60997",
+          "expanded_run_block_sha256": "02017322884f8239317ace2a6ebc508d919389b46c1ce59f64632631b8b95f90",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v3 aqueous-selectivity": {
+      "job_template_id": "source-fleets-v3",
+      "matrix": {
+        "family": "aqueous-selectivity"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v3 manifests and analyzer mutations",
+          "run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "expanded_run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v3 experiments",
+          "run_block_sha256": "f1c5940a0677780c3ae1d77d6d4a0ec47085f543ef1d7029f24e1fbd034c899c",
+          "expanded_run_block_sha256": "d063df20cca6cd6aef167c382d8f6f8df5ff05baecf457eb349f778d28f487ca",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v3 contract and harness to the evidence",
+          "run_block_sha256": "5252cc515f90ec1a2c27e4ac74f3e26aade81fcc6190603d442591e7b7b5c94c",
+          "expanded_run_block_sha256": "91d3b82699a0ec3d677d640385299e54eb6b44beb39a58e74f15118b4c9ec641",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v3 named relations",
+          "run_block_sha256": "c86c6bfb4d2d5a25ce54357436755e4689b1203ecf0a1278f88fb5fa88c60997",
+          "expanded_run_block_sha256": "fc7b15b6b88b84b90bade6e0a1c48e3c94627db002f78b41a591b1eb47f2095e",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v3 ionic-conductivity": {
+      "job_template_id": "source-fleets-v3",
+      "matrix": {
+        "family": "ionic-conductivity"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v3 manifests and analyzer mutations",
+          "run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "expanded_run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v3 experiments",
+          "run_block_sha256": "f1c5940a0677780c3ae1d77d6d4a0ec47085f543ef1d7029f24e1fbd034c899c",
+          "expanded_run_block_sha256": "9eaffcd9166a73ab679477b36f3c4e828881c90c76b4a7911ff93d1de588f02a",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v3 contract and harness to the evidence",
+          "run_block_sha256": "5252cc515f90ec1a2c27e4ac74f3e26aade81fcc6190603d442591e7b7b5c94c",
+          "expanded_run_block_sha256": "203359fc86885ffbf2c2bf9289a6fa442299edc5d72e63fdd4771807140af087",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v3 named relations",
+          "run_block_sha256": "c86c6bfb4d2d5a25ce54357436755e4689b1203ecf0a1278f88fb5fa88c60997",
+          "expanded_run_block_sha256": "84d6912f54f341de3e11f41107fd24f862b981b0cd51e67d7c5874dd6fb677cd",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v3 metal-ligand": {
+      "job_template_id": "source-fleets-v3",
+      "matrix": {
+        "family": "metal-ligand"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v3 manifests and analyzer mutations",
+          "run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "expanded_run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v3 experiments",
+          "run_block_sha256": "f1c5940a0677780c3ae1d77d6d4a0ec47085f543ef1d7029f24e1fbd034c899c",
+          "expanded_run_block_sha256": "add2dec97eb039cf801a13651c337c2f15d4d66d213d7f9e58c5f4b35ea6da5c",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v3 contract and harness to the evidence",
+          "run_block_sha256": "5252cc515f90ec1a2c27e4ac74f3e26aade81fcc6190603d442591e7b7b5c94c",
+          "expanded_run_block_sha256": "e2a03111b8514489dc2cce89c4ac6c09dfc19b8ddea36bd3b173ccf6486dbbb4",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v3 named relations",
+          "run_block_sha256": "c86c6bfb4d2d5a25ce54357436755e4689b1203ecf0a1278f88fb5fa88c60997",
+          "expanded_run_block_sha256": "b69593c7f58363c07ecc4d70ca1e756f84902c5bb93830d62899e5638c39a29e",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "Source fleet v3 organic-equilibrium": {
+      "job_template_id": "source-fleets-v3",
+      "matrix": {
+        "family": "organic-equilibrium"
+      },
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run chmod +x target/release/kero",
+          "run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "expanded_run_block_sha256": "7149f21048925bc87b35ab08353aca82399808fe3c78405322355b95a88a9ec7",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 3,
+          "actual_api_step_number": 5,
+          "actual_name": "Validate frozen v3 manifests and analyzer mutations",
+          "run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "expanded_run_block_sha256": "b0db7e3b90bf8141bab04d61a0c4002e31dfa710e6ef8cbea180da859e99c785",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 4,
+          "actual_api_step_number": 6,
+          "actual_name": "Record 24 process-isolated v3 experiments",
+          "run_block_sha256": "f1c5940a0677780c3ae1d77d6d4a0ec47085f543ef1d7029f24e1fbd034c899c",
+          "expanded_run_block_sha256": "243181985f3a87219b2d9eac62eae46287e87da464cfa757abb32adeecd6b313",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 5,
+          "actual_api_step_number": 7,
+          "actual_name": "Bind the frozen v3 contract and harness to the evidence",
+          "run_block_sha256": "5252cc515f90ec1a2c27e4ac74f3e26aade81fcc6190603d442591e7b7b5c94c",
+          "expanded_run_block_sha256": "66a4a5012df53e4e0a91a10b56b79b097506ca151e861018157aa12efe30ed16",
+          "multiline_block": true,
+          "baseline_actual_success": true
+        },
+        {
+          "source_step_index": 6,
+          "actual_api_step_number": 8,
+          "actual_name": "Apply frozen v3 named relations",
+          "run_block_sha256": "c86c6bfb4d2d5a25ce54357436755e4689b1203ecf0a1278f88fb5fa88c60997",
+          "expanded_run_block_sha256": "42eea8f8007f5889022e1883c5d1d701283579a4d4a2991154a991259b5a1f29",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    },
+    "All 120 source-informed v3 cases": {
+      "job_template_id": "source-fleet-v3-aggregate",
+      "matrix": {},
+      "authored_run_steps": [
+        {
+          "source_step_index": 2,
+          "actual_api_step_number": 4,
+          "actual_name": "Run python3 tools/chemistry-audit/aggregate_source_fleets_3.py downloaded-evidence-v3",
+          "run_block_sha256": "a4df20497ed670c99f13b142ed4425a7df902bf4cb4415535631640f0d2b3a75",
+          "expanded_run_block_sha256": "a4df20497ed670c99f13b142ed4425a7df902bf4cb4415535631640f0d2b3a75",
+          "multiline_block": false,
+          "baseline_actual_success": true
+        }
+      ]
+    }
+  }
+}
