@@ -1,0 +1,14 @@
+error: called `.err().expect()` on a `Result` value
+     --> crates/kerotakis-phreeqc/src/aqueous.rs:14785:18
+      |
+14785 |                   .err()
+      |  __________________^
+14786 | |                 .expect("the actual checked amount reduction must refuse invalid amounts");
+      | |_______________________^ help: try: `expect_err`
+      |
+      = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#err_expect
+      = note: `-D clippy::err-expect` implied by `-D warnings`
+      = help: to override `-D warnings` add `#[allow(clippy::err_expect)]`
+
+error: could not compile `kerotakis-phreeqc` (lib test) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...

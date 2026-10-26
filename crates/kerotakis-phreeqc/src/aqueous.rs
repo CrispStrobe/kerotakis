@@ -14782,8 +14782,7 @@ mod crystal_diagnostic_amount_contract {
     fn invalid_crystal_amount_is_not_misreported_as_solvent_mass() {
         for value in [-1.0, f64::NAN, f64::INFINITY] {
             let error = super::checked_crystal_sum(&[value], "crystal-diagnostic-fixture")
-                .err()
-                .expect("the actual checked amount reduction must refuse invalid amounts");
+                .expect_err("the actual checked amount reduction must refuse invalid amounts");
             assert_eq!(
                 error.owned_reason().unwrap().key,
                 "solver-reason.aqueous.crystal-amount-invalid"

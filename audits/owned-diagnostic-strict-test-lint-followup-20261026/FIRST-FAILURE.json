@@ -1,0 +1,12 @@
+{
+  "source": "ea3a9d4d57b0cea2ff30fb030cde483d928126ba",
+  "tree": "007dfd55aa8b3187fce2e3f501f44d603c2ec862",
+  "worker_sha256": "2675ae2882809eb60720c7ffc3303a92970baab399e2da1726e5e90323c8ddd7",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "raw_strict_lint_sha256": "129a0a1c067e73dbb390ab94c851bd8f5d780b7dd29f57df0eb83a8e226b890d",
+  "producer_manifest_sha256": "b4d62ff8db5c6fb6c44faf3cfdbaf0be7120adb8cbf0b85e52b872f621156a72",
+  "excerpt_sha256": "7f4cf5b15080be002a2bf1e5801e5222920db83778f8e15c829a0f6e1bda91f2",
+  "state": "ONE_NEW_TEST_ASSERTION_STRICT_LINT_FAILURE",
+  "selected_test_commands_executed": 0,
+  "repair": "Use expect_err on the actual checked amount reduction; preserve all rejected inputs, error assertions and strict warnings-as-errors."
+}
