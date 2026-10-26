@@ -1,0 +1,267 @@
+{
+  "actual_job_conclusions": {
+    "success": 33
+  },
+  "actual_jobs_total": 33,
+  "actual_step_conclusions": {
+    "success": 339
+  },
+  "aggregators": {
+    "source_v1": {
+      "cases": 240,
+      "checks": 338,
+      "families": 10,
+      "log_job": 121348655496,
+      "unmet_families": 0
+    },
+    "source_v2": {
+      "binary_sha256": "107ccd339f4af9960a498ce49c7bbe107b7a1c91ebc5ff07bd40567e32c7da1a",
+      "cases": 288,
+      "checks": 368,
+      "commit": "32b984cfd02ffae340af138bb3192c2b02f23bc7",
+      "families": 12,
+      "log_job": 121353139589,
+      "relations": 80,
+      "unmet_families": 0
+    },
+    "source_v3": {
+      "binary_sha256": "107ccd339f4af9960a498ce49c7bbe107b7a1c91ebc5ff07bd40567e32c7da1a",
+      "cases": 120,
+      "checks": 150,
+      "commit": "32b984cfd02ffae340af138bb3192c2b02f23bc7",
+      "families": 5,
+      "log_job": 121348688093,
+      "relations": 30,
+      "unmet_families": 0
+    }
+  },
+  "all_33_logs_contain_tested_merge": true,
+  "branch_head": "44552bb153cd97b232145619688431eede419600",
+  "complete_raw_logs": {
+    "121328577972": {
+      "bytes": 54061,
+      "file": "121328577972.raw.log",
+      "name": "Build audited CLI once",
+      "sha256": "95862f6aa3f804df6d21919d1694e550a214cbb750ccb4e249208df86a645609"
+    },
+    "121330156252": {
+      "bytes": 96785,
+      "file": "121330156252.raw.log",
+      "name": "Frozen fleet 195-218",
+      "sha256": "50df6377f963bf2860cdedbdcdaf95e283e5c2a10415eed62244b7b69744faef"
+    },
+    "121330156262": {
+      "bytes": 36204,
+      "file": "121330156262.raw.log",
+      "name": "Source fleet v3 water-energy",
+      "sha256": "2cf49a1dd90319a7dbade40a9a1b85e9c2a09b87536023df2c7e4b412fc61130"
+    },
+    "121330156280": {
+      "bytes": 49829,
+      "file": "121330156280.raw.log",
+      "name": "Source fleet v3 organic-equilibrium",
+      "sha256": "0bc792ba3923f3626f5430982f4a3e8eb50b5fe934c9735a2bdc006d664043e9"
+    },
+    "121330156282": {
+      "bytes": 36502,
+      "file": "121330156282.raw.log",
+      "name": "Source fleet v3 ionic-conductivity",
+      "sha256": "bfb0c893ab074245d1df1aceeacc4ebeb80e508748b8a60c85bc0313d3a560e2"
+    },
+    "121330156298": {
+      "bytes": 95172,
+      "file": "121330156298.raw.log",
+      "name": "Frozen fleet 459-488",
+      "sha256": "432761736165f81b00d82abc8ce743f083639acb7d47bfafa4f6381182a66d62"
+    },
+    "121330156325": {
+      "bytes": 62533,
+      "file": "121330156325.raw.log",
+      "name": "Source fleet v3 aqueous-selectivity",
+      "sha256": "46f73c6ec42f61743d62a23840c3c99352c4006d9cb00eddbfcb44337a0a77a8"
+    },
+    "121330156334": {
+      "bytes": 64814,
+      "file": "121330156334.raw.log",
+      "name": "Source fleet v3 metal-ligand",
+      "sha256": "b151343c2069e57567f53a039dea65b647b28751a66a6447bde32c43ef52edf5"
+    },
+    "121330156381": {
+      "bytes": 37911,
+      "file": "121330156381.raw.log",
+      "name": "Source fleet v2 gas-production-transfer",
+      "sha256": "df5552648a585b956e760bfb2c092e5812332fced46cc9ff1ba1756cf6a61448"
+    },
+    "121330156404": {
+      "bytes": 40251,
+      "file": "121330156404.raw.log",
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "sha256": "f3b53e140273e776215106ba00baa07e82dd7c5faa4f8257917b5174696e994b"
+    },
+    "121330156409": {
+      "bytes": 47959,
+      "file": "121330156409.raw.log",
+      "name": "Source fleet solubility-precipitation",
+      "sha256": "dba163c442809298b5287c7cd80cc90ced2ec9ee8fadc574c4b52c6563ccc5cb"
+    },
+    "121330156415": {
+      "bytes": 42179,
+      "file": "121330156415.raw.log",
+      "name": "Source fleet filtration-evaporation",
+      "sha256": "a36037a218cbb24568b067bfacf5cc55c821e98a1bd053a7eed1822504edc064"
+    },
+    "121330156422": {
+      "bytes": 38709,
+      "file": "121330156422.raw.log",
+      "name": "Source fleet v2 household-biochemistry",
+      "sha256": "2238840c916637305f7fe4a31607b9896aa056ce7907a78b8c2457c57ddaa4d2"
+    },
+    "121330156426": {
+      "bytes": 36640,
+      "file": "121330156426.raw.log",
+      "name": "Source fleet v2 thermochemical-paths",
+      "sha256": "40747323ede71f8b67b19ed12a6e719678143998a6021e2395284a4d5ce0723b"
+    },
+    "121330156447": {
+      "bytes": 39634,
+      "file": "121330156447.raw.log",
+      "name": "Source fleet observables-negative-controls",
+      "sha256": "9f8fd11590d3c845cfa7cd645d1edcf242170b8b65dd7b0216119a77288b84ab"
+    },
+    "121330156448": {
+      "bytes": 47861,
+      "file": "121330156448.raw.log",
+      "name": "Source fleet v2 materials-transport",
+      "sha256": "2384c1ce39c4330294e9e4adf1ff96aa77ab4db0d4f0bfa0d13d4a769b6bd1c7"
+    },
+    "121330156452": {
+      "bytes": 40508,
+      "file": "121330156452.raw.log",
+      "name": "Source fleet distillation",
+      "sha256": "1c62e82300af943b79c7b6ac916364c2a5972454728f0d5c3362a509dedb2947"
+    },
+    "121330156489": {
+      "bytes": 40041,
+      "file": "121330156489.raw.log",
+      "name": "Source fleet electrochemistry",
+      "sha256": "b05d9870d55219e5f5f10ed551524924130a534edd1bde56f596b5fc1e0faf29"
+    },
+    "121330156495": {
+      "bytes": 36804,
+      "file": "121330156495.raw.log",
+      "name": "Source fleet v2 quantitative-solutions",
+      "sha256": "dcf6efa648a938a22135479d1df31e6253a0686185e62aa42491d29b0191ef97"
+    },
+    "121330156531": {
+      "bytes": 38920,
+      "file": "121330156531.raw.log",
+      "name": "Source fleet mixing-transfer",
+      "sha256": "d8db1067862766f925c4d7c6eac249f74819c1aae3ae91ac4b572706da05357f"
+    },
+    "121330156532": {
+      "bytes": 36607,
+      "file": "121330156532.raw.log",
+      "name": "Source fleet v2 analytical-observables",
+      "sha256": "41dd6f40841b8bdad7ed385e87519127fae974a148b3811fec506a7ed3d66ebd"
+    },
+    "121330156538": {
+      "bytes": 37973,
+      "file": "121330156538.raw.log",
+      "name": "Source fleet thermal-phase-paths",
+      "sha256": "292a842a7d17e79c4dc7fc415d5bd5176e9823ce67908d801064e7a2aa083b8e"
+    },
+    "121330156539": {
+      "bytes": 46562,
+      "file": "121330156539.raw.log",
+      "name": "Source fleet v2 kinetics-boundaries",
+      "sha256": "0abc5e295893093611b860b5fcdbac680a3ee9ab2b0711c78eac23f70c8391d5"
+    },
+    "121330156540": {
+      "bytes": 44188,
+      "file": "121330156540.raw.log",
+      "name": "Source fleet v2 redox-cells",
+      "sha256": "b1327a8adfd919e6f2678c4519353995d33b55d1f88ca23e049412ae6b3b9a25"
+    },
+    "121330156541": {
+      "bytes": 36370,
+      "file": "121330156541.raw.log",
+      "name": "Source fleet v2 phase-colligative",
+      "sha256": "9f0266c9ed90db74c3527a19cab1f729665d0546d81f9a315ce7f7ce4f2384a4"
+    },
+    "121330156546": {
+      "bytes": 37615,
+      "file": "121330156546.raw.log",
+      "name": "Source fleet gas-boundaries",
+      "sha256": "288e6d9bd1027b8d72a86100df7d194afe1edb01b9c69ab8a9883d2d4ab66461"
+    },
+    "121330156557": {
+      "bytes": 41398,
+      "file": "121330156557.raw.log",
+      "name": "Source fleet acid-base-buffers",
+      "sha256": "27a5c62dc93926d969e04a308d2c3745662ebf835c5174fd48457603dc7957bd"
+    },
+    "121330156565": {
+      "bytes": 46197,
+      "file": "121330156565.raw.log",
+      "name": "Source fleet organic-equilibria",
+      "sha256": "22045f82f2e2a266f0d43a7ec6e5e6a7c89afa6b6a5fe03b15ae34aad1d0f9d4"
+    },
+    "121330156574": {
+      "bytes": 36704,
+      "file": "121330156574.raw.log",
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "sha256": "92192813adbd17574a183b812ab3ff95b82e88f48c5cfe468061c7e2121becaa"
+    },
+    "121330156576": {
+      "bytes": 47729,
+      "file": "121330156576.raw.log",
+      "name": "Source fleet v2 separation-trains",
+      "sha256": "2ce89a8182380b6b8bb213e100afb7a77ce306de3d811f63f33547dd2f3a7f84"
+    },
+    "121348655496": {
+      "bytes": 28425,
+      "file": "121348655496.raw.log",
+      "name": "All 240 source-informed cases",
+      "sha256": "cfb5639ada368b5bf88ae27231bb74e48ff65bdd46d0b88796060becca0e5c3d"
+    },
+    "121348688093": {
+      "bytes": 21427,
+      "file": "121348688093.raw.log",
+      "name": "All 120 source-informed v3 cases",
+      "sha256": "ed649fd8c01851e2b024cff28dfa3580f50284be0bc1f632e673d313076eabd4"
+    },
+    "121353139589": {
+      "bytes": 28084,
+      "file": "121353139589.raw.log",
+      "name": "All 288 source-informed v2 cases",
+      "sha256": "b323e570a1769529e51f547724fab3640de51d69ae2175815b86186ba6bae9d2"
+    }
+  },
+  "errors_or_failed_steps": [],
+  "limits": [
+    "This run establishes the source fleet obligations on the actual tested merge tree; it does not qualify the original curiosity/product protocols.",
+    "The separate current445 CI run failed two native tests and full preflight. Curiosity500 and native post-test gates were not reached there.",
+    "No release or full-source acceptance is asserted from fleet success alone."
+  ],
+  "logical_family_groups": {
+    "frozen_sixth_seventh": 2,
+    "source_v1": 10,
+    "source_v2": 12,
+    "source_v3": 5,
+    "total": 29
+  },
+  "mode": "read-only GH job metadata + complete saved raw logs; no CLI/provider execution",
+  "original_17_log_index_reverified": true,
+  "repository": "CrispStrobe/kerotakis",
+  "reviewed_utc": "2026-10-26T01:31:49.450779+00:00",
+  "run_conclusion": "success",
+  "run_id": 40246334625,
+  "run_status": "completed",
+  "source_informed_case_total": 648,
+  "source_informed_check_total": 856,
+  "tested_merge": "32b984cfd02ffae340af138bb3192c2b02f23bc7",
+  "tested_merge_tree": "b6ca6e9ab7a518a2d4d9bc2a9b1926576e30f02c",
+  "workflow_expanded_jobs": 33,
+  "workflow_literal_run_steps_expanded": 142,
+  "workflow_source_sha256": "f27783836bc5b2869a32128d857efb0af8a75d2a18902320b9121b225f14b7d3"
+}
