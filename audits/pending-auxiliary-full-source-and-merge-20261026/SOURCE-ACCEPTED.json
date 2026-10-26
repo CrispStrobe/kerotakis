@@ -1,0 +1,36 @@
+{
+  "utc": "2026-10-26T07:05:54.557239+00:00",
+  "state": "CI_COMPOSED_SOURCE_ACCEPTED",
+  "source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "all_scientific_obligations_satisfied": true,
+  "ci_run": 40280911837,
+  "ci_successes": 27,
+  "ci_expected_skipped": "Publish the demo",
+  "fleet_run": 40280911865,
+  "fleet_successes": 33,
+  "authored_run_steps": 142,
+  "family_groups": 29,
+  "native_witnesses": {
+    "ubuntu": {
+      "selected36_raw_ok": true,
+      "curiosity500_unmet_runtime_drift_zero": true,
+      "log_sha256": "2f6a3b1765a25661d0dd5b4331891ff43abc2e4c4056f85ebcf01de38d4cf404"
+    },
+    "macos": {
+      "selected36_raw_ok": true,
+      "curiosity500_unmet_runtime_drift_zero": true,
+      "log_sha256": "44d550d21b8410abe01fd2a345ca5892e4bd88fa363f7b914d868edfb3809e62"
+    }
+  },
+  "focused36_source_native_lock_review": "cfae58dcdbdf01f350c1b887d1588fdb517cfe931a82207160bd533bd8b3dade",
+  "actual_tested_merge": "7a92c3a5fdcfff49c72becd81ee498894408d509",
+  "actual_tested_merge_parents": [
+    "ccf30b2aeac4042ffe79942d4c8746ec10a553ef",
+    "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23"
+  ],
+  "limits": [
+    "Source acceptance under the repository gates; no original qualification or empirical calibration implied.",
+    "Actual merged production release and15API86browser remain pending."
+  ]
+}
