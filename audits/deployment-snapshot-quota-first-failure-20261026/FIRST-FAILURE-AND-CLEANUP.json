@@ -1,0 +1,33 @@
+{
+  "state": "DEPLOYMENT_FIRST_FAILURE_AND_AUTHORIZED_QUOTA_CLEANUP",
+  "source": "c51758fa09a8ce0089bc93bb64338a587834a405",
+  "source_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "reviewed_candidate": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "workflow_run": 40284030952,
+  "attempt": 1,
+  "conclusion": "failure",
+  "failure_step": "Prepare and verify the isolated native image",
+  "failure_class": "provider_snapshot_storage_quota_HTTP402",
+  "frontend_build": "success",
+  "native_build": "success",
+  "native_artifact_upload": "skipped",
+  "deployment": "skipped",
+  "api_controls_issued": 0,
+  "browser_controls_issued": 0,
+  "raw_first_workflow_log_sha256": "23476fdbcd92dabea409f2ec1e951834498ef0c934735ba1474f274c66ca1944",
+  "cleanup": {
+    "explicit_user_approval": true,
+    "reviewed_orphan_snapshots_deleted": 17,
+    "removed_snapshot_bytes": 14125880596,
+    "retained_deployment_snapshots_protected": 3,
+    "project_sandboxes": 0,
+    "complete_accessible_team_count": 1,
+    "complete_project_inventory": 39,
+    "other_project_snapshots": 0,
+    "deletion_readback_sha256": "955741851c6db41821de639b8849ca37cc71fdb036c5935aad852ad70746bdc7"
+  },
+  "retry_state": "PREPARED_NOT_ISSUED",
+  "original_qualification_count": 338,
+  "original_qualification_denominator": 468,
+  "product_acceptance": "PENDING"
+}

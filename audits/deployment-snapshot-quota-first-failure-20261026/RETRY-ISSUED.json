@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-26T10:06:48.348351+00:00",
+  "source": "c51758fa09a8ce0089bc93bb64338a587834a405",
+  "source_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "run": 40284030952,
+  "attempt": 2,
+  "status_at_capture": "queued",
+  "first_attempt_preserved": true,
+  "explicit_user_retry_approval": true,
+  "retry_controller_sha256": "883528815c4c0ac047b621a12456cf08f066b2b320bb9008c4a75cd066dd6d3c",
+  "independent_review_sha256": "39fd265958d3e9f2b6e0039fd175f213dc2a0f65afd21671ef4fa2544ebc22fb",
+  "api_controls_issued_at_capture": 0,
+  "product_acceptance": "PENDING",
+  "catalog_additions": 0
+}
