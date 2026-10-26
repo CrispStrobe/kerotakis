@@ -1,0 +1,20 @@
+# D3-EN-008: Selective digestion in a mixed milk-and-gelatin matrix
+# Simulation candidate; no runtime observations are claimed.
+register lv3
+new
+new
+add v1 whole_milk 30g
+add v1 gelatin 0.5g
+add v1 lactase 0.05g
+add v2 whole_milk 30g
+add v2 gelatin 0.5g
+add v2 protease 0.05g
+add v3 whole_milk 30g
+add v3 gelatin 0.5g
+add v3 lactase 0.05g
+add v3 protease 0.05g
+wait 45min
+look v1
+look v2
+look v3
+inspect

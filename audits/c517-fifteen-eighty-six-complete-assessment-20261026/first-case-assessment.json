@@ -1,0 +1,11 @@
+{
+  "control": "phase-cacl2-agno3-cooling",
+  "transport": "browser_worker",
+  "script_sha256": "a95e59408c36731599dcdf2a95457be77ddbfd1c6282a720fc80e0c2a5ec1ec8",
+  "predicates": {},
+  "failures": [
+    "step[2].vessel reports an unvalidated concentrated-mixture activity-model fallback"
+  ],
+  "passed": false,
+  "disposition": "UNSUPPORTED_HOLD"
+}

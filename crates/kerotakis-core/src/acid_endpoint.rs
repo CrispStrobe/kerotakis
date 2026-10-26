@@ -4,7 +4,7 @@ use crate::aqueous_continuation::{continue_via, CurrentAqueousAnswer};
 use crate::curated::{CuratedReaction, PostAqueousEndpoint, REACTIONS};
 use crate::ledger::ConservedLedger;
 use crate::ops::{Event, NotModelledCause};
-use crate::phrase::Phrase;
+use crate::phrase::{Phrase, Slot};
 use crate::vessel::{Headspace, SolutionScope, Vessel};
 use crate::{Equilibrator, Moles, Phase, SolveError, SpeciesId};
 
@@ -146,8 +146,57 @@ pub(crate) fn admitted_extent(vessel: &Vessel, reaction: &CuratedReaction) -> Op
     (x.is_finite() && x > TRACE).then_some(x)
 }
 
-fn refused(detail: &str) -> SolveError {
+enum EndpointRefusal<'a> {
+    Domain,
+    ReactantDebit {
+        species: &'a str,
+        requested_moles: f64,
+        remaining_moles: f64,
+    },
+    ProtonDebit {
+        requested_moles: f64,
+        observed_moles: f64,
+    },
+}
+
+impl EndpointRefusal<'_> {
+    fn phrase(&self) -> Phrase {
+        match self {
+            Self::Domain => Phrase::bare(
+                "solver-reason.endpoint.domain",
+                "This mixture is outside the admitted acidic permanganate/peroxide endpoint domain.",
+            ),
+            Self::ReactantDebit {
+                species,
+                requested_moles,
+                remaining_moles,
+            } => Phrase::new(
+                "solver-reason.endpoint.reactant-debit",
+                "The endpoint could not debit {species}: {remaining} mol remained after requesting {requested} mol.",
+                vec![
+                    ("species".into(), Slot::term("species", *species)),
+                    ("remaining".into(), Slot::number(remaining_moles.to_string())),
+                    ("requested".into(), Slot::number(requested_moles.to_string())),
+                ],
+            ),
+            Self::ProtonDebit {
+                requested_moles,
+                observed_moles,
+            } => Phrase::new(
+                "solver-reason.endpoint.proton-debit",
+                "The endpoint consumed {observed} mol of the owned proton inventory; {requested} mol was required.",
+                vec![
+                    ("observed".into(), Slot::number(observed_moles.to_string())),
+                    ("requested".into(), Slot::number(requested_moles.to_string())),
+                ],
+            ),
+        }
+    }
+}
+
+fn refused(reason: EndpointRefusal<'_>, detail: &str) -> SolveError {
     SolveError::NotConverged {
+        reason: Some(Box::new(reason.phrase())),
         solver: "acidic-permanganate-peroxide".into(),
         detail: detail.into(),
     }
@@ -163,6 +212,11 @@ fn debit(vessel: &mut Vessel, key: &str, amount: f64, phases: &[Phase]) -> Resul
     }
     if remaining > 64.0 * f64::EPSILON * amount {
         return Err(refused(
+            EndpointRefusal::ReactantDebit {
+                species: key,
+                requested_moles: amount,
+                remaining_moles: remaining,
+            },
             "eligible reactant debit did not match admitted extent",
         ));
     }
@@ -170,15 +224,25 @@ fn debit(vessel: &mut Vessel, key: &str, amount: f64, phases: &[Phase]) -> Resul
 }
 
 fn transform(vessel: &mut Vessel, reaction: &CuratedReaction) -> Result<Vec<Event>, SolveError> {
-    let x = admitted_extent(vessel, reaction)
-        .ok_or_else(|| refused("endpoint is outside its admitted domain"))?;
+    let x = admitted_extent(vessel, reaction).ok_or_else(|| {
+        refused(
+            EndpointRefusal::Domain,
+            "endpoint is outside its admitted domain",
+        )
+    })?;
     let acid_before = pool(vessel, "H+", &[Phase::Aqueous]);
     // Admission guarantees this legacy helper's free-acid branch has an
     // actual exclusively aqueous H+ inventory and needs no weak-acid donor.
     crate::displacement::consume_acidity(vessel, 6.0 * x);
     let spent = acid_before - pool(vessel, "H+", &[Phase::Aqueous]);
     if (spent - 6.0 * x).abs() > 64.0 * f64::EPSILON * acid_before {
-        return Err(refused("owned proton debit did not match admitted extent"));
+        return Err(refused(
+            EndpointRefusal::ProtonDebit {
+                requested_moles: 6.0 * x,
+                observed_moles: spent,
+            },
+            "owned proton debit did not match admitted extent",
+        ));
     }
     debit(vessel, "MnO4-", 2.0 * x, &[Phase::Aqueous])?;
     debit(vessel, "H2O2", 5.0 * x, &[Phase::Aqueous, Phase::Liquid])?;
@@ -241,4 +305,51 @@ pub(crate) fn run(
     }
     *vessel = candidate;
     Ok(Some(events))
+}
+
+#[cfg(test)]
+mod refusal_tests {
+    use super::{refused, EndpointRefusal};
+    use crate::SolveError;
+
+    #[test]
+    fn endpoint_refusals_keep_typed_reason_and_raw_detail() {
+        let cases = [
+            (
+                EndpointRefusal::Domain,
+                "endpoint is outside its admitted domain",
+                "solver-reason.endpoint.domain",
+            ),
+            (
+                EndpointRefusal::ReactantDebit {
+                    species: "MnO4-",
+                    requested_moles: 0.25,
+                    remaining_moles: 0.01,
+                },
+                "eligible reactant debit did not match admitted extent",
+                "solver-reason.endpoint.reactant-debit",
+            ),
+            (
+                EndpointRefusal::ProtonDebit {
+                    requested_moles: 1.5,
+                    observed_moles: 1.4,
+                },
+                "owned proton debit did not match admitted extent",
+                "solver-reason.endpoint.proton-debit",
+            ),
+        ];
+
+        for (reason, detail, key) in cases {
+            let error = refused(reason, detail);
+            assert_eq!(
+                error.to_string(),
+                format!("acidic-permanganate-peroxide could not solve this state: {detail}")
+            );
+            assert_eq!(error.owned_reason().unwrap().key, key);
+            assert!(!matches!(
+                error,
+                SolveError::NotConverged { reason: None, .. }
+            ));
+        }
+    }
 }

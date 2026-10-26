@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-26T07:07:06.873271+00:00",
+  "candidate": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "merge": "c51758fa09a8ce0089bc93bb64338a587834a405",
+  "parents": [
+    "ccf30b2aeac4042ffe79942d4c8746ec10a553ef",
+    "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23"
+  ],
+  "actual_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "normal_merge_verified": true,
+  "pull_request": 859,
+  "source_accepted_receipt": "SOURCE-ACCEPTED.json",
+  "bypass": false
+}

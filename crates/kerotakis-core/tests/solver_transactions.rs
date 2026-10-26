@@ -156,6 +156,7 @@ impl Equilibrator for Trial {
         if matches!(self, Self::Fail) {
             v.contents.clear();
             Err(SolveError::NotConverged {
+                reason: None,
                 solver: self.name().into(),
                 detail: "injected after mutation".into(),
             })
@@ -179,6 +180,7 @@ impl Equilibrator for Trial {
                 Some(Ok(vec![]))
             }
             Self::MixFail => Some(Err(SolveError::NotConverged {
+                reason: None,
                 solver: self.name().into(),
                 detail: "injected MIX failure".into(),
             })),

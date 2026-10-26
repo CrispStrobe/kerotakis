@@ -92,6 +92,7 @@ impl Equilibrator for InjectedFailure {
         v.contents.clear();
         v.temperature = Kelvin(999.0);
         Err(SolveError::NotConverged {
+            reason: None,
             solver: self.name().into(),
             detail: "explicitly injected transaction failure".into(),
         })

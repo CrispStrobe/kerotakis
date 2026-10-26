@@ -88,6 +88,7 @@ impl Equilibrator for Trusted {
             Answer::NestedFailure => {
                 characterized(vessel, SolutionScope::Complete);
                 return Ok(vec![Event::SolverFailed {
+                    reason: None,
                     vessel: vessel.id,
                     solver: "nested synthetic phase".into(),
                     detail: "controlled nested failure".into(),
@@ -96,6 +97,7 @@ impl Equilibrator for Trusted {
             Answer::NoOp => {}
             Answer::Fail => {
                 return Err(SolveError::NotConverged {
+                    reason: None,
                     solver: self.name().into(),
                     detail: "controlled owner failure".into(),
                 });

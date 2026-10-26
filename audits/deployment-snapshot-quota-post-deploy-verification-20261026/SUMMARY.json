@@ -1,0 +1,12 @@
+{
+  "state": "POST_DEPLOY_ALL_PROJECT_SNAPSHOT_SCAN_COMPLETE_NO_OTHER_STALE",
+  "projects_checked": 39,
+  "other_projects_live_snapshots": 0,
+  "kerotakis_live_snapshots": 4,
+  "protected_retained_deployments": 4,
+  "already_deleted_tombstones": 17,
+  "new_orphans": 0,
+  "sandboxes": 0,
+  "deleted_during_this_rescan": 0,
+  "all_current_and_rollback_snapshots_protected": true
+}

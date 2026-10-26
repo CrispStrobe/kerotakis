@@ -1,0 +1,224 @@
+{
+  "actual_job_successes": 33,
+  "aggregates": {
+    "source_fleets": 240,
+    "source_fleets_v2": 288,
+    "source_fleets_v3": 120
+  },
+  "authored_run_steps_successful": 142,
+  "conclusion": "success",
+  "family_group_successes": 29,
+  "family_law_report_references": {
+    "Frozen fleet 195-218": "audit-evidence/sixth-195-218/law-checks.json",
+    "Frozen fleet 459-488": "audit-evidence/seventh-459-488/law-checks.json",
+    "Source fleet acid-base-buffers": "audit-evidence/acid-base-buffers/acid-base-buffers-law-checks.json",
+    "Source fleet distillation": "audit-evidence/distillation/distillation-law-checks.json",
+    "Source fleet electrochemistry": "audit-evidence/electrochemistry/electrochemistry-law-checks.json",
+    "Source fleet filtration-evaporation": "audit-evidence/filtration-evaporation/filtration-evaporation-law-checks.json",
+    "Source fleet gas-boundaries": "audit-evidence/gas-boundaries/gas-boundaries-law-checks.json",
+    "Source fleet mixing-transfer": "audit-evidence/mixing-transfer/mixing-transfer-law-checks.json",
+    "Source fleet observables-negative-controls": "audit-evidence/observables-negative-controls/observables-negative-controls-law-checks.json",
+    "Source fleet organic-equilibria": "audit-evidence/organic-equilibria/organic-equilibria-law-checks.json",
+    "Source fleet solubility-precipitation": "audit-evidence/solubility-precipitation/solubility-precipitation-law-checks.json",
+    "Source fleet thermal-phase-paths": "audit-evidence/thermal-phase-paths/thermal-phase-paths-law-checks.json",
+    "Source fleet v2 analytical-observables": "audit-evidence-v2/analytical-observables/analytical-observables-law-checks.json",
+    "Source fleet v2 crystallisation-boundaries": "audit-evidence-v2/crystallisation-boundaries/crystallisation-boundaries-law-checks.json",
+    "Source fleet v2 gas-production-transfer": "audit-evidence-v2/gas-production-transfer/gas-production-transfer-law-checks.json",
+    "Source fleet v2 household-biochemistry": "audit-evidence-v2/household-biochemistry/household-biochemistry-law-checks.json",
+    "Source fleet v2 kinetics-boundaries": "audit-evidence-v2/kinetics-boundaries/kinetics-boundaries-law-checks.json",
+    "Source fleet v2 materials-transport": "audit-evidence-v2/materials-transport/materials-transport-law-checks.json",
+    "Source fleet v2 phase-colligative": "audit-evidence-v2/phase-colligative/phase-colligative-law-checks.json",
+    "Source fleet v2 polyprotic-carbonate": "audit-evidence-v2/polyprotic-carbonate/polyprotic-carbonate-law-checks.json",
+    "Source fleet v2 quantitative-solutions": "audit-evidence-v2/quantitative-solutions/quantitative-solutions-law-checks.json",
+    "Source fleet v2 redox-cells": "audit-evidence-v2/redox-cells/redox-cells-law-checks.json",
+    "Source fleet v2 separation-trains": "audit-evidence-v2/separation-trains/separation-trains-law-checks.json",
+    "Source fleet v2 thermochemical-paths": "audit-evidence-v2/thermochemical-paths/thermochemical-paths-law-checks.json",
+    "Source fleet v3 aqueous-selectivity": "audit-evidence-v3/aqueous-selectivity/aqueous-selectivity-law-checks.json",
+    "Source fleet v3 ionic-conductivity": "audit-evidence-v3/ionic-conductivity/ionic-conductivity-law-checks.json",
+    "Source fleet v3 metal-ligand": "audit-evidence-v3/metal-ligand/metal-ligand-law-checks.json",
+    "Source fleet v3 organic-equilibrium": "audit-evidence-v3/organic-equilibrium/organic-equilibrium-law-checks.json",
+    "Source fleet v3 water-energy": "audit-evidence-v3/water-energy/water-energy-law-checks.json"
+  },
+  "kind": "independent_read_only_terminal_current_source_fleet_review",
+  "limitations": [
+    "Job logs and aggregate outcomes authenticate the exact source-bound fleet; they do not establish original scientific qualification of every cited case.",
+    "No artifact bodies or binaries were downloaded or executed by this reviewer."
+  ],
+  "raw_job_logs": {
+    "121433769583": {
+      "bytes": 54055,
+      "name": "Build audited CLI once",
+      "sha256": "2a84f8eb82373cebef824c62981afbaac9a4cf4fb9c3938831c200fdf33e7fa4"
+    },
+    "121434868235": {
+      "bytes": 95165,
+      "name": "Frozen fleet 459-488",
+      "sha256": "077c194df183049444af8baecc3ac5ae3d0b7550070aa2582cd95e9bb7d9e861"
+    },
+    "121434868276": {
+      "bytes": 62535,
+      "name": "Source fleet v3 aqueous-selectivity",
+      "sha256": "185157f1e14f6da6cc4fd9f822773b2fc44c27323dabcb2df9126f070507d5b8"
+    },
+    "121434868307": {
+      "bytes": 96785,
+      "name": "Frozen fleet 195-218",
+      "sha256": "91aecbb5f94203a3a64e547695d406898970666e189810553fe9eeee4faaae7a"
+    },
+    "121434868320": {
+      "bytes": 36703,
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "sha256": "900a2499a7769d3fd8a607e454bc581268fd86dce64f5767f76e92ef342804ff"
+    },
+    "121434868322": {
+      "bytes": 64813,
+      "name": "Source fleet v3 metal-ligand",
+      "sha256": "f68b406abd80433659aa5152eab31691cfeea8b1f94f75ae0aac8fafb12a0b8e"
+    },
+    "121434868335": {
+      "bytes": 36196,
+      "name": "Source fleet v3 water-energy",
+      "sha256": "dadb78e6b407a25bedc0c189bad80b8bcfdf5c48bcea62940062e36fbdd778f6"
+    },
+    "121434868336": {
+      "bytes": 47955,
+      "name": "Source fleet solubility-precipitation",
+      "sha256": "33d6612c37f9cd04e16342ae3f0131a8d2a0e008d445315e34801837e648a857"
+    },
+    "121434868337": {
+      "bytes": 37614,
+      "name": "Source fleet gas-boundaries",
+      "sha256": "f74f168f27b13fcff85c285d003353927a2749f6f1f44fe2502263d56204923d"
+    },
+    "121434868344": {
+      "bytes": 49829,
+      "name": "Source fleet v3 organic-equilibrium",
+      "sha256": "45615b7c63b5e6a1d020ea881dc797be7b95123e0cc74fdd80db6c94d0aed506"
+    },
+    "121434868345": {
+      "bytes": 40508,
+      "name": "Source fleet distillation",
+      "sha256": "9192d03e3f9f028ab3705c834a7daeea03ce115cf079e4a99637914681f96542"
+    },
+    "121434868352": {
+      "bytes": 42178,
+      "name": "Source fleet filtration-evaporation",
+      "sha256": "dac0cf2cbe8f7bdc60e50540ebfbefb35bbed7a7a788d5ec04f525c84f8821ae"
+    },
+    "121434868360": {
+      "bytes": 41397,
+      "name": "Source fleet acid-base-buffers",
+      "sha256": "fce5b6576d612c219c6a28b954b57ff7d75d0fee5043130a60361c1c99b34e5a"
+    },
+    "121434868366": {
+      "bytes": 36500,
+      "name": "Source fleet v3 ionic-conductivity",
+      "sha256": "a4470a7499a0a488dff3b801c4aed1bdac7db328605a0f6f3abd874dde3b0980"
+    },
+    "121434868390": {
+      "bytes": 40039,
+      "name": "Source fleet electrochemistry",
+      "sha256": "0881f7d08509d9a6e9c926d8b071d34850c0b9cc62692a457cb7ccb190238a8e"
+    },
+    "121434868396": {
+      "bytes": 46204,
+      "name": "Source fleet organic-equilibria",
+      "sha256": "4daaf2f492c468ecbe6b24b40d7c3bc2df2b57ebae603db4f6101be0d9fb9c90"
+    },
+    "121434868402": {
+      "bytes": 47865,
+      "name": "Source fleet v2 materials-transport",
+      "sha256": "c47002f0a2500435b0a617ceb523a0c0d2bb4ab0c498515b5e97096f87ad6981"
+    },
+    "121434868423": {
+      "bytes": 47731,
+      "name": "Source fleet v2 separation-trains",
+      "sha256": "b14336c95b06d477074030219725cd953c1437e62cfb0869bf0537d02a8add80"
+    },
+    "121434868429": {
+      "bytes": 39640,
+      "name": "Source fleet observables-negative-controls",
+      "sha256": "f832f18491515c55797e2e2de8e8865d4599a79b6d3a40ca60059b416d8c621d"
+    },
+    "121434868431": {
+      "bytes": 36809,
+      "name": "Source fleet v2 quantitative-solutions",
+      "sha256": "0199130da280b1ed9d21b7a267dba6ce036d38cdfdcca252ef08c2764c84bd21"
+    },
+    "121434868435": {
+      "bytes": 46564,
+      "name": "Source fleet v2 kinetics-boundaries",
+      "sha256": "0df7197b4a19298ef711448711d137ab377b737ffc90ec01e11fc42ded736ced"
+    },
+    "121434868447": {
+      "bytes": 38922,
+      "name": "Source fleet mixing-transfer",
+      "sha256": "ad132dd01c7b1b418029bff4ee6905c7d64afd2d23b009d3046dda0952398f55"
+    },
+    "121434868461": {
+      "bytes": 44194,
+      "name": "Source fleet v2 redox-cells",
+      "sha256": "878cc1417263d204f31545c564c44fab5e79ade02ea90cfa83d4c1451312e6ab"
+    },
+    "121434868464": {
+      "bytes": 37979,
+      "name": "Source fleet thermal-phase-paths",
+      "sha256": "7e306da10d36c974fadab7aeee6b9b32177c73513b6e08982088dca8113a3191"
+    },
+    "121434868467": {
+      "bytes": 40249,
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "sha256": "5769270f2a6bf154ba5f4b77fda979261ab6f88d4ae74f7964cc91cd6e54d362"
+    },
+    "121434868488": {
+      "bytes": 36601,
+      "name": "Source fleet v2 analytical-observables",
+      "sha256": "b848fe833700f9cdac8f2244149b004d0dc22a8c08186ac6f00cadfa8383899b"
+    },
+    "121434868489": {
+      "bytes": 36369,
+      "name": "Source fleet v2 phase-colligative",
+      "sha256": "e1fb912f20e4c2a19621c8428fd09b1cf2ad70104879b0942bd4ad909bf51b77"
+    },
+    "121434868505": {
+      "bytes": 38705,
+      "name": "Source fleet v2 household-biochemistry",
+      "sha256": "6152ee3ba7c0d98466df7388d53f25d9a9d9f19a1fb22a86bc1e18c6899b654a"
+    },
+    "121434868527": {
+      "bytes": 36634,
+      "name": "Source fleet v2 thermochemical-paths",
+      "sha256": "2d59b53fc7a53e829f110e81dd2dc566de5a46bddc1226f6c8b80ffc525f165b"
+    },
+    "121434868553": {
+      "bytes": 37909,
+      "name": "Source fleet v2 gas-production-transfer",
+      "sha256": "df23bc971a0271c0bd1cc5b5a92e7deed60be8e0002ea4d6bedd619442425e7c"
+    },
+    "121435003246": {
+      "bytes": 28412,
+      "name": "All 240 source-informed cases",
+      "sha256": "ad2d3cdc91cc102ea7926e5a4d3c3d01627b9cdce8c8c9c8ef5f1953fd6f996d"
+    },
+    "121435074632": {
+      "bytes": 21423,
+      "name": "All 120 source-informed v3 cases",
+      "sha256": "e675064912dc5a863ab25212e90e5742b0c9da92c6eed2ec5513e66d78c27d7b"
+    },
+    "121435683355": {
+      "bytes": 28070,
+      "name": "All 288 source-informed v2 cases",
+      "sha256": "8ba2b3e351908c5bb25c042e5f1178bbd69610f075490b80439685afddee4941"
+    }
+  },
+  "reviewed_utc": "2026-10-26T06:48:05.382261+00:00",
+  "run_id": 40280911865,
+  "source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "status": "completed",
+  "tested_merge": "7a92c3a5fdcfff49c72becd81ee498894408d509",
+  "tested_merge_parents": [
+    "ccf30b2aeac4042ffe79942d4c8746ec10a553ef",
+    "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23"
+  ],
+  "tested_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e"
+}

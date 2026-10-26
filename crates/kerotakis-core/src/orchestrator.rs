@@ -145,6 +145,7 @@ impl Orchestrator {
                 Ok(pair) => pair,
                 Err(e) => {
                     all_events.push(Event::SolverFailed {
+                        reason: e.owned_reason().cloned().map(Box::new),
                         vessel: vessel.id,
                         solver: solver.name().to_string(),
                         detail: e.to_string(),
@@ -157,6 +158,10 @@ impl Orchestrator {
             let event_errors = StateDelta::validate_gas_events(vessel, &events);
             if !event_errors.is_empty() {
                 all_events.push(Event::SolverFailed {
+                    reason: Some(Box::new(crate::phrase::Phrase::bare(
+                        "solver-reason.orchestrator.invalid-events",
+                        "The solver returned invalid gas-boundary events.",
+                    ))),
                     vessel: vessel.id,
                     solver: solver.name().to_string(),
                     detail: format!("invalid solver events: {event_errors:?}"),
@@ -174,6 +179,7 @@ impl Orchestrator {
                     Ok(()) => all_events.extend(events),
                     Err(errors) => {
                         all_events.push(Event::SolverFailed {
+                            reason: Some(Box::new(crate::phrase::Phrase::bare("solver-reason.orchestrator.conservation-commit", "The proposed solver change failed the required conservation or validity checks."))),
                             vessel: vessel.id,
                             solver: solver.name().to_string(),
                             detail: format!("conservation violation: {:?}", errors),
@@ -185,6 +191,10 @@ impl Orchestrator {
                     Ok(()) => all_events.extend(events),
                     Err(errors) => {
                         all_events.push(Event::SolverFailed {
+                            reason: Some(Box::new(crate::phrase::Phrase::bare(
+                                "solver-reason.orchestrator.state-commit",
+                                "The proposed solver change failed its commit checks.",
+                            ))),
                             vessel: vessel.id,
                             solver: solver.name().to_string(),
                             detail: format!("commit failed: {:?}", errors),

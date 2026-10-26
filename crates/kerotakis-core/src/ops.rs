@@ -2219,6 +2219,9 @@ pub enum Event {
         vessel: VesselId,
         solver: String,
         detail: String,
+        /// Optional typed learner reason, separate from raw technical detail.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        reason: Option<Box<crate::phrase::Phrase>>,
     },
     /// Solvent (water) was added by volume to dilute the contents.
     Diluted {

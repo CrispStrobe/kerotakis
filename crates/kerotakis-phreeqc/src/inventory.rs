@@ -19,6 +19,7 @@
 //! moved by exactly 2.33x — so the fix is the name.
 use std::collections::{BTreeMap, BTreeSet};
 
+use kerotakis_core::phrase::{Phrase, Slot};
 use kerotakis_core::{
     ledger::ConservedLedger, species, Event, Moles, Phase, Portion, SolveError, SpeciesId, Vessel,
     VesselId,
@@ -124,6 +125,144 @@ enum ImmutablePolicy {
     ReservoirOptical,
 }
 
+#[derive(Clone, Copy, Debug)]
+enum ImmutableFailure {
+    InvalidOpaque,
+    ChangedOpaque,
+    InvalidSpectator,
+    ChangedSpectator,
+}
+
+#[derive(Clone, Debug)]
+enum InventoryReason {
+    Immutable {
+        policy: ImmutablePolicy,
+        failure: ImmutableFailure,
+    },
+    ClockBoundaryInvalid,
+    ClockFormulaUnknown,
+    AqueousBasisInvalid,
+    AqueousBasisDoesNotClose,
+    ReservoirBoundaryUnsupported,
+    VesselIdentityChanged,
+    FormulaUnresolved,
+    AmountNonfinite,
+    AmountNegative,
+    GasCrossingWrongVessel,
+    GasCrossingUnowned,
+    GasAmountNonfinite,
+    GasAmountNegative,
+    ReservoirFormulaUnknown,
+    ElementLedgerNonfinite,
+    ElementLedgerMismatch {
+        element: String,
+        before: f64,
+        after: f64,
+    },
+    ChargeLedgerNonfinite,
+    ChargeLedgerMismatch {
+        before: f64,
+        after: f64,
+    },
+}
+
+impl InventoryReason {
+    fn phrase(self) -> Phrase {
+        let bare = |key, en| Phrase::bare(key, en);
+        match self {
+            Self::Immutable { policy, failure } => {
+                let (key, en) = immutable_phrase(policy, failure);
+                bare(key, en)
+            }
+            Self::ClockBoundaryInvalid => bare(
+                "solver-reason.inventory.clock-boundary-invalid",
+                "The clock carbon dioxide boundary has an invalid owner or amount.",
+            ),
+            Self::ClockFormulaUnknown => bare(
+                "solver-reason.inventory.clock-formula-unknown",
+                "The clock carbon dioxide formula is not registered.",
+            ),
+            Self::AqueousBasisInvalid => bare(
+                "solver-reason.inventory.aqueous-basis-invalid",
+                "The nonnegative aqueous hydrogen and oxygen basis is invalid.",
+            ),
+            Self::AqueousBasisDoesNotClose => bare(
+                "solver-reason.inventory.aqueous-basis-does-not-close",
+                "The aqueous basis does not close on hydrogen.",
+            ),
+            Self::ReservoirBoundaryUnsupported => bare(
+                "solver-reason.inventory.reservoir-boundary-unsupported",
+                "The reservoir opaque owner does not support this clock or finite gas boundary.",
+            ),
+            Self::VesselIdentityChanged => bare(
+                "solver-reason.inventory.vessel-identity-changed",
+                "The vessel identity changed.",
+            ),
+            Self::FormulaUnresolved => bare(
+                "solver-reason.inventory.formula-unresolved",
+                "A portion has an unresolved formula.",
+            ),
+            Self::AmountNonfinite => bare(
+                "solver-reason.inventory.amount-nonfinite",
+                "A portion has a nonfinite amount.",
+            ),
+            Self::AmountNegative => bare(
+                "solver-reason.inventory.amount-negative",
+                "A portion has a negative amount.",
+            ),
+            Self::GasCrossingWrongVessel => bare(
+                "solver-reason.inventory.gas-crossing-wrong-vessel",
+                "A gas crossing belongs to another vessel.",
+            ),
+            Self::GasCrossingUnowned => bare(
+                "solver-reason.inventory.gas-crossing-unowned",
+                "A gas crossing is not owned by a reservoir.",
+            ),
+            Self::GasAmountNonfinite => bare(
+                "solver-reason.inventory.gas-amount-nonfinite",
+                "The reservoir gas crossing amount is nonfinite.",
+            ),
+            Self::GasAmountNegative => bare(
+                "solver-reason.inventory.gas-amount-negative",
+                "The reservoir gas crossing amount is negative.",
+            ),
+            Self::ReservoirFormulaUnknown => bare(
+                "solver-reason.inventory.reservoir-formula-unknown",
+                "A reservoir gas has an unresolved formula.",
+            ),
+            Self::ElementLedgerNonfinite => bare(
+                "solver-reason.inventory.element-ledger-nonfinite",
+                "An element ledger contains a nonfinite total.",
+            ),
+            Self::ElementLedgerMismatch {
+                element,
+                before,
+                after,
+            } => Phrase::new(
+                "solver-reason.inventory.element-ledger-mismatch",
+                "The {element} element ledger does not close: {before} mol became {after} mol.",
+                vec![
+                    ("element".into(), Slot::text(element)),
+                    ("before".into(), Slot::number(format!("{before:.15e}"))),
+                    ("after".into(), Slot::number(format!("{after:.15e}"))),
+                ],
+            ),
+            Self::ChargeLedgerNonfinite => bare(
+                "solver-reason.inventory.charge-ledger-nonfinite",
+                "The charge ledger contains a nonfinite total.",
+            ),
+            Self::ChargeLedgerMismatch { before, after } => Phrase::new(
+                "solver-reason.inventory.charge-ledger-mismatch",
+                "The charge ledger does not close: {before} eq became {after} eq.",
+                vec![
+                    ("before".into(), Slot::number(format!("{before:.15e}"))),
+                    ("after".into(), Slot::number(format!("{after:.15e}"))),
+                ],
+            ),
+        }
+    }
+}
+
 fn valid_immutable_spectators(vessel: &Vessel, policy: ImmutablePolicy) -> bool {
     vessel.contents.iter().all(|portion| {
         if !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
@@ -225,27 +364,99 @@ fn certify_immutable_stock(
                         _ => false,
                     }
             });
-    if !valid_opaque_clock_stock(before)
-        || !valid_opaque_clock_stock(after)
-        || !same
-        || !valid_immutable_spectators(before, policy)
-        || !valid_immutable_spectators(after, policy)
-        || non_native_spectators(before) != non_native_spectators(after)
-    {
-        return Err(SolveError::NotConverged {
-            solver: "phreeqc-inventory".into(),
-            detail: match policy {
-                ImmutablePolicy::Clock => {
-                    "opaque clock inventory or immutable spectator changed or is invalid"
-                }
-                ImmutablePolicy::ReservoirOptical => {
-                    "reservoir aqueous opaque inventory or immutable spectator changed or is invalid"
-                }
-            }
-            .into(),
-        });
+    let detail = match policy {
+        ImmutablePolicy::Clock => {
+            "opaque clock inventory or immutable spectator changed or is invalid"
+        }
+        ImmutablePolicy::ReservoirOptical => {
+            "reservoir aqueous opaque inventory or immutable spectator changed or is invalid"
+        }
+    };
+    if !valid_opaque_clock_stock(before) || !valid_opaque_clock_stock(after) {
+        return Err(inventory_error(
+            InventoryReason::Immutable {
+                policy,
+                failure: ImmutableFailure::InvalidOpaque,
+            },
+            detail,
+        ));
+    }
+    if !same {
+        return Err(inventory_error(
+            InventoryReason::Immutable {
+                policy,
+                failure: ImmutableFailure::ChangedOpaque,
+            },
+            detail,
+        ));
+    }
+    if !valid_immutable_spectators(before, policy) || !valid_immutable_spectators(after, policy) {
+        return Err(inventory_error(
+            InventoryReason::Immutable {
+                policy,
+                failure: ImmutableFailure::InvalidSpectator,
+            },
+            detail,
+        ));
+    }
+    if non_native_spectators(before) != non_native_spectators(after) {
+        return Err(inventory_error(
+            InventoryReason::Immutable {
+                policy,
+                failure: ImmutableFailure::ChangedSpectator,
+            },
+            detail,
+        ));
     }
     Ok(())
+}
+
+fn immutable_phrase(
+    policy: ImmutablePolicy,
+    failure: ImmutableFailure,
+) -> (&'static str, &'static str) {
+    match (policy, failure) {
+        (ImmutablePolicy::Clock, ImmutableFailure::InvalidOpaque) => (
+            "solver-reason.inventory.clock-invalid-opaque-stock",
+            "The opaque clock stock is invalid.",
+        ),
+        (ImmutablePolicy::Clock, ImmutableFailure::ChangedOpaque) => (
+            "solver-reason.inventory.clock-changed-opaque-stock",
+            "The opaque clock stock or progress changed.",
+        ),
+        (ImmutablePolicy::Clock, ImmutableFailure::InvalidSpectator) => (
+            "solver-reason.inventory.clock-invalid-spectator",
+            "A clock spectator is invalid.",
+        ),
+        (ImmutablePolicy::Clock, ImmutableFailure::ChangedSpectator) => (
+            "solver-reason.inventory.clock-changed-spectator",
+            "A clock spectator changed.",
+        ),
+        (ImmutablePolicy::ReservoirOptical, ImmutableFailure::InvalidOpaque) => (
+            "solver-reason.inventory.reservoir-invalid-opaque-stock",
+            "The reservoir opaque stock is invalid.",
+        ),
+        (ImmutablePolicy::ReservoirOptical, ImmutableFailure::ChangedOpaque) => (
+            "solver-reason.inventory.reservoir-changed-opaque-stock",
+            "The reservoir opaque stock or progress changed.",
+        ),
+        (ImmutablePolicy::ReservoirOptical, ImmutableFailure::InvalidSpectator) => (
+            "solver-reason.inventory.reservoir-invalid-spectator",
+            "A reservoir spectator is invalid.",
+        ),
+        (ImmutablePolicy::ReservoirOptical, ImmutableFailure::ChangedSpectator) => (
+            "solver-reason.inventory.reservoir-changed-spectator",
+            "A reservoir spectator changed.",
+        ),
+    }
+}
+
+fn inventory_error(reason: InventoryReason, detail: impl Into<String>) -> SolveError {
+    SolveError::NotConverged {
+        reason: Some(Box::new(reason.phrase())),
+        solver: "phreeqc-inventory".into(),
+        detail: detail.into(),
+    }
 }
 
 fn clock_formula(
@@ -253,19 +464,21 @@ fn clock_formula(
     vessel: VesselId,
 ) -> Result<Option<kerotakis_core::stoich::Formula>, SolveError> {
     if clock.vessel != vessel || !clock.applied_mol.is_finite() {
-        return Err(SolveError::NotConverged {
-            solver: "phreeqc-inventory".into(),
-            detail: "invalid clock CO2 boundary owner or amount".into(),
-        });
+        return Err(inventory_error(
+            InventoryReason::ClockBoundaryInvalid,
+            "invalid clock CO2 boundary owner or amount",
+        ));
     }
     if clock.applied_mol == 0.0 {
         return Ok(None);
     }
     let formula = species::lookup_key("CO2")
         .and_then(|row| kerotakis_core::stoich::parse_formula(row.formula).ok())
-        .ok_or_else(|| SolveError::NotConverged {
-            solver: "phreeqc-inventory".into(),
-            detail: "clock CO2 has no known physical formula".into(),
+        .ok_or_else(|| {
+            inventory_error(
+                InventoryReason::ClockFormulaUnknown,
+                "clock CO2 has no known physical formula",
+            )
         })?;
     Ok(Some(formula))
 }
@@ -379,12 +592,12 @@ pub(crate) fn complete_basis(
     let base = (-excess).max(0.0);
     let water = oxygen - base;
     if !water.is_finite() || water < -1e-9 || !acid.is_finite() || !base.is_finite() {
-        return Err(SolveError::NotConverged {
-            solver: "phreeqc-inventory".into(),
-            detail: format!(
+        return Err(inventory_error(
+            InventoryReason::AqueousBasisInvalid,
+            format!(
                 "no nonnegative aqueous basis conserves H/O: residual H={hydrogen}, O={oxygen}"
             ),
-        });
+        ));
     }
     // Oxygen closes exactly — `w + b` is `oxygen` by construction, as it
     // always was. Hydrogen no longer does, because `a − b` no longer comes
@@ -397,13 +610,13 @@ pub(crate) fn complete_basis(
     let reconstructed = 2.0 * water.max(0.0) + acid + base;
     let residue = reconstructed - hydrogen;
     if !residue.is_finite() || residue.abs() > 1e-9 + 1e-6 * hydrogen.abs() {
-        return Err(SolveError::NotConverged {
-            solver: "phreeqc-inventory".into(),
-            detail: format!(
+        return Err(inventory_error(
+            InventoryReason::AqueousBasisDoesNotClose,
+            format!(
                 "the aqueous basis does not close on hydrogen: residual H={hydrogen}, \
                  O={oxygen}, rebuilt H={reconstructed}"
             ),
-        });
+        ));
     }
     for (key, amount, phase) in [
         ("water", water.max(0.0), Phase::Liquid),
@@ -450,9 +663,11 @@ pub(crate) fn certify_reservoir_opaque_inventory(
     events: &[Event],
     reservoirs: &[&str],
 ) -> Result<(), SolveError> {
-    let unsupported_boundary = || SolveError::NotConverged {
-        solver: "phreeqc-inventory".into(),
-        detail: "reservoir opaque aqueous owner has a clock or finite gas boundary".into(),
+    let unsupported_boundary = || {
+        inventory_error(
+            InventoryReason::ReservoirBoundaryUnsupported,
+            "reservoir opaque aqueous owner has a clock or finite gas boundary",
+        )
     };
     if before.unresolved_materials.is_empty()
         || after.unresolved_materials.is_empty()
@@ -498,12 +713,14 @@ fn certify_component_inventory(
         ImmutablePolicy::Clock => "gas-aware physical ledger",
         ImmutablePolicy::ReservoirOptical => "reservoir opaque physical ledger",
     };
-    let refused = |detail: String| SolveError::NotConverged {
-        solver: "phreeqc-inventory".into(),
-        detail: format!("{prefix}: {detail}"),
+    let refused = |reason: InventoryReason, detail: String| {
+        inventory_error(reason, format!("{prefix}: {detail}"))
     };
     if before.id != after.id {
-        return Err(refused("vessel identity changed".into()));
+        return Err(refused(
+            InventoryReason::VesselIdentityChanged,
+            "vessel identity changed".into(),
+        ));
     }
     if policy == ImmutablePolicy::ReservoirOptical
         || !before.unresolved_materials.is_empty()
@@ -515,8 +732,23 @@ fn certify_component_inventory(
         for portion in &vessel.contents {
             let formula = species::lookup(&portion.species)
                 .and_then(|data| kerotakis_core::stoich::parse_formula(data.formula).ok());
-            if formula.is_none() || !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
-                return Err(refused(format!("unresolved portion {}", portion.species.0)));
+            if formula.is_none() {
+                return Err(refused(
+                    InventoryReason::FormulaUnresolved,
+                    format!("unresolved portion {}", portion.species.0),
+                ));
+            }
+            if !portion.moles.0.is_finite() {
+                return Err(refused(
+                    InventoryReason::AmountNonfinite,
+                    format!("unresolved portion {}", portion.species.0),
+                ));
+            }
+            if portion.moles.0 < 0.0 {
+                return Err(refused(
+                    InventoryReason::AmountNegative,
+                    format!("unresolved portion {}", portion.species.0),
+                ));
             }
         }
     }
@@ -537,17 +769,39 @@ fn certify_component_inventory(
             } => (vessel, species, moles.0, 1.0),
             _ => continue,
         };
-        if *event_vessel != before.id
-            || !reservoirs.contains(&species_id.0.as_str())
-            || !moles.is_finite()
-            || moles < 0.0
-        {
-            return Err(refused(format!("unowned gas crossing {}", species_id.0)));
+        if *event_vessel != before.id {
+            return Err(refused(
+                InventoryReason::GasCrossingWrongVessel,
+                format!("unowned gas crossing {}", species_id.0),
+            ));
+        }
+        if !reservoirs.contains(&species_id.0.as_str()) {
+            return Err(refused(
+                InventoryReason::GasCrossingUnowned,
+                format!("unowned gas crossing {}", species_id.0),
+            ));
+        }
+        if !moles.is_finite() {
+            return Err(refused(
+                InventoryReason::GasAmountNonfinite,
+                format!("unowned gas crossing {}", species_id.0),
+            ));
+        }
+        if moles < 0.0 {
+            return Err(refused(
+                InventoryReason::GasAmountNegative,
+                format!("unowned gas crossing {}", species_id.0),
+            ));
         }
         let signed_moles = sign * moles;
         let formula = species::lookup(species_id)
             .and_then(|data| kerotakis_core::stoich::parse_formula(data.formula).ok())
-            .ok_or_else(|| refused(format!("unresolved reservoir gas {}", species_id.0)))?;
+            .ok_or_else(|| {
+                refused(
+                    InventoryReason::ReservoirFormulaUnknown,
+                    format!("unresolved reservoir gas {}", species_id.0),
+                )
+            })?;
         for (element, count) in formula.counts {
             *expected.elements.entry(element).or_default() += count * signed_moles;
         }
@@ -568,20 +822,43 @@ fn certify_component_inventory(
     for element in elements {
         let left = expected.elements.get(element).copied().unwrap_or(0.0);
         let right = actual.elements.get(element).copied().unwrap_or(0.0);
-        if !left.is_finite() || !right.is_finite() || (right - left).abs() > 1e-10 {
-            return Err(refused(format!(
-                "{element} changed {left:.15e} -> {right:.15e} mol"
-            )));
+        if !left.is_finite() || !right.is_finite() {
+            return Err(refused(
+                InventoryReason::ElementLedgerNonfinite,
+                format!("{element} changed {left:.15e} -> {right:.15e} mol"),
+            ));
+        }
+        if (right - left).abs() > 1e-10 {
+            return Err(inventory_error(
+                InventoryReason::ElementLedgerMismatch {
+                    element: element.to_string(),
+                    before: left,
+                    after: right,
+                },
+                format!("{prefix}: {element} changed {left:.15e} -> {right:.15e} mol"),
+            ));
         }
     }
-    if !expected.charge.is_finite()
-        || !actual.charge.is_finite()
-        || (actual.charge - expected.charge).abs() > 1e-10
-    {
-        return Err(refused(format!(
-            "charge changed {:.15e} -> {:.15e} eq",
-            expected.charge, actual.charge
-        )));
+    if !expected.charge.is_finite() || !actual.charge.is_finite() {
+        return Err(refused(
+            InventoryReason::ChargeLedgerNonfinite,
+            format!(
+                "charge changed {:.15e} -> {:.15e} eq",
+                expected.charge, actual.charge
+            ),
+        ));
+    }
+    if (actual.charge - expected.charge).abs() > 1e-10 {
+        return Err(inventory_error(
+            InventoryReason::ChargeLedgerMismatch {
+                before: expected.charge,
+                after: actual.charge,
+            },
+            format!(
+                "{prefix}: charge changed {:.15e} -> {:.15e} eq",
+                expected.charge, actual.charge
+            ),
+        ));
     }
     Ok(())
 }
@@ -831,6 +1108,40 @@ mod gas_aware_certificate_tests {
         )
         .unwrap_err();
         assert!(error.to_string().contains("charge changed"), "{error}");
+        assert_eq!(
+            error.owned_reason().map(|reason| reason.key.as_str()),
+            Some("solver-reason.inventory.charge-ledger-mismatch")
+        );
+        assert_eq!(
+            error.to_string(),
+            "phreeqc-inventory could not solve this state: gas-aware physical ledger: charge changed 2.000000000000000e-3 -> 3.000000000000000e-3 eq"
+        );
+    }
+
+    #[test]
+    fn unresolved_formula_reason_keeps_unknown_id_in_raw_detail() {
+        let mut vessel = Vessel::new(VesselId(9), "unknown formula");
+        vessel.deposit(
+            SpeciesId::new("unregistered_mystery_ion"),
+            Moles(0.125),
+            Phase::Aqueous,
+        );
+        let error = certify_gas_aware_inventory(
+            &vessel,
+            &vessel,
+            &[],
+            &[],
+            ClockCo2Boundary::none(vessel.id),
+        )
+        .unwrap_err();
+        assert_eq!(
+            error.owned_reason().map(|reason| reason.key.as_str()),
+            Some("solver-reason.inventory.formula-unresolved")
+        );
+        assert_eq!(
+            error.to_string(),
+            "phreeqc-inventory could not solve this state: gas-aware physical ledger: unresolved portion unregistered_mystery_ion"
+        );
     }
 
     #[test]

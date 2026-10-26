@@ -71,6 +71,7 @@ impl Equilibrator for Aqueous {
                 vessel.deposit(SpeciesId::new("Na+"), Moles(0.001), Phase::Aqueous);
                 vessel.temperature = Kelvin(330.0);
                 return Err(SolveError::NotConverged {
+                    reason: None,
                     solver: self.name().into(),
                     detail: "controlled readback failure".into(),
                 });
@@ -286,6 +287,7 @@ fn stack_forwarding_preserves_an_optional_partial_answer_without_a_receipt() {
             _: &mut Vessel,
         ) -> Result<(Vec<Event>, CurrentAqueousAnswer), SolveError> {
             Err(SolveError::NotConverged {
+                reason: None,
                 solver: "partial-test-answer".into(),
                 detail: "complete answer unavailable".into(),
             })
@@ -505,6 +507,7 @@ fn bench_operator_lifecycle_restores_heat_ownership_on_success_and_error() {
             vessel.aqueous_heat = AqueousHeatOwnership::UnmodeledContinuation;
             if self.0 {
                 Err(SolveError::NotConverged {
+                    reason: None,
                     solver: self.name().into(),
                     detail: "controlled failure".into(),
                 })

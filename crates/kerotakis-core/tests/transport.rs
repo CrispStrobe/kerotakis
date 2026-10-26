@@ -18,6 +18,7 @@ impl Equilibrator for FailingSecondCell {
         vessel.label.push_str(" (reacted)");
         if self.calls == 2 {
             return Err(SolveError::NotConverged {
+                reason: None,
                 solver: self.name().to_string(),
                 detail: "deliberate second-cell failure".to_string(),
             });

@@ -129,7 +129,7 @@ fn scenario(
         let error = result
             .err()
             .ok_or("un-prewarmed callback unexpectedly answered")?;
-        let SolveError::NotConverged { solver, detail } = &error;
+        let SolveError::NotConverged { solver, detail, .. } = &error;
         let expected_failure = (solver == "phreeqc-aqueous (cache-only build)"
             && detail.contains("this state is not in the shipped results"))
             || (solver == "phreeqc-aqueous (external engine)"

@@ -75,6 +75,7 @@ impl TrustedAqueousReadback for Aqueous {
         if self.fail_second && self.calls == 2 {
             v.deposit(SpeciesId::new("Na+"), Moles(1.0), Phase::Aqueous);
             return Err(SolveError::NotConverged {
+                reason: None,
                 solver: self.name().into(),
                 detail: "controlled current-question miss".into(),
             });

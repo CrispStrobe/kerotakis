@@ -4802,21 +4802,37 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             vessel,
             solver,
             detail,
+            reason,
         } => match register.level() {
             1 => locale.fill(
                 "event.solver-failed.lv1",
                 "The lab couldn't work out what happens in {vessel}. That's honest — better than guessing!",
                 &[("vessel", &vessel.to_string())],
             ),
-            _ => locale.fill(
-                "event.solver-failed.lv3",
-                "{vessel}: solver '{solver}' failed: {detail}",
-                &[
-                    ("vessel", &vessel.to_string()),
-                    ("solver", solver),
-                    ("detail", detail),
-                ],
-            ),
+            _ => match reason {
+                Some(reason) => {
+                    let owned = reason.render(locale);
+                    locale.fill(
+                        "event.solver-failed.owned.lv3",
+                        "{vessel}: solver '{solver}' failed: {reason}\nTechnical detail: {detail}",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("solver", solver),
+                            ("reason", &owned),
+                            ("detail", detail),
+                        ],
+                    )
+                }
+                None => locale.fill(
+                    "event.solver-failed.lv3",
+                    "{vessel}: solver '{solver}' failed: {detail}",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("solver", solver),
+                        ("detail", detail),
+                    ],
+                ),
+            },
         },
         Event::Diluted {
             vessel,

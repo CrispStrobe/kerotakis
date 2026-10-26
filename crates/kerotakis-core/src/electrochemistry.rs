@@ -5473,6 +5473,7 @@ mod tests {
                 _state: &mut crate::Vessel,
             ) -> Result<Vec<crate::ops::Event>, crate::solve::SolveError> {
                 Err(crate::solve::SolveError::NotConverged {
+                    reason: None,
                     solver: self.name().into(),
                     detail: "deliberate rollback probe".into(),
                 })

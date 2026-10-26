@@ -1,0 +1,20 @@
+{
+  "module": "aqueous::canonical_physical_closure_tests",
+  "tests": [
+    "aqueous::canonical_physical_closure_tests::actual_paired_auxiliary_delta_failure_replays_eagerly_and_keeps_global_cap_rollback",
+    "aqueous::canonical_physical_closure_tests::auxiliary_decline_remains_typed_and_missing_result_cannot_be_accepted",
+    "aqueous::canonical_physical_closure_tests::both_adjacent_queued_answers_are_completed_before_full_acceptance_and_routing",
+    "aqueous::canonical_physical_closure_tests::old_controlled_adapter_cannot_invent_queued_auxiliary_answers",
+    "aqueous::canonical_physical_closure_tests::pending_floor_transition_replays_eagerly_from_original_owner",
+    "aqueous::canonical_physical_closure_tests::primary_progress_never_clears_pending_or_grants_full_acceptance",
+    "aqueous::canonical_physical_closure_tests::queued_auxiliary_refuses_database_fingerprint_input_or_key_drift",
+    "aqueous::canonical_physical_closure_tests::queued_auxiliary_refuses_wrong_stock_and_whole_step_heat_origin",
+    "aqueous::canonical_physical_closure_tests::queued_auxiliary_refuses_wrong_temperature_before_native_dispatch"
+  ],
+  "new_tests": 9,
+  "previous_selection_retained": 21,
+  "existing_selector_controls_added": 6,
+  "proposed_total": 36,
+  "targets": 5,
+  "no_tests_executed": true
+}

@@ -63,7 +63,22 @@ pub struct ValidityBounds {
 #[derive(Debug, thiserror::Error)]
 pub enum SolveError {
     #[error("{solver} could not solve this state: {detail}")]
-    NotConverged { solver: String, detail: String },
+    NotConverged {
+        solver: String,
+        detail: String,
+        /// Source-owned learner reason; raw native detail and Display stay intact.
+        reason: Option<Box<crate::phrase::Phrase>>,
+    },
+}
+
+impl SolveError {
+    /// The typed reason attached by the rejecting source owner, if available.
+    /// Native/vendor text is never parsed to manufacture one.
+    pub fn owned_reason(&self) -> Option<&crate::phrase::Phrase> {
+        match self {
+            Self::NotConverged { reason, .. } => reason.as_deref(),
+        }
+    }
 }
 
 /// Scientific authority of a solver route, independent of its display name.
@@ -299,6 +314,28 @@ fn external_owner_identity(solver: &mut dyn Equilibrator) -> usize {
     pointer as *mut () as usize
 }
 
+enum OverlapRefusal {
+    NotExecuted,
+    NoUniqueIdentity,
+    MultipleOwners,
+    TerminalOwnerAbsent,
+    NoAcceptedAnswer,
+    OwnerOrVesselChanged,
+}
+
+impl OverlapRefusal {
+    fn phrase(self) -> crate::phrase::Phrase {
+        match self {
+            Self::NotExecuted => crate::phrase::Phrase::bare("solver-reason.stack.owner-not-executed", "The selected aqueous owner was not executed before the next installed solver stage."),
+            Self::NoUniqueIdentity => crate::phrase::Phrase::bare("solver-reason.stack.owner-no-unique-identity", "The borrowed aqueous adapter has no unique instance identity; its delegated reaction was not consumed."),
+            Self::MultipleOwners => crate::phrase::Phrase::bare("solver-reason.stack.multiple-owners", "More than one trusted aqueous owner applies to this delegated reaction."),
+            Self::TerminalOwnerAbsent => crate::phrase::Phrase::bare("solver-reason.stack.terminal-owner-absent", "The selected aqueous owner was absent from the final installed solver stage."),
+            Self::NoAcceptedAnswer => crate::phrase::Phrase::bare("solver-reason.stack.no-accepted-answer", "The deferred reaction received no accepted complete answer from its aqueous owner."),
+            Self::OwnerOrVesselChanged => crate::phrase::Phrase::bare("solver-reason.stack.owner-or-vessel-changed", "The borrowed aqueous stage belongs to a different adapter instance or vessel."),
+        }
+    }
+}
+
 impl SolverStack {
     pub fn new(solvers: Vec<Box<dyn Equilibrator>>) -> Self {
         SolverStack {
@@ -324,7 +361,12 @@ impl SolverStack {
         self.aqueous_overlap_refused
     }
 
-    fn overlap_failure(&mut self, vessel: &mut Vessel, detail: &str) -> Event {
+    fn overlap_failure(
+        &mut self,
+        vessel: &mut Vessel,
+        refusal: OverlapRefusal,
+        detail: &str,
+    ) -> Event {
         self.aqueous_overlap_refused = true;
         vessel.invalidate_aqueous_diagnostics();
         self.last_routes.push(SolverRoute {
@@ -336,6 +378,7 @@ impl SolverStack {
             reason: Some(detail.into()),
         });
         Event::SolverFailed {
+            reason: Some(Box::new(refusal.phrase())),
             vessel: vessel.id,
             solver: "aqueous-overlap-ownership".into(),
             detail: detail.into(),
@@ -356,6 +399,7 @@ impl SolverStack {
     ) -> Result<Self, SolveError> {
         if !tolerance.is_finite() || tolerance <= 0.0 || tolerance >= 1.0 {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(crate::phrase::Phrase::bare("solver-reason.stack.tolerance", "The required conservation tolerance must be finite and lie strictly between zero and one."))),
                 solver: "solver-stack".into(),
                 detail: "required conservation tolerance must be finite and between zero and one"
                     .into(),
@@ -400,6 +444,10 @@ impl SolverStack {
     ) -> Result<Vec<Event>, SolveError> {
         if range.start > range.end || range.end > self.solvers.len() {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(crate::phrase::Phrase::bare(
+                    "solver-reason.stack.route-range",
+                    "The requested solver range is outside the installed stack.",
+                ))),
                 solver: "solver-stack".into(),
                 detail: "requested route range is outside the installed stack".into(),
             });
@@ -408,6 +456,7 @@ impl SolverStack {
         if self.pending_aqueous_overlap.is_some() {
             events.push(self.overlap_failure(
                 vessel,
+                OverlapRefusal::NotExecuted,
                 "selected aqueous owner was not executed before the next installed range",
             ));
             self.pending_aqueous_overlap = None;
@@ -450,7 +499,7 @@ impl SolverStack {
                     (true, _) => {
                         delegated = true;
                         ambiguous = true;
-                        events.push(self.overlap_failure(vessel, "borrowed zero-sized aqueous owner has no unique instance identity; curated overlap was not consumed"));
+                        events.push(self.overlap_failure(vessel, OverlapRefusal::NoUniqueIdentity, "borrowed zero-sized aqueous owner has no unique instance identity; curated overlap was not consumed"));
                     }
                     (false, []) => {}
                     (false, [owner]) => {
@@ -463,7 +512,7 @@ impl SolverStack {
                     (false, _) => {
                         delegated = true;
                         ambiguous = true;
-                        events.push(self.overlap_failure(vessel, "multiple trusted applicable aqueous owners; curated overlap was not consumed"));
+                        events.push(self.overlap_failure(vessel, OverlapRefusal::MultipleOwners, "multiple trusted applicable aqueous owners; curated overlap was not consumed"));
                     }
                 }
             }
@@ -507,6 +556,7 @@ impl SolverStack {
         {
             events.push(self.overlap_failure(
                 vessel,
+                OverlapRefusal::TerminalOwnerAbsent,
                 "selected aqueous owner was absent from the terminal installed range",
             ));
             self.pending_aqueous_overlap = None;
@@ -558,6 +608,7 @@ impl SolverStack {
             .collect();
         retained.push(self.overlap_failure(
             vessel,
+            OverlapRefusal::NoAcceptedAnswer,
             "deferred curated overlap received no accepted complete aqueous answer",
         ));
         retained
@@ -577,6 +628,7 @@ impl SolverStack {
                 self.pending_aqueous_overlap = None;
                 return vec![self.overlap_failure(
                     vessel,
+                    OverlapRefusal::OwnerOrVesselChanged,
                     "borrowed aqueous owner differs from the selected adapter or vessel",
                 )];
             }
@@ -728,6 +780,7 @@ fn run_solver_route_with_aqueous_owner(
                 Ok(more)
             } else {
                 Err(SolveError::NotConverged {
+                    reason: Some(Box::new(crate::phrase::Phrase::bare("solver-reason.stack.invalid-result", "The solver proposal failed state, boundary-event or conservation validation."))),
                     solver: solver.name().into(),
                     detail: format!("invalid solver result: {errors:?}"),
                 })
@@ -772,6 +825,7 @@ fn run_solver_route_with_aqueous_owner(
                 reason: Some(e.to_string()),
             });
             events.push(Event::SolverFailed {
+                reason: e.owned_reason().cloned().map(Box::new),
                 vessel: vessel.id,
                 solver: solver_name,
                 detail: e.to_string(),
@@ -845,6 +899,7 @@ impl Equilibrator for SolverStack {
                     }
                     *vessel = checkpoint;
                     return Some(Err(SolveError::NotConverged {
+                        reason: Some(Box::new(crate::phrase::Phrase::bare("solver-reason.stack.invalid-mix-result", "The mixed solver proposal failed state, boundary-event or conservation validation."))),
                         solver: solver.name().into(),
                         detail: format!("invalid MIX result: {errors:?}"),
                     }));
@@ -2914,6 +2969,7 @@ pub fn equilibrate_phase_coupled(
                         vessel.invalidate_aqueous_diagnostics();
                     }
                     events.push(Event::SolverFailed {
+                        reason: error.owned_reason().cloned().map(Box::new),
                         vessel: vessel.id,
                         solver: chemistry.name().to_string(),
                         detail: error.to_string(),
@@ -3021,6 +3077,11 @@ pub fn equilibrate_phase_coupled(
         }
         if pass + 1 == MAX_PASSES {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(crate::phrase::Phrase::new(
+                    "solver-reason.stack.phase-pass-limit",
+                    "The coupled solution and solvent phases did not settle within {passes} bounded passes.",
+                    vec![("passes".into(), crate::phrase::Slot::number(MAX_PASSES.to_string()))],
+                ))),
                 solver: "phase-coupled".to_string(),
                 detail: format!(
                     "aqueous/ice state did not settle within {MAX_PASSES} bounded passes (last water transfer {last_transfer_moles:.3e} mol at {:.6} K)",

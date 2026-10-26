@@ -1,0 +1,21 @@
+{
+  "attempts": 1,
+  "automatic_retries": false,
+  "elapsed_seconds": 5.128739195002709,
+  "headers": {
+    "cache-control": "no-store",
+    "content-length": "135936",
+    "content-type": "application/json",
+    "x-content-type-options": "nosniff"
+  },
+  "http_status": 200,
+  "id": "batch3-diverse:li-004",
+  "request_body_sha256": "a50f30ac3fb8ac45faeeffa95c44b98430fcf977e7d16f5a26aa8e4214ec30a2",
+  "response_bytes_observed": 135936,
+  "response_complete": true,
+  "response_saved": true,
+  "response_sha256": "bf382770d83dbcf95515446c6b310af01bafdc53d61aebec740cb2588e11bd75",
+  "scientific_verdict": "NOT_ASSESSED",
+  "script_sha256": "a3d04c4449b9f1e16c8839ec467f698ae0a2f30f1502c91d71e09f8643c1a2ba",
+  "transport": "HTTP_RESPONSE"
+}

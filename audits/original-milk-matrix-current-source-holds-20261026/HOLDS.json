@@ -1,0 +1,44 @@
+{
+  "source": "c51758fa09a8ce0089bc93bb64338a587834a405",
+  "native_sha256": "daa3212fb76e4cbf1f2e445506c80d3fc7b9a9a933ac5d48fc0d1418f14e10f3",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "cases": [
+    {
+      "original_id": "batch3-diverse:en-002",
+      "disposition": "NOT_QUALIFIED_PHYSICAL_MATRIX_HOLD",
+      "raw_files_sha256": {
+        "EN-002.lab": "c855e08c99512dcb8a580bca1be542a037d89237eb0fdda2ce61692fdbdfc8d7",
+        "http.json": "0f091a6f63059205fca0ded5b025e20c42bc357174ed8a68575e337f424b0040",
+        "response.json": "c9a5676d7463f852f0f8c4db1267f2aa1b64cf2083c3995a777fc35feacf84b8",
+        "request.json": "3337ee58437e419cbbd65391b0d68e3109a4e9b9f94db1e180efef62c895d65e"
+      },
+      "scope": "Narrow source-owned enzyme/conversion/control observations retained; physical milk charge/pH authority is incomplete. Missing resolved products alone is not an original rejection criterion."
+    },
+    {
+      "original_id": "batch3-diverse:en-008",
+      "disposition": "NOT_QUALIFIED_PHYSICAL_MATRIX_HOLD",
+      "raw_files_sha256": {
+        "http.json": "72ea8cc604a982515a8391cdddc8589d5c8713285478c295dc9e7bd10a0f249e",
+        "response.json": "874c8d169fe32ad846ec9e133038a562d541e1acfa2c10a99035a1d204b8f7cd",
+        "request.json": "9bf5fe0279a7c4a636798bacf108b75b7a769d1dd762cc6cd70bf5d222044366",
+        "EN-008.lab": "5aa503b87787b23eee4b60c6048b159ecc2bae11094f9f50bbf058a39baf1922"
+      },
+      "scope": "Narrow source-owned enzyme/conversion/control observations retained; physical milk charge/pH authority is incomplete. Missing resolved products alone is not an original rejection criterion."
+    },
+    {
+      "original_id": "batch3-diverse:fe-006",
+      "disposition": "NOT_QUALIFIED_PHYSICAL_MATRIX_HOLD",
+      "raw_files_sha256": {
+        "FE-006.lab": "f52518caf0b2ed33a0fe5cb6cba18ccb3e59b11fd944d5df14372069295cdda5",
+        "http.json": "c2e8dd2a85999c2348f869be97497a6858f2be90942ca7745ac2601519ae4e05",
+        "response.json": "976ec4e9885f4efbbfa4f19a08a5a8dcd32cdd1a3ea42f4e196b65fc83fc6802",
+        "request.json": "2bc85383c7d7f41b535c3f4f30386ef0875b5a87067d464116754429ff085287"
+      },
+      "scope": "Narrow source-owned enzyme/conversion/control observations retained; physical milk charge/pH authority is incomplete. Missing resolved products alone is not an original rejection criterion."
+    }
+  ],
+  "qualification_credit": 0,
+  "all_complete_once_only_HTTP200_exit0": true,
+  "independent_boundary_review_sha256": "4c285815a89f37e434c2813e28067d5fd4201a96049dfa541e1b8acbee35024d",
+  "independent_FE006_review_sha256": "c5da402ff6dc87bb872c1618da843cc803909a4d8f3945f9f3cc815b7f567ba6"
+}
