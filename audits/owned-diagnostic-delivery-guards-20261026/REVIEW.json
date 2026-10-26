@@ -1,0 +1,81 @@
+{
+  "utc": "2026-10-26T21:45:47.633069+00:00",
+  "candidate": "b629f1d02447a5a73ab4352c794228565a8c1681",
+  "tree": "054c62a5a7381b4608d8e0b22c94cd2fc8037782",
+  "ci_run": 40382362398,
+  "ci_actual_successes": 27,
+  "ci_expected_publication_skip": true,
+  "native_witnesses": {
+    "ubuntu": {
+      "utc": "2026-10-26T21:17:23.945838+00:00",
+      "source": "b629f1d02447a5a73ab4352c794228565a8c1681",
+      "actual_tested_checkout": "22dd7dc5bf27d4b8322683e9153bcb5d328638d9",
+      "job_id": 121792711715,
+      "selected36_actual_ok": true,
+      "curiosity500_unmet_runtime_drift_zero": true,
+      "raw_log_sha256": "00f318bc4819d045eb4d07ea3305779dbcba64d6cc6d3b3addf7e4fcd93d0659",
+      "scope": "Completed Ubuntu native witness; CI27success+expectedskip; full own-fleet acceptance remains pending"
+    },
+    "macos": {
+      "utc": "2026-10-26T20:56:05.681549+00:00",
+      "source": "b629f1d02447a5a73ab4352c794228565a8c1681",
+      "actual_tested_checkout": "22dd7dc5bf27d4b8322683e9153bcb5d328638d9",
+      "job_id": 121792711503,
+      "selected36_actual_ok": true,
+      "curiosity500_unmet_runtime_drift_zero": true,
+      "raw_log_sha256": "3a70b3cf795353342a41dbfc142bdc2c84a971196b31e2678ce0c524c99fb2fe",
+      "scope": "Completed macOS native witness only; complete source acceptance remains pending"
+    }
+  },
+  "fleet_run": 40382346536,
+  "fleet_acceptance_pending": true,
+  "saved_only_guard_review": {
+    "state": "PARENT_SAVED_ONLY_ACCEPTANCE_HELPERS_PASS",
+    "reader_sha256": "6983bdd187e93b206fb37fdf5bfb2ff851331467fe4772184e44669415998404",
+    "jobs": 33,
+    "authored_run_steps": 142,
+    "bounded_source": "b629f1d02447a5a73ab4352c794228565a8c1681",
+    "bounded_actual_producer_lock": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+    "fleet_actual_producer_lock": "afb2b6c4f3d9176f3301b7e8487f423df40c1be7352a0b5799d551cd86cbf8e3",
+    "fleet_archive_sha256": "909e09195ca7331ec50d2eba40b9a1883916b1b5b91ebeb1f5b0f1e76d4152bf",
+    "artifact_streams_rehashed": true,
+    "synthetic_manifest_mutations_rejected": [
+      "candidate",
+      "workflow-hash",
+      "missing-step",
+      "substituted-step"
+    ],
+    "main_reader_executed": false,
+    "provider_requests": 0,
+    "source_acceptance_assigned": false
+  },
+  "credential_readiness_guard_review": {
+    "state": "LOCAL_CREDENTIAL_READINESS_GUARDS_PASS",
+    "controller_sha256": "c2efc8e1d21c471239f5e833d8dd93e1c18157c58b79b0494e66433a7de06a71",
+    "actual_private_owner_record_ready": true,
+    "synthetic_rejected": [
+      "duplicate",
+      "wrong-type",
+      "short",
+      "newline",
+      "insecure",
+      "missing",
+      "relative",
+      "symlink"
+    ],
+    "credential_values_or_secret_digests_saved": false,
+    "provider_requests": 0,
+    "deployment_issued": false
+  },
+  "preserved_local_helper_failures": [
+    "KeyError: tree (producer MANIFEST schema does not own tree)",
+    "NameError: manifest_key (local correction attempt)",
+    "KeyError: worker_sha256 (outer collection schema does not own worker identity)"
+  ],
+  "corrected_binding": "Hash-verified COMPLETE/git-commit/git-tree transcripts own source/tree; manifest fields are used only where present. Separate producer locks remain distinct.",
+  "provider_requests_in_guard_checks": 0,
+  "new_experiment_runs": 0,
+  "source_acceptance_assigned": false,
+  "new_release_issued": false,
+  "new_original_qualifications": 0
+}
