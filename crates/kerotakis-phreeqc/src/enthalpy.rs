@@ -138,6 +138,63 @@ pub const DISSOCIATION: &[(&str, &[(&str, f64)])] = &[
     ("KSCN", &[("K+", 1.0), ("Thiocyanate-", 1.0)]),
 ];
 
+/// Anhydrous oxides priced through their hydroxide by a REVIEWED hydration
+/// enthalpy, read from one vendored database that writes both phases.
+///
+/// `(oxide, hydroxide, waters, reference database, oxide phase, hydroxide
+/// phase)`. The hydration `oxide + n H2O -> hydroxide` is the difference of
+/// the two dissolution reactions AS ONE DATABASE WRITES THEM, which is the
+/// only way a difference of two `delta_h` lines is meaningful: both must
+/// dissolve to exactly the same products with the same (implicit) proton
+/// count, which `hydration_enthalpy` checks rather than assumes.
+///
+/// Why this table exists: wateq4f, the default route, has Portlandite but
+/// no Lime. Without an owner for the oxide, quicklime in water either
+/// declined or — through the old per-event fallback — charged only the
+/// endothermic half (the precipitating portlandite) and cooled the beaker.
+/// minteq.v4 writes `CaO + 2H+ = Ca+2 + H2O` at -193.91 kJ and
+/// `Ca(OH)2 + 2H+ = Ca+2 + 2H2O` at -128.62 kJ, so the hydration is
+/// -65.29 kJ/mol (standard tables: -635.1 - 285.8 -> -986.1 kJ/mol, i.e.
+/// -65.2). Domain: the same 25 °C reference reaction enthalpies every
+/// other term of this balance uses; no heat-capacity extrapolation.
+pub const HYDRATION: &[(&str, &str, f64, &str, &str, &str)] =
+    &[("CaO", "Ca(OH)2", 1.0, "minteq.v4", "Lime", "Portlandite")];
+
+/// The reviewed hydration enthalpy, kJ per mole of oxide, for an entry of
+/// [`HYDRATION`]; `None` unless both phases exist in the reference database
+/// with finite `delta_h`, identical products, and compositions differing by
+/// exactly the stated waters.
+pub fn hydration_enthalpy(oxide: &str) -> Option<f64> {
+    let (_, _, waters, db, oxide_phase, hydroxide_phase) =
+        HYDRATION.iter().find(|row| row.0 == oxide)?;
+    let idx = derived::index_for(db);
+    let anhydrous = idx.phases.get(*oxide_phase)?;
+    let hydrated = idx.phases.get(*hydroxide_phase)?;
+    if anhydrous.is_gas
+        || hydrated.is_gas
+        || anhydrous.waters != 0.0
+        || hydrated.waters != 0.0
+        || anhydrous.products != hydrated.products
+    {
+        return None;
+    }
+    let mut expected = anhydrous.composition.clone();
+    *expected.entry("H".to_string()).or_default() += 2.0 * waters;
+    *expected.entry("O".to_string()).or_default() += waters;
+    let same = expected.len() == hydrated.composition.len()
+        && expected.iter().all(|(element, n)| {
+            hydrated
+                .composition
+                .get(element)
+                .is_some_and(|m| (m - n).abs() < 1e-12)
+        });
+    if !same {
+        return None;
+    }
+    let h = anhydrous.delta_h_kj? - hydrated.delta_h_kj?;
+    h.is_finite().then_some(h)
+}
+
 /// A species the balance cannot price, named so the refusal can say which.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Unpriced {
@@ -375,6 +432,16 @@ pub fn species_enthalpy(key: &str, phase: Phase, db_tag: &str) -> Result<f64, Un
                 .iter()
                 .find(|(k, _)| *k == key)
                 .map(|(_, p)| *p);
+            if let Some((_, hydroxide, waters, ..)) = HYDRATION.iter().find(|row| row.0 == key) {
+                // h(oxide) + n h(water) + dH_hydration = h(hydroxide).
+                let hydration = hydration_enthalpy(key).ok_or(Unpriced {
+                    species: key.to_string(),
+                    why: "the reviewed hydration reference does not validate",
+                })?;
+                let h_hydroxide = species_enthalpy(hydroxide, Phase::Solid, db_tag)?;
+                let h_water = species_enthalpy("water", Phase::Liquid, db_tag)?;
+                return Ok(h_hydroxide - waters * h_water - hydration);
+            }
             let Some(products) = products else {
                 return mineral_reference(key, db_tag).map(|(_, solid)| solid);
             };
@@ -571,11 +638,17 @@ pub fn heat_released_j(
     // rounding error would be the worse trade.
     const HYDROXIDE_FROM_A_REAGENT: f64 = 1e-3;
     if d_oh > HYDROXIDE_FROM_A_REAGENT {
+        let carries_hydroxide = |key: &str| {
+            DISSOCIATION
+                .iter()
+                .any(|(k, products)| *k == key && products.iter().any(|(p, _)| *p == "OH-"))
+        };
         let supplied = delta.iter().any(|((key, _), moved)| {
             *moved < -NEGLIGIBLE
-                && DISSOCIATION
-                    .iter()
-                    .any(|(k, products)| k == key && products.iter().any(|(p, _)| *p == "OH-"))
+                && (carries_hydroxide(key)
+                    || HYDRATION
+                        .iter()
+                        .any(|row| row.0 == key && carries_hydroxide(row.1)))
         });
         if !supplied {
             return Err(Unpriced {
@@ -1001,6 +1074,99 @@ mod tests {
             // And it must price in solution too, by whichever route.
             species_enthalpy(key, Phase::Aqueous, DB)
                 .unwrap_or_else(|e| panic!("{key} in solution: {} ({})", e.species, e.why));
+        }
+    }
+
+    /// TH-009. Quicklime's hydration comes from ONE database that writes
+    /// both phases with the same convention (minteq.v4 Lime and
+    /// Portlandite), and is close to the standard-table -65.2 kJ/mol.
+    #[test]
+    fn lime_hydration_is_reviewed_and_validated_against_its_own_convention() {
+        let h = hydration_enthalpy("CaO").expect("validated hydration");
+        assert!((h - (-193.91 - -128.62)).abs() < 1e-9, "{h}");
+        assert!((h - (-65.2)).abs() < 0.5, "{h}");
+        // Nothing outside the table is invented.
+        for oxide in ["MgO", "Na2O", "CaCO3", "glitter"] {
+            assert!(hydration_enthalpy(oxide).is_none(), "{oxide}");
+        }
+    }
+
+    /// TH-009 on every route, including wateq4f which has no Lime phase:
+    /// slaking 0.01 mol releases about 0.65 kJ, and dissolving part of the
+    /// portlandite adds its own (exothermic) solution heat rather than the
+    /// old fallback's lone endothermic precipitation term.
+    #[test]
+    fn slaking_quicklime_warms_on_every_route() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let before = [
+                portion("water", 5.5509, Phase::Liquid),
+                portion("CaO", 0.01, Phase::Solid),
+            ];
+            let slaked = [
+                portion("water", 5.5409, Phase::Liquid),
+                portion("Ca(OH)2", 0.01, Phase::Solid),
+            ];
+            let q = heat_released_j(&before, 0.0, &slaked, 0.0, &[], db).expect("owned");
+            assert!((q - 652.9).abs() < 1e-6, "{db}: {q} J");
+            // The production state: part of the hydroxide dissolved.
+            let partly = [
+                portion("water", 5.5409, Phase::Liquid),
+                portion("Ca(OH)2", 0.007967, Phase::Solid),
+                portion("Ca+2", 0.002033, Phase::Aqueous),
+            ];
+            let q = heat_released_j(&before, 0.0, &partly, 0.004066, &[], db)
+                .expect("free hydroxide is supplied by the oxide");
+            assert!(q > 652.9 && q < 720.0, "{db}: {q} J");
+        }
+    }
+
+    /// TH-015. Neutralising 5 mmol of carried hydroxide with strong acid
+    /// releases ~55.8 kJ per mole of water formed, ~0.28 kJ here.
+    #[test]
+    fn carried_hydroxide_neutralised_by_acid_releases_its_heat() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let mixed = [
+                portion("water", 5.5509, Phase::Liquid),
+                portion("Na+", 0.005, Phase::Aqueous),
+                portion("Cl-", 0.005, Phase::Aqueous),
+            ];
+            let q = heat_released_j(&mixed, 0.005, &mixed, 1e-7, &[], db).expect("priced");
+            assert!(q > 270.0 && q < 285.0, "{db}: {q} J");
+        }
+    }
+
+    /// Negative: table salt dissolving is small and endothermic (+3.88
+    /// kJ/mol), not a reaction heat.
+    #[test]
+    fn table_salt_dissolution_is_near_zero_and_endothermic() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let before = [portion("NaCl", 0.01, Phase::Solid)];
+            let after = [
+                portion("Na+", 0.01, Phase::Aqueous),
+                portion("Cl-", 0.01, Phase::Aqueous),
+            ];
+            let q = heat_released_j(&before, 0.0, &after, 0.0, &[], db).expect("priced");
+            assert!((q - (-38.8)).abs() < 1e-9, "{db}: {q} J");
+        }
+    }
+
+    /// Negative: potassium nitrate has no reviewed dissolution enthalpy in
+    /// the registry and no Niter phase on the shipped routes, so the whole
+    /// step declines by name (TH-007) instead of being charged partially.
+    #[test]
+    fn an_unsupported_solid_is_refused_whole() {
+        for db in ["wateq4f", "minteq.v4"] {
+            let before = [
+                portion("water", 2.775, Phase::Liquid),
+                portion("KNO3", 0.2967, Phase::Solid),
+            ];
+            let after = [
+                portion("water", 2.775, Phase::Liquid),
+                portion("K+", 0.2967, Phase::Aqueous),
+                portion("NO3-", 0.2967, Phase::Aqueous),
+            ];
+            let err = heat_released_j(&before, 0.0, &after, 0.0, &[], db).expect_err("refused");
+            assert_eq!(err.species, "KNO3", "{db}");
         }
     }
 }

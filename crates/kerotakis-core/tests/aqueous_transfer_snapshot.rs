@@ -392,3 +392,53 @@ fn no_water_carrier_does_not_migrate_old_aqueous_measurements() {
         assert!(receiver.solution.is_none());
     }
 }
+
+/// TH-015: `mix` withdraws a common fraction of every liquid/aqueous portion
+/// of each source, so the measured hydroxide/proton coordinates must travel
+/// with it. Left behind, mixing caustic soda into hydrochloric acid met no
+/// hydroxide in the receiver's StepStart and charged no neutralisation heat.
+#[test]
+fn mix_carries_each_sources_measured_baseline_into_the_receiver() {
+    for (fraction_a, fraction_b) in [(1.0, 1.0), (0.5, 0.25), (0.0, 1.0)] {
+        let mut bench = fixture();
+        bench.vessels.push(Vessel::new(VesselId(2), "acid"));
+        bench.vessels.push(Vessel::new(VesselId(3), "mixed"));
+        let acid = fixture_vessel_mut(&mut bench, VesselId(2));
+        acid.deposit(SpeciesId::new("water"), Moles(2.775), Phase::Liquid);
+        acid.deposit(SpeciesId::new("Cl-"), Moles(0.005), Phase::Aqueous);
+        acid.free_proton = 0.005;
+        acid.free_hydroxide = 1e-14;
+        acid.solute_charge = -0.005;
+        let mut capture = Capture::default();
+        bench
+            .step_with(
+                Operator::Mix {
+                    a: VesselId(0),
+                    b: VesselId(2),
+                    into: VesselId(3),
+                    fraction_a,
+                    fraction_b,
+                },
+                &mut capture,
+                &PermissiveScreen,
+            )
+            .unwrap();
+        let mixed = bench.vessel(VesselId(3)).unwrap();
+        near(
+            mixed.free_hydroxide,
+            1.8e-5 * fraction_a + 1e-14 * fraction_b,
+        );
+        near(mixed.free_proton, 4e-12 * fraction_a + 0.005 * fraction_b);
+        near(mixed.solute_charge, 2e-5 * fraction_a - 0.005 * fraction_b);
+        let base = bench.vessel(VesselId(0)).unwrap();
+        near(base.free_hydroxide, 1.8e-5 * (1.0 - fraction_a));
+        let acid = bench.vessel(VesselId(2)).unwrap();
+        near(acid.free_proton, 0.005 * (1.0 - fraction_b));
+        let (_, start, _) = capture
+            .starts
+            .iter()
+            .find(|(id, _, _)| *id == VesselId(3))
+            .unwrap();
+        near(start.free_hydroxide, mixed.free_hydroxide);
+    }
+}

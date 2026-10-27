@@ -62,8 +62,10 @@ impl AqueousTransferSnapshot {
         Ok(())
     }
 
-    /// Only for a common fraction of ALL liquid/aqueous contents: Filter and
-    /// Decant. Phase-selective extraction and native MIX need their own proof.
+    /// Only for a common fraction of ALL liquid/aqueous contents: Filter,
+    /// Decant and Mix (which withdraws the same fraction of every liquid and
+    /// aqueous portion of each source). Phase-selective extraction needs its
+    /// own proof.
     fn take(source: &mut Vessel, fraction: f64) -> Result<Option<Self>, BenchError> {
         // No measured aqueous parcel accompanies a dry/organic-only pour.
         // In particular, do not migrate old diagnostic fields when no water
@@ -2912,6 +2914,14 @@ impl Bench {
                     }
                 }
 
+                // The measured hydroxide/proton coordinates travel with
+                // their liquid exactly as on a pour. Left behind, a mixed
+                // strong acid and strong base met no hydroxide in the
+                // receiver's StepStart and the neutralisation heat
+                // (~-55.8 kJ/mol) was never charged: the mixture sat at
+                // the average of its two inlet temperatures.
+                let snapshot_a = AqueousTransferSnapshot::take(self.vessel_mut(*a)?, *fraction_a)?;
+                let snapshot_b = AqueousTransferSnapshot::take(self.vessel_mut(*b)?, *fraction_b)?;
                 // Withdraw fractions from sources.
                 {
                     let src_a = self.vessel_mut(*a)?;
@@ -2986,6 +2996,9 @@ impl Bench {
                 }
                 dst.unresolved_materials
                     .extend(unresolved_a.into_iter().chain(unresolved_b));
+                for snapshot in [snapshot_a, snapshot_b].into_iter().flatten() {
+                    snapshot.deposit(dst)?;
+                }
                 events.push(Event::Mixed {
                     a: *a,
                     b: *b,
