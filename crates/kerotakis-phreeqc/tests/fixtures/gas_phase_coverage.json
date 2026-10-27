@@ -1,0 +1,1435 @@
+[
+ {
+  "gas": "C2H4(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C2H4(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C2H4(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C3H8(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C3H8(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C3H8(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C4H10(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C4H10(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C4H10(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C4H8(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C4H8(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "C4H8(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "CH4(g)",
+  "route": "wateq4f",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "CH4(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "CH4(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "CH4"
+     }
+    ]
+   },
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "CH4"
+     }
+    ]
+   },
+   {
+    "donor": "minteq.v4",
+    "refusal": "redox-state-not-modelled-on-route",
+    "links": [
+     {
+      "species": "CO3-2",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "CO(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "CO(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "CO(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "CO2(g)",
+  "route": "wateq4f",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "CO2(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "CO2(g)",
+  "route": "pitzer",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "Cl2(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "Cl2(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "Cl2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "H2(g)",
+  "route": "wateq4f",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "H2(g)",
+  "route": "minteq.v4",
+  "status": "imported",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": null,
+    "links": [
+     {
+      "species": "H2",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "H2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "H2"
+     }
+    ]
+   },
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "H2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "H2O(g)",
+  "route": "wateq4f",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "H2O(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": "no-linking-aqueous-species",
+    "links": []
+   },
+   {
+    "donor": "phreeqc",
+    "refusal": "no-linking-aqueous-species",
+    "links": []
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "no-linking-aqueous-species",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "H2O(g)",
+  "route": "pitzer",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "H2S(g)",
+  "route": "wateq4f",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "H2S(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "H2S(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "H2S"
+     }
+    ]
+   },
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "HS-"
+     }
+    ]
+   },
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "HS-"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "H2Se(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-log-k-outside-tolerance",
+    "links": [
+     {
+      "species": "HSe-",
+      "log_k_delta": 8.398
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "H2Se(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "H2Se(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "HSe-"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "H2Sg(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "HSg-"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "HSg-"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "H2Sg(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "HSg-"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "HSg-"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "H2Sg(g)",
+  "route": "pitzer",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HBr(g)",
+  "route": "wateq4f",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HBr(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HBr(g)",
+  "route": "pitzer",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "Hdg(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hdg"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hdg"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Hdg(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hdg"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hdg"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Hdg(g)",
+  "route": "pitzer",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "He(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "He(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "He(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "Hg(CH3)2(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "CO3-2",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg(OH)2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Hg(CH3)2(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "Hg(CH3)2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "CO3-2",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg(OH)2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Hg(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Hg(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "Hg(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Hg2(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Hg2(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "Hg2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgBr(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Br-",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgBr(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HgBr(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Br-",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgBr2(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Br-",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg(OH)2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgBr2(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HgBr2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Br-",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg(OH)2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgCl(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Cl-",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgCl(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HgCl(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Cl-",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgF(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "F-",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgF(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HgF(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "F-"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgF2(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "F-",
+      "log_k_delta": 0.0,
+      "delta_h_delta_kj": 0.0
+     },
+     {
+      "species": "Hg(OH)2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgF2(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HgF2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "F-"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgI(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgI(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HgI(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hg2+2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgI2(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hg(OH)2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "HgI2(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "HgI2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "minteq.v4",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Hg(OH)2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Mtg(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Mtg"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Mtg"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Mtg(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Mtg"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Mtg"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Mtg(g)",
+  "route": "pitzer",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "N2(g)",
+  "route": "wateq4f",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "N2(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "N2"
+     }
+    ]
+   },
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "N2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "N2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "N2"
+     }
+    ]
+   },
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "N2"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "NH2Cl(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "NH2Cl(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "NH2Cl(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "NH3(g)",
+  "route": "wateq4f",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "NH3(g)",
+  "route": "minteq.v4",
+  "status": "imported",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": null,
+    "links": [
+     {
+      "species": "NH3",
+      "log_k_delta": 0.000219395,
+      "delta_h_delta_kj": 0.205180325
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "NH3(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "NH3"
+     }
+    ]
+   },
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "NH3"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Ntg(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Ntg"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Ntg"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Ntg(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Ntg"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Ntg"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Ntg(g)",
+  "route": "pitzer",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "O2(g)",
+  "route": "wateq4f",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "O2(g)",
+  "route": "minteq.v4",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "O2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "wateq4f",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "O2"
+     }
+    ]
+   },
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "O2"
+     }
+    ]
+   },
+   {
+    "donor": "minteq.v4",
+    "refusal": "no-linking-aqueous-species",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "Oxg(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Oxg"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Oxg"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Oxg(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "phreeqc",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Oxg"
+     }
+    ]
+   },
+   {
+    "donor": "pitzer",
+    "refusal": "linking-species-absent",
+    "links": [
+     {
+      "species": "Oxg"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "gas": "Oxg(g)",
+  "route": "pitzer",
+  "status": "native",
+  "attempts": []
+ },
+ {
+  "gas": "SO2(g)",
+  "route": "wateq4f",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "SO2(g)",
+  "route": "minteq.v4",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ },
+ {
+  "gas": "SO2(g)",
+  "route": "pitzer",
+  "status": "refused",
+  "attempts": [
+   {
+    "donor": "",
+    "refusal": "no-reviewed-donor-definition",
+    "links": []
+   }
+  ]
+ }
+]

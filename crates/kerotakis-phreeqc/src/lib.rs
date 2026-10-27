@@ -22,6 +22,7 @@ pub mod continuation_acceptance;
 pub mod dbindex;
 pub mod derived;
 pub mod enthalpy;
+pub mod gas_phases;
 mod inventory;
 mod native_namespace;
 mod phase_diagnostics;
@@ -85,7 +86,7 @@ pub mod databases {
     /// ligand slice. Reading
     /// these bytes directly would give a caller a database the engine is not
     /// running.
-    const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
+    pub(crate) const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
     /// Pitzer model — brines, high ionic strength.
     pub const PITZER: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/pitzer.dat");
 
@@ -356,22 +357,6 @@ SOLUTION_SPECIES
         -delta_H 9.33032 kJ/mol
 ";
 
-    /// NH3(g) for the minteq.v4 route. The vendored minteq.v4 defines aqueous
-    /// ammonia (`NH4+ = NH3 + H+`, log K -9.244) but no gas phase, so a sealed
-    /// headspace beside ammonium + acetate (which routes here for the acetate
-    /// ligand) was refused outright. The Henry-law phase is copied verbatim
-    /// from the vendored USGS wateq4f.dat (`NH3 = NH3`, log K 1.77, ΔH -8.17
-    /// kcal), whose aqueous NH3 convention matches minteq's within 0.008 log
-    /// units of pKa. It is the same molecular solubility constant, not a new
-    /// fit; wateq4f and pitzer already define their own NH3(g).
-    const AMMONIA_GAS_EXTENSION: &[u8] = b"
-PHASES
-NH3(g)
-    NH3 = NH3
-    log_k 1.77
-    delta_h -8.17 kcal
-";
-
     /// Byte offset of the final `END` line, which is where a database
     /// stops being read. `None` when the file has none, in which case the
     /// end of the file is the right place after all.
@@ -400,9 +385,9 @@ NH3(g)
 
     /// minteq.v4 as this lab runs it: the vendored file plus
     /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`],
-    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`],
-    /// [`AMMONIA_GAS_EXTENSION`] and the reviewed
-    /// reference-temperature ligand slice.
+    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`], the reviewed
+    /// reference-temperature ligand slice and the gas phases imported by
+    /// [`crate::gas_phases::reconcile`] (NH3(g), H2(g) from wateq4f).
     ///
     /// Everything that loads or PARSES the database goes through here, so
     /// the engine, the derived index, the element bookings and the
@@ -410,6 +395,13 @@ NH3(g)
     /// vendored bytes anywhere else would give the ledger an element the
     /// engine has and it does not.
     pub fn minteq_v4() -> &'static [u8] {
+        use std::sync::OnceLock;
+        static RECONCILED: OnceLock<Vec<u8>> = OnceLock::new();
+        RECONCILED.get_or_init(|| super::gas_phases::reconcile("minteq.v4", minteq_v4_base()))
+    }
+
+    /// minteq.v4 before gas reconciliation.
+    fn minteq_v4_base() -> &'static [u8] {
         use std::sync::OnceLock;
         static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
         EXTENDED.get_or_init(|| {
@@ -425,15 +417,13 @@ NH3(g)
                     + LACTATE_EXTENSION.len()
                     + HYPOCHLORITE_EXTENSION.len()
                     + THIOSULFATE_EXTENSION.len()
-                    + SULFITE_EXTENSION.len()
-                    + AMMONIA_GAS_EXTENSION.len(),
+                    + SULFITE_EXTENSION.len(),
             );
             bytes.extend_from_slice(&text[..insert_at]);
             bytes.extend_from_slice(LACTATE_EXTENSION);
             bytes.extend_from_slice(HYPOCHLORITE_EXTENSION);
             bytes.extend_from_slice(THIOSULFATE_EXTENSION);
             bytes.extend_from_slice(SULFITE_EXTENSION);
-            bytes.extend_from_slice(AMMONIA_GAS_EXTENSION);
             bytes.extend_from_slice(&text[insert_at..]);
             super::aqueous_gases::append_to(&super::complexation::append_to(&bytes))
         })
@@ -442,6 +432,12 @@ NH3(g)
     /// WATEQ4F plus the reviewed 25 C copper/thiocyanate ligand slice.
     /// The unmodified `WATEQ4F` bytes remain available for upstream-oracle tests.
     pub fn wateq4f() -> &'static [u8] {
+        use std::sync::OnceLock;
+        static RECONCILED: OnceLock<Vec<u8>> = OnceLock::new();
+        RECONCILED.get_or_init(|| super::gas_phases::reconcile("wateq4f", wateq4f_base()))
+    }
+
+    fn wateq4f_base() -> &'static [u8] {
         use std::sync::OnceLock;
         static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
         EXTENDED.get_or_init(|| {
@@ -452,8 +448,23 @@ NH3(g)
     /// Pitzer plus reviewed gas uptake; no unsupported ligand extension.
     pub fn pitzer() -> &'static [u8] {
         use std::sync::OnceLock;
+        static RECONCILED: OnceLock<Vec<u8>> = OnceLock::new();
+        RECONCILED.get_or_init(|| super::gas_phases::reconcile("pitzer", pitzer_base()))
+    }
+
+    fn pitzer_base() -> &'static [u8] {
+        use std::sync::OnceLock;
         static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
         EXTENDED.get_or_init(|| super::aqueous_gases::append_to(PITZER))
+    }
+
+    /// A route's database before gas reconciliation (for the coverage audit).
+    pub(crate) fn route_base(route: &str) -> &'static [u8] {
+        match route {
+            "minteq.v4" => minteq_v4_base(),
+            "pitzer" => pitzer_base(),
+            _ => wateq4f_base(),
+        }
     }
 }
 
