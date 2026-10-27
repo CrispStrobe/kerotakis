@@ -82,7 +82,7 @@ pub enum Refusal {
     UnknownSpecies(String),
     #[error("pressure {0} kPa outside the admitted {MIN_PRESSURE_KPA}-{MAX_PRESSURE_KPA} kPa")]
     PressureOutOfDomain(f64),
-    #[error("mole fraction {0} outside the admitted [{MIN_FRACTION}, {}]", 1.0 - MIN_FRACTION)]
+    #[error("mole fraction {0} outside the admitted [{MIN_FRACTION}, {max}]", max = 1.0 - MIN_FRACTION)]
     CompositionOutOfDomain(f64),
     #[error("solved temperature {0} K outside the admitted {MIN_TEMPERATURE_K}-{MAX_TEMPERATURE_K} K")]
     TemperatureOutOfDomain(f64),
