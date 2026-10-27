@@ -3339,6 +3339,15 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         // the pH of the acid sitting beside it, and the vessel simply
         // stopped having a solution at all. The honesty pass names the
         // unmodelled substance; the acid still gets its answer.
+        // Crystals of a curve salt deposited onto an already saturated
+        // solution belong to the crystallisation ledger
+        // (`kerotakis_core::crystallisation`); entering them as a freely
+        // dissolving solid would undo the crystallisation on this step.
+        if p.phase == Phase::Solid
+            && kerotakis_core::crystallisation::holds_solid(vessel, &p.species.0)
+        {
+            continue;
+        }
         let Some(role) = derived::role(&p.species.0) else {
             continue;
         };
@@ -9942,6 +9951,14 @@ impl PhreeqcEquilibrator {
                 // entered the condensed inventory and how much vented.
                 continue;
             }
+            // Held crystals of a curve salt were never handed to the
+            // solver (`partition`), so they pass through unchanged.
+            if p.phase == Phase::Solid
+                && kerotakis_core::crystallisation::holds_solid(vessel, &p.species.0)
+            {
+                contents.push(p.clone());
+                continue;
+            }
             match derived::role(&p.species.0) {
                 // The solvent is rebuilt on the *equilibrated* water mass,
                 // not left at what went in. Speciation consumes and
@@ -10240,6 +10257,7 @@ impl PhreeqcEquilibrator {
         for p in &vessel.contents {
             if p.phase == Phase::Solid
                 && matches!(derived::role(&p.species.0), Some(DerivedRole::Dissolves(_)))
+                && !kerotakis_core::crystallisation::holds_solid(vessel, &p.species.0)
             {
                 events.push(Event::Dissolved {
                     vessel: vessel.id,
