@@ -442,27 +442,23 @@ fn enthalpy_within_record(species: &Species, temperature: f64) -> Option<f64> {
     species.h(t)
 }
 
-/// A ranged condensed/feed record that `temperature` lies outside, with no
-/// product-side gas continuation above it: its enthalpy would otherwise be
-/// the endpoint value of a clamped temperature. Gas records keep their
-/// polynomial (deferred: `Species::interval_for` extrapolates the nearest
-/// interval) and degenerate point records keep their assigned enthalpy.
+/// A ranged condensed/feed record that `temperature` lies BELOW: the
+/// reagent persists there and its enthalpy would be the clamped endpoint
+/// value, a true extrapolation. Above the record's upper bound the species
+/// does not persist as booked: decomposition or a phase change (calcination,
+/// melting, vaporisation) is a transition the HP/TP solve owns, and the
+/// product, not the reagent, is evaluated there, so it is not refused.
+/// Gas records keep their polynomial (deferred: `Species::interval_for`
+/// extrapolates the nearest interval) and degenerate point records keep
+/// their assigned enthalpy.
 fn outside_ranged_record(species: &Species, temperature: f64) -> bool {
     let Some((low, high)) = species.t_range() else {
         return false;
     };
-    if high <= low || (low..=high).contains(&temperature) {
+    if high <= low || temperature >= low {
         return false;
     }
-    if db().get_reactant(&species.name).is_none() && species.is_gas() {
-        return false;
-    }
-    let gas_continuation = temperature > high
-        && db().species.values().any(|candidate| {
-            candidate.is_gas()
-                && cea_identity_stem(&candidate.name) == cea_identity_stem(&species.name)
-        });
-    !gas_continuation
+    !(db().get_reactant(&species.name).is_none() && species.is_gas())
 }
 
 fn cea_identity_stem(name: &str) -> &str {
@@ -1403,6 +1399,8 @@ mod record_domain_tests {
             assert!(!outside_ranged_record(s, 0.5 * (low + high)), "{}", s.name);
             // Below the record there is never a gas continuation.
             assert!(outside_ranged_record(s, low - 1.0), "{} below", s.name);
+            // Above it, decomposition/phase change is owned by the solve.
+            assert!(!outside_ranged_record(s, high + 100.0), "{} above", s.name);
             checked += 1;
         }
         assert!(checked > 0);

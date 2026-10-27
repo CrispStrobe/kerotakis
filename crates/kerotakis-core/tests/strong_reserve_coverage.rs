@@ -197,7 +197,7 @@ fn literal_hydrobromic_acid_drives_the_solved_bleach_row() {
 
 #[test]
 fn a_carbonate_buffer_blocks_the_literal_acid_certificate() {
-    let v = bleach_with("HBr", Some(("HCO3-", 1e-4)));
+    let v = bleach_with("HBr", Some(("NaHCO3", 1e-4)));
     assert_eq!(strong_reserve::certified_literal_acid_protons(&v), 0.0);
     assert!(!CuratedEquilibrator.applies(&v));
 }

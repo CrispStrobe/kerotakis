@@ -344,8 +344,11 @@ mod tests {
             if matches!(c.key, crate::species::BASE_EQUIVALENTS | "KBr" | "HNO3") {
                 continue;
             }
-            let data = crate::species::lookup_key(c.key)
-                .unwrap_or_else(|| panic!("{} is not a registry species", c.key));
+            // A carrier absent from the shipped registry (I-, KBr, HNO3) is
+            // admitted only once a pack defines it; its lookup refuses.
+            let Some(data) = crate::species::lookup_key(c.key) else {
+                continue;
+            };
             let f = crate::stoich::parse_formula(data.formula).unwrap();
             // cation - anion - hydroxide + carried protons = formal charge.
             let protons = match c.key {

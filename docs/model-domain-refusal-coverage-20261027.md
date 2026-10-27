@@ -9,8 +9,8 @@ refuses before mutation with a typed, localized reason instead of clamping.
 | Ion-interaction (Pitzer-style) solvent activity, I <= 20 | `states.rs` `ION_INTERACTION_MAX_IONIC_STRENGTH` | refuses (`not-modeled.activity-range-ion-interaction`) | unchanged | energy, phase |
 | Antoine vapour pressure | `kerotakis-thermo/src/vle.rs` `pressure_kpa`, `common_valid_range` | refuses (None / typed still refusal); unchecked form only inside range-checked flash | unchanged | VLE, still cuts |
 | CEA open-air route temperature (200-6000 K) | `kerotakis-cea/src/thermal.rs` (was `clamp(200, 6000)`) | **clamped** | **refuses** `not-modeled.cea-temperature-range` (EN/DE/FR), inventory unchanged | energy |
-| CEA feed/condensed record enthalpy | `thermal.rs::enthalpy_within_record` (was `clamp(low, high)`) | **clamped to record endpoint** | **refuses** ranged records outside range with no gas continuation, via existing typed `solver-reason.cea.<context>.data-out-of-range` | energy (h_before) |
-| Luminol glow Arrhenius ratio (0-60 C) | `core/src/chemiluminescence.rs` (was `clamp(273.15, 333.15)`) | **clamped** | no observation outside the domain | display only |
+| CEA feed/condensed record enthalpy | `thermal.rs::enthalpy_within_record` (was `clamp(low, high)`) | **clamped to record endpoint** | **refuses** a ranged record only BELOW its range (the reagent persists: true extrapolation), via existing typed `solver-reason.cea.<context>.data-out-of-range`; above the range decomposition/phase change is owned by the solve (calcination, reheating unchanged) | energy (h_before) |
+| Luminol glow Arrhenius ratio | `core/src/chemiluminescence.rs` `clamp(273.15, 333.15)` | clamped | unchanged: the 0-60 C bound is editorial, not a cited domain (an ice bath at 273.1 K is a lesson); deferred | display only |
 | Debye-Hueckel conductivity (0.1 / 2.0 mol/kgw) | `core/src/conductivity.rs` | extrapolates, flagged; bench warns "ABOVE ... extrapolation" | unchanged (disclosed, display only) | display |
 
 ## Deferred (listed, not changed)
