@@ -1,0 +1,123 @@
+{
+  "API11": {
+    "accepted_protocols": 11,
+    "actual_receipts_sha256": {
+      "API-ACCEPTED.json": "bffd9bbbb78d96ea07d9de4e6efbc02eea4a5926cab48df3663d45705cdb7eae",
+      "EXT4-ARTIFACT-VERIFIED.json": "51067fc2c91e92a67c7bbddd523098a389272a6a8027f959fbb3f113ffaa7420",
+      "STORAGE-ARTIFACT-VERIFIED.json": "255d61936746654fe99b25ea23f8a320166ae577cd51f6b616a88a7f2464c36d",
+      "bound-release-design.json": "76bb170199513f009efc5aeb155b10f2193a4086ba2c63d1f9fe3989f1e5c6b2",
+      "production-run.json": "d61fa355aaff2e69dca2f1c79b9bc1111b7f92ea996f6f6822d47a0e511a3d2c",
+      "release-artifact-metadata.json": "43e2b630aad35fa4ee868247979fcdc88abcb1c5038bff345b1a0166158d99eb",
+      "script-assessment.json": "6e5b9af4fa1e5a389ea66be7e4d0fadd9574a7d8be2e11a30ae3c55c683f1c93",
+      "verified-release.json": "fddf24412db8b78cdd42139279f5e1e425d2fe19be30943c55340a15386ea86d"
+    },
+    "concurrency": [
+      200,
+      429
+    ],
+    "independent_saved_review_sha256": "97608fea1eccd5f4426620b9728eaa28701d03766de83ec318f035b787636a94",
+    "security_admission_checks_pass": true
+  },
+  "actual_producer_lock_bytes_rehashed": true,
+  "artifact_sha256": "072274e0a45ec4fac527279c5138e4baecf0d7289e5b9acf2652e23d452122ad",
+  "browser82": {
+    "accepted_controls": 82,
+    "actual_saved_acceptance_receipt_sha256": "094caa343e999031da20c530f19684be5a463434b89b0e74eeefa41e99ce8fad",
+    "collected_receipt_sha256": "f2ce9c0d718c009d9b3d7c515da9358ddb8d33cb827a34df29c1c9fe7b9d51da",
+    "collection_bytes": 58165434,
+    "collection_members": 197,
+    "config_canonical_sha256": "22d974590f746a0125eb6488f7dcf4d2795795cfaa63ceabb6925a7d7148ba70",
+    "decoded_frozen_inputs": 69,
+    "groups": [
+      {
+        "accepted_controls": 37,
+        "completed_receipt_sha256": "d3071c64ea614b57de59857c0582605c87ab0558b504b97b200fb88c66ff5e56",
+        "id": "browser37",
+        "raw_report_sha256": "5fe41794b173b067abfbe550c70e18d71de6e6920e3d8a7f3ff2c94ff351e70b"
+      },
+      {
+        "accepted_controls": 7,
+        "completed_receipt_sha256": "12bf4327aaf0bf617f66357d76a135d5a166471091a4e31dfc85d5c54dfaf080",
+        "id": "targeted7",
+        "raw_report_sha256": "4a6c65c7452e30287bd34874081c3f57b4ce01aa66849285e53a1697ea83b7ae"
+      },
+      {
+        "accepted_controls": 18,
+        "completed_receipt_sha256": "4cb3be945176d1eea2aea6bf4c77fe692db47b0be2105f7f8fe4c6116e1c386d",
+        "id": "locale18",
+        "raw_report_sha256": "2bb34fb1392e22b29537b83ee8fcbe9585be2e08d63900166446b0e7acd0250c"
+      },
+      {
+        "accepted_controls": 2,
+        "completed_receipt_sha256": "96409a691f1de6830461ea848df3f0f62ddf32d016a00bb6fe892b1a5891a84a",
+        "id": "heat2",
+        "raw_report_sha256": "ab62df1cc45490506ef0112e454e27bf03791668face9f404327759b828f0551"
+      },
+      {
+        "accepted_controls": 18,
+        "completed_receipt_sha256": "bb3fe554433d4d1aeeba944b027519754459f731b470dc7231d8b7cca3b3385e",
+        "id": "optics18",
+        "raw_report_sha256": "7724e42bb87aedf1fce5bb2c6566aef81de783f13497cad3eb14ff9d1e21db44"
+      }
+    ],
+    "harness_head": "448837e95cba1fe32f9c044ded8a9715b29b4c29",
+    "harness_tree": "544759c26fc4399a0ca457c662a5450c58458bdd",
+    "independent_saved_review_sha256": "cf63c6fd1fc944e0c478fab777ff3903db361fabb0e9fd0704cdc1b443b852f4",
+    "older_failures_and_receipts_preserved": true,
+    "one_private_CPU_producer": true,
+    "parent_accepted": true,
+    "prior64_and_optics18_predicates_unchanged": true,
+    "producer_top_manifest_sha256": "1693b8b7bc0ccd552ceaf8a21e462db26184eae27ecefe0cab93043ed5ea0681",
+    "review_trace_limit": "Initial ad hoc independent review body was overwritten before preservation; recorded initial digest and five schema flags survive in separate adjudications and parent tool transcript. Current corrected report and all197 actual producer files/frozen readers/execution evidence remain byte-bound. No scientific expectation was weakened.",
+    "reviewer_schema_adjudication_sha256": "7c787b8cd0a64e701d360ecd847b81c4628385771e7ca6b2f055767918fc51c8",
+    "worker_sha256": "442579753a8471c12bbe54204f2a7ed7952349396162b9cf7c4f2f986ecf2da0"
+  },
+  "captured_utc": "2026-10-27T02:11:47.779678+00:00",
+  "engine": {
+    "binary_sha256": "5427d0ee8092d4b21f2d4e33f1adbbee69a6fc2b253a1aaf40c54e6e868ab866",
+    "cargo_lock_sha256": "568f0a32a69e7d7e8eca2b5e565bd1771dca6d5203d632f7a93403f5e7237216",
+    "source_head": "a7640a0759f091a31ed40b4cc29c8e127d19b245"
+  },
+  "frontend_archive_sha256": "a0e4b83aa6321e970f9168ec94e6b1c8d4471333282b9f107468a442aa3d7249",
+  "frontend_assets": {
+    "iphreeqc.mjs": {
+      "bytes": 30111,
+      "sha256": "c56475cd941a3514c05a62ff449ae3ba86a61e5944a11c6b9654f80fc9202ef2"
+    },
+    "iphreeqc.wasm": {
+      "bytes": 1952581,
+      "sha256": "aca79c747b5825dcf919980f5e8055acc8567647ba42902453f7543e6d751d8c"
+    },
+    "kerotakis.mjs": {
+      "bytes": 8567,
+      "sha256": "1fc5b3aed3c322260bb137ccb3bb05b4cbb5b1892094e1ece826ee63a7c0a377"
+    },
+    "kerotakis_wasm.js": {
+      "bytes": 41630,
+      "sha256": "ed1ed1f583ec6e7a11cf0bdb6d97b08a2f0480df47c22825e5571a6490da6ead"
+    },
+    "kerotakis_wasm_bg.wasm": {
+      "bytes": 11839923,
+      "sha256": "80b308f678f081c29d4959bec682ed6e9d18b50e40c5165ddb0b3a11840a6c07"
+    },
+    "rest.html": {
+      "bytes": 2970,
+      "sha256": "d4d3fbfded5a3d404f91e3dea707a4cc197a9dfd8cb3d64f2cd6f604b87f4a21"
+    }
+  },
+  "normal_merge_verified": true,
+  "production_workflow": 40429831287,
+  "reviewed_candidate": "b629f1d02447a5a73ab4352c794228565a8c1681",
+  "runtime_source": "a7640a0759f091a31ed40b4cc29c8e127d19b245",
+  "runtime_tree": "054c62a5a7381b4608d8e0b22c94cd2fc8037782",
+  "scope_limits": [
+    "Bounded source/product regression, not empirical chemistry calibration.",
+    "343 catalog entries represent339 unique original468 qualifications; no qualification is added by this diagnostic release.",
+    "Earlier c51715API/86browser assessment remains12/3 and83/3 pass/unsupported, source-specific.",
+    "129 originals remain;62 additional earned originals are needed for401.",
+    "Captured build locks differ across actual producers; no source-committed or uniform-lock claim."
+  ],
+  "source_committed_lock_claimed": false,
+  "state": "ACTUAL_A764_API11_BROWSER82_ACCEPTED_BOUNDED_REGRESSION",
+  "workflow_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40429831287"
+}

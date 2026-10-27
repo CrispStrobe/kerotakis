@@ -1,0 +1,16 @@
+{
+  "active_sandboxes": 0,
+  "actual_evidence_files_hashed": 90,
+  "actual_evidence_manifest_sha256": "de0b005ffce02261e66bed38080671230c292590e4bfc7a7333c081385aad481",
+  "actual_inventory_receipt_sha256": "64566585486d566990ba0f48badda410f5512f5a660192bf51238e234dc069ef",
+  "all_current_and_rollback_snapshots_protected": true,
+  "bindings": "Exact actual snapshot/deployment workflow logs and snapshot-file-to-environment argument dataflow; provider confirms key presence. Decrypted environment values are not claimed.",
+  "deleted_during_this_scan": 0,
+  "direct_decrypted_values_observed": 0,
+  "live_snapshots": 5,
+  "new_orphans": 0,
+  "previous_deleted_tombstones": 17,
+  "projects_checked": 39,
+  "retained_READY_deployments": 5,
+  "state": "POST_DEPLOY_ALL_PROJECT_SNAPSHOT_AND_SANDBOX_SCAN_COMPLETE_NO_NEW_ORPHANS"
+}
