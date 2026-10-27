@@ -637,6 +637,54 @@ fn largest_phase_enthalpy_kj(db_tag: &str) -> f64 {
         .fold(0.0, |max: f64, h| max.max(h.abs()))
 }
 
+/// The heavy elements (not H or O) of a mover, from its own routed phase
+/// when the database has one, else from its registry formula.
+fn heavy_elements(key: &str, db_tag: &str) -> std::collections::BTreeSet<String> {
+    let base = |element: &str| element.split('(').next().unwrap_or(element).to_string();
+    let idx = derived::index_for(db_tag);
+    let from_phase = idx
+        .phases
+        .iter()
+        .find(|(name, _)| name.eq_ignore_ascii_case(key))
+        .map(|(_, phase)| phase.elements.iter().map(|(e, _)| base(e)).collect());
+    let elements: std::collections::BTreeSet<String> = from_phase.unwrap_or_else(|| {
+        species::lookup(&SpeciesId::new(key))
+            .and_then(|data| stoich::parse_formula(data.formula).ok())
+            .map(|formula| formula.counts.keys().cloned().collect())
+            .unwrap_or_default()
+    });
+    elements
+        .into_iter()
+        .filter(|e| e != "H" && e != "O")
+        .collect()
+}
+
+/// The ceiling on one mole of an unpriced mover's heat, kJ/mol: the largest
+/// |ΔH| the routed database states for any phase containing all of the
+/// mover's heavy elements. Copper sulfate's trace antlerite is bounded by
+/// copper-and-sulfur phases (206.5 kJ/mol, chalcocite, on wateq4f), not by
+/// the most extreme mineral in the file (649.6). A mover sharing no stated
+/// phase falls back to the whole database's ceiling.
+fn unpriced_ceiling_kj(key: &str, db_tag: &str) -> f64 {
+    let heavy = heavy_elements(key, db_tag);
+    let base = |element: &str| element.split('(').next().unwrap_or(element).to_string();
+    let family = derived::index_for(db_tag)
+        .phases
+        .values()
+        .filter(|phase| {
+            !heavy.is_empty()
+                && heavy
+                    .iter()
+                    .all(|e| phase.elements.iter().any(|(pe, _)| base(pe) == *e))
+        })
+        .filter_map(|phase| phase.delta_h_kj)
+        .filter(|h| h.is_finite())
+        .fold(None, |max: Option<f64>, h| {
+            Some(max.map_or(h.abs(), |m| m.max(h.abs())))
+        });
+    family.unwrap_or_else(|| largest_phase_enthalpy_kj(db_tag))
+}
+
 /// What the ledger could price, and a bound on what it could not.
 #[derive(Debug, Clone, PartialEq)]
 pub struct HeatQuote {
@@ -644,8 +692,9 @@ pub struct HeatQuote {
     pub released_j: f64,
     /// The first mover with none, if any.
     pub unpriced: Option<Unpriced>,
-    /// Worst case for the unpriced movers: `Σ|Δn| × max|ΔH|` of the routed
-    /// database's own phases, J. Zero when everything was priced.
+    /// Worst case for the unpriced movers, J: each `|Δn|` times the largest
+    /// |ΔH| of the routed phases sharing its heavy elements
+    /// ([`unpriced_ceiling_kj`]). Zero when everything was priced.
     pub unpriced_bound_j: f64,
 }
 
@@ -741,7 +790,7 @@ pub fn heat_quote(
 
     let mut d_h_kj = 0.0;
     let mut unpriced: Option<Unpriced> = None;
-    let mut unpriced_moles = 0.0;
+    let mut unpriced_bound_kj = 0.0;
     for ((key, phase), moved) in &delta {
         if moved.abs() <= NEGLIGIBLE {
             continue;
@@ -755,7 +804,7 @@ pub fn heat_quote(
             match species_enthalpy(key, phase_of(*phase), db_tag) {
                 Ok(h) => h,
                 Err(declined) => {
-                    unpriced_moles += moved.abs();
+                    unpriced_bound_kj += moved.abs() * unpriced_ceiling_kj(key, db_tag);
                     unpriced.get_or_insert(declined);
                     continue;
                 }
@@ -770,7 +819,7 @@ pub fn heat_quote(
         }
     }
     let unpriced_bound_j = if unpriced.is_some() {
-        unpriced_moles * largest_phase_enthalpy_kj(db_tag) * 1000.0
+        unpriced_bound_kj * 1000.0
     } else {
         0.0
     };
@@ -1343,7 +1392,8 @@ mod tests {
         let quote = heat_quote(&before, 0.0, &after, 0.0, &[], db).expect("quoted");
         assert_eq!(quote.unpriced.as_ref().unwrap().species, "antlerite");
         let bound_j = quote.unpriced_bound_j;
-        assert!(bound_j > 0.0 && bound_j < 50.0, "bound {bound_j} J");
+        assert!(bound_j > 0.0 && bound_j < 15.0, "bound {bound_j} J");
+        assert!((unpriced_ceiling_kj("antlerite", db) - 206.5).abs() < 1.0);
         let q = quote.released_j;
         let full = heat_released_j(&before, 0.0, &clean, 0.0, &[], db).expect("priced");
         assert!(q > 0.0, "copper sulfate dissolving warms: {q} J");
