@@ -1,0 +1,42 @@
+[
+  {
+    "table": "REACTIONS",
+    "equation": "NaOCl + 2 HCl → Cl2↑ + NaCl + H2O",
+    "literal": "HCl",
+    "route": "acid-protons-sibling",
+    "siblings": [
+      "NaOCl + Cl⁻ + 2 H⁺ → Cl2↑ + Na⁺ + H₂O",
+      "ClO⁻ + Cl⁻ + 2 H⁺ → Cl2↑ + H₂O",
+      "HClO + Cl⁻ + H⁺ → Cl2↑ + H₂O"
+    ]
+  },
+  {
+    "table": "REACTIONS",
+    "equation": "ClO⁻ + 2 HCl → Cl2↑ + Cl⁻ + H₂O",
+    "literal": "HCl",
+    "route": "acid-protons-sibling",
+    "siblings": [
+      "NaOCl + Cl⁻ + 2 H⁺ → Cl2↑ + Na⁺ + H₂O",
+      "ClO⁻ + Cl⁻ + 2 H⁺ → Cl2↑ + H₂O",
+      "HClO + Cl⁻ + H⁺ → Cl2↑ + H₂O"
+    ]
+  },
+  {
+    "table": "REACTIONS",
+    "equation": "HClO + HCl → Cl2↑ + H₂O",
+    "literal": "HCl",
+    "route": "acid-protons-sibling",
+    "siblings": [
+      "NaOCl + Cl⁻ + 2 H⁺ → Cl2↑ + Na⁺ + H₂O",
+      "ClO⁻ + Cl⁻ + 2 H⁺ → Cl2↑ + H₂O",
+      "HClO + Cl⁻ + H⁺ → Cl2↑ + H₂O"
+    ]
+  },
+  {
+    "table": "ORG_REACTIONS",
+    "equation": "CH3COOC2H5 + NaOH → NaOAc + C2H5OH",
+    "literal": "NaOH",
+    "route": "named-strong-base-reserve",
+    "siblings": []
+  }
+]

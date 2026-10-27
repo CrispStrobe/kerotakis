@@ -714,6 +714,15 @@ fn refresh_solute_charge(vessel: &mut Vessel) {
     vessel.solute_charge = crate::displacement::solute_charge(vessel);
 }
 
+/// Titratable acid a row's `acid_protons` may draw on: the ledger's unspent
+/// acidity plus certified literal strong acids (HBr/HI/HNO3 not yet through a
+/// solve), net of strong base and blocked by any weak buffer. See
+/// [`crate::strong_reserve::certified_literal_acid_protons`].
+fn acid_reserve(vessel: &Vessel) -> f64 {
+    crate::displacement::unspent_acidity(vessel)
+        + crate::strong_reserve::certified_literal_acid_protons(vessel)
+}
+
 fn extent(vessel: &Vessel, reaction: &CuratedReaction) -> f64 {
     let by_reactant = reaction
         .reactants
@@ -724,7 +733,7 @@ fn extent(vessel: &Vessel, reaction: &CuratedReaction) -> f64 {
     // limits the extent like any other. Gating without limiting would let
     // a trace of acid turn every hypochlorite in the beaker into chlorine.
     match reaction.acid_protons {
-        Some(n) if n > 0.0 => by_reactant.min(crate::displacement::unspent_acidity(vessel) / n),
+        Some(n) if n > 0.0 => by_reactant.min(acid_reserve(vessel) / n),
         _ => by_reactant,
     }
 }
@@ -929,7 +938,15 @@ impl Equilibrator for CuratedEquilibrator {
                     solvent_gated_done[i] = true;
                 }
                 if let Some(protons) = reaction.acid_protons {
-                    crate::displacement::consume_acidity(vessel, x * protons);
+                    // Ledger acidity first (unchanged behaviour), then the
+                    // certified literal strong acids for any remainder.
+                    let need = x * protons;
+                    let ledger = crate::displacement::unspent_acidity(vessel).min(need);
+                    let literal = (need - ledger).max(0.0).min(
+                        crate::strong_reserve::certified_literal_acid_protons(vessel),
+                    );
+                    crate::displacement::consume_acidity(vessel, ledger);
+                    crate::strong_reserve::consume_literal_acid(vessel, literal);
                 }
                 for (key, coeff) in reaction.reactants {
                     if reaction.solvent.is_some() {
