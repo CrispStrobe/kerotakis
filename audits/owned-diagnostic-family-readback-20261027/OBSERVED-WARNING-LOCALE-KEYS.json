@@ -1,0 +1,164 @@
+{
+  "state": "OBSERVED_WARNING_REASON_KEYS_HAVE_DE_FR_CATALOG_AND_PLACEHOLDER_PARITY",
+  "tested_source": "b629f1d02447a5a73ab4352c794228565a8c1681",
+  "actual_warning_events": 490,
+  "observed_nested_phrase_keys": 17,
+  "keys": [
+    {
+      "key": "look.sentence-join",
+      "events_containing_key": 48,
+      "unique_cases": 24,
+      "english_templates": [
+        "{first} {second}"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "material-assumption.whole_milk-casein",
+      "events_containing_key": 6,
+      "unique_cases": 4,
+      "english_templates": [
+        "CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.analytical-component-charge",
+      "events_containing_key": 10,
+      "unique_cases": 5,
+      "english_templates": [
+        "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.at-the-reference-temperature",
+      "events_containing_key": 24,
+      "unique_cases": 24,
+      "english_templates": [
+        "The solution is at the tabulated reference temperature."
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.away-from-the-reference-temperature",
+      "events_containing_key": 24,
+      "unique_cases": 24,
+      "english_templates": [
+        "At this vessel temperature these are reference-temperature approximations, not validated temperature-dependent constants."
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.milk-casein-buffer-residual",
+      "events_containing_key": 6,
+      "unique_cases": 4,
+      "english_templates": [
+        "this milk has been acidified to pH {ph}, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. {assumption} (the recipe's full assumption is in `explain material whole_milk`)"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.mostly-organic-solvent",
+      "events_containing_key": 128,
+      "unique_cases": 61,
+      "english_templates": [
+        "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.no-component-mapping",
+      "events_containing_key": 8,
+      "unique_cases": 4,
+      "english_templates": [
+        "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.no-dissolution-solver",
+      "events_containing_key": 9,
+      "unique_cases": 9,
+      "english_templates": [
+        "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.saturation-index-unclassified",
+      "events_containing_key": 72,
+      "unique_cases": 24,
+      "english_templates": [
+        "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.stays-as-the-metal",
+      "events_containing_key": 22,
+      "unique_cases": 22,
+      "english_templates": [
+        "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.stranded-solutes",
+      "events_containing_key": 5,
+      "unique_cases": 5,
+      "english_templates": [
+        "the last of the water is gone and {names} are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.supersaturated-below-formation-temperature",
+      "events_containing_key": 8,
+      "unique_cases": 4,
+      "english_templates": [
+        "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.supersaturated-no-registry-solid",
+      "events_containing_key": 100,
+      "unique_cases": 37,
+      "english_templates": [
+        "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.supersaturated-solid-not-offered",
+      "events_containing_key": 74,
+      "unique_cases": 25,
+      "english_templates": [
+        "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.thiocyanate-slice",
+      "events_containing_key": 48,
+      "unique_cases": 24,
+      "english_templates": [
+        "Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model."
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    },
+    {
+      "key": "not-modeled.usbm-reference-complexes",
+      "events_containing_key": 48,
+      "unique_cases": 24,
+      "english_templates": [
+        "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. {temperature} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter."
+      ],
+      "DE_FR_catalog_and_placeholder_parity": true
+    }
+  ],
+  "scope": "Static catalog lookup matches core flat two-part lookup for every actual Phrase key in the 490 recorded warnings, including nested sentence joins. No runtime locale renderer or new chemistry execution; not a claim about every unobserved warning branch or full chemical-model coverage.",
+  "new_science_runs": 0,
+  "source_acceptance_assigned": false
+}

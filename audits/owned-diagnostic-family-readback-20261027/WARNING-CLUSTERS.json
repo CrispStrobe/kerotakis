@@ -1,0 +1,1508 @@
+{
+  "state": "SAVED_TYPED_WARNING_INVENTORY_NOT_SCIENCE_RECLASSIFICATION",
+  "workflow_run": 40382346536,
+  "tested_checkout": "22dd7dc5bf27d4b8322683e9153bcb5d328638d9",
+  "warnings": 490,
+  "cases_with_warning": 135,
+  "cluster_count": 12,
+  "unkeyed_events": 0,
+  "groups": [
+    {
+      "cause": "model-boundary",
+      "reason_key": "not-modeled.mostly-organic-solvent",
+      "events": 128,
+      "case_ids": [
+        "213-ester-repeat-asymmetric",
+        "214-ester-repeat-product-rich",
+        "215-ester-repeat-fourfold",
+        "216-ester-repeat-low-water",
+        "217-ester-three-requests",
+        "218-ester-balanced-quotient",
+        "411-ester-feed-forward-1",
+        "412-ester-feed-reverse-1",
+        "413-ester-feed-forward-2",
+        "414-ester-feed-reverse-2",
+        "415-ester-feed-forward-3",
+        "416-ester-feed-reverse-3",
+        "417-ester-feed-forward-4",
+        "418-ester-feed-reverse-4",
+        "419-ester-feed-forward-5",
+        "420-ester-feed-reverse-5",
+        "421-ester-feed-forward-6",
+        "422-ester-feed-reverse-6",
+        "423-ester-scale-base-1",
+        "424-ester-scale-large-1",
+        "425-ester-scale-base-2",
+        "426-ester-scale-large-2",
+        "427-ester-scale-base-3",
+        "428-ester-scale-large-3",
+        "429-ester-once-4",
+        "430-ester-repeat-4",
+        "431-ester-once-5",
+        "432-ester-repeat-5",
+        "433-ester-once-6",
+        "434-ester-repeat-6",
+        "465-ester-balanced-feed",
+        "467-ester-product-rich",
+        "468-ester-extensive-scale",
+        "469-ester-feed-order",
+        "470-ester-repeat",
+        "471-ester-low-water",
+        "472-ester-products-only",
+        "873-ester-quotient-1-1",
+        "874-ester-quotient-1-2",
+        "875-ester-quotient-1-3",
+        "876-ester-quotient-1-4",
+        "877-ester-quotient-2-1",
+        "878-ester-quotient-2-2",
+        "879-ester-quotient-2-3",
+        "880-ester-quotient-2-4",
+        "881-ester-quotient-3-1",
+        "882-ester-quotient-3-2",
+        "883-ester-quotient-3-3",
+        "884-ester-quotient-3-4",
+        "885-ester-quotient-4-1",
+        "886-ester-quotient-4-2",
+        "887-ester-quotient-4-3",
+        "888-ester-quotient-4-4",
+        "889-ester-quotient-5-1",
+        "890-ester-quotient-5-2",
+        "891-ester-quotient-5-3",
+        "892-ester-quotient-5-4",
+        "893-ester-quotient-6-1",
+        "894-ester-quotient-6-2",
+        "895-ester-quotient-6-3",
+        "896-ester-quotient-6-4"
+      ],
+      "families": [
+        "chemistry-audit-organic-equilibria",
+        "chemistry-audit-seventh",
+        "chemistry-audit-sixth",
+        "chemistry-source-v3-organic-equilibrium"
+      ],
+      "examples": [
+        {
+          "case_id": "411-ester-feed-forward-1",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+              "key": "not-modeled.mostly-organic-solvent",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "17"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "a mixed solvent that is mostly organic (water is 17% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+          },
+          "input_script_sha256": "61c1d0afc6f1722d436f2a78a33052acb39d030e58d050750779de0ede6f7a67"
+        },
+        {
+          "case_id": "412-ester-feed-reverse-1",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+              "key": "not-modeled.mostly-organic-solvent",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "17"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "a mixed solvent that is mostly organic (water is 17% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+          },
+          "input_script_sha256": "9387dbb22b36cd19f620b8531a2a1a37e0ad619116a9347d93a24b886397fbf8"
+        },
+        {
+          "case_id": "413-ester-feed-forward-2",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "a mixed solvent that is mostly organic (water is {percent}% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised",
+              "key": "not-modeled.mostly-organic-solvent",
+              "slots": [
+                [
+                  "percent",
+                  {
+                    "number": {
+                      "text": "12"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "a mixed solvent that is mostly organic (water is 12% of the liquid): the shipped activity models assume water as the solvent, and in this dielectric environment their equilibrium constants do not apply, so ionic speciation here is reported uncharacterised"
+          },
+          "input_script_sha256": "ac268d61ab421f516b4598aa132e255cc66159fe06442f06f80862e1137f1031"
+        }
+      ],
+      "unique_cases": 61
+    },
+    {
+      "cause": "phase-not-in-registry",
+      "reason_key": "not-modeled.supersaturated-no-registry-solid",
+      "events": 100,
+      "case_ids": [
+        "552-iron-copper-split-metal",
+        "805-barium-carbonate-2-1",
+        "806-barium-carbonate-2-2",
+        "807-barium-carbonate-2-3",
+        "808-barium-carbonate-2-4",
+        "813-barium-carbonate-4-1",
+        "814-barium-carbonate-4-2",
+        "815-barium-carbonate-4-3",
+        "816-barium-carbonate-4-4",
+        "821-barium-carbonate-6-1",
+        "822-barium-carbonate-6-2",
+        "823-barium-carbonate-6-3",
+        "824-barium-carbonate-6-4",
+        "849-metal-ligand-1-1",
+        "850-metal-ligand-1-2",
+        "851-metal-ligand-1-3",
+        "852-metal-ligand-1-4",
+        "853-metal-ligand-2-1",
+        "854-metal-ligand-2-2",
+        "855-metal-ligand-2-3",
+        "856-metal-ligand-2-4",
+        "857-metal-ligand-3-1",
+        "858-metal-ligand-3-2",
+        "859-metal-ligand-3-3",
+        "860-metal-ligand-3-4",
+        "861-metal-ligand-4-1",
+        "862-metal-ligand-4-2",
+        "863-metal-ligand-4-3",
+        "864-metal-ligand-4-4",
+        "865-metal-ligand-5-1",
+        "866-metal-ligand-5-2",
+        "867-metal-ligand-5-3",
+        "868-metal-ligand-5-4",
+        "869-metal-ligand-6-1",
+        "870-metal-ligand-6-2",
+        "871-metal-ligand-6-3",
+        "872-metal-ligand-6-4"
+      ],
+      "families": [
+        "chemistry-source-v2-redox-cells",
+        "chemistry-source-v3-aqueous-selectivity",
+        "chemistry-source-v3-metal-ligand"
+      ],
+      "examples": [
+        {
+          "case_id": "552-iron-copper-split-metal",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "CuprousFerrite (SI +10.3), Magnetite (SI +4.5), CupricFerrite (SI +2.6), and 2 more"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against CuprousFerrite (SI +10.3), Magnetite (SI +4.5), CupricFerrite (SI +2.6), and 2 more. These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          "input_script_sha256": "35236f638c00e627e4fd92c761d6ddd8adc2325812f04fef4f9108ee378820a1"
+        },
+        {
+          "case_id": "805-barium-carbonate-2-1",
+          "source_warning": {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Witherite (SI +2.2)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Witherite (SI +2.2). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          "input_script_sha256": "d94f01b1dfc3b1844d50a20d7228c2fe65c146f69cee16f45bd65907bd9383ce"
+        },
+        {
+          "case_id": "806-barium-carbonate-2-2",
+          "source_warning": {
+            "cause": "phase-not-in-registry",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. These solid phases are in {database}.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms",
+              "key": "not-modeled.supersaturated-no-registry-solid",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Witherite (SI +2.5)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Witherite (SI +2.5). These solid phases are in wateq4f.dat but have no matching solid in this lab's registry, so their precipitation is not included. Supersaturation alone does not determine whether or how fast a precipitate forms"
+          },
+          "input_script_sha256": "738ad138255c9d512ebd959c60590be04830551c8550751472432bac75285828"
+        }
+      ],
+      "unique_cases": 37
+    },
+    {
+      "cause": "model-boundary",
+      "reason_key": "not-modeled.supersaturated-solid-not-offered",
+      "events": 74,
+      "case_ids": [
+        "552-iron-copper-split-metal",
+        "849-metal-ligand-1-1",
+        "850-metal-ligand-1-2",
+        "851-metal-ligand-1-3",
+        "852-metal-ligand-1-4",
+        "853-metal-ligand-2-1",
+        "854-metal-ligand-2-2",
+        "855-metal-ligand-2-3",
+        "856-metal-ligand-2-4",
+        "857-metal-ligand-3-1",
+        "858-metal-ligand-3-2",
+        "859-metal-ligand-3-3",
+        "860-metal-ligand-3-4",
+        "861-metal-ligand-4-1",
+        "862-metal-ligand-4-2",
+        "863-metal-ligand-4-3",
+        "864-metal-ligand-4-4",
+        "865-metal-ligand-5-1",
+        "866-metal-ligand-5-2",
+        "867-metal-ligand-5-3",
+        "868-metal-ligand-5-4",
+        "869-metal-ligand-6-1",
+        "870-metal-ligand-6-2",
+        "871-metal-ligand-6-3",
+        "872-metal-ligand-6-4"
+      ],
+      "families": [
+        "chemistry-source-v2-redox-cells",
+        "chemistry-source-v3-metal-ligand"
+      ],
+      "examples": [
+        {
+          "case_id": "552-iron-copper-split-metal",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Hematite (SI +6.5)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Hematite (SI +6.5). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          "input_script_sha256": "35236f638c00e627e4fd92c761d6ddd8adc2325812f04fef4f9108ee378820a1"
+        },
+        {
+          "case_id": "849-metal-ligand-1-1",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Hematite (SI +13.8), Maghemite (SI +3.4)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Hematite (SI +13.8), Maghemite (SI +3.4). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          "input_script_sha256": "2a27393999f3c15c5746fc077b701362c417be2bc3d4b67035a91daf4490ecbb"
+        },
+        {
+          "case_id": "850-metal-ligand-1-2",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}. Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices",
+              "key": "not-modeled.supersaturated-solid-not-offered",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Hematite (SI +13.8), Maghemite (SI +3.4)"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Hematite (SI +13.8), Maghemite (SI +3.4). Matching solids exist in this lab's registry but were not offered in this aqueous equilibrium problem; phase selection, oxidation-state restrictions, or another model's ownership can exclude them. Their formation and its timescale are not predicted by these saturation indices"
+          },
+          "input_script_sha256": "e0ce56918ed606028c8fafbe3603e0234a174c5688f0bb4388a0a4c9abf8b04e"
+        }
+      ],
+      "unique_cases": 25
+    },
+    {
+      "cause": "model-boundary",
+      "reason_key": "not-modeled.saturation-index-unclassified",
+      "events": 72,
+      "case_ids": [
+        "849-metal-ligand-1-1",
+        "850-metal-ligand-1-2",
+        "851-metal-ligand-1-3",
+        "852-metal-ligand-1-4",
+        "853-metal-ligand-2-1",
+        "854-metal-ligand-2-2",
+        "855-metal-ligand-2-3",
+        "856-metal-ligand-2-4",
+        "857-metal-ligand-3-1",
+        "858-metal-ligand-3-2",
+        "859-metal-ligand-3-3",
+        "860-metal-ligand-3-4",
+        "861-metal-ligand-4-1",
+        "862-metal-ligand-4-2",
+        "863-metal-ligand-4-3",
+        "864-metal-ligand-4-4",
+        "865-metal-ligand-5-1",
+        "866-metal-ligand-5-2",
+        "867-metal-ligand-5-3",
+        "868-metal-ligand-5-4",
+        "869-metal-ligand-6-1",
+        "870-metal-ligand-6-2",
+        "871-metal-ligand-6-3",
+        "872-metal-ligand-6-4"
+      ],
+      "families": [
+        "chemistry-source-v3-metal-ligand"
+      ],
+      "examples": [
+        {
+          "case_id": "849-metal-ligand-1-1",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+              "key": "not-modeled.saturation-index-unclassified",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Fe(OH)2.7Cl.3 (SI +6.3)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Fe(OH)2.7Cl.3 (SI +6.3) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+          },
+          "input_script_sha256": "2a27393999f3c15c5746fc077b701362c417be2bc3d4b67035a91daf4490ecbb"
+        },
+        {
+          "case_id": "850-metal-ligand-1-2",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+              "key": "not-modeled.saturation-index-unclassified",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Fe(OH)2.7Cl.3 (SI +6.3)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Fe(OH)2.7Cl.3 (SI +6.3) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+          },
+          "input_script_sha256": "e0ce56918ed606028c8fafbe3603e0234a174c5688f0bb4388a0a4c9abf8b04e"
+        },
+        {
+          "case_id": "851-metal-ligand-1-3",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{phases} have reported saturation indices but no phase definition in the selected {database} diagnostic index; their phase type and exclusion reason cannot be classified",
+              "key": "not-modeled.saturation-index-unclassified",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Fe(OH)2.7Cl.3 (SI +6.3)"
+                    }
+                  }
+                ],
+                [
+                  "database",
+                  {
+                    "text": {
+                      "text": "wateq4f"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Fe(OH)2.7Cl.3 (SI +6.3) have reported saturation indices but no phase definition in the selected wateq4f diagnostic index; their phase type and exclusion reason cannot be classified"
+          },
+          "input_script_sha256": "6f9f996d0e3db27661ff2baa9db27ef7bfe95d64656074e41f29b1419d66cf00"
+        }
+      ],
+      "unique_cases": 24
+    },
+    {
+      "cause": "model-boundary",
+      "reason_key": "look.sentence-join",
+      "events": 48,
+      "case_ids": [
+        "849-metal-ligand-1-1",
+        "850-metal-ligand-1-2",
+        "851-metal-ligand-1-3",
+        "852-metal-ligand-1-4",
+        "853-metal-ligand-2-1",
+        "854-metal-ligand-2-2",
+        "855-metal-ligand-2-3",
+        "856-metal-ligand-2-4",
+        "857-metal-ligand-3-1",
+        "858-metal-ligand-3-2",
+        "859-metal-ligand-3-3",
+        "860-metal-ligand-3-4",
+        "861-metal-ligand-4-1",
+        "862-metal-ligand-4-2",
+        "863-metal-ligand-4-3",
+        "864-metal-ligand-4-4",
+        "865-metal-ligand-5-1",
+        "866-metal-ligand-5-2",
+        "867-metal-ligand-5-3",
+        "868-metal-ligand-5-4",
+        "869-metal-ligand-6-1",
+        "870-metal-ligand-6-2",
+        "871-metal-ligand-6-3",
+        "872-metal-ligand-6-4"
+      ],
+      "families": [
+        "chemistry-source-v3-metal-ligand"
+      ],
+      "examples": [
+        {
+          "case_id": "849-metal-ligand-1-1",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{first} {second}",
+              "key": "look.sentence-join",
+              "slots": [
+                [
+                  "first",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. {temperature} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.",
+                        "key": "not-modeled.usbm-reference-complexes",
+                        "slots": [
+                          [
+                            "temperature",
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "The solution is at the tabulated reference temperature.",
+                                  "key": "not-modeled.at-the-reference-temperature"
+                                }
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "second",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model.",
+                        "key": "not-modeled.thiocyanate-slice"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. The solution is at the tabulated reference temperature. Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter. Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model."
+          },
+          "input_script_sha256": "2a27393999f3c15c5746fc077b701362c417be2bc3d4b67035a91daf4490ecbb"
+        },
+        {
+          "case_id": "850-metal-ligand-1-2",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{first} {second}",
+              "key": "look.sentence-join",
+              "slots": [
+                [
+                  "first",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. {temperature} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.",
+                        "key": "not-modeled.usbm-reference-complexes",
+                        "slots": [
+                          [
+                            "temperature",
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "The solution is at the tabulated reference temperature.",
+                                  "key": "not-modeled.at-the-reference-temperature"
+                                }
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "second",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model.",
+                        "key": "not-modeled.thiocyanate-slice"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. The solution is at the tabulated reference temperature. Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter. Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model."
+          },
+          "input_script_sha256": "e0ce56918ed606028c8fafbe3603e0234a174c5688f0bb4388a0a4c9abf8b04e"
+        },
+        {
+          "case_id": "851-metal-ligand-1-3",
+          "source_warning": {
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{first} {second}",
+              "key": "look.sentence-join",
+              "slots": [
+                [
+                  "first",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. {temperature} Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter.",
+                        "key": "not-modeled.usbm-reference-complexes",
+                        "slots": [
+                          [
+                            "temperature",
+                            {
+                              "phrase": {
+                                "phrase": {
+                                  "en": "The solution is at the tabulated reference temperature.",
+                                  "key": "not-modeled.at-the-reference-temperature"
+                                }
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ],
+                [
+                  "second",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model.",
+                        "key": "not-modeled.thiocyanate-slice"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "Copper–ammine / iron–thiocyanate speciation uses public-domain USBM IC 9429 cumulative constants at 25 °C and zero ionic strength, with the selected database's activity corrections. The solution is at the tabulated reference temperature. Complex-formation enthalpies, rate laws, and complex spectra are not supplied by this data slice; reaction heat and colour are incomplete where those contributions matter. Thiocyanate is treated as a conserved SCN- ligand. HNCS protonation, ligand redox, and binding to metals other than Fe(III) are not covered by this slice; in particular it is not an exhaustive strong-acid thiocyanate model. KSCN is an aqueous analytical equivalent, not a solid dissolution model."
+          },
+          "input_script_sha256": "6f9f996d0e3db27661ff2baa9db27ef7bfe95d64656074e41f29b1419d66cf00"
+        }
+      ],
+      "unique_cases": 24
+    },
+    {
+      "cause": "rate-not-modelled",
+      "reason_key": "not-modeled.stays-as-the-metal",
+      "events": 22,
+      "case_ids": [
+        "291-daniell-copper-0.0005",
+        "292-daniell-copper-0.001",
+        "293-daniell-copper-0.005",
+        "294-daniell-copper-0.01",
+        "295-daniell-zinc-0.0005",
+        "296-daniell-zinc-0.001",
+        "297-daniell-zinc-0.005",
+        "298-daniell-zinc-0.01",
+        "537-copper-activity-0.0005",
+        "538-copper-activity-0.001",
+        "539-copper-activity-0.004",
+        "540-copper-activity-0.008",
+        "541-zinc-activity-0.0005",
+        "542-zinc-activity-0.001",
+        "543-zinc-activity-0.004",
+        "544-zinc-activity-0.008",
+        "546-zinc-copper-metal-first",
+        "548-zinc-copper-split-metal",
+        "550-iron-copper-metal-first",
+        "552-iron-copper-split-metal",
+        "558-magnesium-copper-metal-first",
+        "560-magnesium-copper-split-metal"
+      ],
+      "families": [
+        "chemistry-audit-electrochemistry",
+        "chemistry-source-v2-redox-cells"
+      ],
+      "examples": [
+        {
+          "case_id": "291-daniell-copper-0.0005",
+          "source_warning": {
+            "cause": "rate-not-modelled",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+              "key": "not-modeled.stays-as-the-metal",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+          },
+          "input_script_sha256": "8c93048afff9c7d5477d4e5c80269c832a00072d7f3377f57d06089229a75302"
+        },
+        {
+          "case_id": "292-daniell-copper-0.001",
+          "source_warning": {
+            "cause": "rate-not-modelled",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+              "key": "not-modeled.stays-as-the-metal",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+          },
+          "input_script_sha256": "3feef990ba02ae403405e010f6208f72b7fa3585332db9248c5e5a48dcb3ebf2"
+        },
+        {
+          "case_id": "293-daniell-copper-0.005",
+          "source_warning": {
+            "cause": "rate-not-modelled",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model",
+              "key": "not-modeled.stays-as-the-metal",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc stays as the metal: nothing dissolved here sits below it in the activity series. Its slow reaction with water itself — hydrogen over hours, a passivating hydroxide skin — is a rate this lab does not model"
+          },
+          "input_script_sha256": "61311cf6fd67e8793be1f516dca2279f10074534768cca5ce8446562e45c2bd2"
+        }
+      ],
+      "unique_cases": 22
+    },
+    {
+      "cause": "model-boundary",
+      "reason_key": "not-modeled.analytical-component-charge",
+      "events": 10,
+      "case_ids": [
+        "552-iron-copper-split-metal",
+        "697-milk-then-acid",
+        "698-acid-then-milk",
+        "699-split-acid-milk",
+        "700-split-milk-acid"
+      ],
+      "families": [
+        "chemistry-source-v2-household-biochemistry",
+        "chemistry-source-v2-redox-cells"
+      ],
+      "examples": [
+        {
+          "case_id": "697-milk-then-acid",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+              "key": "not-modeled.analytical-component-charge"
+            },
+            "vessel": 0,
+            "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+          },
+          "input_script_sha256": "7bf5c2d5c49c5012bda720ca980033e956faa1209b8f14fbe10c0cab02e99789"
+        },
+        {
+          "case_id": "698-acid-then-milk",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+              "key": "not-modeled.analytical-component-charge"
+            },
+            "vessel": 0,
+            "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+          },
+          "input_script_sha256": "703847c60966ba84507689a1650def0a41119509306ffa091f78d41952118305"
+        },
+        {
+          "case_id": "699-split-acid-milk",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred",
+              "key": "not-modeled.analytical-component-charge"
+            },
+            "vessel": 0,
+            "what": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+          },
+          "input_script_sha256": "14d002e94776b53f9eff3dc2b0d112393058a4e1bf44b4c7278df5221c0f347c"
+        }
+      ],
+      "unique_cases": 5
+    },
+    {
+      "cause": "no-solver",
+      "reason_key": "not-modeled.no-dissolution-solver",
+      "events": 9,
+      "case_ids": [
+        "452-inert-potassium-after-ignite",
+        "546-zinc-copper-metal-first",
+        "548-zinc-copper-split-metal",
+        "550-iron-copper-metal-first",
+        "552-iron-copper-split-metal",
+        "554-copper-silver-metal-first",
+        "556-copper-silver-split-metal",
+        "558-magnesium-copper-metal-first",
+        "560-magnesium-copper-split-metal"
+      ],
+      "families": [
+        "chemistry-audit-observables-negative-controls",
+        "chemistry-source-v2-redox-cells"
+      ],
+      "examples": [
+        {
+          "case_id": "452-inert-potassium-after-ignite",
+          "source_warning": {
+            "cause": "no-solver",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+              "key": "not-modeled.no-dissolution-solver",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "potassium chloride",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "potassium chloride in contact with liquid: no wired solver models this dissolution/reaction"
+          },
+          "input_script_sha256": "0ebe975e8c36ffd08c95f07f70347197f428b6e88df6b7388751f4de55e4539e"
+        },
+        {
+          "case_id": "546-zinc-copper-metal-first",
+          "source_warning": {
+            "cause": "no-solver",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+              "key": "not-modeled.no-dissolution-solver",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc in contact with liquid: no wired solver models this dissolution/reaction"
+          },
+          "input_script_sha256": "0ce7ab653a26519aa53e87494cb81a2c7b78babe0b78cae36fabd88484abff2b"
+        },
+        {
+          "case_id": "548-zinc-copper-split-metal",
+          "source_warning": {
+            "cause": "no-solver",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+              "key": "not-modeled.no-dissolution-solver",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "zinc",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "zinc in contact with liquid: no wired solver models this dissolution/reaction"
+          },
+          "input_script_sha256": "e8fcfe21769b7e869108cd7efedf97f20d08aa4015d8171eda4e27da3e8eca39"
+        }
+      ],
+      "unique_cases": 9
+    },
+    {
+      "cause": "not-speciated",
+      "reason_key": "not-modeled.no-component-mapping",
+      "events": 8,
+      "case_ids": [
+        "693-starch-then-iodine",
+        "694-iodine-then-starch",
+        "695-split-starch",
+        "696-split-iodine"
+      ],
+      "families": [
+        "chemistry-source-v2-household-biochemistry"
+      ],
+      "examples": [
+        {
+          "case_id": "693-starch-then-iodine",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "not-speciated",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+              "key": "not-modeled.no-component-mapping",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "KI",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "potassium iodide is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+          },
+          "input_script_sha256": "2c7bf16329ba9cf9afcf461f0bfef93029957179a8e191f1c4e9df5add106123"
+        },
+        {
+          "case_id": "694-iodine-then-starch",
+          "source_warning": {
+            "cause": "not-speciated",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+              "key": "not-modeled.no-component-mapping",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "KI",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "potassium iodide is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+          },
+          "input_script_sha256": "09bae49a21796956aeaa99f8cc0f4193797c8e2de5f24a30dea31f554e50e8d7"
+        },
+        {
+          "case_id": "695-split-starch",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "not-speciated",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "{name} is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture.",
+              "key": "not-modeled.no-component-mapping",
+              "slots": [
+                [
+                  "name",
+                  {
+                    "term": {
+                      "en": "KI",
+                      "section": "species"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "potassium iodide is an ionic solute without an aqueous component mapping in this lab. Its ion distribution, acidity, conductivity, and reactions are not included; any solution reading describes only the represented components, not the complete mixture."
+          },
+          "input_script_sha256": "81ad499f75dff3d6134e8d212147d51134f62a122b266427c9ef7d9506ae743a"
+        }
+      ],
+      "unique_cases": 4
+    },
+    {
+      "cause": "model-boundary",
+      "reason_key": "not-modeled.supersaturated-below-formation-temperature",
+      "events": 8,
+      "case_ids": [
+        "697-milk-then-acid",
+        "698-acid-then-milk",
+        "699-split-acid-milk",
+        "700-split-milk-acid"
+      ],
+      "families": [
+        "chemistry-source-v2-household-biochemistry"
+      ],
+      "examples": [
+        {
+          "case_id": "697-milk-then-acid",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+              "key": "not-modeled.supersaturated-below-formation-temperature",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Hydroxylapatite (SI +6.8)"
+                    }
+                  }
+                ],
+                [
+                  "temperature",
+                  {
+                    "number": {
+                      "text": "25"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Hydroxylapatite (SI +6.8), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+          },
+          "input_script_sha256": "7bf5c2d5c49c5012bda720ca980033e956faa1209b8f14fbe10c0cab02e99789"
+        },
+        {
+          "case_id": "698-acid-then-milk",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+              "key": "not-modeled.supersaturated-below-formation-temperature",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Hydroxylapatite (SI +3.3)"
+                    }
+                  }
+                ],
+                [
+                  "temperature",
+                  {
+                    "number": {
+                      "text": "25"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Hydroxylapatite (SI +3.3), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+          },
+          "input_script_sha256": "703847c60966ba84507689a1650def0a41119509306ffa091f78d41952118305"
+        },
+        {
+          "case_id": "699-split-acid-milk",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "model-boundary",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the solution is supersaturated against {phases}, deliberately withheld below the registry's formation-temperature threshold at {temperature} °C. This is a curated metastability boundary, not a computed nucleation or growth rate",
+              "key": "not-modeled.supersaturated-below-formation-temperature",
+              "slots": [
+                [
+                  "phases",
+                  {
+                    "text": {
+                      "text": "Hydroxylapatite (SI +6.8)"
+                    }
+                  }
+                ],
+                [
+                  "temperature",
+                  {
+                    "number": {
+                      "text": "25"
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "the solution is supersaturated against Hydroxylapatite (SI +6.8), deliberately withheld below the registry's formation-temperature threshold at 25 °C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+          },
+          "input_script_sha256": "14d002e94776b53f9eff3dc2b0d112393058a4e1bf44b4c7278df5221c0f347c"
+        }
+      ],
+      "unique_cases": 4
+    },
+    {
+      "cause": "no-reviewed-datum",
+      "reason_key": "not-modeled.milk-casein-buffer-residual",
+      "events": 6,
+      "case_ids": [
+        "697-milk-then-acid",
+        "698-acid-then-milk",
+        "699-split-acid-milk",
+        "700-split-milk-acid"
+      ],
+      "families": [
+        "chemistry-source-v2-household-biochemistry"
+      ],
+      "examples": [
+        {
+          "case_id": "697-milk-then-acid",
+          "source_warning": {
+            "cause": "no-reviewed-datum",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "this milk has been acidified to pH {ph}, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. {assumption} (the recipe's full assumption is in `explain material whole_milk`)",
+              "key": "not-modeled.milk-casein-buffer-residual",
+              "slots": [
+                [
+                  "ph",
+                  {
+                    "number": {
+                      "text": "4.92"
+                    }
+                  }
+                ],
+                [
+                  "assumption",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT",
+                        "key": "material-assumption.whole_milk-casein"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "this milk has been acidified to pH 4.92, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT (the recipe's full assumption is in `explain material whole_milk`)"
+          },
+          "input_script_sha256": "7bf5c2d5c49c5012bda720ca980033e956faa1209b8f14fbe10c0cab02e99789"
+        },
+        {
+          "case_id": "698-acid-then-milk",
+          "source_warning": {
+            "beside_a_visible_change": true,
+            "cause": "no-reviewed-datum",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "this milk has been acidified to pH {ph}, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. {assumption} (the recipe's full assumption is in `explain material whole_milk`)",
+              "key": "not-modeled.milk-casein-buffer-residual",
+              "slots": [
+                [
+                  "ph",
+                  {
+                    "number": {
+                      "text": "4.92"
+                    }
+                  }
+                ],
+                [
+                  "assumption",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT",
+                        "key": "material-assumption.whole_milk-casein"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "this milk has been acidified to pH 4.92, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT (the recipe's full assumption is in `explain material whole_milk`)"
+          },
+          "input_script_sha256": "703847c60966ba84507689a1650def0a41119509306ffa091f78d41952118305"
+        },
+        {
+          "case_id": "699-split-acid-milk",
+          "source_warning": {
+            "cause": "no-reviewed-datum",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "this milk has been acidified to pH {ph}, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. {assumption} (the recipe's full assumption is in `explain material whole_milk`)",
+              "key": "not-modeled.milk-casein-buffer-residual",
+              "slots": [
+                [
+                  "ph",
+                  {
+                    "number": {
+                      "text": "5.52"
+                    }
+                  }
+                ],
+                [
+                  "assumption",
+                  {
+                    "phrase": {
+                      "phrase": {
+                        "en": "CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT",
+                        "key": "material-assumption.whole_milk-casein"
+                      }
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 0,
+            "what": "this milk has been acidified to pH 5.52, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein — so the number is a lower bound again, and by more than it was. CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT (the recipe's full assumption is in `explain material whole_milk`)"
+          },
+          "input_script_sha256": "14d002e94776b53f9eff3dc2b0d112393058a4e1bf44b4c7278df5221c0f347c"
+        }
+      ],
+      "unique_cases": 4
+    },
+    {
+      "cause": "no-solver",
+      "reason_key": "not-modeled.stranded-solutes",
+      "events": 5,
+      "case_ids": [
+        "362-barium-filter-and-dry-filtrate",
+        "653-dry-filtrate-200",
+        "654-dry-filtrate-300",
+        "655-dry-filtrate-400",
+        "656-dry-filtrate-500"
+      ],
+      "families": [
+        "chemistry-audit-filtration-evaporation",
+        "chemistry-source-v2-separation-trains"
+      ],
+      "examples": [
+        {
+          "case_id": "362-barium-filter-and-dry-filtrate",
+          "source_warning": {
+            "cause": "no-solver",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the last of the water is gone and {names} are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids",
+              "key": "not-modeled.stranded-solutes",
+              "slots": [
+                [
+                  "names",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "term": {
+                            "en": "barium ion",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "chloride ion",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "sodium ion",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "sulfate ion",
+                            "section": "species"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the last of the water is gone and barium ion, chloride ion, sodium ion and sulfate ion are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids"
+          },
+          "input_script_sha256": "612b5ce7f032f43df3d480b4433406d3634c86d1b92d5bb2e2385eebabbf4966"
+        },
+        {
+          "case_id": "653-dry-filtrate-200",
+          "source_warning": {
+            "cause": "no-solver",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the last of the water is gone and {names} are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids",
+              "key": "not-modeled.stranded-solutes",
+              "slots": [
+                [
+                  "names",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "term": {
+                            "en": "silicon dioxide (quartz)",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "chloride ion",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "sodium ion",
+                            "section": "species"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the last of the water is gone and silicon dioxide (quartz), chloride ion and sodium ion are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids"
+          },
+          "input_script_sha256": "466a593b874b5a7a3ccfc513b2ebb22ffc4355bf1b5c8fbdaf7bfaeb212d911d"
+        },
+        {
+          "case_id": "654-dry-filtrate-300",
+          "source_warning": {
+            "cause": "no-solver",
+            "event": "not_yet_modeled",
+            "reason": {
+              "en": "the last of the water is gone and {names} are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids",
+              "key": "not-modeled.stranded-solutes",
+              "slots": [
+                [
+                  "names",
+                  {
+                    "list": {
+                      "items": [
+                        {
+                          "term": {
+                            "en": "silicon dioxide (quartz)",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "chloride ion",
+                            "section": "species"
+                          }
+                        },
+                        {
+                          "term": {
+                            "en": "sodium ion",
+                            "section": "species"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              ]
+            },
+            "vessel": 1,
+            "what": "the last of the water is gone and silicon dioxide (quartz), chloride ion and sodium ion are still shown as dissolved, which is not a state a beaker can be in. What they crystallise into is not decidable from the ions alone, so the bench will not guess at the solids"
+          },
+          "input_script_sha256": "c5e3a5a31db6f3a8952f8692b8c2f3b48076c8e554d337529d0c1b640ef870c7"
+        }
+      ],
+      "unique_cases": 5
+    }
+  ],
+  "source_acceptance_assigned": false,
+  "new_science_or_browser_runs": 0,
+  "new_original_qualification_credit": 0,
+  "interpretation": "Counts are diagnostic events/unique internal-control cases, not original468 failure counts. Every warning is retained; relevance to a requested observable must be evaluated per original forecast."
+}
