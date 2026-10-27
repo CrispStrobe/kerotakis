@@ -112,6 +112,100 @@ mod engine {
     }
 }
 
+/// Why a query was not answered.
+#[derive(Debug, Clone, PartialEq, Error)]
+pub enum Refusal {
+    #[error("FeOs engine not compiled in (enable the `feos` feature)")]
+    EngineNotEnabled,
+    #[error("species `{0}` has no PC-SAFT parameters in this adapter")]
+    UnknownSpecies(String),
+    #[error("pressure {0} kPa outside the admitted {MIN_PRESSURE_KPA}-{MAX_PRESSURE_KPA} kPa")]
+    PressureOutOfDomain(f64),
+    #[error("mole fraction {0} outside the admitted [{MIN_FRACTION}, {max}]", max = 1.0 - MIN_FRACTION)]
+    CompositionOutOfDomain(f64),
+    #[error(
+        "solved temperature {0} K outside the admitted {MIN_TEMPERATURE_K}-{MAX_TEMPERATURE_K} K"
+    )]
+    TemperatureOutOfDomain(f64),
+    #[error("FeOs did not converge: {0}")]
+    NotConverged(String),
+}
+
+/// Which saturation point is asked for.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Saturation {
+    /// Given liquid composition, find T and the first vapour.
+    Bubble,
+    /// Given vapour composition, find T and the first liquid drop.
+    Dew,
+}
+
+/// A PC-SAFT saturation point of an alcohol–water binary.
+#[derive(Debug, Clone, PartialEq)]
+pub struct SaturationPoint {
+    pub t_kelvin: f64,
+    pub pressure_kpa: f64,
+    /// Alcohol mole fraction in the liquid.
+    pub x_alcohol: f64,
+    /// Alcohol mole fraction in the vapour.
+    pub y_alcohol: f64,
+    pub provenance: &'static str,
+}
+
+impl SaturationPoint {
+    pub fn t_celsius(&self) -> f64 {
+        self.t_kelvin - 273.15
+    }
+}
+
+/// Property query by species name; see [`saturation_point`].
+pub fn saturation_point_by_name(
+    alcohol: &str,
+    other: &str,
+    kind: Saturation,
+    alcohol_fraction: f64,
+    pressure_kpa: f64,
+) -> Result<SaturationPoint, Refusal> {
+    let a = Alcohol::from_name(alcohol).ok_or_else(|| Refusal::UnknownSpecies(alcohol.into()))?;
+    if !matches!(other.trim().to_ascii_lowercase().as_str(), "water" | "h2o") {
+        return Err(Refusal::UnknownSpecies(other.into()));
+    }
+    saturation_point(a, kind, alcohol_fraction, pressure_kpa)
+}
+
+/// Bubble or dew point of an alcohol–water binary at `pressure_kpa`, with
+/// `alcohol_fraction` the alcohol mole fraction of the given phase (liquid
+/// for [`Saturation::Bubble`], vapour for [`Saturation::Dew`]).
+pub fn saturation_point(
+    alcohol: Alcohol,
+    kind: Saturation,
+    alcohol_fraction: f64,
+    pressure_kpa: f64,
+) -> Result<SaturationPoint, Refusal> {
+    admit(alcohol_fraction, pressure_kpa)?;
+    let point = solve(alcohol, kind, alcohol_fraction, pressure_kpa)?;
+    let t = point.t_kelvin;
+    if !t.is_finite() || !(MIN_TEMPERATURE_K..=MAX_TEMPERATURE_K).contains(&t) {
+        return Err(Refusal::TemperatureOutOfDomain(t));
+    }
+    Ok(point)
+}
+
+fn admit(fraction: f64, pressure_kpa: f64) -> Result<(), Refusal> {
+    if !pressure_kpa.is_finite() || !(MIN_PRESSURE_KPA..=MAX_PRESSURE_KPA).contains(&pressure_kpa) {
+        return Err(Refusal::PressureOutOfDomain(pressure_kpa));
+    }
+    if !fraction.is_finite() || !(MIN_FRACTION..=1.0 - MIN_FRACTION).contains(&fraction) {
+        return Err(Refusal::CompositionOutOfDomain(fraction));
+    }
+    Ok(())
+}
+
+#[cfg(not(feature = "feos"))]
+fn solve(_: Alcohol, _: Saturation, _: f64, _: f64) -> Result<SaturationPoint, Refusal> {
+    Err(Refusal::EngineNotEnabled)
+}
+
 /// Pure-component PC-SAFT saturation, for diagnostics: `None` = water.
 #[derive(Debug, Clone, PartialEq)]
 pub struct PureSaturation {
