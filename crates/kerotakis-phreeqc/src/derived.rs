@@ -306,6 +306,16 @@ pub fn candidate_phases() -> &'static [DerivedPhase] {
     &derived().phases
 }
 
+/// The stablest phase `db_tag` itself defines for registry solid `key`
+/// (its own polymorph), or `None` when that database has none.
+pub fn routed_phase_for_solid(key: &str, db_tag: &str) -> Option<&'static str> {
+    let tag: &'static str = DB_TAGS.iter().find(|t| **t == db_tag).copied()?;
+    derived()
+        .db_best
+        .get(&(key.to_string(), tag))
+        .map(String::as_str)
+}
+
 pub fn phase_by_name(name: &str) -> Option<&'static DerivedPhase> {
     let d = derived();
     d.phases

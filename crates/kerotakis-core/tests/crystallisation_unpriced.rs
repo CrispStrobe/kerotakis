@@ -29,7 +29,12 @@ fn a_curve_salt_with_no_priced_dissolution_heat_refuses() {
     let from = v.temperature.0;
     let sensible = |t: f64, _n: f64| v.energy_between(t, from);
     assert!(matches!(
-        crystallisation::cool_with_crystallisation(&v, 12_000.0, &sensible),
-        Some(Err(Refusal::Unpriced { salt: "KNO3" }))
+        crystallisation::cool_against_curve(
+            &v,
+            crystallisation::curve_for("KNO3").unwrap(),
+            12_000.0,
+            &sensible
+        ),
+        Err(Refusal::Unpriced { salt: "KNO3" })
     ));
 }

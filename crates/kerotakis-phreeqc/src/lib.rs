@@ -19,6 +19,7 @@ mod aqueous;
 pub mod aqueous_gases;
 pub mod complexation;
 pub mod continuation_acceptance;
+pub mod crystallisation_route;
 pub mod dbindex;
 pub mod derived;
 pub mod enthalpy;

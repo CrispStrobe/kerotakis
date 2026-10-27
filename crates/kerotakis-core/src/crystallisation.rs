@@ -11,9 +11,18 @@
 //!
 //! # The mechanism, once for every salt
 //!
-//! A salt is OWNED here when, and only when, three independent facts hold:
+//! The PRIMARY solubility source is the routed database's own phase,
+//! solved by PHREEQC in the aqueous step (mixed electrolytes and common
+//! ions included); `kerotakis_phreeqc::crystallisation_route` enumerates
+//! which registry solids that owns on which route. This module is the
+//! coupled energy solve for a salt booked on its ions, and it runs at
+//! runtime only against a curve that is explicitly `runtime_admitted`.
+//! Measured curves are otherwise VALIDATION references, and a saturated
+//! solution of such a salt is refused ([`Refusal::NoRoutedPhase`]).
 //!
-//! 1. a reviewed, measured pure-water solubility CURVE ([`CURVES`]) with an
+//! A salt is owned by this solve when, and only when, three facts hold:
+//!
+//! 1. an admitted, measured pure-water solubility CURVE ([`CURVES`]) with an
 //!    explicit temperature domain;
 //! 2. the dissolved salt is booked on its ions (the aqueous engine's
 //!    ledger), so the amount in solution is the scarcer ion;
@@ -48,8 +57,7 @@
 //!
 //! Solvent freezing is NOT duplicated here: brine freezing with its latent
 //! heat and the 252 K admissibility cap is owned by
-//! [`crate::solve::StateEquilibrator`] (PRs #852/#857); the coverage
-//! enumeration below says which route owns which salt's freeze path.
+//! [`crate::solve::StateEquilibrator`] (PRs #852/#857).
 
 use crate::{species, Moles, Phase, SpeciesId, Vessel};
 use std::sync::OnceLock;
@@ -69,6 +77,11 @@ pub struct SolubilityCurve {
     /// Measured points, strictly increasing in temperature.
     pub points: &'static [CurvePoint],
     pub source: &'static str,
+    /// Whether the bench may crystallise against this curve at runtime.
+    /// The primary solubility source is the routed database's own phase
+    /// (`kerotakis_phreeqc::crystallisation_route`); a measured curve is a
+    /// VALIDATION reference unless it is explicitly admitted. None is.
+    pub runtime_admitted: bool,
 }
 
 /// Every reviewed curve. A row is a claim that the curve was READ from the
@@ -97,6 +110,11 @@ pub const CURVES: &[SolubilityCurve] = &[SolubilityCurve {
              undersaturation. The scan's OCR prints the sixth temperature as '7G-00'; it is \
              read as 76.00 C, consistent with the neighbouring points and with the Comey \
              comparison column (159.0) printed beside it.",
+    // No routed database (wateq4f, minteq.v4, pitzer) defines Niter, and
+    // llnl.dat's Niter under the default route's Debye-Hueckel activities
+    // misses this curve by 51-74% (tests/crystallisation_validation.rs in
+    // kerotakis-phreeqc). So KNO3 crystallisation is refused at runtime.
+    runtime_admitted: false,
 }];
 
 /// The reviewed curve for a registry salt, if one is shipped.
@@ -217,6 +235,10 @@ pub enum Refusal {
     /// Other dissolved ions, or an unpaired excess of the salt's own: the
     /// binary pure-water curve does not describe this solution.
     NotBinary { salt: &'static str },
+    /// Saturation is reached, but no routed database phase owns this
+    /// salt's solubility and its measured curve is a validation reference
+    /// only.
+    NoRoutedPhase { salt: &'static str },
 }
 
 /// The owned answer to a cooling dose.
@@ -310,8 +332,30 @@ pub fn cool_with_crystallisation(
             return saturation_reachable(vessel, removed_j, None).then_some(Err(refusal));
         }
     };
-    saturation_reachable(vessel, removed_j, Some((curve, dissolved)))
-        .then(|| solve(vessel, curve, dissolved, removed_j, sensible_after))
+    if !saturation_reachable(vessel, removed_j, Some((curve, dissolved))) {
+        return None;
+    }
+    if !curve.runtime_admitted {
+        return Some(Err(Refusal::NoRoutedPhase { salt: curve.salt }));
+    }
+    Some(solve(vessel, curve, dissolved, removed_j, sensible_after))
+}
+
+/// The coupled energy/crystallisation solve against an explicit curve,
+/// admitted or not: the mechanism the runtime uses, exposed so validation
+/// fixtures can exercise it against a measured reference.
+pub fn cool_against_curve(
+    vessel: &Vessel,
+    curve: &'static SolubilityCurve,
+    removed_j: f64,
+    sensible_after: &dyn Fn(f64, f64) -> f64,
+) -> Result<Crystallised, Refusal> {
+    let (found, dissolved) =
+        binary_solution(vessel).ok_or(Refusal::NotBinary { salt: curve.salt })??;
+    if found.salt != curve.salt {
+        return Err(Refusal::NotBinary { salt: curve.salt });
+    }
+    solve(vessel, curve, dissolved, removed_j, sensible_after)
 }
 
 /// Does the pure-sensible end point (no crystallisation) lie at or below
@@ -412,7 +456,7 @@ pub fn apply(vessel: &mut Vessel, curve: &SolubilityCurve, moles: f64) {
 /// such crystals in the next aqueous step would undo the crystallisation
 /// (and, on a priced route, charge its heat back).
 pub fn holds_solid(vessel: &Vessel, salt: &str) -> bool {
-    let Some(curve) = curve_for(salt) else {
+    let Some(curve) = curve_for(salt).filter(|c| c.runtime_admitted) else {
         return false;
     };
     let Some(Ok((found, dissolved))) = binary_solution(vessel) else {
@@ -424,77 +468,6 @@ pub fn holds_solid(vessel: &Vessel, salt: &str) -> bool {
     curve
         .capacity_mol(liquid_water_g(vessel), vessel.temperature.0)
         .is_some_and(|capacity| dissolved >= capacity * (1.0 - 1e-9))
-}
-
-/// How a registry solid's crystallisation-on-cooling is owned.
-#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
-pub struct CoverageRow {
-    pub solid: String,
-    /// `owned`, `curve-unpriced`, `single-point-cap`, `two-point-cap` or
-    /// `none`.
-    pub crystallisation: String,
-    pub detail: String,
-}
-
-/// Enumerate EVERY registry solid: which can crystallise on cooling with
-/// priced heat through this module, which only have the older pure-water
-/// cap of [`crate::solve::saturation_moves`] (molecular solutes, no heat),
-/// and which have nothing. Recomputed from the registry by the coverage
-/// test, so the checked-in table cannot drift from what ships.
-pub fn coverage() -> Vec<CoverageRow> {
-    let mut rows: Vec<CoverageRow> = species::all_species()
-        .into_iter()
-        .filter(|d| d.standard_phase == Phase::Solid)
-        .map(|d| {
-            let (crystallisation, detail) = if let Some(curve) = curve_for(d.key) {
-                let (lo, hi) = curve.domain_k();
-                let domain = format!(
-                    "{} measured points, {:.2}-{:.2} K, binary with {}/{}",
-                    curve.points.len(),
-                    lo,
-                    hi,
-                    curve.cation.0,
-                    curve.anion.0
-                );
-                match d.dissolution_enthalpy_kj {
-                    Some(h) => ("owned", format!("{domain}; registry dH_diss {h} kJ/mol")),
-                    None => (
-                        "curve-unpriced",
-                        format!(
-                            "{domain}; priced only where the routed engine registers a \
-                             dissolution pricer (PR #867 llnl reference), refused otherwise"
-                        ),
-                    ),
-                }
-            } else {
-                match (
-                    d.aqueous_solubility_g_per_100_ml,
-                    d.aqueous_solubility_g_per_100_ml_at_100c,
-                ) {
-                    (Some(_), Some(_)) => (
-                        "two-point-cap",
-                        "saturation_moves 20/100 C line; molecular portion only, no heat"
-                            .to_string(),
-                    ),
-                    (Some(_), None) => (
-                        "single-point-cap",
-                        "saturation_moves temperature-independent cap; no heat".to_string(),
-                    ),
-                    _ => (
-                        "none",
-                        "no reviewed temperature-dependent solubility curve".to_string(),
-                    ),
-                }
-            };
-            CoverageRow {
-                solid: d.key.to_string(),
-                crystallisation: crystallisation.to_string(),
-                detail,
-            }
-        })
-        .collect();
-    rows.sort_by(|a, b| a.solid.cmp(&b.solid));
-    rows
 }
 
 #[cfg(test)]

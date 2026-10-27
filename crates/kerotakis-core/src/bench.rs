@@ -2266,6 +2266,17 @@ impl Bench {
                                         ),
                                     ],
                                 ),
+                                crate::crystallisation::Refusal::NoRoutedPhase { salt } => {
+                                    Phrase::new(
+                                        "not-modeled.crystallisation-no-routed-phase",
+                                        "cooling saturates this solution with {salt}, and no \
+             routed aqueous database defines a {salt} phase whose solubility has been \
+             validated against measurement, so its crystallisation and the heat that \
+             comes with it are not computed; the temperature below is sensible cooling \
+             alone",
+                                        vec![("salt".to_string(), Slot::term("species", salt))],
+                                    )
+                                }
                                 crate::crystallisation::Refusal::NotBinary { salt } => {
                                     Phrase::new(
                                         "not-modeled.crystallisation-not-binary",

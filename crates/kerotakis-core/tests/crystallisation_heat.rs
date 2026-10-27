@@ -43,13 +43,25 @@ fn cool(v: &Vessel, joules: f64) -> Option<Result<crystallisation::Crystallised,
     crystallisation::cool_with_crystallisation(v, joules, &sensible)
 }
 
+/// The coupled solve against the Berkeley curve as a validation reference
+/// (not admitted at runtime).
+fn against_curve(v: &Vessel, joules: f64) -> Result<crystallisation::Crystallised, Refusal> {
+    crystallisation::register_dissolution_pricer(niter_pricer);
+    let from = v.temperature.0;
+    let curve = crystallisation::curve_for("KNO3").unwrap();
+    let sensible = |t_f: f64, n: f64| {
+        let mut end = v.clone();
+        crystallisation::apply(&mut end, curve, n);
+        end.energy_between(t_f, from)
+    };
+    crystallisation::cool_against_curve(v, curve, joules, &sensible)
+}
+
 /// TH-007 after #867's dissolution cooling: 321.76 K, then `cool 12kJ`.
 #[test]
 fn kno3_cooling_crystallises_releases_heat_and_stops_where_the_ledger_closes() {
     let v = solution(321.76, KNO3_MOL, &[]);
-    let owned = cool(&v, 12_000.0)
-        .expect("saturation is reached")
-        .expect("owned");
+    let owned = against_curve(&v, 12_000.0).expect("owned");
     // Independent hand balance (water Cp 75.3 J/mol/K, solid KNO3 96.4,
     // ions 0, Berkeley curve, 35.48 kJ/mol): 291.35 K, 0.147 mol.
     assert!((289.0..294.0).contains(&owned.final_k), "{owned:?}");
@@ -86,13 +98,20 @@ fn kno3_cooling_crystallises_releases_heat_and_stops_where_the_ledger_closes() {
         .map(|p| p.moles.0)
         .sum();
     assert!((k - KNO3_MOL).abs() < 1e-12);
-    assert!(crystallisation::holds_solid(
-        &{
-            let mut e = end.clone();
-            e.temperature = Kelvin(owned.final_k);
-            e
-        },
-        "KNO3"
+    // Not admitted at runtime: crystals of a validation-only curve are not
+    // held back from the aqueous engine.
+    assert!(!crystallisation::holds_solid(&end, "KNO3"));
+}
+
+/// TH-007 at runtime: no routed database phase owns KNO3 and the llnl
+/// Niter route fails validation, so a saturating dose is refused rather
+/// than cooled heat-free in silence.
+#[test]
+fn kno3_saturation_at_runtime_is_refused_for_want_of_a_routed_phase() {
+    let v = solution(321.76, KNO3_MOL, &[]);
+    assert!(matches!(
+        cool(&v, 12_000.0),
+        Some(Err(Refusal::NoRoutedPhase { salt: "KNO3" }))
     ));
 }
 
@@ -107,8 +126,8 @@ fn an_unsaturated_solution_cools_without_a_phase_change() {
 #[test]
 fn a_dose_past_the_measured_curve_toward_the_eutectic_is_refused() {
     let v = solution(321.76, KNO3_MOL, &[]);
-    match cool(&v, 40_000.0) {
-        Some(Err(Refusal::BelowCurveDomain { salt, floor_k })) => {
+    match against_curve(&v, 40_000.0) {
+        Err(Refusal::BelowCurveDomain { salt, floor_k }) => {
             assert_eq!(salt, "KNO3");
             assert!((floor_k - 273.55).abs() < 1e-9);
         }
