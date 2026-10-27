@@ -21,6 +21,7 @@ members = [
     "crates/kerotakis-sundials",
     "crates/kerotakis-scene-physics",
     "crates/kerotakis-coolprop",
+    "crates/kerotakis-feos",
 ]
 
 # chematic 0.18's umbrella crate remains downloadable, but crates.io no longer
