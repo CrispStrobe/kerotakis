@@ -719,6 +719,29 @@ pub fn heat_released_j(
     Ok(-d_h_kj * 1000.0)
 }
 
+/// Enthalpy of dissolution of a registry solid, kJ/mol (positive
+/// endothermic): what one mole costs going from the solid to its dissolved
+/// products, both priced by the ONE ownership chain of this module
+/// ([`solid_route`] for the solid, the dissociative aqueous price for the
+/// solution). The first route (wateq4f, minteq.v4, pitzer) that prices
+/// both sides answers. This is the pricer the crystallisation ledger in
+/// `kerotakis_core::crystallisation` charges crystallisation heat with;
+/// see [`register_crystallisation_pricer`].
+pub fn dissolution_enthalpy_kj(key: &str) -> Option<f64> {
+    crate::derived::DB_TAGS.iter().find_map(|tag| {
+        let solid = species_enthalpy(key, Phase::Solid, tag).ok()?;
+        let dissolved = species_enthalpy(key, Phase::Aqueous, tag).ok()?;
+        let dh = dissolved - solid;
+        dh.is_finite().then_some(dh)
+    })
+}
+
+/// Hand [`dissolution_enthalpy_kj`] to the core crystallisation ledger.
+/// Idempotent: the core keeps the first registration.
+pub fn register_crystallisation_pricer() {
+    kerotakis_core::crystallisation::register_dissolution_pricer(dissolution_enthalpy_kj);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

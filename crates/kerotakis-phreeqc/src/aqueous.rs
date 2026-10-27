@@ -2345,6 +2345,9 @@ impl PhreeqcEquilibrator {
 impl PhreeqcEquilibrator {
     #[cfg(feature = "engine")]
     pub fn new() -> Result<Self, PhreeqcError> {
+        // Crystallisation on cooling is charged at the same dissolution
+        // enthalpy this stack's heat balance uses (#867 `solid_route`).
+        crate::enthalpy::register_crystallisation_pricer();
         let mut inorganic = load_native_database("wateq4f")?;
         let mut organic = load_native_database("minteq.v4")?;
         let mut brine = load_native_database("pitzer")?;
@@ -2388,6 +2391,9 @@ impl PhreeqcEquilibrator {
     /// guess.
     #[cfg(not(feature = "engine"))]
     pub fn new() -> Result<Self, PhreeqcError> {
+        // Crystallisation on cooling is charged at the same dissolution
+        // enthalpy this stack's heat balance uses (#867 `solid_route`).
+        crate::enthalpy::register_crystallisation_pricer();
         Ok(PhreeqcEquilibrator {
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
