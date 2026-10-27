@@ -203,6 +203,7 @@ fn charge_notation(key: &str) -> Option<String> {
 /// * collides with a curated alias for another identity (`curated-alias-wins`),
 /// * could be read as a material revision pin (`revision-syntax`),
 /// * equals any species key in any case (`registry-key`),
+/// * is a species name of a shipped mechanism pack (`mechanism-species`),
 /// * names more than one identity (`ambiguous`),
 /// * drops the qualifier that tells same-formula species apart
 ///   (`qualifier-required`: `carbon` for charcoal/graphite/diamond),
@@ -281,6 +282,19 @@ fn build_input_alias_table() -> InputAliasTable {
         .map(|data| data.key.to_lowercase())
         .chain(std::iter::once(BASE_EQUIVALENTS.to_lowercase()))
         .collect();
+    // Shipped mechanism packs name species by formula (`CH4`) and hand
+    // vessels keyed that way to their networks; such a name is an
+    // identifier in use, never a spelling to rewrite.
+    let mechanism_species: BTreeSet<String> = crate::kinetics::packs::REGISTRY_NAMES
+        .iter()
+        .map(|(from, _)| from.to_string())
+        .chain(
+            crate::kinetics::packs::shipped()
+                .iter()
+                .flat_map(|pack| pack.species.iter().cloned()),
+        )
+        .map(|name| normalized_alias(&name))
+        .collect();
     let curated: BTreeMap<String, &str> = CURATED_INPUT_ALIASES
         .iter()
         .map(|(alias, key)| (normalized_alias(alias), *key))
@@ -341,6 +355,8 @@ fn build_input_alias_table() -> InputAliasTable {
             Some("revision-syntax")
         } else if keys_ci.contains(&group) {
             Some("registry-key")
+        } else if mechanism_species.contains(&group) {
+            Some("mechanism-species")
         } else if targets.len() > 1 {
             Some("ambiguous")
         } else if rows
@@ -382,7 +398,7 @@ fn build_input_alias_table() -> InputAliasTable {
     for (alias, key, source) in accepted {
         best.entry((alias, key))
             .and_modify(|current| {
-                if priority(source) < priority(*current) {
+                if priority(source) < priority(current) {
                     *current = source;
                 }
             })
@@ -402,16 +418,17 @@ fn build_input_alias_table() -> InputAliasTable {
 }
 
 struct InputAliasIndex {
-    ordered: Vec<(&'static str, &'static str)>,
+    /// (alias tokens, canonical key), tokens split once at build time so
+    /// the parser's ingredient rewrite allocates nothing per alias.
+    ordered: Vec<(Vec<&'static str>, &'static str)>,
     exact: std::collections::HashMap<&'static str, &'static str>,
-    reserved: std::collections::HashSet<String>,
 }
 
 fn input_alias_index() -> &'static InputAliasIndex {
     use std::sync::OnceLock;
     static INDEX: OnceLock<InputAliasIndex> = OnceLock::new();
     INDEX.get_or_init(|| {
-        let ordered: Vec<(&'static str, &'static str)> = input_alias_table()
+        let pairs: Vec<(&'static str, &'static str)> = input_alias_table()
             .aliases
             .iter()
             .map(|entry| {
@@ -424,41 +441,52 @@ fn input_alias_index() -> &'static InputAliasIndex {
             })
             .collect();
         InputAliasIndex {
-            exact: ordered.iter().copied().collect(),
-            reserved: ordered
-                .iter()
-                .map(|(alias, _)| normalized_alias(alias))
+            exact: pairs.iter().copied().collect(),
+            ordered: pairs
+                .into_iter()
+                .map(|(alias, canonical)| (alias.split_whitespace().collect(), canonical))
                 .collect(),
-            ordered,
         }
     })
 }
 
-/// Every accepted input spelling, curated and generated, as (alias, key).
-pub(crate) fn input_aliases() -> &'static [(&'static str, &'static str)] {
+/// Every accepted input spelling, pre-tokenized, as (alias tokens, key).
+/// Used only where a learner TYPES an ingredient; identities inside the
+/// engine (`SpeciesId::new`, serde, packs, mechanisms) are never rewritten
+/// by generated spellings.
+pub(crate) fn input_alias_tokens() -> &'static [(Vec<&'static str>, &'static str)] {
     &input_alias_index().ordered
 }
 
-/// Resolve accepted spellings at every species identity boundary.
-pub(crate) fn canonical_input_key(key: &str) -> &str {
-    input_alias_index().exact.get(key).copied().unwrap_or(key)
+/// Resolve a typed spelling to a registry key. Exact keys always win: a
+/// string that already names a species (compiled, enzyme, basis or
+/// pack-loaded) is never re-read as an alias of another.
+pub fn resolve_input_alias(text: &str) -> Option<&'static str> {
+    if lookup_key(text).is_some() {
+        return None;
+    }
+    input_alias_index().exact.get(text).copied()
 }
 
-/// Only the curated spellings: for callers that must keep the behaviour
-/// they had before aliases were generated (the localized line rewriter).
-pub(crate) fn curated_input_key(key: &str) -> &str {
+/// Resolve the curated spellings at every species identity boundary.
+/// Generated spellings are deliberately NOT applied here; see
+/// [`resolve_input_alias`].
+pub(crate) fn canonical_input_key(key: &str) -> &str {
     CURATED_INPUT_ALIASES
         .iter()
         .find_map(|(alias, canonical)| (*alias == key).then_some(*canonical))
         .unwrap_or(key)
 }
 
-/// A pack must not install an identity hidden by a reserved input spelling.
-/// Text tokenization collapses whitespace; protect that spelling as well.
+/// A pack must not install an identity hidden by a reserved (curated)
+/// input spelling. Text tokenization collapses whitespace; protect that
+/// spelling as well. Generated spellings never block a pack key: exact
+/// keys win over them at resolution instead.
 fn reserved_input_alias(key: &str) -> bool {
-    input_alias_index()
-        .reserved
-        .contains(&normalized_alias(key))
+    let normalized = key.split_whitespace().collect::<Vec<_>>().join(" ");
+    CURATED_INPUT_ALIASES
+        .iter()
+        .any(|(alias, _)| alias.eq_ignore_ascii_case(&normalized))
 }
 
 pub(crate) fn serialize_input_key<S: serde::Serializer>(
@@ -1110,11 +1138,6 @@ pub fn english_name(key: &str) -> &str {
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
     lookup_resolved_key(canonical_input_key(key))
-}
-
-/// [`lookup_key`] honouring only the curated spellings, not generated ones.
-pub(crate) fn lookup_key_curated(key: &str) -> Option<&'static SpeciesData> {
-    lookup_resolved_key(curated_input_key(key))
 }
 
 fn lookup_resolved_key(key: &str) -> Option<&'static SpeciesData> {

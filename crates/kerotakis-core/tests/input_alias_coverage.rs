@@ -21,6 +21,13 @@ const CURATED: &[(&str, &str)] = &[
     ("acetate", "CH3COO-"),
 ];
 
+/// What a learner's typed spelling resolves to: an exact key, else an alias.
+fn resolve(text: &str) -> Option<&'static str> {
+    species::lookup_key(text)
+        .map(|data| data.key)
+        .or_else(|| species::resolve_input_alias(text))
+}
+
 fn render_markdown(table: &InputAliasTable) -> String {
     let registry = species::registry();
     let mut counts: BTreeMap<&str, usize> = BTreeMap::new();
@@ -165,11 +172,15 @@ fn every_accepted_alias_resolves_uniquely_and_never_shadows_a_key() {
     let mut by_spelling: BTreeMap<String, &str> = BTreeMap::new();
     for entry in &table.aliases {
         assert!(INPUT_ALIAS_SOURCES.contains(&entry.source.as_str()));
-        assert_eq!(
-            species::lookup_key(&entry.alias).map(|data| data.key),
-            Some(entry.canonical.as_str()),
-            "{entry:?}"
-        );
+        // A pack key loaded under this spelling (another test does so)
+        // legitimately wins; otherwise the alias must resolve.
+        if species::lookup_key(&entry.alias).is_none() {
+            assert_eq!(
+                species::resolve_input_alias(&entry.alias),
+                Some(entry.canonical.as_str()),
+                "{entry:?}"
+            );
+        }
         assert!(
             species::registry()
                 .iter()
@@ -194,7 +205,7 @@ fn every_accepted_alias_resolves_uniquely_and_never_shadows_a_key() {
         }
         for spelling in &refused.spellings {
             assert!(
-                species::lookup_key(spelling).is_none(),
+                resolve(spelling).is_none(),
                 "refused {spelling} ({}) still resolves",
                 refused.reason
             );
@@ -215,7 +226,7 @@ fn shared_formulas_and_isomers_are_refused_not_guessed() {
     // Two registry identities share each of these formulas.
     for formula in ["C2H4", "C6H12O6", "C12H22O11", "C6H10O5"] {
         assert_eq!(reason(formula), Some("ambiguous"), "{formula}");
-        assert!(species::lookup_key(formula).is_none(), "{formula}");
+        assert!(resolve(formula).is_none(), "{formula}");
     }
     // Hill formulas name compositions, not compounds.
     for formula in ["C3H8O", "C4H10O", "C3H6"] {
@@ -224,14 +235,14 @@ fn shared_formulas_and_isomers_are_refused_not_guessed() {
             Some("isomer-ambiguous-formula"),
             "{formula}"
         );
-        assert!(species::lookup_key(formula).is_none(), "{formula}");
+        assert!(resolve(formula).is_none(), "{formula}");
     }
     // The qualifier is what tells charcoal from graphite and diamond.
     assert_eq!(reason("carbon"), Some("qualifier-required"));
-    assert!(species::lookup_key("carbon").is_none());
+    assert!(resolve("carbon").is_none());
     // A formula shared with distinct keys stays the key it already is.
-    assert_eq!(species::lookup_key("CO2").unwrap().key, "CO2");
-    assert_eq!(species::lookup_key("N2").unwrap().key, "N2");
+    assert_eq!(resolve("CO2").unwrap(), "CO2");
+    assert_eq!(resolve("N2").unwrap(), "N2");
     assert_ne!(SpeciesId::new("CO2"), SpeciesId::new("dry_ice"));
     assert_ne!(SpeciesId::new("N2"), SpeciesId::new("liquid_nitrogen"));
     // Material bottles keep their names.
@@ -241,39 +252,39 @@ fn shared_formulas_and_isomers_are_refused_not_guessed() {
 #[test]
 fn hydrate_and_anhydrous_spellings_stay_distinct_identities() {
     for spelling in ["CuSO4·5H2O", "CuSO4.5H2O", "CuSO4*5H2O"] {
-        assert_eq!(species::lookup_key(spelling).unwrap().key, "chalcanthite");
+        assert_eq!(resolve(spelling).unwrap(), "chalcanthite");
         assert_ne!(SpeciesId::new(spelling), SpeciesId::new("CuSO4"));
     }
-    assert_eq!(species::lookup_key("copper sulfate").unwrap().key, "CuSO4");
-    assert_eq!(species::lookup_key("CuSO4_anhydrous").unwrap().key, "CuSO4");
+    assert_eq!(resolve("copper sulfate").unwrap(), "CuSO4");
+    assert_eq!(resolve("CuSO4_anhydrous").unwrap(), "CuSO4");
     for spelling in ["MgSO4·7H2O", "MgSO4.7H2O", "MgSO4*7H2O"] {
-        assert_eq!(species::lookup_key(spelling).unwrap().key, "epsomite");
+        assert_eq!(resolve(spelling).unwrap(), "epsomite");
         assert_ne!(SpeciesId::new(spelling), SpeciesId::new("MgSO4"));
     }
-    assert_eq!(species::lookup_key("MgSO4_anhydrous").unwrap().key, "MgSO4");
+    assert_eq!(resolve("MgSO4_anhydrous").unwrap(), "MgSO4");
     // No anhydrous spelling is invented where the registry has no hydrate pair.
-    assert!(species::lookup_key("NaCl_anhydrous").is_none());
-    assert!(species::lookup_key("CaSO4_anhydrous").is_none());
+    assert!(resolve("NaCl_anhydrous").is_none());
+    assert!(resolve("CaSO4_anhydrous").is_none());
 }
 
 #[test]
 fn ion_names_never_turn_an_element_into_its_ion() {
-    assert_eq!(species::lookup_key("sulfate").unwrap().key, "SO4-2");
-    assert_eq!(species::lookup_key("Sulfat").unwrap().key, "SO4-2");
-    assert_eq!(species::lookup_key("chlorure").unwrap().key, "Cl-");
-    assert_eq!(species::lookup_key("ammonium").unwrap().key, "NH4+");
-    assert_eq!(species::lookup_key("Ca2+").unwrap().key, "Ca+2");
-    assert_eq!(species::lookup_key("Cu+").unwrap().key, "Cu+1");
+    assert_eq!(resolve("sulfate").unwrap(), "SO4-2");
+    assert_eq!(resolve("Sulfat").unwrap(), "SO4-2");
+    assert_eq!(resolve("chlorure").unwrap(), "Cl-");
+    assert_eq!(resolve("ammonium").unwrap(), "NH4+");
+    assert_eq!(resolve("Ca2+").unwrap(), "Ca+2");
+    assert_eq!(resolve("Cu+").unwrap(), "Cu+1");
     // `sodium`, `calcium`, `hydrogen ion`'s stem: metals/molecules, not ions.
-    assert!(species::lookup_key("sodium").is_none());
-    assert!(species::lookup_key("calcium").is_none());
-    assert_eq!(species::lookup_key("hydrogen").unwrap().key, "H2");
-    assert_eq!(species::lookup_key("magnesium").unwrap().key, "Mg");
+    assert!(resolve("sodium").is_none());
+    assert!(resolve("calcium").is_none());
+    assert_eq!(resolve("hydrogen").unwrap(), "H2");
+    assert_eq!(resolve("magnesium").unwrap(), "Mg");
     // Ambiguous digit runs are not generated.
-    assert!(species::lookup_key("SO42-").is_none());
+    assert!(resolve("SO42-").is_none());
     // Case is identity: only the registry's own spellings are aliases.
-    assert!(species::lookup_key("Sodium chloride").is_none());
-    assert!(species::lookup_key("SULFATE").is_none());
+    assert!(resolve("Sodium chloride").is_none());
+    assert!(resolve("SULFATE").is_none());
 }
 
 #[test]
@@ -285,7 +296,7 @@ fn generated_aliases_parse_to_the_canonical_operator() {
         ("potassium nitrate", "KNO3"),
         ("Kaliumnitrat", "KNO3"),
     ] {
-        if species::lookup_key(alias).is_none() {
+        if resolve(alias).is_none() {
             // Translations are data; skip if a catalogue does not carry one.
             continue;
         }
@@ -298,10 +309,43 @@ fn generated_aliases_parse_to_the_canonical_operator() {
 }
 
 #[test]
-fn packs_cannot_install_a_species_under_a_generated_alias() {
-    for alias in ["sulfate", "Ca2+", "CuSO4.5H2O", "copper sulfate"] {
-        let mut data = species::lookup_key("NaCl").unwrap().clone();
-        data.key = alias;
-        assert_eq!(species::register_loaded(vec![data]), (0, 1), "{alias}");
+fn exact_keys_win_and_generated_spellings_never_rewrite_identities() {
+    // Identity boundaries apply curated spellings only.
+    assert_eq!(SpeciesId::new("chalk").0, "chalk");
+    assert_eq!(SpeciesId::new("CH4").0, "CH4");
+    // A pack key equal to a generated spelling loads, and then wins.
+    let mut data = species::lookup_key("NaCl").unwrap().clone();
+    data.key = "Mn3+";
+    assert_eq!(species::register_loaded(vec![data]), (1, 0));
+    assert_eq!(species::resolve_input_alias("Mn3+"), None);
+    assert_eq!(species::lookup_key("Mn3+").unwrap().key, "Mn3+");
+    let op = parse_op("add v1 Mn3+ 0.001mol").unwrap().unwrap();
+    assert!(matches!(op, Operator::Add { ref species, .. } if species.0 == "Mn3+"));
+    // Curated spellings still reserve their names against packs.
+    let mut data = species::lookup_key("NaCl").unwrap().clone();
+    data.key = "acetate";
+    assert_eq!(species::register_loaded(vec![data]), (0, 1));
+}
+
+#[test]
+fn no_shipped_mechanism_species_is_an_alias_or_rewritten() {
+    let table = species::input_alias_table();
+    let mut names: Vec<String> = kerotakis_core::kinetics::packs::REGISTRY_NAMES
+        .iter()
+        .map(|(from, _)| from.to_string())
+        .collect();
+    for pack in kerotakis_core::kinetics::packs::shipped() {
+        names.extend(pack.species.iter().cloned());
+    }
+    assert!(names.iter().any(|name| name == "CH4"));
+    for name in &names {
+        assert!(
+            table
+                .aliases
+                .iter()
+                .all(|alias| !alias.alias.eq_ignore_ascii_case(name) || alias.source == "curated"),
+            "{name} is a mechanism identifier"
+        );
+        assert_eq!(&SpeciesId::new(name).0, name, "{name} rewritten");
     }
 }

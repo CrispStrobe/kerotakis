@@ -6,8 +6,8 @@ run that test with `KEROTAKIS_BLESS_ALIAS_COVERAGE=1` to regenerate.
 
 - Registry species: 186
 - Species reachable by at least one alias: 182
-- Accepted aliases: 668
-- Refused alias spellings: 78
+- Accepted aliases: 667
+- Refused alias spellings: 79
 
 ## Accepted aliases by source
 
@@ -23,7 +23,7 @@ run that test with `KEROTAKIS_BLESS_ALIAS_COVERAGE=1` to regenerate.
 | name:fr | 169 |
 | name-prefix:fr | 20 |
 | ion-name:fr | 8 |
-| formula | 27 |
+| formula | 26 |
 | hydrate-notation | 10 |
 | charge-notation | 12 |
 | anhydrous | 1 |
@@ -64,9 +64,9 @@ run that test with `KEROTAKIS_BLESS_ALIAS_COVERAGE=1` to regenerate.
 | `C3H5O3-` | `lactate` | isomer-ambiguous-formula |
 | `C3H6` | `PP` | isomer-ambiguous-formula |
 | `C3H6O3` | `lactic_acid` | isomer-ambiguous-formula |
-| `C3H8` | `propane` | isomer-ambiguous-formula |
+| `C3H8` | `propane` | mechanism-species |
 | `C3H8O` | `isopropanol` | isomer-ambiguous-formula |
-| `C4H10` | `butane` | isomer-ambiguous-formula |
+| `C4H10` | `butane` | mechanism-species |
 | `C4H10O` | `tert_butanol` | isomer-ambiguous-formula |
 | `C4H6O5` | `malic_acid` | isomer-ambiguous-formula |
 | `C4H8` | `isobutylene` | isomer-ambiguous-formula |
@@ -84,6 +84,7 @@ run that test with `KEROTAKIS_BLESS_ALIAS_COVERAGE=1` to regenerate.
 | `carbon` | `C` | qualifier-required |
 | `carbone` | `C` | qualifier-required |
 | `Cellulose` | `cellulose` | registry-key |
+| `CH4` | `methane` | mechanism-species |
 | `CO2` | `CO2(aq)`, `dry_ice` | registry-key |
 | `cristaux de soude` | `Na2CO3` | material-name |
 | `Curcumin` | `curcumin` | registry-key |
@@ -177,7 +178,6 @@ run that test with `KEROTAKIS_BLESS_ALIAS_COVERAGE=1` to regenerate.
 | `CH3COOC2H5` | `ethyl_acetate` | formula |
 | `CH3COONa` | `NaOAc` | formula |
 | `CH3OH` | `methanol` | formula |
-| `CH4` | `methane` | formula |
 | `Ca2+` | `Ca+2` | charge-notation |
 | `Ca4H(PO4)3*3H2O` | `octacalcium_phosphate` | hydrate-notation |
 | `Ca4H(PO4)3.3H2O` | `octacalcium_phosphate` | hydrate-notation |

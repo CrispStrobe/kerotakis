@@ -276,11 +276,6 @@
       "source": "formula"
     },
     {
-      "alias": "CH4",
-      "canonical": "methane",
-      "source": "formula"
-    },
-    {
       "alias": "Ca2+",
       "canonical": "Ca+2",
       "source": "charge-notation"
@@ -3676,7 +3671,7 @@
       "candidates": [
         "propane"
       ],
-      "reason": "isomer-ambiguous-formula"
+      "reason": "mechanism-species"
     },
     {
       "alias": "c3h8o",
@@ -3696,7 +3691,7 @@
       "candidates": [
         "butane"
       ],
-      "reason": "isomer-ambiguous-formula"
+      "reason": "mechanism-species"
     },
     {
       "alias": "c4h10o",
@@ -3869,6 +3864,16 @@
         "cellulose"
       ],
       "reason": "registry-key"
+    },
+    {
+      "alias": "ch4",
+      "spellings": [
+        "CH4"
+      ],
+      "candidates": [
+        "methane"
+      ],
+      "reason": "mechanism-species"
     },
     {
       "alias": "co2",
