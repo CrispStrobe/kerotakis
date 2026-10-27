@@ -1816,6 +1816,26 @@ impl Vessel {
         Moles(moles.0 - remaining)
     }
 
+    /// Remove up to `moles` of a species from the listed phases, in order
+    /// (#846/#765 rule: a writer names the phases it may debit). Returns the
+    /// amount actually removed.
+    pub fn withdraw_phases(
+        &mut self,
+        species: &SpeciesId,
+        moles: Moles,
+        phases: &[Phase],
+    ) -> Moles {
+        let mut taken = 0.0;
+        for phase in phases {
+            let remaining = moles.0 - taken;
+            if remaining <= 0.0 {
+                break;
+            }
+            taken += self.withdraw_phase(species, Moles(remaining), *phase).0;
+        }
+        Moles(taken)
+    }
+
     /// Effective heat capacity of the contents under this vessel's current
     /// mechanical boundary, J/K. Zero for an empty vessel.
     ///

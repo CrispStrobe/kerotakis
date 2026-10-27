@@ -111,6 +111,7 @@ pub mod states;
 pub mod statistics;
 pub mod stock;
 pub mod stoich;
+pub mod strong_reserve;
 pub mod surface_colour;
 pub mod surface_spread;
 pub mod swelling;

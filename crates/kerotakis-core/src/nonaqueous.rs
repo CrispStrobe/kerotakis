@@ -730,11 +730,99 @@ pub fn single_organic_solvent(vessel: &Vessel) -> Option<&'static str> {
     found
 }
 
+/// How a registry liquid relates to the aqueous model's medium admission.
+///
+/// Declared, never inferred from spelling: every registry species whose
+/// standard phase is liquid must appear in [`REGISTRY_LIQUID_MEDIA`]
+/// (`tests/nonaqueous_routing.rs` enumerates the registry and fails on a new
+/// unclassified liquid). Several registry "liquids" are the dissolved solute
+/// of an aqueous reagent bottle (hydrochloric acid, ammonia solution,
+/// bleach): their own water arrives as `water`, so they are solutes, not a
+/// competing matrix.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum LiquidMedium {
+    /// The aqueous solvent itself.
+    Water,
+    /// An organic liquid that competes with water as the solvent. Counted
+    /// whatever its miscibility: no validated two-liquid activity/partition
+    /// model exists, so a majority of it refuses rather than solves only
+    /// the water layer.
+    Organic,
+    /// Liquid hydrogen peroxide (#839).
+    Peroxide,
+    /// A concentrated mineral acid liquid (sulfuric, phosphoric).
+    MineralAcid,
+    /// The solute of an aqueous reagent bottle; not a matrix.
+    AqueousReagentSolute,
+    /// Not a solvent matrix at bench conditions (a cryogen boils off).
+    NotAMatrix,
+}
+
+/// Every registry liquid, classified. Order is irrelevant.
+pub const REGISTRY_LIQUID_MEDIA: &[(&str, LiquidMedium)] = &[
+    ("water", LiquidMedium::Water),
+    ("ethanol", LiquidMedium::Organic),
+    ("hexane", LiquidMedium::Organic),
+    ("ethyl_acetate", LiquidMedium::Organic),
+    ("propanone", LiquidMedium::Organic),
+    ("CH3COOH", LiquidMedium::Organic),
+    ("methanol", LiquidMedium::Organic),
+    ("isopropanol", LiquidMedium::Organic),
+    ("tert_butanol", LiquidMedium::Organic),
+    ("lactic_acid", LiquidMedium::Organic),
+    ("bromoethane", LiquidMedium::Organic),
+    ("tert_butyl_bromide", LiquidMedium::Organic),
+    ("dodecane", LiquidMedium::Organic),
+    ("hexadecane", LiquidMedium::Organic),
+    ("H2O2", LiquidMedium::Peroxide),
+    ("H2SO4", LiquidMedium::MineralAcid),
+    ("H3PO4", LiquidMedium::MineralAcid),
+    ("HCl", LiquidMedium::AqueousReagentSolute),
+    ("HI", LiquidMedium::AqueousReagentSolute),
+    ("NH3", LiquidMedium::AqueousReagentSolute),
+    ("NaOCl", LiquidMedium::AqueousReagentSolute),
+    ("liquid_nitrogen", LiquidMedium::NotAMatrix),
+];
+
+pub fn liquid_medium(key: &str) -> Option<LiquidMedium> {
+    REGISTRY_LIQUID_MEDIA
+        .iter()
+        .find(|(k, _)| *k == key)
+        .map(|(_, m)| *m)
+}
+
+/// Owned liquid/aqueous moles of each matrix class.
+fn matrix_moles(vessel: &Vessel) -> (f64, f64, f64, f64) {
+    let (mut water, mut organic, mut peroxide, mut acid) = (0.0f64, 0.0f64, 0.0f64, 0.0f64);
+    for p in &vessel.contents {
+        if !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
+            continue;
+        }
+        let key = p.species.0.as_str();
+        // KNOWN_SOLVENTS stays authoritative for the organic rung even if a
+        // pack ever loads one without a registry liquid row.
+        let medium = liquid_medium(key).or_else(|| {
+            KNOWN_SOLVENTS
+                .contains(&key)
+                .then_some(LiquidMedium::Organic)
+        });
+        match medium {
+            Some(LiquidMedium::Water) => water += p.moles.0,
+            Some(LiquidMedium::Organic) => organic += p.moles.0,
+            Some(LiquidMedium::Peroxide) => peroxide += p.moles.0,
+            Some(LiquidMedium::MineralAcid) => acid += p.moles.0,
+            _ => {}
+        }
+    }
+    (water, organic, peroxide, acid)
+}
+
 /// The mole fraction of water among the liquids that could act as a
-/// solvent, when a known organic solvent or liquid peroxide matrix is present.
-/// Peroxide is counted for aqueous-model admission only, without adding
-/// it to the organic solubility tables. `None` when no competing matrix
-/// is present; dry peroxide has fraction zero.
+/// solvent, when an organic liquid, liquid peroxide or concentrated mineral
+/// acid matrix is present (see [`LiquidMedium`]). Peroxide and mineral acids
+/// are counted for aqueous-model admission only, without adding them to the
+/// organic solubility tables. `None` when no competing matrix is present;
+/// a dry peroxide or acid has fraction zero.
 ///
 /// CAP-23 rung 3, routing half: an aqueous activity model describes a
 /// solution IN WATER. Below [`AQUEOUS_WATER_FRACTION_FLOOR`] the liquid
@@ -744,22 +832,9 @@ pub fn single_organic_solvent(vessel: &Vessel) -> Option<&'static str> {
 /// leaves a trace of by-product water). The Born-corrected mixed-solvent
 /// log K remains declined until someone brings data worth trusting.
 pub fn water_fraction_among_solvents(vessel: &Vessel) -> Option<f64> {
-    let mut water = 0.0f64;
-    let mut organic = 0.0f64;
-    let mut peroxide = 0.0f64;
-    for p in &vessel.contents {
-        if !matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
-            continue;
-        }
-        if p.species.0 == "water" {
-            water += p.moles.0;
-        } else if p.species.0 == "H2O2" {
-            peroxide += p.moles.0;
-        } else if KNOWN_SOLVENTS.contains(&p.species.0.as_str()) {
-            organic += p.moles.0;
-        }
-    }
-    ((organic > 0.0 && water > 0.0) || peroxide > 0.0).then(|| water / (water + organic + peroxide))
+    let (water, organic, peroxide, acid) = matrix_moles(vessel);
+    ((organic > 0.0 && water > 0.0) || peroxide > 0.0 || acid > 0.0)
+        .then(|| water / (water + organic + peroxide + acid))
 }
 
 /// Below this water mole fraction the aqueous engine is not asked: the
@@ -768,22 +843,41 @@ pub fn water_fraction_among_solvents(vessel: &Vessel) -> Option<f64> {
 /// boundary, stated wherever it acts.
 pub const AQUEOUS_WATER_FRACTION_FLOOR: f64 = 0.5;
 
-/// Withdraw aqueous diagnostics over a peroxide-rich matrix. This is an
-/// admission boundary using the existing editorial water-majority floor,
-/// not a fitted peroxide/water activity model. Matter and independently
-/// represented kinetics remain untouched. Both the direct aqueous entry
-/// point and the honesty tail use it, including previously complete readings.
+/// Kept for callers of the #839 name; see [`non_water_matrix_boundary`].
 pub fn peroxide_medium_boundary(vessel: &mut Vessel) -> Option<Event> {
-    let has_peroxide_matrix = vessel.contents.iter().any(|p| {
-        p.species.0 == "H2O2"
-            && matches!(p.phase, Phase::Liquid | Phase::Aqueous)
-            && p.moles.0 > 0.0
-    });
-    if !has_peroxide_matrix
+    non_water_matrix_boundary(vessel)
+}
+
+/// Withdraw aqueous diagnostics over a peroxide- or mineral-acid-rich
+/// matrix. This is an admission boundary using the existing editorial
+/// water-majority floor, not a fitted activity model. Matter and
+/// independently represented kinetics remain untouched. Both the direct
+/// aqueous entry point and the honesty tail use it, including previously
+/// complete readings. Organic majorities keep their own
+/// `not-modeled.mostly-organic-solvent` honesty route.
+pub fn non_water_matrix_boundary(vessel: &mut Vessel) -> Option<Event> {
+    let (_, _, peroxide, acid) = matrix_moles(vessel);
+    if (peroxide <= 0.0 && acid <= 0.0)
         || water_fraction_among_solvents(vessel).is_none_or(|x| x >= AQUEOUS_WATER_FRACTION_FLOOR)
     {
         return None;
     }
+    let reason = if peroxide > 0.0 {
+        Phrase::bare(
+            "not-modeled.peroxide-rich-medium",
+            "this peroxide-containing liquid is below the aqueous model's editorial water-majority admission boundary. A trace of water produced by a reaction does not establish an aqueous solvent. No validated activity model for this peroxide-rich medium is available: aqueous pH, ionic strength and speciation are withdrawn, the inventory is retained, and independently represented reaction progress is not a complete prediction for the mixture",
+        )
+    } else {
+        let water = water_fraction_among_solvents(vessel).unwrap_or(0.0);
+        Phrase::new(
+            "not-modeled.concentrated-acid-medium",
+            "this concentrated mineral acid is below the aqueous model's editorial water-majority admission boundary (water is {percent}% of the liquid). No validated activity model for a concentrated-acid medium is available: aqueous pH, ionic strength and speciation are withdrawn and the inventory is retained",
+            vec![(
+                "percent".to_string(),
+                Slot::number(format!("{:.0}", water * 100.0)),
+            )],
+        )
+    };
     vessel.solution = None;
     vessel.free_proton = 0.0;
     vessel.free_hydroxide = 0.0;
@@ -791,10 +885,7 @@ pub fn peroxide_medium_boundary(vessel: &mut Vessel) -> Option<Event> {
     Some(Event::not_modeled(
         vessel.id,
         crate::ops::NotModelledCause::ModelBoundary,
-        Phrase::bare(
-            "not-modeled.peroxide-rich-medium",
-            "this peroxide-containing liquid is below the aqueous model's editorial water-majority admission boundary. A trace of water produced by a reaction does not establish an aqueous solvent. No validated activity model for this peroxide-rich medium is available: aqueous pH, ionic strength and speciation are withdrawn, the inventory is retained, and independently represented reaction progress is not a complete prediction for the mixture",
-        ),
+        reason,
     ))
 }
 
