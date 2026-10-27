@@ -1,7 +1,9 @@
 //! Native FeOs tests. Run with `--features feos`.
 #![cfg(feature = "feos")]
 
-use kerotakis_feos::{saturation_point, Alcohol, Refusal, Saturation};
+use kerotakis_feos::{
+    pure_boiling_point, pure_vapour_pressure, saturation_point, Alcohol, Refusal, Saturation,
+};
 
 const ATM: f64 = 101.325;
 
@@ -83,5 +85,35 @@ fn low_pressure_result_is_admitted_or_typed_refusal() {
     match saturation_point(Alcohol::Methanol, Saturation::Bubble, 0.99, 10.0) {
         Ok(p) => assert!(p.t_kelvin >= 273.15),
         Err(e) => assert!(matches!(e, Refusal::TemperatureOutOfDomain(_))),
+    }
+}
+
+/// Diagnostic: pure-component PC-SAFT from the vendored FeOs parameter file.
+/// References: NIST WebBook normal boiling points (methanol 337.8 K,
+/// ethanol 351.4 K, water 373.15 K) and vapour pressures at 330 K
+/// (methanol ~68.5 kPa, ethanol ~40.6 kPa, water ~17.2 kPa, Antoine).
+/// Gross & Sadowski (2002) report vapour-pressure AAD of a few per cent for
+/// the alcohols; 2B water with constant sigma is known to be worse, so its
+/// band is wider. Actual values are printed for the PR.
+#[test]
+fn pure_component_saturation_diagnostic() {
+    let cases = [
+        ("methanol", Some(Alcohol::Methanol), 337.8, 68.5, 2.0, 0.08),
+        ("ethanol", Some(Alcohol::Ethanol), 351.4, 40.6, 2.0, 0.08),
+        ("water", None, 373.15, 17.2, 5.0, 0.15),
+    ];
+    for (name, c, tb, p330, t_tol, p_rel) in cases {
+        let b = pure_boiling_point(c, ATM).expect("pure boiling point");
+        let v = pure_vapour_pressure(c, 330.0).expect("pure vapour pressure");
+        println!(
+            "{name}: T_b(1 atm) = {:.2} K (ref {tb}); p_sat(330 K) = {:.2} kPa (ref {p330})",
+            b.t_kelvin, v.pressure_kpa
+        );
+        assert!((b.t_kelvin - tb).abs() < t_tol, "{name} T_b {}", b.t_kelvin);
+        assert!(
+            (v.pressure_kpa / p330 - 1.0).abs() < p_rel,
+            "{name} p_sat {}",
+            v.pressure_kpa
+        );
     }
 }

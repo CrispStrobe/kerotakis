@@ -46,3 +46,14 @@ entries `methanol` CAS 67-56-1, `ethanol` CAS 64-17-5, `water` CAS
 7732-18-5): all 15 values identical, no discrepancy. The companion
 `gross2002_binary.json` at the same commit has no methanol-water or
 ethanol-water k_ij entry, which supports the unfitted k_ij = 0 choice.
+
+## Vendored parameter file (since this commit)
+
+`data/gross2002.json` is a byte-for-byte copy of feos-org/feos
+`parameters/pcsaft/gross2002.json` at commit
+aabc02bbf6c469cf702206cfa68bbb7b2105a324, sha256
+9680ae8998565feabf6b3808bc2f11df288f55db049677ccebe08a937332c491, licensed
+MIT OR Apache-2.0 with FeOs. It is embedded with `include_str!` and parsed
+with FeOs's own `PureRecord<PcSaftRecord, PcSaftAssociationRecord>` and
+`PcSaftParameters::new_pure/new_binary`, replacing the hand-typed arrays
+fed to `PcSaftBinary`. The table above is kept as documentation only.
