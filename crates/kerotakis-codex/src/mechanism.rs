@@ -588,9 +588,9 @@ mod tests {
 
     #[test]
     fn a_rate_expression_is_checked_even_without_a_binding() {
-        let wrong = "the rate law is rate = k·[H₂O₂]·[I⁻]·[H⁺]";
+        let wrong = "the rate law is rate = k·[H₂O₂]·[KI]·[H⁺]";
         assert!(!problems(None, wrong).is_empty());
-        let right = "the rate law is rate = k·[H₂O₂]·[KI]·[H⁺]";
+        let right = "the rate law is rate = k·[H₂O₂]·[I⁻]·[H⁺]";
         assert!(
             problems(None, right).is_empty(),
             "{:?}",

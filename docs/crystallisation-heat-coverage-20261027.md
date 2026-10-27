@@ -69,9 +69,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 <!-- coverage:begin -->
 | route | crystallises-with-priced-heat | solubility-only | refused |
 |---|---|---|---|
-| wateq4f | 4 | 3 | 86 |
-| minteq.v4 | 4 | 5 | 84 |
-| pitzer | 6 | 4 | 83 |
+| wateq4f | 7 | 0 | 86 |
+| minteq.v4 | 8 | 1 | 84 |
+| pitzer | 8 | 2 | 83 |
 
 | solid | route | class | phase | reason |
 |---|---|---|---|---|
@@ -282,8 +282,8 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `cellulose` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `cellulose` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `cellulose` | pitzer | refused | - | the routed database defines no phase for this solid |
-| `chalcanthite` | wateq4f | solubility-only | Chalcanthite | PHREEQC phase saturation, but the solid is unpriced (chalcanthite: hydration water is not balanced by this mineral reference path) |
-| `chalcanthite` | minteq.v4 | solubility-only | Chalcanthite | PHREEQC phase saturation, but the solid is unpriced (chalcanthite: hydration water is not balanced by this mineral reference path) |
+| `chalcanthite` | wateq4f | crystallises-with-priced-heat | Chalcanthite | PHREEQC phase saturation, delta_h 6.025 kJ/mol; solid priced |
+| `chalcanthite` | minteq.v4 | crystallises-with-priced-heat | Chalcanthite | PHREEQC phase saturation, delta_h 6.025 kJ/mol; solid priced |
 | `chalcanthite` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `chlorophyll` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `chlorophyll` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
@@ -300,9 +300,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `dry_ice` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `dry_ice` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `dry_ice` | pitzer | refused | - | the routed database defines no phase for this solid |
-| `epsomite` | wateq4f | solubility-only | Epsomite | PHREEQC phase saturation, but the solid is unpriced (epsomite: hydration water is not balanced by this mineral reference path) |
-| `epsomite` | minteq.v4 | solubility-only | Epsomite | PHREEQC phase saturation, but the solid is unpriced (epsomite: hydration water is not balanced by this mineral reference path) |
-| `epsomite` | pitzer | solubility-only | Epsomite | PHREEQC phase saturation, but the solid is unpriced (epsomite: hydration water is not balanced by this mineral reference path) |
+| `epsomite` | wateq4f | crystallises-with-priced-heat | Epsomite | PHREEQC phase saturation, delta_h 11.799 kJ/mol; solid priced |
+| `epsomite` | minteq.v4 | crystallises-with-priced-heat | Epsomite | PHREEQC phase saturation, delta_h 11.560 kJ/mol; solid priced |
+| `epsomite` | pitzer | crystallises-with-priced-heat | Epsomite | PHREEQC phase saturation, delta_h 12.322 kJ/mol; solid priced |
 | `fructose` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `fructose` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `fructose` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -312,9 +312,9 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `graphite` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `graphite` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `graphite` | pitzer | refused | - | the routed database defines no phase for this solid |
-| `gypsum` | wateq4f | solubility-only | Gypsum | PHREEQC phase saturation, but the solid is unpriced (gypsum: hydration water is not balanced by this mineral reference path) |
-| `gypsum` | minteq.v4 | solubility-only | Gypsum | PHREEQC phase saturation, but the solid is unpriced (gypsum: hydration water is not balanced by this mineral reference path) |
-| `gypsum` | pitzer | solubility-only | Gypsum | PHREEQC phase saturation, but the solid is unpriced (gypsum: hydration water is not balanced by this mineral reference path) |
+| `gypsum` | wateq4f | crystallises-with-priced-heat | Gypsum | PHREEQC phase saturation, delta_h -0.456 kJ/mol; solid priced |
+| `gypsum` | minteq.v4 | crystallises-with-priced-heat | Gypsum | PHREEQC phase saturation, delta_h 1.000 kJ/mol; solid priced |
+| `gypsum` | pitzer | crystallises-with-priced-heat | Gypsum | PHREEQC phase saturation, delta_h -1.521 kJ/mol; solid priced |
 | `hair_pigment` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `hair_pigment` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `hair_pigment` | pitzer | refused | - | the routed database defines no phase for this solid |
@@ -322,7 +322,7 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `hair_pigment_ox` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `hair_pigment_ox` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `hydroxylapatite` | wateq4f | refused | Hydroxyapatite | the phase saturates at ionic strength >= 1.45 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
-| `hydroxylapatite` | minteq.v4 | solubility-only | Hydroxylapatite | PHREEQC phase saturation, but the solid is unpriced (hydroxylapatite: the routed dissolution products do not balance the mineral formula) |
+| `hydroxylapatite` | minteq.v4 | crystallises-with-priced-heat | Hydroxylapatite | PHREEQC phase saturation, delta_h -0.000 kJ/mol; solid priced |
 | `hydroxylapatite` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `langite` | wateq4f | refused | Langite | the phase saturates at ionic strength >= 7522.32 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
 | `langite` | minteq.v4 | refused | Langite | the phase saturates at ionic strength >= 10377.00 mol/kgw (ideal lower bound), above this Debye-Hueckel route's validated 1 mol/kgw; saturated-brine crystallisation needs the pitzer route |
@@ -340,7 +340,7 @@ The table below was blessed before #867's pricing was merged, so it is stale on 
 | `nylon` | minteq.v4 | refused | - | the routed database defines no phase for this solid |
 | `nylon` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `octacalcium_phosphate` | wateq4f | refused | - | the routed database defines no phase for this solid |
-| `octacalcium_phosphate` | minteq.v4 | solubility-only | Ca4H(PO4)3:3H2O | PHREEQC phase saturation, but the solid is unpriced (octacalcium_phosphate: hydration water is not balanced by this mineral reference path) |
+| `octacalcium_phosphate` | minteq.v4 | solubility-only | Ca4H(PO4)3:3H2O | PHREEQC phase saturation, but the solid is unpriced (octacalcium_phosphate: the reviewed phase states an exact-zero enthalpy placeholder) |
 | `octacalcium_phosphate` | pitzer | refused | - | the routed database defines no phase for this solid |
 | `paraffin` | wateq4f | refused | - | the routed database defines no phase for this solid |
 | `paraffin` | minteq.v4 | refused | - | the routed database defines no phase for this solid |

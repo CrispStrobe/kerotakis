@@ -21,7 +21,7 @@ when = "added:KI"
 [nudges.say]
 lv1 = "Iodide is in — it wants something to oxidise it."
 lv2 = "KI is a reducing agent. What oxidises iodide to iodine? The shelf has peroxide."
-lv3 = "Iodide (I⁻) is oxidised to I₂ by hydrogen peroxide in acidic solution: rate = k·[H₂O₂]·[KI]·[H⁺]. Needs acid — add H₂SO₄ and wait."
+lv3 = "Iodide (I⁻) is oxidised to I₂ by hydrogen peroxide in acidic solution: rate = k·[H₂O₂]·[I⁻]·[H⁺]. Needs acid — add H₂SO₄ and wait."
 
 [[nudges]]
 id = "added-kio3"
@@ -37,7 +37,7 @@ when = "reacted:iodide-peroxide-clock"
 [nudges.say]
 lv1 = "Something brown is forming — that is iodine."
 lv2 = "I₂ is appearing. In the real lab you would see the solution turn brown, or blue-black with starch. Now — can you make it happen faster?"
-lv3 = "The iodide–peroxide rate law is running: I₂ production at rate k·[H₂O₂]·[KI]·[H⁺]. The iodide order is keyed on KI, the bottle — that is what a solved vessel still holds here, and it is what the law matches on. To demonstrate the kinetics, run a second beaker with a different concentration or temperature and compare."
+lv3 = "The iodide–peroxide rate law is running: I₂ production at rate k·[H₂O₂]·[I⁻]·[H⁺]. KI dissolves into K⁺ and I⁻, and the iodide order is keyed on the dissolved ion, which is what a solved vessel holds. To demonstrate the kinetics, run a second beaker with a different concentration or temperature and compare."
 
 [[nudges]]
 id = "landolt-fired"
