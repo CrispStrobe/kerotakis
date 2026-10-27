@@ -16,6 +16,20 @@ use crate::{Moles, SpeciesId, Vessel};
 
 const IODINE: &str = "I2";
 const IODIDE_SOURCE: &str = "KI";
+/// Iodide as the bottle (`KI`, before a solve or on a core-only stack) and
+/// as the ion a solved vessel holds once KI speciates (`I-`, 2026-10-27).
+/// A mole of either is a mole of iodide.
+const IODIDE_KEYS: [&str; 2] = [IODIDE_SOURCE, "I-"];
+
+fn iodide_moles(vessel: &Vessel, phase: Option<Phase>) -> f64 {
+    IODIDE_KEYS
+        .iter()
+        .map(|key| match phase {
+            Some(phase) => phase_moles(vessel, key, phase),
+            None => total_moles(vessel, key),
+        })
+        .sum()
+}
 const STARCH: &str = "starch";
 
 /// Editorial upper bound: one optically active iodine equivalent per twenty
@@ -61,7 +75,7 @@ pub(crate) fn iodine_to_dissolve(vessel: &Vessel) -> Moles {
         return Moles(0.0);
     }
     let solid_iodine = phase_moles(vessel, IODINE, Phase::Solid);
-    let iodide_inventory = total_moles(vessel, IODIDE_SOURCE);
+    let iodide_inventory = iodide_moles(vessel, None);
     let already_aqueous = phase_moles(vessel, IODINE, Phase::Aqueous);
     Moles(solid_iodine.min((iodide_inventory - already_aqueous).max(0.0)))
 }
@@ -72,14 +86,14 @@ pub(crate) fn complex_moles(vessel: &Vessel) -> f64 {
         return 0.0;
     }
     let iodine = phase_moles(vessel, IODINE, Phase::Aqueous);
-    let iodide = phase_moles(vessel, IODIDE_SOURCE, Phase::Aqueous);
+    let iodide = iodide_moles(vessel, Some(Phase::Aqueous));
     let starch_sites = total_moles(vessel, STARCH) * STARCH_SITE_FRACTION;
     iodine.min(iodide).min(starch_sites).max(0.0)
 }
 
 pub(crate) fn has_aqueous_lugol_colour(vessel: &Vessel) -> bool {
     phase_moles(vessel, IODINE, Phase::Aqueous) > 0.0
-        && phase_moles(vessel, IODIDE_SOURCE, Phase::Aqueous) > 0.0
+        && iodide_moles(vessel, Some(Phase::Aqueous)) > 0.0
 }
 
 pub(crate) fn add_absorbance(

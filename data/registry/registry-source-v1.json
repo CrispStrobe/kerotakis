@@ -1746,6 +1746,24 @@
       "origin": "https://www.oecd-nea.org/upload/docs/application/pdf/2024-06/cts15-selected_ancillary_compounds-r-final-rev.pdf",
       "revision": "NEA No. 7626 (2024), section V.7.1.3, p. 383, V.163; primary DOI 10.1016/0021-9614(78)90029-0",
       "retrieved": "2026-10-25"
+    },
+    {
+      "id": "legacy/I-",
+      "citation": "iodide ion, the anion potassium iodide actually is once it is in water, and the key the aqueous readback needs before a solved iodide solution has anywhere honest to book. IDENTITY VERIFIED against PubChem CID 30165 on 2026-10-27 (PUG REST property record): molecular formula I-, molecular weight 126.9045, charge -1, InChIKey XMBWDFGMSWQBCA-UHFFFAOYSA-M (hydrogen iodide's skeleton with a /p-1 layer, fetched rather than inferred). Molar mass 126.904 g/mol from the IUPAC/CIAAW 2021 atomic weight of iodine. The databases' own spelling: wateq4f.dat line 39 (`I  I-  0  126.9044`) and minteq.v4.dat line 51 define I- as the master species of element I, so no name is borrowed or translated; pitzer.dat defines no iodine and is never selected for an iodide vessel. Ion Cp is not modelled and carries the registry's shared 0.0 J/(mol.K) for aqueous ions; the 1.0 g/mL density is the same shared placeholder every dissolved ion here carries. WHAT THIS ROW SETTLES IS THE IONIC DISTRIBUTION (activity, ionic strength, complexation the routed database already defines) AND NOTHING ELSE: iodide oxidation by peroxide is kinetics::REGISTRY's `iodide-peroxide-clock` and the iodine-thiosulfate titration is a curated row; neither is derived from thermodynamics here.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/S4O6-2",
+      "citation": "tetrathionate ion, the product of the iodometric titration 2 S2O3-2 + I2 -> S4O6-2 + 2 I-. IDENTITY VERIFIED against PubChem CID 4657547 on 2026-10-27 (PUG REST record fetched by the name `tetrathionate(2-)`): molecular formula O6S4-2, molecular weight 224.3, charge -2, InChIKey HPQYKCJIWQFJMS-UHFFFAOYSA-L. Molar mass 224.260 g/mol, which is 4 S 32.066 + 6 O 15.9994, the same atomic weights the thiosulfate row uses. vendor/iphreeqc/database/llnl.dat defines the anion (line 1306, as a redox state of sulfur) with no protonated form; databases::minteq_v4() carries it as the pseudo-element `Tetrathionate` with no protonation and no redox partner, for the reason the thiosulfate borrow gives (an open beaker's pe would otherwise oxidise it to sulfate). It settles only that the anion is a fully dissociated dianion in the charge balance; no formation constant, no enthalpy and no reducing chemistry is claimed. Ion Cp 0.0 and density 1.0 g/mL are the registry's shared placeholders for dissolved ions.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
     }
   ],
   "identities": [
@@ -4645,6 +4663,38 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/S2O3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "I-",
+      "canonical_key": "XMBWDFGMSWQBCA-UHFFFAOYSA-M",
+      "name": "iodide ion",
+      "identifiers": {
+        "inchikey": "XMBWDFGMSWQBCA-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/I-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "S4O6-2",
+      "canonical_key": "HPQYKCJIWQFJMS-UHFFFAOYSA-L",
+      "name": "tetrathionate ion",
+      "identifiers": {
+        "inchikey": "HPQYKCJIWQFJMS-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/S4O6-2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -24108,6 +24158,163 @@
       },
       "evidence": {
         "source_id": "legacy/S2O3-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/I-",
+      "species_id": "I-",
+      "formula": "I-",
+      "elements": [
+        {
+          "element": "I",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/I-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/I-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/I-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/S4O6-2",
+      "species_id": "S4O6-2",
+      "formula": "S4O6-2",
+      "elements": [
+        {
+          "element": "O",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/S4O6-2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/S4O6-2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -2.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/S4O6-2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/S4O6-2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -45075,6 +45282,186 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/I-",
+      "species_id": "I-",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 126.904,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/I-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/I-",
+      "species_id": "I-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/I-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/I-",
+      "species_id": "I-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/I-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/S4O6-2",
+      "species_id": "S4O6-2",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 224.26,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/S4O6-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/S4O6-2",
+      "species_id": "S4O6-2",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/S4O6-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/S4O6-2",
+      "species_id": "S4O6-2",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "unestablished"
+        },
+        "source_id": "legacy/S4O6-2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "heat_capacity_polynomials": [
@@ -64580,6 +64967,72 @@
           "kind": "exact"
         },
         "source_id": "legacy/S2O3-2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/I-",
+      "subject": {
+        "kind": "species",
+        "id": "I-"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/I-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/S4O6-2",
+      "subject": {
+        "kind": "species",
+        "id": "S4O6-2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/S4O6-2",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"

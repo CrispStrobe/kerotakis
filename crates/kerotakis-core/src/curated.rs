@@ -458,6 +458,49 @@ pub const REACTIONS: &[CuratedReaction] = &[
         post_aqueous: None,
         aqueous_overlap: None,
     },
+    // ── iodometry: iodine reduced by thiosulfate ──────────────────
+    // 2 S₂O₃²⁻ + I₂ → S₄O₆²⁻ + 2 I⁻ is the standard iodometric titration
+    // reaction (Vogel's Textbook of Quantitative Chemical Analysis, 6th
+    // ed., iodometry chapter; Harris, Quantitative Chemical Analysis,
+    // "Iodometry"). It is fast and quantitative on the bench timescale,
+    // which is why the starch endpoint works; no rate is claimed, only the
+    // limiting-reagent stoichiometry, and no reaction heat is applied.
+    // Balanced: I 2 = 2; S 4 = 4; O 6 = 6; charge −4 = −4; electrons:
+    // 2 S(+2) → S₄O₆²⁻ (mean +2.5) releases 2 e⁻, I₂ → 2 I⁻ takes 2 e⁻.
+    //
+    // Written on the ION the solved vessel holds (`S2O3-2`, booked from the
+    // `Thiosulfate` pseudo-element), with a bottle sibling for the step on
+    // which `Na2S2O3` is added and has not yet been through a solve — the
+    // `MnO₄⁻`/`KMnO4` pattern. The sibling releases the four sodiums as
+    // the spectator ions they are, so atoms and charge close on both rows.
+    // Iodine left over (more I₂ than half the thiosulfate) simply remains;
+    // without thiosulfate neither row has a reactant and nothing happens.
+    CuratedReaction {
+        equation: "I₂ + 2 S₂O₃²⁻ → 2 I⁻ + S₄O₆²⁻",
+        reactants: &[("I2", 1.0), ("S2O3-2", 2.0)],
+        products: &[("I-", 2.0, Phase::Aqueous), ("S4O6-2", 1.0, Phase::Aqueous)],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: None,
+        post_aqueous: None,
+        aqueous_overlap: None,
+    },
+    CuratedReaction {
+        equation: "I₂ + 2 Na₂S₂O₃ → 2 I⁻ + S₄O₆²⁻ + 4 Na⁺",
+        reactants: &[("I2", 1.0), ("Na2S2O3", 2.0)],
+        products: &[
+            ("I-", 2.0, Phase::Aqueous),
+            ("S4O6-2", 1.0, Phase::Aqueous),
+            ("Na+", 4.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+        acid_protons: None,
+        post_aqueous: None,
+        aqueous_overlap: None,
+    },
     // ── thermal decomposition (EXP-2: Backpulver) ───────────────
     // Onset ~50 °C, classroom-observable above ~80 °C (CRC Handbook
     // 97th ed.; Merck Index 15th ed. — both commercial compilations).

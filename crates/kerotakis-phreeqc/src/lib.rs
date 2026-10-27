@@ -249,6 +249,30 @@ SOLUTION_SPECIES
         log_k 1.0139
 ";
 
+    /// One reviewed anion added to minteq.v4: tetrathionate, the product of
+    /// the iodometric titration `I2 + 2 S2O3-2 -> 2 I- + S4O6-2`.
+    ///
+    /// `vendor/iphreeqc/database/llnl.dat` line 1306 defines `S4O6-2` as a
+    /// redox state of sulfur and defines NO protonated form. It enters here
+    /// as its own pseudo-element for the reason [`THIOSULFATE_EXTENSION`]
+    /// gives: entered as a sulfur state, an open beaker's pe would oxidise
+    /// it to sulfate. Without this block the curated titration product would
+    /// be a dianion no routed database holds, and its four counter-sodiums
+    /// would read as free base in the charge balance.
+    ///
+    /// **No constant is borrowed or invented.** The master species with
+    /// `log_k 0` is an identity; there is no protonation row because none
+    /// exists in any vendored database (tetrathionic acid is strong).
+    /// Alkalinity 0, as sulfate and thiosulfate. 224.2604 g/mol is
+    /// 4 S 32.066 + 6 O 15.9994, the atomic weights the thiosulfate row uses.
+    const TETRATHIONATE_EXTENSION: &[u8] = b"
+SOLUTION_MASTER_SPECIES
+    Tetrathionate   Tetrathionate-2   0   224.2604   224.2604
+SOLUTION_SPECIES
+    Tetrathionate-2 = Tetrathionate-2
+        log_k 0
+";
+
     /// One reviewed anion added to minteq.v4: sulfite, and unlike the three
     /// above it MOVES THE pH OF EVERY VESSEL THAT HAS EVER HELD THE SALT.
     ///
@@ -384,7 +408,8 @@ SOLUTION_SPECIES
 
     /// minteq.v4 as this lab runs it: the vendored file plus
     /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`],
-    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`] and the reviewed
+    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`],
+    /// [`TETRATHIONATE_EXTENSION`] and the reviewed
     /// reference-temperature ligand slice.
     ///
     /// Everything that loads or PARSES the database goes through here, so
@@ -408,13 +433,15 @@ SOLUTION_SPECIES
                     + LACTATE_EXTENSION.len()
                     + HYPOCHLORITE_EXTENSION.len()
                     + THIOSULFATE_EXTENSION.len()
-                    + SULFITE_EXTENSION.len(),
+                    + SULFITE_EXTENSION.len()
+                    + TETRATHIONATE_EXTENSION.len(),
             );
             bytes.extend_from_slice(&text[..insert_at]);
             bytes.extend_from_slice(LACTATE_EXTENSION);
             bytes.extend_from_slice(HYPOCHLORITE_EXTENSION);
             bytes.extend_from_slice(THIOSULFATE_EXTENSION);
             bytes.extend_from_slice(SULFITE_EXTENSION);
+            bytes.extend_from_slice(TETRATHIONATE_EXTENSION);
             bytes.extend_from_slice(&text[insert_at..]);
             super::aqueous_gases::append_to(&super::complexation::append_to(&bytes))
         })
