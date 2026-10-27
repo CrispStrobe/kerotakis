@@ -1,0 +1,1241 @@
+{
+  "schema": "kerotakis.halogen-redox-coverage.v1",
+  "nernst_v": 0.05916,
+  "complete_margin_v": 0.3,
+  "cross_check_tolerance_v": 0.03,
+  "halves": [
+    {
+      "cross_check": true,
+      "id": "I2/I-",
+      "oxidised": "I2",
+      "reduced": {
+        "I-": 2
+      },
+      "electrons": 2,
+      "protons": 0,
+      "water": 0,
+      "e0_v": 0.5355,
+      "check_via": "I3-/I-",
+      "llnl_lines": [],
+      "cited_v": 0.5355,
+      "source": "cited: E(I2/I-) = +0.5355 V, Bard, Parsons & Jordan, Standard Potentials in Aqueous Solution (IUPAC, 1985); vendored files define no I(0) species, cross-checked against the vendored I3-/I- couple"
+    },
+    {
+      "cross_check": true,
+      "id": "I3-/I-",
+      "oxidised": "I3-",
+      "reduced": {
+        "I-": 3
+      },
+      "electrons": 2,
+      "protons": 0,
+      "water": 0,
+      "e0_v": 0.5404,
+      "check_via": null,
+      "llnl_lines": [
+        1048,
+        712
+      ],
+      "cited_v": 0.536,
+      "source": "llnl.dat I3- and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "IO3-/I-",
+      "oxidised": "IO3-",
+      "reduced": {
+        "I-": 1
+      },
+      "electrons": 6,
+      "protons": 6,
+      "water": 3,
+      "e0_v": 1.0975,
+      "check_via": null,
+      "llnl_lines": [
+        1064,
+        712
+      ],
+      "cited_v": 1.085,
+      "source": "llnl.dat IO3- and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "ClO-/Cl-",
+      "oxidised": "ClO-",
+      "reduced": {
+        "Cl-": 1
+      },
+      "electrons": 2,
+      "protons": 2,
+      "water": 1,
+      "e0_v": 1.7186,
+      "check_via": null,
+      "llnl_lines": [
+        898,
+        712
+      ],
+      "cited_v": 1.715,
+      "source": "llnl.dat ClO- and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "HClO/Cl-",
+      "oxidised": "HClO",
+      "reduced": {
+        "Cl-": 1
+      },
+      "electrons": 2,
+      "protons": 1,
+      "water": 1,
+      "e0_v": 1.4947,
+      "check_via": null,
+      "llnl_lines": [
+        4493,
+        898,
+        712
+      ],
+      "cited_v": 1.482,
+      "source": "llnl.dat HClO, ClO- and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "ClO3-/Cl-",
+      "oxidised": "ClO3-",
+      "reduced": {
+        "Cl-": 1
+      },
+      "electrons": 6,
+      "protons": 6,
+      "water": 3,
+      "e0_v": 1.4421,
+      "check_via": null,
+      "llnl_lines": [
+        914,
+        712
+      ],
+      "cited_v": 1.451,
+      "source": "llnl.dat ClO3- and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "Cl2/Cl-",
+      "oxidised": "Cl2",
+      "reduced": {
+        "Cl-": 2
+      },
+      "electrons": 2,
+      "protons": 0,
+      "water": 0,
+      "e0_v": 1.358,
+      "check_via": null,
+      "llnl_lines": [],
+      "cited_v": 1.358,
+      "source": "cited: E(Cl2(g)/Cl-) = +1.358 V, Bard, Parsons & Jordan (IUPAC, 1985); vendored files define no Cl(0) species"
+    },
+    {
+      "cross_check": true,
+      "id": "Br2/Br-",
+      "oxidised": "Br2",
+      "reduced": {
+        "Br-": 2
+      },
+      "electrons": 2,
+      "protons": 0,
+      "water": 0,
+      "e0_v": 1.1038,
+      "check_via": null,
+      "llnl_lines": [
+        2078,
+        712
+      ],
+      "cited_v": 1.087,
+      "source": "llnl.dat Br2 and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "Br3-/Br-",
+      "oxidised": "Br3-",
+      "reduced": {
+        "Br-": 3
+      },
+      "electrons": 2,
+      "protons": 0,
+      "water": 0,
+      "e0_v": 1.0627,
+      "check_via": null,
+      "llnl_lines": [
+        811,
+        712
+      ],
+      "cited_v": 1.05,
+      "source": "llnl.dat Br3- and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "BrO-/Br-",
+      "oxidised": "BrO-",
+      "reduced": {
+        "Br-": 1
+      },
+      "electrons": 2,
+      "protons": 2,
+      "water": 1,
+      "e0_v": 1.5948,
+      "check_via": null,
+      "llnl_lines": [
+        819,
+        712
+      ],
+      "cited_v": 1.57,
+      "source": "llnl.dat BrO- and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "BrO3-/Br-",
+      "oxidised": "BrO3-",
+      "reduced": {
+        "Br-": 1
+      },
+      "electrons": 6,
+      "protons": 6,
+      "water": 3,
+      "e0_v": 1.4409,
+      "check_via": null,
+      "llnl_lines": [
+        827,
+        712
+      ],
+      "cited_v": 1.423,
+      "source": "llnl.dat BrO3- and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "Fe+3/Fe+2",
+      "oxidised": "Fe+3",
+      "reduced": {
+        "Fe+2": 1
+      },
+      "electrons": 1,
+      "protons": 0,
+      "water": 0,
+      "e0_v": 0.7696,
+      "check_via": null,
+      "llnl_lines": [
+        988,
+        712
+      ],
+      "cited_v": 0.771,
+      "source": "llnl.dat Fe+3 and O2 reactions"
+    },
+    {
+      "cross_check": false,
+      "id": "S4O6-2/S2O3-2",
+      "oxidised": "S4O6-2",
+      "reduced": {
+        "S2O3-2": 2
+      },
+      "electrons": 2,
+      "protons": 0,
+      "water": 0,
+      "e0_v": 3.8393,
+      "check_via": null,
+      "llnl_lines": [
+        1306,
+        739,
+        712
+      ],
+      "cited_v": 0.08,
+      "source": "llnl.dat S4O6-2 (electron form), S2O3-2 and O2 reactions"
+    },
+    {
+      "cross_check": true,
+      "id": "SO4-2/H2SO3",
+      "oxidised": "SO4-2",
+      "reduced": {
+        "H2SO3": 1
+      },
+      "electrons": 2,
+      "protons": 4,
+      "water": 1,
+      "e0_v": 0.1652,
+      "check_via": null,
+      "llnl_lines": [
+        1348,
+        4343,
+        712
+      ],
+      "cited_v": 0.172,
+      "source": "llnl.dat SO3-2, H2SO3 and O2 reactions; cited E(SO4-2/H2SO3) = +0.172 V (Bard, Parsons & Jordan 1985; Harris appendix)"
+    },
+    {
+      "cross_check": true,
+      "id": "SO4-2/SO3-2",
+      "oxidised": "SO4-2",
+      "reduced": {
+        "SO3-2": 1
+      },
+      "electrons": 2,
+      "protons": 2,
+      "water": 1,
+      "e0_v": -0.1073,
+      "check_via": "SO4-2/H2SO3",
+      "llnl_lines": [
+        1348,
+        712
+      ],
+      "cited_v": null,
+      "source": "llnl.dat SO3-2 and O2 reactions; cross-checked through SO4-2/H2SO3, which shares the SO3-2 line"
+    },
+    {
+      "cross_check": true,
+      "id": "SO4-2/HSO3-",
+      "oxidised": "SO4-2",
+      "reduced": {
+        "HSO3-": 1
+      },
+      "electrons": 2,
+      "protons": 3,
+      "water": 1,
+      "e0_v": 0.1059,
+      "check_via": "SO4-2/H2SO3",
+      "llnl_lines": [
+        1348,
+        4591,
+        712
+      ],
+      "cited_v": null,
+      "source": "llnl.dat SO3-2, HSO3- and O2 reactions; cross-checked through SO4-2/H2SO3, which shares the SO3-2 line"
+    }
+  ],
+  "pairs": [
+    {
+      "oxidant": "I2/I-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -3.3038,
+      "status": "owned_elsewhere",
+      "oxidant_forms": [
+        "I2"
+      ],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": "iodometric titration (Vogel's Quantitative Chemical Analysis, 6th ed., iodometry; Harris, Quantitative Chemical Analysis, iodometry)"
+    },
+    {
+      "oxidant": "I2/I-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 0.6428,
+      "status": "admitted",
+      "oxidant_forms": [
+        "I2"
+      ],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": "iodimetric determination of sulfite (Harris, Quantitative Chemical Analysis, iodimetry table; Vogel)"
+    },
+    {
+      "oxidant": "I2/I-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 0.4296,
+      "status": "admitted",
+      "oxidant_forms": [
+        "I2"
+      ],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": "iodimetric determination of sulfite/bisulfite (Harris; Vogel)"
+    },
+    {
+      "oxidant": "I2/I-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": -0.2341,
+      "status": "not_favourable",
+      "oxidant_forms": [
+        "I2"
+      ],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "I2/I-",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.0,
+      "status": "self",
+      "oxidant_forms": [
+        "I2"
+      ],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "I2/I-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_reviewed_couple",
+      "oxidant_forms": [
+        "I2"
+      ],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "I3-/I-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -3.2989,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": "iodometric titration (Vogel; Harris)"
+    },
+    {
+      "oxidant": "I3-/I-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 0.6477,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": "iodimetry (Harris)"
+    },
+    {
+      "oxidant": "I3-/I-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 0.4345,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": "iodimetry (Harris)"
+    },
+    {
+      "oxidant": "I3-/I-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": -0.2292,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "I3-/I-",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.0049,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "I3-/I-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "IO3-/I-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -2.7418,
+      "status": "couple_rejected",
+      "oxidant_forms": [
+        "KIO3"
+      ],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "IO3-/I-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 1.2048,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "KIO3"
+      ],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "IO3-/I-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 0.9916,
+      "status": "owned_elsewhere",
+      "oxidant_forms": [
+        "KIO3"
+      ],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "IO3-/I-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.3279,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "KIO3"
+      ],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "IO3-/I-",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.562,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "KIO3"
+      ],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "IO3-/I-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_reviewed_couple",
+      "oxidant_forms": [
+        "KIO3"
+      ],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "ClO-/Cl-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -2.1207,
+      "status": "couple_rejected",
+      "oxidant_forms": [
+        "ClO-",
+        "NaOCl"
+      ],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "ClO-/Cl-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 1.8259,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "ClO-",
+        "NaOCl"
+      ],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "ClO-/Cl-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 1.6127,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "ClO-",
+        "NaOCl"
+      ],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "ClO-/Cl-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.949,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "ClO-",
+        "NaOCl"
+      ],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "ClO-/Cl-",
+      "reductant": "I2/I-",
+      "delta_e_v": 1.1831,
+      "status": "admitted",
+      "oxidant_forms": [
+        "ClO-",
+        "NaOCl"
+      ],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": "iodometric determination of available chlorine in acidified iodide (Vogel, hypochlorite)"
+    },
+    {
+      "oxidant": "ClO-/Cl-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_reviewed_couple",
+      "oxidant_forms": [
+        "ClO-",
+        "NaOCl"
+      ],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "HClO/Cl-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -2.3446,
+      "status": "couple_rejected",
+      "oxidant_forms": [
+        "HClO"
+      ],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "HClO/Cl-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 1.602,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "HClO"
+      ],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "HClO/Cl-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 1.3888,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "HClO"
+      ],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "HClO/Cl-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.7251,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "HClO"
+      ],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "HClO/Cl-",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.9592,
+      "status": "admitted",
+      "oxidant_forms": [
+        "HClO"
+      ],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": "iodometric determination of available chlorine in acidified iodide (Vogel, hypochlorite)"
+    },
+    {
+      "oxidant": "HClO/Cl-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_reviewed_couple",
+      "oxidant_forms": [
+        "HClO"
+      ],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "ClO3-/Cl-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -2.3972,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "ClO3-/Cl-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 1.5494,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "ClO3-/Cl-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 1.3362,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "ClO3-/Cl-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.6725,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "ClO3-/Cl-",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.9066,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "ClO3-/Cl-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "Cl2/Cl-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -2.4813,
+      "status": "couple_rejected",
+      "oxidant_forms": [
+        "Cl2"
+      ],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Cl2/Cl-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 1.4653,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Cl2"
+      ],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Cl2/Cl-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 1.2521,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Cl2"
+      ],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Cl2/Cl-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.5884,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Cl2"
+      ],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Cl2/Cl-",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.8225,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Cl2"
+      ],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Cl2/Cl-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_reviewed_couple",
+      "oxidant_forms": [
+        "Cl2"
+      ],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "Br2/Br-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -2.7355,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br2/Br-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 1.2111,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br2/Br-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 0.9979,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br2/Br-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.3342,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br2/Br-",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.5683,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br2/Br-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "Br3-/Br-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -2.7766,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br3-/Br-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 1.17,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br3-/Br-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 0.9568,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br3-/Br-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.2931,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br3-/Br-",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.5272,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Br3-/Br-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "BrO-/Br-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -2.2445,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO-/Br-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 1.7021,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO-/Br-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 1.4889,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO-/Br-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.8252,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO-/Br-",
+      "reductant": "I2/I-",
+      "delta_e_v": 1.0593,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO-/Br-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "BrO3-/Br-",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -2.3984,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO3-/Br-",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 1.5482,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO3-/Br-",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 1.335,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO3-/Br-",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.6713,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO3-/Br-",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.9054,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "BrO3-/Br-",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_registry_form",
+      "oxidant_forms": [],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    },
+    {
+      "oxidant": "Fe+3/Fe+2",
+      "reductant": "S4O6-2/S2O3-2",
+      "delta_e_v": -3.0697,
+      "status": "couple_rejected",
+      "oxidant_forms": [
+        "Fe+3"
+      ],
+      "reductant_forms": [
+        "S2O3-2",
+        "Na2S2O3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Fe+3/Fe+2",
+      "reductant": "SO4-2/SO3-2",
+      "delta_e_v": 0.8769,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Fe+3"
+      ],
+      "reductant_forms": [
+        "SO3-2",
+        "Na2SO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Fe+3/Fe+2",
+      "reductant": "SO4-2/HSO3-",
+      "delta_e_v": 0.6637,
+      "status": "rate_not_reviewed",
+      "oxidant_forms": [
+        "Fe+3"
+      ],
+      "reductant_forms": [
+        "HSO3-",
+        "NaHSO3"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Fe+3/Fe+2",
+      "reductant": "Fe+3/Fe+2",
+      "delta_e_v": 0.0,
+      "status": "self",
+      "oxidant_forms": [
+        "Fe+3"
+      ],
+      "reductant_forms": [
+        "Fe+2"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Fe+3/Fe+2",
+      "reductant": "I2/I-",
+      "delta_e_v": 0.2341,
+      "status": "equilibrium_limited",
+      "oxidant_forms": [
+        "Fe+3"
+      ],
+      "reductant_forms": [
+        "I-",
+        "KI"
+      ],
+      "note": ""
+    },
+    {
+      "oxidant": "Fe+3/Fe+2",
+      "reductant": "ascorbic_acid",
+      "delta_e_v": null,
+      "status": "no_reviewed_couple",
+      "oxidant_forms": [
+        "Fe+3"
+      ],
+      "reductant_forms": [
+        "ascorbic_acid"
+      ],
+      "note": "no vendored or cited dehydroascorbate couple; the curated `C6H8O6 + I2` row owns the iodine case"
+    }
+  ],
+  "counts": {
+    "admitted": 4,
+    "couple_rejected": 5,
+    "equilibrium_limited": 1,
+    "no_registry_form": 36,
+    "no_reviewed_couple": 6,
+    "not_favourable": 1,
+    "owned_elsewhere": 2,
+    "rate_not_reviewed": 15,
+    "self": 2
+  }
+}

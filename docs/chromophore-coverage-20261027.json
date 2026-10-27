@@ -1,0 +1,974 @@
+{
+  "schema": "kerotakis.chromophore-coverage.v1",
+  "transparent_words": [
+    "colourless",
+    "colorless",
+    "white",
+    "clear",
+    "translucent"
+  ],
+  "colour_words": [
+    "black",
+    "grey",
+    "gray",
+    "silver",
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "blue",
+    "violet",
+    "purple",
+    "pink",
+    "brown"
+  ],
+  "counts": {
+    "missing_absorptivity": 34,
+    "outside_method": 107,
+    "parameterised": 6,
+    "parameterised_ph": 4,
+    "unclassified": 37
+  },
+  "species": [
+    {
+      "species": "Al",
+      "appearance": "silver",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "C",
+      "appearance": "black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Cl2",
+      "appearance": "yellow-green, toxic",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Cu",
+      "appearance": "reddish-brown",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Cu(OH)2",
+      "appearance": "pale blue",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "CuO",
+      "appearance": "black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Fe",
+      "appearance": "grey",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Fe(OH)2",
+      "appearance": "pale green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Fe(OH)3",
+      "appearance": "red-brown",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Fe+3",
+      "appearance": "pale yellow",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Fe2O3",
+      "appearance": "reddish brown",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "FeCl3",
+      "appearance": "dark green-black crystals",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "FeSO4",
+      "appearance": "pale green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "I2",
+      "appearance": "dark violet crystals",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "KMnO4",
+      "appearance": "dark purple crystals",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Mg",
+      "appearance": "silvery",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Mn+2",
+      "appearance": "very pale pink",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Mn+3",
+      "appearance": "red",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "MnO2",
+      "appearance": "black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "MnO4-2",
+      "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "NaOCl",
+      "appearance": "pale yellow-green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Pb",
+      "appearance": "dull grey",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "S",
+      "appearance": "pale yellow",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Zn",
+      "appearance": "bluish-silver",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "activated_charcoal",
+      "appearance": "black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "antlerite",
+      "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "atacamite",
+      "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "brochantite",
+      "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "chalcanthite",
+      "appearance": "deep blue crystals",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "chlorophyll",
+      "appearance": "green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "graphite",
+      "appearance": "grey-black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "hair_pigment",
+      "appearance": "black",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "langite",
+      "appearance": "blue-green",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "uranium",
+      "appearance": "dull silvery grey",
+      "class": "missing_absorptivity"
+    },
+    {
+      "species": "Ag",
+      "appearance": "silvery-white",
+      "class": "outside_method"
+    },
+    {
+      "species": "AgCl",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "AgNO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Ba(OH)2",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Ba+2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "BaCl2",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "BaSO4",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "CH3COOH",
+      "appearance": "colourless, vinegar smell",
+      "class": "outside_method"
+    },
+    {
+      "species": "CO",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "CO2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "Ca(OH)2",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Ca3(PO4)2",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "CaCO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "CaCl2",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "CaO",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Cu+1",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "CuSO4",
+      "appearance": "white when dry",
+      "class": "outside_method"
+    },
+    {
+      "species": "H2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "H2C2O4",
+      "appearance": "white crystals",
+      "class": "outside_method"
+    },
+    {
+      "species": "H2O2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "H2SO4",
+      "appearance": "colourless, oily",
+      "class": "outside_method"
+    },
+    {
+      "species": "H3PO4",
+      "appearance": "colourless, syrupy",
+      "class": "outside_method"
+    },
+    {
+      "species": "HBr",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "HCl",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "HI",
+      "appearance": "fuming colorless liquid",
+      "class": "outside_method"
+    },
+    {
+      "species": "KCl",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "KI",
+      "appearance": "white crystalline solid",
+      "class": "outside_method"
+    },
+    {
+      "species": "KIO3",
+      "appearance": "white crystalline powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "KNO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "KOH",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Mg(OH)2",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "MgO",
+      "appearance": "brilliant white",
+      "class": "outside_method"
+    },
+    {
+      "species": "MgSO4",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "N2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "NH2Cl",
+      "appearance": "sharp-smelling, toxic",
+      "class": "outside_method"
+    },
+    {
+      "species": "NH3",
+      "appearance": "colourless, sharp smell",
+      "class": "outside_method"
+    },
+    {
+      "species": "NH4Cl",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "NH4NO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Na2B4O7",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Na2CO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Na2S2O3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Na2SO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Na2SO4",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "NaBr",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "NaCl",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "NaHCO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "NaHSO3",
+      "appearance": "white powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "NaHSO4",
+      "appearance": "white granular solid",
+      "class": "outside_method"
+    },
+    {
+      "species": "NaNO3",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "NaOAc",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "NaOH",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "O2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "PE",
+      "appearance": "translucent white plastic",
+      "class": "outside_method"
+    },
+    {
+      "species": "PET",
+      "appearance": "clear plastic",
+      "class": "outside_method"
+    },
+    {
+      "species": "PP",
+      "appearance": "translucent white plastic",
+      "class": "outside_method"
+    },
+    {
+      "species": "PS",
+      "appearance": "white opaque plastic",
+      "class": "outside_method"
+    },
+    {
+      "species": "PVA",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Pb(NO3)2",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Pb+2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "SO2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "SiO2",
+      "appearance": "colourless to white grains",
+      "class": "outside_method"
+    },
+    {
+      "species": "Sr+2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "Zn(OH)2",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "Zn+2",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "ZnSO4",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "amylase",
+      "appearance": "colorless solution",
+      "class": "outside_method"
+    },
+    {
+      "species": "ascorbic_acid",
+      "appearance": "white crystalline powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "betanin_ox",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "bromoethane",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "butane",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "catalase",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "cellulose",
+      "appearance": "white fibrous solid",
+      "class": "outside_method"
+    },
+    {
+      "species": "citric_acid",
+      "appearance": "white crystalline powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "curcumin_ox",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "dehydroascorbic_acid",
+      "appearance": "white to yellowish powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "diamond",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "dodecane",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "dry_ice",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "epsomite",
+      "appearance": "colourless to white crystals",
+      "class": "outside_method"
+    },
+    {
+      "species": "ethanol",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "ethene",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "fructose",
+      "appearance": "white crystalline powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "glucose",
+      "appearance": "white crystalline powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "gypsum",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "hair_pigment_ox",
+      "appearance": "off-white",
+      "class": "outside_method"
+    },
+    {
+      "species": "helium",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "hexadecane",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "hydrogen_sulfide",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "hydroxylapatite",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "indigo_carmine_ox",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "isobutylene",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "isopropanol",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "lactic_acid",
+      "appearance": "colourless, syrupy",
+      "class": "outside_method"
+    },
+    {
+      "species": "liquid_nitrogen",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "malic_acid",
+      "appearance": "white crystalline powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "maltose",
+      "appearance": "white crystalline powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "methane",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "naphthalene",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "nylon",
+      "appearance": "white opaque plastic",
+      "class": "outside_method"
+    },
+    {
+      "species": "octacalcium_phosphate",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "paraffin",
+      "appearance": "off-white",
+      "class": "outside_method"
+    },
+    {
+      "species": "propane",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "starch",
+      "appearance": "white powder",
+      "class": "outside_method"
+    },
+    {
+      "species": "sucrose",
+      "appearance": "white",
+      "class": "outside_method"
+    },
+    {
+      "species": "tert_butanol",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "tert_butyl_bromide",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "water",
+      "appearance": "colourless",
+      "class": "outside_method"
+    },
+    {
+      "species": "Cu+2",
+      "appearance": "blue",
+      "class": "parameterised"
+    },
+    {
+      "species": "Fe+2",
+      "appearance": "pale green",
+      "class": "parameterised"
+    },
+    {
+      "species": "MnO4-",
+      "appearance": "intense purple",
+      "class": "parameterised"
+    },
+    {
+      "species": "betanin",
+      "appearance": "dark red powder",
+      "class": "parameterised"
+    },
+    {
+      "species": "curcumin",
+      "appearance": "bright yellow powder",
+      "class": "parameterised"
+    },
+    {
+      "species": "indigo_carmine",
+      "appearance": "dark blue powder",
+      "class": "parameterised"
+    },
+    {
+      "species": "anthocyanin",
+      "appearance": "purple",
+      "class": "parameterised_ph"
+    },
+    {
+      "species": "bromothymol_blue",
+      "appearance": null,
+      "class": "parameterised_ph"
+    },
+    {
+      "species": "methyl_orange",
+      "appearance": null,
+      "class": "parameterised_ph"
+    },
+    {
+      "species": "phenolphthalein",
+      "appearance": null,
+      "class": "parameterised_ph"
+    },
+    {
+      "species": "Ag+",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "Br-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "C6H5O7-3",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "CH3COO-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "CO2(aq)",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "CO3-2",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "Ca+2",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "Cl-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "ClO-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "H+",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "H2BO3-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "H2PO4-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "H3BO3",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "HCO3-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "HClO",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "HPO4-2",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "HSO3-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "I-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "K+",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "KSCN",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "Mg+2",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "NH4+",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "NO2-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "NO3-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "Na+",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "OH-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "PO4-3",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "S2O3-2",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "S4O6-2",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "SCN-",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "SO3-2",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "SO4-2",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "ethyl_acetate",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "hexane",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "lactate",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "methanol",
+      "appearance": null,
+      "class": "unclassified"
+    },
+    {
+      "species": "propanone",
+      "appearance": null,
+      "class": "unclassified"
+    }
+  ]
+}

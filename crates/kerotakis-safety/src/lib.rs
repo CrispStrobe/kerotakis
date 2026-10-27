@@ -234,7 +234,9 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // `Na2S2O3`, and a hazard that depended on which name the ledger
         // happened to be using would not be a hazard anybody could learn.
         "Na2S2O3" | "S2O3-2" => &[ReducingAgent],
-        "KI" => &[ReducingAgent],
+        // Iodide speciates since 2026-10-27; the bottle and its ion carry
+        // the same screen, as hypo and `S2O3-2` do.
+        "KI" | "I-" => &[ReducingAgent],
         "ascorbic_acid" => &[ReducingAgent],
         // EXP-39's primary standard. Both rows follow from identity:
         // oxalic acid is the reductant the permanganate titration is
@@ -686,6 +688,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "K+",
     "KCl",
     "KI",
+    "I-",
     "KIO3",
     "KMnO4",
     "KNO3",
@@ -710,6 +713,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Na2CO3",
     "Na2S2O3",
     "S2O3-2",
+    "S4O6-2",
     "Na2SO3",
     "SO3-2",
     "HSO3-",
