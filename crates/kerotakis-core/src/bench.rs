@@ -3180,7 +3180,14 @@ impl Bench {
                 }
                 let v = self.vessel_mut(*vessel)?;
                 let water = SpeciesId::new("water");
-                let present = v.moles_of(&water);
+                // Only liquid water evaporates here; ice and vapour are not debited.
+                let present = Moles(
+                    v.contents
+                        .iter()
+                        .filter(|p| p.species == water && p.phase == Phase::Liquid)
+                        .map(|p| p.moles.0)
+                        .sum(),
+                );
                 if present.0 <= 0.0 {
                     *disposition = ApplyDisposition::Unchanged;
                     events.push(Event::not_modeled(
@@ -3192,7 +3199,8 @@ impl Bench {
                         ),
                     ));
                 } else {
-                    let removed = v.withdraw(&water, Moles(present.0 * fraction));
+                    let removed =
+                        v.withdraw_phase(&water, Moles(present.0 * fraction), Phase::Liquid);
                     events.push(Event::Evaporated {
                         vessel: *vessel,
                         moles: removed,
@@ -3439,8 +3447,13 @@ impl Bench {
                             // number is the latent heat the burner paid
                             // and the condenser dumped; it never touches
                             // the vessel ledger, and the event says so.
-                            let removed_e = src.withdraw(&ethanol, Moles(cut.ethanol_over));
-                            let removed_w = src.withdraw(&water, Moles(cut.water_over));
+                            let removed_e = src.withdraw_phases(
+                                &ethanol,
+                                Moles(cut.ethanol_over),
+                                &[Phase::Liquid, Phase::Aqueous],
+                            );
+                            let removed_w =
+                                src.withdraw_phase(&water, Moles(cut.water_over), Phase::Liquid);
                             let at = Kelvin(cut.t_start_c + 273.15);
                             let ended = Kelvin(cut.t_end_c + 273.15);
                             let energy_kj = cut.energy_kj;
@@ -4816,7 +4829,7 @@ impl Bench {
                             let taken = (run.ion.clone(), Moles(run.moles * run.ion_per_metal));
                             let v = self.vessel_mut(*vessel)?;
                             v.deposit(species.clone(), moles, Phase::Solid);
-                            v.withdraw(&taken.0, taken.1);
+                            v.withdraw_phase(&taken.0, taken.1, Phase::Aqueous);
                             // Oxygen evolution supplies one proton per
                             // electron, but cathodic hydrogen cancels its
                             // share. Only the metal's electron share remains
@@ -4850,7 +4863,11 @@ impl Bench {
                             // electrorefining model and is not inferred here.
                             if anode_evolves {
                                 let v = self.vessel_mut(*vessel)?;
-                                v.withdraw(&SpeciesId::new("water"), Moles(oxygen.0 * 2.0));
+                                v.withdraw_phase(
+                                    &SpeciesId::new("water"),
+                                    Moles(oxygen.0 * 2.0),
+                                    Phase::Liquid,
+                                );
                                 let oxygen_id = SpeciesId::new("O2");
                                 if v.retain_gas(oxygen_id.clone(), oxygen) {
                                     events.push(Event::GasContained {
@@ -4911,7 +4928,11 @@ impl Bench {
                             require_electrolysis_water(self.vessel(*vessel)?, run.water_spent)?;
                             let v = self.vessel_mut(*vessel)?;
                             if run.water_spent > crate::OBSERVABLE_MOLES {
-                                v.withdraw(&SpeciesId::new("water"), Moles(run.water_spent));
+                                v.withdraw_phase(
+                                    &SpeciesId::new("water"),
+                                    Moles(run.water_spent),
+                                    Phase::Liquid,
+                                );
                             }
                             // Cathode.
                             if run.cathode_moles > crate::OBSERVABLE_MOLES {
@@ -4922,7 +4943,7 @@ impl Bench {
                                         Phase::Solid,
                                     );
                                     if let Some((ion, taken)) = &run.cathode_ion {
-                                        v.withdraw(ion, Moles(*taken));
+                                        v.withdraw_phase(ion, Moles(*taken), Phase::Aqueous);
                                     }
                                     events.push(electrolysed_run(*vessel, *amps, *seconds, &run));
                                     // The plating ion ran out part-way and
@@ -4992,7 +5013,11 @@ impl Bench {
                             }
                             // Anode.
                             if run.chloride_spent > crate::OBSERVABLE_MOLES {
-                                v.withdraw(&SpeciesId::new("Cl-"), Moles(run.chloride_spent));
+                                v.withdraw_phase(
+                                    &SpeciesId::new("Cl-"),
+                                    Moles(run.chloride_spent),
+                                    Phase::Aqueous,
+                                );
                             }
                             if run.anode_moles > crate::OBSERVABLE_MOLES {
                                 let m = Moles(run.anode_moles);
@@ -6295,7 +6320,7 @@ fn advance_prepared_objects(vessel: &mut Vessel, seconds: f64, events: &mut Vec<
         }
     }
     if water_delta > 0.0 {
-        vessel.withdraw(&SpeciesId::new("water"), Moles(water_delta));
+        vessel.withdraw_phase(&SpeciesId::new("water"), Moles(water_delta), Phase::Liquid);
     } else if water_delta < 0.0 {
         vessel.deposit(SpeciesId::new("water"), Moles(-water_delta), Phase::Liquid);
     }
@@ -6410,8 +6435,8 @@ fn precipitate_declared_soap(
     // bound Ca/Mg mass, less the sodium returned to solution. This keeps the
     // ledger exact for calcium, magnesium, and mixtures of the two.
     let aggregate_mass_g = soap_mass_g + ion_mass_g - sodium_mass_g;
-    vessel.withdraw(&SpeciesId::new("Ca+2"), Moles(ca_take));
-    vessel.withdraw(&SpeciesId::new("Mg+2"), Moles(mg_take));
+    vessel.withdraw_phase(&SpeciesId::new("Ca+2"), Moles(ca_take), Phase::Aqueous);
+    vessel.withdraw_phase(&SpeciesId::new("Mg+2"), Moles(mg_take), Phase::Aqueous);
     vessel.deposit(
         SpeciesId::new("Na+"),
         Moles(scum.soap_bound_moles),
