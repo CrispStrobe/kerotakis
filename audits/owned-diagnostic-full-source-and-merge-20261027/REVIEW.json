@@ -1,0 +1,425 @@
+{
+  "utc": "2026-10-27T01:05:58.819901+00:00",
+  "state": "ACTUAL_FULL_SOURCE_ACCEPTED_AND_NORMALLY_INTEGRATED_PRODUCT_CHECKS_PENDING",
+  "candidate": "b629f1d02447a5a73ab4352c794228565a8c1681",
+  "actual_tested_checkout": "22dd7dc5bf27d4b8322683e9153bcb5d328638d9",
+  "actual_normal_merge": "a7640a0759f091a31ed40b4cc29c8e127d19b245",
+  "normal_merge_parents": [
+    "c51758fa09a8ce0089bc93bb64338a587834a405",
+    "b629f1d02447a5a73ab4352c794228565a8c1681"
+  ],
+  "tree": "054c62a5a7381b4608d8e0b22c94cd2fc8037782",
+  "pull_request": 861,
+  "normal_merge_verified": true,
+  "admin_bypass_or_force_push": false,
+  "source_acceptance_receipt_sha256": "23a4b4e1da62268139afa48cfe175035a4d674b5d8f4096aaab60eb29d1d155e",
+  "parent_source_review_sha256": "ee1aac3569bc92f057ccdfd1e18f8d2011390d30f288ee9b7823858f28771d74",
+  "ci_run": 40382362398,
+  "ci_successes": 27,
+  "ci_expected_publication_skip": 1,
+  "fleet_run": 40382346536,
+  "fleet_successes": 33,
+  "authored_run_steps": 142,
+  "family_groups": 29,
+  "native_witnesses": {
+    "ubuntu": {
+      "selected36_actual_ok": true,
+      "curiosity500_unmet_runtime_drift_zero": true,
+      "log_sha256": "00f318bc4819d045eb4d07ea3305779dbcba64d6cc6d3b3addf7e4fcd93d0659"
+    },
+    "macos": {
+      "selected36_actual_ok": true,
+      "curiosity500_unmet_runtime_drift_zero": true,
+      "log_sha256": "3a70b3cf795353342a41dbfc142bdc2c84a971196b31e2678ce0c524c99fb2fe"
+    }
+  },
+  "bounded_diagnostic_guards": 10,
+  "producer_lock_bindings": {
+    "bounded_diagnostic_preflight": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+    "own_fleet_cli_artifact": "afb2b6c4f3d9176f3301b7e8487f423df40c1be7352a0b5799d551cd86cbf8e3"
+  },
+  "fleet_native_binary_sha256": "233e5ab411e36882ab3f6a1ea7f7e209c6a77de6d7acd0dd12d916a94935a928",
+  "fleet_cli_archive_sha256": "909e09195ca7331ec50d2eba40b9a1883916b1b5b91ebeb1f5b0f1e76d4152bf",
+  "CI_jobs": [
+    {
+      "id": 121781660668,
+      "name": "Classify complete change range",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711443,
+      "name": "BRD-080 viewer decision spike",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711486,
+      "name": "Full preflight execution",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711503,
+      "name": "Test (native) (macos-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711542,
+      "name": "Presentation authority adapters",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711565,
+      "name": "GPU release tools (deterministic)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711589,
+      "name": "Core and data schemas compile to wasm32",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711646,
+      "name": "The demo page, in a real browser",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711670,
+      "name": "IPhreeqc wasm gate",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711715,
+      "name": "Test (native) (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711788,
+      "name": "Legacy BASIC oracle (development only)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711831,
+      "name": "IPhreeqc under MSVC",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711835,
+      "name": "The bench in WebAssembly",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711865,
+      "name": "MY-BASIC preview (macos-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711875,
+      "name": "The native host still compiles",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711883,
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792711913,
+      "name": "The two wasm halves, together",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792712010,
+      "name": "Shell payload (windows-latest)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792712013,
+      "name": "feos adapter (aarch64-linux-android)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792712023,
+      "name": "Current registry source export",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792712045,
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792712087,
+      "name": "Theme contrast tokens",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792712143,
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792712217,
+      "name": "feos adapter (aarch64-apple-ios)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792712234,
+      "name": "Shell payload (ubuntu-22.04)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121792712589,
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121830229337,
+      "name": "Full preflight gate",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121836279089,
+      "name": "Publish the demo",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "fleet_jobs": [
+    {
+      "id": 121781608013,
+      "name": "Build audited CLI once",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927263,
+      "name": "Frozen fleet 459-488",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927277,
+      "name": "Frozen fleet 195-218",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927361,
+      "name": "Source fleet v3 organic-equilibrium",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927362,
+      "name": "Source fleet v3 ionic-conductivity",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927370,
+      "name": "Source fleet v3 aqueous-selectivity",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927402,
+      "name": "Source fleet v3 water-energy",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927694,
+      "name": "Source fleet gas-boundaries",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927723,
+      "name": "Source fleet v3 metal-ligand",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927759,
+      "name": "Source fleet organic-equilibria",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927780,
+      "name": "Source fleet filtration-evaporation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927782,
+      "name": "Source fleet acid-base-buffers",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927790,
+      "name": "Source fleet electrochemistry",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927816,
+      "name": "Source fleet v2 phase-colligative",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927843,
+      "name": "Source fleet observables-negative-controls",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927858,
+      "name": "Source fleet v2 kinetics-boundaries",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927861,
+      "name": "Source fleet thermal-phase-paths",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927881,
+      "name": "Source fleet v2 separation-trains",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927886,
+      "name": "Source fleet mixing-transfer",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927889,
+      "name": "Source fleet solubility-precipitation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927895,
+      "name": "Source fleet distillation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927941,
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927956,
+      "name": "Source fleet v2 quantitative-solutions",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927966,
+      "name": "Source fleet v2 redox-cells",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797927974,
+      "name": "Source fleet v2 gas-production-transfer",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797928119,
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797928270,
+      "name": "Source fleet v2 thermochemical-paths",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797928279,
+      "name": "Source fleet v2 materials-transport",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797928384,
+      "name": "Source fleet v2 household-biochemistry",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121797928408,
+      "name": "Source fleet v2 analytical-observables",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121872813562,
+      "name": "All 240 source-informed cases",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121879491609,
+      "name": "All 120 source-informed v3 cases",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 121924287899,
+      "name": "All 288 source-informed v2 cases",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "production_run": 40429831287,
+  "production_source": "a7640a0759f091a31ed40b4cc29c8e127d19b245",
+  "production_issued_once": true,
+  "production_API_browser_acceptance": "PENDING",
+  "original468_qualified": 339,
+  "working_catalog_entries": 343,
+  "original468_new_credit_this_source_change": 0,
+  "limits": [
+    "This is software/source acceptance and verified normal integration, not empirical calibration or a new original468 qualification.",
+    "Actual new native/lock/frontend artifacts and eleven API/eighty-two browser controls remain pending.",
+    "Earlier c51715API/86browser and original qualification stay bound to their actual earlier source; no retagging."
+  ]
+}

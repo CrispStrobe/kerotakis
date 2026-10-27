@@ -1,0 +1,488 @@
+{
+  "successful_CI_logs": 27,
+  "successful_fleet_logs": 33,
+  "expected_skipped_publication_job_no_runner_log": 1,
+  "raw_bytes_preserved": 4766466,
+  "logs": [
+    {
+      "job_id": 121781660668,
+      "name": "Classify complete change range",
+      "run": 40382362398,
+      "bytes": 30565,
+      "sha256": "007de3e78a44be9435858c260b5dd94c5a775e1a3180e87019640a6ae0efeccc",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121781660668"
+    },
+    {
+      "job_id": 121792711443,
+      "name": "BRD-080 viewer decision spike",
+      "run": 40382362398,
+      "bytes": 32611,
+      "sha256": "fb91de9c87741003eea093047d160a6325271dae3734dbe13f842fe71a307e64",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711443"
+    },
+    {
+      "job_id": 121792711503,
+      "name": "Test (native) (macos-latest)",
+      "run": 40382362398,
+      "bytes": 641723,
+      "sha256": "3a70b3cf795353342a41dbfc142bdc2c84a971196b31e2678ce0c524c99fb2fe",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711503"
+    },
+    {
+      "job_id": 121792711486,
+      "name": "Full preflight execution",
+      "run": 40382362398,
+      "bytes": 797749,
+      "sha256": "b64c7c5c3f2a81f5ee0b80ca185d91876b2471fb9f9ae798421bb0f552699d85",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711486"
+    },
+    {
+      "job_id": 121792711542,
+      "name": "Presentation authority adapters",
+      "run": 40382362398,
+      "bytes": 65226,
+      "sha256": "8e73976d58d1ab2f9745d3af2205f8d81c1794b9286c9218033582a164c1bec7",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711542"
+    },
+    {
+      "job_id": 121792711565,
+      "name": "GPU release tools (deterministic)",
+      "run": 40382362398,
+      "bytes": 27776,
+      "sha256": "ed1d6f373b281a03c87bde5f9d4a07c6489641ae2af0a5f30c965da067d8beea",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711565"
+    },
+    {
+      "job_id": 121792711589,
+      "name": "Core and data schemas compile to wasm32",
+      "run": 40382362398,
+      "bytes": 51221,
+      "sha256": "53d6dbedd8f3924cfb6b775f1f33df49a889c6e59de7387a0e57b9fbb4e92f2f",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711589"
+    },
+    {
+      "job_id": 121792711715,
+      "name": "Test (native) (ubuntu-latest)",
+      "run": 40382362398,
+      "bytes": 640878,
+      "sha256": "00f318bc4819d045eb4d07ea3305779dbcba64d6cc6d3b3addf7e4fcd93d0659",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711715"
+    },
+    {
+      "job_id": 121792711670,
+      "name": "IPhreeqc wasm gate",
+      "run": 40382362398,
+      "bytes": 47265,
+      "sha256": "c556de7ba69000e60707080aa6866b94186002a4bc73651215a167421c151fdd",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711670"
+    },
+    {
+      "job_id": 121792711646,
+      "name": "The demo page, in a real browser",
+      "run": 40382362398,
+      "bytes": 172976,
+      "sha256": "bbf2e64ae3b707f802e321f14ff8c0fca9e1b1d19373f1bdffdfd6883add43b8",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711646"
+    },
+    {
+      "job_id": 121792711788,
+      "name": "Legacy BASIC oracle (development only)",
+      "run": 40382362398,
+      "bytes": 46464,
+      "sha256": "24c4d95894a514946245a732191185f53994b43d813980f629273d4c7bb8c674",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711788"
+    },
+    {
+      "job_id": 121792711831,
+      "name": "IPhreeqc under MSVC",
+      "run": 40382362398,
+      "bytes": 69551,
+      "sha256": "974fce7b6454a6d88471af74cb00c4e58d0f051967650aac16caa4f05505dea9",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711831"
+    },
+    {
+      "job_id": 121792711835,
+      "name": "The bench in WebAssembly",
+      "run": 40382362398,
+      "bytes": 94214,
+      "sha256": "909d2e29f4649062f2b8033aae909038fffdf12d22eea59e2114c7300b0424b7",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711835"
+    },
+    {
+      "job_id": 121792711865,
+      "name": "MY-BASIC preview (macos-latest)",
+      "run": 40382362398,
+      "bytes": 45754,
+      "sha256": "108d40001779daf124b76e5e9896166fbb520ed22540eeff4a346640b024017c",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711865"
+    },
+    {
+      "job_id": 121792711875,
+      "name": "The native host still compiles",
+      "run": 40382362398,
+      "bytes": 50545,
+      "sha256": "f44abf0f6ffa508fbc795af7324337c9b2faa5b98dc27bc0748e51f4ef5998ae",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711875"
+    },
+    {
+      "job_id": 121792711883,
+      "name": "MY-BASIC preview (ubuntu-latest)",
+      "run": 40382362398,
+      "bytes": 46201,
+      "sha256": "771069412b11c22a0ee912024a35c972b6c04586e4d6636a286e90d23acfc38e",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711883"
+    },
+    {
+      "job_id": 121792711913,
+      "name": "The two wasm halves, together",
+      "run": 40382362398,
+      "bytes": 90387,
+      "sha256": "ea58fb05b780383d8afdf3331a5d1e37dfae7bda666d1ea152c02b72698620d5",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792711913"
+    },
+    {
+      "job_id": 121792712010,
+      "name": "Shell payload (windows-latest)",
+      "run": 40382362398,
+      "bytes": 29078,
+      "sha256": "3f544badcbd13aaf47999beff1b7bf61a5d1beb61a4e0f89cf38b20e53087ac4",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792712010"
+    },
+    {
+      "job_id": 121792712013,
+      "name": "feos adapter (aarch64-linux-android)",
+      "run": 40382362398,
+      "bytes": 35928,
+      "sha256": "902404caaa7a9da6113ff677b66019c0cd4397ce07bf1184451d644aea574cf0",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792712013"
+    },
+    {
+      "job_id": 121792712023,
+      "name": "Current registry source export",
+      "run": 40382362398,
+      "bytes": 55198,
+      "sha256": "6228d55278b5a5c2ffa1630c41c0dfc750bdca5f565f9dfe831481344ce532bf",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792712023"
+    },
+    {
+      "job_id": 121792712045,
+      "name": "feos adapter (wasm32-unknown-unknown)",
+      "run": 40382362398,
+      "bytes": 38574,
+      "sha256": "64de98a391db0a2f8b1220824400feb41074be359ef747a3ed26b622018ee922",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792712045"
+    },
+    {
+      "job_id": 121792712087,
+      "name": "Theme contrast tokens",
+      "run": 40382362398,
+      "bytes": 15674,
+      "sha256": "11ce8d3647f32cbd42b13633c663dfddbfccee987fe46795e205466aa3e06f6f",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792712087"
+    },
+    {
+      "job_id": 121792712143,
+      "name": "feos adapter (aarch64-apple-darwin)",
+      "run": 40382362398,
+      "bytes": 35282,
+      "sha256": "6c49d5ca73ed3c9aeb5582bf96a8c0abdc456b406ed6cf95fba2c7abbf8cc9be",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792712143"
+    },
+    {
+      "job_id": 121792712217,
+      "name": "feos adapter (aarch64-apple-ios)",
+      "run": 40382362398,
+      "bytes": 38282,
+      "sha256": "976e45bdf16e0dad9ac29e7e528deffa65c5146dcbb35fb3819c616856b587f8",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792712217"
+    },
+    {
+      "job_id": 121792712234,
+      "name": "Shell payload (ubuntu-22.04)",
+      "run": 40382362398,
+      "bytes": 29016,
+      "sha256": "7e428bd6b64ade9dca07e349534019c81c266dc98bd072dc3f314510467b16be",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792712234"
+    },
+    {
+      "job_id": 121792712589,
+      "name": "feos adapter (x86_64-pc-windows-msvc)",
+      "run": 40382362398,
+      "bytes": 36451,
+      "sha256": "49014a9ae3b59cd7936050f5e26927fe338b20233bfba070e2bfa88ff8758651",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121792712589"
+    },
+    {
+      "job_id": 121830229337,
+      "name": "Full preflight gate",
+      "run": 40382362398,
+      "bytes": 2849,
+      "sha256": "63289aa4525b7c738f5e11294c8a8938bb1846dc5487796ed9eb0486fbd42678",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382362398/job/121830229337"
+    },
+    {
+      "job_id": 121781608013,
+      "name": "Build audited CLI once",
+      "run": 40382346536,
+      "bytes": 80532,
+      "sha256": "d87d0288b189a083f8e996480ab5864d1784cfdc4d4151133d8119800d5ef3b8",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121781608013"
+    },
+    {
+      "job_id": 121797927263,
+      "name": "Frozen fleet 459-488",
+      "run": 40382346536,
+      "bytes": 95164,
+      "sha256": "1637b462687a770f454da07f4233a3d5a201785fcdaa8ef78de6a828cda8cee5",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927263"
+    },
+    {
+      "job_id": 121797927277,
+      "name": "Frozen fleet 195-218",
+      "run": 40382346536,
+      "bytes": 96792,
+      "sha256": "de36254d2fe2341862261156ae54d087d73dfbb3f0b7d11f5cd7010983a4941a",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927277"
+    },
+    {
+      "job_id": 121797927361,
+      "name": "Source fleet v3 organic-equilibrium",
+      "run": 40382346536,
+      "bytes": 49829,
+      "sha256": "a0799fdff4986f89f6f443c0ab045f5e7416305f8c0639af0091a03bff9ef6cd",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927361"
+    },
+    {
+      "job_id": 121797927362,
+      "name": "Source fleet v3 ionic-conductivity",
+      "run": 40382346536,
+      "bytes": 36503,
+      "sha256": "1cf0d4ec2b8d85017baec0bac2ed84779635b5d3eed2d30d5180caf9b6ffdd75",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927362"
+    },
+    {
+      "job_id": 121797927370,
+      "name": "Source fleet v3 aqueous-selectivity",
+      "run": 40382346536,
+      "bytes": 62535,
+      "sha256": "cbc7fc4df1bde23b187ac00b50a050894640691f6e4a4399ebbc4d0585619fee",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927370"
+    },
+    {
+      "job_id": 121797927402,
+      "name": "Source fleet v3 water-energy",
+      "run": 40382346536,
+      "bytes": 36203,
+      "sha256": "1625768d74448e0f6dbb97fc48ecc209a01855d8e0a777ba03b81397f8b1dbca",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927402"
+    },
+    {
+      "job_id": 121797927694,
+      "name": "Source fleet gas-boundaries",
+      "run": 40382346536,
+      "bytes": 37615,
+      "sha256": "18684dab8bd55bb6ca3955156de729c1b18f33ed88ffc39d792daa4eba765872",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927694"
+    },
+    {
+      "job_id": 121797927723,
+      "name": "Source fleet v3 metal-ligand",
+      "run": 40382346536,
+      "bytes": 64814,
+      "sha256": "ee538203bc055bfcba810670d00c6c407a1b7d8d19cf20eeeb48abebcfe3b1e4",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927723"
+    },
+    {
+      "job_id": 121797927759,
+      "name": "Source fleet organic-equilibria",
+      "run": 40382346536,
+      "bytes": 46196,
+      "sha256": "c73f18e423c3de1eb9b1766fd9ec19cb06bddae555cd57396798e32fab907895",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927759"
+    },
+    {
+      "job_id": 121797927780,
+      "name": "Source fleet filtration-evaporation",
+      "run": 40382346536,
+      "bytes": 42178,
+      "sha256": "7bf47009916e00a07690ca2931c6a5fa558af386f9cacc57f90520453b8f6c8a",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927780"
+    },
+    {
+      "job_id": 121797927782,
+      "name": "Source fleet acid-base-buffers",
+      "run": 40382346536,
+      "bytes": 41397,
+      "sha256": "a194bc72509df61e2229b4ac4241d656299e56f8eb6916d6b3c39d8e90a7b875",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927782"
+    },
+    {
+      "job_id": 121797927790,
+      "name": "Source fleet electrochemistry",
+      "run": 40382346536,
+      "bytes": 40039,
+      "sha256": "f5626b5c5bcafc9a6434e61b1a32828fe327f201bffcad9d5b92d3bc9d68ccc9",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927790"
+    },
+    {
+      "job_id": 121797927816,
+      "name": "Source fleet v2 phase-colligative",
+      "run": 40382346536,
+      "bytes": 36370,
+      "sha256": "7c6a60c63537cd7e2d779fd0689766f9a48d0104f7afb0e9790ed8592618028d",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927816"
+    },
+    {
+      "job_id": 121797927843,
+      "name": "Source fleet observables-negative-controls",
+      "run": 40382346536,
+      "bytes": 39636,
+      "sha256": "54c0b7a3a0cec33b466f2656460590291e85ddbddfd46d6e4012809547facc21",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927843"
+    },
+    {
+      "job_id": 121797927858,
+      "name": "Source fleet v2 kinetics-boundaries",
+      "run": 40382346536,
+      "bytes": 46564,
+      "sha256": "20495f456d17c9281d962f5225229e956e3def2a38d4b4a61aad03b5310e14fc",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927858"
+    },
+    {
+      "job_id": 121797927861,
+      "name": "Source fleet thermal-phase-paths",
+      "run": 40382346536,
+      "bytes": 37972,
+      "sha256": "7064ce8dc0759f24ee385b15f93de09bd1d523bc06fdf59a5ea2d61ff3b728ad",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927861"
+    },
+    {
+      "job_id": 121797927881,
+      "name": "Source fleet v2 separation-trains",
+      "run": 40382346536,
+      "bytes": 47731,
+      "sha256": "1fd1fbd90cabf8c8d8e0c8dfcd011a8f33cfe51f1a00ce2f2635732f487c2616",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927881"
+    },
+    {
+      "job_id": 121797927886,
+      "name": "Source fleet mixing-transfer",
+      "run": 40382346536,
+      "bytes": 38927,
+      "sha256": "906f0462a3c55ceec7cbb9e37e4b1df3e1871ede79e422335873ec093850213a",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927886"
+    },
+    {
+      "job_id": 121797927889,
+      "name": "Source fleet solubility-precipitation",
+      "run": 40382346536,
+      "bytes": 47955,
+      "sha256": "8d8c3edc1ac49dba8c1cc7d5d0213d345296dca2e7f1a5dd1d0598c23d96877b",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927889"
+    },
+    {
+      "job_id": 121797927895,
+      "name": "Source fleet distillation",
+      "run": 40382346536,
+      "bytes": 40507,
+      "sha256": "80cd0d4c75f6d97756f2f07c55fc8416314a7a81601bb5c956059824f28090c9",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927895"
+    },
+    {
+      "job_id": 121797927941,
+      "name": "Source fleet v2 crystallisation-boundaries",
+      "run": 40382346536,
+      "bytes": 40256,
+      "sha256": "8d9c485f4af4637f0adc5245a2866bdeae36bfaf305598d75c9ce17bb60a1443",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927941"
+    },
+    {
+      "job_id": 121797927956,
+      "name": "Source fleet v2 quantitative-solutions",
+      "run": 40382346536,
+      "bytes": 36809,
+      "sha256": "d008fc69c88b41808120ca1e7e46c39ce629c1ccff9b31f666e64cafda273c84",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927956"
+    },
+    {
+      "job_id": 121797927966,
+      "name": "Source fleet v2 redox-cells",
+      "run": 40382346536,
+      "bytes": 44187,
+      "sha256": "1b4fb9936c0217b75991b8b710a2eba4a31d446d301ed7da88e78fdb1b4dd8b1",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927966"
+    },
+    {
+      "job_id": 121797927974,
+      "name": "Source fleet v2 gas-production-transfer",
+      "run": 40382346536,
+      "bytes": 37910,
+      "sha256": "54c4d4e619cb72ca212a87857355f4aea5a4584ea44e02eb70c56af7175efac2",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797927974"
+    },
+    {
+      "job_id": 121797928119,
+      "name": "Source fleet v2 polyprotic-carbonate",
+      "run": 40382346536,
+      "bytes": 36710,
+      "sha256": "c9b23797472438cf6bac3b6d26627d1d77a133166326e67d6c68a13d5efd2528",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797928119"
+    },
+    {
+      "job_id": 121797928270,
+      "name": "Source fleet v2 thermochemical-paths",
+      "run": 40382346536,
+      "bytes": 36631,
+      "sha256": "f8ca9952865423b52d9357fa336c6ef1ab9f014b0376abe9bf21f5b80a521a6b",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797928270"
+    },
+    {
+      "job_id": 121797928279,
+      "name": "Source fleet v2 materials-transport",
+      "run": 40382346536,
+      "bytes": 47857,
+      "sha256": "76eee4e64480d6de5df24d0dde9afae2a764ad4381d7c4ca7e23eab465b599aa",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797928279"
+    },
+    {
+      "job_id": 121797928384,
+      "name": "Source fleet v2 household-biochemistry",
+      "run": 40382346536,
+      "bytes": 38706,
+      "sha256": "47f966f083df35152534128faf3cd71510ad895f4e80825b5ddbbf7f9fd703cb",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797928384"
+    },
+    {
+      "job_id": 121797928408,
+      "name": "Source fleet v2 analytical-observables",
+      "run": 40382346536,
+      "bytes": 36606,
+      "sha256": "427f28a3dceb0789f1282357e0b1a4a45f8cee3a6aaeb35985dad01e918b5a3a",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121797928408"
+    },
+    {
+      "job_id": 121872813562,
+      "name": "All 240 source-informed cases",
+      "run": 40382346536,
+      "bytes": 28412,
+      "sha256": "f91482d2c24c21cce38950edaf9ff53fd54688f901777bf51c3fa5999d34c303",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121872813562"
+    },
+    {
+      "job_id": 121879491609,
+      "name": "All 120 source-informed v3 cases",
+      "run": 40382346536,
+      "bytes": 21415,
+      "sha256": "4faa6c8ff4582e9858f709ee70e6a01b33a3db345745ed2e90b147f1a2cdaf86",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121879491609"
+    },
+    {
+      "job_id": 121924287899,
+      "name": "All 288 source-informed v2 cases",
+      "run": 40382346536,
+      "bytes": 28070,
+      "sha256": "53a7be33877e8633b58b02c948a4a787fed7e6afd7e8ed079985b70ffacaab85",
+      "url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40382346536/job/121924287899"
+    }
+  ]
+}
