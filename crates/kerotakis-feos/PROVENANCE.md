@@ -57,3 +57,20 @@ MIT OR Apache-2.0 with FeOs. It is embedded with `include_str!` and parsed
 with FeOs's own `PureRecord<PcSaftRecord, PcSaftAssociationRecord>` and
 `PcSaftParameters::new_pure/new_binary`, replacing the hand-typed arrays
 fed to `PcSaftBinary`. The table above is kept as documentation only.
+
+## Binary interaction and measured model differences
+
+- k_ij = 0 for both alcohol-water pairs. No k_ij consistent with the
+  Gross & Sadowski (2002) pure set is published in FeOs: `gross2002_binary.json`
+  @ aabc02bb has no alcohol-water entry. `rehner2023_binary.json` @ aabc02bb
+  has ethanol-water (cross-association epsilon_k_ab 2324.05 K, kappa_ab
+  0.13979) and methanol-water (k_ij -0.01595), but these belong to the
+  Rehner et al. (2023) pure-parameter set and are not transferable. Adopting
+  that whole set is a possible follow-up.
+- Measured (hosted run 670ee975): ethanol-water bubble point at x = 0.05,
+  101.325 kPa: PC-SAFT 83.39 °C (y 0.4779) vs Kerotakis UNIFAC 89.47 °C
+  (y 0.3503), a 6.08 K difference. Pure PC-SAFT: methanol T_b 338.50 K,
+  ethanol 351.66 K, water 373.27 K; p_sat(330 K) 71.81 / 40.58 / 17.36 kPa.
+  The full sweep is printed by `ethanol_water_against_experiment_and_unifac`.
+- The asserted reference is experiment: the ethanol-water azeotrope at 78.2 °C
+  and x = 0.894 (CRC Handbook, azeotropic data table), within 3 K.
