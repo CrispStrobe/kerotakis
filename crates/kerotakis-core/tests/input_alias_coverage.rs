@@ -346,6 +346,14 @@ fn no_shipped_mechanism_species_is_an_alias_or_rewritten() {
                 .all(|alias| !alias.alias.eq_ignore_ascii_case(name) || alias.source == "curated"),
             "{name} is a mechanism identifier"
         );
-        assert_eq!(&SpeciesId::new(name).0, name, "{name} rewritten");
+        // The curated aliases (e.g. H2O -> water, #787) canonicalize on purpose;
+        // only generated aliases must never rewrite a mechanism identifier.
+        let curated = table
+            .aliases
+            .iter()
+            .any(|alias| alias.source == "curated" && alias.alias.eq_ignore_ascii_case(name));
+        if !curated {
+            assert_eq!(&SpeciesId::new(name).0, name, "{name} rewritten");
+        }
     }
 }
