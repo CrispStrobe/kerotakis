@@ -1,0 +1,5 @@
+kerotakis-feos optionally links FeOs (https://github.com/feos-org/feos),
+Copyright (c) the FeOs authors, licensed under the MIT License or the Apache
+License 2.0, at your option. With the `feos` feature off (the default) no
+FeOs code is compiled or distributed. PC-SAFT parameters are cited from
+Gross & Sadowski, Ind. Eng. Chem. Res. 41 (2002) 5510; see PROVENANCE.md.
