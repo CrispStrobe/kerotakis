@@ -22,6 +22,7 @@ pub mod continuation_acceptance;
 pub mod dbindex;
 pub mod derived;
 pub mod enthalpy;
+pub mod gas_phases;
 mod inventory;
 mod native_namespace;
 mod phase_diagnostics;
@@ -85,7 +86,7 @@ pub mod databases {
     /// ligand slice. Reading
     /// these bytes directly would give a caller a database the engine is not
     /// running.
-    const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
+    pub(crate) const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
     /// Pitzer model — brines, high ionic strength.
     pub const PITZER: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/pitzer.dat");
 
@@ -384,8 +385,9 @@ SOLUTION_SPECIES
 
     /// minteq.v4 as this lab runs it: the vendored file plus
     /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`],
-    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`] and the reviewed
-    /// reference-temperature ligand slice.
+    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`], the reviewed
+    /// reference-temperature ligand slice and the gas phases imported by
+    /// [`crate::gas_phases::reconcile`] (NH3(g), H2(g) from wateq4f).
     ///
     /// Everything that loads or PARSES the database goes through here, so
     /// the engine, the derived index, the element bookings and the
@@ -393,6 +395,13 @@ SOLUTION_SPECIES
     /// vendored bytes anywhere else would give the ledger an element the
     /// engine has and it does not.
     pub fn minteq_v4() -> &'static [u8] {
+        use std::sync::OnceLock;
+        static RECONCILED: OnceLock<Vec<u8>> = OnceLock::new();
+        RECONCILED.get_or_init(|| super::gas_phases::reconcile("minteq.v4", minteq_v4_base()))
+    }
+
+    /// minteq.v4 before gas reconciliation.
+    fn minteq_v4_base() -> &'static [u8] {
         use std::sync::OnceLock;
         static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
         EXTENDED.get_or_init(|| {
@@ -424,6 +433,12 @@ SOLUTION_SPECIES
     /// The unmodified `WATEQ4F` bytes remain available for upstream-oracle tests.
     pub fn wateq4f() -> &'static [u8] {
         use std::sync::OnceLock;
+        static RECONCILED: OnceLock<Vec<u8>> = OnceLock::new();
+        RECONCILED.get_or_init(|| super::gas_phases::reconcile("wateq4f", wateq4f_base()))
+    }
+
+    fn wateq4f_base() -> &'static [u8] {
+        use std::sync::OnceLock;
         static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
         EXTENDED.get_or_init(|| {
             super::aqueous_gases::append_to(&super::complexation::append_to(WATEQ4F))
@@ -433,8 +448,23 @@ SOLUTION_SPECIES
     /// Pitzer plus reviewed gas uptake; no unsupported ligand extension.
     pub fn pitzer() -> &'static [u8] {
         use std::sync::OnceLock;
+        static RECONCILED: OnceLock<Vec<u8>> = OnceLock::new();
+        RECONCILED.get_or_init(|| super::gas_phases::reconcile("pitzer", pitzer_base()))
+    }
+
+    fn pitzer_base() -> &'static [u8] {
+        use std::sync::OnceLock;
         static EXTENDED: OnceLock<Vec<u8>> = OnceLock::new();
         EXTENDED.get_or_init(|| super::aqueous_gases::append_to(PITZER))
+    }
+
+    /// A route's database before gas reconciliation (for the coverage audit).
+    pub(crate) fn route_base(route: &str) -> &'static [u8] {
+        match route {
+            "minteq.v4" => minteq_v4_base(),
+            "pitzer" => pitzer_base(),
+            _ => wateq4f_base(),
+        }
     }
 }
 

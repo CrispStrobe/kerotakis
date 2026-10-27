@@ -1867,7 +1867,7 @@ numerical-range = "le coefficient d’activité du composant {component} ne peut
 [solver-reason]
 "aqueous.accepted-provenance-missing" = "L’état aqueux accepté ne possède pas de provenance."
 "aqueous.activity-model-unavailable" = "Aucun jeu de données approuvé ne couvre ce modèle d’activité avec le propriétaire d’interface typé."
-"aqueous.ammonia-gas-unavailable" = "La base utilisée ne définit pas la phase d’ammoniac requise pour cet espace gazeux mixte."
+"aqueous.gas-phase-unavailable" = "La base utilisée ne définit pas de phase vérifiée pour un gaz de cet espace gazeux."
 "aqueous.aux-input-binding" = "La question auxiliaire mise en attente ne correspond plus à sa liaison exacte de base de données et d’entrée."
 "aqueous.aux-pending-selector" = "Une opération auxiliaire en attente ne confère aucune autorité au sélecteur."
 "aqueous.aux-pose-validation" = "La réponse auxiliaire en attente a échoué à la validation exacte de la pose primaire ou du propriétaire du composant."

@@ -5169,7 +5169,7 @@ enum AqueousReason {
     DiluteExchangeDomain,
     DiluteCrystalDomain,
     SolidSolutionPhaseUnavailable,
-    AmmoniaGasUnavailable,
+    GasPhaseUnavailable,
     ReadbackUnrepresented,
     ExchangeReadbackInvalid,
     ComponentReadbackInvalid,
@@ -5500,9 +5500,9 @@ impl AqueousReason {
                 "solver-reason.aqueous.solid-solution-phase-unavailable",
                 "The routed database does not define a reviewed solid-solution end member.",
             ),
-            Self::AmmoniaGasUnavailable => (
-                "solver-reason.aqueous.ammonia-gas-unavailable",
-                "The routed database does not define the ammonia gas phase needed for this mixed-domain headspace.",
+            Self::GasPhaseUnavailable => (
+                "solver-reason.aqueous.gas-phase-unavailable",
+                "The routed database does not define a reviewed phase for a gas in this headspace.",
             ),
             Self::ReadbackUnrepresented => (
                 "solver-reason.aqueous.readback-unrepresented",
@@ -8576,17 +8576,18 @@ impl PhreeqcEquilibrator {
         // phases are kept so the engine errors honestly rather than the
         // ledger losing their crystal water silently.
         let idx = derived::index_for(db_tag);
-        // WATEQ defines NH3(g); minteq's extended aqueous/ligand route
-        // does not. Silently dropping this component would leave a stale
-        // headspace beside a seemingly complete acid/base equilibrium.
-        // Refuse before mutation instead of borrowing unreviewed phase
-        // data or treating analytical bound ligand as free ammonia.
-        if problem.gases.iter().any(|(phase, _, _)| phase == "NH3(g)") && !idx.has_phase("NH3(g)") {
+        // Every gas posed to the solve must be defined on the routed
+        // database, natively or through the consistency-checked import in
+        // `gas_phases::reconcile`. Silently dropping a component would leave
+        // a stale headspace beside a seemingly complete acid/base
+        // equilibrium, so refuse before mutation instead of borrowing
+        // unreviewed phase data (docs/gas-phase-coverage-20261027.md).
+        if let Some((phase, ..)) = problem.gases.iter().find(|(phase, ..)| !idx.has_phase(phase)) {
             return Err(SolveError::NotConverged {
-                reason: Some(Box::new(AqueousReason::AmmoniaGasUnavailable.phrase())),
+                reason: Some(Box::new(AqueousReason::GasPhaseUnavailable.phrase())),
                 solver: self.name().to_string(),
                 detail: format!(
-                    "finite ammonia gas/protonation equilibrium requires NH3(g), which the routed {db_tag} database does not define; this mixed-domain headspace is not modeled"
+                    "finite gas/liquid equilibrium requires {phase}, which the routed {db_tag} database does not define and no reviewed vendored database could supply consistently; this headspace is not modeled"
                 ),
             });
         }
@@ -14747,12 +14748,12 @@ mod finite_ammonia_admission_diagnostics {
 
     #[test]
     fn ammonia_phase_and_reduced_nitrogen_admission_match_the_actual_database() {
-        assert!(
-            !derived::index_for("minteq.v4").has_phase("NH3(g)"),
-            "unexpected minteq phase: {:?}",
-            derived::index_for("minteq.v4").phases.get("NH3(g)")
-        );
-        assert!(derived::index_for("wateq4f").has_phase("NH3(g)"));
+        // minteq.v4 carries the wateq4f Henry phase verbatim, so a sealed
+        // ammonium + acetate vessel on the ligand route is solvable.
+        let minteq = &derived::index_for("minteq.v4").phases["NH3(g)"];
+        let wateq = &derived::index_for("wateq4f").phases["NH3(g)"];
+        assert_eq!(minteq.log_k, wateq.log_k);
+        assert_eq!(minteq.delta_h_kj, wateq.delta_h_kj);
         for phase in [Phase::Aqueous, Phase::Gas] {
             let mut v = Vessel::new(kerotakis_core::VesselId(0), "beaker");
             v.headspace = Headspace::Sealed {

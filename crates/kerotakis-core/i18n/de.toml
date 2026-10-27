@@ -2129,7 +2129,7 @@ numerical-range = "der Aktivitätskoeffizient für Komponente {component} lässt
 [solver-reason]
 "aqueous.accepted-provenance-missing" = "Der angenommene wässrige Zustand enthält keine Herkunftsangabe."
 "aqueous.activity-model-unavailable" = "Kein zugelassener Datensatz deckt dieses Aktivitätsmodell zusammen mit dem typisierten Grenzflächenbesitzer ab."
-"aqueous.ammonia-gas-unavailable" = "Der verwendete Datensatz definiert nicht die für diesen gemischten Gasraum nötige Ammoniakphase."
+"aqueous.gas-phase-unavailable" = "Der verwendete Datensatz definiert keine geprüfte Phase für ein Gas in diesem Gasraum."
 "aqueous.aux-input-binding" = "Die vorgemerkte Hilfsfrage stimmt nicht mehr mit ihrer exakten Datenbank- und Eingabebindung überein."
 "aqueous.aux-pending-selector" = "Ausstehende Hilfsarbeit verleiht dem Selektor keine Entscheidungsbefugnis."
 "aqueous.aux-pose-validation" = "Die vorgemerkte Hilfsantwort hat die genaue Prüfung der Primärpose oder Komponentenzuständigkeit nicht bestanden."
