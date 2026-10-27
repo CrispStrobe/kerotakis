@@ -250,3 +250,59 @@ fn acid_metal_projection_keeps_only_prospective_warning() {
 fn acid_carbonate_projection_keeps_only_prospective_warning() {
     prospective_only("CaCO3", "acid-carbonate-co2");
 }
+
+/// The reporting projection is derived from the reactive-group table, not
+/// from a two-acid list: every registry species classified as a strong acid
+/// reads as the same finding once a solver has turned it into dissolved
+/// acidity, for every rule the projection covers.
+fn registry_strong_acids() -> Vec<&'static str> {
+    let acids: Vec<&'static str> = kerotakis_core::species::registry()
+        .iter()
+        .map(|data| data.key)
+        .filter(|key| {
+            *key != "H+"
+                && kerotakis_safety::groups(key)
+                    .contains(&kerotakis_safety::ReactiveGroup::AcidStrong)
+        })
+        .collect();
+    // Guard against the enumeration silently emptying out.
+    for expected in ["HCl", "H2SO4", "HBr", "HI"] {
+        assert!(
+            acids.contains(&expected),
+            "{expected} missing from {acids:?}"
+        );
+    }
+    acids
+}
+
+#[test]
+fn every_registry_strong_acid_reporting_projection_stays_quiet() {
+    for acid in registry_strong_acids() {
+        for partner in ["NaOCl", "Mg", "CaCO3"] {
+            quiet(&named(partner, acid), &projected(partner, 0.0001, 1.0));
+        }
+    }
+}
+
+#[test]
+fn weak_acid_is_not_projected_as_the_strong_acid_finding() {
+    // Acetic acid is titratable, not strong: dissolved strong acidity that
+    // appears afterwards is a different, new hazard and must still warn.
+    assert!(!registry_strong_acids().contains(&"CH3COOH"));
+    warn(
+        &named("NaOCl", "CH3COOH"),
+        &projected("NaOCl", 0.0001, 1.0),
+        "bleach-acid-chlorine",
+    );
+}
+
+#[test]
+fn registry_strong_acid_projection_needs_strongly_acidic_final_state() {
+    // Boundary: above the strong-acid pH gate the dissolved acidity is not a
+    // strong-acid finding at all, so nothing is projected or newly warned
+    // for the strong-acid rules.
+    for acid in registry_strong_acids() {
+        let after = projected("Mg", 0.0001, 3.5);
+        quiet(&named("Mg", acid), &after);
+    }
+}

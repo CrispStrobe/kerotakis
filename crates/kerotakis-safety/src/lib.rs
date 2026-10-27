@@ -828,6 +828,90 @@ struct Incompatibility {
     rule: &'static str,
     hazard: &'static str,
     real_world: &'static str,
+    /// Whether a solved (post-equilibration) state is screened for this
+    /// rule. Rule metadata, not a separate whitelist: see [`RULE_METADATA`].
+    final_screen: FinalScreen,
+}
+
+/// How the final (post-equilibration) screen treats one rule.
+///
+/// Every rule this crate can emit carries one of these, and
+/// `every_emitted_rule_has_final_screen_metadata` fails when a rule is
+/// added without deciding. `Exempt` must say why, so "not screened" is a
+/// reviewed state rather than an omission.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FinalScreen {
+    Screened,
+    Exempt(&'static str),
+}
+
+/// One rule this crate can emit, with its final-screen decision.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct RuleMetadata {
+    pub rule: &'static str,
+    pub final_screen: FinalScreen,
+}
+
+/// The water-reactive rule is a special case of the pair scan, not a row of
+/// [`INCOMPATIBLE`]; its metadata lives here so it cannot be forgotten.
+const WATER_REACTIVE_SLAKING: RuleMetadata = RuleMetadata {
+    rule: "water-reactive-slaking",
+    final_screen: FinalScreen::Screened,
+};
+
+/// The cryogen handling rule is a per-species check, not a pair. On the
+/// final screen it fires only when liquid nitrogen is NEWLY present after
+/// equilibration (a bottle that was already in the vessel was warned about
+/// prospectively, exactly as the pair rules compare with the prior state).
+const LIQUID_NITROGEN_HANDLING: RuleMetadata = RuleMetadata {
+    rule: "liquid-nitrogen-handling",
+    final_screen: FinalScreen::Screened,
+};
+
+/// Every rule this crate can emit, derived from the rule definitions
+/// themselves: the incompatibility matrix plus the two special-case rules.
+pub fn rule_metadata() -> Vec<RuleMetadata> {
+    INCOMPATIBLE
+        .iter()
+        .map(|inc| RuleMetadata {
+            rule: inc.rule,
+            final_screen: inc.final_screen,
+        })
+        .chain([WATER_REACTIVE_SLAKING, LIQUID_NITROGEN_HANDLING])
+        .collect()
+}
+
+/// Whether the final screen covers `rule`. Unknown rules are not screened
+/// (and cannot be emitted: see the completeness test).
+fn final_screened(rule: &str) -> bool {
+    rule_metadata()
+        .iter()
+        .any(|meta| meta.rule == rule && meta.final_screen == FinalScreen::Screened)
+}
+
+fn has_liquid_nitrogen(vessel: &Vessel) -> bool {
+    vessel
+        .contents
+        .iter()
+        .any(|portion| portion.species.0 == "liquid_nitrogen" && portion.moles.0 > 1e-12)
+}
+
+fn liquid_nitrogen_warning() -> SafetyVerdict {
+    SafetyVerdict::Warn {
+        severity: Severity::Danger,
+        rule: LIQUID_NITROGEN_HANDLING.rule.to_string(),
+        hazard: "liquid nitrogen is a cryogen and its boil-off displaces breathable air"
+            .to_string(),
+        real_world: "Virtual investigation only. Real liquid nitrogen requires trained supervision, eye and face protection, cryogenic gloves, ventilation, and an open pressure-relief path; never seal it in glass or handle it in an unventilated room."
+            .to_string(),
+    }
+}
+
+/// Every species of the compiled registry whose own reactive groups make it
+/// a strong acid. Derived from [`groups`], so a strong acid added to the
+/// registry and classified there is projected without editing a list.
+fn is_registry_strong_acid(key: &str) -> bool {
+    key != "H+" && groups(key).contains(&ReactiveGroup::AcidStrong)
 }
 
 /// One precisely attributed hazard found across exposed material.
@@ -954,7 +1038,7 @@ pub fn assess_exposures<'a>(
                     &mut findings,
                     ExposureFinding {
                         severity: Severity::Caution,
-                        rule: "water-reactive-slaking".to_string(),
+                        rule: WATER_REACTIVE_SLAKING.rule.to_string(),
                         hazard: "this substance reacts violently with water, releasing a large amount of heat".to_string(),
                         real_world: "Quicklime (CaO) in water can reach 100 °C and cause severe burns. Always add the solid to the water slowly, never the reverse.".to_string(),
                         species: [reactive.key.to_string(), water.key.to_string()],
@@ -1018,6 +1102,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         hazard: "mixing bleach with ammonia makes chloramine, a toxic gas",
         real_world: "People are hospitalised every year from mixing \
                      these two household cleaners.",
+        final_screen: FinalScreen::Screened,
     },
     // Bleach does not care how strong the acid is, and the commonest
     // version of this accident at home uses vinegar. Same hazard, same
@@ -1032,6 +1117,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         real_world: "Bleach and vinegar is one of the commonest household \
                      poisonings there is — both are ordinary kitchen \
                      bottles, which is exactly why people mix them.",
+        final_screen: FinalScreen::Screened,
     },
     Incompatibility {
         a: ReactiveGroup::OxidizerHypochlorite,
@@ -1041,6 +1127,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         hazard: "mixing bleach with acid releases chlorine, a toxic gas",
         real_world: "Chlorine gas was used as a chemical weapon; even \
                      small amounts damage lungs.",
+        final_screen: FinalScreen::Screened,
     },
     // ── fire / explosion risks ────────────────────────────────────
     Incompatibility {
@@ -1052,6 +1139,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
                  can ignite or explode",
         real_world: "Potassium permanganate and glycerol ignite on \
                      contact; similar mixtures cause laboratory fires.",
+        final_screen: FinalScreen::Screened,
     },
     Incompatibility {
         a: ReactiveGroup::OxidizerStrong,
@@ -1062,6 +1150,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
                  creates an explosion risk",
         real_world: "Hydrogen and chlorine mixtures can detonate when \
                      exposed to light or a spark.",
+        final_screen: FinalScreen::Screened,
     },
     Incompatibility {
         a: ReactiveGroup::OxidizerStrong,
@@ -1072,6 +1161,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
                  cause a violent, potentially explosive reaction",
         real_world: "Permanganate and sulfite solutions react vigorously; \
                      at scale, such mixtures can detonate.",
+        final_screen: FinalScreen::Screened,
     },
     // ── acid + metal → hydrogen gas ───────────────────────────────
     Incompatibility {
@@ -1095,6 +1185,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
                      hydrochloric acid is the school version, where the \
                      gas pops with a lit splint. The gas is genuinely \
                      flammable whichever metal and acid made it.",
+        final_screen: FinalScreen::Screened,
     },
     // ── acid + carbonate → CO₂ ────────────────────────────────────
     Incompatibility {
@@ -1107,6 +1198,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         real_world: "Adding acid to chalk or baking soda foams over \
                      if the vessel is too small. CO₂ displaces air in \
                      enclosed spaces.",
+        final_screen: FinalScreen::Screened,
     },
     // ── water-reactive ────────────────────────────────────────────
     Incompatibility {
@@ -1119,6 +1211,7 @@ const INCOMPATIBLE: &[Incompatibility] = &[
         real_world: "Quicklime (CaO) generates enough heat on contact \
                      with water to cause burns; adding caustic soda \
                      on top is reckless.",
+        final_screen: FinalScreen::Screened,
     },
 ];
 
@@ -1141,7 +1234,7 @@ fn same_final_finding(before: &ExposureFinding, after: &ExposureFinding) -> bool
         // Only the reviewed forward reporting projections are equivalent.
         // Named acids remain distinct, and the partner/location must match.
         let strong_acid_projection = final_species == "H+"
-            && matches!(prior_species, "HCl" | "H2SO4")
+            && is_registry_strong_acid(prior_species)
             && matches!(
                 before.rule.as_str(),
                 "bleach-acid-chlorine" | "acid-metal-hydrogen" | "acid-carbonate-co2"
@@ -1163,24 +1256,18 @@ pub struct ReactiveGroupScreen;
 
 impl SafetyScreen for ReactiveGroupScreen {
     fn assess_equilibrated(&self, before: &Vessel, after: &Vessel) -> SafetyVerdict {
+        if final_screened(LIQUID_NITROGEN_HANDLING.rule)
+            && has_liquid_nitrogen(after)
+            && !has_liquid_nitrogen(before)
+        {
+            return liquid_nitrogen_warning();
+        }
         let prior = assess_exposures([("vessel", before)]);
         for finding in assess_exposures([("vessel", after)]) {
-            // Final coverage is limited to the reviewed rules bound by
-            // frozen routing/identity controls. Other rules retain prospective
-            // screening until their final domain/identity controls are covered.
-            if !matches!(
-                finding.rule.as_str(),
-                "water-reactive-slaking"
-                    | "bleach-ammonia-chloramine"
-                    | "oxidizer-flammable-liquid"
-                    | "bleach-acid-chlorine"
-                    | "acid-metal-hydrogen"
-                    | "acid-carbonate-co2"
-                    | "bleach-weak-acid-chlorine"
-                    | "oxidizer-flammable-gas"
-                    | "oxidizer-reducer"
-                    | "water-reactive-base"
-            ) || prior.iter().any(|old| same_final_finding(old, &finding))
+            // Final coverage is derived from each rule's metadata
+            // (`final_screen`), never from a hand-kept list.
+            if !final_screened(&finding.rule)
+                || prior.iter().any(|old| same_final_finding(old, &finding))
             {
                 continue;
             }
@@ -1195,19 +1282,8 @@ impl SafetyScreen for ReactiveGroupScreen {
     }
 
     fn assess(&self, vessel: &Vessel) -> SafetyVerdict {
-        if vessel
-            .contents
-            .iter()
-            .any(|portion| portion.species.0 == "liquid_nitrogen" && portion.moles.0 > 1e-12)
-        {
-            return SafetyVerdict::Warn {
-                severity: Severity::Danger,
-                rule: "liquid-nitrogen-handling".to_string(),
-                hazard: "liquid nitrogen is a cryogen and its boil-off displaces breathable air"
-                    .to_string(),
-                real_world: "Virtual investigation only. Real liquid nitrogen requires trained supervision, eye and face protection, cryogenic gloves, ventilation, and an open pressure-relief path; never seal it in glass or handle it in an unventilated room."
-                    .to_string(),
-            };
+        if has_liquid_nitrogen(vessel) {
+            return liquid_nitrogen_warning();
         }
         if let Some(finding) = assess_exposures([("vessel", vessel)]).into_iter().next() {
             return SafetyVerdict::Warn {
@@ -1705,6 +1781,71 @@ mod tests {
             .contents
             .iter()
             .any(|portion| portion.species.0 == "liquid_nitrogen" && portion.moles.0 > 0.0));
+    }
+
+    #[test]
+    fn every_emitted_rule_has_final_screen_metadata() {
+        // Enumerate rule ids written in the non-test source rather than
+        // trusting a list: a new `rule: "..."` without metadata fails here.
+        const WHOLE_FILE: &str = include_str!("lib.rs");
+        let source = &WHOLE_FILE[..WHOLE_FILE.find("\n#[cfg(test)]").unwrap()];
+        let metadata = rule_metadata();
+        let mut ids: Vec<&str> = metadata.iter().map(|meta| meta.rule).collect();
+        ids.sort_unstable();
+        let before = ids.len();
+        ids.dedup();
+        assert_eq!(before, ids.len(), "duplicate rule metadata: {ids:?}");
+        let mut emitted = Vec::new();
+        let mut rest = source;
+        while let Some(at) = rest.find("rule: \"") {
+            rest = &rest[at + "rule: \"".len()..];
+            let end = rest.find('"').unwrap();
+            emitted.push(&rest[..end]);
+        }
+        assert!(emitted.len() >= 11, "rule literals not found: {emitted:?}");
+        for rule in &emitted {
+            assert!(
+                metadata.iter().any(|meta| meta.rule == *rule),
+                "rule {rule} has no final-screen metadata"
+            );
+        }
+        for meta in &metadata {
+            assert!(
+                emitted.contains(&meta.rule),
+                "metadata for unknown rule {}",
+                meta.rule
+            );
+            if let FinalScreen::Exempt(reason) = meta.final_screen {
+                assert!(
+                    !reason.trim().is_empty(),
+                    "{} exempt without reason",
+                    meta.rule
+                );
+            }
+        }
+        // The rule the old hand-written whitelist forgot.
+        assert!(final_screened("liquid-nitrogen-handling"));
+        assert!(!final_screened("no-such-rule"));
+    }
+
+    #[test]
+    fn final_screen_warns_on_newly_present_liquid_nitrogen_only() {
+        let empty = vessel_with(&["water"]);
+        let cryogen = vessel_with(&["water", "liquid_nitrogen"]);
+        assert!(matches!(
+            ReactiveGroupScreen.assess_equilibrated(&empty, &cryogen),
+            SafetyVerdict::Warn { rule, .. } if rule == "liquid-nitrogen-handling"
+        ));
+        // Already present before equilibration: warned prospectively, not again.
+        assert_eq!(
+            ReactiveGroupScreen.assess_equilibrated(&cryogen, &cryogen.clone()),
+            SafetyVerdict::Allow
+        );
+        // Boiled off entirely: nothing to warn about.
+        assert_eq!(
+            ReactiveGroupScreen.assess_equilibrated(&cryogen, &empty),
+            SafetyVerdict::Allow
+        );
     }
 
     // ── BRD-012.S02: the barium gate ──────────────────────────────
