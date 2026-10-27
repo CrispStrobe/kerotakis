@@ -44,6 +44,8 @@ fn main() {
             println!("cargo:rustc-link-lib=c++_shared");
         } else if target.contains("linux") {
             println!("cargo:rustc-link-lib=stdc++");
+            println!("cargo:rustc-link-lib=dl");
+            println!("cargo:rustc-link-lib=pthread");
         }
     };
 
@@ -99,7 +101,13 @@ fn main() {
     }
 
     let mut cfg = cmake::Config::new(&src);
+    // COOLPROP_EXTERNC_LIBRARY adds -DEXTERNC to the library target, which
+    // makes CoolPropLib.h declare the C API `extern "C"` (CMakeLists.txt and
+    // include/CoolPropLib.h at v6.8.0). Without it the static archive exports
+    // only C++-mangled PropsSI/get_global_param_string and the link fails
+    // (observed on the first hosted run of b4ba2c0b).
     cfg.define("COOLPROP_STATIC_LIBRARY", "ON")
+        .define("COOLPROP_EXTERNC_LIBRARY", "ON")
         .define("COOLPROP_SHARED_LIBRARY", "OFF")
         .define("COOLPROP_OBJECT_LIBRARY", "OFF")
         .define("CMAKE_POSITION_INDEPENDENT_CODE", "ON")

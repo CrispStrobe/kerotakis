@@ -9,6 +9,9 @@ fn rel(a: f64, b: f64) -> f64 {
 
 /// IAPWS R6-95(2018), Table 8 ("Thermodynamic property values in the
 /// two-phase region for selected temperatures"), also Wagner & Pruss (2002).
+/// Digits cross-checked 2026-10-27 against the independent IAPWS-95
+/// implementation's test suite, github.com/jjgomera/iapws test.py
+/// `test_saturation` (pressures there in kPa).
 /// (T/K, p/MPa, rho'/kg m-3, rho''/kg m-3)
 const TABLE8: [(f64, f64, f64, f64); 3] = [
     (275.0, 0.698451167e-3, 0.999887406e3, 0.550664919e-2),
@@ -32,7 +35,9 @@ fn saturation_matches_iapws95_table8() {
 }
 
 /// IAPWS R6-95(2018) Table 7: T = 300 K, rho = 996.5560 kg/m3 gives
-/// p = 0.0992418352 MPa. Inverting (T, p) must return that density.
+/// p = 0.0992418352 MPa (cross-checked against jjgomera/iapws test.py
+/// `test_phase`; the release footnotes imprecision in p's last digits, which
+/// moves the inverted liquid density far below 1e-6). Inverting (T, p) must return that density.
 #[test]
 fn single_phase_density_matches_iapws95_table7() {
     let s = water_state(300.0, 0.0992418352e6).unwrap();
