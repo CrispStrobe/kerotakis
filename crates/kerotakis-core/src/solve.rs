@@ -2987,6 +2987,24 @@ pub fn equilibrate_phase_coupled(
                         vessel.free_proton = 0.0;
                         vessel.free_hydroxide = 0.0;
                         events.extend(states.equilibrate(vessel)?);
+                    } else if mixture_certainly_below_freezing(vessel) {
+                        // Far below any boundary the unknown activities
+                        // could move, freezing is certain; only where the
+                        // brine settles depends on them, and that is said.
+                        vessel.solution = None;
+                        vessel.resolved.invalidate();
+                        vessel.free_proton = 0.0;
+                        vessel.free_hydroxide = 0.0;
+                        events.extend(states.equilibrate(vessel)?);
+                        events.push(Event::not_modeled(
+                            vessel.id,
+                            crate::ops::NotModelledCause::ModelBoundary,
+                            Phrase::new(
+                                "not-modeled.ideal-brine-freezing",
+                                "the solution could not be speciated, so where its brine stops freezing is estimated as an ideal solution of everything dissolved; the water was far enough below that point that it freezes either way",
+                                vec![],
+                            ),
+                        ));
                     }
                     return Ok(events);
                 }
@@ -3091,6 +3109,48 @@ pub fn equilibrate_phase_coupled(
         }
     }
     Ok(events)
+}
+
+/// How far below the ideal freezing point liquid water must sit before
+/// freezing is certain whatever the unspeciated activities are, K. Ion
+/// pairing and non-ideality move a bench brine's boundary by a few tenths of
+/// a kelvin; this is the margin the state sweep already allows the same
+/// inventory-based estimate.
+const MIXTURE_FREEZE_CERTAIN_MARGIN_K: f64 = 1.5;
+
+/// Liquid water in a mixture whose chemistry could not be solved, sitting
+/// well below the freezing point of an ideal solution of its dissolved
+/// inventory. Supercooled liquid at 250 K is not a state of the world, and
+/// a refused speciation does not make it one.
+fn mixture_certainly_below_freezing(vessel: &Vessel) -> bool {
+    let kgw: f64 = vessel
+        .contents
+        .iter()
+        .filter(|p| p.species.0 == SOLVENT && p.phase == Phase::Liquid)
+        .map(|p| p.moles.0 * crate::constants::WATER_MOLAR_MASS_KG_PER_MOL)
+        .sum();
+    if !kgw.is_finite() || kgw <= 0.0 {
+        return false;
+    }
+    let solutes: f64 = vessel
+        .contents
+        .iter()
+        .filter(|p| p.phase == Phase::Aqueous)
+        .map(|p| p.moles.0)
+        .sum::<f64>()
+        / kgw;
+    let mut ideal = vessel.clone();
+    ideal.solution = None;
+    let freezing_k = crate::states::transitions_with(
+        vessel_solvent_activity(&ideal),
+        solutes,
+        crate::states::ATMOSPHERE_KPA,
+    )
+    .0
+    .freezing_k;
+    freezing_k.is_finite()
+        && vessel.temperature.0.is_finite()
+        && vessel.temperature.0 < freezing_k - MIXTURE_FREEZE_CERTAIN_MARGIN_K
 }
 
 fn independent_water_phase_inventory(vessel: &Vessel) -> bool {

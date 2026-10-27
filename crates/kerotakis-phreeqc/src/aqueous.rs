@@ -8347,13 +8347,19 @@ impl PhreeqcEquilibrator {
                     None => gas_out.push(("CO2".into(), -problem.clock_co2_applied_mol)),
                 }
             }
-            match enthalpy::heat_released_j(
+            // An unpriced mover whose worst-case heat would move this
+            // vessel by less than the bench thermometer can resolve cannot
+            // change any reading; a larger one still refuses the step.
+            let tolerance_j =
+                vessel.heat_capacity() * kerotakis_core::instrument::THERMOMETER_PRECISION_K;
+            match enthalpy::heat_released_bounded_j(
                 &before_contents,
                 before_oh,
                 &vessel.contents,
                 measured_oh,
                 &gas_out,
                 db_tag,
+                tolerance_j,
             ) {
                 Ok(j) => {
                     q_joules = j;
