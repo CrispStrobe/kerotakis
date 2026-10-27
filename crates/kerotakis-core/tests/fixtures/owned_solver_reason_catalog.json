@@ -245,6 +245,16 @@
     "placeholders": []
   },
   {
+    "key": "solver-reason.aqueous.metal-ligand-complexes-undefined",
+    "en": "No routed aqueous database defines the metal-ligand complexes this solution needs, so its speciation would omit them.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.metal-ligand-routes-conflict",
+    "en": "The metal-ligand complexes in this solution are not defined together on any single routed aqueous database.",
+    "placeholders": []
+  },
+  {
     "key": "solver-reason.aqueous.mineral-transfer-nonfinite",
     "en": "Cumulative mineral transfer is non-finite.",
     "placeholders": []

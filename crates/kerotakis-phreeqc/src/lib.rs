@@ -22,6 +22,7 @@ pub mod continuation_acceptance;
 pub mod dbindex;
 pub mod derived;
 pub mod enthalpy;
+pub mod ligand_routing;
 mod inventory;
 mod native_namespace;
 mod phase_diagnostics;
