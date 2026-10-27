@@ -14747,12 +14747,12 @@ mod finite_ammonia_admission_diagnostics {
 
     #[test]
     fn ammonia_phase_and_reduced_nitrogen_admission_match_the_actual_database() {
-        assert!(
-            !derived::index_for("minteq.v4").has_phase("NH3(g)"),
-            "unexpected minteq phase: {:?}",
-            derived::index_for("minteq.v4").phases.get("NH3(g)")
-        );
-        assert!(derived::index_for("wateq4f").has_phase("NH3(g)"));
+        // minteq.v4 carries the wateq4f Henry phase verbatim, so a sealed
+        // ammonium + acetate vessel on the ligand route is solvable.
+        let minteq = &derived::index_for("minteq.v4").phases["NH3(g)"];
+        let wateq = &derived::index_for("wateq4f").phases["NH3(g)"];
+        assert_eq!(minteq.log_k, wateq.log_k);
+        assert_eq!(minteq.delta_h_kj, wateq.delta_h_kj);
         for phase in [Phase::Aqueous, Phase::Gas] {
             let mut v = Vessel::new(kerotakis_core::VesselId(0), "beaker");
             v.headspace = Headspace::Sealed {

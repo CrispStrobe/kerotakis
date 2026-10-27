@@ -164,7 +164,10 @@ fn supplied_gas_and_initially_absent_gas_close_the_same_reduced_nitrogen_pool() 
 }
 
 #[test]
-fn unavailable_extended_ammonia_gas_phase_refuses_before_mutating_the_vessel() {
+fn extended_route_ammonia_gas_phase_conserves_the_vessel() {
+    // Acetic acid routes this sealed vessel to minteq.v4, which now defines
+    // NH3(g); the coupled gas/protonation equilibrium must solve and keep
+    // every supplied atom rather than refuse.
     let mut solver = PhreeqcEquilibrator::new().unwrap();
     for supplied_gas in [false, true] {
         let mut v = Vessel::new(VesselId(0), "beaker");
@@ -182,15 +185,16 @@ fn unavailable_extended_ammonia_gas_phase_refuses_before_mutating_the_vessel() {
             },
         );
         v.deposit(SpeciesId::new("CH3COOH"), Moles(0.0001), Phase::Aqueous);
-        let before = serde_json::to_value(&v).unwrap();
+        let expected = v.clone();
         let result = solver.equilibrate(&mut v);
         eprintln!(
             "EXTENDED_AMMONIA {}",
             serde_json::json!({"supplied_gas":supplied_gas,"actual":v,"events_or_error":format!("{result:?}")})
         );
-        let error = result.unwrap_err();
-        assert!(error.to_string().contains("NH3(g)"), "{error}");
-        assert_eq!(before, serde_json::to_value(&v).unwrap());
+        result.unwrap();
+        closed(&expected, &v);
+        assert!(amount(&v, "NH3", Phase::Gas) > 0.0);
+        assert!(amount(&v, "NH4+", Phase::Aqueous) > 1e-5);
     }
 }
 
