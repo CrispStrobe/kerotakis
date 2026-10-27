@@ -958,6 +958,12 @@ pub struct PhreeqcEquilibrator {
     /// heat ledger is incomplete is characterised at its supplied
     /// temperature and says so, rather than applying a partial ledger.
     last_heat_unpriced: Option<enthalpy::Unpriced>,
+    /// Set once a pass of the current thermal fixed point found its
+    /// unpriced movers too large to bound away. The decision is then held
+    /// for every later pass of the same step: a threshold that flipped with
+    /// the trial temperature (charge at 25 C, refuse at 33 C) made the fixed
+    /// point oscillate by 8.8 K and fail the whole solve.
+    unpriced_bound_refused: bool,
     /// An outside solver, for builds that cannot link IPhreeqc themselves.
     ///
     /// `wasm32-unknown-unknown` cannot host PHREEQC's C++, so the browser
@@ -2400,6 +2406,7 @@ impl PhreeqcEquilibrator {
             hook: None,
             neutralisation,
             last_heat_unpriced: None,
+            unpriced_bound_refused: false,
         })
     }
 
@@ -2424,6 +2431,7 @@ impl PhreeqcEquilibrator {
             hook: None,
             neutralisation: std::collections::HashMap::new(),
             last_heat_unpriced: None,
+            unpriced_bound_refused: false,
         })
     }
 
@@ -4375,6 +4383,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut previous_guess: Option<f64> = None;
         let mut previous_was_provisional = false;
         let mut full_strict_thermal = false;
+        self.unpriced_bound_refused = false;
 
         for _ in 0..MAX_THERMAL_FIXED_POINT_PASSES {
             let mut trial = start.clone();
@@ -8349,18 +8358,31 @@ impl PhreeqcEquilibrator {
             }
             // An unpriced mover whose worst-case heat would move this
             // vessel by less than the bench thermometer can resolve cannot
-            // change any reading; a larger one still refuses the step.
+            // change any reading; a larger one refuses the step's heat.
             let tolerance_j =
                 vessel.heat_capacity() * kerotakis_core::instrument::THERMOMETER_PRECISION_K;
-            match enthalpy::heat_released_bounded_j(
+            let quoted = enthalpy::heat_quote(
                 &before_contents,
                 before_oh,
                 &vessel.contents,
                 measured_oh,
                 &gas_out,
                 db_tag,
-                tolerance_j,
-            ) {
+            )
+            .and_then(|quote| match quote.unpriced {
+                None => Ok(quote.released_j),
+                Some(declined) => {
+                    if quote.unpriced_bound_j > tolerance_j {
+                        self.unpriced_bound_refused = true;
+                    }
+                    if self.unpriced_bound_refused {
+                        Err(declined)
+                    } else {
+                        Ok(quote.released_j)
+                    }
+                }
+            });
+            match quoted {
                 Ok(j) => {
                     q_joules = j;
                     heat_mode = HeatMode::Priced;

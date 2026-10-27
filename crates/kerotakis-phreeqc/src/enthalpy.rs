@@ -618,7 +618,11 @@ pub fn heat_released_j(
     gas_out: &[(String, f64)],
     db_tag: &str,
 ) -> Result<f64, Unpriced> {
-    heat_released_bounded_j(before, oh_before, after, oh_after, gas_out, db_tag, 0.0)
+    let quote = heat_quote(before, oh_before, after, oh_after, gas_out, db_tag)?;
+    match quote.unpriced {
+        Some(declined) => Err(declined),
+        None => Ok(quote.released_j),
+    }
 }
 
 /// The largest |ΔH| any phase of the routed database states, kJ/mol: the
@@ -633,27 +637,32 @@ fn largest_phase_enthalpy_kj(db_tag: &str) -> f64 {
         .fold(0.0, |max: f64, h| max.max(h.abs()))
 }
 
-/// [`heat_released_j`] with a materiality bound on movers it cannot price.
-///
-/// A trace precipitate with no reviewed enthalpy anywhere (antlerite from
-/// 8 g of copper sulfate: 5.5e-5 mol, 0.1 % of the copper) used to refuse
-/// the whole step, so the 3.3 kJ the salt itself owns went uncharged and
-/// the beaker stayed at 25.0 °C. The unpriced movers are instead bounded at
-/// `Σ|Δn| × max|ΔH|` of the routed database's own phases. When that worst
-/// case is at most `tolerance_j` (the caller passes what the bench
-/// thermometer can resolve) the priced heat is charged; otherwise the
-/// step still refuses, naming the first species that stopped it. A
-/// hydroxide the vessel cannot account for is never bounded away.
-/// `tolerance_j = 0` is the strict ledger.
-pub fn heat_released_bounded_j(
+/// What the ledger could price, and a bound on what it could not.
+#[derive(Debug, Clone, PartialEq)]
+pub struct HeatQuote {
+    /// Heat released by every mover that has a reviewed enthalpy, J.
+    pub released_j: f64,
+    /// The first mover with none, if any.
+    pub unpriced: Option<Unpriced>,
+    /// Worst case for the unpriced movers: `Σ|Δn| × max|ΔH|` of the routed
+    /// database's own phases, J. Zero when everything was priced.
+    pub unpriced_bound_j: f64,
+}
+
+/// [`heat_released_j`] without the refusal: unpriced movers are reported
+/// with a bound instead of declining the step. A trace precipitate with no
+/// reviewed enthalpy anywhere (5.5e-5 mol antlerite from 8 g of copper
+/// sulfate, 0.1 % of the copper) otherwise vetoes the 3.3 kJ the salt
+/// itself owns. Whether a bound is small enough is the caller's decision;
+/// a hydroxide the vessel cannot account for is still a hard refusal.
+pub fn heat_quote(
     before: &[Portion],
     oh_before: f64,
     after: &[Portion],
     oh_after: f64,
     gas_out: &[(String, f64)],
     db_tag: &str,
-    tolerance_j: f64,
-) -> Result<f64, Unpriced> {
+) -> Result<HeatQuote, Unpriced> {
     let mut delta = tally(after);
     for (k, n) in tally(before) {
         *delta.entry(k).or_insert(0.0) -= n;
@@ -760,14 +769,17 @@ pub fn heat_released_bounded_j(
             );
         }
     }
-    if let Some(declined) = unpriced {
-        let bound_j = unpriced_moles * largest_phase_enthalpy_kj(db_tag) * 1000.0;
-        if !(tolerance_j > 0.0 && bound_j <= tolerance_j) {
-            return Err(declined);
-        }
-    }
+    let unpriced_bound_j = if unpriced.is_some() {
+        unpriced_moles * largest_phase_enthalpy_kj(db_tag) * 1000.0
+    } else {
+        0.0
+    };
     // Heat released is the negative of the enthalpy the contents gained.
-    Ok(-d_h_kj * 1000.0)
+    Ok(HeatQuote {
+        released_j: -d_h_kj * 1000.0,
+        unpriced,
+        unpriced_bound_j,
+    })
 }
 
 /// Enthalpy of dissolution of a registry solid, kJ/mol (positive
@@ -1312,7 +1324,7 @@ mod tests {
     /// thermometer-sized tolerance the priced heat is charged; the strict
     /// ledger and a non-trace mover still refuse.
     #[test]
-    fn a_trace_unpriced_mover_is_bounded_and_a_large_one_still_refuses() {
+    fn a_trace_unpriced_mover_is_bounded_and_a_large_one_is_not() {
         let db = "wateq4f";
         let before = [portion("CuSO4", 0.05, Phase::Solid)];
         let trace = 5.5e-5;
@@ -1328,11 +1340,11 @@ mod tests {
         let strict = heat_released_j(&before, 0.0, &after, 0.0, &[], db).expect_err("strict");
         assert_eq!(strict.species, "antlerite");
 
-        let bound_j = trace * largest_phase_enthalpy_kj(db) * 1000.0;
+        let quote = heat_quote(&before, 0.0, &after, 0.0, &[], db).expect("quoted");
+        assert_eq!(quote.unpriced.as_ref().unwrap().species, "antlerite");
+        let bound_j = quote.unpriced_bound_j;
         assert!(bound_j > 0.0 && bound_j < 50.0, "bound {bound_j} J");
-        let tolerance = 2090.0 * 0.1;
-        let q = heat_released_bounded_j(&before, 0.0, &after, 0.0, &[], db, tolerance)
-            .expect("trace bounded");
+        let q = quote.released_j;
         let full = heat_released_j(&before, 0.0, &clean, 0.0, &[], db).expect("priced");
         assert!(q > 0.0, "copper sulfate dissolving warms: {q} J");
         assert!((q - full).abs() < full.abs() * 0.05, "{q} vs {full}");
@@ -1342,9 +1354,11 @@ mod tests {
             portion("SO4-2", 0.04, Phase::Aqueous),
             portion("antlerite", 0.01, Phase::Solid),
         ];
-        let err = heat_released_bounded_j(&before, 0.0, &lots, 0.0, &[], db, tolerance)
-            .expect_err("material mover refuses");
-        assert_eq!(err.species, "antlerite");
+        let lots = heat_quote(&before, 0.0, &lots, 0.0, &[], db).expect("quoted");
+        assert!(
+            lots.unpriced_bound_j > 2090.0 * 0.1,
+            "a material mover is not a trace"
+        );
     }
 
     /// Blue crystals: chalcanthite is priced from the routed database's own
