@@ -98,3 +98,28 @@ fn inert_sealed_gas_still_stands_down_for_pressure_settlement() {
     let solver = ThermalEquilibrator;
     assert!(!solver.applies(&vessel));
 }
+
+/// Lane 6 (refuse, not clamp): above the route's 6000 K domain the charge is
+/// refused with a typed reason before any mutation, instead of being booked
+/// at a clamped 6000 K.
+#[test]
+fn vessel_outside_the_route_temperature_domain_is_refused_not_clamped() {
+    let mut vessel = charge("C", Headspace::Open);
+    vessel.temperature = Kelvin(7000.0);
+    let before = serde_json::to_value(&vessel).unwrap();
+    let mut solver = ThermalEquilibrator;
+    assert!(solver.applies(&vessel));
+    let events = solver.equilibrate(&mut vessel).unwrap();
+    assert_eq!(serde_json::to_value(&vessel).unwrap(), before);
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled {
+                cause: NotModelledCause::ModelBoundary,
+                reason: Some(p),
+                ..
+            } if p.key == "not-modeled.cea-temperature-range"
+        )),
+        "{events:?}"
+    );
+}

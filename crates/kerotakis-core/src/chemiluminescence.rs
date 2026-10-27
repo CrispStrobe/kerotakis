@@ -49,7 +49,12 @@ pub fn observe(vessel: &Vessel) -> Option<ChemiluminescenceObservation> {
     const REFERENCE_HALF_LIFE_S: f64 = 60.0;
     const ACTIVATION_J_PER_MOL: f64 = 35_000.0;
     const GAS_CONSTANT: f64 = 8.314_462_618;
-    let temperature_k = vessel.temperature.0.clamp(273.15, 333.15);
+    // Outside the stated 0-60 °C Arrhenius teaching domain there is no
+    // observation, rather than one evaluated at a clamped temperature.
+    let temperature_k = vessel.temperature.0;
+    if !(273.15..=333.15).contains(&temperature_k) {
+        return None;
+    }
     let rate_ratio =
         (ACTIVATION_J_PER_MOL / GAS_CONSTANT * (1.0 / REFERENCE_K - 1.0 / temperature_k)).exp();
     let half_life_s = REFERENCE_HALF_LIFE_S / rate_ratio;
