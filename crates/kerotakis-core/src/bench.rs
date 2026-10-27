@@ -4508,6 +4508,19 @@ impl Bench {
                                     ),
                                 ));
                             }
+                        } else if gaps.is_empty() && !coverage.missing_absorptivity.is_empty() {
+                            // Coloured inventory with no reviewed molar
+                            // absorptivity (iodine): a zero would claim the
+                            // sample is transparent, so refuse instead.
+                            events.push(Event::not_modeled(
+                                *vessel,
+                                crate::ops::NotModelledCause::ModelBoundary,
+                                Phrase::new(
+                                    "not-modeled.unreviewed-molar-absorptivity",
+                                    "absorbance is unavailable: {species} absorbs visible light and has no reviewed molar absorptivity",
+                                    vec![("species".to_string(), Slot::terms("species", coverage.missing_absorptivity))],
+                                ),
+                            ));
                         } else if gaps.is_empty() {
                             // Written out rather than folded into one push with
                             // two conditionals: `every_fixed_gap_reason_has_german`

@@ -65,6 +65,16 @@ pub struct CuratedReaction {
     pub post_aqueous: Option<PostAqueousEndpoint>,
     /// Defer this row only to an actually selected trusted aqueous route.
     pub aqueous_overlap: Option<AqueousOverlap>,
+    /// When set, reactants are counted from these phases only and withdrawn
+    /// from them in this order.
+    ///
+    /// `Vessel::withdraw` takes from any phase, so an aqueous titration
+    /// could otherwise consume iodine VAPOUR from the headspace, which the
+    /// solution never touches (#846/#765). Totals still close when that
+    /// happens, which is why it hides: the phases are named instead.
+    /// Iodometry names dissolved iodine first and then crystals in contact
+    /// with the titrant, which dissolve as the dissolved iodine is reduced.
+    pub reactant_phases: Option<&'static [Phase]>,
 }
 
 /// Hand-verified seed set. Grows into the codex (P4).
@@ -89,6 +99,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // ── familiar carbonate fizz (BRD-014) ─────────────────────────
     // Molecular bookkeeping for the observable household reaction. Sodium
@@ -109,6 +120,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // The same fizz, written in the names the beaker holds once the soda
     // has dissolved — the `MnO₄⁻`-for-`KMnO4` pattern, one row down.
@@ -149,6 +161,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: Some(AqueousOverlap::SpeciationAndGas),
+        reactant_phases: None,
     },
     // The same hazard, written in the names the beaker holds once the acid
     // has been through a solve.
@@ -186,6 +199,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: Some(2.0),
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "NH3 + NaOCl → NH2Cl↑ + NaOH",
@@ -197,6 +211,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "NaOCl + 2 HCl → Cl2↑ + NaCl + H2O",
@@ -212,6 +227,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // The same hazard a third and a fourth time, written in the names a
     // beaker holds once the bleach has been through a solve.
@@ -245,6 +261,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // And this one is both of them solved: the acid is gone into chloride
     // and a charge imbalance, the bleach into hypochlorite. Written on the
@@ -262,6 +279,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: Some(2.0),
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // ...and the same two again on the UNDISSOCIATED acid, which is not
     // pedantry: it is where the reaction actually goes.
@@ -285,6 +303,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "HClO + Cl⁻ + H⁺ → Cl2↑ + H₂O",
@@ -296,6 +315,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: Some(1.0),
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // Chloramine, on the ion, for the same reason: `NH3 + NaOCl` above
     // cannot fire in a solved beaker. The sodium is absent from both sides
@@ -312,6 +332,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "4 KMnO4 + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 KOH + H₂O",
@@ -328,6 +349,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "4 MnO₄⁻ + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 OH⁻ + H₂O",
@@ -344,6 +366,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // ── EXP-39: the permanganate–oxalate standardisation ──────────
     //
@@ -393,6 +416,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // The same reaction reached from the solid in the burette: the
     // titrant is dosed as KMnO4 and the curated stage runs before the
@@ -415,6 +439,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // ── silver metathesis in ethanol (CAP-23 rung 2b) ────────────
     // PHREEQC handles these in water; the curated entries fire only
@@ -429,6 +454,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "AgNO₃ + KCl → AgCl↓ + KNO₃",
@@ -440,6 +466,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // ── iodine decolorisation (EXP-13: Vitamin C) ─────────────
     // Ascorbic acid reduces molecular iodine to iodide; this is
@@ -457,6 +484,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // ── iodometry: iodine reduced by thiosulfate ──────────────────
     // 2 S₂O₃²⁻ + I₂ → S₄O₆²⁻ + 2 I⁻ is the standard iodometric titration
@@ -485,6 +513,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: Some(&[Phase::Aqueous, Phase::Solid]),
     },
     CuratedReaction {
         equation: "I₂ + 2 Na₂S₂O₃ → 2 I⁻ + S₄O₆²⁻ + 4 Na⁺",
@@ -500,6 +529,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: Some(&[Phase::Aqueous, Phase::Solid]),
     },
     // ── thermal decomposition (EXP-2: Backpulver) ───────────────
     // Onset ~50 °C, classroom-observable above ~80 °C (CRC Handbook
@@ -520,6 +550,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // ── enzymatic hydrolysis (EXP-14: Das süße Brot) ────────────
     // Amylase catalyses starch hydrolysis to maltose. The enzyme
@@ -534,6 +565,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // ── EXP-5: hypochlorite bleaching of dyes ──────────────────────
     CuratedReaction {
@@ -549,6 +581,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "curcumin + NaOCl → curcumin(ox) + NaCl",
@@ -563,6 +596,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "indigo carmine + NaOCl → isatin sulfonate + NaCl",
@@ -577,6 +611,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // The same three bleachings on the ion the vessel holds after a solve.
     //
@@ -607,6 +642,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "curcumin + ClO⁻ → curcumin(ox) + Cl⁻",
@@ -621,6 +657,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     CuratedReaction {
         equation: "indigo carmine + ClO⁻ → isatin sulfonate + Cl⁻",
@@ -635,6 +672,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: None,
         post_aqueous: None,
         aqueous_overlap: None,
+        reactant_phases: None,
     },
     // Net ionic stoichiometry: UCSB Science Line key 164 and Alonso de la
     // Peña et al., Dental Materials Journal 32 (2013), p.655. Independently
@@ -655,6 +693,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         acid_protons: Some(6.0),
         post_aqueous: Some(PostAqueousEndpoint::AcidicPermanganatePeroxide),
         aqueous_overlap: None,
+        reactant_phases: None,
     },
 ];
 
@@ -757,11 +796,27 @@ fn refresh_solute_charge(vessel: &mut Vessel) {
     vessel.solute_charge = crate::displacement::solute_charge(vessel);
 }
 
+fn reactant_moles(vessel: &Vessel, key: &str, phases: Option<&[Phase]>) -> f64 {
+    let id = SpeciesId::new(key);
+    match phases {
+        None => vessel.moles_of(&id).0,
+        Some(phases) => {
+            let id = id.canonical();
+            vessel
+                .contents
+                .iter()
+                .filter(|p| &p.species == id.as_ref() && phases.contains(&p.phase))
+                .map(|p| p.moles.0)
+                .sum()
+        }
+    }
+}
+
 fn extent(vessel: &Vessel, reaction: &CuratedReaction) -> f64 {
     let by_reactant = reaction
         .reactants
         .iter()
-        .map(|(key, coeff)| vessel.moles_of(&SpeciesId::new(key)).0 / coeff)
+        .map(|(key, coeff)| reactant_moles(vessel, key, reaction.reactant_phases) / coeff)
         .fold(f64::INFINITY, f64::min);
     // Acidity is a reagent like any other when a reaction draws on it, and
     // limits the extent like any other. Gating without limiting would let
@@ -916,7 +971,7 @@ impl Equilibrator for CuratedEquilibrator {
     fn applies_with_aqueous_owner(&self, vessel: &Vessel, owned: bool) -> bool {
         REACTIONS.iter().any(|r| {
             r.post_aqueous.is_none() && !(owned && r.aqueous_overlap.is_some()) && fires(vessel, r)
-        })
+        }) || crate::halogen_redox::fires(vessel)
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -977,6 +1032,13 @@ impl Equilibrator for CuratedEquilibrator {
                 for (key, coeff) in reaction.reactants {
                     if reaction.solvent.is_some() {
                         withdraw_from_solution(vessel, &SpeciesId::new(key), Moles(x * coeff));
+                    } else if let Some(phases) = reaction.reactant_phases {
+                        let mut left = x * coeff;
+                        for phase in phases {
+                            left -= vessel
+                                .withdraw_phase(&SpeciesId::new(key), Moles(left), *phase)
+                                .0;
+                        }
                     } else {
                         vessel.withdraw(&SpeciesId::new(key), Moles(x * coeff));
                     }
@@ -1006,6 +1068,11 @@ impl Equilibrator for CuratedEquilibrator {
                         vessel.deposit(SpeciesId::new(key), n, *phase);
                     }
                 }
+            }
+            // The generic halogen/oxyhalogen writers run after the hand
+            // rows, which own every pair they share (see halogen_redox).
+            if crate::halogen_redox::apply(vessel, &mut events) {
+                progressed = true;
             }
             if !progressed {
                 break;
