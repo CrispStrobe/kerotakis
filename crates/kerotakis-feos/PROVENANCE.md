@@ -85,3 +85,35 @@ fed to `PcSaftBinary`. The table above is kept as documentation only.
   are loose sanity bounds only. They are consistent with the DOI-cited Antoine
   fits already in `crates/kerotakis-thermo/src/vle.rs` (Stull 1947,
   doi:10.1021/ie50448a022; Susial Badajoz et al., doi:10.1021/acsomega.6c04827).
+
+## Parameter set replaced: Esper 2023 pure + Rehner 2023 binary (user decision, 2026-10-27)
+
+The Gross & Sadowski (2002) file is removed. With k_ij = 0 it sat 5-6 K below
+UNIFAC at x(EtOH) = 0.05-0.1 (hosted run d3d1a79) while reproducing the
+azeotrope (78.15 °C). The adapter now uses one consistent published set:
+
+| file (vendored byte-for-byte) | upstream path @ feos-org/feos aabc02bbf6c469cf702206cfa68bbb7b2105a324 | sha256 | paper |
+|---|---|---|---|
+| `data/esper2023.json` | `parameters/pcsaft/esper2023.json` | 87fdcd8733245d90cd6ad9e9d7d0583bd3f7ffb3c4d67a25197190f289e2a679 | Esper et al. (2023), Ind. Eng. Chem. Res., doi:10.1021/acs.iecr.3c02255 |
+| `data/rehner2023_binary.json` | `parameters/pcsaft/rehner2023_binary.json` | 8b7d008b2bdf7ec49542eb443e36078fbe46e2737775126589c1718dfa13c335 | Rehner et al. (2023), Int. J. Thermophys., doi:10.1007/s10765-023-03290-3 |
+
+The FeOs parameter README pairs these two files.
+
+- Licence: both files are distributed in the FeOs repository under
+  MIT OR Apache-2.0. The numbers are published model constants from the two
+  papers. I did not verify the papers' own article licences (possibly open
+  access); a reviewer should confirm them.
+- Records used at this commit:
+  - methanol: m 2.25965, sigma 2.83016 A, eps/k 183.58634 K, kappa_ab 0.08716, eps_ab/k 2465.13545 K
+  - ethanol: m 2.8866, sigma 2.95772 A, eps/k 187.26028 K, kappa_ab 0.05533, eps_ab/k 2462.30577 K
+  - water: m 2.36948, sigma 2.15072 A, eps/k 230.71557 K, kappa_ab 0.35319, eps_ab/k 2195.10176 K
+  - All three use 2B sites (na = nb = 1).
+  - ethanol-water binary: cross-association kappa_ab 0.13979271332941498, epsilon_k_ab 2324.047279847392 K, no k_ij.
+  - methanol-water binary: k_ij -0.0159473671673194.
+- Loading: parsed with FeOs `PureRecord<PcSaftRecord, PcSaftAssociationRecord>`
+  and `BinaryRecord<Identifier, PcSaftBinaryRecord, PcSaftAssociationRecord>`,
+  then `PcSaftParameters::new_binary(pures, model_record, association_sites)`.
+  A missing binary record is a typed refusal, never a silent k_ij = 0.
+- Size: the two files total about 5.2 MB. They are embedded only with the `feos` feature.
+- The earlier sections of this file describe the superseded Gross 2002 set
+  and are kept as history.

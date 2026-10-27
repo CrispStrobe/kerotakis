@@ -17,7 +17,7 @@ fn bubble(a: Alcohol, x: f64, p: f64) -> kerotakis_feos::SaturationPoint {
 /// already-reviewed, DOI-cited Antoine constants in
 /// `crates/kerotakis-thermo/src/vle.rs` (methanol and water: Stull 1947,
 /// doi:10.1021/ie50448a022; ethanol: Susial Badajoz et al., ACS Omega,
-/// doi:10.1021/acsomega.6c04827). Water is defined at 373.124 K by ITS-90.
+/// doi:10.1021/acsomega.6c04827). (Water boils at about 373.12 K on ITS-90.)
 #[test]
 fn near_pure_alcohols_boil_at_their_normal_boiling_points() {
     let m = bubble(Alcohol::Methanol, 0.999, ATM);
@@ -48,17 +48,12 @@ fn alcohol_enriches_in_vapour_and_dew_lies_above_bubble() {
     }
 }
 
-/// PC-SAFT (k_ij = 0) vs the existing UNIFAC path vs experiment.
-///
-/// No published ethanol-water k_ij exists for the Gross & Sadowski (2002)
-/// pure-component set: `gross2002_binary.json` has none, and the
-/// ethanol-water / methanol-water entries in FeOs `rehner2023_binary.json`
-/// belong to the different Rehner et al. (2023) pure-parameter set and must
-/// not be mixed with these records. So k_ij stays 0 (a prediction), and this
-/// test does NOT demand UNIFAC parity: the first hosted run measured a
-/// 6.08 K gap at x = 0.05 (PC-SAFT 83.39 °C vs UNIFAC 89.47 °C), recorded in
-/// PROVENANCE.md. Instead it prints the full comparison and asserts against
-/// experiment:
+/// PC-SAFT (Esper et al. 2023 pure + Rehner et al. 2023 binary records,
+/// i.e. fitted ethanol-water cross-association) vs the existing UNIFAC path
+/// vs experiment. History: with the Gross & Sadowski (2002) set and
+/// k_ij = 0, hosted run d3d1a79 sat 5-6 K below UNIFAC at x = 0.05-0.1
+/// while reproducing the azeotrope (78.15 °C); that set was replaced by
+/// user decision. The sweep and per-point deltas are printed. Asserted:
 ///
 /// * Azeotrope at 101.325 kPa: 78.2 °C at x = 0.894 (95.6 wt%) ethanol.
 ///   Source in this repository: the reviewed control
@@ -69,6 +64,10 @@ fn alcohol_enriches_in_vapour_and_dew_lies_above_bubble() {
 ///   339, doi:10.1021/je2008704 (binary ethanol + water at 101.3 kPa), whose
 ///   azeotrope values have NOT yet been checked against 78.2 / 0.894. The
 ///   PC-SAFT bubble point at that composition must lie within 3 K.
+/// * TODO(water-rich bound): assert the x = 0.05-0.1 bubble points against
+///   an openly citable primary measurement (candidate Kamihama et al. 2012,
+///   doi:10.1021/je2008704) once its tables are confirmed; until then the
+///   water-rich side is printed, not asserted.
 /// * Every bubble point lies between the PC-SAFT pure boiling points of
 ///   ethanol and water (with 0.5 K slack), i.e. no unphysical overshoot.
 #[test]
@@ -147,24 +146,24 @@ fn low_pressure_result_is_admitted_or_typed_refusal() {
     }
 }
 
-/// Diagnostic: pure-component PC-SAFT from the vendored FeOs parameter file.
+/// Diagnostic: pure-component PC-SAFT from the vendored Esper 2023 file.
 /// Loose sanity references only (not shipped numbers): normal boiling
 /// points as in `near_pure_alcohols_boil_at_their_normal_boiling_points`,
 /// and 330 K vapour pressures (methanol ~68.5, ethanol ~40.6, water
 /// ~17.2 kPa) evaluated from Antoine forms of the same DOI-cited fits
 /// carried in `crates/kerotakis-thermo/src/vle.rs`.
-/// Gross & Sadowski (2002) report vapour-pressure AAD of a few per cent for
-/// the alcohols; 2B water with constant sigma is known to be worse, so its
-/// band is wider. Actual values are printed for the PR.
+/// Bands are initial and loose for the Esper 2023 set; actual values are
+/// printed for the PR and the bands re-tightened from them.
 #[test]
 fn pure_component_saturation_diagnostic() {
     let cases = [
-        // Tolerances set from hosted run of 670ee975 (printed: methanol
-        // 338.50 K / 71.81 kPa, ethanol 351.66 K / 40.58 kPa, water
-        // 373.27 K / 17.36 kPa), each about 1.5x the observed deviation.
-        ("methanol", Some(Alcohol::Methanol), 337.8, 68.5, 1.0, 0.07),
-        ("ethanol", Some(Alcohol::Ethanol), 351.4, 40.6, 0.5, 0.02),
-        ("water", None, 373.15, 17.2, 0.5, 0.02),
+        // Parameter set changed to Esper et al. (2023): the tolerances
+        // tightened from the Gross 2002 run (670ee975) do not carry over.
+        // Initial bands again; re-tighten from the printed values of the
+        // first hosted run on the Esper set.
+        ("methanol", Some(Alcohol::Methanol), 337.8, 68.5, 2.0, 0.08),
+        ("ethanol", Some(Alcohol::Ethanol), 351.4, 40.6, 2.0, 0.08),
+        ("water", None, 373.15, 17.2, 2.0, 0.08),
     ];
     for (name, c, tb, p330, t_tol, p_rel) in cases {
         let b = pure_boiling_point(c, ATM).expect("pure boiling point");

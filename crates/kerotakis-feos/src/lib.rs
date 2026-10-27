@@ -2,7 +2,7 @@
 //!
 //! One property query: the bubble or dew point of a binary alcohol–water
 //! mixture at a given pressure, from the PC-SAFT equation of state
-//! (Gross & Sadowski 2002 parameters, 2B association, k_ij = 0) as solved by
+//! (Esper et al. 2023 pure + Rehner et al. 2023 binary parameters) as solved by
 //! FeOs. It is a *query*, not a rewiring of the default physics path: the
 //! UNIFAC/Antoine still in `kerotakis-thermo` stays authoritative; this crate
 //! answers "what would PC-SAFT say here?" for comparison and opt-in use.
@@ -17,7 +17,7 @@ use thiserror::Error;
 
 /// Provenance phrase carried with every answer, in the style of the other
 /// engine crates.
-pub const PROVENANCE: &str = "PC-SAFT (Gross & Sadowski 2002, 2B association, k_ij = 0) \
+pub const PROVENANCE: &str = "PC-SAFT (Esper et al. 2023 pure, Rehner et al. 2023 binary records) \
      solved by FeOs 0.10.1 (MIT OR Apache-2.0)";
 
 /// Lowest admitted pressure, kPa.
@@ -52,14 +52,24 @@ impl Alcohol {
     }
 }
 
-/// FeOs's own transcription of Gross & Sadowski, Ind. Eng. Chem. Res. 41
-/// (2002) 5510, Table 1, vendored byte-for-byte from
-/// feos-org/feos `parameters/pcsaft/gross2002.json` at commit
-/// aabc02bbf6c469cf702206cfa68bbb7b2105a324 (sha256
-/// 9680ae8998565feabf6b3808bc2f11df288f55db049677ccebe08a937332c491).
-/// Parsed with FeOs's own record types, so units and association-site
-/// conventions are FeOs's, not hand-typed.
-pub const GROSS2002_JSON: &str = include_str!("../data/gross2002.json");
+/// Pure-component PC-SAFT records of Esper et al. (2023), Ind. Eng. Chem.
+/// Res., doi:10.1021/acs.iecr.3c02255, vendored
+/// byte-for-byte from feos-org/feos `parameters/pcsaft/esper2023.json` at
+/// commit aabc02bbf6c469cf702206cfa68bbb7b2105a324 (sha256
+/// 87fdcd8733245d90cd6ad9e9d7d0583bd3f7ffb3c4d67a25197190f289e2a679).
+/// Only compiled with the `feos` feature.
+#[cfg(feature = "feos")]
+const ESPER2023_JSON: &str = include_str!("../data/esper2023.json");
+
+/// Binary records fitted on top of that pure set by Rehner et al. (2023),
+/// Int. J. Thermophys., doi:10.1007/s10765-023-03290-3, vendored
+/// byte-for-byte from `parameters/pcsaft/rehner2023_binary.json` at the same
+/// commit (sha256
+/// 8b7d008b2bdf7ec49542eb443e36078fbe46e2737775126589c1718dfa13c335).
+/// Ethanol-water carries cross-association (kappa_ab, epsilon_k_ab, no
+/// k_ij); methanol-water carries k_ij.
+#[cfg(feature = "feos")]
+const REHNER2023_BINARY_JSON: &str = include_str!("../data/rehner2023_binary.json");
 
 /// Name of the parameter record for each carried component.
 #[cfg_attr(not(feature = "feos"), allow(dead_code))]
@@ -71,26 +81,81 @@ fn record_name(alcohol: Option<Alcohol>) -> &'static str {
     }
 }
 
-/// Unfitted: pure prediction (`gross2002_binary.json` has no alcohol-water entry).
-pub const K_IJ: f64 = 0.0;
-
 #[cfg(feature = "feos")]
 mod engine {
-    use super::{record_name, Alcohol, Refusal, GROSS2002_JSON, K_IJ};
-    use feos::core::parameter::PureRecord;
+    use super::{record_name, Alcohol, Refusal, ESPER2023_JSON, REHNER2023_BINARY_JSON};
+    use feos::core::parameter::{BinaryRecord, Identifier, PureRecord};
     use feos::pcsaft::{
         PcSaft, PcSaftAssociationRecord, PcSaftBinaryRecord, PcSaftParameters, PcSaftRecord,
     };
+    use std::sync::OnceLock;
 
-    type Record = PureRecord<PcSaftRecord, PcSaftAssociationRecord>;
+    type Pure = PureRecord<PcSaftRecord, PcSaftAssociationRecord>;
+    type Binary = BinaryRecord<Identifier, PcSaftBinaryRecord, PcSaftAssociationRecord>;
 
-    fn record(alcohol: Option<Alcohol>) -> Result<Record, Refusal> {
-        let all: Vec<Record> = serde_json::from_str(GROSS2002_JSON)
-            .map_err(|e| Refusal::NotConverged(format!("parameter file: {e}")))?;
-        let name = record_name(alcohol);
-        all.into_iter()
+    fn bad(e: impl std::fmt::Display) -> Refusal {
+        Refusal::NotConverged(format!("parameter file: {e}"))
+    }
+
+    /// The three carried pure records, parsed once.
+    fn pures() -> Result<&'static [Pure], Refusal> {
+        static CELL: OnceLock<Result<Vec<Pure>, String>> = OnceLock::new();
+        CELL.get_or_init(|| {
+            let all: Vec<Pure> = serde_json::from_str(ESPER2023_JSON).map_err(|e| e.to_string())?;
+            Ok(all
+                .into_iter()
+                .filter(|r| {
+                    matches!(
+                        r.identifier.name.as_deref(),
+                        Some("methanol" | "ethanol" | "water")
+                    )
+                })
+                .collect())
+        })
+        .as_deref()
+        .map_err(bad)
+    }
+
+    /// The alcohol-water binary records, parsed once.
+    fn binaries() -> Result<&'static [Binary], Refusal> {
+        static CELL: OnceLock<Result<Vec<Binary>, String>> = OnceLock::new();
+        CELL.get_or_init(|| {
+            let all: Vec<Binary> =
+                serde_json::from_str(REHNER2023_BINARY_JSON).map_err(|e| e.to_string())?;
+            Ok(all
+                .into_iter()
+                .filter(|r| {
+                    let n = [r.id1.name.as_deref(), r.id2.name.as_deref()];
+                    n.contains(&Some("water"))
+                        && (n.contains(&Some("ethanol")) || n.contains(&Some("methanol")))
+                })
+                .collect())
+        })
+        .as_deref()
+        .map_err(bad)
+    }
+
+    fn record(component: Option<Alcohol>) -> Result<Pure, Refusal> {
+        let name = record_name(component);
+        pures()?
+            .iter()
             .find(|r| r.identifier.name.as_deref() == Some(name))
+            .cloned()
             .ok_or_else(|| Refusal::UnknownSpecies(name.into()))
+    }
+
+    /// Published binary record for alcohol + water. Missing is a refusal,
+    /// never a silent k_ij = 0.
+    fn binary(alcohol: Alcohol) -> Result<Binary, Refusal> {
+        let a = record_name(Some(alcohol));
+        binaries()?
+            .iter()
+            .find(|r| {
+                let n = [r.id1.name.as_deref(), r.id2.name.as_deref()];
+                n.contains(&Some(a)) && n.contains(&Some("water"))
+            })
+            .cloned()
+            .ok_or_else(|| Refusal::UnknownSpecies(format!("{a}-water binary record")))
     }
 
     /// Single-component PC-SAFT equation of state.
@@ -100,12 +165,16 @@ mod engine {
         Ok(PcSaft::new(params))
     }
 
-    /// Alcohol (component 0) + water (component 1).
+    /// Alcohol (component 0) + water (component 1) with the published binary
+    /// record. Both carried pairs are symmetric (k_ij, and cross-association
+    /// between single 2B site types with empty site ids), so the record's
+    /// id1/id2 order does not matter.
     pub(crate) fn binary_eos(alcohol: Alcohol) -> Result<PcSaft, Refusal> {
+        let b = binary(alcohol)?;
         let params = PcSaftParameters::new_binary(
             [record(Some(alcohol))?, record(None)?],
-            Some(PcSaftBinaryRecord::new(K_IJ)),
-            vec![],
+            b.model_record,
+            b.association_sites,
         )
         .map_err(|e| Refusal::NotConverged(e.to_string()))?;
         Ok(PcSaft::new(params))
