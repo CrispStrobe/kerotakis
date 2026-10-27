@@ -87,7 +87,8 @@ pub mod databases {
     /// ligand slice. Reading
     /// these bytes directly would give a caller a database the engine is not
     /// running.
-    pub(crate) const MINTEQ_V4: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
+    pub(crate) const MINTEQ_V4: &[u8] =
+        include_bytes!("../../../vendor/iphreeqc/database/minteq.v4.dat");
     /// Pitzer model — brines, high ionic strength.
     pub const PITZER: &[u8] = include_bytes!("../../../vendor/iphreeqc/database/pitzer.dat");
 

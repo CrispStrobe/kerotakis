@@ -8564,7 +8564,11 @@ impl PhreeqcEquilibrator {
         // a stale headspace beside a seemingly complete acid/base
         // equilibrium, so refuse before mutation instead of borrowing
         // unreviewed phase data (docs/gas-phase-coverage-20261027.md).
-        if let Some((phase, ..)) = problem.gases.iter().find(|(phase, ..)| !idx.has_phase(phase)) {
+        if let Some((phase, ..)) = problem
+            .gases
+            .iter()
+            .find(|(phase, ..)| !idx.has_phase(phase))
+        {
             return Err(SolveError::NotConverged {
                 reason: Some(Box::new(AqueousReason::GasPhaseUnavailable.phrase())),
                 solver: self.name().to_string(),
