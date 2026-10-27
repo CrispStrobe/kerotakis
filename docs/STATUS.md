@@ -45,7 +45,7 @@ All668 supplied records already have baseline executions:557zero/111nonzero exit
 ## Next work
 
 1. Implement the bounded CI acceleration lane after proving complete command/feature/platform equivalence. Preserve all logical checks, protected contexts and failure evidence.
-2. Triage the remaining 129 originals in disjoint groups of 8–12, rank demonstrated shared source defects by their beneficiaries and qualify each unchanged original independently.
+2. **Done 2026-10-27 as a map, not qualification:** the [remaining-129 production triage](../audits/remaining129-production-triage-20261027/README.md) ran all 129 unchanged originals once on production `a7640a07` (126 completed, 3 refused) and classified each blocker. Next: formal criterion review of the 30 ready cases (at most 369 if all qualify), then the shared iodide/thiosulfate (~19) and reaction-heat ownership (~19) source lanes, the AB-017 NH3(g)/minteq.v4 regression and the confirmed TH-007/TH-009/TH-015 heat-sign defects. A new EOS/kinetics engine is not the next lever: only 3 cases named FeOs or teqp/CoolProp.
 3. Repair supported mapping/ownership/data defects at their source. Cold-mixture, mixed-solvent and milk-matrix authority remain explicit prerequisites for broader physical predictions.
 4. Strengthen diagnostic source-parser/helper-key inventory coverage and scoped snapshot lifecycle prevention.
 
