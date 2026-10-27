@@ -1,0 +1,1226 @@
+{
+ "schema": "kerotakis.remaining129-formal-review.v1",
+ "method": "Strict per-criterion model-assisted review of raw production responses with element/charge/energy closure; parent second review of all doubts.",
+ "parent_decisions": {
+  "excluded": {
+   "batch3-diverse:bd-003": "capability probe (light not coupled); probes excluded from count as BD-001/002"
+  },
+  "accepted_with_limitations": [
+   "new120:ab-018",
+   "batch3-diverse:fe-008",
+   "batch3-diverse:fe-001",
+   "batch3-diverse:en-010"
+  ]
+ },
+ "reviews": [
+  {
+   "id": "batch3-diverse:ad-001",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can adsorption followed by filtration be distinguished from filtration alone? | forecast",
+     "verdict": "PASS",
+     "evidence": "Charcoal vessel v1: of 1.5275e-5 mol MO, 1.4338e-5 mol (93.9%) moves to the adsorbed pool on charcoal, filtrate v3 holds 9.367e-7 mol. Filter-only control v2->v4 filtrate holds 1.5275e-5 mol (100%, unchanged)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "MO: v1 adsorbed 1.43382e-5 + filtrate 9.3673e-7 = 1.52749e-5 vs added 1.52749e-5 (rel err <1e-12); control 1.52749e-5 in filtrate. Water 2.76714 mol fully in each filtrate; charcoal 0.0083257 mol retained in v1. No gas phase/headspace (open, no gas events)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "All UV-vis measurements refused (not_yet_modeled cause=no-solution: 'finite aqueous pH is required for methyl orange'; methyl_orange not speciated). Refusal explicitly reported, no fabricated absorbance; the forecast is stated in free/adsorbed inventory terms, which are reported, so the limitation does not touch the requested observable."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (v2 to v4: filter without adsorbent)",
+     "verdict": "PASS",
+     "evidence": "v2->v4 filter without adsorbent removes 0 mol dye; treatment removes 93.9% from the filtrate."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "methyl_orange (C,N,S,Na carrier)": "<1e-12",
+     "water H/O": "0",
+     "activated_charcoal C": "0"
+    },
+    "charge": "0 (all species neutral in ledger; solute_charge 0)",
+    "energy": "not relevant; T constant 298.15 K"
+   },
+   "observed_result": "With 0.10 g charcoal, 93.9% of 1.53e-5 mol methyl orange (1.434e-5 mol) is retained as an adsorbed pool on the filter cake and the filtrate keeps 9.37e-7 mol; the filter-only control passes all 1.53e-5 mol.",
+   "limitations": "UV-vis absorbance is refused for unspeciated methyl orange, so the contrast is an inventory ledger, not an optical reading; Langmuir parameters are editorial and equilibrium is instantaneous.",
+   "doubts": "Every scripted uvvis readout is refused; this review accepts the inventory ledger (free aqueous + adsorbed pool) as the forecast observable. Earlier project reviews held AD001-AD004 on the ground that inventory patterns do not replace optical contrast; a second reviewer must decide whether that hold policy overrides. Methyl orange is unspeciated (no pH/charge distribution); Langmuir parameters editorial; filter passes 100% of liquid with no cake retention."
+  },
+  {
+   "id": "batch3-diverse:ad-002",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Does additional dye expose a finite surface capacity, and can fresh sorbent restore removal? | forecast",
+     "verdict": "PASS",
+     "evidence": "0.10 g charcoal + 1.527e-5 mol MO: free 9.37e-7, adsorbed 1.434e-5. After +9.165e-5 mol MO (total 1.0692e-4): free 4.938e-5 (46%), adsorbed 5.754e-5 (≈18.8 mg/0.1 g) - finite capacity leaves dye in solution. After +0.30 g fresh charcoal: free 2.287e-6, adsorbed 1.0464e-4 - removal restored."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "MO total 1.06924e-4 = free 2.2872e-6 + adsorbed 1.04637e-4 (rel err <1e-12) at every step (step2 1.52749e-5; step4 1.06924e-4). Charcoal 0.0333028 mol = 0.0083257+0.0249771. Water unchanged 2.76714."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "All UV-vis measurements refused (not_yet_modeled cause=no-solution: 'finite aqueous pH is required for methyl orange'; methyl_orange not speciated). Refusal explicitly reported, no fabricated absorbance; the forecast is stated in free/adsorbed inventory terms, which are reported, so the limitation does not touch the requested observable."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (sequential loading and rescue in same vessel)",
+     "verdict": "PASS",
+     "evidence": "Internal staged controls: same vessel before/after loading and before/after sorbent rescue; free-dye fraction 6.1% -> 46.2% -> 2.1%."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "methyl_orange": "<1e-12",
+     "charcoal C": "0",
+     "water": "0"
+    },
+    "charge": "0",
+    "energy": "not relevant; T 298.15 K"
+   },
+   "observed_result": "0.10 g charcoal holds 5.75e-5 mol methyl orange at saturation-limited loading, leaving 4.94e-5 mol (46%) free after 1.07e-4 mol total dye; adding 0.30 g fresh charcoal drops free dye to 2.29e-6 mol (2.1%).",
+   "limitations": "Instantaneous editorial Langmuir equilibrium with no pH or kinetic term; UV-vis refused so no optical colour contrast.",
+   "doubts": "Every scripted uvvis readout is refused; this review accepts the inventory ledger (free aqueous + adsorbed pool) as the forecast observable. Earlier project reviews held AD001-AD004 on the ground that inventory patterns do not replace optical contrast; a second reviewer must decide whether that hold policy overrides. Methyl orange is unspeciated (no pH/charge distribution); Langmuir parameters editorial; filter passes 100% of liquid with no cake retention. 'look' reports the suspension as white/opaque (charcoal suspension colour not rendered as black), which is an appearance oddity not used for the verdict."
+  },
+  {
+   "id": "batch3-diverse:ad-003",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Is the charcoal-bound dye an irreversible reaction product or a reversibly partitioned inventory? | forecast",
+     "verdict": "PASS",
+     "evidence": "Load: 3.055e-5 mol MO, 30 mL; adsorbed 2.890e-5, filtrate v2 1.646e-6. Retained charcoal keeps the adsorbed ledger (2.890e-5) after filtering. Wash with 100 mL water: 4.159e-6 mol desorbs into wash filtrate v3, adsorbed falls to 2.4745e-5 - partial reversible desorption, not complete removal."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "MO: 1.64561e-6 (filtrate1) + 4.15888e-6 (filtrate2) + 2.47453e-5 (charcoal) = 3.05498e-5 vs added 3.05498e-5 (rel err <1e-12). Water 1.66028 to filtrate1, 5.53428 to filtrate2; charcoal 0.0083257 retained."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "All UV-vis measurements refused (not_yet_modeled cause=no-solution: 'finite aqueous pH is required for methyl orange'; methyl_orange not speciated). Refusal explicitly reported, no fabricated absorbance; the forecast is stated in free/adsorbed inventory terms, which are reported, so the limitation does not touch the requested observable."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (filtrate 1 vs wash filtrate vs charcoal)",
+     "verdict": "PASS",
+     "evidence": "First filtrate vs wash filtrate vs retained charcoal; dye is accounted in all three pools."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "methyl_orange": "<1e-12",
+     "water": "0",
+     "charcoal C": "0"
+    },
+    "charge": "0",
+    "energy": "not relevant; T 298.15 K"
+   },
+   "observed_result": "Of 3.05e-5 mol methyl orange, 2.89e-5 mol adsorbs on 0.10 g charcoal; a 100 mL water wash releases 4.16e-6 mol (14% of the adsorbed pool) into the second filtrate, leaving 2.47e-5 mol on the charcoal.",
+   "limitations": "Desorption is an instantaneous equilibrium re-partition, not an elution rate; UV-vis readouts are refused for unspeciated methyl orange.",
+   "doubts": "Every scripted uvvis readout is refused; this review accepts the inventory ledger (free aqueous + adsorbed pool) as the forecast observable. Earlier project reviews held AD001-AD004 on the ground that inventory patterns do not replace optical contrast; a second reviewer must decide whether that hold policy overrides. Methyl orange is unspeciated (no pH/charge distribution); Langmuir parameters editorial; filter passes 100% of liquid with no cake retention. Stirring reports rate_coupled=false; the re-equilibration happened at the water addition step, independent of stirring."
+  },
+  {
+   "id": "batch3-diverse:ad-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "At equal total charcoal mass, can staged contact change the final free-dye concentration? | forecast",
+     "verdict": "PASS",
+     "evidence": "Equal 0.20 g total charcoal, 6.110e-5 mol MO in 50 mL each. Single stage filtrate v3: 2.788e-6 mol free. Two-stage (0.10 g + fresh 0.10 g) filtrate v5: 7.091e-7 mol free (3.9x lower). Charcoal masses 0.016651 mol vs 0.0083257+0.0083257 mol - no hidden sorbent."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Single: 2.78832e-6 + 5.83114e-5 = 6.10997e-5. Two-stage: 4.88797e-5 (stage1 cake) + 1.15108e-5 (stage2 cake) + 7.0914e-7 (filtrate) = 6.10997e-5; both rel err <1e-12 vs 6.10997e-5 added. Water 2.76714 mol carried to each final filtrate."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "All UV-vis measurements refused (not_yet_modeled cause=no-solution: 'finite aqueous pH is required for methyl orange'; methyl_orange not speciated). Refusal explicitly reported, no fabricated absorbance; the forecast is stated in free/adsorbed inventory terms, which are reported, so the limitation does not touch the requested observable."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (single 0.20 g stage vs two 0.10 g stages)",
+     "verdict": "PASS",
+     "evidence": "Single-stage 0.20 g vs two-stage 2x0.10 g at equal dye and water."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "methyl_orange": "<1e-12",
+     "charcoal C": "0",
+     "water": "0"
+    },
+    "charge": "0",
+    "energy": "not relevant; T 298.15 K"
+   },
+   "observed_result": "At equal 0.20 g total charcoal and 6.11e-5 mol methyl orange, one stage leaves 2.79e-6 mol free while two fresh 0.10 g stages leave 7.09e-7 mol free; stage cakes hold 4.89e-5 and 1.15e-5 mol.",
+   "limitations": "Editorial Langmuir equilibrium, instantaneous, no pH/competition; UV-vis refused so comparison is by inventory, not absorbance.",
+   "doubts": "Every scripted uvvis readout is refused; this review accepts the inventory ledger (free aqueous + adsorbed pool) as the forecast observable. Earlier project reviews held AD001-AD004 on the ground that inventory patterns do not replace optical contrast; a second reviewer must decide whether that hold policy overrides. Methyl orange is unspeciated (no pH/charge distribution); Langmuir parameters editorial; filter passes 100% of liquid with no cake retention."
+  },
+  {
+   "id": "batch3-diverse:bd-003",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Does this pinned engine actually couple light to peroxide conversion, or only store the illumination state? | forecast",
+     "verdict": "PASS",
+     "evidence": "irradiate events report photolysis_coupled=false (v1, v3). Irradiated H2O2 v1 and dark H2O2 v2 are bit-identical after 10 min: H2O2 1e-4 -> 9.95137e-5, O2 +2.4314e-7, pressure 101.32336 kPa each. Irradiated water control v3 unchanged. No light-dependent route or ledger beyond dark - engine only stores illumination, as the forecast requires to be reported."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "H2O2 lost 4.8628e-7 per vessel; O2 gained 2.4314e-7 (= half, rel err <1e-6); water gained 4.8628e-7 (2.21371119-2.21371070). Headspace N2 0.0161473 unchanged; CO2 partition unchanged (gas_contained 3.4e-12). H and O close to <1e-9 relative."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Missing photolysis coupling is explicitly flagged (photolysis_coupled=false) and is not presented as a negative chemical result; no quantum yield fabricated."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (v2 dark peroxide, v3 irradiated water)",
+     "verdict": "PASS",
+     "evidence": "Irradiated vs dark peroxide identical; irradiated water blank shows no change; the only conversion (0.49% dark decomposition) is equal in both."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H": "<1e-9",
+     "O": "<1e-9",
+     "N": "0",
+     "C": "<1e-9"
+    },
+    "charge": "0 (H+ 9.458e-8 = HCO3- 9.458e-8 + 2CO3-2; reported solute_charge excludes H+ basis)",
+    "energy": "T rise 2.86e-4 K from 4.86e-7 mol H2O2 decomposition (~98 kJ/mol -> 0.048 J into ~167 J/K) consistent"
+   },
+   "observed_result": "Irradiation at 254 nm, 1 W/m2 is accepted but reported photolysis_coupled=false; after 10 min the irradiated and dark peroxide vessels are identical (H2O2 1.00e-4 -> 9.951e-5 mol, O2 +2.43e-7 mol, 101.323 kPa).",
+   "limitations": "The engine has no wired H2O2 photolysis; the small loss is dark thermal decomposition. No quantum yield, radical or UV-safety claim.",
+   "doubts": "The dark H2O2 decomposition (4.86e-7 mol in 10 min) emits no reaction event; ledger closes but source attribution is silent. H2O2 is labelled phase 'liquid' in a dilute aqueous solution. The forecast is a negative-coverage statement; a reviewer should confirm a catalog entry of type 'engine does not couple light' is acceptable."
+  },
+  {
+   "id": "batch3-diverse:co-006",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can the same gas-forming reaction look larger solely because surfactant stabilises bubbles? | forecast",
+     "verdict": "PASS",
+     "evidence": "Total CO2 evolved: soap v1 1.33589e-4+8.65293e-4+4.6e-10 = 9.98883e-4 mol; no-soap v2 1.33589e-4+8.65303e-4+4.7e-10 = 9.98892e-4 mol (diff 1e-8, 0.001%). Foam only in soap vessel: 5.00 mL (4.50 mL gas) at 0 min, 3.97 mL at 1 min, 1.57 mL at 5 min (t1/2 180 s); control foam 0. During collapse HCO3- stays 4.42e-7 and no CO2 returns to solution."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "C: v1 gas 9.98883e-4 + CO2(aq) 6.75e-7 + HCO3- 4.419e-7 = 1.00000e-3 vs NaHCO3 1e-3 (rel err ~1e-5); v2 same. Na 1e-3 conserved. Citrate 4e-4 conserved. Soap: 0.4 g water resolved, 0.1 g unresolved surfactant pool reported. Water v1 2.790 = 2.767+0.0222 soap water (+ reaction water)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Esterification not_yet_modeled at 298 K reported; foam is a bounded visual state; dish soap surfactant itself unresolved (0.1 g). None of these touches CO2 yield or foam presence."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (v2 identical reaction without surfactant)",
+     "verdict": "PASS",
+     "evidence": "Soap vs no-soap at identical NaHCO3/citric acid: equal gas moles, foam only with soap."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "~1e-5",
+     "Na": "0",
+     "citrate": "0"
+    },
+    "charge": "Na+ 1e-3 + H+ basis 2.0044e-4 - 3x4e-4 citrate - 4.42e-7 HCO3- ≈ 0 (rel <1e-5)",
+    "energy": "T 298.15 -> 298.08 K, small endothermic dissolution/degassing, not forecast-relevant"
+   },
+   "observed_result": "Both vessels release 9.989e-4 mol CO2 from 1e-3 mol NaHCO3 + 4e-4 mol citric acid; only the soap vessel holds foam (5.0 mL peak, 1.57 mL after 5 min) and bicarbonate stays at 4.4e-7 mol during collapse.",
+   "limitations": "Foam is a bounded visual state with a fixed 180 s half-life, not a bubble-size model; surfactant chemistry unresolved.",
+   "doubts": "Citrate is ledgered as fully C6H5O7-3 with a separate 2.0e-4 mol 'H+' basis at pH 6.10 (real pKa3 ~6.4), so speciation is a proton-basis representation; 'look' calls the soap vessel liquid colourless and clear and never mentions foam, so the foam is visible only in bench state/foam_changed events."
+  },
+  {
+   "id": "batch3-diverse:en-010",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "How does the simulator represent starch digestion differently from digestion of a conserved food-material pool? | forecast",
+     "verdict": "PASS",
+     "evidence": "Starch (1.23350e-3 mol C6H10O5 units) -> molecular maltose 6.16751e-4 mol (reaction_occurred event with amylase), consuming 6.1675e-4 mol water. Milk: lactase acts on the material annotation (enzyme_hydrolysed, 'lactose in milk', converted_fraction 0.507, 0.9735 g), with no molecular lactose/glucose species. Balance: v1 50.06000 g and v2 40.05000 g identical before/after 1 h - no unexplained mass."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "v1: C 6x1.23350e-3 = 12x6.16751e-4 (exact); water 2.7671385 -> 2.7665217 (-6.1675e-4 = maltose) rel err <1e-12. v2: Ca (OCP as Ca4H(PO4)3·2.5H2O) in 3.9922e-4+4x1.46681e-4 = 9.8594e-4, out 2.82623e-4+4x1.75830e-4 = 9.8594e-4; P in 4.40018e-4+3x1.46681e-4=8.80061e-4, out 8.80061e-4 (<1e-9); K, Na, Cl, citrate unchanged; unresolved 4.8806 g milk pool reported."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Hydroxylapatite withheld (metastability boundary) and uncompensated recipe charge reported as not_yet_modeled; lactose conversion explicitly an aggregate material annotation. These do not touch the mass/representation observables."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (starch/amylase vs milk/lactase)",
+     "verdict": "PASS",
+     "evidence": "Starch-route vessel vs milk-material vessel compared by representation and balance; limitations say no matched rates."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C(v1)": "0",
+     "H/O(v1)": "<1e-12",
+     "Ca(v2)": "<1e-9",
+     "P(v2)": "<1e-9",
+     "K,Na,Cl(v2)": "0"
+    },
+    "charge": "v1 0. v2 recipe input itself is non-neutral by +2.50e-4 eq (K+Na+2Ca = 2.9942e-3 vs Cl+H2PO4+3cit = 2.7445e-3); engine reports this and compensates via the H+ basis; charge is unchanged across steps (solute_charge -5.8677e-6 constant).",
+    "energy": "T 298.15 K constant; not forecast-relevant"
+   },
+   "observed_result": "Amylase converts all 1.23e-3 mol starch glucose units into 6.17e-4 mol molecular maltose (consuming 6.17e-4 mol water, 50.060 g balance unchanged), while lactase hydrolyses 0.973 g (50.7%) of milk lactose only as a material-pool annotation with the 40.050 g balance unchanged.",
+   "limitations": "Starch hydrolysis completes instantly at enzyme addition (not rate-resolved); milk lactose/products are not molecular species; no matched rates.",
+   "doubts": "Whole-milk surrogate recipe is not electroneutral (+2.5e-4 eq) and the engine adjusts pH; octacalcium phosphate formula basis is Ca4H(PO4)3 (half-cell) - confirm. 2.9e-5 mol OCP precipitates on addition and is reported to settle 35 m in 1 h (oversized nominal distance)."
+  },
+  {
+   "id": "batch3-diverse:fe-001",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can gas evolution distinguish alcoholic from homolactic fermentation when the initial sugar is the same? | forecast",
+     "verdict": "PASS",
+     "evidence": "Yeast v1: sucrose 2.92144e-3 -> 3.053e-4 (2.6161e-3 consumed), ethanol 1.04646e-2 and CO2 1.04646e-2 (4:4 per sucrose); pressure 147.59 kPa. Yoghurt v2: sucrose 2.92144e-3 -> 2.8450e-3 (7.64e-5 consumed), lactic acid 2.622e-4 + lactate 4.378e-5 = 3.060e-4 (=4x7.64e-5), CO2 gas 7.42e-6 (same as sugar-only control v3 7.32e-6), pressure 99.662 kPa ≈ control 99.661 kPa, pH 3.07. Low gas with sugar consumed."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "v1 C: sucrose consumed 12x2.61614e-3 = 3.1394e-2 = EtOH 2x1.04646e-2 + CO2 1.04646e-2 (rel <1e-9); CO2 gas 9.668e-3 + aq 8.006e-4 + HCO3- 4.3e-6 = 1.04729e-2 = produced + ~8e-6 air CO2. v2 C: 12x7.64e-5 = 3x3.060e-4 (rel ~1e-3 from rounding, exact in raw ledger). Headspace N2/O2 unchanged; yeast/culture unresolved pools reported (0.4999995 g, 0.5 g)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Fischer esterification declined at 298 K reported; culture activities not dose-equivalent per limitation; does not touch product identity."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (v3 sugar without culture)",
+     "verdict": "PASS",
+     "evidence": "Alcoholic vs homolactic vs sugar-only sealed control: only yeast raises pressure; yoghurt lowers pH without gas."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "<1e-6",
+     "H": "<1e-6",
+     "O": "<1e-6",
+     "N": "0"
+    },
+    "charge": "v1 H+ 4.258e-6 = HCO3- 4.258e-6; v2 H+ 4.378e-5 = lactate 4.378e-5 (closed; solute_charge field excludes H+ basis)",
+    "energy": "vessels relax to 298.15 K ambient over 8 h; not forecast-relevant"
+   },
+   "observed_result": "After 8 h sealed at 30 °C, yeast converts 2.62e-3 mol sucrose to 1.05e-2 mol ethanol and 1.05e-2 mol CO2 (147.6 kPa), while yoghurt culture converts 7.6e-5 mol sucrose to 3.06e-4 mol lactic acid/lactate (pH 3.07) with headspace at 99.66 kPa, equal to the sugar-only control.",
+   "limitations": "Culture activities are not dose-equivalent and not growth models; compare product identity, not equal conversion.",
+   "doubts": "Temperatures drop from 303 to 298.15 K during the wait (ambient relaxation), so the 30 °C condition is not held; pressure is read at ~298 K. Check this does not bias the gas comparison (control vessels at the same T)."
+  },
+  {
+   "id": "batch3-diverse:fe-002",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Does a heterolactic route account for three product classes from one disaccharide pool? | forecast",
+     "verdict": "PASS",
+     "evidence": "v1 (1 g sucrose + starter): sucrose pool 2.92144e-3+2.9214e-4 (starter's own) = 3.21359e-3; consumed 1.22114e-3; products lactic acid 2.319e-3 + lactate 1.231e-4 = 2.4423e-3, ethanol 2.4423e-3, CO2 2.4423e-3 (2:2:2 per sucrose). Starter-only v2 consumes 1.1101e-4 of its own 2.9214e-4 -> 2.220e-4 each. Chromatogram shows only ethanol; lactic_acid/lactate/sucrose/CO2(aq) reported not parameterised, H+/HCO3- outside method - chromatography cannot close the balance, as forecast."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "v1 C: 12x1.22114e-3 = 1.46537e-2 = 3x2.4423e-3+2x2.4423e-3+2.4423e-3 (rel <1e-6); CO2 gas 2.288e-3 + aq 1.62e-4 = 2.450e-3 = 2.442e-3 + ~8e-6 air CO2. Starter 2.5 g water + 0.1 g sucrose resolved, 2.4 g unresolved reported. v2 analogous (2.220e-4 x3 classes)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Chromatography coverage gap reported (not-parameterised); flour solids unresolved per limitation; neither touches inventory-level product classes."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (v2 starter only)",
+     "verdict": "PASS",
+     "evidence": "Sugar+starter vs starter-only shows the added sucrose drives 11x more product; starter sugar accounted."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "<1e-6",
+     "H": "<1e-6",
+     "O": "<1e-6"
+    },
+    "charge": "v1 H+ 1.232e-4 = lactate 1.231e-4 + HCO3- 2.8e-8; v2 H+ 3.413e-5 = lactate 3.412e-5",
+    "energy": "relaxes to 298.15 K; not forecast-relevant"
+   },
+   "observed_result": "In 12 h, sucrose plus starter converts 1.22e-3 mol sucrose (including the starter's 2.9e-4 mol) into 2.44e-3 mol each of lactic acid/lactate, ethanol and CO2 (pH 2.56, 112.0 kPa); starter alone gives 2.22e-4 mol of each (pH 3.11, 101.7 kPa). Chromatography reports only the ethanol peak.",
+   "limitations": "Starter sugar is represented as sucrose; flour solids not saccharified; chromatograph has no parameters for lactic acid or sucrose.",
+   "doubts": "The 'fermented' event is labelled reaction 'yeast-sucrose-fermentation' and reports only ethanol/CO2; lactic acid appears without its own event (ledger closes as heterolactic 2:2:2). Second reviewer should confirm the route attribution."
+  },
+  {
+   "id": "batch3-diverse:fe-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can fermentation supply an intermediate that a later oxygen-dependent culture transforms? | forecast",
+     "verdict": "PASS",
+     "evidence": "Stage 1 (8 h, inspected before acetobacter): sucrose 1.46072e-3 -> 2.222e-4, ethanol 4.9542e-3, CO2 4.9542e-3, no acetic acid. Stage 2 (+1 g acetobacter, +3e-3 mol O2, 24 h): residual yeast adds 8.788e-4 ethanol (total produced 5.8330e-3); final ethanol 4.5979e-3 -> ethanol lost 1.2351e-3; acetic 1.1989e-3 + acetate 3.62e-5 = 1.2351e-3; O2 7.2111e-3 -> 5.9760e-3 (consumed 1.2351e-3, finite, 83% remaining)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Ethanol/acetic/O2 1:1:1 to <1e-4 rel. C: sucrose 1.46072e-3 - 2.48e-6 final = 1.45824e-3 consumed x12 = 1.74989e-2 = EtOH 2x4.5979e-3 + acetic 2x1.2351e-3 + CO2 5.8330e-3 (rel <1e-4); CO2 gas 5.31e-3 + aq 5.311e-4 + HCO3- 4.1e-7 = 5.8415e-3 incl ~8e-6 air CO2. Water 3.3193242 -> 3.3203427 (+1.0185e-3 ≈ +1.2351e-3 oxidation - 2.197e-4 hydrolysis, residual 2.9e-6). Acetobacter and yeast unresolved pools reported."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Chromatograph reports CH3COOH/sucrose not parameterised and acetate outside method; esterification declined at 298 K reported. These do not touch the ledger observables."
+    },
+    {
+     "id": "controls",
+     "text": "Interpret the treatment against the stated controls rather than an unpaired absolute observation. (stage-1 inspect before second culture)",
+     "verdict": "PASS",
+     "evidence": "Stage-1 inspection is the before-control; residual yeast activity is separately reported (fermented event) and included in the ethanol balance."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "<1e-4",
+     "O": "~1e-6",
+     "H": "~1e-6"
+    },
+    "charge": "H+ 3.664e-5 = acetate 3.623e-5 + HCO3- 4.08e-7 (closed)",
+    "energy": "T 303 -> 298.16 K ambient relaxation; not forecast-relevant"
+   },
+   "observed_result": "Yeast first makes 4.95e-3 mol ethanol from sucrose; after adding acetobacter and 3e-3 mol O2, 1.235e-3 mol ethanol is oxidised to 1.235e-3 mol acetic acid/acetate consuming 1.235e-3 mol O2 (pH 3.23), while residual yeast adds 8.8e-4 mol ethanol.",
+   "limitations": "Residual yeast keeps fermenting; no population ecology or air resupply; chromatography cannot quantify acetic acid.",
+   "doubts": "The ethanol-to-acetic oxidation emits NO reaction/event in step 7 (only the yeast 'fermented' event); ledger closes 1:1:1 but the conversion is silent - a second reviewer should decide whether missing event-level attribution violates the inventory criterion. Water residual 2.9e-6 mol unexplained (likely acetate/H+ basis bookkeeping)."
+  },
+  {
+   "id": "batch3-diverse:fe-005",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can a sugar-fermenting culture consume intact starch without a separate saccharification route? Forecast: sucrose vessel supports alcoholic route; intact starch not relabelled as sugar and fermented.",
+     "verdict": "PASS",
+     "evidence": "v1: sucrose 0.0029214 -> 0.0009444 mol (0.0019770 consumed), ethanol = CO2 produced = 0.0079081 mol (4:1 exact), pressure 135.88 kPa, pH 4.13. v2: starch 0.0061675 mol unchanged (solid, 'inert'), no gas_produced/fermented event, pressure 99.66 kPa, no ethanol."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "step-by-step residual (snapshot - previous - explicit adds) < 1e-12 mol for every element in every vessel at every step; only seal steps add trapped air (N2/O2/CO2); C,H,O,N rel err <1e-12 both vessels; yeast recipe 0.4999995 g unresolved reported, catalase 2.08e-12 mol."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Only not_yet_modeled is Fischer esterification temperature gate (not requested). Starch negative is explicit 'inert' (insoluble) event, not a missing output."
+    },
+    {
+     "id": "controls",
+     "text": "v2: polymeric feedstock without saccharification",
+     "verdict": "PASS",
+     "evidence": "Paired v1 vs v2 identical water/yeast/temperature/headspace: 0.0079 vs 0 mol CO2."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "<1e-12",
+     "H": "<1e-12",
+     "O": "<1e-12",
+     "N": "<1e-12"
+    },
+    "charge": "|sum z*n| <= 3.7e-15 mol",
+    "energy": "not requested"
+   },
+   "observed_result": "In 4 h at 30 C, 0.5 g yeast fermented 0.00198 mol of 0.00292 mol sucrose to 0.00791 mol ethanol and CO2 (135.9 kPa), whereas 1 g intact starch (0.00617 mol glucose units) stayed unchanged with no gas (99.7 kPa).",
+   "limitations": "Starch is excluded as an insoluble inert solid; no amylase/saccharification route exists, and the yeast recipe is otherwise an unresolved catalase surrogate.",
+   "doubts": "Starch negative arises from the solubility gate rather than an explicit substrate-range rule; trapped air has no Ar."
+  },
+  {
+   "id": "batch3-diverse:fe-007",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can a finite oxygen budget limit culture-mediated ethanol oxidation even while alcohol and culture remain? Reconcile headspace and both O2 additions with acetic acid; second pulse increases conversion only with ethanol remaining.",
+     "verdict": "PASS",
+     "evidence": "Trapped O2 1.684e-4 + pulse 1.0e-4 = 2.684e-4 mol; after 48 h O2 = 0, acetic (HAc+Ac-) = 2.684e-4, ethanol 7.316e-4 remains -> O2-limited. Pulse 2 (5e-4): O2 consumed 3.174e-4, acetic +3.174e-4 to 5.858e-4 total, ethanol 4.142e-4 left, O2 1.826e-4 left. Total O2 consumed 5.858e-4 = acetic 5.858e-4 (1:1). pH 3.53 -> 3.35."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "step-by-step residual (snapshot - previous - explicit adds) < 1e-12 mol for every element in every vessel at every step; only seal steps add trapped air (N2/O2/CO2); C,H,O,N closure <1e-12; acetobacter 1 g reported as unresolved material."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Chromatograph not parameterised for CH3COOH/CO2 (explicitly reported; acetic quantified by inventory and pH). Esterification gate decline reported."
+    },
+    {
+     "id": "controls",
+     "text": "no separate control vessel; pre/post-pulse comparison",
+     "verdict": "PASS",
+     "evidence": "Stage-1 O2 exhaustion with ethanol remaining vs stage-2 further conversion after pulse."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "<1e-12",
+     "H": "<1e-12",
+     "O": "<1e-12",
+     "N": "<1e-12"
+    },
+    "charge": "<=1.1e-16",
+    "energy": "not requested"
+   },
+   "observed_result": "With 2.68e-4 mol O2 (air + pulse), acetification stopped at 2.68e-4 mol acetic acid with 7.3e-4 mol ethanol left; a 5e-4 mol O2 pulse raised acetic acid to 5.86e-4 mol (pH 3.35), O2 consumed matching acetic formed 1:1.",
+   "limitations": "Acetic culture rate is an uncalibrated teaching correlation; in stage 2 neither O2 nor ethanol was exhausted (rate-limited window).",
+   "doubts": "No 'reacted'/acetification event is emitted for the conversion; it is visible only in inventories. Ethanol is listed as phase 'liquid' rather than aqueous."
+  },
+  {
+   "id": "batch3-diverse:fe-008",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Does warming a cold-started lactic culture accelerate later conversion without adding culture? Compare increments before/after warming against warm-start control.",
+     "verdict": "PASS",
+     "evidence": "Lactic+lactate: window 1 v1 (5 C start) 5.63e-7 mol vs v2 (40 C start) 3.118e-4; after 7.3 kJ heat (v1 measured 59.78 C) window 2 increment v1 9.40e-5 vs v2 7.58e-5 mol. v1 increment rose ~167x; culture remained 0.5 g unresolved in both, no addition. Final pH 3.35 vs 3.02."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "step-by-step residual (snapshot - previous - explicit adds) < 1e-12 mol for every element in every vessel at every step; only seal steps add trapped air (N2/O2/CO2); C,H,O closure <1e-12; sucrose consumed x4 = lactate formed (v1 2.36e-5 -> 9.45e-5)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "No not_yet_modeled warnings; culture recipe unresolved reported."
+    },
+    {
+     "id": "controls",
+     "text": "warm-start control v2",
+     "verdict": "PASS",
+     "evidence": "Increments compared against v2 in both windows."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "<1e-12",
+     "H": "<1e-12",
+     "O": "<1e-12"
+    },
+    "charge": "<=7e-18",
+    "energy": "7300 J -> dT 34.78 K; water 2.767 mol*75.3 J/mol/K + 1 g sucrose ~1.24 J/K gives ~7.29 kJ, rel err ~0.1%; event sensible_j 7300.00"
+   },
+   "observed_result": "A 5 C-started yoghurt culture formed only 5.6e-7 mol lactic acid in 4 h vs 3.1e-4 mol in the 40 C-started control; after heating to 59.8 C it formed 9.4e-5 mol in the next 4 h (control 7.6e-5) with no added culture.",
+   "limitations": "Vessels relax to 25 C during waits (cold not held); the temperature envelope inside a wait is not reported; no thermal inactivation modelled.",
+   "doubts": "Culture protein_denatured_fraction stays 0 after 59.8 C; real lactic cultures are largely inactivated near 60 C. Conversion has no reaction event, only inventory."
+  },
+  {
+   "id": "batch3-diverse:mi-003",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can a common anion be distinguished from merely adding another dissolved electrolyte?",
+     "verdict": "PASS",
+     "evidence": "Dissolved Ca: water v3 7.802e-4 mol (gypsum 1.220e-3 left), +1 mmol Na2SO4 v1 5.812e-4 (solid 1.419e-3), +2 mmol NaCl v2 9.358e-4 (solid 1.064e-3). Sulfate lowers, chloride raises gypsum solubility; I = 0.0825 vs 0.0927 (not matched, as stated)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "step-by-step residual (snapshot - previous - explicit adds) < 1e-12 mol for every element in every vessel at every step; only seal steps add trapped air (N2/O2/CO2); Ca,S,Na,Cl,H,O totals exactly equal additions in all 3 vessels."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "No not_yet_modeled warnings."
+    },
+    {
+     "id": "controls",
+     "text": "NaCl ionic-strength control and water-only control",
+     "verdict": "PASS",
+     "evidence": "Three paired vessels as above."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ca": "0",
+     "S": "0",
+     "Na": "0",
+     "Cl": "0",
+     "H": "<1e-12",
+     "O": "<1e-12"
+    },
+    "charge": "<=5e-16",
+    "energy": "not requested"
+   },
+   "observed_result": "In 50 mL, gypsum dissolved 0.780 mmol in water, 0.581 mmol with 1 mmol Na2SO4 (common-ion suppression) and 0.936 mmol with 2 mmol NaCl (ionic-strength enhancement).",
+   "limitations": "Controls are not ionic-strength matched; inventory lists component totals, not CaSO4(aq) ion-pair speciation.",
+   "doubts": "Look/particles outputs do not discriminate; result rests on inventory."
+  },
+  {
+   "id": "batch3-diverse:mi-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can chloride-bearing atacamite and sulfate-bearing antlerite be distinguished after matching their copper content?",
+     "verdict": "PASS",
+     "evidence": "Both fully dissolve with 1 mmol HCl: Cu2+ 6.0e-4 each. Residual H+ 1.0e-4 (atacamite, 3 H+/formula) vs 2.0e-4 (antlerite, 4 H+/formula); pH 2.760 vs 2.507; Cl- 1.3e-3 vs 1.0e-3; SO4 0 vs 2.0e-4."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "step-by-step residual (snapshot - previous - explicit adds) < 1e-12 mol for every element in every vessel at every step; only seal steps add trapped air (N2/O2/CO2); intermediate Cu(OH)2 and brochantite pools redissolved fully; Cu,Cl,S,H,O exact."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "UV-vis explicitly not_yet_modeled (missing CuCl+/CuOH+/CuSO4 spectra) and Tenorite metastability boundary reported; copper similarity rests on equal Cu inventory, requested acidity/anion observables are covered."
+    },
+    {
+     "id": "controls",
+     "text": "paired equal-Cu doses",
+     "verdict": "PASS",
+     "evidence": "Same water, HCl, Cu."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cu": "0",
+     "Cl": "0",
+     "S": "0",
+     "H": "<1e-12",
+     "O": "<1e-12"
+    },
+    "charge": "<=5.4e-16 (explicit ions incl. H+)",
+    "energy": "not requested"
+   },
+   "observed_result": "Equal 0.6 mmol Cu as atacamite or antlerite fully dissolved in 1 mmol HCl leaving 0.1 vs 0.2 mmol H+ (pH 2.76 vs 2.51), with 1.3 vs 1.0 mmol Cl- and 0 vs 0.2 mmol sulfate.",
+   "limitations": "UV-vis copper signal unavailable; chloride from HCl is not an independent atacamite assay.",
+   "doubts": "Antlerite fully dissolves in neutral water before acid then reprecipitates brochantite (transient); copper 'signal similarity' is only by inventory."
+  },
+  {
+   "id": "batch3-diverse:po-003",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Which component is necessary for the declared slime-like network state? Combined vessel reports network; controls do not; no disappearance of PVA/borate.",
+     "verdict": "PASS",
+     "evidence": "Only v1 emits gel_formed (PVA 1 g, Na2B4O7 1.491e-4 mol, gelled fraction 0 -> 0.6655); v2 (PVA only) and v3 (borate only) emit none. PVA 0.0227 mol and borate 1.491e-4 mol remain in v1 inventory."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "step-by-step residual (snapshot - previous - explicit adds) < 1e-12 mol for every element in every vessel at every step; only seal steps add trapped air (N2/O2/CO2); C,H,O,Na,B exact in all vessels."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "PVA and borax not speciated (pH/I None) explicitly reported; no rheology; network observable is the gel event, not affected."
+    },
+    {
+     "id": "controls",
+     "text": "v2: polymer only; v3: borate only",
+     "verdict": "PASS",
+     "evidence": "As above."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "0",
+     "H": "<1e-12",
+     "O": "<1e-12",
+     "Na": "0",
+     "B": "0"
+    },
+    "charge": "0",
+    "energy": "not requested"
+   },
+   "observed_result": "Only PVA (1 g) plus 0.03 g Na2B4O7 in 30 mL reported a gel (gelled fraction 0.666); PVA alone and borate alone did not, and all PVA and borate remained in inventory.",
+   "limitations": "Bounded geometric gel correlation; borate speciation, pH and rheology not modelled.",
+   "doubts": "Gel fraction is not persisted in bench state (only event); 'look' gives identical opaque white for gel and PVA-only, and PVA is listed as solid despite the 'dissolves' note."
+  },
+  {
+   "id": "batch3-diverse:po-004",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "At fixed borate inventory, does a second PVA addition change the fraction of polymer described as networked? Distinguish fraction from networked mass; inputs conserved.",
+     "verdict": "PASS",
+     "evidence": "0.5 g PVA + 9.94e-5 mol borax: fraction 0.9432 (networked 0.472 g). After +1.5 g PVA: fraction 0.1101 (reported as from_gelled_fraction at next event; 0.220 g networked). After +0.06 g borax (3.976e-4 total): 0.9432 of 2 g (1.886 g). Same loading 1.99e-4 mol/g gives same fraction."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "step-by-step residual (snapshot - previous - explicit adds) < 1e-12 mol for every element in every vessel at every step; only seal steps add trapped air (N2/O2/CO2); PVA 0.0454 mol and Na2B4O7 3.976e-4 mol fully retained; C,H,O,Na,B exact."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Borax not speciated reported; observable not touched."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": "0",
+     "H": "<1e-12",
+     "O": "<1e-12",
+     "Na": "0",
+     "B": "0"
+    },
+    "charge": "0",
+    "energy": "not requested"
+   },
+   "observed_result": "At 9.9e-5 mol borax, the networked fraction fell from 0.943 (0.5 g PVA) to 0.110 after adding 1.5 g PVA (networked mass 0.47 -> 0.22 g) and returned to 0.943 (1.89 g) once borax was raised to 4.0e-4 mol.",
+   "limitations": "Geometric bounded correlation of loading, not a modulus or stoichiometric cross-link reaction.",
+   "doubts": "The drop to 0.110 after PVA addition emits no event (only inferable from the next gel_formed 'from' field); networked mass decreasing on polymer addition is a silent recalculation worth checking; look outputs identical."
+  },
+  {
+   "id": "batch3-diverse:su-001",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Which metal is selected as the sacrificial anode when iron shares an electrolyte with zinc or copper?",
+     "verdict": "PASS",
+     "evidence": "48 h, 0.003 mol O2 added: v1 Fe-Zn: Zn anode, 2.166e-4 mol Zn consumed (Zn(OH)2 2.125e-4 + Zn2+ 4.1e-6), Fe 0.001 intact. v2 Fe-Cu: Cu cathode, 0.001 intact; Fe anode, 9.830e-4 mol corroded to Fe2O3 4.915e-4. v3 Fe alone: identical 9.830e-4 (no acceleration factor inferred)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "step-by-step residual (snapshot - previous - explicit adds) < 1e-12 mol for every element in every vessel at every step; only seal steps add trapped air (N2/O2/CO2); O2 consumed 1.083e-4 (v1) and 7.37e-4 (v2,v3) match stoichiometry; base_equivalents treated as OH-; all elements exact."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Fe/Zn reaction with water explicitly rate-not-modelled; does not touch anode selection."
+    },
+    {
+     "id": "controls",
+     "text": "v3: iron without a second metal",
+     "verdict": "PASS",
+     "evidence": "v2 equals v3 Fe loss exactly; v1 Fe loss 0."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Fe": "0",
+     "Zn": "0",
+     "Cu": "0",
+     "Na": "0",
+     "Cl": "0",
+     "N": "<1e-12",
+     "C": "<1e-12",
+     "H": "<1e-12",
+     "O": "<1e-12"
+    },
+    "charge": "<=4e-18",
+    "energy": "not requested"
+   },
+   "observed_result": "In aerated 0.1 M NaCl over 48 h, zinc acted as anode (0.217 mmol Zn consumed) and left 1 mmol iron intact, whereas with copper the iron corroded 0.983 mmol to Fe2O3, identical to the iron-only control, and copper was untouched.",
+   "limitations": "Curated activity-series anode selection; no geometry, differential aeration or galvanic acceleration.",
+   "doubts": "Iron corrodes 98% in 48 h (fast teaching clock); zinc consumption rate scaling with amount differs from su-004."
+  },
+  {
+   "id": "batch3-diverse:su-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Does apparent protection persist after the sacrificial metal is consumed, provided oxidant remains? Track Zn depletion and O2.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "Zn never depleted: after 240 h Zn(s) 1.457e-5 of 5e-5 mol remains (Zn(OH)2 3.136e-5, Zn2+ 4.08e-6); O2 7.27e-3 remains; Fe 0.001 never corrodes. The post-depletion transition the question asks about is not reached."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "step-by-step residual (snapshot - previous - explicit adds) < 1e-12 mol for every element in every vessel at every step; only seal steps add trapped air (N2/O2/CO2); Zn, Fe, O, H, C, N exact; O2 consumed 1.77e-5 = Zn oxidized/2."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Rate-not-modelled metal/water reactions reported."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Fe": "0",
+     "Zn": "0",
+     "Na": "0",
+     "Cl": "0",
+     "N": "<1e-12",
+     "C": "<1e-12",
+     "H": "<1e-12",
+     "O": "<1e-12"
+    },
+    "charge": "<=7e-18",
+    "energy": "not requested"
+   },
+   "observed_result": "Over 240 h, 3.54e-5 of 5e-5 mol Zn corroded while 1 mmol Fe stayed intact and 7.3 mmol O2 remained; zinc was not exhausted so no post-depletion behaviour was observed.",
+   "limitations": "Checkpoints too short for this corrosion clock to deplete the anode.",
+   "doubts": "Look reports bubbling although no gas-producing reaction is evented."
+  },
+  {
+   "id": "batch3-diverse:th-006",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can two cryogenic stocks lose mass by different phase transitions without undergoing a chemical reaction?",
+     "verdict": "PASS",
+     "evidence": "100 J to 0.0227226 mol dry_ice at 193.15 K: state_changed kind=sublimation solid->gas 0.00390004 mol at 194.65 K, gas_evolved CO2 equal amount; 100 J to 0.0356964 mol liquid_nitrogen at 77.15 K: kind=boiling liquid->gas 0.0178443 mol at 77.36 K, gas_evolved N2 equal amount. No reaction_occurred events. Balance 1.000->0.828363 g (CO2) and 1.000->0.500110 g (N2)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "dry_ice 0.0227226-0.0039000=0.0188226 retained (rel err 1.9e-11 vs final contents); 0.0188226*44.0095=0.82837 g vs balance 0.82836 g. N2 0.0356964-0.0178443=0.0178521 retained, *28.0134=0.50010 g = balance 0.500110 g. All loss assigned to exported gas (open headspace)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "Only a hazard_warning for LN2; no not_yet_modeled/solver_failed. Limitation (handoff to ordinary gas identities CO2/N2) explicitly reported and does not affect the requested pathway/mass observables."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 1.9e-11,
+     "O": 1.9e-11,
+     "N": 0.0
+    },
+    "charge": "no ions; 0",
+    "energy": "CO2: sensible 1.327 J + 0.0039000 mol*25.30 kJ/mol =100 J (lit dHsub ~25.2-26 kJ/mol); N2: 0.214 J + 0.0178443*5.592 kJ/mol =100 J (lit dHvap 5.57 kJ/mol); closure <1e-6 J"
+   },
+   "observed_result": "With 100 J each, 1 g dry ice sublimed 0.00390 mol CO2 at 194.65 K (mass 1.000->0.828 g) while 1 g liquid nitrogen boiled 0.01784 mol N2 at 77.36 K (1.000->0.500 g); no reaction, all lost atoms exported as gas.",
+   "limitations": "Cryogen stocks hand off to ordinary CO2/N2 gas identities; instantaneous phase-change model with no heat-transfer rate.",
+   "doubts": "Heat events report a transient temperature_changed to 286.8 K / 126.1 K before settling at the plateau (event-ordering artefact); implied latent heats 25.30 and 5.59 kJ/mol should be checked against curated values."
+  },
+  {
+   "id": "batch3-diverse:tr-001",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "How does a finite injection episode move through three cells when the later inlet contains no tracer?",
+     "verdict": "PASS",
+     "evidence": "After 1 step (courant 1) cell v1 holds Na+/Cl- 2.0e-4 mol each; after 4 clean-water steps cells v1-v3 hold no tracer (conductivity 0.0551 uS/cm = pure water) and effluent v5 holds 2.0e-4 Na+/Cl- in 5.53428 mol water (247.7 uS/cm)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Initial cells 0 + injected 1 cell volume*2.0e-4 = 2.0e-4 Na and Cl = final cells 0 + effluent 2.0e-4 (rel err 0). Water: 3 cells*1.106855 + 5 injected volumes = 3.320566 cells + 5.534277 effluent (rel err <1e-15). Inlet not depleted (documented representative-composition limitation)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "No not_yet_modeled warnings; inlet-resampling limitation stated in record and does not affect pulse/effluent observables."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na": 0.0,
+     "Cl": 0.0,
+     "H": 1e-15,
+     "O": 1e-15
+    },
+    "charge": "each vessel Na+=Cl-; 0",
+    "energy": "not requested; cell temperatures 298.141-298.15 K from NaCl dissolution"
+   },
+   "observed_result": "A one-cell-volume 2.0e-4 mol NaCl pulse chased by 4 clean-water volumes (courant 1) leaves all three cells at pure-water conductivity (0.055 uS/cm) and all 2.0e-4 mol NaCl in the effluent (247.7 uS/cm), closing exactly.",
+   "limitations": "Plug-flow (courant 1) upwind cells; inlet is a resampled composition, not a depleted reservoir.",
+   "doubts": "None material."
+  },
+  {
+   "id": "batch3-diverse:tr-002",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Do different Courant fractions spread a conservative pulse differently at the same total transported cell volumes?",
+     "verdict": "PASS",
+     "evidence": "Same 4 cell volumes moved. Courant 1: chain empty, effluent 2.0e-4 NaCl. Courant 0.5: chain v6/v7/v8 hold 2.344e-6/1.484e-5/3.984e-5 mol, effluent 1.4297e-4 mol. No reaction events; spreading is numerical upwind (binomial weights exact)."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Courant 0.5 tracer: 5.7031e-5 (cells) + 1.42969e-4 (effluent) = 2.0000e-4 injected (rel err <1e-12); courant 1: 2.0e-4 in effluent (0). Water: each receiver 4.427422 mol = 4 cell volumes."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "No warnings; record limitation (first-order upwind, integrated collection) stated; not labelled diffusion."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na": 1e-12,
+     "Cl": 1e-12,
+     "H": 1e-15,
+     "O": 1e-15
+    },
+    "charge": "Na+=Cl- in every vessel; 0",
+    "energy": "not requested"
+   },
+   "observed_result": "For the same 4 transported cell volumes, courant 1 flushed all 2.0e-4 mol NaCl to the collector, while courant 0.5 left 5.70e-5 mol spread over three cells (2.3e-6/1.48e-5/3.98e-5) and collected 1.43e-4 mol, both conserving the tracer exactly.",
+   "limitations": "Numerical first-order upwind dispersion, not a measured hydrodynamic dispersion; collectors integrate effluent.",
+   "doubts": "None material."
+  },
+  {
+   "id": "batch3-diverse:tr-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can transport produce a solid phase that stays in a cell while the remaining aqueous species move onward?",
+     "verdict": "FAIL",
+     "evidence": "AgCl 2.499e-5 forms in v2 and stays (2.4976e-5 at end), but the precipitation location is not from a coupled per-step update: the second 6-step transport's effluent Ag+ 4.92282e-5 and Cl- 2.14463e-4 exactly equal a reaction-free upwind calculation (my recomputation 4.92282e-5 / 2.14463e-4), i.e. Ag+ (5e-5 in v3) and Cl- coexisted supersaturated across multiple steps and precipitated only at command end, mostly in the receiver (AgCl 7.419e-5 in v5) and only 7.7e-7 in v3 where Cl first met Ag."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Ag 1.0e-4 = aq+AgCl over v2,v3,v5 (rel err <1e-6); Na 8.0e-4 injected (4 volumes) = 7.99999e-4 final; Cl 7.00066e-4 aq + 9.9934e-5 AgCl = 8.0e-4; NO3 1.0e-4; water 3 cells + 4 volumes."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "FAIL",
+     "evidence": "No warning reports that equilibrium is applied once per transport command rather than per step; this missing coupling directly controls the requested precipitation location."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Ag": 1e-06,
+     "Cl": 2e-06,
+     "Na": 1e-06,
+     "N": 1e-06
+    },
+    "charge": "v5: Na+Ag 2.3676e-4 vs Cl+NO3 2.3676e-4, <1e-6",
+    "energy": "not requested"
+   },
+   "observed_result": "AgCl (2.50e-5 mol) forms and remains in the AgNO3 cell, but during the 6-step chase Ag+ and Cl- travel together unreacted and 7.42e-5 mol AgCl precipitates only in the collector at command end.",
+   "limitations": "Command-level operator splitting; equilibrium not refreshed per transport step.",
+   "doubts": "Confirm in source whether equilibration happens only after a whole transport command (my upwind recomputation matches the effluent to 7 digits)."
+  },
+  {
+   "id": "batch3-diverse:tr-005",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Does a warm boundary parcel carry thermal energy through an initially cool chain?",
+     "verdict": "PASS",
+     "evidence": "Half-volume 50 C parcel: v1 34.998 C, v2/v3 20.0 C. After 6 cold half-volume steps: v1 20.234 C, v2 21.406 C, v3 23.516 C, outlet v5 22.812 C; no reaction events."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Water: chain 3*1.106855 constant; receiver 0.553428+3.320566=3.873994 mol = 3.5 volumes. Thermal ledger (volume*K above 20 C): injected 0.5*30=15.0; final 0.2344+1.4063+3.5156+3.5*2.8125=15.000 (rel err ~1e-5, cp(T) variation)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "PASS",
+     "evidence": "No warnings; adiabatic/uniform-volume limitation stated; no wall heat transfer claimed."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "H": 0.0,
+     "O": 0.0
+    },
+    "charge": "pure water; 0",
+    "energy": "injected 15.000 vol*K vs final 15.000 vol*K (rel err ~1e-5)"
+   },
+   "observed_result": "A half-cell-volume 50 C water parcel moves through a 20 C three-cell chain: after 6 chase steps the cells read 20.23/21.41/23.52 C and the 3.5-volume outlet 22.81 C, with the 15 volume*K thermal excess conserved.",
+   "limitations": "Adiabatic cells, no wall heat transfer; upwind numerical spreading of the thermal front.",
+   "doubts": "Thermometer v1 34.9977 C vs ideal 35.0 C reflects cp(T); fine."
+  },
+  {
+   "id": "batch3-diverse:tr-006",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Does a local adsorbent produce different transport behavior for a supported dye and dissolved sodium chloride?",
+     "verdict": "FAIL",
+     "evidence": "Charcoal cell adsorbed 2.04556e-6 mol methyl orange in the first transport (free 2.457e-7). Through the 6-step clean chase the bound amount stays exactly 2.0455562e-6 while free dye in that cell falls to 3.8e-9 mol: the adsorption equilibrium is not refreshed by reactive transport (no desorption), which the forecast makes the condition. Outlet fraction dye 0.275 vs NaCl 0.715 reflects a one-time uptake."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Dye: 3.0550e-6 injected = 1.0094e-6 aqueous (cells+collector) + 2.0456e-6 bound (rel err <1e-4 at printed precision); Na/Cl 1.0e-4 injected = 1.0000e-4 final."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "FAIL",
+     "evidence": "methyl_orange repeatedly not_yet_modeled (no aqueous component mapping); record limitation says sorption/transport coupling unverified, and the run shows it is not refreshed."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "dye": 0.0001,
+     "Na": 1e-06,
+     "Cl": 1e-06
+    },
+    "charge": "Na+=Cl-; dye unspeciated (charge not represented)",
+    "energy": "not requested"
+   },
+   "observed_result": "Charcoal retained 2.05e-6 of 3.06e-6 mol methyl orange on first contact and the outlet collected 27.5% of the dye vs 71.5% of NaCl, but the bound pool never re-equilibrated during the clean-water chase.",
+   "limitations": "Equilibrium-once adsorption, dye not speciated, no desorption during transport.",
+   "doubts": "Check whether adsorption refresh is skipped by design for transport steps."
+  },
+  {
+   "id": "batch3-diverse:tr-008",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "question",
+     "text": "Can incoming copper ions be reduced on an iron-bearing cell while an iron-containing aqueous product leaves it?",
+     "verdict": "FAIL",
+     "evidence": "Cu(s) 1.8526e-4 retained in Fe cell and Fe2+ (8.58e-5) leaves downstream, but the coupling is command-level: after the first 3-step transport v1 Cu deposited 8.71836e-5 = 0.875*inlet Cu and v2/v3 hold 4.98e-5/1.25e-5 Cu2+ = exact reaction-free upwind fractions, so copper passed the iron bed unreduced; finally 2.63e-4 of 4.48e-4 mol Cu (59%) bypassed 8.1e-4 mol remaining Fe."
+    },
+    {
+     "id": "inventory",
+     "text": "Account for explicit additions, retained and transferred material, unresolved pools, and any gas/solvent loss before interpreting the result.",
+     "verdict": "PASS",
+     "evidence": "Cu 4.48373e-4 injected (4.5 vol aq; inlet antlerite 1.2e-7 not transported) = final 4.48373e-4; Fe 1.0e-3 = metal 8.14739e-4 + aq 1.8526e-4; SO4 4.49458e-4 = 4.49458e-4; electrons: Fe oxidised 1.85261e-4 = Cu deposited 1.85261e-4 (Fe3+ 8.7e-8 vs Cu+ 7.8e-8)."
+    },
+    {
+     "id": "coverage",
+     "text": "Distinguish an unsupported observable or missing coupling from a chemically negative result.",
+     "verdict": "FAIL",
+     "evidence": "Hematite/magnetite/ferrite supersaturation excluded and no warning that reaction is applied once per transport command; the missing per-step coupling governs the requested observable."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Cu": 1e-06,
+     "Fe": 1e-06,
+     "S": 1e-06
+    },
+    "charge": "redox electron balance rel err ~5e-5",
+    "energy": "not requested"
+   },
+   "observed_result": "Iron cell cemented 1.85e-4 mol Cu and released Fe2+ downstream, but 59% of injected copper passed the iron bed as Cu2+ because displacement is applied only after each transport command.",
+   "limitations": "Command-level operator splitting; iron oxide phases excluded; no surface/rate model.",
+   "doubts": "Confirm per-command (not per-step) reaction in source."
+  },
+  {
+   "id": "new120:ab-018",
+   "qualified": true,
+   "criteria": [
+    {
+     "id": "AB-018-C1",
+     "text": "The ferric vessel has lower pH than the calcium vessel.",
+     "verdict": "PASS",
+     "evidence": "pH meter: FeCl3 vessel 3.0088, CaCl2 vessel 6.9955."
+    },
+    {
+     "id": "AB-018-C2",
+     "text": "Do not interpret any ferric hydroxide as evidence that hydroxide was added externally.",
+     "verdict": "PASS",
+     "evidence": "Only water, FeCl3 1e-4 and CaCl2 1e-4 added. Fe(OH)3(s) 5.677e-7 mol formed from water: water decreased 1.70306e-6 mol = H+ 1.70306e-6 = 3*Fe(OH)3 1.70306e-6."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Fe": 0.0,
+     "Cl": 0.0,
+     "Ca": 0.0,
+     "H": 6e-07,
+     "O": 6e-07
+    },
+    "charge": "FeCl3 vessel 3*Fe3+ + H+ - Cl- = -1e-12 mol (rel 3e-9); CaCl2 vessel 0",
+    "energy": "not requested"
+   },
+   "observed_result": "1e-4 mol FeCl3 in 100 mL gives pH 3.009 versus 6.996 for equimolar CaCl2, with 5.7e-7 mol Fe(OH)3 formed solely by hydrolysis of water (H/O closure within 6e-7).",
+   "limitations": "Supersaturated goethite/hematite and Fe(OH)2.7Cl.3 excluded by registry/model boundary (explicitly reported); their formation would only lower ferric pH further.",
+   "doubts": "Prior hold over excluded iron phases; second reviewer should confirm that coverage limitation does not touch the pH comparison."
+  },
+  {
+   "id": "new120:rx-007",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "RX-007-C1",
+     "text": "Early iodine additions are reduced while ascorbic acid remains.",
+     "verdict": "PASS",
+     "evidence": "After dose 1: ascorbic 5e-5 left, DHA 5e-5, HI 1e-4; after dose 2: ascorbic 0, DHA 1e-4, HI 2e-4, no I2."
+    },
+    {
+     "id": "RX-007-C2",
+     "text": "The final addition leaves an oxidised-iodine excess without regenerating consumed ascorbic acid.",
+     "verdict": "PASS",
+     "evidence": "After dose 3: I2 5e-5 aqueous, ascorbic 0, DHA 1e-4."
+    },
+    {
+     "id": "forecast",
+     "text": "Successive iodine additions consume a finite ascorbic-acid pool. Iodine persists after that pool is exhausted.",
+     "verdict": "FAIL",
+     "evidence": "Only measurement of the persisting iodine, spectrophotometer at 405 nm, reads 0.0 with 5e-4 M I2 + 0.01 M KI present (I2/I3- absorb strongly there). Ascorbic acid stays a SOLID with 'no wired solver' yet reacts; 2e-4 mol HI leaves free_proton 1e-8 (pH ~7); KI unmapped."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "I": 0.0,
+     "C": 0.0,
+     "H": 0.0,
+     "O": 0.0,
+     "K": 0.0
+    },
+    "charge": "HI carried as neutral aqueous molecule; proton/charge state not represented",
+    "energy": "not requested"
+   },
+   "observed_result": "Three 5e-5 mol I2 doses: the first two convert 1e-4 mol ascorbic acid to dehydroascorbic acid + 2e-4 mol HI; the third leaves 5e-5 mol I2, but the 405 nm absorbance reads 0.",
+   "limitations": "Ascorbic dissolution not modelled, KI/HI unspeciated, iodine not optically represented.",
+   "doubts": "Whether a zero absorbance at 405 nm should be considered a spectral coverage gap rather than a fail; either way the persistence is not observable."
+  },
+  {
+   "id": "new120:sp-004",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "SP-004-C1",
+     "text": "Compare collected amount and remaining feed in the two energy-limited cases.",
+     "verdict": "PASS",
+     "evidence": "10 kJ: collected 0.18012 mol water + 0.069385 ethanol (6.44 g), feed 5.37081/0.147681 remains; 20 kJ: 0.374116 + 0.124146 (12.46 g), feed 5.17681/0.092920. Mass closure exact."
+    },
+    {
+     "id": "SP-004-C2",
+     "text": "Read the runtime energy-boundary explanation; do not assume all supplied joules go solely into latent heat.",
+     "verdict": "FAIL",
+     "evidence": "distilled events carry no energy-boundary explanation. Collected amounts equal energy/latent heat: 0.18012*40.66+0.069385*38.56=10.00 kJ; 0.374116*40.66+0.124146*38.56=20.00 kJ; no sensible heating from 343 K to 364-368 K boiling (~9.7 kJ for 110 g) and feed stays 343.15 K."
+    },
+    {
+     "id": "forecast",
+     "text": "Larger energy collects more; composition and phase enthalpies prevent treating energy as a fixed mass fraction.",
+     "verdict": "UNSUPPORTED",
+     "evidence": "More collected (12.46 vs 6.44 g, ratio 1.93) but the energy convention silently omits sensible/reflux duty, so the comparison rests on an unreported latent-only boundary."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "C": 0.0,
+     "H": 0.0,
+     "O": 0.0
+    },
+    "charge": "n/a",
+    "energy": "10.00 and 20.00 kJ fully assigned to latent heat; sensible duty to 364 K (~9.7 kJ) unaccounted"
+   },
+   "observed_result": "10 kJ distilled 6.44 g (0.180 mol water, 0.069 mol ethanol) and 20 kJ 12.46 g from identical 110 g 70 C feeds, but all supplied energy is booked as latent heat with the pot left at 70 C.",
+   "limitations": "Latent-only energy convention, no reboiler/sensible/reflux duty, no explanation emitted.",
+   "doubts": "Confirm whether a boundary explanation exists elsewhere (e.g. help text) not in raw output."
+  },
+  {
+   "id": "new120:th-010",
+   "qualified": false,
+   "criteria": [
+    {
+     "id": "TH-010-C1",
+     "text": "Identify a carbonate product and account for carbon among retained solid and released CO2.",
+     "verdict": "PASS",
+     "evidence": "0.0119038 mol NaHCO3 -> Na2CO3(s) 0.00595188 + gas_evolved CO2 0.00595188; C closure exact."
+    },
+    {
+     "id": "TH-010-C2",
+     "text": "Mass loss depends on whether generated water also leaves; do not equate it automatically with CO2 alone.",
+     "verdict": "FAIL",
+     "evidence": "Generated water 0.00595188 mol kept as liquid at 394.05 K in an open vessel; balance 0.73805 g = 1 g - CO2 0.26194 g. PHREEQC solver_failed (C, Na, charge not converged) on that water pool."
+    },
+    {
+     "id": "forecast",
+     "text": "Crossing the threshold converts bicarbonate with water and CO2 production; escaping products reduce retained mass.",
+     "verdict": "FAIL",
+     "evidence": "100 J delivered but sensible_j reported 111.68 J and full decomposition (~+0.38-0.77 kJ endothermic) receives no energy debit; temperature 298->394 K. Energy ledger not closed; solver failure."
+    }
+   ],
+   "closure": {
+    "elements": {
+     "Na": 0.0,
+     "C": 0.0,
+     "H": 0.0,
+     "O": 0.0
+    },
+    "charge": "0",
+    "energy": "FAIL: 100 J delivered vs 111.7 J sensible + no reaction enthalpy"
+   },
+   "observed_result": "100 J fully converted 1 g NaHCO3 to 0.00595 mol Na2CO3 with 0.00595 mol CO2 released (mass 1.000->0.738 g), but water stays liquid at 394 K and the aqueous solver fails.",
+   "limitations": "Curated threshold, no reaction enthalpy, scant-water aqueous solver failure.",
+   "doubts": "None; energy and solver failures are clear."
+  }
+ ]
+}

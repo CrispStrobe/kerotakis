@@ -9,7 +9,7 @@ non-uniform transport cells). Clean exits are not passes; `physical_verdict` sta
 [triage.json](triage.json) classifies every case against its **original** forecast and criteria, using the current
 output as primary evidence. It was produced by read-only model-assisted review in four disjoint parts and
 spot-checked by the parent against raw output (AB-017, TH-007, TH-009 and TH-015 findings below were confirmed). It is a
-prioritisation map, **not criterion qualification**: no catalog entry is added and the count stays **339/468**.
+prioritisation map, not itself criterion qualification.
 
 ## Results
 
@@ -69,3 +69,13 @@ observable gaps inside existing solvers, so integrating a new equation-of-state 
 next lever for the 401 goal. FeOs remains a reasonable later option for the mixed-solvent electrolyte lane.
 
 Raw responses are retained privately; the hashes above identify them. No production state was changed.
+
+## Formal review outcome
+
+[formal-review.json](formal-review.json) applies strict per-criterion review to the 30 ready cases, using the raw saved
+responses with element/charge (and, where relevant, energy) closure, and a parent second review of every doubt.
+**22 qualify** and are appended to the [working catalog](https://github.com/CrispStrobe/kerotakis/blob/22c02ba13/audits/working-experiments-20261027-reviewed-production-remaining.json) (365 entries / **361/468** unique originals; all 343
+predecessors preserved). 40 more are needed for 401. BD-003 is excluded as a capability probe. Rejected: SU-004
+(zinc never depletes), TR-004/TR-008 (reaction applied once per transport command, not per cell step), TR-006
+(adsorption not re-equilibrated during chase), RX-007 (405 nm absorbance 0 with I₂ present), SP-004 (energy
+boundary), TH-010 (water liquid at 394 K, energy not closed).
