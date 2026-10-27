@@ -92,10 +92,10 @@ The Gross & Sadowski (2002) file is removed. With k_ij = 0 it sat 5-6 K below
 UNIFAC at x(EtOH) = 0.05-0.1 (hosted run d3d1a79) while reproducing the
 azeotrope (78.15 °C). The adapter now uses one consistent published set:
 
-| file (vendored byte-for-byte) | upstream path @ feos-org/feos aabc02bbf6c469cf702206cfa68bbb7b2105a324 | sha256 | paper |
+| upstream file (NOT vendored; see subsets below) | upstream path @ feos-org/feos aabc02bbf6c469cf702206cfa68bbb7b2105a324 | sha256 | paper |
 |---|---|---|---|
-| `data/esper2023.json` | `parameters/pcsaft/esper2023.json` | 87fdcd8733245d90cd6ad9e9d7d0583bd3f7ffb3c4d67a25197190f289e2a679 | Esper et al. (2023), Ind. Eng. Chem. Res., doi:10.1021/acs.iecr.3c02255 |
-| `data/rehner2023_binary.json` | `parameters/pcsaft/rehner2023_binary.json` | 8b7d008b2bdf7ec49542eb443e36078fbe46e2737775126589c1718dfa13c335 | Rehner et al. (2023), Int. J. Thermophys., doi:10.1007/s10765-023-03290-3 |
+| `esper2023.json` | `parameters/pcsaft/esper2023.json` | 87fdcd8733245d90cd6ad9e9d7d0583bd3f7ffb3c4d67a25197190f289e2a679 | Esper et al. (2023), Ind. Eng. Chem. Res., doi:10.1021/acs.iecr.3c02255 |
+| `rehner2023_binary.json` | `parameters/pcsaft/rehner2023_binary.json` | 8b7d008b2bdf7ec49542eb443e36078fbe46e2737775126589c1718dfa13c335 | Rehner et al. (2023), Int. J. Thermophys., doi:10.1007/s10765-023-03290-3 |
 
 The FeOs parameter README pairs these two files.
 
@@ -114,6 +114,21 @@ The FeOs parameter README pairs these two files.
   and `BinaryRecord<Identifier, PcSaftBinaryRecord, PcSaftAssociationRecord>`,
   then `PcSaftParameters::new_binary(pures, model_record, association_sites)`.
   A missing binary record is a typed refusal, never a silent k_ij = 0.
-- Size: the two files total about 5.2 MB. They are embedded only with the `feos` feature.
+- Size: the full files (about 5.2 MB) are not vendored. Only the records used
+  are kept, in subset files extracted by `tools/extract_feos_params.py`. That
+  script downloads the files, or reads them from `--upstream-dir`, at the
+  pinned commit, and refuses unless the full-file sha256 values above match.
+  It copies the records unchanged into `{"_source": {upstream, upstream_sha256,
+  extracted_by}, "records": [...]}`:
+
+  | subset | records | sha256 |
+  |---|---|---|
+  | `data/esper2023.subset.json` | methanol, ethanol, water | bd6e2381dce31a14688844ec5f8ea97c80292f83e2262ccda0fc2998450a1a5f |
+  | `data/rehner2023_binary.subset.json` | methanol-water, ethanol-water | ddb62c57b54e3453d88c1d9a921e77820c330c35afa31c913c3fc7ac50aee565 |
+
+  `tests/subset_matches_upstream.rs` checks the headers and record sets. When
+  `KEROTAKIS_FEOS_UPSTREAM_DIR` points at the full upstream files, it also
+  asserts that each subset record is JSON-identical to its upstream record.
+  Otherwise it prints SKIPPED. The subsets are embedded only with the `feos` feature.
 - The earlier sections of this file describe the superseded Gross 2002 set
   and are kept as history.

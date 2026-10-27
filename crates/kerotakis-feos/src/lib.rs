@@ -52,24 +52,26 @@ impl Alcohol {
     }
 }
 
-/// Pure-component PC-SAFT records of Esper et al. (2023), Ind. Eng. Chem.
-/// Res., doi:10.1021/acs.iecr.3c02255, vendored
-/// byte-for-byte from feos-org/feos `parameters/pcsaft/esper2023.json` at
-/// commit aabc02bbf6c469cf702206cfa68bbb7b2105a324 (sha256
+/// Methanol, ethanol and water pure-component PC-SAFT records of Esper et
+/// al. (2023), Ind. Eng. Chem. Res., doi:10.1021/acs.iecr.3c02255, extracted
+/// unchanged by `tools/extract_feos_params.py` from feos-org/feos
+/// `parameters/pcsaft/esper2023.json` at commit
+/// aabc02bbf6c469cf702206cfa68bbb7b2105a324 (full-file sha256
 /// 87fdcd8733245d90cd6ad9e9d7d0583bd3f7ffb3c4d67a25197190f289e2a679).
 /// Only compiled with the `feos` feature.
 #[cfg(feature = "feos")]
-const ESPER2023_JSON: &str = include_str!("../data/esper2023.json");
+const ESPER2023_JSON: &str = include_str!("../data/esper2023.subset.json");
 
-/// Binary records fitted on top of that pure set by Rehner et al. (2023),
-/// Int. J. Thermophys., doi:10.1007/s10765-023-03290-3, vendored
-/// byte-for-byte from `parameters/pcsaft/rehner2023_binary.json` at the same
-/// commit (sha256
+/// The methanol-water and ethanol-water binary records fitted on that pure
+/// set by Rehner et al. (2023), Int. J. Thermophys.,
+/// doi:10.1007/s10765-023-03290-3, extracted unchanged by the same script
+/// from `parameters/pcsaft/rehner2023_binary.json` at the same commit
+/// (full-file sha256
 /// 8b7d008b2bdf7ec49542eb443e36078fbe46e2737775126589c1718dfa13c335).
 /// Ethanol-water carries cross-association (kappa_ab, epsilon_k_ab, no
 /// k_ij); methanol-water carries k_ij.
 #[cfg(feature = "feos")]
-const REHNER2023_BINARY_JSON: &str = include_str!("../data/rehner2023_binary.json");
+const REHNER2023_BINARY_JSON: &str = include_str!("../data/rehner2023_binary.subset.json");
 
 /// Name of the parameter record for each carried component.
 #[cfg_attr(not(feature = "feos"), allow(dead_code))]
@@ -93,6 +95,12 @@ mod engine {
     type Pure = PureRecord<PcSaftRecord, PcSaftAssociationRecord>;
     type Binary = BinaryRecord<Identifier, PcSaftBinaryRecord, PcSaftAssociationRecord>;
 
+    /// `{"_source": {...}, "records": [...]}` as written by the extractor.
+    #[derive(serde::Deserialize)]
+    struct Subset<T> {
+        records: Vec<T>,
+    }
+
     fn bad(e: impl std::fmt::Display) -> Refusal {
         Refusal::NotConverged(format!("parameter file: {e}"))
     }
@@ -101,7 +109,9 @@ mod engine {
     fn pures() -> Result<&'static [Pure], Refusal> {
         static CELL: OnceLock<Result<Vec<Pure>, String>> = OnceLock::new();
         CELL.get_or_init(|| {
-            let all: Vec<Pure> = serde_json::from_str(ESPER2023_JSON).map_err(|e| e.to_string())?;
+            let all: Vec<Pure> = serde_json::from_str::<Subset<Pure>>(ESPER2023_JSON)
+                .map_err(|e| e.to_string())?
+                .records;
             Ok(all
                 .into_iter()
                 .filter(|r| {
@@ -120,8 +130,9 @@ mod engine {
     fn binaries() -> Result<&'static [Binary], Refusal> {
         static CELL: OnceLock<Result<Vec<Binary>, String>> = OnceLock::new();
         CELL.get_or_init(|| {
-            let all: Vec<Binary> =
-                serde_json::from_str(REHNER2023_BINARY_JSON).map_err(|e| e.to_string())?;
+            let all: Vec<Binary> = serde_json::from_str::<Subset<Binary>>(REHNER2023_BINARY_JSON)
+                .map_err(|e| e.to_string())?
+                .records;
             Ok(all
                 .into_iter()
                 .filter(|r| {

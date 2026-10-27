@@ -2,8 +2,9 @@ kerotakis-feos optionally links FeOs (https://github.com/feos-org/feos),
 Copyright (c) the FeOs authors, licensed under the MIT License or the Apache
 License 2.0, at your option. With the `feos` feature off (the default) no
 FeOs code is compiled or distributed. See PROVENANCE.md.
-data/esper2023.json (sha256 87fdcd87...a679) and data/rehner2023_binary.json
-(sha256 8b7d008b...c335) are copied byte-for-byte from FeOs (MIT OR
+data/esper2023.subset.json and data/rehner2023_binary.subset.json contain
+records copied unchanged from esper2023.json (sha256 87fdcd87...a679) and
+rehner2023_binary.json (sha256 8b7d008b...c335) of FeOs (MIT OR
 Apache-2.0) at commit aabc02bbf6c469cf702206cfa68bbb7b2105a324. Parameters:
 Esper et al. 2023, doi:10.1021/acs.iecr.3c02255; Rehner et al. 2023,
 doi:10.1007/s10765-023-03290-3.

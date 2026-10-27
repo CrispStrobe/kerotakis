@@ -12,7 +12,7 @@ authors.workspace = true
 # answers every query with a typed `EngineNotEnabled` refusal, so default,
 # wasm and CI builds pull in no FeOs code.
 default = []
-feos = ["dep:feos", "dep:quantity", "dep:nalgebra", "dep:serde_json"]
+feos = ["dep:feos", "dep:quantity", "dep:nalgebra", "dep:serde_json", "dep:serde"]
 
 [dependencies]
 thiserror = { workspace = true }
@@ -27,6 +27,8 @@ quantity = { version = "=0.14.0", optional = true }
 nalgebra = { version = "=0.35.0", optional = true }
 
 serde_json = { workspace = true, optional = true }
+serde = { workspace = true, optional = true }
 
 [dev-dependencies]
+serde_json = { workspace = true }
 kerotakis-thermo = { path = "../kerotakis-thermo" }
