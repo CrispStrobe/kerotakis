@@ -72,5 +72,16 @@ fed to `PcSaftBinary`. The table above is kept as documentation only.
   (y 0.3503), a 6.08 K difference. Pure PC-SAFT: methanol T_b 338.50 K,
   ethanol 351.66 K, water 373.27 K; p_sat(330 K) 71.81 / 40.58 / 17.36 kPa.
   The full sweep is printed by `ethanol_water_against_experiment_and_unifac`.
-- The asserted reference is experiment: the ethanol-water azeotrope at 78.2 °C
-  and x = 0.894 (CRC Handbook, azeotropic data table), within 3 K.
+- The asserted reference is the ethanol-water azeotrope, 78.2 °C at
+  x = 0.894, within 3 K. It is taken from the existing reviewed repository
+  control `crates/kerotakis-thermo/tests/vle.rs::unifac_finds_the_ethanol_water_azeotrope`
+  (same values in `tests/still.rs`), which has no primary citation of its
+  own. Per the PLAN.md provenance audit, commercial handbooks (CRC) and NIST
+  WebBook/JANAF-online are not cited for any asserted number here. The
+  candidate open primary source is Kamihama et al., J. Chem. Eng. Data 57
+  (2012) 339, doi:10.1021/je2008704; still to be confirmed against its
+  tables before this PR leaves draft.
+- The pure boiling-point and 330 K vapour-pressure references in the tests
+  are loose sanity bounds only. They are consistent with the DOI-cited Antoine
+  fits already in `crates/kerotakis-thermo/src/vle.rs` (Stull 1947,
+  doi:10.1021/ie50448a022; Susial Badajoz et al., doi:10.1021/acsomega.6c04827).

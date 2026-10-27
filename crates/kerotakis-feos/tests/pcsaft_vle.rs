@@ -11,10 +11,13 @@ fn bubble(a: Alcohol, x: f64, p: f64) -> kerotakis_feos::SaturationPoint {
     saturation_point(a, Saturation::Bubble, x, p).expect("in-domain bubble point")
 }
 
-/// Near-pure alcohol must boil near its normal boiling point. Reference:
-/// NIST Chemistry WebBook normal boiling points, methanol 337.8 K,
-/// ethanol 351.4 K; Gross & Sadowski (2002) report vapour-pressure AAD of
-/// order 1 % for these parameters, i.e. well inside 2 K at 1 atm.
+/// Near-pure alcohol must boil near its normal boiling point. The reference
+/// temperatures (methanol 337.8 K, ethanol 351.4 K, water 373.15 K) are
+/// LOOSE SANITY BOUNDS only, not shipped numbers. They agree with the
+/// already-reviewed, DOI-cited Antoine constants in
+/// `crates/kerotakis-thermo/src/vle.rs` (methanol and water: Stull 1947,
+/// doi:10.1021/ie50448a022; ethanol: Susial Badajoz et al., ACS Omega,
+/// doi:10.1021/acsomega.6c04827). Water is defined at 373.124 K by ITS-90.
 #[test]
 fn near_pure_alcohols_boil_at_their_normal_boiling_points() {
     let m = bubble(Alcohol::Methanol, 0.999, ATM);
@@ -57,10 +60,15 @@ fn alcohol_enriches_in_vapour_and_dew_lies_above_bubble() {
 /// PROVENANCE.md. Instead it prints the full comparison and asserts against
 /// experiment:
 ///
-/// * Azeotrope at 101.325 kPa: 78.2 °C at 95.6 wt% ethanol (x = 0.894),
-///   CRC Handbook of Chemistry and Physics, "Azeotropic Data for Binary
-///   Mixtures". The PC-SAFT bubble point at that composition must lie within
-///   3 K of it.
+/// * Azeotrope at 101.325 kPa: 78.2 °C at x = 0.894 (95.6 wt%) ethanol.
+///   Source in this repository: the reviewed control
+///   `crates/kerotakis-thermo/tests/vle.rs::unifac_finds_the_ethanol_water_azeotrope`
+///   (and `tests/still.rs`), which asserts the same 78.2 °C / x = 0.894.
+///   That control carries no primary citation itself; the candidate open
+///   primary measurement is Kamihama et al., J. Chem. Eng. Data 57 (2012)
+///   339, doi:10.1021/je2008704 (binary ethanol + water at 101.3 kPa), whose
+///   azeotrope values have NOT yet been checked against 78.2 / 0.894. The
+///   PC-SAFT bubble point at that composition must lie within 3 K.
 /// * Every bubble point lies between the PC-SAFT pure boiling points of
 ///   ethanol and water (with 0.5 K slack), i.e. no unphysical overshoot.
 #[test]
@@ -102,7 +110,7 @@ fn ethanol_water_against_experiment_and_unifac() {
     let (_, az) = rows.last().unwrap();
     assert!(
         (az.t_celsius() - 78.2).abs() < 3.0,
-        "azeotrope-composition bubble point {} °C vs 78.2 °C (CRC)",
+        "azeotrope-composition bubble point {} °C vs 78.2 °C (kerotakis-thermo azeotrope control)",
         az.t_celsius()
     );
 }
@@ -140,9 +148,11 @@ fn low_pressure_result_is_admitted_or_typed_refusal() {
 }
 
 /// Diagnostic: pure-component PC-SAFT from the vendored FeOs parameter file.
-/// References: NIST WebBook normal boiling points (methanol 337.8 K,
-/// ethanol 351.4 K, water 373.15 K) and vapour pressures at 330 K
-/// (methanol ~68.5 kPa, ethanol ~40.6 kPa, water ~17.2 kPa, Antoine).
+/// Loose sanity references only (not shipped numbers): normal boiling
+/// points as in `near_pure_alcohols_boil_at_their_normal_boiling_points`,
+/// and 330 K vapour pressures (methanol ~68.5, ethanol ~40.6, water
+/// ~17.2 kPa) evaluated from Antoine forms of the same DOI-cited fits
+/// carried in `crates/kerotakis-thermo/src/vle.rs`.
 /// Gross & Sadowski (2002) report vapour-pressure AAD of a few per cent for
 /// the alcohols; 2B water with constant sigma is known to be worse, so its
 /// band is wider. Actual values are printed for the PR.
