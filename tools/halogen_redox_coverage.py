@@ -255,11 +255,11 @@ def registry_forms(registry, ion):
 def owned_pairs(root: Path):
     """Reactant key sets of every curated row and kinetic law."""
     sets = []
-    cur = (root / "crates/kerotakis-core/src/curated.rs").read_text()
+    cur = (root / "crates/kerotakis-core/src/curated.rs").read_text(encoding="utf-8")
     cur = cur.split("pub const REACTIONS")[1].split("pub const ORG_REACTIONS")[0]
     for m in re.finditer(r"reactants:\s*&\[(.*?)\]", cur, re.S):
         sets.append(set(re.findall(r'\("([^"]+)",', m.group(1))))
-    kin = (root / "crates/kerotakis-core/src/kinetics.rs").read_text()
+    kin = (root / "crates/kerotakis-core/src/kinetics.rs").read_text(encoding="utf-8")
     for m in re.finditer(r"stoichiometry:\s*&\[(.*?)\n        \],", kin, re.S):
         sets.append(set(re.findall(r'species:\s*"([^"]+)",\s*coefficient:\s*-', m.group(1))))
     return sets
@@ -271,7 +271,7 @@ def main():
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
     llnl = load_llnl(Path(a.database_dir) / "llnl.dat")
-    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text())
+    registry = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
     owned = owned_pairs(ROOT)
 
     halves = {}
@@ -374,12 +374,12 @@ def main():
     out_js = ROOT / "docs/halogen-redox-coverage-20261027.json"
     out_md = ROOT / "docs/halogen-redox-coverage-20261027.md"
     if a.check:
-        bad = [p for p, t in ((out_js, js), (out_md, mdtext)) if not p.exists() or p.read_text() != t]
+        bad = [p for p, t in ((out_js, js), (out_md, mdtext)) if not p.exists() or p.read_text(encoding="utf-8") != t]
         if bad:
             print("stale:", *bad, file=sys.stderr); return 1
         return 0
-    out_js.write_text(js)
-    out_md.write_text(mdtext)
+    out_js.write_text(js, encoding="utf-8")
+    out_md.write_text(mdtext, encoding="utf-8")
     print(json.dumps(doc["counts"]))
     return 0
 

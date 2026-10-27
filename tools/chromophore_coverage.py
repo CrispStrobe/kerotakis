@@ -31,7 +31,7 @@ COLOURS = ["black", "grey", "gray", "silver", "red", "orange", "yellow", "green"
 
 
 def indicator_keys():
-    src = (ROOT / "crates/kerotakis-core/src/indicator.rs").read_text()
+    src = (ROOT / "crates/kerotakis-core/src/indicator.rs").read_text(encoding="utf-8")
     src = src.split("#[cfg(test)]")[0]
     return set(re.findall(r'\bkey:\s*"([^"]+)"', src))
 
@@ -40,7 +40,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
-    reg = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text())
+    reg = json.loads((ROOT / "data/registry/registry-source-v1.json").read_text(encoding="utf-8"))
     optical = {o["species_id"]: o for o in reg["optical"]}
     ph = indicator_keys()
     rows = []
@@ -89,13 +89,13 @@ def main():
     out_js = ROOT / "docs/chromophore-coverage-20261027.json"
     out_md = ROOT / "docs/chromophore-coverage-20261027.md"
     if a.check:
-        bad = [p for p, t in ((out_js, js), (out_md, mdtext)) if not p.exists() or p.read_text() != t]
+        bad = [p for p, t in ((out_js, js), (out_md, mdtext)) if not p.exists() or p.read_text(encoding="utf-8") != t]
         if bad:
             print("stale:", *bad, file=sys.stderr)
             return 1
         return 0
-    out_js.write_text(js)
-    out_md.write_text(mdtext)
+    out_js.write_text(js, encoding="utf-8")
+    out_md.write_text(mdtext, encoding="utf-8")
     print(json.dumps(doc["counts"]))
     return 0
 
