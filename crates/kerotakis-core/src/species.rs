@@ -15,9 +15,10 @@ use crate::units::{Grams, Liters, Moles};
 #[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct SpeciesId(pub String);
 
-/// Curated input spellings, never inferred from formulas or arbitrary display names.
-/// Keep case-sensitive species identity separate from localized text matching.
-pub(crate) const INPUT_ALIASES: &[(&str, &str)] = &[
+/// Reviewed input spellings from PRs #787/#789/#807. They always survive
+/// generation: a generated spelling that collides with one of these for a
+/// different identity is refused, never the curated one.
+pub(crate) const CURATED_INPUT_ALIASES: &[(&str, &str)] = &[
     ("H2O", "water"),
     ("oxygen", "O2"),
     ("nitrogen", "N2"),
@@ -28,9 +29,425 @@ pub(crate) const INPUT_ALIASES: &[(&str, &str)] = &[
     ("acetate", "CH3COO-"),
 ];
 
+/// Where an accepted alias came from, in priority order: when one spelling
+/// of one identity is produced by several rules, the earliest is recorded.
+pub const INPUT_ALIAS_SOURCES: &[&str] = &[
+    "curated",
+    "name:en",
+    "name-prefix:en",
+    "ion-name:en",
+    "name:de",
+    "name-prefix:de",
+    "ion-name:de",
+    "name:fr",
+    "name-prefix:fr",
+    "ion-name:fr",
+    "formula",
+    "hydrate-notation",
+    "charge-notation",
+    "anhydrous",
+];
+
+/// One accepted input spelling of a registry identity.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct InputAlias {
+    pub alias: String,
+    pub canonical: String,
+    pub source: String,
+}
+
+/// A generated spelling that is NOT accepted, and why. `alias` is the
+/// whitespace-collapsed lower-case form the collision check compares.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RefusedInputAlias {
+    pub alias: String,
+    pub spellings: Vec<String>,
+    pub candidates: Vec<String>,
+    pub reason: String,
+}
+
+/// The whole generated alias table: what is accepted and what was refused.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct InputAliasTable {
+    pub aliases: Vec<InputAlias>,
+    pub refused: Vec<RefusedInputAlias>,
+}
+
+fn alias_source(kind: &str, lang: &str) -> &'static str {
+    let wanted = format!("{kind}:{lang}");
+    INPUT_ALIAS_SOURCES
+        .iter()
+        .copied()
+        .find(|source| *source == wanted)
+        .expect("alias source is listed in INPUT_ALIAS_SOURCES")
+}
+
+fn normalized_alias(alias: &str) -> String {
+    alias
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase()
+}
+
+/// Net charge written at the end of a registry formula (`SO4-2`, `Na+`).
+fn formula_charge(formula: &str) -> i32 {
+    let body = formula.trim_end_matches(|c: char| c.is_ascii_digit());
+    let digits = &formula[body.len()..];
+    let magnitude = if digits.is_empty() {
+        1
+    } else {
+        digits.parse::<i32>().unwrap_or(0)
+    };
+    match body.chars().last() {
+        Some('+') => magnitude,
+        Some('-') => -magnitude,
+        _ => 0,
+    }
+}
+
+/// A Hill-order molecular formula with two or more carbons (`C3H8O`): it
+/// names a composition shared by isomers, so it never identifies one of
+/// them even when the registry happens to hold only one.
+fn is_isomer_ambiguous_hill_formula(formula: &str) -> bool {
+    let body = formula.trim_end_matches(|c: char| c.is_ascii_digit());
+    let body = body
+        .strip_suffix('+')
+        .or_else(|| body.strip_suffix('-'))
+        .unwrap_or(formula);
+    let mut elements: Vec<(String, u32)> = Vec::new();
+    let chars: Vec<char> = body.chars().collect();
+    let mut i = 0;
+    if chars.is_empty() {
+        return false;
+    }
+    while i < chars.len() {
+        if !chars[i].is_ascii_uppercase() {
+            return false;
+        }
+        let mut symbol = chars[i].to_string();
+        i += 1;
+        if i < chars.len() && chars[i].is_ascii_lowercase() {
+            symbol.push(chars[i]);
+            i += 1;
+        }
+        let start = i;
+        while i < chars.len() && chars[i].is_ascii_digit() {
+            i += 1;
+        }
+        let count: String = chars[start..i].iter().collect();
+        elements.push((symbol, count.parse().unwrap_or(1)));
+    }
+    let symbols: Vec<&str> = elements.iter().map(|(s, _)| s.as_str()).collect();
+    let mut unique = symbols.clone();
+    unique.sort_unstable();
+    unique.dedup();
+    if unique.len() != symbols.len() || symbols[0] != "C" || elements[0].1 < 2 {
+        return false;
+    }
+    let mut rest = &symbols[1..];
+    if rest.contains(&"H") {
+        if rest[0] != "H" {
+            return false;
+        }
+        rest = &rest[1..];
+    }
+    rest.windows(2).all(|pair| pair[0] <= pair[1])
+}
+
+/// `sulfate ion` -> `sulfate`, `Nitrat-Ion` -> `Nitrat`, `ion chlorure` ->
+/// `chlorure`. Only where the bare word still names the ion: anions, and
+/// polyatomic `-onium` cations. `sodium` is the metal, never `Na+`.
+fn ion_stem<'a>(lang: &str, name: &'a str, formula: &str) -> Option<&'a str> {
+    let stem = match lang {
+        "en" => name.strip_suffix(" ion"),
+        "de" => name.strip_suffix("-Ion"),
+        "fr" => name.strip_prefix("ion "),
+        _ => None,
+    }
+    .filter(|stem| !stem.is_empty())?;
+    let charge = formula_charge(formula);
+    (charge < 0 || (charge > 0 && stem.to_lowercase().ends_with("onium"))).then_some(stem)
+}
+
+/// `Ca+2` -> `Ca2+`, `Cu+1` -> `Cu+`. Not where the base ends in a digit:
+/// `SO42-` cannot be read back unambiguously.
+fn charge_notation(key: &str) -> Option<String> {
+    let body = key.trim_end_matches(|c: char| c.is_ascii_digit());
+    let digits = &key[body.len()..];
+    if digits.is_empty() {
+        return None;
+    }
+    let sign = body.chars().last().filter(|c| *c == '+' || *c == '-')?;
+    let base = &body[..body.len() - 1];
+    let last = base.chars().last()?;
+    if !(last.is_ascii_alphabetic() || last == ')') {
+        return None;
+    }
+    Some(if digits == "1" {
+        format!("{base}{sign}")
+    } else {
+        format!("{base}{digits}{sign}")
+    })
+}
+
+/// Build the input-alias table from the registry.
+///
+/// Every spelling is DERIVED from data the registry already reviews: its
+/// English display names and their German and French translations, the
+/// name before a parenthetical qualifier, bare ion names, formulas
+/// (including `·`, `.` and `*` hydrate notation), conventional charge
+/// notation and `<salt>_anhydrous` where the registry also holds a hydrate
+/// of that salt. A spelling is refused, never guessed, when it:
+///
+/// * collides with a curated alias for another identity (`curated-alias-wins`),
+/// * could be read as a material revision pin (`revision-syntax`),
+/// * equals any species key in any case (`registry-key`),
+/// * names more than one identity (`ambiguous`),
+/// * drops the qualifier that tells same-formula species apart
+///   (`qualifier-required`: `carbon` for charcoal/graphite/diamond),
+/// * is a material recipe name (`material-name`),
+/// * is a word the command grammar already spends (`grammar-word`),
+/// * is a Hill formula shared by isomers (`isomer-ambiguous-formula`).
+pub fn input_alias_table() -> &'static InputAliasTable {
+    use std::sync::OnceLock;
+    static TABLE: OnceLock<InputAliasTable> = OnceLock::new();
+    TABLE.get_or_init(build_input_alias_table)
+}
+
+fn build_input_alias_table() -> InputAliasTable {
+    use std::collections::{BTreeMap, BTreeSet};
+    let registry = registry();
+    let de = crate::i18n::Locale::parse("de");
+    let fr = crate::i18n::Locale::parse("fr");
+
+    let mut candidates: Vec<(String, &'static str, &'static str)> = CURATED_INPUT_ALIASES
+        .iter()
+        .map(|(alias, key)| (alias.to_string(), *key, "curated"))
+        .collect();
+    for data in registry {
+        let translated =
+            |locale: crate::i18n::Locale| locale.lookup(&format!("species.{}", data.name));
+        for (lang, name) in [
+            ("en", Some(data.name)),
+            ("de", translated(de)),
+            ("fr", translated(fr)),
+        ] {
+            let Some(name) = name else { continue };
+            candidates.push((name.to_string(), data.key, alias_source("name", lang)));
+            if let Some(open) = name.find(" (").filter(|_| name.ends_with(')')) {
+                candidates.push((
+                    name[..open].trim().to_string(),
+                    data.key,
+                    alias_source("name-prefix", lang),
+                ));
+            }
+            if let Some(stem) = ion_stem(lang, name, data.formula) {
+                candidates.push((stem.to_string(), data.key, alias_source("ion-name", lang)));
+            }
+        }
+        if data.formula != data.key {
+            candidates.push((data.formula.to_string(), data.key, "formula"));
+        }
+        if data.formula.contains('·') {
+            for separator in [".", "*"] {
+                candidates.push((
+                    data.formula.replace('·', separator),
+                    data.key,
+                    "hydrate-notation",
+                ));
+            }
+        }
+        if let Some(notation) = charge_notation(data.key) {
+            candidates.push((notation, data.key, "charge-notation"));
+        }
+        if data.key == data.formula
+            && registry.iter().any(|other| {
+                other
+                    .formula
+                    .strip_prefix(data.formula)
+                    .and_then(|rest| rest.strip_prefix('·'))
+                    .and_then(|water| water.strip_suffix("H2O"))
+                    .is_some_and(|count| count.bytes().all(|b| b.is_ascii_digit()))
+            })
+        {
+            candidates.push((format!("{}_anhydrous", data.key), data.key, "anhydrous"));
+        }
+    }
+
+    let keys_ci: BTreeSet<String> = registry
+        .iter()
+        .chain(crate::enzyme::ADDITIONAL_ENZYME_SPECIES.iter())
+        .map(|data| data.key.to_lowercase())
+        .chain(std::iter::once(BASE_EQUIVALENTS.to_lowercase()))
+        .collect();
+    let curated: BTreeMap<String, &str> = CURATED_INPUT_ALIASES
+        .iter()
+        .map(|(alias, key)| (normalized_alias(alias), *key))
+        .collect();
+    let formula_of = |key: &str| {
+        registry
+            .iter()
+            .find(|data| data.key == key)
+            .map(|data| data.formula)
+    };
+
+    let mut groups: BTreeMap<String, Vec<(String, &'static str, &'static str)>> = BTreeMap::new();
+    for (alias, key, source) in candidates {
+        let alias = alias.trim().to_string();
+        if alias == key {
+            continue;
+        }
+        groups
+            .entry(normalized_alias(&alias))
+            .or_default()
+            .push((alias, key, source));
+    }
+
+    let mut accepted: Vec<(String, &'static str, &'static str)> = Vec::new();
+    let mut refused = Vec::new();
+    for (group, rows) in groups {
+        let spellings: Vec<String> = rows
+            .iter()
+            .map(|(alias, _, _)| alias.clone())
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect();
+        let targets: Vec<String> = rows
+            .iter()
+            .map(|(_, key, _)| key.to_string())
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect();
+        let refuse = |reason: &str, candidates: Vec<String>| RefusedInputAlias {
+            alias: group.clone(),
+            spellings: spellings.clone(),
+            candidates,
+            reason: reason.to_string(),
+        };
+        if let Some(winner) = curated.get(&group) {
+            let others: Vec<String> = targets
+                .iter()
+                .filter(|key| key.as_str() != *winner)
+                .cloned()
+                .collect();
+            if !others.is_empty() {
+                refused.push(refuse("curated-alias-wins", others));
+            }
+            accepted.extend(rows.into_iter().filter(|(_, key, _)| key == winner));
+            continue;
+        }
+        let reason = if group.contains('@') {
+            Some("revision-syntax")
+        } else if keys_ci.contains(&group) {
+            Some("registry-key")
+        } else if targets.len() > 1 {
+            Some("ambiguous")
+        } else if rows
+            .iter()
+            .all(|(_, _, source)| source.starts_with("name-prefix:"))
+            && formula_of(&targets[0]).is_some_and(|formula| {
+                registry
+                    .iter()
+                    .filter(|data| data.formula == formula)
+                    .count()
+                    > 1
+            })
+        {
+            Some("qualifier-required")
+        } else if crate::material::builtin_name_is_reserved(&group) {
+            Some("material-name")
+        } else if crate::script::is_canonical_word(&group) {
+            Some("grammar-word")
+        } else if rows.iter().all(|(_, _, source)| *source == "formula")
+            && is_isomer_ambiguous_hill_formula(&rows[0].0)
+        {
+            Some("isomer-ambiguous-formula")
+        } else {
+            None
+        };
+        match reason {
+            Some(reason) => refused.push(refuse(reason, targets)),
+            None => accepted.extend(rows),
+        }
+    }
+
+    let priority = |source: &str| {
+        INPUT_ALIAS_SOURCES
+            .iter()
+            .position(|known| *known == source)
+            .unwrap_or(usize::MAX)
+    };
+    let mut best: BTreeMap<(String, &'static str), &'static str> = BTreeMap::new();
+    for (alias, key, source) in accepted {
+        best.entry((alias, key))
+            .and_modify(|current| {
+                if priority(source) < priority(*current) {
+                    *current = source;
+                }
+            })
+            .or_insert(source);
+    }
+    InputAliasTable {
+        aliases: best
+            .into_iter()
+            .map(|((alias, canonical), source)| InputAlias {
+                alias,
+                canonical: canonical.to_string(),
+                source: source.to_string(),
+            })
+            .collect(),
+        refused,
+    }
+}
+
+struct InputAliasIndex {
+    ordered: Vec<(&'static str, &'static str)>,
+    exact: std::collections::HashMap<&'static str, &'static str>,
+    reserved: std::collections::HashSet<String>,
+}
+
+fn input_alias_index() -> &'static InputAliasIndex {
+    use std::sync::OnceLock;
+    static INDEX: OnceLock<InputAliasIndex> = OnceLock::new();
+    INDEX.get_or_init(|| {
+        let ordered: Vec<(&'static str, &'static str)> = input_alias_table()
+            .aliases
+            .iter()
+            .map(|entry| {
+                let canonical = lookup_index()
+                    .get(entry.canonical.as_str())
+                    .map(|data| data.key)
+                    .expect("generated aliases target compiled registry keys");
+                let alias: &'static str = Box::leak(entry.alias.clone().into_boxed_str());
+                (alias, canonical)
+            })
+            .collect();
+        InputAliasIndex {
+            exact: ordered.iter().copied().collect(),
+            reserved: ordered
+                .iter()
+                .map(|(alias, _)| normalized_alias(alias))
+                .collect(),
+            ordered,
+        }
+    })
+}
+
+/// Every accepted input spelling, curated and generated, as (alias, key).
+pub(crate) fn input_aliases() -> &'static [(&'static str, &'static str)] {
+    &input_alias_index().ordered
+}
+
 /// Resolve accepted spellings at every species identity boundary.
 pub(crate) fn canonical_input_key(key: &str) -> &str {
-    INPUT_ALIASES
+    input_alias_index().exact.get(key).copied().unwrap_or(key)
+}
+
+/// Only the curated spellings: for callers that must keep the behaviour
+/// they had before aliases were generated (the localized line rewriter).
+pub(crate) fn curated_input_key(key: &str) -> &str {
+    CURATED_INPUT_ALIASES
         .iter()
         .find_map(|(alias, canonical)| (*alias == key).then_some(*canonical))
         .unwrap_or(key)
@@ -39,10 +456,9 @@ pub(crate) fn canonical_input_key(key: &str) -> &str {
 /// A pack must not install an identity hidden by a reserved input spelling.
 /// Text tokenization collapses whitespace; protect that spelling as well.
 fn reserved_input_alias(key: &str) -> bool {
-    let normalized = key.split_whitespace().collect::<Vec<_>>().join(" ");
-    INPUT_ALIASES
-        .iter()
-        .any(|(alias, _)| alias.eq_ignore_ascii_case(&normalized))
+    input_alias_index()
+        .reserved
+        .contains(&normalized_alias(key))
 }
 
 pub(crate) fn serialize_input_key<S: serde::Serializer>(
@@ -693,7 +1109,15 @@ pub fn english_name(key: &str) -> &str {
 }
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
-    let key = canonical_input_key(key);
+    lookup_resolved_key(canonical_input_key(key))
+}
+
+/// [`lookup_key`] honouring only the curated spellings, not generated ones.
+pub(crate) fn lookup_key_curated(key: &str) -> Option<&'static SpeciesData> {
+    lookup_resolved_key(curated_input_key(key))
+}
+
+fn lookup_resolved_key(key: &str) -> Option<&'static SpeciesData> {
     if let Some(s) = lookup_index().get(key).copied() {
         return Some(s);
     }

@@ -177,7 +177,7 @@ pub fn is_canonical_verb(word: &str) -> bool {
 /// polyethylene and `pe` is the redox endpoint; a language that wanted
 /// `pe` for something of its own would collide with both, and the point
 /// of this check is to catch exactly that before it reaches a learner.
-fn is_canonical_word(word: &str) -> bool {
+pub(crate) fn is_canonical_word(word: &str) -> bool {
     let lower = word.to_ascii_lowercase();
     let lower = lower.as_str();
     INSTRUMENT_WORDS.iter().any(|(name, _)| *name == lower)
@@ -509,7 +509,7 @@ pub fn canonical_line_in(line: &str, locale: Locale) -> Option<String> {
             } else {
                 index.verbs.get(&lower).cloned()
             }
-        } else if is_canonical_word(word) || species::lookup_key(word).is_some() {
+        } else if is_canonical_word(word) || species::lookup_key_curated(word).is_some() {
             None
         } else {
             index.words.get(&lower).cloned().or_else(|| {
@@ -595,13 +595,13 @@ fn canonical_ingredient_line(line: &str) -> Option<String> {
         _ => return None,
     };
     let mut selected = None;
-    for (alias, canonical) in species::INPUT_ALIASES {
+    for &(alias, canonical) in species::input_aliases() {
         let tokens: Vec<&str> = alias.split_whitespace().collect();
         let end = position + tokens.len();
         if words.get(position..end) == Some(tokens.as_slice())
             && selected.is_none_or(|(width, _)| tokens.len() > width)
         {
-            selected = Some((tokens.len(), *canonical));
+            selected = Some((tokens.len(), canonical));
         }
     }
     let (width, canonical) = selected?;

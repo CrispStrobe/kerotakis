@@ -81,6 +81,16 @@ pub(crate) fn name_is_reserved(query: &str) -> bool {
         .any(|recipe| recipe.matches(query, None))
 }
 
+/// Names of compiled-in (current or archived) recipes only. Generated
+/// species input aliases are checked against these; loaded packs are
+/// checked against the aliases instead, at registration.
+pub(crate) fn builtin_name_is_reserved(query: &str) -> bool {
+    builtins()
+        .iter()
+        .chain(historical())
+        .any(|recipe| recipe.matches(query, None))
+}
+
 pub fn lookup(query: &str, language: Option<&str>) -> Option<MaterialRecipe> {
     builtins()
         .iter()
@@ -577,7 +587,7 @@ pub fn register_loaded(recipes: Vec<MaterialRecipe>) -> (usize, usize) {
     let mut added = 0;
     let mut skipped = 0;
     for recipe in recipes {
-        let reserved_alias = crate::species::INPUT_ALIASES
+        let reserved_alias = crate::species::input_aliases()
             .iter()
             .any(|(alias, _)| recipe.matches(alias, None));
         let conflicts = reserved_alias
