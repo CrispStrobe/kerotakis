@@ -356,6 +356,22 @@ SOLUTION_SPECIES
         -delta_H 9.33032 kJ/mol
 ";
 
+    /// NH3(g) for the minteq.v4 route. The vendored minteq.v4 defines aqueous
+    /// ammonia (`NH4+ = NH3 + H+`, log K -9.244) but no gas phase, so a sealed
+    /// headspace beside ammonium + acetate (which routes here for the acetate
+    /// ligand) was refused outright. The Henry-law phase is copied verbatim
+    /// from the vendored USGS wateq4f.dat (`NH3 = NH3`, log K 1.77, ΔH -8.17
+    /// kcal), whose aqueous NH3 convention matches minteq's within 0.008 log
+    /// units of pKa. It is the same molecular solubility constant, not a new
+    /// fit; wateq4f and pitzer already define their own NH3(g).
+    const AMMONIA_GAS_EXTENSION: &[u8] = b"
+PHASES
+NH3(g)
+    NH3 = NH3
+    log_k 1.77
+    delta_h -8.17 kcal
+";
+
     /// Byte offset of the final `END` line, which is where a database
     /// stops being read. `None` when the file has none, in which case the
     /// end of the file is the right place after all.
@@ -384,7 +400,8 @@ SOLUTION_SPECIES
 
     /// minteq.v4 as this lab runs it: the vendored file plus
     /// [`LACTATE_EXTENSION`], [`HYPOCHLORITE_EXTENSION`],
-    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`] and the reviewed
+    /// [`THIOSULFATE_EXTENSION`], [`SULFITE_EXTENSION`],
+    /// [`AMMONIA_GAS_EXTENSION`] and the reviewed
     /// reference-temperature ligand slice.
     ///
     /// Everything that loads or PARSES the database goes through here, so
@@ -408,13 +425,15 @@ SOLUTION_SPECIES
                     + LACTATE_EXTENSION.len()
                     + HYPOCHLORITE_EXTENSION.len()
                     + THIOSULFATE_EXTENSION.len()
-                    + SULFITE_EXTENSION.len(),
+                    + SULFITE_EXTENSION.len()
+                    + AMMONIA_GAS_EXTENSION.len(),
             );
             bytes.extend_from_slice(&text[..insert_at]);
             bytes.extend_from_slice(LACTATE_EXTENSION);
             bytes.extend_from_slice(HYPOCHLORITE_EXTENSION);
             bytes.extend_from_slice(THIOSULFATE_EXTENSION);
             bytes.extend_from_slice(SULFITE_EXTENSION);
+            bytes.extend_from_slice(AMMONIA_GAS_EXTENSION);
             bytes.extend_from_slice(&text[insert_at..]);
             super::aqueous_gases::append_to(&super::complexation::append_to(&bytes))
         })
