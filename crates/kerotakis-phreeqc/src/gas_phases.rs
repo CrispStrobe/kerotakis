@@ -54,6 +54,8 @@ struct Entry {
     log_k: Option<f64>,
     delta_h: Option<f64>,
     analytic: Option<(f64, Option<f64>)>,
+    /// States critical constants (`-T_c`): a Peng-Robinson gas.
+    critical: bool,
 }
 
 impl Entry {
@@ -80,6 +82,7 @@ impl Entry {
                     }
                 }
                 "delta_h" | "deltah" => self.delta_h = delta_h(&tokens),
+                "t_c" => self.critical = true,
                 k if k.starts_with("analytic") || k.starts_with("a_e") => {
                     if let Some(a) = analytic(&tokens) {
                         self.analytic = Some(a);
@@ -216,8 +219,13 @@ impl RawDb {
         let mut phase: Option<String> = None;
         let flush_species =
             |out: &mut RawDb, name: &mut Option<String>, entry: &mut Option<Entry>| {
-                if let (Some(n), Some(e)) = (name.take(), entry.take()) {
-                    out.species.insert(n, e);
+                // Take the entry only when a species name owns it: in PHASES
+                // `entry` holds the pending phase, and a tuple `take()` here
+                // silently dropped the last phase before every keyword
+                // (wateq4f NH3(g), pitzer H2Sg(g), minteq HgI2(g)).
+                if name.is_some() && entry.is_some() {
+                    out.species
+                        .insert(name.take().unwrap(), entry.take().unwrap());
                 }
             };
         for raw in text.split('\n') {
@@ -388,6 +396,7 @@ pub enum GasRefusal {
     LinkingEnthalpyUnstated,
     LinkingEnthalpyOutsideTolerance,
     RedoxStateNotModelledOnRoute,
+    GasEquationOfStateDiffers,
 }
 
 impl GasRefusal {
@@ -406,6 +415,7 @@ impl GasRefusal {
             Self::LinkingEnthalpyUnstated => "linking-enthalpy-unstated",
             Self::LinkingEnthalpyOutsideTolerance => "linking-enthalpy-outside-tolerance",
             Self::RedoxStateNotModelledOnRoute => "redox-state-not-modelled-on-route",
+            Self::GasEquationOfStateDiffers => "gas-equation-of-state-differs",
         }
     }
 }
@@ -518,6 +528,16 @@ fn check(donor: &RawDb, target: &RawDb, gas: &str) -> (Option<GasRefusal>, Vec<L
         if unmodelled {
             return (Some(GasRefusal::RedoxStateNotModelledOnRoute), links);
         }
+    }
+    // PHREEQC refuses a gas phase mixing ideal and Peng-Robinson gases
+    // ("Cannot calculate a mixture of ideal and Peng_Robinson gases"), so
+    // an import must follow the route's own convention.
+    let route_pr = target
+        .phases
+        .iter()
+        .any(|(name, e)| name.ends_with("(g)") && e.critical);
+    if p.critical != route_pr {
+        return (Some(GasRefusal::GasEquationOfStateDiffers), links);
     }
     (None, links)
 }

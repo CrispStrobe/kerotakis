@@ -259,3 +259,40 @@ fn only_reviewed_exchange_gases_are_coupled_to_the_solve() {
         assert!(!gas_phases::headspace_coupled(gas), "{gas}");
     }
 }
+
+#[test]
+fn last_phase_before_a_keyword_is_native_not_reimported() {
+    // Regression (hosted run of d67042d2): the parser dropped the final
+    // phase of each PHASES block, so wateq4f's own NH3(g) was "imported"
+    // from phreeqc.dat with Peng-Robinson constants and every finite
+    // ammonia headspace failed on an ideal/PR gas mixture.
+    let rows = gas_phases::coverage();
+    for (gas, route) in [
+        ("NH3(g)", "wateq4f"),
+        ("H2Sg(g)", "pitzer"),
+        ("HgI2(g)", "minteq.v4"),
+    ] {
+        let row = rows
+            .iter()
+            .find(|r| r.gas == gas && r.route == route)
+            .unwrap();
+        assert_eq!(row.status, GasStatus::Native, "{gas} on {route}");
+    }
+    let nh3 = rows
+        .iter()
+        .find(|r| r.gas == "NH3(g)" && r.route == "minteq.v4")
+        .unwrap();
+    assert_eq!(nh3.attempts.last().unwrap().donor, "wateq4f");
+}
+
+#[test]
+fn ideal_gas_is_not_imported_onto_a_peng_robinson_route() {
+    let target = format!(
+        "{}PHASES\nCO2(g)\n    CO2 = CO2\n    log_k -1.468\n    delta_h -4.776 kcal\n    -T_c 304.2\n    -P_c 72.8\nEND\n",
+        String::from_utf8(target(-9.25, "    delta_h 52 kJ")).unwrap().trim_end_matches("END\n")
+    );
+    assert_eq!(
+        gas_phases::check_import(DONOR, target.as_bytes(), "NH3(g)").0,
+        Some(GasRefusal::GasEquationOfStateDiffers)
+    );
+}

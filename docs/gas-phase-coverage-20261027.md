@@ -24,7 +24,10 @@ U.S. Government public domain under the USGS User Rights Notice) only if:
    has the same stoichiometry on both databases, log K within 0.02 and ΔH within
    4 kJ/mol at 25 °C;
 4. a redox-coupled dissolution is only imported where the route speciates every
-   non-H/O element of the gas in more than one oxidation state.
+   non-H/O element of the gas in more than one oxidation state;
+5. the donor phase follows the route's gas equation of state (critical constants
+   `-T_c` present iff the route's gases are Peng-Robinson): PHREEQC refuses a gas
+   phase mixing ideal and Peng-Robinson gases.
 
 Otherwise the cell is a typed refusal, and the aqueous adapter refuses any headspace
 that would pose that gas (`solver-reason.aqueous.gas-phase-unavailable`, EN/DE/FR;
