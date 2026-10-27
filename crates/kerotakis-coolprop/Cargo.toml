@@ -1,0 +1,28 @@
+[package]
+name = "kerotakis-coolprop"
+description = "Optional CoolProp (MIT) adapter for Kerotakis — IAPWS-95 water/steam property queries behind the off-by-default `engine` feature"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+links = "CoolProp"
+
+[features]
+# OFF by default: without it the crate is pure Rust (domain checks and typed
+# refusals only) and nothing native is compiled or linked. Default workspace
+# builds, wasm and CI are therefore unchanged.
+default = []
+# Link CoolProp's C API. See build.rs and PROVENANCE.md for the two supported
+# ways to supply the library (pinned-source build or prebuilt library).
+engine = ["dep:cmake"]
+
+[dependencies]
+thiserror = { workspace = true }
+
+[build-dependencies]
+cmake = { version = "0.1", optional = true }
+
+[dev-dependencies]
+# Parity against the existing Antoine water correlation. Pure Rust.
+kerotakis-thermo = { path = "../kerotakis-thermo" }
