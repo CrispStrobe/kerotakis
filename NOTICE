@@ -60,6 +60,13 @@ Currently shipped
   licence document names every package, version, declared licence, authors and
   repository and reproduces each licence/notice file present in its package.
 
+Optional, not shipped by default
+- CoolProp — MIT, Copyright (c) 2010-2024 Ian H. Bell, Jorrit Wronski,
+  Sylvain Quoilin, Vincent Lemort and the CoolProp contributors. Linked only
+  when the off-by-default `engine` feature of crates/kerotakis-coolprop is
+  enabled; no CoolProp source or binary is vendored. Provides IAPWS-95 water
+  properties (Wagner & Pruss 2002). See crates/kerotakis-coolprop/PROVENANCE.md.
+
 Curated data
 - Kerotakis-authored chemistry data shipped in official binaries (the codex:
   reactions, observations, register copy, colour and property curation) is
