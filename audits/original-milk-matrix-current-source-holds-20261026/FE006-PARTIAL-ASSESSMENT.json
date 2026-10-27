@@ -1,0 +1,167 @@
+{
+  "state": "UNSUPPORTED_NOT_QUALIFIED",
+  "control": "batch3-diverse:fe-006",
+  "source": "c51758fa09a8ce0089bc93bb64338a587834a405",
+  "tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "native_sha256": "daa3212fb76e4cbf1f2e445506c80d3fc7b9a9a933ac5d48fc0d1418f14e10f3",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "request_sha256": "2bc85383c7d7f41b535c3f4f30386ef0875b5a87067d464116754429ff085287",
+  "response_sha256": "976ec4e9885f4efbbfa4f19a08a5a8dcd32cdd1a3ea42f4e196b65fc83fc6802",
+  "script_sha256": "f52518caf0b2ed33a0fe5cb6cba18ccb3e59b11fd944d5df14372069295cdda5",
+  "observed_conversion": {
+    "milk_opaque_grams_before": 6.100745000000007,
+    "milk_opaque_grams_after": 5.95611795727225,
+    "milk_opaque_grams_consumed": 0.14462704272775717,
+    "source_derived_lactose_equivalent_molar_mass_g_mol": 342.297,
+    "sucrose_moles_consumed": 0.00042059603284702336,
+    "total_lactic_acid_plus_lactate_moles_by_vessel": {
+      "0": 0.00169007666123579,
+      "1": 0.0016823841313880936,
+      "2": 0
+    },
+    "source_stoichiometry_residuals_mol": {
+      "milk_lactic_vs_source_derived_lactose_moles": -4.119968255444917e-18,
+      "sucrose_lactic_vs_consumed_sucrose_moles": 2.168404344971009e-19
+    },
+    "uncultured_milk_opaque_portion_unchanged": true,
+    "culture_portions_unchanged": true
+  },
+  "actual_pH_measurements": [
+    {
+      "observation": 8,
+      "event": "measured",
+      "instrument": "ph_meter",
+      "unit": "pH",
+      "value": 6.465957325569,
+      "vessel": 0
+    },
+    {
+      "observation": 9,
+      "event": "measured",
+      "instrument": "ph_meter",
+      "unit": "pH",
+      "value": 6.7706500643432665,
+      "vessel": 1
+    },
+    {
+      "observation": 11,
+      "event": "measured",
+      "instrument": "ph_meter",
+      "unit": "pH",
+      "value": 4.622070738453,
+      "vessel": 0
+    },
+    {
+      "observation": 12,
+      "event": "measured",
+      "instrument": "ph_meter",
+      "unit": "pH",
+      "value": 2.650544637624,
+      "vessel": 1
+    },
+    {
+      "observation": 13,
+      "event": "measured",
+      "instrument": "ph_meter",
+      "unit": "pH",
+      "value": 6.563599798881,
+      "vessel": 2
+    }
+  ],
+  "actual_final_temperature_K_by_vessel": {
+    "0": 298.1500000000194,
+    "1": 298.1500000000278,
+    "2": 298.1500000000189
+  },
+  "coverage_notes": [
+    {
+      "observation": 2,
+      "vessel": 0,
+      "key": "not-modeled.supersaturated-below-formation-temperature",
+      "reason": "the solution is supersaturated against Hydroxylapatite (SI +6.6), deliberately withheld below the registry's formation-temperature threshold at 40 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+    },
+    {
+      "observation": 2,
+      "vessel": 0,
+      "key": "not-modeled.analytical-component-charge",
+      "reason": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+    },
+    {
+      "observation": 3,
+      "vessel": 0,
+      "key": "not-modeled.supersaturated-below-formation-temperature",
+      "reason": "the solution is supersaturated against Hydroxylapatite (SI +6.6), deliberately withheld below the registry's formation-temperature threshold at 40 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+    },
+    {
+      "observation": 3,
+      "vessel": 0,
+      "key": "not-modeled.analytical-component-charge",
+      "reason": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+    },
+    {
+      "observation": 7,
+      "vessel": 2,
+      "key": "not-modeled.supersaturated-below-formation-temperature",
+      "reason": "the solution is supersaturated against Hydroxylapatite (SI +6.6), deliberately withheld below the registry's formation-temperature threshold at 40 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+    },
+    {
+      "observation": 7,
+      "vessel": 2,
+      "key": "not-modeled.analytical-component-charge",
+      "reason": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+    },
+    {
+      "observation": 10,
+      "vessel": 0,
+      "key": "not-modeled.supersaturated-below-formation-temperature",
+      "reason": "the solution is supersaturated against Hydroxylapatite (SI +1.6), deliberately withheld below the registry's formation-temperature threshold at 25 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+    },
+    {
+      "observation": 10,
+      "vessel": 0,
+      "key": "not-modeled.analytical-component-charge",
+      "reason": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+    },
+    {
+      "observation": 10,
+      "vessel": 0,
+      "key": "not-modeled.milk-casein-buffer-residual",
+      "reason": "this milk has been acidified to pH 4.62, and only half of its buffer is modelled. Its colloidal calcium phosphate is here and dissolves as the acid arrives; casein's own buffering is not here at all, and that is about a third of milk's buffer capacity. Above pH 5 what is missing costs little; below it the colloid is spent and this beaker has nothing left to resist with, where a real one still has casein \u2014 so the number is a lower bound again, and by more than it was. CASEIN IS STILL NOT MODELLED AND ITS BUFFERING IS THEREFORE STILL ABSENT (the recipe's full assumption is in `explain material whole_milk`)"
+    },
+    {
+      "observation": 10,
+      "vessel": 2,
+      "key": "not-modeled.supersaturated-below-formation-temperature",
+      "reason": "the solution is supersaturated against Hydroxylapatite (SI +6.8), deliberately withheld below the registry's formation-temperature threshold at 25 \u00b0C. This is a curated metastability boundary, not a computed nucleation or growth rate"
+    },
+    {
+      "observation": 10,
+      "vessel": 2,
+      "key": "not-modeled.analytical-component-charge",
+      "reason": "the supplied inventory has uncompensated ionic charge. This adapter interprets non-H/O element totals as an analytical component problem and adjusts pH to impose electroneutrality; H/O basis entries are conservation coordinates, not prescribed free-ion concentrations. A reported pH or speciation therefore describes that proton-compensated analytical problem, not a prediction for a complete physical mixture of these ions. Supply the actual counterions or use complete acid, base or salt reagents; no sodium, chloride or other counterion is inferred"
+    }
+  ],
+  "checks": {
+    "frozen_protocol_and_actual_runtime_provenance": "PASS",
+    "reported_substrate_consumption_and_lactic_product_stock_relationship": "PASS_WITH_SOURCE_AGGREGATE_MODEL_LIMIT",
+    "uncultured_milk_no_lactic_product": "PASS",
+    "quantitative_milk_vs_sucrose_pH_buffer_comparison": "UNSUPPORTED",
+    "complete_physical_milk_counterion_matrix": "UNSUPPORTED",
+    "all_known_H_O_charge_gas_thermal_closure": "NOT_FULLY_ADJUDICATED"
+  },
+  "limits": [
+    "Actual commands initialize40C; they do not hold a thermostat at40C during8h. Final states cool to approximately25C. Do not label this a constant40C experiment.",
+    "Actual casein-buffer residual explicitly withholds quantitative milk buffering belowpH5; currentculturedmilk reaches4.622. Preservethiscoveragehold despiteobservedacidification.",
+    "Milk analytical-component charge warning prevents treating thepartialrepresented recipe ascompletephysicalionmixture.",
+    "Sourcehomolacticreaction consumesdisaccharide/water andreturnsFermentationStep.lactic_acid_moles/unresolved_lactose_grams; currentclockemitslegacyFermentedonlyforgas/alcoholsucrosefield. No homolacticextent event ispublished. ExtentshereareSAVEDstock/sourcearithmetic, not invented event payloads.",
+    "Selective lactose availability across repeated intervals and unresolved-carbohydrate pool identity remain separate source/control audit; no repeatedinterval run orbugrepairisclaimed."
+  ],
+  "source_files_sha256": {
+    "crates/kerotakis-core/src/fermentation.rs": "46215be605895b08c4000c51607a1de0ee4a5ea920714945cdf2df127328e6d6",
+    "crates/kerotakis-core/src/clock.rs": "a56fc7d1917f710b6a0a3a26b480a3f085f5467e8d327d9fbc9c0fb755a9fe71",
+    "data/registry/registry-source-v1.json": "db8496e677d3482e9faef01167b9d621ff32c7dc9219a7c690f7f9546c9d1d73"
+  },
+  "new_product_calls": 0,
+  "catalog_additions": 0,
+  "utc": "2026-10-26T13:09:58.908682+00:00"
+}

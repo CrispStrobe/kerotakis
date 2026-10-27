@@ -44,6 +44,7 @@ fn boundary(
     PhreeqcEquilibrator::apply_balance_corrections(
         &vessel,
         &problem,
+        &[], // Controlled reader fixture has no native selected-output table.
         &mut ions,
         &mut [],
         &[],

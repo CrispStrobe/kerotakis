@@ -1,0 +1,7 @@
+# Canonical-cost first compilation and counter-only successor
+
+The [first21-control source](../aqueous-canonical-cost-successor-20261026/FORECAST.md) builds the native cabbage integration target, then library-test compilation stops at E0689: the new pass-cap fixture uses an integer method before the counter type is known. All four targets were required to build and list before selected execution; therefore zero selected tests ran. No chemistry or performance outcome follows. Complete first streams, source proof and producer lock remain preserved; the exact rendered diagnostic is included here.
+
+Successor `a800cd6c37d25950618216e2a84b4cc82d072fde`, tree `71931f8326a0a0c6dc7ea7944e74f24f91db1923`, directly above1d56ee19, adds only `usize` to that fixture counter. Production code, every21 selection and assertion, original12-call cost budget, physical controls and cache/owner/route/heat behavior are unchanged. No old built binary is executed separately.
+
+Forecast: all four targets compile and all21 original selections pass on the same actual20994508 producer-lock seed. This remains a forecast; actual call-budget and chemistry outcomes are unknown. Run one separately source-bound successor after parent review and fresh resource/hosted-slot guards. Preserve any first new failure without relaxing checks. Full final-source acceptance, normal integration, changed-release15API/86browser, further unchanged originals and owned diagnostic EN/DE/FR delivery remain ordered prerequisites before closing the user task.338/468 and production are unchanged.

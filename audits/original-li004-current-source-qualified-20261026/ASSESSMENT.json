@@ -1,0 +1,74 @@
+{
+  "state": "QUALIFIED_IN_ORIGINAL_CURATED_IDENTITY_VERSUS_DILUTION_SCOPE",
+  "control": "batch3-diverse:li-004",
+  "source": "c51758fa09a8ce0089bc93bb64338a587834a405",
+  "tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "native_sha256": "daa3212fb76e4cbf1f2e445506c80d3fc7b9a9a933ac5d48fc0d1418f14e10f3",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "script_sha256": "a3d04c4449b9f1e16c8839ec467f698ae0a2f30f1502c91d71e09f8643c1a2ba",
+  "response_sha256": "bf382770d83dbcf95515446c6b310af01bafdc53d61aebec740cb2588e11bd75",
+  "request_sha256": "a50f30ac3fb8ac45faeeffa95c44b98430fcf977e7d16f5a26aa8e4214ec30a2",
+  "predicate_source_sha256": "c93f0a37122e4c13cd95e2cf97b5449b91c53a324a2c466b3242be2a1f600b31",
+  "ledger_tolerance_mol": 1e-10,
+  "tolerance_provenance": "Unchanged existing frozen phase-current-predicates TOL; not fitted to these outputs",
+  "ledger_readbacks": 44,
+  "max_absolute_ledger_residual": 8.881784197001252e-16,
+  "checks": {
+    "original_script_provenance": "PASS",
+    "all_step_known_elements_including_H_O_and_charge": "PASS",
+    "all_external_reservoirs_empty": "PASS",
+    "typed_reaction_and_inventory_derived_1umol_extent": "PASS",
+    "treated_pigment_identity_changes": "PASS",
+    "diluted_control_pigment_identity_unchanged": "PASS",
+    "oxidant_blank_has_no_pigment": "PASS",
+    "hypochlorite_chloride_sodium_stock": "PASS",
+    "original_pH_UVvis_particles_directives_preserved": "PASS"
+  },
+  "uvvis_actual_readings": [
+    {
+      "event": "measured",
+      "instrument": "spectrophotometer",
+      "unit": "absorbance at 405 nm",
+      "value": 0.0,
+      "vessel": 0
+    },
+    {
+      "event": "measured",
+      "instrument": "spectrophotometer",
+      "unit": "absorbance at 525 nm",
+      "value": 0.7800044210444506,
+      "vessel": 1
+    },
+    {
+      "event": "measured",
+      "instrument": "spectrophotometer",
+      "unit": "absorbance at 405 nm",
+      "value": 0.0,
+      "vessel": 2
+    }
+  ],
+  "scope_limits": [
+    "Defined one-oxygen oxidised-betanin surrogate and named curated reaction; no empirical product identity, full degradation mechanism, kinetic calibration or rate/heat claim.",
+    "Actual default wavelengths differ between coloured control525nm and treated/blank405nm; no cross-wavelength numerical absorbance-loss claim. Pigment inventory distinguishes conversion from dilution.",
+    "Lots are provenance views and are not added to contents; free-ion/solution diagnostics are not double counted. Analyticalbase_equivalents clonedOH- ownsH/O/-charge under exactsource contract."
+  ],
+  "raw_source_provenance": {
+    "registry_sha256": "db8496e677d3482e9faef01167b9d621ff32c7dc9219a7c690f7f9546c9d1d73",
+    "curated_rs_sha256": "9118ba63cd0f0f89ac6394ec9d3df3d2cebfa9e668d5c7c97e7a53cb3e40c884",
+    "species_rs_sha256": "babe480b3620c8fac121c1894847c26f7a9a51e599ea0a26d5940df0003f81a7"
+  },
+  "new_product_calls": 0,
+  "catalog_additions": 1,
+  "utc": "2026-10-26T13:05:40.468769+00:00",
+  "independent_review_sha256": "3ca5a49f40bf307db7bdeed7cb3209e9a00e4034a69c92e058336007fbeca47e",
+  "parent_provisional_assessment_sha256": "1ad2dcf1b4544c4505892c2cf96a329b0ba0b72e85105c3927ee733bedf5dd1c",
+  "original_question": "Does colour loss correspond to a changed pigment inventory or simply a lower concentration?",
+  "credit": "One new unique original selection; source-specific supported surrogate scope, not empirical calibration",
+  "public_raw_files_sha256": {
+    "LI-004.lab": "a3d04c4449b9f1e16c8839ec467f698ae0a2f30f1502c91d71e09f8643c1a2ba",
+    "element-charge-readbacks.json": "6eb18c76c4d0062e6555ebb42e587fb4a560480e0d7b4f32fc56afb013ad3ba6",
+    "http.json": "55b053d0b7d44ff03f0bfe5bdb8b90d52b706be17d563e4921e245466d33d8a5",
+    "response.json": "bf382770d83dbcf95515446c6b310af01bafdc53d61aebec740cb2588e11bd75",
+    "request.json": "a50f30ac3fb8ac45faeeffa95c44b98430fcf977e7d16f5a26aa8e4214ec30a2"
+  }
+}

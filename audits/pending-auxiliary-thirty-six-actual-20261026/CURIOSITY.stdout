@@ -1,0 +1,11 @@
+curiosity curiosity-v1: 500 prompts
+  computed     322
+  curated      61
+  qualitative  56
+  boundary     60
+  missing      1
+  unmet requirements: 0
+    engine stood aside (corpus claimed it): 0
+    answered below the required grade:     0
+  solver/runtime failures: 0
+  baseline drift: 0

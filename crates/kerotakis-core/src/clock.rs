@@ -991,6 +991,7 @@ fn settle_phases(vessel: &mut Vessel, events: &mut Vec<Event>) {
         match states.equilibrate(vessel) {
             Ok(mut more) => events.append(&mut more),
             Err(error) => events.push(Event::SolverFailed {
+                reason: error.owned_reason().cloned().map(Box::new),
                 vessel: id,
                 solver: states.name().to_string(),
                 detail: error.to_string(),
@@ -1001,6 +1002,7 @@ fn settle_phases(vessel: &mut Vessel, events: &mut Vec<Event>) {
     match routes.equilibrate(vessel) {
         Ok(mut more) => events.append(&mut more),
         Err(error) => events.push(Event::SolverFailed {
+            reason: error.owned_reason().cloned().map(Box::new),
             vessel: id,
             solver: routes.name().to_string(),
             detail: error.to_string(),

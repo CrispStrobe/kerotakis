@@ -1028,6 +1028,39 @@ fn phase_of(key: &str) -> Result<Phase, String> {
         .ok_or_else(|| format!("the registry has no species '{key}' to deposit"))
 }
 
+#[derive(Debug)]
+enum FamilyExtentRefusal {
+    Solvent,
+    ProductPhase { key: String, detail: String },
+}
+
+impl FamilyExtentRefusal {
+    fn phrase(&self) -> Phrase {
+        match self {
+            Self::Solvent => Phrase::bare(
+                "solver-reason.family.solvent",
+                "The reaction family has insufficient solvent to supply the measured acid/base ions conservatively.",
+            ),
+            Self::ProductPhase { key, .. } => Phrase::new(
+                "solver-reason.family.product-phase",
+                "The reaction family cannot resolve a product phase for registry key {key}.",
+                vec![("key".into(), Slot::text(key))],
+            ),
+        }
+    }
+}
+
+impl std::fmt::Display for FamilyExtentRefusal {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Solvent => f.write_str(
+                "insufficient solvent to supply the measured acid/base ions conservatively",
+            ),
+            Self::ProductPhase { detail, .. } => f.write_str(detail),
+        }
+    }
+}
+
 /// Move the matter. Every product phase is resolved BEFORE the first
 /// withdrawal: a half-applied transformation would be the one thing
 /// worse than none.
@@ -1036,7 +1069,7 @@ fn apply_extent(
     reactants: &[(String, f64)],
     products: &[(String, f64)],
     x: f64,
-) -> Result<(), String> {
+) -> Result<(), FamilyExtentRefusal> {
     let (consumed, formed) = if x >= 0.0 {
         (reactants, products)
     } else {
@@ -1060,9 +1093,7 @@ fn apply_extent(
         })
         .sum();
     if solvent_needed > vessel.moles_of(&SpeciesId::new("water")).0 + TRACE {
-        return Err(
-            "insufficient solvent to supply the measured acid/base ions conservatively".into(),
-        );
+        return Err(FamilyExtentRefusal::Solvent);
     }
     let phases: Vec<Option<Phase>> = formed
         .iter()
@@ -1070,7 +1101,12 @@ fn apply_extent(
             if is_virtual(k) {
                 Ok(Some(Phase::Aqueous))
             } else {
-                phase_of(k).map(Some)
+                phase_of(k)
+                    .map(Some)
+                    .map_err(|detail| FamilyExtentRefusal::ProductPhase {
+                        key: k.clone(),
+                        detail,
+                    })
             }
         })
         .collect::<Result<_, _>>()?;
@@ -1233,10 +1269,11 @@ impl<O: StructureOracle> Equilibrator for FamilyRouter<O> {
                 products: ready.products.clone(),
             };
             let (reactants, products) = sides(record, &matched);
-            apply_extent(vessel, &reactants, &products, ready.extent).map_err(|detail| {
+            apply_extent(vessel, &reactants, &products, ready.extent).map_err(|error| {
                 SolveError::NotConverged {
+                    reason: Some(Box::new(error.phrase())),
                     solver: "reaction-families".to_string(),
-                    detail,
+                    detail: error.to_string(),
                 }
             })?;
             events.push(Event::OrgReacted {
@@ -1896,5 +1933,48 @@ mod tests {
         assert!(!w.admits(299.9));
         assert!(!w.admits(400.1));
         assert!(KelvinWindow::default().admits(5.0));
+    }
+}
+
+#[cfg(test)]
+mod extent_refusal_contract {
+    use super::apply_extent;
+    use crate::{Vessel, VesselId};
+
+    #[test]
+    fn actual_solvent_preflight_refusal_preserves_inventory_and_raw_detail() {
+        let mut vessel = Vessel::new(VesselId(0), "preflight-fixture");
+        let before = format!("{vessel:?}");
+        let error = apply_extent(
+            &mut vessel,
+            &[("H+".into(), 1.0)],
+            &[("water".into(), 1.0)],
+            1.0,
+        )
+        .unwrap_err();
+        assert_eq!(format!("{vessel:?}"), before);
+        assert_eq!(error.phrase().key, "solver-reason.family.solvent");
+        assert_eq!(
+            error.to_string(),
+            "insufficient solvent to supply the measured acid/base ions conservatively"
+        );
+    }
+
+    #[test]
+    fn actual_unknown_product_phase_keeps_the_technical_label_and_inventory() {
+        let mut vessel = Vessel::new(VesselId(0), "phase-fixture");
+        let before = format!("{vessel:?}");
+        let label = "unregistered-product_ä";
+        let error = apply_extent(&mut vessel, &[], &[(label.into(), 1.0)], 1.0).unwrap_err();
+        assert_eq!(format!("{vessel:?}"), before);
+        assert_eq!(error.phrase().key, "solver-reason.family.product-phase");
+        assert_eq!(
+            error.to_string(),
+            "the registry has no species 'unregistered-product_ä' to deposit"
+        );
+        assert!(error
+            .phrase()
+            .render(crate::i18n::Locale::EN)
+            .contains(label));
     }
 }

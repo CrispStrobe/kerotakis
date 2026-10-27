@@ -200,7 +200,9 @@ impl AuxiliaryPoseWitness {
 impl ExactAuxiliaryQuestion {
     fn validate_input(&self) -> Result<(), SolveError> {
         let fingerprint =
-            crate::native_namespace::fingerprint(self.database).map_err(canonical_closure_error)?;
+            crate::native_namespace::fingerprint(self.database).map_err(|detail| {
+                canonical_closure_error(AqueousReason::FingerprintUnavailable, detail)
+            })?;
         if self.database != "pitzer"
             || fingerprint != self.database_fingerprint
             || self.input != build_input(&self.pose, &self.problem, self.database)
@@ -211,6 +213,7 @@ impl ExactAuxiliaryQuestion {
                 )
         {
             return Err(canonical_closure_error(
+                AqueousReason::QueuedInputBinding,
                 "queued auxiliary question lost its exact database/input binding",
             ));
         }
@@ -228,6 +231,7 @@ impl ExactAuxiliaryQuestion {
             || !vessel.electrodes.is_empty()
         {
             return Err(canonical_closure_error(
+                AqueousReason::QueuedPoseValidation,
                 "queued auxiliary answer belongs to another primary stock/heat/temperature pose",
             ));
         }
@@ -271,6 +275,7 @@ fn checked_secondary_reentry(
         || matches!(current, SecondaryDisposition::Pending)
     {
         return Err(canonical_closure_error(
+            AqueousReason::PendingSelectorAuthority,
             "pending auxiliary work has no selector authority",
         ));
     }
@@ -278,17 +283,20 @@ fn checked_secondary_reentry(
         && current != SecondaryDisposition::BelowInputFloor
     {
         return Err(canonical_closure_error(
+            AqueousReason::SecondarySkipUnverified,
             "ordinary selector did not verify the provisional secondary skip",
         ));
     }
     if first_hint == SecondaryFirstHint::Probe && current != SecondaryDisposition::Accepted {
         return Err(canonical_closure_error(
+            AqueousReason::SecondaryProbeUnverified,
             "ordinary selector did not admit the provisional secondary probe",
         ));
     }
     if let Some(next) = secondary_floor_replay(previous, current) {
         if *secondary_replayed {
             return Err(canonical_closure_error(
+                AqueousReason::SecondaryChangedAfterReplay,
                 "secondary selector changed after its owner replay",
             ));
         }
@@ -300,6 +308,7 @@ fn checked_secondary_reentry(
             && current == SecondaryDisposition::BelowInputFloor)
     {
         return Err(canonical_closure_error(
+            AqueousReason::SecondaryChangedWithoutFloor,
             "secondary solvent selector changed outside a witnessed input-floor replay",
         ));
     }
@@ -1478,9 +1487,11 @@ impl PhreeqcEquilibrator {
                 hint,
                 ..
             } => solve(candidate, past, owner, hint),
-            AqueousWork::Fulfil { .. } => Err(canonical_closure_error(
-                "controlled pose adapter cannot invent an auxiliary answer",
-            )),
+            AqueousWork::Fulfil { .. } => Err(SolveError::NotConverged {
+                reason: None,
+                solver: "phreeqc-canonical".into(),
+                detail: "controlled pose adapter cannot invent an auxiliary answer".into(),
+            }),
         })
     }
 
@@ -1532,6 +1543,7 @@ impl PhreeqcEquilibrator {
                         || candidate.step_start.as_ref() != Some(&heat_origin)
                     {
                         return Err(canonical_closure_error(
+                            AqueousReason::FirstPoseSeedValidation,
                             "first aqueous pose does not match its original temperature/owner",
                         ));
                     }
@@ -1576,9 +1588,11 @@ impl PhreeqcEquilibrator {
                 hint,
                 ..
             } => solve(candidate, past, owner, hint),
-            AqueousWork::Fulfil { .. } => Err(canonical_closure_error(
-                "controlled pose adapter cannot invent an auxiliary answer",
-            )),
+            AqueousWork::Fulfil { .. } => Err(SolveError::NotConverged {
+                reason: None,
+                solver: "phreeqc-canonical".into(),
+                detail: "controlled pose adapter cannot invent an auxiliary answer".into(),
+            }),
         })
     }
 
@@ -1600,9 +1614,12 @@ impl PhreeqcEquilibrator {
         let mut secondary_replayed = false;
         'replay: loop {
             if calls >= MAX_CANONICAL_AQUEOUS_PASSES {
-                return Err(canonical_closure_error(format!(
-                "physical aqueous/gas answer did not close within {MAX_CANONICAL_AQUEOUS_PASSES} passes"
-            )));
+                return Err(canonical_closure_error(
+                    AqueousReason::PassCap,
+                    format!(
+                        "physical aqueous/gas answer did not close within {MAX_CANONICAL_AQUEOUS_PASSES} passes"
+                    ),
+                ));
             }
             // A route change invalidates the entire hypothetical answer,
             // including its outward gas and spent clock parcel. Begin again
@@ -1626,6 +1643,7 @@ impl PhreeqcEquilibrator {
                         .is_none_or(|info| info.scope != SolutionScope::Complete))
             {
                 return Err(canonical_closure_error(
+                    AqueousReason::PendingPoseIneligible,
                     "only a complete private reservoir pose may retain pending auxiliary work",
                 ));
             }
@@ -1644,8 +1662,9 @@ impl PhreeqcEquilibrator {
                 };
                 if first.db_tag != tag || !in_domain {
                     return Err(canonical_closure_error(
-                    "forced replay route did not produce a complete answer inside its activity-model domain",
-                ));
+                        AqueousReason::ForcedRouteValidation,
+                        "forced replay route did not produce a complete answer inside its activity-model domain",
+                    ));
                 }
             }
             match first_hint.secondary {
@@ -1653,6 +1672,7 @@ impl PhreeqcEquilibrator {
                     if first.secondary_disposition != SecondaryDisposition::SkippedForReplay =>
                 {
                     return Err(canonical_closure_error(
+                        AqueousReason::SecondarySkipMismatch,
                         "secondary replay did not skip its first pose",
                     ));
                 }
@@ -1660,6 +1680,7 @@ impl PhreeqcEquilibrator {
                     if first.secondary_disposition != SecondaryDisposition::Accepted =>
                 {
                     return Err(canonical_closure_error(
+                        AqueousReason::SecondaryProbeMismatch,
                         "secondary replay did not produce a valid provisional auxiliary answer",
                     ));
                 }
@@ -1672,6 +1693,7 @@ impl PhreeqcEquilibrator {
                     .any(|event| matches!(event, Event::SolverFailed { .. }))
             {
                 return Err(canonical_closure_error(
+                    AqueousReason::CertifiedSolverFailure,
                     "first gas-aware aqueous answer reported a solver failure",
                 ));
             }
@@ -1687,6 +1709,7 @@ impl PhreeqcEquilibrator {
             {
                 if first.clock_co2_applied_mol != 0.0 || first_hint != FirstPoseHint::default() {
                     return Err(canonical_closure_error(
+                        AqueousReason::CertifiedAnswerMissing,
                         "clock CO2 or model replay lacks a complete certified native answer",
                     ));
                 }
@@ -1699,6 +1722,7 @@ impl PhreeqcEquilibrator {
             let clock_applied = first.clock_co2_applied_mol;
             if component_owner == ComponentCertificate::ClockWithOpaque && clock_applied == 0.0 {
                 return Err(canonical_closure_error(
+                    AqueousReason::ClockBoundaryMissing,
                     "opaque aqueous owner has no spent clock boundary",
                 ));
             }
@@ -1709,6 +1733,7 @@ impl PhreeqcEquilibrator {
                         || owner_start.pending_co2_transfer_mol != clock_applied))
             {
                 return Err(canonical_closure_error(
+                    AqueousReason::ClockParcelMismatch,
                     "clock CO2 parcel did not match its typed input",
                 ));
             }
@@ -1780,6 +1805,7 @@ impl PhreeqcEquilibrator {
                         .any(|event| matches!(event, Event::SolverFailed { .. }))
                 {
                     return Err(canonical_closure_error(
+                        AqueousReason::ReentryCertificateBoundaryCheck,
                         "gas-aware aqueous route or ownership changed during reentry",
                     ));
                 }
@@ -1789,6 +1815,7 @@ impl PhreeqcEquilibrator {
                     .is_none_or(|info| info.scope != SolutionScope::Complete)
                 {
                     return Err(canonical_closure_error(
+                        AqueousReason::ReentryAnswerIncomplete,
                         "route-changing aqueous reentry lacked a complete native answer",
                     ));
                 }
@@ -1796,6 +1823,7 @@ impl PhreeqcEquilibrator {
                 let current_pending = pass.has_pending_secondary()?;
                 if current_pending && component_owner != ComponentCertificate::ReservoirWithOpaque {
                     return Err(canonical_closure_error(
+                        AqueousReason::PendingOwnerNotReservoir,
                         "non-reservoir owner retained pending auxiliary work",
                     ));
                 }
@@ -1805,6 +1833,7 @@ impl PhreeqcEquilibrator {
                         ("pitzer", "wateq4f") | ("wateq4f", "pitzer")
                     ) {
                         return Err(canonical_closure_error(
+                            AqueousReason::ModelTransitionUnsupported,
                             "unsupported aqueous model transition",
                         ));
                     }
@@ -1849,6 +1878,7 @@ impl PhreeqcEquilibrator {
                     && !only_physical_co2_exhausted
                 {
                     return Err(canonical_closure_error(
+                        AqueousReason::ReservoirSetChanged,
                         "gas-aware aqueous route or ownership changed during reentry",
                     ));
                 }
@@ -1899,6 +1929,7 @@ impl PhreeqcEquilibrator {
                     })?;
                     if previous_pass.has_pending_secondary()? || pass.has_pending_secondary()? {
                         return Err(canonical_closure_error(
+                            AqueousReason::PairedAuxiliaryIncomplete,
                             "paired auxiliary work was not fulfilled",
                         ));
                     }
@@ -1948,9 +1979,12 @@ impl PhreeqcEquilibrator {
                 previous_state = trial.clone();
                 previous_pass = pass;
             }
-            return Err(canonical_closure_error(format!(
-            "physical aqueous/gas answer did not close within {MAX_CANONICAL_AQUEOUS_PASSES} passes"
-        )));
+            return Err(canonical_closure_error(
+                AqueousReason::PassCap,
+                format!(
+                    "physical aqueous/gas answer did not close within {MAX_CANONICAL_AQUEOUS_PASSES} passes"
+                ),
+            ));
         }
     }
 
@@ -1980,6 +2014,9 @@ impl PhreeqcEquilibrator {
                 *slot =
                     Some(
                         load_native_database(db_tag).map_err(|e| SolveError::NotConverged {
+                            reason: Some(Box::new(
+                                AqueousReason::PinnedInstanceLoadFailed.phrase(),
+                            )),
                             solver: "phreeqc-aqueous".to_string(),
                             detail: format!("could not load a pinned engine instance: {e}"),
                         })?,
@@ -1999,6 +2036,9 @@ impl PhreeqcEquilibrator {
         self.engine_calls += 1;
         let namespace = crate::native_namespace::database(db_tag).map_err(|detail| {
             SolveError::NotConverged {
+                reason: Some(Box::new(
+                    AqueousReason::ComponentNamespaceUnavailable.phrase(),
+                )),
                 solver: "phreeqc-component-isolation".into(),
                 detail,
             }
@@ -2010,6 +2050,7 @@ impl PhreeqcEquilibrator {
             engine
                 .run(RESET_NUMBERED_REACTANTS)
                 .map_err(|e| SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::ReusedEngineResetFailed.phrase())),
                     solver: "phreeqc-aqueous".to_string(),
                     detail: format!("could not reset reused IPhreeqc state: {e}"),
                 })?;
@@ -2021,6 +2062,7 @@ impl PhreeqcEquilibrator {
                     eprintln!("--- PHREEQC input that failed ---\n{native_input}---");
                 }
                 SolveError::NotConverged {
+                    reason: None,
                     solver: "phreeqc-aqueous".to_string(),
                     detail: e.to_string(),
                 }
@@ -2035,11 +2077,13 @@ impl PhreeqcEquilibrator {
         {
             let Some(hook) = self.hook.as_mut() else {
                 return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::CacheMiss.phrase())),
                     solver: "phreeqc-aqueous (cache-only build)".to_string(),
                     detail: "this state is not in the shipped results and there is no solver here to compute it".to_string(),
                 });
             };
             let mut output = hook(db_tag, &native_input).map_err(|e| SolveError::NotConverged {
+                reason: None,
                 solver: "phreeqc-aqueous (external engine)".to_string(),
                 detail: e,
             })?;
@@ -2156,6 +2200,11 @@ impl PhreeqcEquilibrator {
         let residual = last_sum.map_or(f64::INFINITY, |sum| (sum - coupling.target).abs());
         if residual > residual_tol {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(if last_sum.is_some() {
+                    AqueousReason::RedoxBalanceOutsideWater.phrase()
+                } else {
+                    AqueousReason::RedoxReadbackUnavailable.phrase()
+                })),
                 solver: "phreeqc-aqueous (redox)".to_string(),
                 detail: format!(
                     "no electron activity in the stability field of water balances this \
@@ -2185,6 +2234,7 @@ impl PhreeqcEquilibrator {
         // undefined — that steepness is why the endpoint is detectable at
         // all.
         let rc = best.ok_or_else(|| SolveError::NotConverged {
+            reason: Some(Box::new(AqueousReason::RedoxSearchDidNotConverge.phrase())),
             solver: "phreeqc-aqueous (redox)".to_string(),
             detail: "the electron balance did not converge".to_string(),
         })?;
@@ -2242,6 +2292,7 @@ impl PhreeqcEquilibrator {
             };
             let Some(sum) = oxidation_sum(&out.selected, &coupling.columns, problem.kgw) else {
                 return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::RedoxTotalsMissing.phrase())),
                     solver: "phreeqc-aqueous (redox)".to_string(),
                     detail: "the coupled run reported no oxidation-state totals".to_string(),
                 });
@@ -2735,6 +2786,7 @@ fn has_solvent_only_basis(vessel: &Vessel) -> bool {
 fn characterize_solvent_only(vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
     let Some(log_k) = water_autoionisation_log_k(vessel.temperature.0) else {
         return Err(SolveError::NotConverged {
+            reason: Some(Box::new(AqueousReason::WaterRelationUndefined.phrase())),
             solver: "water-autoionisation".to_string(),
             detail: format!(
                 "the water-dissociation relation is undefined at {:.6} K",
@@ -3676,8 +3728,86 @@ fn solid_solution_component_elements(component: SolidSolutionComponent) -> &'sta
 const CRYSTAL_NATIVE_RELATIVE_CAP: f64 = 1e-7;
 const CRYSTAL_OUTPUT_RELATIVE_CAP: f64 = 5e-12;
 
-fn crystal_balance_error(detail: impl Into<String>) -> SolveError {
+#[derive(Clone, Copy)]
+enum CrystalReason {
+    AmountInvalid,
+    SolventMassInvalid,
+    AmountOverflow,
+    ReductionUnsupported,
+    SurfaceExchangeCoowner,
+    InventoryInvalid,
+    ExternalPhaseUnknown,
+    ExternalBoundaryUnsupported,
+    PrimaryPhaseUnknown,
+    PhaseOverdraw,
+    RemainderInvalid,
+    AqueousInventoryMissing,
+    AqueousResidualUnexplained,
+}
+
+impl CrystalReason {
+    fn phrase(self) -> Phrase {
+        let (key, en) = match self {
+            Self::AmountInvalid => (
+                "solver-reason.aqueous.crystal-amount-invalid",
+                "A mixed-crystal amount is invalid.",
+            ),
+            Self::SolventMassInvalid => (
+                "solver-reason.aqueous.crystal-solvent-mass-invalid",
+                "The aqueous solvent mass is non-finite or non-positive.",
+            ),
+            Self::AmountOverflow => (
+                "solver-reason.aqueous.crystal-amount-overflow",
+                "A mixed-crystal amount sum overflowed.",
+            ),
+            Self::ReductionUnsupported => (
+                "solver-reason.aqueous.crystal-reduction-unsupported",
+                "The mixed-crystal arithmetic reduction is unsupported.",
+            ),
+            Self::SurfaceExchangeCoowner => (
+                "solver-reason.aqueous.crystal-interface-coowner",
+                "Surface or exchange ownership lacks an aqueous witness.",
+            ),
+            Self::InventoryInvalid => (
+                "solver-reason.aqueous.crystal-inventory-invalid",
+                "The typed crystal inventory is invalid.",
+            ),
+            Self::ExternalPhaseUnknown => (
+                "solver-reason.aqueous.crystal-external-phase-unknown",
+                "An external phase has no reviewed formula.",
+            ),
+            Self::ExternalBoundaryUnsupported => (
+                "solver-reason.aqueous.crystal-external-boundary-unsupported",
+                "An external phase lacks a reviewed element boundary.",
+            ),
+            Self::PrimaryPhaseUnknown => (
+                "solver-reason.aqueous.crystal-primary-phase-unknown",
+                "A primary phase has no reviewed formula.",
+            ),
+            Self::PhaseOverdraw => (
+                "solver-reason.aqueous.crystal-phase-overdraw",
+                "The final owned phase inventory exceeds the available amount.",
+            ),
+            Self::RemainderInvalid => (
+                "solver-reason.aqueous.crystal-remainder-invalid",
+                "The checked phase remainder is invalid.",
+            ),
+            Self::AqueousInventoryMissing => (
+                "solver-reason.aqueous.crystal-aqueous-inventory-missing",
+                "The aqueous readback is missing an owned elemental remainder.",
+            ),
+            Self::AqueousResidualUnexplained => (
+                "solver-reason.aqueous.crystal-aqueous-residual-unexplained",
+                "The aqueous readback does not match the checked phase remainder.",
+            ),
+        };
+        Phrase::bare(key, en)
+    }
+}
+
+fn crystal_balance_error(reason: CrystalReason, detail: impl Into<String>) -> SolveError {
     SolveError::NotConverged {
+        reason: Some(Box::new(reason.phrase())),
         solver: "phreeqc-aqueous".into(),
         detail: format!("mixed-crystal ownership: {}", detail.into()),
     }
@@ -3691,10 +3821,18 @@ fn checked_crystal_sum(
     values
         .iter()
         .try_fold(Amount::new(0.0).unwrap(), |sum, value| {
-            let amount = Amount::new(*value)
-                .map_err(|_| crystal_balance_error(format!("{owner}: invalid amount {value}")))?;
-            sum.checked_add(amount)
-                .map_err(|_| crystal_balance_error(format!("{owner}: amount sum overflow")))
+            let amount = Amount::new(*value).map_err(|_| {
+                crystal_balance_error(
+                    CrystalReason::AmountInvalid,
+                    format!("{owner}: invalid amount {value}"),
+                )
+            })?;
+            sum.checked_add(amount).map_err(|_| {
+                crystal_balance_error(
+                    CrystalReason::AmountOverflow,
+                    format!("{owner}: amount sum overflow"),
+                )
+            })
         })
 }
 
@@ -3702,6 +3840,7 @@ fn crystal_roundoff_cap(terms: usize) -> Result<f64, SolveError> {
     let roundoff = (terms as f64 + 4.0) * f64::EPSILON;
     if !roundoff.is_finite() || roundoff >= 1.0 {
         return Err(crystal_balance_error(
+            CrystalReason::ReductionUnsupported,
             "unsupported arithmetic reduction size",
         ));
     }
@@ -3718,12 +3857,14 @@ fn crystal_relative_cap(terms: usize) -> Result<f64, SolveError> {
 fn checked_crystal_reconciliation(
     vessel: &Vessel,
     problem: &Problem,
+    rows: &[Vec<String>],
     ions: &[(String, f64)],
     crystals: &[SolidSolution],
     value: &dyn Fn(&str) -> Option<f64>,
 ) -> Result<Vec<(String, f64)>, SolveError> {
     if !problem.surfaces.is_empty() || !problem.exchanges.is_empty() {
         return Err(crystal_balance_error(
+            CrystalReason::SurfaceExchangeCoowner,
             "surface/exchange co-ownership lacks an aqueous witness",
         ));
     }
@@ -3733,7 +3874,10 @@ fn checked_crystal_reconciliation(
         .chain(crystals)
         .any(|phase| !phase.has_valid_state())
     {
-        return Err(crystal_balance_error("invalid typed crystal inventory"));
+        return Err(crystal_balance_error(
+            CrystalReason::InventoryInvalid,
+            "invalid typed crystal inventory",
+        ));
     }
     for (element, amount) in ions {
         checked_crystal_sum(&[*amount], &format!("raw aqueous {element}"))?;
@@ -3744,7 +3888,7 @@ fn checked_crystal_reconciliation(
         .iter()
         .map(|(phase, species, _)| {
             let column = format!("g_{phase}");
-            let amount = value(&column).ok_or_else(|| missing(&column))?;
+            let amount = value(&column).ok_or_else(|| missing(rows, &column))?;
             checked_crystal_sum(&[amount], &column)?;
             Ok((species.as_str(), amount))
         })
@@ -3787,7 +3931,7 @@ fn checked_crystal_reconciliation(
                 .iter()
                 .find(|gas| gas.phase == *phase)
             {
-                let final_amount = value(phase).ok_or_else(|| missing(phase))?;
+                let final_amount = value(phase).ok_or_else(|| missing(rows, phase))?;
                 checked_crystal_sum(&[*initial], phase)?;
                 checked_crystal_sum(&[external.initial_moles], phase)?;
                 checked_crystal_sum(&[final_amount], phase)?;
@@ -3796,20 +3940,27 @@ fn checked_crystal_reconciliation(
                 // carbon; HBr and atmospheric O2/N2 leave its budget closed.
                 let formula = crate::dbindex::parse_formula(phase.trim_end_matches("(g)"))
                     .ok_or_else(|| {
-                        crystal_balance_error(format!("unreviewed external phase {phase}"))
+                        crystal_balance_error(
+                            CrystalReason::ExternalPhaseUnknown,
+                            format!("unreviewed external phase {phase}"),
+                        )
                     })?;
                 if formula.contains_key(element) {
-                    return Err(crystal_balance_error(format!(
-                        "external {phase} lacks a reviewed {element} boundary"
-                    )));
+                    return Err(crystal_balance_error(
+                        CrystalReason::ExternalBoundaryUnsupported,
+                        format!("external {phase} lacks a reviewed {element} boundary"),
+                    ));
                 }
                 continue;
             }
 
             let definition = derived::phase_by_name(phase).ok_or_else(|| {
-                crystal_balance_error(format!("unreviewed primary phase {phase}"))
+                crystal_balance_error(
+                    CrystalReason::PrimaryPhaseUnknown,
+                    format!("unreviewed primary phase {phase}"),
+                )
             })?;
-            let final_amount = value(phase).ok_or_else(|| missing(phase))?;
+            let final_amount = value(phase).ok_or_else(|| missing(rows, phase))?;
             checked_crystal_sum(&[*initial], phase)?;
             checked_crystal_sum(&[final_amount], phase)?;
             let coefficients: Vec<f64> = definition
@@ -3844,18 +3995,22 @@ fn checked_crystal_reconciliation(
         let cap = crystal_relative_cap(available.len() + owned.len())?;
         let scale = total_available.max(total_owned);
         if total_owned > total_available && (total_owned - total_available) / scale > cap {
-            return Err(crystal_balance_error(format!(
-                "{element} phase overdraw: available={total_available:e}, owned={total_owned:e}"
-            )));
+            return Err(crystal_balance_error(
+                CrystalReason::PhaseOverdraw,
+                format!(
+                    "{element} phase overdraw: available={total_available:e}, owned={total_owned:e}"
+                ),
+            ));
         }
         // Only a checked within-cap residual may reach this nonnegative bound.
         let target = match available_amount.checked_sub(owned_amount) {
             Ok(remainder) => remainder.to_f64(),
             Err(kerotakis_core::amount::AmountError::Negative) => 0.0,
             Err(error) => {
-                return Err(crystal_balance_error(format!(
-                    "{element} remainder: {error}"
-                )))
+                return Err(crystal_balance_error(
+                    CrystalReason::RemainderInvalid,
+                    format!("{element} remainder: {error}"),
+                ));
             }
         };
         let raw_parts: Vec<f64> = ions
@@ -3867,9 +4022,10 @@ fn checked_crystal_reconciliation(
         let raw_cap = crystal_relative_cap(raw_parts.len() + available.len() + owned.len())?;
         let discrepancy = (raw - target).abs();
         if raw == 0.0 && target > 0.0 {
-            return Err(crystal_balance_error(format!(
-                "{element} missing aqueous inventory: remainder={target:e}"
-            )));
+            return Err(crystal_balance_error(
+                CrystalReason::AqueousInventoryMissing,
+                format!("{element} missing aqueous inventory: remainder={target:e}"),
+            ));
         }
         if raw != target && discrepancy / raw.max(target) > raw_cap {
             // Scalar owner products and residual projection have a separate
@@ -3879,9 +4035,12 @@ fn checked_crystal_reconciliation(
             if scale > 0.0 && discrepancy / scale <= roundoff {
                 continue;
             }
-            return Err(crystal_balance_error(format!(
-                "{element} unexplained aqueous residual: raw={raw:e}, remainder={target:e}"
-            )));
+            return Err(crystal_balance_error(
+                CrystalReason::AqueousResidualUnexplained,
+                format!(
+                    "{element} unexplained aqueous residual: raw={raw:e}, remainder={target:e}"
+                ),
+            ));
         }
         if raw > 0.0 {
             let factor = target / raw;
@@ -4056,6 +4215,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             .find(|surface| !surface.has_valid_capacity())
         {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(AqueousReason::SurfaceCapacityInvalid.phrase())),
                 solver: self.name().to_string(),
                 detail: format!(
                     "surface '{}' has non-positive geometry, invalid capacity, or occupancy above capacity",
@@ -4069,6 +4229,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             .find(|exchange| !exchange.has_valid_capacity())
         {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(AqueousReason::ExchangeCapacityInvalid.phrase())),
                 solver: self.name().to_string(),
                 detail: format!(
                     "exchange '{}' has non-positive support/capacity or occupancy that does not exactly counter-balance its finite capacity",
@@ -4078,6 +4239,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         }
         if vessel.solid_solutions.len() > 1 {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(AqueousReason::MixedCrystalUnsupported.phrase())),
                 solver: self.name().to_string(),
                 detail: "the first typed solid-solution slice supports one mixed crystalline phase per vessel"
                     .to_string(),
@@ -4089,6 +4251,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             .find(|solid_solution| !solid_solution.has_valid_state())
         {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(AqueousReason::SolidSolutionStateInvalid.phrase())),
                 solver: self.name().to_string(),
                 detail: format!(
                     "solid solution '{}' must contain one finite, non-negative amount of each reviewed end member",
@@ -4196,6 +4359,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                         self.resume_first_pose(&mut trial, seed)?;
                     if !strict_closed {
                         return Err(canonical_closure_error(
+                            AqueousReason::StrictClosureMissing,
                             "deferred reservoir answer lacks strict physical closure",
                         ));
                     }
@@ -4249,6 +4413,7 @@ impl Equilibrator for PhreeqcEquilibrator {
 
         if !fixed_point_converged {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(AqueousReason::ThermalPassCap.phrase())),
                 solver: self.name().to_string(),
                 detail: format!(
                     "coupled aqueous temperature did not converge within {MAX_THERMAL_FIXED_POINT_PASSES} passes (last residual {:.6e} K)",
@@ -4559,6 +4724,7 @@ impl Equilibrator for PhreeqcEquilibrator {
 
         if unnameable.iter().any(|(_, n)| *n > 1e-10) {
             return abandoned(SolveError::NotConverged {
+                reason: Some(Box::new(AqueousReason::ReadbackUnrepresented.phrase())),
                 solver: "phreeqc-inventory".into(),
                 detail: format!("cannot commit unrepresented elemental states: {unnameable:?}"),
             });
@@ -4567,6 +4733,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let balance = Self::apply_balance_corrections(
             vessel,
             &merged_problem,
+            &cached.rows,
             &mut new_ions,
             &mut new_surfaces,
             &new_exchanges,
@@ -4778,25 +4945,25 @@ fn secondary_routing(
     solvent_activity: Option<&kerotakis_core::vessel::SolventActivityProvenance>,
 ) -> Phrase {
     match solvent_activity {
-            None => routing,
-            Some(second) => Phrase::new(
-                "routing.second-speciation-for-solvent",
-                "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
-                vec![
-                    ("routing".to_string(), Slot::phrase(routing)),
-                    // Neither of these is a bare name. A dataset is a FILE
-                    // NAME with clauses welded to it and a model is a
-                    // PERSON'S NAME with a reliability range welded to it,
-                    // so each travels as its RECIPE — the names inside it
-                    // still in text slots, which are the ones no catalogue
-                    // touches. They were `Slot::text` of the finished
-                    // English, which put two English clauses in the middle
-                    // of a German routing paragraph.
-                    ("dataset".to_string(), second.dataset_slot()),
-                    ("model".to_string(), second.model_slot()),
-                ],
-            ),
-        }
+        None => routing,
+        Some(second) => Phrase::new(
+            "routing.second-speciation-for-solvent",
+            "{routing}; the solvent's activity is NOT from this dataset — it reports PHREEQC's hard-coded 1 - 0.017*Sum(m) placeholder rather than a model — but from a second speciation of the same solution on {dataset} ({model}), posed with no phases, gas or interfaces and asked for a_w alone",
+            vec![
+                ("routing".to_string(), Slot::phrase(routing)),
+                // Neither of these is a bare name. A dataset is a FILE
+                // NAME with clauses welded to it and a model is a
+                // PERSON'S NAME with a reliability range welded to it,
+                // so each travels as its RECIPE — the names inside it
+                // still in text slots, which are the ones no catalogue
+                // touches. They were `Slot::text` of the finished
+                // English, which put two English clauses in the middle
+                // of a German routing paragraph.
+                ("dataset".to_string(), second.dataset_slot()),
+                ("model".to_string(), second.model_slot()),
+            ],
+        ),
+    }
 }
 
 struct AqueousPass {
@@ -4822,6 +4989,7 @@ impl AqueousPass {
         let pending = self.secondary_disposition == SecondaryDisposition::Pending;
         if pending != self.pending_secondary.is_some() {
             return Err(canonical_closure_error(
+                AqueousReason::PendingAuthorityInconsistent,
                 "inconsistent queued auxiliary authority",
             ));
         }
@@ -4853,6 +5021,7 @@ fn validate_clock_boundary(vessel: &Vessel, problem: Option<&Problem>) -> Result
     let pending = vessel.pending_co2_transfer_mol;
     if !pending.is_finite() {
         return Err(canonical_closure_error(
+            AqueousReason::ClockParcelNonfinite,
             "nonfinite pending clock CO2 parcel",
         ));
     }
@@ -4863,6 +5032,7 @@ fn validate_clock_boundary(vessel: &Vessel, problem: Option<&Problem>) -> Result
         || (!spendable && applied != 0.0)
     {
         return Err(canonical_closure_error(
+            AqueousReason::ClockBoundaryInvalid,
             "pending clock CO2 parcel is unsupported or exceeds available carbon",
         ));
     }
@@ -4878,6 +5048,7 @@ fn validate_clock_boundary(vessel: &Vessel, problem: Option<&Problem>) -> Result
         })
     {
         return Err(canonical_closure_error(
+            AqueousReason::ClockCarbonAmbiguous,
             "clock CO2 cannot be assigned to an ambiguous carbon component",
         ));
     }
@@ -4913,8 +5084,466 @@ mod clock_co2_boundary_tests {
     }
 }
 
-fn canonical_closure_error(detail: impl Into<String>) -> SolveError {
+#[derive(Clone, Copy)]
+enum AqueousReason {
+    QueuedInputBinding,
+    QueuedPoseValidation,
+    PendingSelectorAuthority,
+    SecondarySkipUnverified,
+    SecondaryProbeUnverified,
+    SecondaryChangedAfterReplay,
+    SecondaryChangedWithoutFloor,
+    FirstPoseSeedValidation,
+    PassCap,
+    PendingPoseIneligible,
+    ForcedRouteValidation,
+    SecondarySkipMismatch,
+    SecondaryProbeMismatch,
+    CertifiedSolverFailure,
+    CertifiedAnswerMissing,
+    ClockBoundaryMissing,
+    ClockParcelMismatch,
+    ReentryCertificateBoundaryCheck,
+    ReservoirSetChanged,
+    ReentryAnswerIncomplete,
+    PendingOwnerNotReservoir,
+    ModelTransitionUnsupported,
+    PairedAuxiliaryIncomplete,
+    StrictClosureMissing,
+    PendingAuthorityInconsistent,
+    ClockParcelNonfinite,
+    ClockBoundaryInvalid,
+    ClockCarbonAmbiguous,
+    PhysicalPortionInvalid,
+    DiagnosticMissing,
+    DiagnosticNonfinite,
+    PendingAcceptanceBlocked,
+    PrimaryProgressPrecondition,
+    OwnershipDatasetHeatChanged,
+    CompleteStateMissing,
+    ProvenanceMissing,
+    RouteChanged,
+    RedoxCoordinateInvalid,
+    CoordinateNonfinite,
+    DiagnosticRequiredMissing,
+    SolventProvenanceChangedOrMissing,
+    SecondOpinionNonfinite,
+    SecondOpinionProvenanceMissing,
+    StockNonfinite,
+    HeatNonfinite,
+    GasWrongVessel,
+    GasAmountInvalid,
+    NestedSolverFailure,
+    AcceptedProvenanceMissing,
+    MineralTransferNonfinite,
+    NeutralisationNonfinite,
+    ClockProjectionMissing,
+    ReservoirOwnerChanged,
+    ReplayRepresentationUnsupported,
+    QuestionMissing,
+    AuxiliaryResultAuthority,
+    PrimarySolutionMissing,
+    PrimaryProvenanceMissing,
+    PrimaryRoutingMissing,
+    FingerprintUnavailable,
+    ComponentNamespaceUnavailable,
+    ComponentFingerprintUnavailable,
+    #[cfg(feature = "engine")]
+    PinnedInstanceLoadFailed,
+    #[cfg(feature = "engine")]
+    ReusedEngineResetFailed,
+    #[cfg(not(feature = "engine"))]
+    CacheMiss,
+    RedoxBalanceOutsideWater,
+    RedoxReadbackUnavailable,
+    RedoxSearchDidNotConverge,
+    RedoxTotalsMissing,
+    WaterRelationUndefined,
+    SurfaceCapacityInvalid,
+    ExchangeCapacityInvalid,
+    MixedCrystalUnsupported,
+    SolidSolutionStateInvalid,
+    ThermalPassCap,
+    ActivityModelUnavailable,
+    InterfaceLedgerUnsupported,
+    DiluteExchangeDomain,
+    DiluteCrystalDomain,
+    SolidSolutionPhaseUnavailable,
+    AmmoniaGasUnavailable,
+    ReadbackUnrepresented,
+    ExchangeReadbackInvalid,
+    ComponentReadbackInvalid,
+    SelectedNumberInvalid,
+    SolventMassInvalid,
+    MeasuredCoordinateInvalid,
+    Co2PressureInvalid,
+    WaterActivityInvalid,
+}
+
+impl AqueousReason {
+    fn phrase(self) -> Phrase {
+        let (key, en) = match self {
+            Self::QueuedInputBinding => (
+                "solver-reason.aqueous.aux-input-binding",
+                "The queued auxiliary input no longer matches its exact database and input binding.",
+            ),
+            Self::QueuedPoseValidation => (
+                "solver-reason.aqueous.aux-pose-validation",
+                "The queued auxiliary answer failed exact primary-pose or component-owner validation.",
+            ),
+            Self::PendingSelectorAuthority => (
+                "solver-reason.aqueous.aux-pending-selector",
+                "Pending auxiliary work has no selector authority.",
+            ),
+            Self::SecondarySkipUnverified => (
+                "solver-reason.aqueous.secondary-skip-unverified",
+                "The ordinary selector did not verify the provisional secondary skip.",
+            ),
+            Self::SecondaryProbeUnverified => (
+                "solver-reason.aqueous.secondary-probe-unverified",
+                "The ordinary selector did not admit the provisional secondary probe.",
+            ),
+            Self::SecondaryChangedAfterReplay => (
+                "solver-reason.aqueous.secondary-changed-after-replay",
+                "The secondary selector changed after its owner replay.",
+            ),
+            Self::SecondaryChangedWithoutFloor => (
+                "solver-reason.aqueous.secondary-changed-without-floor",
+                "The secondary solvent selector changed without a witnessed input-floor replay.",
+            ),
+            Self::FirstPoseSeedValidation => (
+                "solver-reason.aqueous.first-pose-seed-validation",
+                "The first aqueous seed failed its witnessed pose and ownership contract.",
+            ),
+            Self::PassCap => (
+                "solver-reason.aqueous.pass-cap",
+                "The physical aqueous and gas answer did not close within the canonical pass limit.",
+            ),
+            Self::PendingPoseIneligible => (
+                "solver-reason.aqueous.pending-pose-ineligible",
+                "Only a complete private reservoir pose may retain pending auxiliary work.",
+            ),
+            Self::ForcedRouteValidation => (
+                "solver-reason.aqueous.forced-route-validation",
+                "The forced replay did not satisfy the requested route and complete model-domain checks.",
+            ),
+            Self::SecondarySkipMismatch => (
+                "solver-reason.aqueous.secondary-skip-mismatch",
+                "The secondary replay did not skip its first pose.",
+            ),
+            Self::SecondaryProbeMismatch => (
+                "solver-reason.aqueous.secondary-probe-mismatch",
+                "The secondary replay did not return a valid provisional auxiliary answer.",
+            ),
+            Self::CertifiedSolverFailure => (
+                "solver-reason.aqueous.certified-solver-failure",
+                "The first gas-aware aqueous answer reported a solver failure.",
+            ),
+            Self::CertifiedAnswerMissing => (
+                "solver-reason.aqueous.certified-answer-missing",
+                "Clock CO2 or model replay lacks a complete certified native answer.",
+            ),
+            Self::ClockBoundaryMissing => (
+                "solver-reason.aqueous.clock-boundary-missing",
+                "The opaque aqueous owner has no spent clock boundary.",
+            ),
+            Self::ClockParcelMismatch => (
+                "solver-reason.aqueous.clock-parcel-mismatch",
+                "The clock CO2 parcel does not match its typed input.",
+            ),
+            Self::ReentryCertificateBoundaryCheck => (
+                "solver-reason.aqueous.reentry-certificate-boundary-check",
+                "The aqueous reentry failed its certificate, clock-boundary, or nested-answer check.",
+            ),
+            Self::ReservoirSetChanged => (
+                "solver-reason.aqueous.reservoir-set-changed",
+                "The aqueous reservoir set changed unexpectedly during reentry.",
+            ),
+            Self::ReentryAnswerIncomplete => (
+                "solver-reason.aqueous.reentry-answer-incomplete",
+                "The route-changing aqueous reentry lacks a complete native answer.",
+            ),
+            Self::PendingOwnerNotReservoir => (
+                "solver-reason.aqueous.pending-owner-not-reservoir",
+                "A non-reservoir owner retained pending auxiliary work.",
+            ),
+            Self::ModelTransitionUnsupported => (
+                "solver-reason.aqueous.model-transition-unsupported",
+                "The aqueous model transition is unsupported.",
+            ),
+            Self::PairedAuxiliaryIncomplete => (
+                "solver-reason.aqueous.paired-auxiliary-incomplete",
+                "The paired auxiliary work was not fulfilled.",
+            ),
+            Self::StrictClosureMissing => (
+                "solver-reason.aqueous.strict-closure-missing",
+                "The deferred reservoir answer lacks strict physical closure.",
+            ),
+            Self::PendingAuthorityInconsistent => (
+                "solver-reason.aqueous.pending-authority-inconsistent",
+                "The queued auxiliary authority is inconsistent.",
+            ),
+            Self::ClockParcelNonfinite => (
+                "solver-reason.aqueous.clock-parcel-nonfinite",
+                "The pending clock CO2 parcel is non-finite.",
+            ),
+            Self::ClockBoundaryInvalid => (
+                "solver-reason.aqueous.clock-boundary-invalid",
+                "The pending clock CO2 parcel is unsupported or exceeds available carbon.",
+            ),
+            Self::ClockCarbonAmbiguous => (
+                "solver-reason.aqueous.clock-carbon-ambiguous",
+                "Clock CO2 cannot be assigned to one unambiguous carbon component.",
+            ),
+            Self::PhysicalPortionInvalid => (
+                "solver-reason.aqueous.physical-portion-invalid",
+                "A physical portion in aqueous reentry is invalid.",
+            ),
+            Self::DiagnosticMissing => (
+                "solver-reason.aqueous.diagnostic-missing",
+                "A required current aqueous diagnostic is missing.",
+            ),
+            Self::DiagnosticNonfinite => (
+                "solver-reason.aqueous.diagnostic-nonfinite",
+                "A current aqueous diagnostic is non-finite.",
+            ),
+            Self::PendingAcceptanceBlocked => (
+                "solver-reason.aqueous.pending-acceptance-blocked",
+                "Pending auxiliary authority cannot earn physical acceptance.",
+            ),
+            Self::PrimaryProgressPrecondition => (
+                "solver-reason.aqueous.primary-progress-precondition",
+                "Primary progress requires two pending reservoir poses.",
+            ),
+            Self::OwnershipDatasetHeatChanged => (
+                "solver-reason.aqueous.ownership-dataset-heat-changed",
+                "Aqueous ownership, dataset, or heat mode changed during canonical reentry.",
+            ),
+            Self::CompleteStateMissing => (
+                "solver-reason.aqueous.complete-state-missing",
+                "A complete aqueous state is missing during physical comparison.",
+            ),
+            Self::ProvenanceMissing => (
+                "solver-reason.aqueous.provenance-missing",
+                "Aqueous provenance is missing during physical comparison.",
+            ),
+            Self::RouteChanged => (
+                "solver-reason.aqueous.route-changed",
+                "The aqueous engine, dataset, or model changed during canonical reentry.",
+            ),
+            Self::RedoxCoordinateInvalid => (
+                "solver-reason.aqueous.redox-coordinate-invalid",
+                "A typed aqueous redox coordinate is invalid.",
+            ),
+            Self::CoordinateNonfinite => (
+                "solver-reason.aqueous.coordinate-nonfinite",
+                "A canonical aqueous coordinate is non-finite.",
+            ),
+            Self::DiagnosticRequiredMissing => (
+                "solver-reason.aqueous.diagnostic-required-missing",
+                "A required aqueous diagnostic is missing.",
+            ),
+            Self::SolventProvenanceChangedOrMissing => (
+                "solver-reason.aqueous.solvent-provenance-changed-or-missing",
+                "Solvent-activity provenance is missing or its dataset or model changed during canonical reentry.",
+            ),
+            Self::SecondOpinionNonfinite => (
+                "solver-reason.aqueous.second-opinion-nonfinite",
+                "A second-opinion aqueous diagnostic is non-finite.",
+            ),
+            Self::SecondOpinionProvenanceMissing => (
+                "solver-reason.aqueous.second-opinion-provenance-missing",
+                "Solvent activity provenance is missing.",
+            ),
+            Self::StockNonfinite => ("solver-reason.aqueous.stock-nonfinite", "Physical stock is non-finite."),
+            Self::HeatNonfinite => ("solver-reason.aqueous.heat-nonfinite", "Whole-step aqueous heat is non-finite."),
+            Self::GasWrongVessel => (
+                "solver-reason.aqueous.gas-wrong-vessel",
+                "A gas crossing belongs to a different vessel.",
+            ),
+            Self::GasAmountInvalid => (
+                "solver-reason.aqueous.gas-amount-invalid",
+                "A native gas crossing amount is invalid.",
+            ),
+            Self::NestedSolverFailure => (
+                "solver-reason.aqueous.nested-solver-failure",
+                "A nested aqueous solver reported failure.",
+            ),
+            Self::AcceptedProvenanceMissing => (
+                "solver-reason.aqueous.accepted-provenance-missing",
+                "The accepted aqueous state lacks provenance.",
+            ),
+            Self::MineralTransferNonfinite => (
+                "solver-reason.aqueous.mineral-transfer-nonfinite",
+                "Cumulative mineral transfer is non-finite.",
+            ),
+            Self::NeutralisationNonfinite => (
+                "solver-reason.aqueous.neutralisation-nonfinite",
+                "Whole-call neutralisation is non-finite.",
+            ),
+            Self::ClockProjectionMissing => (
+                "solver-reason.aqueous.clock-projection-missing",
+                "Clock CO2 lacks a certified native component projection.",
+            ),
+            Self::ReservoirOwnerChanged => (
+                "solver-reason.aqueous.reservoir-owner-changed",
+                "The reservoir opaque aqueous owner changed after native readback.",
+            ),
+            Self::ReplayRepresentationUnsupported => (
+                "solver-reason.aqueous.replay-representation-unsupported",
+                "The replay route cannot represent the original analytical and phase owners.",
+            ),
+            Self::QuestionMissing => (
+                "solver-reason.aqueous.question-missing",
+                "There is no queued auxiliary question to fulfil.",
+            ),
+            Self::AuxiliaryResultAuthority => (
+                "solver-reason.aqueous.auxiliary-result-authority",
+                "The native auxiliary result is still pending or its provenance does not match its status.",
+            ),
+            Self::PrimarySolutionMissing => (
+                "solver-reason.aqueous.primary-solution-missing",
+                "The queued auxiliary pose lacks its primary solution.",
+            ),
+            Self::PrimaryProvenanceMissing => (
+                "solver-reason.aqueous.primary-provenance-missing",
+                "The queued auxiliary pose lacks its primary provenance.",
+            ),
+            Self::PrimaryRoutingMissing => (
+                "solver-reason.aqueous.primary-routing-missing",
+                "The queued primary routing lacks its native recipe.",
+            ),
+            Self::FingerprintUnavailable => (
+                "solver-reason.aqueous.fingerprint-unavailable",
+                "The exact auxiliary database fingerprint is unavailable.",
+            ),
+            Self::ComponentNamespaceUnavailable => (
+                "solver-reason.aqueous.component-namespace-unavailable",
+                "The selected database namespace for component isolation could not be prepared.",
+            ),
+            Self::ComponentFingerprintUnavailable => (
+                "solver-reason.aqueous.component-fingerprint-unavailable",
+                "The selected database fingerprint for component isolation could not be prepared.",
+            ),
+            #[cfg(feature = "engine")]
+            Self::PinnedInstanceLoadFailed => (
+                "solver-reason.aqueous.pinned-instance-load-failed",
+                "The requested pinned native database instance could not be loaded.",
+            ),
+            #[cfg(feature = "engine")]
+            Self::ReusedEngineResetFailed => (
+                "solver-reason.aqueous.reused-engine-reset-failed",
+                "The reused native engine could not be reset before the next solve.",
+            ),
+            #[cfg(not(feature = "engine"))]
+            Self::CacheMiss => (
+                "solver-reason.aqueous.cache-only-miss",
+                "This solver has no live engine for the requested state, and no cached result is available.",
+            ),
+            Self::RedoxBalanceOutsideWater => (
+                "solver-reason.aqueous.redox-balance-outside-water",
+                "No electron activity in the admitted water stability field balances the typed redox inventory.",
+            ),
+            Self::RedoxReadbackUnavailable => (
+                "solver-reason.aqueous.redox-readback-unavailable",
+                "The redox search did not obtain a valid oxidation-state balance readback.",
+            ),
+            Self::RedoxSearchDidNotConverge => (
+                "solver-reason.aqueous.redox-search-did-not-converge",
+                "The coupled electron-balance search did not converge.",
+            ),
+            Self::RedoxTotalsMissing => (
+                "solver-reason.aqueous.redox-totals-missing",
+                "The coupled aqueous run returned no oxidation-state totals.",
+            ),
+            Self::WaterRelationUndefined => (
+                "solver-reason.aqueous.water-relation-undefined",
+                "The water-dissociation relation is undefined at this temperature.",
+            ),
+            Self::SurfaceCapacityInvalid => (
+                "solver-reason.aqueous.surface-capacity-invalid",
+                "The typed surface geometry, capacity, or occupancy is invalid.",
+            ),
+            Self::ExchangeCapacityInvalid => (
+                "solver-reason.aqueous.exchange-capacity-invalid",
+                "The typed exchange support, capacity, or occupancy is invalid.",
+            ),
+            Self::MixedCrystalUnsupported => (
+                "solver-reason.aqueous.mixed-crystal-unsupported",
+                "This solver supports one mixed crystalline phase per vessel.",
+            ),
+            Self::SolidSolutionStateInvalid => (
+                "solver-reason.aqueous.solid-solution-state-invalid",
+                "The typed solid solution lacks a finite nonnegative amount for each reviewed end member.",
+            ),
+            Self::ThermalPassCap => (
+                "solver-reason.aqueous.thermal-pass-cap",
+                "The coupled aqueous temperature did not converge within the thermal pass limit.",
+            ),
+            Self::ActivityModelUnavailable => (
+                "solver-reason.aqueous.activity-model-unavailable",
+                "No approved dataset currently covers this activity model together with the typed interface owner.",
+            ),
+            Self::InterfaceLedgerUnsupported => (
+                "solver-reason.aqueous.interface-ledger-unsupported",
+                "The selected interface complexes cannot be retained on the typed ledger.",
+            ),
+            Self::DiluteExchangeDomain => (
+                "solver-reason.aqueous.dilute-exchange-domain",
+                "Typed cation exchange is supported only for dilute inorganic water through the reviewed dataset.",
+            ),
+            Self::DiluteCrystalDomain => (
+                "solver-reason.aqueous.dilute-crystal-domain",
+                "The typed solid-solution model is supported only for dilute inorganic water through the reviewed dataset.",
+            ),
+            Self::SolidSolutionPhaseUnavailable => (
+                "solver-reason.aqueous.solid-solution-phase-unavailable",
+                "The routed database does not define a reviewed solid-solution end member.",
+            ),
+            Self::AmmoniaGasUnavailable => (
+                "solver-reason.aqueous.ammonia-gas-unavailable",
+                "The routed database does not define the ammonia gas phase needed for this mixed-domain headspace.",
+            ),
+            Self::ReadbackUnrepresented => (
+                "solver-reason.aqueous.readback-unrepresented",
+                "The native readback contains elemental states that cannot be represented by the typed aqueous inventory.",
+            ),
+            Self::ExchangeReadbackInvalid => (
+                "solver-reason.aqueous.exchange-readback-invalid",
+                "The native exchange occupancy is inconsistent with its finite capacity.",
+            ),
+            Self::ComponentReadbackInvalid => (
+                "solver-reason.aqueous.component-readback-invalid",
+                "The native readback returned an invalid typed component amount.",
+            ),
+            Self::SelectedNumberInvalid => (
+                "solver-reason.aqueous.selected-number-invalid",
+                "A required selected-output number is missing, malformed, non-finite, or negative.",
+            ),
+            Self::SolventMassInvalid => (
+                "solver-reason.aqueous.solvent-mass-invalid",
+                "The numerical solvent mass is invalid.",
+            ),
+            Self::MeasuredCoordinateInvalid => (
+                "solver-reason.aqueous.measured-coordinate-invalid",
+                "A measured aqueous coordinate is invalid.",
+            ),
+            Self::Co2PressureInvalid => (
+                "solver-reason.aqueous.co2-pressure-invalid",
+                "The numerical CO2 pressure is invalid.",
+            ),
+            Self::WaterActivityInvalid => (
+                "solver-reason.aqueous.water-activity-invalid",
+                "The numerical water activity is missing or invalid.",
+            ),
+        };
+        Phrase::bare(key, en)
+    }
+}
+
+fn canonical_closure_error(reason: AqueousReason, detail: impl Into<String>) -> SolveError {
     SolveError::NotConverged {
+        reason: Some(Box::new(reason.phrase())),
         solver: "phreeqc-canonical".into(),
         detail: detail.into(),
     }
@@ -5006,6 +5635,7 @@ fn physical_stock(vessel: &Vessel) -> Result<BTreeMap<(SpeciesId, Phase), f64>, 
     for portion in &vessel.contents {
         if !portion.moles.0.is_finite() || portion.moles.0 < 0.0 {
             return Err(canonical_closure_error(
+                AqueousReason::PhysicalPortionInvalid,
                 "invalid physical portion in aqueous reentry",
             ));
         }
@@ -5024,7 +5654,12 @@ fn stable_optional_coordinate(
     match (before, after) {
         (Some(a), Some(b)) if a.is_finite() && b.is_finite() => Ok((b - a).abs() <= tolerance),
         (None, None) => Ok(true),
+        (Some(_), Some(_)) => Err(canonical_closure_error(
+            AqueousReason::DiagnosticNonfinite,
+            "missing or nonfinite current aqueous diagnostic",
+        )),
         _ => Err(canonical_closure_error(
+            AqueousReason::DiagnosticMissing,
             "missing or nonfinite current aqueous diagnostic",
         )),
     }
@@ -5038,6 +5673,7 @@ fn canonical_physical_delta_closed(
 ) -> Result<bool, SolveError> {
     if before_heat.has_pending_secondary()? || after_heat.has_pending_secondary()? {
         return Err(canonical_closure_error(
+            AqueousReason::PendingAcceptanceBlocked,
             "pending auxiliary authority cannot earn physical acceptance",
         ));
     }
@@ -5058,6 +5694,7 @@ fn canonical_primary_progress(
         || !after_heat.has_pending_secondary()?
     {
         return Err(canonical_closure_error(
+            AqueousReason::PrimaryProgressPrecondition,
             "primary progress requires two pending reservoir poses",
         ));
     }
@@ -5095,6 +5732,7 @@ fn canonical_physical_delta(
         || before_heat.heat_mode != after_heat.heat_mode
     {
         return Err(canonical_closure_error(
+            AqueousReason::OwnershipDatasetHeatChanged,
             "aqueous ownership, dataset or heat mode changed during canonical reentry",
         ));
     }
@@ -5107,25 +5745,40 @@ fn canonical_physical_delta(
         .solution
         .as_ref()
         .filter(|info| info.scope == SolutionScope::Complete)
-        .ok_or_else(|| canonical_closure_error("missing complete preceding aqueous state"))?;
+        .ok_or_else(|| {
+            canonical_closure_error(
+                AqueousReason::CompleteStateMissing,
+                "missing complete preceding aqueous state",
+            )
+        })?;
     let after_info = after
         .solution
         .as_ref()
         .filter(|info| info.scope == SolutionScope::Complete)
-        .ok_or_else(|| canonical_closure_error("missing complete current aqueous state"))?;
-    let before_route = before_info
-        .provenance
-        .as_ref()
-        .ok_or_else(|| canonical_closure_error("missing preceding aqueous provenance"))?;
-    let after_route = after_info
-        .provenance
-        .as_ref()
-        .ok_or_else(|| canonical_closure_error("missing current aqueous provenance"))?;
+        .ok_or_else(|| {
+            canonical_closure_error(
+                AqueousReason::CompleteStateMissing,
+                "missing complete current aqueous state",
+            )
+        })?;
+    let before_route = before_info.provenance.as_ref().ok_or_else(|| {
+        canonical_closure_error(
+            AqueousReason::ProvenanceMissing,
+            "missing preceding aqueous provenance",
+        )
+    })?;
+    let after_route = after_info.provenance.as_ref().ok_or_else(|| {
+        canonical_closure_error(
+            AqueousReason::ProvenanceMissing,
+            "missing current aqueous provenance",
+        )
+    })?;
     if before_route.engine != after_route.engine
         || before_route.dataset != after_route.dataset
         || before_route.model != after_route.model
     {
         return Err(canonical_closure_error(
+            AqueousReason::RouteChanged,
             "aqueous engine, dataset or model changed during canonical reentry",
         ));
     }
@@ -5148,6 +5801,7 @@ fn canonical_physical_delta(
                         .is_some()
                 {
                     return Err(canonical_closure_error(
+                        AqueousReason::RedoxCoordinateInvalid,
                         "invalid typed aqueous redox coordinate",
                     ));
                 }
@@ -5170,6 +5824,7 @@ fn canonical_physical_delta(
     ] {
         if !a.is_finite() || !b.is_finite() {
             return Err(canonical_closure_error(
+                AqueousReason::CoordinateNonfinite,
                 "nonfinite canonical aqueous coordinate",
             ));
         }
@@ -5191,6 +5846,7 @@ fn canonical_physical_delta(
     ] {
         if a.is_none() || b.is_none() {
             return Err(canonical_closure_error(
+                AqueousReason::DiagnosticRequiredMissing,
                 "missing required aqueous diagnostic",
             ));
         }
@@ -5207,6 +5863,7 @@ fn canonical_physical_delta(
                 .map(|a| (&a.dataset, &a.model))
         {
             return Err(canonical_closure_error(
+                AqueousReason::SolventProvenanceChangedOrMissing,
                 "solvent activity model changed during canonical reentry",
             ));
         }
@@ -5219,6 +5876,7 @@ fn canonical_physical_delta(
                 ] {
                     if !left.is_finite() || !right.is_finite() {
                         return Err(canonical_closure_error(
+                            AqueousReason::SecondOpinionNonfinite,
                             "nonfinite second-opinion aqueous diagnostic",
                         ));
                     }
@@ -5228,8 +5886,9 @@ fn canonical_physical_delta(
             (None, None) => {}
             _ => {
                 return Err(canonical_closure_error(
+                    AqueousReason::SecondOpinionProvenanceMissing,
                     "missing solvent activity provenance",
-                ))
+                ));
             }
         }
     }
@@ -5239,13 +5898,19 @@ fn canonical_physical_delta(
         let a = previous.get(key).copied().unwrap_or(0.0);
         let b = current.get(key).copied().unwrap_or(0.0);
         if !a.is_finite() || !b.is_finite() {
-            return Err(canonical_closure_error("nonfinite physical stock"));
+            return Err(canonical_closure_error(
+                AqueousReason::StockNonfinite,
+                "nonfinite physical stock",
+            ));
         }
         stable &= (b - a).abs() <= 1e-10;
     }
     for heat in [before_heat.heat_quote_j, after_heat.heat_quote_j] {
         if !heat.is_finite() {
-            return Err(canonical_closure_error("nonfinite whole-step aqueous heat"));
+            return Err(canonical_closure_error(
+                AqueousReason::HeatNonfinite,
+                "nonfinite whole-step aqueous heat",
+            ));
         }
     }
     stable &= (after_heat.heat_quote_j - before_heat.heat_quote_j).abs() <= 0.001;
@@ -5271,13 +5936,17 @@ fn signed_external_gas(
             } if *owner == vessel.id => (species, moles.0, -1.0),
             Event::GasEvolved { .. } | Event::GasAbsorbed { .. } => {
                 return Err(canonical_closure_error(
+                    AqueousReason::GasWrongVessel,
                     "gas crossing has wrong vessel owner",
                 ));
             }
             _ => continue,
         };
         if !moles.is_finite() || moles < 0.0 {
-            return Err(canonical_closure_error("invalid native gas crossing"));
+            return Err(canonical_closure_error(
+                AqueousReason::GasAmountInvalid,
+                "invalid native gas crossing",
+            ));
         }
         *gas_out.entry(id.clone()).or_insert(0.0) += sign * moles;
     }
@@ -5320,7 +5989,10 @@ fn closed_aqueous_events(
     for event in passes {
         match event {
             Event::SolverFailed { .. } => {
-                return Err(canonical_closure_error("nested aqueous solver failure"));
+                return Err(canonical_closure_error(
+                    AqueousReason::NestedSolverFailure,
+                    "nested aqueous solver failure",
+                ));
             }
             Event::GasEvolved { .. }
             | Event::GasAbsorbed { .. }
@@ -5349,7 +6021,12 @@ fn closed_aqueous_events(
         .as_ref()
         .filter(|info| info.scope == SolutionScope::Complete)
         .and_then(|info| info.provenance.as_ref())
-        .ok_or_else(|| canonical_closure_error("accepted aqueous state lacks provenance"))?;
+        .ok_or_else(|| {
+            canonical_closure_error(
+                AqueousReason::AcceptedProvenanceMissing,
+                "accepted aqueous state lacks provenance",
+            )
+        })?;
     let final_source_key = final_provenance.source_key();
     if before.aqueous_routing_said.as_deref() != Some(final_source_key.as_str()) {
         final_events.push(Event::SolutionRouted {
@@ -5360,6 +6037,7 @@ fn closed_aqueous_events(
     for (species, signed) in dissolved {
         if !signed.is_finite() {
             return Err(canonical_closure_error(
+                AqueousReason::MineralTransferNonfinite,
                 "nonfinite cumulative mineral transfer",
             ));
         }
@@ -5439,6 +6117,7 @@ fn closed_aqueous_events(
         .min((before.free_hydroxide.max(0.0) + supplied_base - after.free_hydroxide).max(0.0));
     if !neutralised.is_finite() {
         return Err(canonical_closure_error(
+            AqueousReason::NeutralisationNonfinite,
             "nonfinite whole-call neutralisation",
         ));
     }
@@ -7195,6 +7874,7 @@ impl PhreeqcEquilibrator {
 
         if unnameable.iter().any(|(_, amount)| *amount > 1e-10) {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(AqueousReason::ReadbackUnrepresented.phrase())),
                 solver: "phreeqc-inventory".into(),
                 detail: format!("cannot commit unrepresented elemental states: {unnameable:?}"),
             });
@@ -7204,6 +7884,7 @@ impl PhreeqcEquilibrator {
             Self::apply_balance_corrections(
                 vessel,
                 &problem,
+                &cached.rows,
                 &mut new_ions,
                 &mut new_surfaces,
                 &new_exchanges,
@@ -7217,6 +7898,7 @@ impl PhreeqcEquilibrator {
             certify_projected_protonation(&new_ions, &protonation)?;
         } else if problem.clock_co2_applied_mol != 0.0 {
             return Err(canonical_closure_error(
+                AqueousReason::ClockProjectionMissing,
                 "clock CO2 parcel lacks a certified native component projection",
             ));
         }
@@ -7620,6 +8302,7 @@ impl PhreeqcEquilibrator {
         } else if reservoir_requested {
             if !reservoir_opaque_component_owner(vessel, &problem, owner) {
                 return Err(canonical_closure_error(
+                    AqueousReason::ReservoirOwnerChanged,
                     "reservoir opaque aqueous owner changed after native readback",
                 ));
             }
@@ -7775,6 +8458,7 @@ impl PhreeqcEquilibrator {
                 || !vessel.electrodes.is_empty()
             {
                 return Err(canonical_closure_error(
+                    AqueousReason::ReplayRepresentationUnsupported,
                     "replay route cannot represent the original analytical and phase owners",
                 ));
             }
@@ -7803,6 +8487,7 @@ impl PhreeqcEquilibrator {
         if !problem.surfaces.is_empty() {
             if potential_molality > 1.0 && db_tag != "minteq.v4" {
                 return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::ActivityModelUnavailable.phrase())),
                     solver: self.name().to_string(),
                     detail: "no approved dataset currently covers both concentrated-solution activity and typed zinc HFO adsorption".to_string(),
                 });
@@ -7822,6 +8507,7 @@ impl PhreeqcEquilibrator {
             unsupported.dedup();
             if !unsupported.is_empty() {
                 return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::InterfaceLedgerUnsupported.phrase())),
                     solver: self.name().to_string(),
                     detail: format!(
                         "the {db_tag} HFO model can adsorb {}, but this version cannot yet retain those complexes on its typed interface ledger",
@@ -7833,6 +8519,7 @@ impl PhreeqcEquilibrator {
         if !problem.exchanges.is_empty() {
             if db_tag != "wateq4f" || potential_molality > 1.0 {
                 return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::DiluteExchangeDomain.phrase())),
                     solver: self.name().to_string(),
                     detail: "typed cation exchange is currently validated only for dilute inorganic water through wateq4f.dat"
                         .to_string(),
@@ -7848,6 +8535,7 @@ impl PhreeqcEquilibrator {
             unsupported.dedup();
             if !unsupported.is_empty() {
                 return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::InterfaceLedgerUnsupported.phrase())),
                     solver: self.name().to_string(),
                     detail: format!(
                         "the wateq4f exchanger can bind {}, but this version retains only H, Na, Ca and Mg on its typed exchanger ledger",
@@ -7859,6 +8547,7 @@ impl PhreeqcEquilibrator {
         if !problem.solid_solutions.is_empty() {
             if db_tag != "wateq4f" || potential_molality > 1.0 {
                 return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::DiluteCrystalDomain.phrase())),
                     solver: self.name().to_string(),
                     detail: "typed aragonite-strontianite solid solution is currently validated only for dilute inorganic water through wateq4f.dat"
                         .to_string(),
@@ -7868,6 +8557,9 @@ impl PhreeqcEquilibrator {
                 let phase = phreeqc_solid_solution_component(component);
                 if !derived::index_for(db_tag).has_phase(phase) {
                     return Err(SolveError::NotConverged {
+                        reason: Some(Box::new(
+                            AqueousReason::SolidSolutionPhaseUnavailable.phrase(),
+                        )),
                         solver: self.name().to_string(),
                         detail: format!(
                             "the routed database does not define the reviewed solid-solution end member {phase}"
@@ -7891,6 +8583,7 @@ impl PhreeqcEquilibrator {
         // data or treating analytical bound ligand as free ammonia.
         if problem.gases.iter().any(|(phase, _, _)| phase == "NH3(g)") && !idx.has_phase("NH3(g)") {
             return Err(SolveError::NotConverged {
+                reason: Some(Box::new(AqueousReason::AmmoniaGasUnavailable.phrase())),
                 solver: self.name().to_string(),
                 detail: format!(
                     "finite ammonia gas/protonation equilibrium requires NH3(g), which the routed {db_tag} database does not define; this mixed-domain headspace is not modeled"
@@ -8003,6 +8696,9 @@ impl PhreeqcEquilibrator {
         // ligand slice. They must miss, never masquerade as current chemistry.
         let database_hash = crate::native_namespace::fingerprint(db_tag).map_err(|detail| {
             SolveError::NotConverged {
+                reason: Some(Box::new(
+                    AqueousReason::ComponentFingerprintUnavailable.phrase(),
+                )),
                 solver: "phreeqc-component-isolation".into(),
                 detail,
             }
@@ -8154,7 +8850,10 @@ impl PhreeqcEquilibrator {
             || !problem.solid_solutions.is_empty()
             || !problem.gases.is_empty()
         {
-            return decline(SecondaryDisposition::Declined(SecondaryDecline::Unsupported), "a surface, exchanger, solid solution or finite gas headspace owns part of this composition");
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::Unsupported),
+                "a surface, exchanger, solid solution or finite gas headspace owns part of this composition",
+            );
         }
         // An external gas RESERVOIR is not a reason to decline, and reading
         // it as one is what made the first version of this feature fire on
@@ -8257,7 +8956,7 @@ impl PhreeqcEquilibrator {
                     return decline(
                         SecondaryDisposition::Declined(SecondaryDecline::MissingReadback),
                         &format!("no dissolved total read back for {el}"),
-                    )
+                    );
                 }
             }
         }
@@ -8337,7 +9036,7 @@ impl PhreeqcEquilibrator {
                 return decline(
                     SecondaryDisposition::Declined(SecondaryDecline::EngineFailure),
                     &format!("the second solve refused: {error}"),
-                )
+                );
             }
         };
         if self.engine_calls > engine_before {
@@ -8370,7 +9069,7 @@ impl PhreeqcEquilibrator {
                 return decline(
                     SecondaryDisposition::Declined(reason),
                     "the second solve reported missing, negative or nonfinite ionic strength",
-                )
+                );
             }
         };
         // The same plausibility gate `SolventActivity::from_speciation`
@@ -8386,10 +9085,13 @@ impl PhreeqcEquilibrator {
         .osmotic_coefficient
         .is_none()
         {
-            return decline(SecondaryDisposition::Declined(SecondaryDecline::InvalidResult), &format!(
-                "the activity is not one an osmotic model produced: a_w = {} at {particle_molality} mol/kgw",
-                water.activity
-            ));
+            return decline(
+                SecondaryDisposition::Declined(SecondaryDecline::InvalidResult),
+                &format!(
+                    "the activity is not one an osmotic model produced: a_w = {} at {particle_molality} mol/kgw",
+                    water.activity
+                ),
+            );
         }
 
         let dataset = dataset_phrase(SECOND);
@@ -8415,6 +9117,7 @@ impl PhreeqcEquilibrator {
     ) -> Result<AqueousPass, SolveError> {
         if !pass.has_pending_secondary()? {
             return Err(canonical_closure_error(
+                AqueousReason::QuestionMissing,
                 "no queued auxiliary question to fulfil",
             ));
         }
@@ -8431,6 +9134,7 @@ impl PhreeqcEquilibrator {
     ) -> Result<AqueousPass, SolveError> {
         if !pass.has_pending_secondary()? {
             return Err(canonical_closure_error(
+                AqueousReason::QuestionMissing,
                 "no queued auxiliary question to fulfil",
             ));
         }
@@ -8443,17 +9147,27 @@ impl PhreeqcEquilibrator {
             || (result.disposition == SecondaryDisposition::Accepted) != result.provenance.is_some()
         {
             return Err(canonical_closure_error(
+                AqueousReason::AuxiliaryResultAuthority,
                 "native auxiliary answer remained pending",
             ));
         }
         let info = vessel.solution.as_mut().ok_or_else(|| {
-            canonical_closure_error("queued auxiliary pose lost its primary solution")
+            canonical_closure_error(
+                AqueousReason::PrimarySolutionMissing,
+                "queued auxiliary pose lost its primary solution",
+            )
         })?;
         let mut provenance = info.provenance.clone().ok_or_else(|| {
-            canonical_closure_error("queued auxiliary pose lost its primary provenance")
+            canonical_closure_error(
+                AqueousReason::PrimaryProvenanceMissing,
+                "queued auxiliary pose lost its primary provenance",
+            )
         })?;
         let routing = provenance.routing_phrase.clone().ok_or_else(|| {
-            canonical_closure_error("queued primary routing lacks its native recipe")
+            canonical_closure_error(
+                AqueousReason::PrimaryRoutingMissing,
+                "queued primary routing lacks its native recipe",
+            )
         })?;
         provenance.say_routing(secondary_routing(routing, result.provenance.as_ref()));
         info.solvent_activity = result.provenance;
@@ -8599,10 +9313,13 @@ impl PhreeqcEquilibrator {
         // Read back: element totals (mol/kgw) and phase amounts (mol).
         // Molalities are per kg of *equilibrated* water (mass_H2O), which
         // differs slightly from the input water mass through speciation.
-        let kgw_out = value("mass_H2O").ok_or_else(|| missing("mass_H2O"))?;
+        let kgw_out = value("mass_H2O").ok_or_else(|| missing(rows, "mass_H2O"))?;
         if !problem.solid_solutions.is_empty() {
             if !kgw_out.is_finite() || kgw_out <= 0.0 {
-                return Err(crystal_balance_error("invalid aqueous solvent mass"));
+                return Err(crystal_balance_error(
+                    CrystalReason::SolventMassInvalid,
+                    "invalid aqueous solvent mass",
+                ));
             }
             let states = valence_totals(problem, db_tag);
             for column in problem.elements.iter().chain(&states) {
@@ -8611,7 +9328,7 @@ impl PhreeqcEquilibrator {
                     continue;
                 }
                 for name in [column.as_str(), base] {
-                    let raw = value(name).ok_or_else(|| missing(name))?;
+                    let raw = value(name).ok_or_else(|| missing(rows, name))?;
                     checked_crystal_sum(&[raw], &format!("raw selected {name}"))?;
                     checked_crystal_sum(&[raw * kgw_out], &format!("aqueous {name}"))?;
                 }
@@ -8620,23 +9337,26 @@ impl PhreeqcEquilibrator {
         let mut solvent_kgw_out = kgw_out;
         let mut new_surfaces = problem.surfaces.clone();
         if !new_surfaces.is_empty() {
-            let strong = value("m_Hfo_sOZn+").ok_or_else(|| missing("m_Hfo_sOZn+"))? * kgw_out;
-            let weak = value("m_Hfo_wOZn+").ok_or_else(|| missing("m_Hfo_wOZn+"))? * kgw_out;
+            let strong =
+                value("m_Hfo_sOZn+").ok_or_else(|| missing(rows, "m_Hfo_sOZn+"))? * kgw_out;
+            let weak = value("m_Hfo_wOZn+").ok_or_else(|| missing(rows, "m_Hfo_wOZn+"))? * kgw_out;
             // The reviewed HFO datasets also bind the sulfate
             // counterion used by the zinc-sulfate lesson. Both weak-site
             // complexes contain one sulfate and occupy one site; failing to
             // round-trip them made sulfur (and its mass) disappear from the
             // vessel after every equilibrium pass.
             let weak_sulfate_water =
-                value("m_Hfo_wSO4-").ok_or_else(|| missing("m_Hfo_wSO4-"))? * kgw_out;
+                value("m_Hfo_wSO4-").ok_or_else(|| missing(rows, "m_Hfo_wSO4-"))? * kgw_out;
             let weak_sulfate_hydroxyl =
-                value("m_Hfo_wOHSO4-2").ok_or_else(|| missing("m_Hfo_wOHSO4-2"))? * kgw_out;
+                value("m_Hfo_wOHSO4-2").ok_or_else(|| missing(rows, "m_Hfo_wOHSO4-2"))? * kgw_out;
             let weak_sulfate = weak_sulfate_water + weak_sulfate_hydroxyl;
             // MINTEQ additionally defines the equivalent strong-site pair.
             let (strong_sulfate, strong_sulfate_water) = if db_tag == "minteq.v4" {
-                let water = value("m_Hfo_sSO4-").ok_or_else(|| missing("m_Hfo_sSO4-"))? * kgw_out;
-                let hydroxyl =
-                    value("m_Hfo_sOHSO4-2").ok_or_else(|| missing("m_Hfo_sOHSO4-2"))? * kgw_out;
+                let water =
+                    value("m_Hfo_sSO4-").ok_or_else(|| missing(rows, "m_Hfo_sSO4-"))? * kgw_out;
+                let hydroxyl = value("m_Hfo_sOHSO4-2")
+                    .ok_or_else(|| missing(rows, "m_Hfo_sOHSO4-2"))?
+                    * kgw_out;
                 (water + hydroxyl, water)
             } else {
                 (0.0, 0.0)
@@ -8703,7 +9423,7 @@ impl PhreeqcEquilibrator {
                 ExchangeIon::Magnesium,
             ] {
                 let column = format!("m_{}", phreeqc_exchange_species(ion));
-                let moles = value(&column).ok_or_else(|| missing(&column))? * kgw_out;
+                let moles = value(&column).ok_or_else(|| missing(rows, &column))? * kgw_out;
                 distribute_exchange_occupancy(&mut new_exchanges, ion, moles);
             }
             if let Some(exchange) = new_exchanges
@@ -8711,6 +9431,7 @@ impl PhreeqcEquilibrator {
                 .find(|exchange| !exchange.has_valid_capacity())
             {
                 return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::ExchangeReadbackInvalid.phrase())),
                     solver: self.name().to_string(),
                     detail: format!(
                         "PHREEQC returned exchange occupancy inconsistent with finite capacity for '{}'",
@@ -8724,9 +9445,10 @@ impl PhreeqcEquilibrator {
             for amount in &mut solid_solution.components {
                 let phase = phreeqc_solid_solution_component(amount.component);
                 let column = format!("s_{phase}");
-                let raw = value(&column).ok_or_else(|| missing(&column))?;
+                let raw = value(&column).ok_or_else(|| missing(rows, &column))?;
                 if !raw.is_finite() || raw < 0.0 {
                     return Err(SolveError::NotConverged {
+                        reason: Some(Box::new(AqueousReason::ComponentReadbackInvalid.phrase())),
                         solver: self.name().to_string(),
                         detail: format!(
                             "PHREEQC returned an invalid finite nonnegative component amount for '{column}': {raw}"
@@ -8737,6 +9459,7 @@ impl PhreeqcEquilibrator {
             }
             if !solid_solution.has_valid_state() {
                 return Err(SolveError::NotConverged {
+                    reason: Some(Box::new(AqueousReason::ComponentReadbackInvalid.phrase())),
                     solver: self.name().to_string(),
                     detail: format!(
                         "PHREEQC returned an invalid component inventory for solid solution '{}'",
@@ -8778,7 +9501,8 @@ impl PhreeqcEquilibrator {
             if coupled_bases.contains(&base) {
                 continue; // handled per oxidation state below
             }
-            let molality = checked_component_readback(el, value(el).ok_or_else(|| missing(el))?)?;
+            let molality =
+                checked_component_readback(el, value(el).ok_or_else(|| missing(rows, el))?)?;
             new_ions.push((el.clone(), molality * kgw_out));
         }
         // Conservation by construction: the element's own total is
@@ -8922,6 +9646,7 @@ impl PhreeqcEquilibrator {
     fn apply_balance_corrections(
         vessel: &Vessel,
         problem: &Problem,
+        rows: &[Vec<String>],
         new_ions: &mut Vec<(String, f64)>,
         new_surfaces: &mut [SurfaceSites],
         new_exchanges: &[ExchangeSites],
@@ -9110,6 +9835,7 @@ impl PhreeqcEquilibrator {
             *new_ions = checked_crystal_reconciliation(
                 vessel,
                 problem,
+                rows,
                 new_ions,
                 new_solid_solutions,
                 value,
@@ -9117,17 +9843,18 @@ impl PhreeqcEquilibrator {
         }
         let mut new_phases: Vec<(String, f64)> = Vec::new();
         for (phase, ..) in &problem.phases {
-            let moles = value(phase).ok_or_else(|| missing(phase))?;
+            let moles = value(phase).ok_or_else(|| missing(rows, phase))?;
             new_phases.push((phase.clone(), moles));
         }
         let mut new_gases: Vec<(String, String, f64)> = Vec::new();
         for (phase, species, _) in &problem.gases {
             let column = format!("g_{phase}");
-            let moles = value(&column).ok_or_else(|| missing(&column))?;
+            let moles = value(&column).ok_or_else(|| missing(rows, &column))?;
             if !moles.is_finite() || moles < 0.0 {
-                return Err(component_projection_error(format!(
-                    "invalid raw finite gas column {column}: {moles}"
-                )));
+                return Err(component_projection_error(
+                    ProjectionReason::GasColumnInvalid,
+                    format!("invalid raw finite gas column {column}: {moles}"),
+                ));
             }
             new_gases.push((phase.clone(), species.clone(), moles));
         }
@@ -9181,8 +9908,8 @@ impl PhreeqcEquilibrator {
             owner,
             reservoir_requested,
         )?;
-        let ph = value("pH").ok_or_else(|| missing("pH"))?;
-        let mu = value("mu").ok_or_else(|| missing("mu"))?;
+        let ph = value("pH").ok_or_else(|| missing(rows, "pH"))?;
+        let mu = value("mu").ok_or_else(|| missing(rows, "mu"))?;
         Ok((new_phases, new_gases, ph, mu, gas_components_certified))
     }
 
@@ -9745,8 +10472,101 @@ impl PhreeqcEquilibrator {
     }
 }
 
-fn component_projection_error(detail: impl Into<String>) -> SolveError {
+#[derive(Clone, Copy)]
+enum ProjectionReason {
+    GasColumnInvalid,
+    TotalInvalid,
+    ProtonationSplitMissing,
+    ProtonationSplitInvalid,
+    ComponentInvalid,
+    GasReadbackInvalid,
+    PhaseReadbackInvalid,
+    PhaseReadbackMissing,
+    PhaseAmountInvalid,
+    MineralAmountNegative,
+    GasReadbackMissing,
+    GasAmountInvalid,
+    InitialGasInvalid,
+    ReservoirEndpointResidual,
+    ComponentTargetInvalid,
+    ComponentBoundExceeded,
+}
+
+impl ProjectionReason {
+    fn phrase(self) -> Phrase {
+        let (key, en) = match self {
+            Self::GasColumnInvalid => (
+                "solver-reason.aqueous.projection-gas-column-invalid",
+                "A native gas column contains an invalid amount.",
+            ),
+            Self::TotalInvalid => (
+                "solver-reason.aqueous.projection-total-invalid",
+                "A native analytical component contains an invalid amount.",
+            ),
+            Self::ProtonationSplitMissing => (
+                "solver-reason.aqueous.projection-protonation-split-missing",
+                "A required native protonation split is missing.",
+            ),
+            Self::ProtonationSplitInvalid => (
+                "solver-reason.aqueous.projection-protonation-split-invalid",
+                "The native protonation split is incomplete or invalid.",
+            ),
+            Self::ComponentInvalid => (
+                "solver-reason.aqueous.projection-component-invalid",
+                "An aqueous component amount is invalid.",
+            ),
+            Self::GasReadbackInvalid => (
+                "solver-reason.aqueous.projection-gas-readback-invalid",
+                "A finite gas readback is invalid.",
+            ),
+            Self::PhaseReadbackInvalid => (
+                "solver-reason.aqueous.projection-phase-readback-invalid",
+                "A phase readback is invalid.",
+            ),
+            Self::PhaseReadbackMissing => (
+                "solver-reason.aqueous.projection-phase-readback-missing",
+                "A required phase readback is missing.",
+            ),
+            Self::PhaseAmountInvalid => (
+                "solver-reason.aqueous.projection-phase-amount-invalid",
+                "An initial or returned phase amount is invalid.",
+            ),
+            Self::MineralAmountNegative => (
+                "solver-reason.aqueous.projection-mineral-amount-negative",
+                "A returned mineral amount is negative.",
+            ),
+            Self::GasReadbackMissing => (
+                "solver-reason.aqueous.projection-gas-readback-missing",
+                "A required finite gas readback is missing.",
+            ),
+            Self::GasAmountInvalid => (
+                "solver-reason.aqueous.projection-gas-amount-invalid",
+                "A returned finite gas amount is invalid.",
+            ),
+            Self::InitialGasInvalid => (
+                "solver-reason.aqueous.projection-initial-gas-invalid",
+                "An initial gas amount is invalid.",
+            ),
+            Self::ReservoirEndpointResidual => (
+                "solver-reason.aqueous.projection-reservoir-endpoint-invalid",
+                "An exhausted reservoir endpoint has a non-finite or out-of-bound residual.",
+            ),
+            Self::ComponentTargetInvalid => (
+                "solver-reason.aqueous.projection-component-target-invalid",
+                "A component target or readback amount is invalid.",
+            ),
+            Self::ComponentBoundExceeded => (
+                "solver-reason.aqueous.projection-component-readback-rejected",
+                "The component readback failed the existing acceptance checks.",
+            ),
+        };
+        Phrase::bare(key, en)
+    }
+}
+
+fn component_projection_error(reason: ProjectionReason, detail: impl Into<String>) -> SolveError {
     SolveError::NotConverged {
+        reason: Some(Box::new(reason.phrase())),
         solver: "phreeqc-inventory".into(),
         detail: format!("gas-aware analytical component balance: {}", detail.into()),
     }
@@ -9754,9 +10574,10 @@ fn component_projection_error(detail: impl Into<String>) -> SolveError {
 
 fn checked_component_readback(column: &str, raw: f64) -> Result<f64, SolveError> {
     if !raw.is_finite() || raw < 0.0 {
-        return Err(component_projection_error(format!(
-            "invalid raw analytical component {column}: {raw}"
-        )));
+        return Err(component_projection_error(
+            ProjectionReason::TotalInvalid,
+            format!("invalid raw analytical component {column}: {raw}"),
+        ));
     }
     Ok(raw)
 }
@@ -9773,7 +10594,10 @@ fn certify_projected_protonation(
             continue;
         }
         let fractions = protonation.get(key).ok_or_else(|| {
-            component_projection_error(format!("missing native protonation split for {key}"))
+            component_projection_error(
+                ProjectionReason::ProtonationSplitMissing,
+                format!("missing native protonation split for {key}"),
+            )
         })?;
         // Several native species can book to the same registry species:
         // CO2 and H2CO3 both retain their separate shares under CO2(aq).
@@ -9793,9 +10617,10 @@ fn certify_projected_protonation(
                 .any(|(_, fraction)| !fraction.is_finite() || *fraction < 0.0)
             || (fractions.iter().map(|(_, fraction)| fraction).sum::<f64>() - 1.0).abs() > 1e-12
         {
-            return Err(component_projection_error(format!(
-                "incomplete native protonation split for {key}"
-            )));
+            return Err(component_projection_error(
+                ProjectionReason::ProtonationSplitInvalid,
+                format!("incomplete native protonation split for {key}"),
+            ));
         }
     }
     Ok(())
@@ -10128,6 +10953,7 @@ fn project_gas_aware_components(
         .any(|(_, amount)| !amount.is_finite() || *amount < 0.0)
     {
         return Err(component_projection_error(
+            ProjectionReason::ComponentInvalid,
             "invalid individual aqueous component",
         ));
     }
@@ -10135,7 +10961,10 @@ fn project_gas_aware_components(
         .iter()
         .any(|(_, _, amount)| !amount.is_finite() || *amount < 0.0)
     {
-        return Err(component_projection_error("invalid finite gas readback"));
+        return Err(component_projection_error(
+            ProjectionReason::GasReadbackInvalid,
+            "invalid finite gas readback",
+        ));
     }
     for (phase, amount) in new_phases.iter() {
         if !amount.is_finite()
@@ -10144,9 +10973,10 @@ fn project_gas_aware_components(
                     gas.phase.as_str() == phase.as_str() && gas.kind == ExternalGasKind::Reservoir
                 }))
         {
-            return Err(component_projection_error(format!(
-                "invalid phase readback {phase}"
-            )));
+            return Err(component_projection_error(
+                ProjectionReason::PhaseReadbackInvalid,
+                format!("invalid phase readback {phase}"),
+            ));
         }
     }
     let exhausted_endpoint =
@@ -10181,14 +11011,16 @@ fn project_gas_aware_components(
             .iter()
             .find(|(candidate, _)| candidate.as_str() == phase.as_str())
         else {
-            return Err(component_projection_error(format!(
-                "missing phase readback {phase}"
-            )));
+            return Err(component_projection_error(
+                ProjectionReason::PhaseReadbackMissing,
+                format!("missing phase readback {phase}"),
+            ));
         };
         if !initial.is_finite() || *initial < 0.0 || !raw_final_amount.is_finite() {
-            return Err(component_projection_error(format!(
-                "invalid phase amount {phase}"
-            )));
+            return Err(component_projection_error(
+                ProjectionReason::PhaseAmountInvalid,
+                format!("invalid phase amount {phase}"),
+            ));
         }
         let final_amount = exhausted_endpoint
             .as_ref()
@@ -10209,9 +11041,10 @@ fn project_gas_aware_components(
             }
         } else if let Some(mineral) = derived::phase_by_name(phase) {
             if final_amount < 0.0 {
-                return Err(component_projection_error(format!(
-                    "negative mineral amount {phase}"
-                )));
+                return Err(component_projection_error(
+                    ProjectionReason::MineralAmountNegative,
+                    format!("negative mineral amount {phase}"),
+                ));
             }
             for (key, coefficient) in &mineral.elements {
                 *targets.entry(key.clone()).or_default() +=
@@ -10227,14 +11060,16 @@ fn project_gas_aware_components(
         let Some((_, _, final_amount)) = new_gases.iter().find(|(name, key, _)| {
             name.as_str() == phase.as_str() && key.as_str() == species.as_str()
         }) else {
-            return Err(component_projection_error(format!(
-                "missing finite gas readback {phase}"
-            )));
+            return Err(component_projection_error(
+                ProjectionReason::GasReadbackMissing,
+                format!("missing finite gas readback {phase}"),
+            ));
         };
         if !final_amount.is_finite() || *final_amount < 0.0 {
-            return Err(component_projection_error(format!(
-                "invalid finite gas amount {phase}"
-            )));
+            return Err(component_projection_error(
+                ProjectionReason::GasAmountInvalid,
+                format!("invalid finite gas amount {phase}"),
+            ));
         }
         let initial: f64 = vessel
             .contents
@@ -10245,9 +11080,10 @@ fn project_gas_aware_components(
             .map(|portion| portion.moles.0)
             .sum();
         if !initial.is_finite() || initial < 0.0 {
-            return Err(component_projection_error(format!(
-                "invalid initial gas amount {phase}"
-            )));
+            return Err(component_projection_error(
+                ProjectionReason::InitialGasInvalid,
+                format!("invalid initial gas amount {phase}"),
+            ));
         }
         if !add_gas_component_transfer(&mut targets, &unique_keys, phase, initial - *final_amount) {
             return Ok(false);
@@ -10267,9 +11103,10 @@ fn project_gas_aware_components(
             .is_some_and(|(_, endpoint_key, _)| endpoint_key == &key)
         {
             if !target.is_finite() || target.abs() > 1e-14 {
-                return Err(component_projection_error(format!(
-                    "exhausted reservoir endpoint did not close {key}: residual={target}"
-                )));
+                return Err(component_projection_error(
+                    ProjectionReason::ReservoirEndpointResidual,
+                    format!("exhausted reservoir endpoint did not close {key}: residual={target}"),
+                ));
             }
             // Exact zero is assigned only after the registered gas-phase
             // witness has been corrected and the constrained total recomputed.
@@ -10281,13 +11118,19 @@ fn project_gas_aware_components(
             .map(|(_, amount)| *amount)
             .sum();
         if !target.is_finite() || target < 0.0 || !current.is_finite() || current < 0.0 {
-            return Err(component_projection_error(format!(
-                "invalid component amount {key}: target={target}, readback={current}"
-            )));
+            return Err(component_projection_error(
+                ProjectionReason::ComponentTargetInvalid,
+                format!("invalid component amount {key}: target={target}, readback={current}"),
+            ));
         }
         let tolerance = 1e-14_f64.max(target.abs() * 1e-7);
         if (current - target).abs() > tolerance || (target > 0.0 && current == 0.0) {
-            return Err(component_projection_error(format!("component {key} exceeds readback bound: target={target}, readback={current}, bound={tolerance}")));
+            return Err(component_projection_error(
+                ProjectionReason::ComponentBoundExceeded,
+                format!(
+                    "component {key} exceeds readback bound: target={target}, readback={current}, bound={tolerance}"
+                ),
+            ));
         }
         if current > 0.0 {
             let scale = target / current;
@@ -10972,6 +11815,7 @@ mod gas_component_projection_tests {
             let result = PhreeqcEquilibrator::apply_balance_corrections(
                 &vessel,
                 &problem,
+                &[], // Controlled numeric reader below; no native selected-output rows.
                 &mut ions,
                 &mut [],
                 &[],
@@ -11430,10 +12274,132 @@ fn milk_buffer_notes(vessel: &Vessel, ph: Option<f64>) -> Vec<Event> {
     )]
 }
 
-fn missing(column: &str) -> SolveError {
+#[derive(Clone, Copy)]
+enum SelectedValueFailure {
+    ColumnOrCellMissing,
+    NumberMalformed,
+    ReaderUnavailable,
+}
+
+impl SelectedValueFailure {
+    fn phrase(self, column: &str) -> Phrase {
+        let (key, en) = match self {
+            Self::ColumnOrCellMissing => (
+                "solver-reason.aqueous.selected-column-or-cell-missing",
+                "The required selected-output column or row cell {column} is missing.",
+            ),
+            Self::NumberMalformed => (
+                "solver-reason.aqueous.selected-number-malformed",
+                "The selected-output value in column {column} is present but cannot be parsed as a number.",
+            ),
+            Self::ReaderUnavailable => (
+                "solver-reason.aqueous.selected-reader-unavailable",
+                "The selected-output reader did not provide the available value in column {column}.",
+            ),
+        };
+        Phrase::new(key, en, vec![("column".to_string(), Slot::text(column))])
+    }
+}
+
+fn selected_value_failure(rows: &[Vec<String>], column: &str) -> SelectedValueFailure {
+    let Some(index) = rows
+        .first()
+        .and_then(|header| header.iter().position(|name| name == column))
+    else {
+        return SelectedValueFailure::ColumnOrCellMissing;
+    };
+    if rows.len() < 2 || rows.last().and_then(|row| row.get(index)).is_none() {
+        return SelectedValueFailure::ColumnOrCellMissing;
+    }
+    match rows
+        .last()
+        .and_then(|row| row.get(index))
+        .unwrap()
+        .parse::<f64>()
+    {
+        Err(_) => SelectedValueFailure::NumberMalformed,
+        Ok(_) => SelectedValueFailure::ReaderUnavailable,
+    }
+}
+
+fn missing(rows: &[Vec<String>], column: &str) -> SolveError {
     SolveError::NotConverged {
+        reason: Some(Box::new(
+            selected_value_failure(rows, column).phrase(column),
+        )),
         solver: "phreeqc-aqueous".to_string(),
         detail: format!("selected output lacks column '{column}'"),
+    }
+}
+
+#[cfg(test)]
+mod selected_value_failure_tests {
+    use super::{missing, selected_value_failure, SelectedValueFailure};
+    use kerotakis_core::phrase::{Phrase, Slot};
+    use kerotakis_core::SolveError;
+
+    fn reason_and_detail(rows: &[Vec<String>]) -> (Phrase, String, String) {
+        match missing(rows, "mu") {
+            SolveError::NotConverged {
+                solver,
+                detail,
+                reason: Some(reason),
+            } => (*reason, solver, detail),
+            other => panic!("expected an owned readback reason, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn selected_value_failures_distinguish_absence_malformed_and_reader_policy() {
+        let absent_header = Vec::<Vec<String>>::new();
+        let missing_cell = vec![vec!["mu".to_string()], vec![]];
+        let malformed = vec![vec!["mu".to_string()], vec!["not-a-number".to_string()]];
+        let reader_unavailable = vec![vec!["mu".to_string()], vec!["0.25".to_string()]];
+
+        assert!(matches!(
+            selected_value_failure(&absent_header, "mu"),
+            SelectedValueFailure::ColumnOrCellMissing
+        ));
+        assert!(matches!(
+            selected_value_failure(&missing_cell, "mu"),
+            SelectedValueFailure::ColumnOrCellMissing
+        ));
+        assert!(matches!(
+            selected_value_failure(&malformed, "mu"),
+            SelectedValueFailure::NumberMalformed
+        ));
+        assert!(matches!(
+            selected_value_failure(&reader_unavailable, "mu"),
+            SelectedValueFailure::ReaderUnavailable
+        ));
+
+        for (rows, expected_key) in [
+            (
+                absent_header.as_slice(),
+                "solver-reason.aqueous.selected-column-or-cell-missing",
+            ),
+            (
+                missing_cell.as_slice(),
+                "solver-reason.aqueous.selected-column-or-cell-missing",
+            ),
+            (
+                malformed.as_slice(),
+                "solver-reason.aqueous.selected-number-malformed",
+            ),
+            (
+                reader_unavailable.as_slice(),
+                "solver-reason.aqueous.selected-reader-unavailable",
+            ),
+        ] {
+            let (reason, solver, detail) = reason_and_detail(rows);
+            assert_eq!(reason.key, expected_key);
+            assert!(matches!(
+                reason.slots.as_slice(),
+                [(name, Slot::Text { text })] if name == "column" && text == "mu"
+            ));
+            assert_eq!(solver, "phreeqc-aqueous");
+            assert_eq!(detail, "selected output lacks column 'mu'");
+        }
     }
 }
 
@@ -12371,6 +13337,7 @@ fn append_particle_census(input: &mut String) {
 fn numerical_particle_molality(rows: &[Vec<String>]) -> Result<f64, SolveError> {
     let invalid = || {
         SolveError::NotConverged {
+        reason: Some(Box::new(AqueousReason::SelectedNumberInvalid.phrase())),
         solver: "phreeqc-aqueous".to_string(),
         detail: "numerical aqueous particle molality is missing or invalid in the final selected-output row".to_string(),
     }
@@ -12447,6 +13414,7 @@ fn selected_nonnegative_molality(
     name: &str,
 ) -> Result<Option<f64>, SolveError> {
     let invalid = || SolveError::NotConverged {
+        reason: Some(Box::new(AqueousReason::SelectedNumberInvalid.phrase())),
         solver: "phreeqc-aqueous".to_string(),
         detail: format!("invalid final numerical {name} molality"),
     };
@@ -12481,6 +13449,7 @@ fn refresh_measured_coordinates(
 ) -> Result<(), SolveError> {
     if !solvent_kg.is_finite() || solvent_kg <= 0.0 {
         return Err(SolveError::NotConverged {
+            reason: Some(Box::new(AqueousReason::SolventMassInvalid.phrase())),
             solver: "phreeqc-aqueous".to_string(),
             detail: "invalid numerical solvent mass for measured coordinates".to_string(),
         });
@@ -12512,6 +13481,7 @@ fn refresh_measured_coordinates(
         || co2_molality < 0.0
     {
         return Err(SolveError::NotConverged {
+            reason: Some(Box::new(AqueousReason::MeasuredCoordinateInvalid.phrase())),
             solver: "phreeqc-aqueous".to_string(),
             detail: "nonfinite measured aqueous coordinates".to_string(),
         });
@@ -12521,6 +13491,7 @@ fn refresh_measured_coordinates(
     });
     if pressure.is_some_and(|value| !value.is_finite() || value < 0.0) {
         return Err(SolveError::NotConverged {
+            reason: Some(Box::new(AqueousReason::Co2PressureInvalid.phrase())),
             solver: "phreeqc-aqueous".to_string(),
             detail: "invalid numerical CO2 pressure".to_string(),
         });
@@ -12536,6 +13507,7 @@ fn apply_numerical_water_activity(
     rows: &[Vec<String>],
 ) -> Result<(), SolveError> {
     let invalid = || SolveError::NotConverged {
+        reason: Some(Box::new(AqueousReason::WaterActivityInvalid.phrase())),
         solver: "phreeqc-aqueous".to_string(),
         detail: "numerical H2O activity is missing or invalid in the final selected-output row"
             .to_string(),
@@ -13799,6 +14771,25 @@ mod finite_ammonia_admission_diagnostics {
                 problem.gases.iter().any(|(name, _, _)| name == "NH3(g)"),
                 "phase {phase:?}, gases {:?}",
                 problem.gases
+            );
+        }
+    }
+}
+
+#[cfg(test)]
+mod crystal_diagnostic_amount_contract {
+    #[test]
+    fn invalid_crystal_amount_is_not_misreported_as_solvent_mass() {
+        for value in [-1.0, f64::NAN, f64::INFINITY] {
+            let error = super::checked_crystal_sum(&[value], "crystal-diagnostic-fixture")
+                .expect_err("the actual checked amount reduction must refuse invalid amounts");
+            assert_eq!(
+                error.owned_reason().unwrap().key,
+                "solver-reason.aqueous.crystal-amount-invalid"
+            );
+            assert_eq!(
+                error.to_string(),
+                format!("phreeqc-aqueous could not solve this state: mixed-crystal ownership: crystal-diagnostic-fixture: invalid amount {value}")
             );
         }
     }

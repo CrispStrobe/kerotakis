@@ -1,0 +1,90 @@
+{
+  "state": "BROWSER82_ACCEPTED_ACTUAL_C517_BOUNDED_REGRESSION",
+  "utc": "2026-10-26T12:32:44.009632+00:00",
+  "source": "c51758fa09a8ce0089bc93bb64338a587834a405",
+  "tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "reviewed_candidate": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "engine": {
+    "source_head": "c51758fa09a8ce0089bc93bb64338a587834a405",
+    "binary_sha256": "daa3212fb76e4cbf1f2e445506c80d3fc7b9a9a933ac5d48fc0d1418f14e10f3",
+    "cargo_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447"
+  },
+  "actual_artifact_sha256": "f62b597da6af8f3bd8f1c600b42794350c7df9a0bef0fd059ffb1fc148dc3c77",
+  "workflow_run": 40284030952,
+  "workflow_attempt": 2,
+  "accepted_browser_controls": 82,
+  "groups": [
+    {
+      "id": "browser37",
+      "accepted_controls": 37,
+      "raw_report_sha256": "82b3f837104ca9a509dd4e6be42bbc27e7642816b4e6daa0417b290496db3a10",
+      "completed_receipt_sha256": "442c6992937150c81758dc069b83a4533646f2382b69bed79aa2b667259d9166"
+    },
+    {
+      "id": "targeted7",
+      "accepted_controls": 7,
+      "raw_report_sha256": "f1f662f5a37e5c211b41a0bd7907e5feb7baf6854ec5a76881f5c3d01cff2cd3",
+      "completed_receipt_sha256": "5375eca0d1b8ab794697de0da25bf1ffc068dabb7fbe72104ebc36d9c36c2ffb"
+    },
+    {
+      "id": "locale18",
+      "accepted_controls": 18,
+      "raw_report_sha256": "d179996bc0877f9ce654e7e0df51be296eb1ebe7193dfc99426761a06103f329",
+      "completed_receipt_sha256": "88d177c35a408b27d88eddb9fdf2554ccbda3ceab2c09c7039ed47183c4bafa7"
+    },
+    {
+      "id": "heat2",
+      "accepted_controls": 2,
+      "raw_report_sha256": "fb6b6426f8176fa9a0dd8b14f55837c9f98f7f996594b4a6cd4a9b89e14a6a0a",
+      "completed_receipt_sha256": "23e7abe87a9c79e521a4fd23fcdce61412718d220d7d1753618d2939768f8a45"
+    },
+    {
+      "id": "optics18",
+      "accepted_controls": 18,
+      "raw_report_sha256": "864ca4d14e76cf33670f63edab0c5f67171a92f3dd4af4299ff7f1b1b7859d01",
+      "dual_saved_result_sha256": "0ca7daf3d22f253194a43de5ed34197d67cb563ed859c0b5598a9cb518451f51"
+    }
+  ],
+  "version": 1,
+  "is_private": true,
+  "actual_worker_sha256": "5a3a85cb93d19873c434317b2bfae33d828fa846427c92689c28f1fa12e3e314",
+  "config_canonical_sha256": "5c9d6f8d846b57e4945f30c80f7ab0e0cba4cfed02a9dcee55c54443ce4ffbb0",
+  "config_file_sha256": "db763bc2a9faafa39758844305f8503b7e07bdc84f7d007a3e848fb72212c0d0",
+  "issue_receipt_sha256": "bc817f326596a90c417e85f6c744c5975875e59cfe41d9e33cb66dc0370ef3b2",
+  "harness_head": "233517a9fe267130875745e4e6a7d5f59822355d",
+  "harness_tree": "b987a11d754815c799bbf22e9bedfa3921992796",
+  "collected_receipt_sha256": "2a785c21a147e19eee702d0d2674aaea0ee68d42d314d960f6163d1a82389aa9",
+  "producer_top_manifest_sha256": "42fc1ecea8aed56eb3f7ee18600d82278b9e05ba627876a8c7ead5c4fd8157e2",
+  "collection_members": 197,
+  "collection_bytes": 58155063,
+  "decoded_frozen_inputs": 69,
+  "actual_all69_bytes_match_config": true,
+  "actual_API11_receipt_sha256": "b9d21cc812fb585e898df74ceb4cdc09b7a5fabd86a39a39460f29a5963bc977",
+  "actual_API11_independent_review_sha256": "82b8a6b4b33131dbd749e3fb34b0617c752f9484abfbd9daed9e6790a08b1874",
+  "actual_artifact_verifier_receipt_sha256": "75ccad45dc648d5cd2ce9273172a84e808eb2193ee0a1a7e5f237d386f9b47cd",
+  "parent_dual64_receipt_sha256": "3655a34712fa3f3440186c688cdd7af9ad33c5a8236deea990941dae1acc6b1a",
+  "nine_actual_saved64_invocation_receipts_and_streams_verified": true,
+  "independent_dual18_assessment_sha256": "c33966082bf2633d663b5da2534d5497cdc89249fccbd96c5a9aa778af108423",
+  "independent_197_69_raw_review_sha256": "a4e0120323ffb53b897b58e14d3a559c9bc0a1b8f81519d0090c1ec7b44c0dcc",
+  "dual18_actual_result_sha256": "0ca7daf3d22f253194a43de5ed34197d67cb563ed859c0b5598a9cb518451f51",
+  "exact_current_receipt_native_lock_frontend_source_chains_verified": true,
+  "first_attempt_preserved": {
+    "collection_receipt_sha256": "604cf5d9e7b379a0be369a97e1431156616f5934e548e8ce6ada805e8644dfa2",
+    "producer_top_manifest_sha256": "dc075e595b60d9487b9a4f67c73cd3e7acdad83150a62261ed0b18a88bb17995",
+    "raw_members_rehashed": 124,
+    "raw_bytes": 1202762,
+    "terminal": "ERROR",
+    "worker_sha256": "d3951120042e2be355bef07c2d52c9d27b2c99418c38a2c96a7d16de8ba2293e",
+    "config_canonical_sha256": "c344110fb2c87170bcd0811c8b59a5a3f027af10da49d275cd9553de79c4b9f1",
+    "first_ENOENT_stderr_sha256": "2d7c24475a3cfe9aa0c6792eba83c93cf9700ff773c3f7c33b1a89e102b292e4",
+    "earned_UI_controls": 0,
+    "remaining_groups": "NOT_REACHED",
+    "cause": "Frozen browser37 consumer attempted historical release-binding path before UI checks; loader-only reviewed successor is separately bound."
+  },
+  "qualification": "Accepted original82 same-release browser regression controls on actual c517, combining actual37+7+18+2 and dual reviewed18 optical rows. This does not credit additional4browser/API4 domain holds, empirical calibration, original experiment qualifications, full15API86browser completion, or later ordered lanes. Earlier failed producer remains ERROR with0earned; no runtime chemistry/source redeploy was needed for its loader correction. Source-committed dependency resolution and separate frontend-lock attestation are not inferred.",
+  "catalog_additions": 0,
+  "original_qualification_credit": 0,
+  "empirical_calibration_claim": false,
+  "private_adjudication_receipt_sha256": "1191d93385d1febf5d747a838e19e91c78dcbb12f53ea0ab5b4ce9a801b1eac4",
+  "accepted_API_controls": 11
+}

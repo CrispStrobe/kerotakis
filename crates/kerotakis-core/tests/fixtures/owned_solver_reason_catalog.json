@@ -1,0 +1,1057 @@
+[
+  {
+    "key": "solver-reason.aqueous.accepted-provenance-missing",
+    "en": "The accepted aqueous state lacks provenance.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.activity-model-unavailable",
+    "en": "No approved dataset currently covers this activity model together with the typed interface owner.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.ammonia-gas-unavailable",
+    "en": "The routed database does not define the ammonia gas phase needed for this mixed-domain headspace.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.aux-input-binding",
+    "en": "The queued auxiliary input no longer matches its exact database and input binding.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.aux-pending-selector",
+    "en": "Pending auxiliary work has no selector authority.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.aux-pose-validation",
+    "en": "The queued auxiliary answer failed exact primary-pose or component-owner validation.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.auxiliary-result-authority",
+    "en": "The native auxiliary result is still pending or its provenance does not match its status.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.cache-only-miss",
+    "en": "This solver has no live engine for the requested state, and no cached result is available.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.certified-answer-missing",
+    "en": "Clock CO2 or model replay lacks a complete certified native answer.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.certified-solver-failure",
+    "en": "The first gas-aware aqueous answer reported a solver failure.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.clock-boundary-invalid",
+    "en": "The pending clock CO2 parcel is unsupported or exceeds available carbon.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.clock-boundary-missing",
+    "en": "The opaque aqueous owner has no spent clock boundary.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.clock-carbon-ambiguous",
+    "en": "Clock CO2 cannot be assigned to one unambiguous carbon component.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.clock-parcel-mismatch",
+    "en": "The clock CO2 parcel does not match its typed input.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.clock-parcel-nonfinite",
+    "en": "The pending clock CO2 parcel is non-finite.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.clock-projection-missing",
+    "en": "Clock CO2 lacks a certified native component projection.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.complete-state-missing",
+    "en": "A complete aqueous state is missing during physical comparison.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.component-fingerprint-unavailable",
+    "en": "The selected database fingerprint for component isolation could not be prepared.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.component-namespace-unavailable",
+    "en": "The selected database namespace for component isolation could not be prepared.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.component-readback-invalid",
+    "en": "The native readback returned an invalid typed component amount.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.coordinate-nonfinite",
+    "en": "A canonical aqueous coordinate is non-finite.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-amount-invalid",
+    "en": "A mixed-crystal amount is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-amount-overflow",
+    "en": "A mixed-crystal amount sum overflowed.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-aqueous-inventory-missing",
+    "en": "The aqueous readback is missing an owned elemental remainder.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-aqueous-residual-unexplained",
+    "en": "The aqueous readback does not match the checked phase remainder.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-external-boundary-unsupported",
+    "en": "An external phase lacks a reviewed element boundary.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-external-phase-unknown",
+    "en": "An external phase has no reviewed formula.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-interface-coowner",
+    "en": "Surface or exchange ownership lacks an aqueous witness.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-inventory-invalid",
+    "en": "The typed crystal inventory is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-phase-overdraw",
+    "en": "The final owned phase inventory exceeds the available amount.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-primary-phase-unknown",
+    "en": "A primary phase has no reviewed formula.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-reduction-unsupported",
+    "en": "The mixed-crystal arithmetic reduction is unsupported.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-remainder-invalid",
+    "en": "The checked phase remainder is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.crystal-solvent-mass-invalid",
+    "en": "The aqueous solvent mass is non-finite or non-positive.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.diagnostic-missing",
+    "en": "A required current aqueous diagnostic is missing.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.diagnostic-nonfinite",
+    "en": "A current aqueous diagnostic is non-finite.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.diagnostic-required-missing",
+    "en": "A required aqueous diagnostic is missing.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.dilute-crystal-domain",
+    "en": "The typed solid-solution model is supported only for dilute inorganic water through the reviewed dataset.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.dilute-exchange-domain",
+    "en": "Typed cation exchange is supported only for dilute inorganic water through the reviewed dataset.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.exchange-capacity-invalid",
+    "en": "The typed exchange support, capacity, or occupancy is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.exchange-readback-invalid",
+    "en": "The native exchange occupancy is inconsistent with its finite capacity.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.fingerprint-unavailable",
+    "en": "The exact auxiliary database fingerprint is unavailable.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.first-pose-seed-validation",
+    "en": "The first aqueous seed failed its witnessed pose and ownership contract.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.forced-route-validation",
+    "en": "The forced replay did not satisfy the requested route and complete model-domain checks.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.gas-amount-invalid",
+    "en": "A native gas crossing amount is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.gas-wrong-vessel",
+    "en": "A gas crossing belongs to a different vessel.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.heat-nonfinite",
+    "en": "Whole-step aqueous heat is non-finite.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.interface-ledger-unsupported",
+    "en": "The selected interface complexes cannot be retained on the typed ledger.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.measured-coordinate-invalid",
+    "en": "A measured aqueous coordinate is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.mineral-transfer-nonfinite",
+    "en": "Cumulative mineral transfer is non-finite.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.mixed-crystal-unsupported",
+    "en": "This solver supports one mixed crystalline phase per vessel.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.model-transition-unsupported",
+    "en": "The aqueous model transition is unsupported.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.nested-solver-failure",
+    "en": "A nested aqueous solver reported failure.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.neutralisation-nonfinite",
+    "en": "Whole-call neutralisation is non-finite.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.ownership-dataset-heat-changed",
+    "en": "Aqueous ownership, dataset, or heat mode changed during canonical reentry.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.paired-auxiliary-incomplete",
+    "en": "The paired auxiliary work was not fulfilled.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.pass-cap",
+    "en": "The physical aqueous and gas answer did not close within the canonical pass limit.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.pending-acceptance-blocked",
+    "en": "Pending auxiliary authority cannot earn physical acceptance.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.pending-authority-inconsistent",
+    "en": "The queued auxiliary authority is inconsistent.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.pending-owner-not-reservoir",
+    "en": "A non-reservoir owner retained pending auxiliary work.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.pending-pose-ineligible",
+    "en": "Only a complete private reservoir pose may retain pending auxiliary work.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.physical-portion-invalid",
+    "en": "A physical portion in aqueous reentry is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.pinned-instance-load-failed",
+    "en": "The requested pinned native database instance could not be loaded.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.primary-progress-precondition",
+    "en": "Primary progress requires two pending reservoir poses.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.primary-provenance-missing",
+    "en": "The queued auxiliary pose lacks its primary provenance.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.primary-routing-missing",
+    "en": "The queued primary routing lacks its native recipe.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.primary-solution-missing",
+    "en": "The queued auxiliary pose lacks its primary solution.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-component-invalid",
+    "en": "An aqueous component amount is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-component-readback-rejected",
+    "en": "The component readback failed the existing acceptance checks.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-component-target-invalid",
+    "en": "A component target or readback amount is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-gas-amount-invalid",
+    "en": "A returned finite gas amount is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-gas-column-invalid",
+    "en": "A native gas column contains an invalid amount.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-gas-readback-invalid",
+    "en": "A finite gas readback is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-gas-readback-missing",
+    "en": "A required finite gas readback is missing.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-initial-gas-invalid",
+    "en": "An initial gas amount is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-mineral-amount-negative",
+    "en": "A returned mineral amount is negative.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-phase-amount-invalid",
+    "en": "An initial or returned phase amount is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-phase-readback-invalid",
+    "en": "A phase readback is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-phase-readback-missing",
+    "en": "A required phase readback is missing.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-protonation-split-invalid",
+    "en": "The native protonation split is incomplete or invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-protonation-split-missing",
+    "en": "A required native protonation split is missing.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-reservoir-endpoint-invalid",
+    "en": "An exhausted reservoir endpoint has a non-finite or out-of-bound residual.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.projection-total-invalid",
+    "en": "A native analytical component contains an invalid amount.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.provenance-missing",
+    "en": "Aqueous provenance is missing during physical comparison.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.question-missing",
+    "en": "There is no queued auxiliary question to fulfil.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.readback-unrepresented",
+    "en": "The native readback contains elemental states that cannot be represented by the typed aqueous inventory.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.redox-balance-outside-water",
+    "en": "No electron activity in the admitted water stability field balances the typed redox inventory.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.redox-coordinate-invalid",
+    "en": "A typed aqueous redox coordinate is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.redox-readback-unavailable",
+    "en": "The redox search did not obtain a valid oxidation-state balance readback.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.redox-search-did-not-converge",
+    "en": "The coupled electron-balance search did not converge.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.redox-totals-missing",
+    "en": "The coupled aqueous run returned no oxidation-state totals.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.reentry-answer-incomplete",
+    "en": "The route-changing aqueous reentry lacks a complete native answer.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.reentry-certificate-boundary-check",
+    "en": "The aqueous reentry failed its certificate, clock-boundary, or nested-answer check.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.replay-representation-unsupported",
+    "en": "The replay route cannot represent the original analytical and phase owners.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.reservoir-owner-changed",
+    "en": "The reservoir opaque aqueous owner changed after native readback.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.reservoir-set-changed",
+    "en": "The aqueous reservoir set changed unexpectedly during reentry.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.reused-engine-reset-failed",
+    "en": "The reused native engine could not be reset before the next solve.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.route-changed",
+    "en": "The aqueous engine, dataset, or model changed during canonical reentry.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.second-opinion-nonfinite",
+    "en": "A second-opinion aqueous diagnostic is non-finite.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.second-opinion-provenance-missing",
+    "en": "Solvent activity provenance is missing.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.secondary-changed-after-replay",
+    "en": "The secondary selector changed after its owner replay.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.secondary-changed-without-floor",
+    "en": "The secondary solvent selector changed without a witnessed input-floor replay.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.secondary-probe-mismatch",
+    "en": "The secondary replay did not return a valid provisional auxiliary answer.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.secondary-probe-unverified",
+    "en": "The ordinary selector did not admit the provisional secondary probe.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.secondary-skip-mismatch",
+    "en": "The secondary replay did not skip its first pose.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.secondary-skip-unverified",
+    "en": "The ordinary selector did not verify the provisional secondary skip.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.selected-column-or-cell-missing",
+    "en": "The required selected-output column or row cell {column} is missing.",
+    "placeholders": [
+      "column"
+    ]
+  },
+  {
+    "key": "solver-reason.aqueous.selected-number-invalid",
+    "en": "A required selected-output number is missing, malformed, non-finite, or negative.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.selected-number-malformed",
+    "en": "The selected-output value in column {column} is present but cannot be parsed as a number.",
+    "placeholders": [
+      "column"
+    ]
+  },
+  {
+    "key": "solver-reason.aqueous.selected-reader-unavailable",
+    "en": "The selected-output reader did not provide the available value in column {column}.",
+    "placeholders": [
+      "column"
+    ]
+  },
+  {
+    "key": "solver-reason.aqueous.solid-solution-phase-unavailable",
+    "en": "The routed database does not define a reviewed solid-solution end member.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.solid-solution-state-invalid",
+    "en": "The typed solid solution lacks a finite nonnegative amount for each reviewed end member.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.solvent-mass-invalid",
+    "en": "The numerical solvent mass is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.solvent-provenance-changed-or-missing",
+    "en": "Solvent-activity provenance is missing or its dataset or model changed during canonical reentry.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.stock-nonfinite",
+    "en": "Physical stock is non-finite.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.strict-closure-missing",
+    "en": "The deferred reservoir answer lacks strict physical closure.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.surface-capacity-invalid",
+    "en": "The typed surface geometry, capacity, or occupancy is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.thermal-pass-cap",
+    "en": "The coupled aqueous temperature did not converge within the thermal pass limit.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.water-activity-invalid",
+    "en": "The numerical water activity is missing or invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.aqueous.water-relation-undefined",
+    "en": "The water-dissociation relation is undefined at this temperature.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.cea.adiabatic-hp.data-out-of-range",
+    "en": "Thermodynamic data for the CEA species {species} are unavailable at {temperature} K in the adiabatic enthalpy-pressure solve.",
+    "placeholders": [
+      "species",
+      "temperature"
+    ]
+  },
+  {
+    "key": "solver-reason.cea.adiabatic-hp.empty-budget",
+    "en": "The element budget is empty in the adiabatic enthalpy-pressure solve.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.cea.adiabatic-hp.no-species",
+    "en": "No CEA species represent the requested elements in the adiabatic enthalpy-pressure solve.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.cea.adiabatic-hp.not-converged",
+    "en": "The CEA equilibrium did not converge after {iterations} iterations in the adiabatic enthalpy-pressure solve.",
+    "placeholders": [
+      "iterations"
+    ]
+  },
+  {
+    "key": "solver-reason.cea.adiabatic-hp.temperature-nonfinite",
+    "en": "Thermodynamic data for CEA species {species} were requested at a nonfinite temperature in the adiabatic enthalpy-pressure solve.",
+    "placeholders": [
+      "species"
+    ]
+  },
+  {
+    "key": "solver-reason.cea.ignition-tp-fallback.data-out-of-range",
+    "en": "Thermodynamic data for the CEA species {species} are unavailable at {temperature} K in the ignition-temperature fallback solve.",
+    "placeholders": [
+      "species",
+      "temperature"
+    ]
+  },
+  {
+    "key": "solver-reason.cea.ignition-tp-fallback.empty-budget",
+    "en": "The element budget is empty in the ignition-temperature fallback solve.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.cea.ignition-tp-fallback.no-species",
+    "en": "No CEA species represent the requested elements in the ignition-temperature fallback solve.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.cea.ignition-tp-fallback.not-converged",
+    "en": "The CEA equilibrium did not converge after {iterations} iterations in the ignition-temperature fallback solve.",
+    "placeholders": [
+      "iterations"
+    ]
+  },
+  {
+    "key": "solver-reason.cea.ignition-tp-fallback.temperature-nonfinite",
+    "en": "Thermodynamic data for CEA species {species} were requested at a nonfinite temperature in the ignition-temperature fallback solve.",
+    "placeholders": [
+      "species"
+    ]
+  },
+  {
+    "key": "solver-reason.cea.isothermal-tp.data-out-of-range",
+    "en": "Thermodynamic data for the CEA species {species} are unavailable at {temperature} K in the fixed-temperature solve.",
+    "placeholders": [
+      "species",
+      "temperature"
+    ]
+  },
+  {
+    "key": "solver-reason.cea.isothermal-tp.empty-budget",
+    "en": "The element budget is empty in the fixed-temperature solve.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.cea.isothermal-tp.no-species",
+    "en": "No CEA species represent the requested elements in the fixed-temperature solve.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.cea.isothermal-tp.not-converged",
+    "en": "The CEA equilibrium did not converge after {iterations} iterations in the fixed-temperature solve.",
+    "placeholders": [
+      "iterations"
+    ]
+  },
+  {
+    "key": "solver-reason.cea.isothermal-tp.temperature-nonfinite",
+    "en": "Thermodynamic data for CEA species {species} were requested at a nonfinite temperature in the fixed-temperature solve.",
+    "placeholders": [
+      "species"
+    ]
+  },
+  {
+    "key": "solver-reason.cea.registry-name-unknown",
+    "en": "A CEA species has no matching name in the species registry: {name}.",
+    "placeholders": [
+      "name"
+    ]
+  },
+  {
+    "key": "solver-reason.continuation.adapter-unavailable",
+    "en": "This solver wrapper does not expose a trusted aqueous readback adapter.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.answer-incomplete",
+    "en": "The trusted adapter did not supply a finite complete aqueous answer.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.boundary-configuration",
+    "en": "The continuation changed a thermal input or gas boundary state.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.charge-conservation",
+    "en": "Owned charge changed from {before} to {after} mol-equivalents during continuation.",
+    "placeholders": [
+      "after",
+      "before"
+    ]
+  },
+  {
+    "key": "solver-reason.continuation.gas-amount-invalid",
+    "en": "The continuation reported a non-finite amount of contained {species}.",
+    "placeholders": [
+      "species"
+    ]
+  },
+  {
+    "key": "solver-reason.continuation.gas-amount-mismatch",
+    "en": "The continuation reported {reported} mol of contained {species}, but {retained} mol was newly retained.",
+    "placeholders": [
+      "reported",
+      "retained",
+      "species"
+    ]
+  },
+  {
+    "key": "solver-reason.continuation.gas-without-headspace",
+    "en": "The continuation reported contained {species}, but this vessel has no owned headspace.",
+    "placeholders": [
+      "species"
+    ]
+  },
+  {
+    "key": "solver-reason.continuation.missing-snapshot",
+    "en": "The continuation requires an active operator snapshot.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.receipt-question-mismatch",
+    "en": "The aqueous answer receipt belongs to a different input question.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.receipt-state-mismatch",
+    "en": "The aqueous answer receipt does not attest to the returned vessel state.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.sealed-gas-crossing",
+    "en": "A fixed sealed boundary cannot transfer {species} to or from the external gas space.",
+    "placeholders": [
+      "species"
+    ]
+  },
+  {
+    "key": "solver-reason.continuation.snapshot-changed",
+    "en": "The transformation replaced the active operator snapshot.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.stale-answer",
+    "en": "The continuation requires a fresh complete aqueous answer for the current vessel state.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.state-material",
+    "en": "The continuation failed a finite-state or material-conservation check.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.thermal-mutation",
+    "en": "A transformation with unreviewed heat changed the vessel thermal state.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.thermal-ownership-changed",
+    "en": "The transformation changed ownership of the aqueous heat calculation.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.unsupported-boundary",
+    "en": "This continuation supports only open or fixed sealed boundaries.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.continuation.vessel-identity",
+    "en": "The continuation changed the vessel identity or label.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.endpoint.domain",
+    "en": "This mixture is outside the admitted acidic permanganate/peroxide endpoint domain.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.endpoint.proton-debit",
+    "en": "The endpoint consumed {observed} mol of the owned proton inventory; {requested} mol was required.",
+    "placeholders": [
+      "observed",
+      "requested"
+    ]
+  },
+  {
+    "key": "solver-reason.endpoint.reactant-debit",
+    "en": "The endpoint could not debit {species}: {remaining} mol remained after requesting {requested} mol.",
+    "placeholders": [
+      "remaining",
+      "requested",
+      "species"
+    ]
+  },
+  {
+    "key": "solver-reason.family.product-phase",
+    "en": "The reaction family cannot resolve a product phase for registry key {key}.",
+    "placeholders": [
+      "key"
+    ]
+  },
+  {
+    "key": "solver-reason.family.solvent",
+    "en": "The reaction family has insufficient solvent to supply the measured acid/base ions conservatively.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.amount-negative",
+    "en": "A portion has a negative amount.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.amount-nonfinite",
+    "en": "A portion has a nonfinite amount.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.aqueous-basis-does-not-close",
+    "en": "The aqueous basis does not close on hydrogen.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.aqueous-basis-invalid",
+    "en": "The nonnegative aqueous hydrogen and oxygen basis is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.charge-ledger-mismatch",
+    "en": "The charge ledger does not close: {before} eq became {after} eq.",
+    "placeholders": [
+      "after",
+      "before"
+    ]
+  },
+  {
+    "key": "solver-reason.inventory.charge-ledger-nonfinite",
+    "en": "The charge ledger contains a nonfinite total.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.clock-boundary-invalid",
+    "en": "The clock carbon dioxide boundary has an invalid owner or amount.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.clock-changed-opaque-stock",
+    "en": "The opaque clock stock or progress changed.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.clock-changed-spectator",
+    "en": "A clock spectator changed.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.clock-formula-unknown",
+    "en": "The clock carbon dioxide formula is not registered.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.clock-invalid-opaque-stock",
+    "en": "The opaque clock stock is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.clock-invalid-spectator",
+    "en": "A clock spectator is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.element-ledger-mismatch",
+    "en": "The {element} element ledger does not close: {before} mol became {after} mol.",
+    "placeholders": [
+      "after",
+      "before",
+      "element"
+    ]
+  },
+  {
+    "key": "solver-reason.inventory.element-ledger-nonfinite",
+    "en": "An element ledger contains a nonfinite total.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.formula-unresolved",
+    "en": "A portion has an unresolved formula.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.gas-amount-negative",
+    "en": "The reservoir gas crossing amount is negative.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.gas-amount-nonfinite",
+    "en": "The reservoir gas crossing amount is nonfinite.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.gas-crossing-unowned",
+    "en": "A gas crossing is not owned by a reservoir.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.gas-crossing-wrong-vessel",
+    "en": "A gas crossing belongs to another vessel.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.reservoir-boundary-unsupported",
+    "en": "The reservoir opaque owner does not support this clock or finite gas boundary.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.reservoir-changed-opaque-stock",
+    "en": "The reservoir opaque stock or progress changed.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.reservoir-changed-spectator",
+    "en": "A reservoir spectator changed.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.reservoir-formula-unknown",
+    "en": "A reservoir gas has an unresolved formula.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.reservoir-invalid-opaque-stock",
+    "en": "The reservoir opaque stock is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.reservoir-invalid-spectator",
+    "en": "A reservoir spectator is invalid.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.inventory.vessel-identity-changed",
+    "en": "The vessel identity changed.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.orchestrator.conservation-commit",
+    "en": "The proposed solver change failed the required conservation or validity checks.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.orchestrator.invalid-events",
+    "en": "The solver returned invalid gas-boundary events.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.orchestrator.state-commit",
+    "en": "The proposed solver change failed its commit checks.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.invalid-mix-result",
+    "en": "The mixed solver proposal failed state, boundary-event or conservation validation.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.invalid-result",
+    "en": "The solver proposal failed state, boundary-event or conservation validation.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.multiple-owners",
+    "en": "More than one trusted aqueous owner applies to this delegated reaction.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.no-accepted-answer",
+    "en": "The deferred reaction received no accepted complete answer from its aqueous owner.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.owner-no-unique-identity",
+    "en": "The borrowed aqueous adapter has no unique instance identity; its delegated reaction was not consumed.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.owner-not-executed",
+    "en": "The selected aqueous owner was not executed before the next installed solver stage.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.owner-or-vessel-changed",
+    "en": "The borrowed aqueous stage belongs to a different adapter instance or vessel.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.phase-pass-limit",
+    "en": "The coupled solution and solvent phases did not settle within {passes} bounded passes.",
+    "placeholders": [
+      "passes"
+    ]
+  },
+  {
+    "key": "solver-reason.stack.route-range",
+    "en": "The requested solver range is outside the installed stack.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.terminal-owner-absent",
+    "en": "The selected aqueous owner was absent from the final installed solver stage.",
+    "placeholders": []
+  },
+  {
+    "key": "solver-reason.stack.tolerance",
+    "en": "The required conservation tolerance must be finite and lie strictly between zero and one.",
+    "placeholders": []
+  }
+]

@@ -8,7 +8,7 @@
 use crate::delta::StateDelta;
 use crate::ledger::ConservedLedger;
 use crate::ops::{Event, NotModelledCause};
-use crate::phrase::Phrase;
+use crate::phrase::{Phrase, Slot};
 use crate::vessel::{AqueousHeatOwnership, Headspace, SolutionScope, Vessel};
 use crate::{Phase, SolveError};
 use std::collections::BTreeMap;
@@ -37,9 +37,15 @@ impl CurrentAqueousAnswer {
     pub fn attest_computed(input: &Vessel, output: &Vessel) -> Result<Self, SolveError> {
         if !StateDelta::validate_state(input).is_empty()
             || !StateDelta::validate_state(output).is_empty()
-            || !characterized(output)
         {
             return Err(refused(
+                ContinuationRefusal::StateOrMaterial,
+                "adapter did not supply a finite complete aqueous answer",
+            ));
+        }
+        if !characterized(output) {
+            return Err(refused(
+                ContinuationRefusal::AnswerIncomplete,
                 "adapter did not supply a finite complete aqueous answer",
             ));
         }
@@ -85,7 +91,12 @@ pub fn characterize_via(
 ) -> Result<(Vec<Event>, CurrentAqueousAnswer), SolveError> {
     aqueous
         .trusted_aqueous_readback()
-        .ok_or_else(|| refused("equilibrator has no trusted aqueous readback adapter"))?
+        .ok_or_else(|| {
+            refused(
+                ContinuationRefusal::AdapterUnavailable,
+                "equilibrator has no trusted aqueous readback adapter",
+            )
+        })?
         .characterize_current(vessel)
 }
 
@@ -96,7 +107,12 @@ pub fn characterize_optional_via(
 ) -> Result<(Vec<Event>, Option<CurrentAqueousAnswer>), SolveError> {
     aqueous
         .trusted_aqueous_readback()
-        .ok_or_else(|| refused("equilibrator has no trusted aqueous readback adapter"))?
+        .ok_or_else(|| {
+            refused(
+                ContinuationRefusal::AdapterUnavailable,
+                "equilibrator has no trusted aqueous readback adapter",
+            )
+        })?
         .characterize_optional_current(vessel)
 }
 
@@ -108,14 +124,155 @@ pub fn continue_via(
     aqueous: &mut dyn crate::Equilibrator,
     transform: impl FnOnce(&mut Vessel) -> Result<Vec<Event>, SolveError>,
 ) -> Result<Vec<Event>, SolveError> {
-    let adapter = aqueous
-        .trusted_aqueous_readback()
-        .ok_or_else(|| refused("equilibrator has no trusted aqueous readback adapter"))?;
+    let adapter = aqueous.trusted_aqueous_readback().ok_or_else(|| {
+        refused(
+            ContinuationRefusal::AdapterUnavailable,
+            "equilibrator has no trusted aqueous readback adapter",
+        )
+    })?;
     continue_without_reaction_heat(vessel, initial_answer, adapter, transform)
 }
 
-fn refused(detail: &str) -> SolveError {
+enum ContinuationRefusal<'a> {
+    AdapterUnavailable,
+    AnswerIncomplete,
+    VesselIdentity,
+    BoundaryConfiguration,
+    StateOrMaterial,
+    ChargeConservation {
+        before: f64,
+        after: f64,
+    },
+    SealedGasCrossing {
+        species: &'a str,
+    },
+    GasWithoutHeadspace {
+        species: &'a str,
+    },
+    GasAmountInvalid {
+        species: &'a str,
+    },
+    GasAmountMismatch {
+        species: &'a str,
+        reported: f64,
+        retained: f64,
+    },
+    StaleAnswer,
+    UnsupportedBoundary,
+    MissingSnapshot,
+    SnapshotChanged,
+    ThermalOwnershipChanged,
+    ThermalMutation,
+    ReceiptQuestionMismatch,
+    ReceiptStateMismatch,
+}
+
+pub(crate) fn diagnostic_species_slot(key: &str) -> Slot {
+    if let Some(species) = crate::species::lookup_key(key) {
+        Slot::term("species", species.name)
+    } else {
+        Slot::text(key)
+    }
+}
+
+impl ContinuationRefusal<'_> {
+    fn phrase(&self) -> Phrase {
+        match self {
+            Self::AdapterUnavailable => Phrase::bare(
+                "solver-reason.continuation.adapter-unavailable",
+                "This solver wrapper does not expose a trusted aqueous readback adapter.",
+            ),
+            Self::AnswerIncomplete => Phrase::bare(
+                "solver-reason.continuation.answer-incomplete",
+                "The trusted adapter did not supply a finite complete aqueous answer.",
+            ),
+            Self::VesselIdentity => Phrase::bare(
+                "solver-reason.continuation.vessel-identity",
+                "The continuation changed the vessel identity or label.",
+            ),
+            Self::BoundaryConfiguration => Phrase::bare(
+                "solver-reason.continuation.boundary-configuration",
+                "The continuation changed a thermal input or gas boundary state.",
+            ),
+            Self::StateOrMaterial => Phrase::bare(
+                "solver-reason.continuation.state-material",
+                "The continuation failed a finite-state or material-conservation check.",
+            ),
+            Self::ChargeConservation { before, after } => Phrase::new(
+                "solver-reason.continuation.charge-conservation",
+                "Owned charge changed from {before} to {after} mol-equivalents during continuation.",
+                vec![
+                    ("before".into(), Slot::number(before.to_string())),
+                    ("after".into(), Slot::number(after.to_string())),
+                ],
+            ),
+            Self::SealedGasCrossing { species } => Phrase::new(
+                "solver-reason.continuation.sealed-gas-crossing",
+                "A fixed sealed boundary cannot transfer {species} to or from the external gas space.",
+                vec![("species".into(), diagnostic_species_slot(species))],
+            ),
+            Self::GasWithoutHeadspace { species } => Phrase::new(
+                "solver-reason.continuation.gas-without-headspace",
+                "The continuation reported contained {species}, but this vessel has no owned headspace.",
+                vec![("species".into(), diagnostic_species_slot(species))],
+            ),
+            Self::GasAmountInvalid { species } => Phrase::new(
+                "solver-reason.continuation.gas-amount-invalid",
+                "The continuation reported a non-finite amount of contained {species}.",
+                vec![("species".into(), diagnostic_species_slot(species))],
+            ),
+            Self::GasAmountMismatch {
+                species,
+                reported,
+                retained,
+            } => Phrase::new(
+                "solver-reason.continuation.gas-amount-mismatch",
+                "The continuation reported {reported} mol of contained {species}, but {retained} mol was newly retained.",
+                vec![
+                    ("species".into(), diagnostic_species_slot(species)),
+                    ("reported".into(), Slot::number(reported.to_string())),
+                    ("retained".into(), Slot::number(retained.to_string())),
+                ],
+            ),
+            Self::StaleAnswer => Phrase::bare(
+                "solver-reason.continuation.stale-answer",
+                "The continuation requires a fresh complete aqueous answer for the current vessel state.",
+            ),
+            Self::UnsupportedBoundary => Phrase::bare(
+                "solver-reason.continuation.unsupported-boundary",
+                "This continuation supports only open or fixed sealed boundaries.",
+            ),
+            Self::MissingSnapshot => Phrase::bare(
+                "solver-reason.continuation.missing-snapshot",
+                "The continuation requires an active operator snapshot.",
+            ),
+            Self::SnapshotChanged => Phrase::bare(
+                "solver-reason.continuation.snapshot-changed",
+                "The transformation replaced the active operator snapshot.",
+            ),
+            Self::ThermalOwnershipChanged => Phrase::bare(
+                "solver-reason.continuation.thermal-ownership-changed",
+                "The transformation changed ownership of the aqueous heat calculation.",
+            ),
+            Self::ThermalMutation => Phrase::bare(
+                "solver-reason.continuation.thermal-mutation",
+                "A transformation with unreviewed heat changed the vessel thermal state.",
+            ),
+            Self::ReceiptQuestionMismatch => Phrase::bare(
+                "solver-reason.continuation.receipt-question-mismatch",
+                "The aqueous answer receipt belongs to a different input question.",
+            ),
+            Self::ReceiptStateMismatch => Phrase::bare(
+                "solver-reason.continuation.receipt-state-mismatch",
+                "The aqueous answer receipt does not attest to the returned vessel state.",
+            ),
+        }
+    }
+}
+
+fn refused(reason: ContinuationRefusal<'_>, detail: &str) -> SolveError {
     SolveError::NotConverged {
+        reason: Some(Box::new(reason.phrase())),
         solver: "aqueous-continuation".into(),
         detail: detail.into(),
     }
@@ -138,7 +295,10 @@ fn characterized(vessel: &Vessel) -> bool {
 
 fn validate_change(before: &Vessel, after: &Vessel, events: &[Event]) -> Result<(), SolveError> {
     if before.id != after.id || before.label != after.label {
-        return Err(refused("continuation changed vessel identity"));
+        return Err(refused(
+            ContinuationRefusal::VesselIdentity,
+            "continuation changed vessel identity",
+        ));
     }
     if before.thermal_mode != after.thermal_mode
         || before.heat_input != after.heat_input
@@ -146,6 +306,7 @@ fn validate_change(before: &Vessel, after: &Vessel, events: &[Event]) -> Result<
         || before.pending_co2_transfer_mol != after.pending_co2_transfer_mol
     {
         return Err(refused(
+            ContinuationRefusal::BoundaryConfiguration,
             "continuation changed thermal input or boundary configuration",
         ));
     }
@@ -153,29 +314,48 @@ fn validate_change(before: &Vessel, after: &Vessel, events: &[Event]) -> Result<
         || !StateDelta::validate_conservation(before, after, events, 1e-7).is_empty()
     {
         return Err(refused(
+            ContinuationRefusal::StateOrMaterial,
             "continuation failed finite-state or material conservation checks",
         ));
     }
     let initial = ConservedLedger::from_vessel(before).charge;
     let final_charge = ConservedLedger::from_vessel(after).charge;
     if (initial - final_charge).abs() > 1e-9 + 1e-7 * initial.abs().max(final_charge.abs()) {
-        return Err(refused("continuation failed charge conservation"));
+        return Err(refused(
+            ContinuationRefusal::ChargeConservation {
+                before: initial,
+                after: final_charge,
+            },
+            "continuation failed charge conservation",
+        ));
     }
     // GasContained is narration rather than an external element transfer.
     // Validate its aggregate against actual new owned gas, so duplicated or
     // invented events cannot inflate an otherwise conservative transaction.
     let mut contained: BTreeMap<String, f64> = BTreeMap::new();
     for event in events {
-        if matches!(before.headspace, Headspace::Sealed { .. })
-            && matches!(event, Event::GasEvolved { .. } | Event::GasAbsorbed { .. })
-        {
-            return Err(refused(
-                "fixed sealed continuation cannot transfer external gas",
-            ));
+        if matches!(before.headspace, Headspace::Sealed { .. }) {
+            let species = match event {
+                Event::GasEvolved { species, .. } | Event::GasAbsorbed { species, .. } => {
+                    Some(species.0.as_str())
+                }
+                _ => None,
+            };
+            if let Some(species) = species {
+                return Err(refused(
+                    ContinuationRefusal::SealedGasCrossing { species },
+                    "fixed sealed continuation cannot transfer external gas",
+                ));
+            }
         }
         if let Event::GasContained { species, moles, .. } = event {
             if !after.owns_headspace_gas() {
-                return Err(refused("contained gas requires an owned headspace"));
+                return Err(refused(
+                    ContinuationRefusal::GasWithoutHeadspace {
+                        species: species.0.as_str(),
+                    },
+                    "contained gas requires an owned headspace",
+                ));
             }
             *contained.entry(species.0.clone()).or_default() += moles.0;
         }
@@ -200,8 +380,19 @@ fn validate_change(before: &Vessel, after: &Vessel, events: &[Event]) -> Result<
         let growth = (final_gas - initial).max(0.0);
         let rounding = 64.0 * f64::EPSILON * initial.abs().max(final_gas.abs());
         let tolerance = reported.abs().max(growth) * 1e-7 + rounding;
-        if !reported.is_finite() || (reported - growth).abs() > tolerance {
+        if !reported.is_finite() {
             return Err(refused(
+                ContinuationRefusal::GasAmountInvalid { species: &species },
+                "contained gas events must match newly retained gas",
+            ));
+        }
+        if (reported - growth).abs() > tolerance {
+            return Err(refused(
+                ContinuationRefusal::GasAmountMismatch {
+                    species: &species,
+                    reported,
+                    retained: growth,
+                },
                 "contained gas events must match newly retained gas",
             ));
         }
@@ -233,31 +424,51 @@ pub fn continue_without_reaction_heat(
     aqueous: &mut dyn TrustedAqueousReadback,
     transform: impl FnOnce(&mut Vessel) -> Result<Vec<Event>, SolveError>,
 ) -> Result<Vec<Event>, SolveError> {
-    if !initial_answer.is_current(vessel) || !characterized(vessel) {
+    if !initial_answer.is_current(vessel) {
         return Err(refused(
+            ContinuationRefusal::StaleAnswer,
+            "continuation requires a fresh complete aqueous answer",
+        ));
+    }
+    if !characterized(vessel) {
+        return Err(refused(
+            ContinuationRefusal::AnswerIncomplete,
             "continuation requires a fresh complete aqueous answer",
         ));
     }
     if !matches!(vessel.headspace, Headspace::Open | Headspace::Sealed { .. }) {
         return Err(refused(
+            ContinuationRefusal::UnsupportedBoundary,
             "continuation currently supports open or fixed sealed boundaries",
         ));
     }
-    let original_start = vessel
-        .step_start
-        .clone()
-        .ok_or_else(|| refused("continuation requires an active operator snapshot"))?;
+    let original_start = vessel.step_start.clone().ok_or_else(|| {
+        refused(
+            ContinuationRefusal::MissingSnapshot,
+            "continuation requires an active operator snapshot",
+        )
+    })?;
     let mut candidate = vessel.clone();
     let mut events = transform(&mut candidate)?;
-    if candidate.step_start.as_ref() != Some(&original_start)
-        || candidate.aqueous_heat != vessel.aqueous_heat
-    {
-        return Err(refused("transformation replaced the operator snapshot"));
+    if candidate.step_start.as_ref() != Some(&original_start) {
+        return Err(refused(
+            ContinuationRefusal::SnapshotChanged,
+            "transformation replaced the operator snapshot",
+        ));
+    }
+    if candidate.aqueous_heat != vessel.aqueous_heat {
+        return Err(refused(
+            ContinuationRefusal::ThermalOwnershipChanged,
+            "transformation replaced the operator snapshot",
+        ));
     }
     if candidate.temperature != vessel.temperature
         || candidate.excess_enthalpy_j != vessel.excess_enthalpy_j
     {
-        return Err(refused("unknown-heat transformation changed thermal state"));
+        return Err(refused(
+            ContinuationRefusal::ThermalMutation,
+            "unknown-heat transformation changed thermal state",
+        ));
     }
     validate_change(vessel, &candidate, &events)?;
     candidate.aqueous_heat = AqueousHeatOwnership::UnmodeledContinuation;
@@ -268,16 +479,33 @@ pub fn continue_without_reaction_heat(
     candidate.free_hydroxide = 0.0;
     let before_readback = candidate.clone();
     let (readback, receipt) = aqueous.characterize_current(&mut candidate)?;
-    if receipt.question != question_key(&before_readback) || !receipt.is_current(&candidate) {
+    if receipt.question != question_key(&before_readback) {
         return Err(refused(
+            ContinuationRefusal::ReceiptQuestionMismatch,
             "aqueous answer receipt does not match the current question and state",
         ));
     }
-    if !characterized(&candidate)
-        || candidate.step_start.as_ref() != Some(&original_start)
-        || candidate.aqueous_heat != AqueousHeatOwnership::UnmodeledContinuation
-    {
+    if !receipt.is_current(&candidate) {
         return Err(refused(
+            ContinuationRefusal::ReceiptStateMismatch,
+            "aqueous answer receipt does not match the current question and state",
+        ));
+    }
+    if !characterized(&candidate) {
+        return Err(refused(
+            ContinuationRefusal::AnswerIncomplete,
+            "continuation received no fresh complete aqueous answer or lost thermal ownership",
+        ));
+    }
+    if candidate.step_start.as_ref() != Some(&original_start) {
+        return Err(refused(
+            ContinuationRefusal::SnapshotChanged,
+            "continuation received no fresh complete aqueous answer or lost thermal ownership",
+        ));
+    }
+    if candidate.aqueous_heat != AqueousHeatOwnership::UnmodeledContinuation {
+        return Err(refused(
+            ContinuationRefusal::ThermalOwnershipChanged,
             "continuation received no fresh complete aqueous answer or lost thermal ownership",
         ));
     }
@@ -285,6 +513,7 @@ pub fn continue_without_reaction_heat(
         || candidate.excess_enthalpy_j != before_readback.excess_enthalpy_j
     {
         return Err(refused(
+            ContinuationRefusal::ThermalMutation,
             "unknown-heat recharacterization changed thermal state",
         ));
     }
@@ -300,4 +529,69 @@ pub fn continue_without_reaction_heat(
     ));
     *vessel = candidate;
     Ok(events)
+}
+
+#[cfg(test)]
+mod refusal_tests {
+    use super::{refused, ContinuationRefusal};
+
+    #[test]
+    fn actual_contained_gas_refusal_translates_registered_names_and_keeps_unknown_keys() {
+        use crate::{Event, Moles, SpeciesId, Vessel, VesselId};
+        let vessel = Vessel::new(VesselId(0), "no headspace");
+        let event = Event::GasContained {
+            vessel: vessel.id,
+            species: SpeciesId::new("O2"),
+            moles: Moles(0.0),
+        };
+        let error = super::validate_change(&vessel, &vessel, &[event])
+            .expect_err("contained gas requires a real owned headspace");
+        assert_eq!(error.to_string(), "aqueous-continuation could not solve this state: contained gas requires an owned headspace");
+        let phrase = error.owned_reason().unwrap();
+        assert_eq!(
+            phrase.key,
+            "solver-reason.continuation.gas-without-headspace"
+        );
+        for tag in ["de", "fr"] {
+            let locale = crate::Locale::parse(tag);
+            let expected = locale
+                .lookup("species.oxygen")
+                .expect("registered oxygen translation");
+            assert!(phrase.render(locale).contains(expected));
+            assert!(!phrase.render(locale).contains("O2"));
+        }
+        assert_eq!(
+            super::diagnostic_species_slot("unknown_native_gas_ä"),
+            crate::phrase::Slot::text("unknown_native_gas_ä"),
+            "unknown labels are technical text, never invented translation terms"
+        );
+    }
+
+    #[test]
+    fn continuation_gas_refusal_keeps_reason_slots_and_raw_detail() {
+        let detail = "contained gas events must match newly retained gas";
+        let error = refused(
+            ContinuationRefusal::GasAmountMismatch {
+                species: "O2",
+                reported: 0.25,
+                retained: 0.2,
+            },
+            detail,
+        );
+
+        assert_eq!(
+            error.to_string(),
+            format!("aqueous-continuation could not solve this state: {detail}")
+        );
+        let reason = error.owned_reason().unwrap();
+        assert_eq!(reason.key, "solver-reason.continuation.gas-amount-mismatch");
+        assert_eq!(
+            reason
+                .slots
+                .iter()
+                .map(|(name, _)| name.as_str())
+                .collect::<Vec<_>>(),
+            ["species", "reported", "retained"]
+        );
+    }
 }

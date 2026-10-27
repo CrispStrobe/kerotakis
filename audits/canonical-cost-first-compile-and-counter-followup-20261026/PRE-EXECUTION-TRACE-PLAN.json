@@ -1,0 +1,17 @@
+{
+  "source": "a800cd6c37d25950618216e2a84b4cc82d072fde",
+  "tree": "71931f8326a0a0c6dc7ea7944e74f24f91db1923",
+  "selected_controls": 21,
+  "targets": 4,
+  "worker_sha256": "457b577d964209dbefc5006144f7315f4a20a2ecb64f362e2b961675518b5309",
+  "plan_sha256": "573837a10d3faa546f7a24bb4d17c897f55c234126165dfde86baa74e754db9b",
+  "per_case_observation": {
+    "order_invariance": {
+      "the_canonical_pose_costs_at_most_one_solve_per_equilibration": {
+        "KERO_DUMP_INPUT": "all"
+      }
+    }
+  },
+  "observation_scope": "Existing diagnostic input printing only, child-only override; no numerical/query/cache/selection/assertion changes. Native input traces are not necessarily one-to-one with all raw engine calls.",
+  "execution": "Not issued when this binding was frozen"
+}

@@ -1,0 +1,107 @@
+{
+  "all_four_api_pass": false,
+  "all_four_browser_pass": false,
+  "api": {
+    "fresh-feed-and-wait": {
+      "control": "fresh-feed-and-wait",
+      "failures": [],
+      "passed": true,
+      "predicates": {
+        "elapsed_seconds_per_wait": [
+          1.0,
+          1.0
+        ],
+        "independent_co2_mol": [
+          0.002973227394841,
+          0.003005559279462
+        ],
+        "per_step_gas_adjusted_element_and_charge_ledger": true,
+        "positive_one_second_waits": 2,
+        "scene_provenance": [
+          {
+            "kind": "actual_step_scene",
+            "source_row": 0
+          },
+          {
+            "kind": "actual_step_scene",
+            "source_row": 1
+          },
+          {
+            "kind": "actual_step_scene",
+            "source_row": 2
+          },
+          {
+            "kind": "unchanged_prior_physical_scene",
+            "source_row": 2
+          },
+          {
+            "kind": "actual_step_scene",
+            "source_row": 4
+          },
+          {
+            "kind": "unchanged_prior_physical_scene",
+            "source_row": 4
+          },
+          {
+            "kind": "actual_step_scene",
+            "source_row": 6
+          },
+          {
+            "kind": "unchanged_prior_physical_scene",
+            "source_row": 6
+          },
+          {
+            "kind": "actual_step_scene",
+            "source_row": 8
+          },
+          {
+            "kind": "unchanged_prior_physical_scene",
+            "source_row": 8
+          }
+        ]
+      },
+      "script_sha256": "aff06d72dd794edf72949eb027601d9b0406a5f5c9ee24d238a5a4df63f91871",
+      "transport": "api"
+    },
+    "phase-bicarbonate-phosphoric": {
+      "control": "phase-bicarbonate-phosphoric",
+      "disposition": "UNSUPPORTED_HOLD",
+      "failures": [
+        "step[3].vessel reports an unvalidated concentrated-mixture activity-model fallback"
+      ],
+      "passed": false,
+      "predicates": {},
+      "script_sha256": "c98d40cbca3f222a2b2bab7746b539ecde810061cf17f686c136e4825d4dc0c6",
+      "transport": "api"
+    },
+    "phase-cacl2-agno3-cooling": {
+      "control": "phase-cacl2-agno3-cooling",
+      "disposition": "UNSUPPORTED_HOLD",
+      "failures": [
+        "step[2].vessel reports an unvalidated concentrated-mixture activity-model fallback"
+      ],
+      "passed": false,
+      "predicates": {},
+      "script_sha256": "a95e59408c36731599dcdf2a95457be77ddbfd1c6282a720fc80e0c2a5ec1ec8",
+      "transport": "api"
+    },
+    "phase-carbonate-acetic": {
+      "control": "phase-carbonate-acetic",
+      "disposition": "UNSUPPORTED_HOLD",
+      "failures": [
+        "step[3].vessel reports an unvalidated concentrated-mixture activity-model fallback"
+      ],
+      "passed": false,
+      "predicates": {},
+      "script_sha256": "7a4356e73368ad63c7a28baf927ca3b6ae8a2794b3d93f1d916f4fee9e91d16a",
+      "transport": "api"
+    }
+  },
+  "baseline11_82_execution_and_acceptance_required_separately": true,
+  "baseline_protocols_modified_by_this_assessor": false,
+  "browser": {},
+  "candidate_source": "c51758fa09a8ce0089bc93bb64338a587834a405",
+  "candidate_tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "four_additions_verdict": "UNSUPPORTED_HOLD",
+  "full_product_verdict": "NOT_ACCEPTED_BASELINE_11_82_REQUIRED"
+}

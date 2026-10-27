@@ -32,6 +32,7 @@ fn external_raw(initial: f64, final_amount: Option<f64>) -> Result<(), SolveErro
     PhreeqcEquilibrator::apply_balance_corrections(
         &vessel,
         &problem,
+        &[], // Controlled reader fixture has no native selected-output table.
         &mut ions,
         &mut [],
         &[],

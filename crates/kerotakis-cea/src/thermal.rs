@@ -29,7 +29,7 @@ use kerotakis_core::{
     Vessel,
 };
 
-use crate::gibbs::{equilibrate_tp, OpenAtmosphere};
+use crate::gibbs::{equilibrate_tp, CeaError, OpenAtmosphere};
 use crate::nasa9::{db, Species};
 
 /// Air, as mole fractions of the reservoir the vessel stands in.
@@ -157,10 +157,191 @@ fn registry_row(name: &str) -> Result<&'static species::SpeciesData, SolveError>
             cea_name(r.key)
                 .is_some_and(|mapped| cea_identity_stem(mapped) == cea_identity_stem(name))
         })
-        .ok_or_else(|| SolveError::NotConverged {
-            solver: "cea-thermal".to_string(),
-            detail: format!("the equilibrium contains {name}, which has no name in the registry"),
+        .ok_or_else(|| {
+            owned_thermal_error(
+                Phrase::new(
+                    "solver-reason.cea.registry-name-unknown",
+                    "A CEA species has no matching name in the species registry: {name}.",
+                    vec![("name".into(), Slot::text(name))],
+                ),
+                format!("the equilibrium contains {name}, which has no name in the registry"),
+            )
         })
+}
+
+#[derive(Clone, Copy)]
+enum CeaSolveContext {
+    AdiabaticHp,
+    IgnitionTpFallback,
+    IsothermalTp,
+}
+
+enum CeaReasonKind {
+    NoSpecies,
+    DataOutOfRange,
+    TemperatureNonfinite,
+    NotConverged,
+    EmptyBudget,
+}
+
+impl CeaSolveContext {
+    fn reason_key(self, kind: CeaReasonKind) -> &'static str {
+        match (self, kind) {
+            (Self::AdiabaticHp, CeaReasonKind::NoSpecies) => {
+                "solver-reason.cea.adiabatic-hp.no-species"
+            }
+            (Self::AdiabaticHp, CeaReasonKind::DataOutOfRange) => {
+                "solver-reason.cea.adiabatic-hp.data-out-of-range"
+            }
+            (Self::AdiabaticHp, CeaReasonKind::TemperatureNonfinite) => {
+                "solver-reason.cea.adiabatic-hp.temperature-nonfinite"
+            }
+            (Self::AdiabaticHp, CeaReasonKind::NotConverged) => {
+                "solver-reason.cea.adiabatic-hp.not-converged"
+            }
+            (Self::AdiabaticHp, CeaReasonKind::EmptyBudget) => {
+                "solver-reason.cea.adiabatic-hp.empty-budget"
+            }
+            (Self::IgnitionTpFallback, CeaReasonKind::NoSpecies) => {
+                "solver-reason.cea.ignition-tp-fallback.no-species"
+            }
+            (Self::IgnitionTpFallback, CeaReasonKind::DataOutOfRange) => {
+                "solver-reason.cea.ignition-tp-fallback.data-out-of-range"
+            }
+            (Self::IgnitionTpFallback, CeaReasonKind::TemperatureNonfinite) => {
+                "solver-reason.cea.ignition-tp-fallback.temperature-nonfinite"
+            }
+            (Self::IgnitionTpFallback, CeaReasonKind::NotConverged) => {
+                "solver-reason.cea.ignition-tp-fallback.not-converged"
+            }
+            (Self::IgnitionTpFallback, CeaReasonKind::EmptyBudget) => {
+                "solver-reason.cea.ignition-tp-fallback.empty-budget"
+            }
+            (Self::IsothermalTp, CeaReasonKind::NoSpecies) => {
+                "solver-reason.cea.isothermal-tp.no-species"
+            }
+            (Self::IsothermalTp, CeaReasonKind::DataOutOfRange) => {
+                "solver-reason.cea.isothermal-tp.data-out-of-range"
+            }
+            (Self::IsothermalTp, CeaReasonKind::TemperatureNonfinite) => {
+                "solver-reason.cea.isothermal-tp.temperature-nonfinite"
+            }
+            (Self::IsothermalTp, CeaReasonKind::NotConverged) => {
+                "solver-reason.cea.isothermal-tp.not-converged"
+            }
+            (Self::IsothermalTp, CeaReasonKind::EmptyBudget) => {
+                "solver-reason.cea.isothermal-tp.empty-budget"
+            }
+        }
+    }
+
+    fn description(self) -> &'static str {
+        match self {
+            Self::AdiabaticHp => "the adiabatic enthalpy-pressure solve",
+            Self::IgnitionTpFallback => "the ignition-temperature fallback solve",
+            Self::IsothermalTp => "the fixed-temperature solve",
+        }
+    }
+}
+
+enum CeaOwnedFailure<'a> {
+    NoSpecies(CeaSolveContext),
+    OutOfRange {
+        context: CeaSolveContext,
+        species: &'a str,
+        temperature: f64,
+    },
+    OutOfRangeTemperatureNonfinite {
+        context: CeaSolveContext,
+        species: &'a str,
+    },
+    NotConverged {
+        context: CeaSolveContext,
+        iterations: usize,
+    },
+    EmptyBudget(CeaSolveContext),
+}
+
+impl CeaOwnedFailure<'_> {
+    fn phrase(self) -> Phrase {
+        match self {
+            Self::NoSpecies(context) => Phrase::bare(
+                context.reason_key(CeaReasonKind::NoSpecies),
+                &format!(
+                    "No CEA species represent the requested elements in {}.",
+                    context.description()
+                ),
+            ),
+            Self::OutOfRange {
+                context,
+                species,
+                temperature,
+            } => Phrase::new(
+                context.reason_key(CeaReasonKind::DataOutOfRange),
+                &format!(
+                    "Thermodynamic data for the CEA species {{species}} are unavailable at {{temperature}} K in {}.",
+                    context.description()
+                ),
+                vec![
+                    ("species".into(), Slot::text(species)),
+                    ("temperature".into(), Slot::number(temperature.to_string())),
+                ],
+            ),
+            Self::OutOfRangeTemperatureNonfinite { context, species } => Phrase::new(
+                context.reason_key(CeaReasonKind::TemperatureNonfinite),
+                &format!(
+                    "Thermodynamic data for CEA species {{species}} were requested at a nonfinite temperature in {}.",
+                    context.description()
+                ),
+                vec![("species".into(), Slot::text(species))],
+            ),
+            Self::NotConverged {
+                context,
+                iterations,
+            } => Phrase::new(
+                context.reason_key(CeaReasonKind::NotConverged),
+                &format!(
+                    "The CEA equilibrium did not converge after {{iterations}} iterations in {}.",
+                    context.description()
+                ),
+                vec![("iterations".into(), Slot::number(iterations.to_string()))],
+            ),
+            Self::EmptyBudget(context) => Phrase::bare(
+                context.reason_key(CeaReasonKind::EmptyBudget),
+                &format!("The element budget is empty in {}.", context.description()),
+            ),
+        }
+    }
+}
+
+fn cea_solve_error(error: &CeaError, context: CeaSolveContext) -> SolveError {
+    let reason = match error {
+        CeaError::NoSpecies => CeaOwnedFailure::NoSpecies(context),
+        CeaError::OutOfRange(species, temperature) if temperature.is_finite() => {
+            CeaOwnedFailure::OutOfRange {
+                context,
+                species,
+                temperature: *temperature,
+            }
+        }
+        CeaError::OutOfRange(species, _) => {
+            CeaOwnedFailure::OutOfRangeTemperatureNonfinite { context, species }
+        }
+        CeaError::NotConverged(iterations) => CeaOwnedFailure::NotConverged {
+            context,
+            iterations: *iterations,
+        },
+        CeaError::EmptyBudget => CeaOwnedFailure::EmptyBudget(context),
+    };
+    owned_thermal_error(reason.phrase(), error.to_string())
+}
+
+fn owned_thermal_error(reason: Phrase, detail: impl Into<String>) -> SolveError {
+    SolveError::NotConverged {
+        reason: Some(Box::new(reason)),
+        solver: "cea-thermal".into(),
+        detail: detail.into(),
+    }
 }
 
 /// Registry key → CEA species name, derived by matching chemical formulas.
@@ -676,29 +857,16 @@ impl Equilibrator for ThermalEquilibrator {
                 // without a feasible initial temperature bracket. The event
                 // provenance says which route was used.
                 Err(_) if charge.used_feed_thermo => (
-                    equilibrate_tp(&charge.budget, &pool, t, 1.0).map_err(|e| {
-                        SolveError::NotConverged {
-                            solver: "cea-thermal".to_string(),
-                            detail: e.to_string(),
-                        }
-                    })?,
+                    equilibrate_tp(&charge.budget, &pool, t, 1.0)
+                        .map_err(|e| cea_solve_error(&e, CeaSolveContext::IgnitionTpFallback))?,
                     true,
                 ),
-                Err(e) => {
-                    return Err(SolveError::NotConverged {
-                        solver: "cea-thermal".to_string(),
-                        detail: e.to_string(),
-                    })
-                }
+                Err(e) => return Err(cea_solve_error(&e, CeaSolveContext::AdiabaticHp)),
             }
         } else {
             (
-                equilibrate_tp(&charge.budget, &pool, t, 1.0).map_err(|e| {
-                    SolveError::NotConverged {
-                        solver: "cea-thermal".to_string(),
-                        detail: e.to_string(),
-                    }
-                })?,
+                equilibrate_tp(&charge.budget, &pool, t, 1.0)
+                    .map_err(|e| cea_solve_error(&e, CeaSolveContext::IsothermalTp))?,
                 false,
             )
         };
@@ -1052,5 +1220,101 @@ mod phase_handoff_tests {
             &composition,
             &air
         ));
+    }
+}
+
+#[cfg(test)]
+mod owned_failure_reason_tests {
+    use super::*;
+
+    #[test]
+    fn typed_cea_failures_keep_context_reason_and_original_error_display() {
+        let cases = [
+            (
+                CeaError::NoSpecies,
+                CeaSolveContext::AdiabaticHp,
+                "solver-reason.cea.adiabatic-hp.no-species",
+            ),
+            (
+                CeaError::OutOfRange("private-CEA-species".into(), 1234.5),
+                CeaSolveContext::IgnitionTpFallback,
+                "solver-reason.cea.ignition-tp-fallback.data-out-of-range",
+            ),
+            (
+                CeaError::OutOfRange("private-CEA-species".into(), f64::INFINITY),
+                CeaSolveContext::IsothermalTp,
+                "solver-reason.cea.isothermal-tp.temperature-nonfinite",
+            ),
+            (
+                CeaError::NotConverged(17),
+                CeaSolveContext::AdiabaticHp,
+                "solver-reason.cea.adiabatic-hp.not-converged",
+            ),
+            (
+                CeaError::EmptyBudget,
+                CeaSolveContext::IsothermalTp,
+                "solver-reason.cea.isothermal-tp.empty-budget",
+            ),
+        ];
+
+        for (raw, context, key) in cases {
+            let old_detail = raw.to_string();
+            let error = cea_solve_error(&raw, context);
+            assert_eq!(
+                error.to_string(),
+                format!("cea-thermal could not solve this state: {old_detail}")
+            );
+            assert_eq!(
+                error.owned_reason().map(|reason| reason.key.as_str()),
+                Some(key)
+            );
+        }
+    }
+
+    #[test]
+    fn unknown_registry_name_has_owned_reason_and_unchanged_technical_detail() {
+        let error = registry_row("unregistered-CEA-label").unwrap_err();
+        assert_eq!(
+            error.to_string(),
+            "cea-thermal could not solve this state: the equilibrium contains unregistered-CEA-label, which has no name in the registry"
+        );
+        let reason = error.owned_reason().unwrap();
+        assert_eq!(reason.key, "solver-reason.cea.registry-name-unknown");
+        assert_eq!(
+            reason.slots,
+            vec![("name".into(), Slot::text("unregistered-CEA-label"))]
+        );
+
+        let detail = match &error {
+            SolveError::NotConverged { detail, .. } => detail.clone(),
+        };
+        let event = Event::SolverFailed {
+            vessel: kerotakis_core::VesselId(0),
+            solver: "cea-thermal".into(),
+            detail: detail.clone(),
+            reason: error.owned_reason().cloned().map(Box::new),
+        };
+        for locale in [
+            kerotakis_core::i18n::Locale::parse("de"),
+            kerotakis_core::i18n::Locale::parse("fr"),
+        ] {
+            let phrase = reason.render(locale);
+            let transcript = kerotakis_core::render::render_event_in(
+                &event,
+                kerotakis_core::render::Register::LV3,
+                locale,
+            );
+            println!(
+                "OWNED-UNKNOWN-REGISTRY-GUARD [{}] {transcript}",
+                locale.code()
+            );
+            assert_ne!(
+                phrase, reason.en,
+                "the {locale:?} catalogue entry must be translated"
+            );
+            assert!(transcript.contains(&phrase));
+            assert!(transcript.contains(&detail));
+            assert!(transcript.contains("unregistered-CEA-label"));
+        }
     }
 }

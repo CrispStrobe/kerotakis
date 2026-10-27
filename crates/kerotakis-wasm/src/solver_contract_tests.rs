@@ -305,6 +305,7 @@ impl Equilibrator for Writer {
                 vessel.deposit(SpeciesId::new("NaCl"), Moles(0.25), Phase::Solid);
                 vessel.excess_enthalpy_j = 17.0;
                 Err(SolveError::NotConverged {
+                    reason: None,
                     solver: self.name().into(),
                     detail: "deliberate failed proposal".into(),
                 })

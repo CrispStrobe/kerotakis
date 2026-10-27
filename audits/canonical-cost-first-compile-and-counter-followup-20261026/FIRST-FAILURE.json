@@ -1,0 +1,34 @@
+{
+  "source": "1d56ee1930023bcb49334c4004b34c89d42aed95",
+  "tree": "c33247e1047bcd13cfd0792c6cc9fddb479d8ed3",
+  "selected_tests_executed": 0,
+  "native_integration_target_compiled_but_not_executed": true,
+  "error": "E0689 ambiguous integer type in new pass-cap control",
+  "raw_producer_files_retained_privately": {
+    "kerotakis_phreeqc-build.stdout": {
+      "sha256": "b687c7b3dc0783c95811f2cd65926e8b39cf3b1db9f54fb50f7e891d8867c0c5",
+      "bytes": 224023
+    },
+    "kerotakis_phreeqc-build.stderr": {
+      "sha256": "429ca2320920d3366529680052525bb783aea5c5fd4c987df2a5c5c1a6b9b7d5",
+      "bytes": 187
+    },
+    "STOPPED.json": {
+      "sha256": "7da66d5c3e21e71e2a8cbff751743b6a7ba9eba22e61dacbf7df76a7d275b813",
+      "bytes": 891
+    },
+    "manifest.json": {
+      "sha256": "add48d5a9139e03b0fdd1f587598817bcb9251399c7ed0c413bdf2635892face",
+      "bytes": 6523
+    },
+    "source-before.json": {
+      "sha256": "44f0747f5a0a402fca3273be8d748fa38708baeb898b0fdf29418693226b80a3",
+      "bytes": 3585
+    },
+    "actual-producer-Cargo.lock": {
+      "sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+      "bytes": 79538
+    }
+  },
+  "public_diagnostic": "Exact rendered compiler diagnostic extracted from actual compiler-message JSON; complete build streams retained under their hashes"
+}

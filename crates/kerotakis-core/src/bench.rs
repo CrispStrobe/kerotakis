@@ -1006,6 +1006,7 @@ impl Bench {
                 match solver.equilibrate(vessel) {
                     Ok(mut more) => events.append(&mut more),
                     Err(e) => events.push(Event::SolverFailed {
+                        reason: e.owned_reason().cloned().map(Box::new),
                         vessel: id,
                         solver: solver.name().to_string(),
                         detail: e.to_string(),
@@ -1701,6 +1702,7 @@ impl Bench {
                     match solver.equilibrate(vessel) {
                         Ok(mut more) => events.append(&mut more),
                         Err(e) => events.push(Event::SolverFailed {
+                            reason: e.owned_reason().cloned().map(Box::new),
                             vessel: id,
                             solver: solver.name().to_string(),
                             detail: e.to_string(),
@@ -5953,6 +5955,7 @@ impl Bench {
                 Err(TrialFailure::Veto(reason)) => return Ok(vec![Event::SafetyVeto { reason }]),
                 Err(TrialFailure::Solver(e)) => {
                     events.push(Event::SolverFailed {
+                        reason: e.owned_reason().cloned().map(Box::new),
                         vessel,
                         solver: solver.name().to_string(),
                         detail: e.to_string(),

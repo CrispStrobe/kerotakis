@@ -1,0 +1,745 @@
+{
+  "source": "0d4dee67b47fcdbd1e80c539a1fd710de31b6e23",
+  "tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "manifest_members": 102,
+  "raw_case_members": 108,
+  "passed": 36,
+  "failed": 0,
+  "ignored": 0,
+  "source_before_after_identical": true,
+  "all_manifest_members_rehashed": true,
+  "all_case_members_rehashed": true,
+  "cost_original_assertion_12_passes": true,
+  "cost_printed_cache_miss_inputs": 12,
+  "strict_phreeqc_clippy": true,
+  "postflights": {
+    "codex_lint": 0,
+    "curiosity_coverage_check": 0
+  },
+  "full_source_or_product_acceptance": false,
+  "outcomes": [
+    {
+      "target": "native_cabbage_thermal_dom",
+      "test": "original_cabbage_v4_closes_modeled_heat_and_zero_time_native_stock",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "f60acde934e7b2de33ef4351f29ca444890c499d24ec56ee331a22ae5d2bf046",
+          "bytes": 191
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "4d7c083d70e701480d36c9ba505eaefadc4a5a8ad8cc1b897aef111b182a126d",
+          "bytes": 494
+        }
+      }
+    },
+    {
+      "target": "native_cabbage_thermal_dom",
+      "test": "plain_carbonate_water_closes_modeled_heat_and_zero_time_native_stock",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "56633e504b4127704b59e85c767b7670ebe33ad7e713dc3298bfa287f1751b9e",
+          "bytes": 193
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "63de0917dba4d05487a7f355aa872aebc6675853caebaebe4ea989f65dc9bbc2",
+          "bytes": 496
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::reservoir_certificate_requires_current_native_numerical_coordinates",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "a290a6b357246787a19b349ab4d14c748a0631c230fb51a8343fd36a42f11a1e",
+          "bytes": 237
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "a1c8e10fe618e2bb947d3db880111e5a6fb4dfa92bbef1d9f8dfe6b389ee8fec",
+          "bytes": 529
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::reservoir_opaque_owner_spends_global_eight_pass_cap_and_rolls_back",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "7eed847d67dd5854cec3b54cc66a28bde6a953118521e722b91267c157d96ad3",
+          "bytes": 236
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "0d06645e6d85749e273e8d5d717f4a6fbd6b0469634aa4fbe8a5dfcec839df9f",
+          "bytes": 528
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::reservoir_opaque_owner_requires_explicit_native_opt_in_and_keeps_clock_distinct",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "7cc1476d7ecbf9c0f34d2d66188b8e0a2adf179b996eb723fba04cc3e6ed4254",
+          "bytes": 247
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "6af122db21745a286632ae12d21bb30307df4021a2b669fe8f721a4ddf710f3c",
+          "bytes": 539
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::reservoir_opaque_immutable_certificate_tests::passive_ladder_is_reservoir_only_and_every_spectator_bit_is_immutable",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "530a4cb365a031f06b7b3d6542cf67f48d123c05525635df41d17ea79ee05d52",
+          "bytes": 253
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "0de843e62e928142a269170f120d9eb816b8ac9357d9f211c9e8be0203f8c3b6",
+          "bytes": 545
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::reservoir_opaque_immutable_certificate_tests::reservoir_owner_checks_signed_gas_and_rejects_unknown_ions_or_clock",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "22bb48d8b101a6cd6dbc270fa3699e77b9a130b2daa474b8743b4b7091dfde78",
+          "bytes": 251
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "410ad311a903fce4b91e105fb3418902a7427163fcd6dad0059bb886527d358f",
+          "bytes": 543
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::opaque_clock_owner_rejects_second_pass_mutation_and_restores_caller",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "afa24252cd4f1b568c43f9b7895807be85cbea9c654db0cfaf2e9cc0f3b294a3",
+          "bytes": 237
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "927b7937c8020884030ab77c1593e52da78d7b3d5f3b25e6b9d4617b5ab9645e",
+          "bytes": 529
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::opaque_owner_is_clock_only_and_requires_every_represented_component",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "4a94fbd2edd1c2971d36e5ffe0ce514256aa19236a76fd753e49381d89a3ffe2",
+          "bytes": 235
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "870072e16772167413ffa515c974879727eb2f50b7aa2ea5c5bfbbd019ab547d",
+          "bytes": 527
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::gas_component_projection_tests::clock_only_component_projection_requires_typed_first_or_reentry_owner",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "e5c409d174707448751742d4e651512e72452e6963fcaa7bba53a2bdef3f5258",
+          "bytes": 237
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "5180e08ed5887ee6d4970429ea46036d1f9cc2f14e74163b871c128505e861db",
+          "bytes": 529
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::gas_aware_certificate_tests::clock_spectators_are_exact_immutable_stock_not_new_native_components",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "89fe9e4f38364e39d95ddf24c7f6820a09319d5a4d027d18eb10f6d8660bc1e8",
+          "bytes": 235
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "d534476e7027495d6b886ec97dc91a107e8f53e58bfdff6c235af6bd3829afc2",
+          "bytes": 527
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "inventory::gas_aware_certificate_tests::opaque_clock_owner_preserves_every_unresolved_field_and_rejects_invalid_stock",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "5fb5cc6b5b56f4cf1da706362fa15b5ea1320ddc6bab83e1e923cea61f1062f7",
+          "bytes": 244
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "074ef4fb952194e20d721d5e0d0ea4ae9b06f18cd8e715998c014323b1d6d1a1",
+          "bytes": 536
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::final_strict_heat_and_volume_both_have_to_satisfy_the_thermal_map",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "9f25957b1e89fab22187fd4c9574dd0463294a70ec652e6ec70bff96fe89d172",
+          "bytes": 235
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "8c769a7710576c82294098b5dc4237b17cbad1947df0624ecddcba39e0dec595",
+          "bytes": 527
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::mismatched_first_pose_temperature_is_refused_without_committing",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "aef812d0c223bdc26d39a17d531a751e802425f72395abd77f1b2102545aca89",
+          "bytes": 233
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "18fbfbf2c04aec21087738496292be5b42d8a0e70778c05cd82d74119a847116",
+          "bytes": 525
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::provisional_two_cycle_cannot_witness_final_strict_thermal_convergence",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "bc1cf5cca39c12d86847b1002219a872017dbbdc7c1a1c8beaf1d48b23bbf91d",
+          "bytes": 239
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "db84135470c3c944576b3324981631e60bd4735c645e65256f056cc4fc67f579",
+          "bytes": 531
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::resumed_first_pose_counts_toward_the_same_eight_pass_cap_and_rolls_back",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "52383a367bd43a9de7a733b9c6b0c8e09fd6bdda74563a0856c61b37ddf65d95",
+          "bytes": 241
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "3178ef8244b8275949c68da97279245c2418ca12512dc3355fb550a8ef2c3fd3",
+          "bytes": 533
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::resumed_first_pose_never_repeats_native_first_input_or_recaptures_heat_origin",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "1ad8b13a35b5263665689da109f3cc95f7079bc5e7c92b61c6ae1c2b5897fa73",
+          "bytes": 247
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "67924f03c8af040fa33eff4a48e8a650a9edf5ee5e60c8b8be1df9994e3d4efd",
+          "bytes": 539
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::resumed_seed_replay_discards_gas_and_clock_and_uses_original_owner",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "668511bb0aab108a97c964187c8afa78ed54f3a7ddb51db0d2cbea75fa8e205b",
+          "bytes": 236
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "1339b8d175f1c029aee195fdc0f88d0e7c7262c7ab9fd217ba80f2748352fbe8",
+          "bytes": 528
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::auxiliary_floor_replay_discards_provisional_gas_clock_and_heat",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "569cf7245adaa249ef5968d3428e752cee0182d2def0859c60156b2fad00e5ea",
+          "bytes": 232
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "37a95781b166a0f5d88ce3d39b48eeb8f43fa7bc9ba4c701042ce409c9c3c5c4",
+          "bytes": 524
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::reverse_floor_replay_probes_only_first_pose_then_requires_ordinary_admission",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "a145d23230485849fe9385e44bf7074e4145cf3f78aeff6f22b28fdea3ce3c97",
+          "bytes": 246
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "7926063f5a138d9404f1e4324eb03cbb341f23394145f96cf8368178e3484dc9",
+          "bytes": 538
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::auxiliary_other_declines_never_authorize_replay_and_floor_spends_global_cap",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "673252627bcb8c36db828a1b1e9b2d4958e2e25425c3785c86da7fd56b3152f2",
+          "bytes": 245
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "667fbb07e2e8a030133a7ea595ee0f1c4595172e786264c6277f4604477c0edc",
+          "bytes": 537
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::auxiliary_engine_or_capability_change_cannot_replay_or_commit",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "1722c6232be9795c9aaec56d7561c786f27f6be548d07df25f6e96da8560716c",
+          "bytes": 231
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "4cfced160b33214b783e8fa7c6ab7cbf275c29915808e6a025cd238853115173",
+          "bytes": 523
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::secondary_selected_output_mu_must_be_finite_and_nonnegative",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "04cec9b5ef31d97e6b08d76d88a65518397e123961d7c3be1467fffbab6ffe3b",
+          "bytes": 229
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "77f705cb8a6bd3d39161343ae8cff75c31600b76f5479bff928bb7c2155b5ac3",
+          "bytes": 521
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::actual_paired_auxiliary_delta_failure_replays_eagerly_and_keeps_global_cap_rollback",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "7b60dd7a668401ba11aae8128fd44cd36921a1b295ea7a3dcde8f583fadd6e9b",
+          "bytes": 253
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "6abfce02265be36b5b0fa101c3a84c24bc2499ccdb120b7423db9d197e4c2875",
+          "bytes": 545
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::auxiliary_decline_remains_typed_and_missing_result_cannot_be_accepted",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "14948223fac894350513441eaface98f2e37e83c3b2486b077f76d9d91e99a94",
+          "bytes": 239
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "c18f91920d13d20773f473463e6de9bb46abf470e88b12ed2f5ab21df6970b9c",
+          "bytes": 531
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::both_adjacent_queued_answers_are_completed_before_full_acceptance_and_routing",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "697b050f3d7a995b5a78f3b59b2277990a69d2a150c4017bac1add0b5a5043d2",
+          "bytes": 247
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "ef731b8f1b3b6e5811560b3b35726a9dbd985722fd4d4b19cba33923826fcbbd",
+          "bytes": 539
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::old_controlled_adapter_cannot_invent_queued_auxiliary_answers",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "4f139805d4078e09b55de2845eb5224c00ed22e7ead133ae00cc7d4d5109545f",
+          "bytes": 231
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "40368a61ea72554fd94932367a4a3dc231f21a24ec571b8771691a65a70b2d9e",
+          "bytes": 523
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::pending_floor_transition_replays_eagerly_from_original_owner",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "6a4f7464347932530d82b1f62ee0ec6ef7bd51c4dbae1b4384d98f5d1f252163",
+          "bytes": 230
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "8e28922b7fcafe5995d8483e069a5c426be6e2848989bfe2d5ff9d6be18dfed6",
+          "bytes": 522
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::primary_progress_never_clears_pending_or_grants_full_acceptance",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "f337df7ecec815f4391ddd5769dbebb150a37d980ab98db2f449137e9972cf9f",
+          "bytes": 233
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "d30c508c146d9df9debf05058838cacf661334cb75ba036f76184216f00f71fe",
+          "bytes": 525
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::queued_auxiliary_refuses_database_fingerprint_input_or_key_drift",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "6641ee1a5ebcf7d2348bfcf8863fe1e6aef311dac844eb168f65cbb393de315e",
+          "bytes": 234
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "596d3e092cca0e5eb136545cc48408f5d1aa6b729ffe2e1ffec52a1587e12659",
+          "bytes": 526
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::queued_auxiliary_refuses_wrong_stock_and_whole_step_heat_origin",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "41621cf36a10854e5ba72dae53186a6b086441d7f6a4fb49ff164a188a89ec46",
+          "bytes": 233
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "538a1c2d0f77a7b9f182a6d21ee6b564b4ecc6046cd950776e336bab2f56772f",
+          "bytes": 525
+        }
+      }
+    },
+    {
+      "target": "kerotakis_phreeqc",
+      "test": "aqueous::canonical_physical_closure_tests::queued_auxiliary_refuses_wrong_temperature_before_native_dispatch",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "7f40a4809e3bf3db8d6aa262cf0aea07b0270628961fed7929380a9296863d32",
+          "bytes": 235
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "1849b310fceba4876c6f3f4261f5131dcf03788c03d37ec7a10fd7d1b8cf4565",
+          "bytes": 527
+        }
+      }
+    },
+    {
+      "target": "order_invariance",
+      "test": "the_same_beaker_reads_the_same_solvent_mass_in_either_order",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "1ed0a19160a58dddfa936df016bdafb81322f911144a9d795407dbad92af316d",
+          "bytes": 184
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "252662d8a214b2c2e2cff91f38113e9c185e1c8e3769dfe6bddecad8678af34d",
+          "bytes": 477
+        }
+      }
+    },
+    {
+      "target": "order_invariance",
+      "test": "the_canonical_pose_costs_at_most_one_solve_per_equilibration",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "e42eb9b2f12f67b06f49e4c4e8c0a47f875213e9ba44c25d2d16893f46502f4f",
+          "bytes": 185
+        },
+        "stderr": {
+          "sha256": "608dd06b7b6e1a1e55300048e4552012b0740fd98cdd7eec259d0380b28921fc",
+          "bytes": 9273
+        },
+        "json": {
+          "sha256": "85ead02c57fb7104f3e952761f0053b7524dd0d8157820d5bf531719854ad0b6",
+          "bytes": 510
+        }
+      }
+    },
+    {
+      "target": "corpus_perturbation",
+      "test": "addition_order_does_not_change_where_the_corpus_ends_up",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "ea1590cc19801945a364f49b7dd0d3e88dde6a3ef8363384177b16bb092e8d84",
+          "bytes": 182
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "c60feb0a207a2645d7f227789daf1096f26a697e4fdb76e663ec30e42173c1ab",
+          "bytes": 476
+        }
+      }
+    },
+    {
+      "target": "secondary_selector_replay",
+      "test": "strong_acid_carbonate_and_near_floor_stocks_repeat_from_generated_cache",
+      "exit_status": 0,
+      "complete": true,
+      "raw": {
+        "stdout": {
+          "sha256": "645cc367b4603592a1f7210eaa2b2e22c6875a5400c353e2f07a9aad005de60a",
+          "bytes": 196
+        },
+        "stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "json": {
+          "sha256": "17b3074384eb53f39a4bdde27c31c02805ba0b39869e3ba7aafa5285b70edd08",
+          "bytes": 498
+        }
+      }
+    }
+  ],
+  "raw_manifest_sha256": "d3e19b36b8327d99af15cecaa2d6710f7c7d527ef619fd2b0ffe97be2297145a",
+  "native_cli_sha256": "0a6d0959e88332ce993a663f0438a4415fd2a3244a073fa7e8d60d79166c28e8"
+}

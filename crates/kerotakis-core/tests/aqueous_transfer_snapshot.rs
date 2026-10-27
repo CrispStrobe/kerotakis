@@ -290,6 +290,7 @@ impl Equilibrator for FailReceiver {
         v.free_hydroxide = 4.0;
         v.deposit(SpeciesId::new("Na+"), Moles(1.0), Phase::Aqueous);
         Err(SolveError::NotConverged {
+            reason: None,
             solver: self.name().into(),
             detail: "deliberate trial failure".into(),
         })

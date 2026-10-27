@@ -1,0 +1,88 @@
+{
+  "state": "FINAL_15_API_86_BROWSER_ASSESSED_WITH_THREE_UNSUPPORTED_CASES_PER_SURFACE",
+  "utc": "2026-10-26T12:56:54.097151+00:00",
+  "source": "c51758fa09a8ce0089bc93bb64338a587834a405",
+  "tree": "638dbf446e9ac6007e97ad3f7c13ce300da40b9e",
+  "native_sha256": "daa3212fb76e4cbf1f2e445506c80d3fc7b9a9a933ac5d48fc0d1418f14e10f3",
+  "actual_producer_lock_sha256": "209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447",
+  "artifact_sha256": "f62b597da6af8f3bd8f1c600b42794350c7df9a0bef0fd059ffb1fc148dc3c77",
+  "wasm_sha256": "b75c7ce76d45c2cc226035c43178ff1b152c7b01d52e6848aaa0b05e05ecb2b7",
+  "wasm_build_git_rev": "c51758f",
+  "api": {
+    "assessed": 15,
+    "pass": 12,
+    "unsupported_hold": 3,
+    "baseline_accepted": 11,
+    "extra4_pass": 1,
+    "extra4_unsupported_hold": 3
+  },
+  "browser": {
+    "assessed": 86,
+    "pass": 83,
+    "unsupported_hold": 3,
+    "baseline_accepted": 82,
+    "extra4_pass": 1,
+    "extra4_unsupported_hold": 3
+  },
+  "qualification": "Complete saved assessment, not a full 15/86 scientific pass. Unsupported activity-model fallbacks receive no science or catalog credit. For carbonate/acetic and bicarbonate/phosphoric, actual ionic strength is below 1; conservative input-load fallback is the hold reason, not proven ionic-strength limit violation.",
+  "actual_remaining3": {
+    "collection_files_independently_rehashed": 49,
+    "bytes": 1424072,
+    "decoded_inputs_verified": 8,
+    "producer_driver_exit_status": 0,
+    "scope": "remaining-three-only",
+    "original_case_ordinals": {
+      "phase-carbonate-acetic": 2,
+      "phase-bicarbonate-phosphoric": 3,
+      "fresh-feed-and-wait": 4
+    },
+    "observed_raw": {
+      "phase-carbonate-acetic": {
+        "raw_result_sha256": "446f575815cadeb969b243494dcd49b22868058956afb37c39422188f514525e",
+        "raw_rows": 5,
+        "journal_replies": 14,
+        "fallback_rows": [
+          {
+            "row": 3,
+            "temperature_K": 271.0448388950608,
+            "ionic_strength_mol_per_kg": 0.4765352287501,
+            "routing_key": "routing.activity-model-fallback"
+          }
+        ]
+      },
+      "phase-bicarbonate-phosphoric": {
+        "raw_result_sha256": "efac2f29626c99deb13aca26e080e507c665a067e8eb378bb4ab47efd4461ef8",
+        "raw_rows": 5,
+        "journal_replies": 14,
+        "fallback_rows": [
+          {
+            "row": 3,
+            "temperature_K": 271.45136366166,
+            "ionic_strength_mol_per_kg": 0.7009414439495,
+            "routing_key": "routing.activity-model-fallback"
+          }
+        ]
+      },
+      "fresh-feed-and-wait": {
+        "raw_result_sha256": "93d6127a74f2a7f9f8f20e490337987450bf85492595c5dfb2cbaef3811a4e0e",
+        "raw_rows": 10,
+        "journal_replies": 30,
+        "fallback_rows": []
+      }
+    }
+  },
+  "first_case": {
+    "actual_journal_replies": 14,
+    "assessment": "UNSUPPORTED_HOLD",
+    "preserved_failed_late_harness_guard": true,
+    "replayed": false,
+    "separate_producer_combination": true
+  },
+  "new_product_provider_requests": 0,
+  "frozen_readers_rerun": false,
+  "catalog_additions": 0,
+  "original_qualification_credit": 0,
+  "remaining_work": "Lane5 originals and lane6 owned diagnostics remain separate; no final all-lanes closure claimed.",
+  "private_final_adjudication_sha256": "b182754f60508c6d4c47c9f233e6a64bd645a526253c07eca08fa630646b8224",
+  "actual_four_browser_assessment_sha256": "e42df91ed5613a6dbca345e979267bf131d5404eae2fd2567a63fa5389c13101"
+}

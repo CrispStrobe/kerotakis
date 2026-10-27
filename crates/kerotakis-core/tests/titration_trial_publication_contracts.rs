@@ -24,6 +24,7 @@ impl Equilibrator for Model {
             // Deliberately corrupt the private trial before returning failure.
             vessel.contents[0].moles = Moles(123.0);
             return Err(SolveError::NotConverged {
+                reason: None,
                 solver: self.name().into(),
                 detail: "frozen failure after candidate mutation".into(),
             });

@@ -46,6 +46,7 @@ fn owner_sum_cancellation_accepts_raw_without_rescaling_trace_remainder() {
         PhreeqcEquilibrator::apply_balance_corrections(
             &vessel,
             &problem,
+            &[], // Controlled reader fixture has no native selected-output table.
             &mut ions,
             &mut [],
             &[],

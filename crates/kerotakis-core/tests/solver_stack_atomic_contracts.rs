@@ -40,6 +40,7 @@ impl Equilibrator for Trial {
                 v.contents.clear();
                 v.pressure = Pascal(f64::NAN);
                 Err(SolveError::NotConverged {
+                    reason: None,
                     solver: self.name().into(),
                     detail: "after mutation".into(),
                 })

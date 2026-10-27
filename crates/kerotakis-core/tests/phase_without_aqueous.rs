@@ -8,6 +8,7 @@ impl Equilibrator for MissingChemistry {
     }
     fn equilibrate(&mut self, _: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         Err(SolveError::NotConverged {
+            reason: None,
             solver: self.name().into(),
             detail: "no cached result or engine".into(),
         })
