@@ -21,6 +21,7 @@ pub mod complexation;
 pub mod continuation_acceptance;
 pub mod dbindex;
 pub mod derived;
+pub mod dissolution_reference;
 pub mod enthalpy;
 pub mod gas_phases;
 mod inventory;

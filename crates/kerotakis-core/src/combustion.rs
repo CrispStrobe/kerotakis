@@ -628,7 +628,7 @@ impl Equilibrator for CombustionEquilibrator {
                 }
             }
 
-            released_j += extent * fuel.heat_j_per_mol;
+            released_j += crate::reaction_heat::fuel_heat_released_j(fuel, extent);
         }
 
         if let Some((fuel, burned, oxygen_fraction)) = starved {

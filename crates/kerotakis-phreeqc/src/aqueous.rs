@@ -935,6 +935,11 @@ pub struct PhreeqcEquilibrator {
     /// Heat of neutralisation per database tag, kJ/mol, asked of the
     /// database the first time that database is used.
     neutralisation: std::collections::HashMap<String, f64>,
+    /// Why the most recent `solve_once` could not price its whole-step
+    /// heat, if it could not. Read by the thermal fixed point: a step whose
+    /// heat ledger is incomplete is characterised at its supplied
+    /// temperature and says so, rather than applying a partial ledger.
+    last_heat_unpriced: Option<enthalpy::Unpriced>,
     /// An outside solver, for builds that cannot link IPhreeqc themselves.
     ///
     /// `wasm32-unknown-unknown` cannot host PHREEQC's C++, so the browser
@@ -2373,6 +2378,7 @@ impl PhreeqcEquilibrator {
             engine_calls: 0,
             hook: None,
             neutralisation,
+            last_heat_unpriced: None,
         })
     }
 
@@ -2393,6 +2399,7 @@ impl PhreeqcEquilibrator {
             engine_calls: 0,
             hook: None,
             neutralisation: std::collections::HashMap::new(),
+            last_heat_unpriced: None,
         })
     }
 
@@ -4267,6 +4274,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut guess = t0;
         let mut volume_guess = start.headspace_volume();
         let mut settled: Option<(Vessel, Vec<Event>, f64, bool, f64)> = None;
+        let mut settled_unpriced: Option<enthalpy::Unpriced> = None;
         let mut fixed_point_converged = false;
         let mut last_temperature_residual = f64::INFINITY;
         let mut previous_guess: Option<f64> = None;
@@ -4282,6 +4290,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 trial.headspace = Headspace::PressureControlled { pressure, volume };
             }
             let mut deferred_seed = None;
+            self.last_heat_unpriced = None;
             let (mut events, q_joules, mut physical_canonical_closed, mut clock_applied) =
                 if full_strict_thermal {
                     self.solve_at_temperature(&mut trial)?
@@ -4340,7 +4349,9 @@ impl Equilibrator for PhreeqcEquilibrator {
             // Unknown-heat continuation is characterisation at the supplied
             // temperature, not an adiabatic prediction. Even a Cp/water basis
             // change must not reconstruct omitted endpoint heat indirectly.
-            let mut next = aqueous_temperature_target(&start, &trial, q_joules);
+            let mut heat_unpriced = self.last_heat_unpriced.clone();
+            let mut next =
+                aqueous_temperature_target(&start, &trial, q_joules, heat_unpriced.is_none());
             let mut next_volume = trial.headspace_volume();
             last_temperature_residual = (next - guess).abs();
             let provisional_thermal = deferred_seed.is_some();
@@ -4366,7 +4377,13 @@ impl Equilibrator for PhreeqcEquilibrator {
                     events = strict_events;
                     physical_canonical_closed = strict_closed;
                     clock_applied = strict_clock;
-                    next = aqueous_temperature_target(&start, &trial, strict_heat);
+                    heat_unpriced = self.last_heat_unpriced.clone();
+                    next = aqueous_temperature_target(
+                        &start,
+                        &trial,
+                        strict_heat,
+                        heat_unpriced.is_none(),
+                    );
                     next_volume = trial.headspace_volume();
                     last_temperature_residual = (next - guess).abs();
                     // A provisional two-cycle cannot witness the strict heat
@@ -4397,6 +4414,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 physical_canonical_closed,
                 clock_applied,
             ));
+            settled_unpriced = heat_unpriced;
             previous_guess = if reset_thermal_history {
                 None
             } else {
@@ -4443,6 +4461,12 @@ impl Equilibrator for PhreeqcEquilibrator {
         events.extend(unspeciated_acid_notes(vessel));
         events.extend(unspeciated_solute_notes(vessel));
         events.extend(component_charge_note);
+        if let Some(unpriced) = settled_unpriced.filter(|_| {
+            matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+                && kerotakis_core::aqueous_continuation::whole_step_heat_available(&start)
+        }) {
+            events.push(unpriced_heat_note(vessel.id, &unpriced));
+        }
         let ph_now = vessel.solution.as_ref().map(|s| s.ph);
         events.extend(milk_buffer_notes(vessel, ph_now));
         // Observability gates narration, never the physical state. Dropping
@@ -4876,7 +4900,9 @@ struct SolveSetup {
 enum HeatMode {
     Inactive,
     Priced,
-    DissolutionFallback,
+    /// The whole-step state-function balance declined. No partial heat is
+    /// charged and the step is characterised at its supplied temperature.
+    Unpriced,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -4904,11 +4930,37 @@ struct AqueousFirstPose {
     pass: AqueousPass,
 }
 
-fn aqueous_temperature_target(start: &Vessel, trial: &Vessel, q_joules: f64) -> f64 {
+/// The typed refusal for a step whose whole-step heat ledger is incomplete.
+/// The chemistry of the step stands; only its heat is withheld, and the
+/// temperature is the one the step was supplied at.
+fn unpriced_heat_note(vessel: kerotakis_core::VesselId, unpriced: &enthalpy::Unpriced) -> Event {
+    Event::not_modeled(
+        vessel,
+        kerotakis_core::ops::NotModelledCause::NoReviewedDatum,
+        Phrase::new(
+            "not-modeled.aqueous-heat-unpriced",
+            "the reaction heat of this step is not modelled: {species} changed amount and has no reviewed enthalpy on this route. No partial heat is charged; the temperature stays where the step began, and the composition, pH and speciation are unaffected",
+            vec![("species".to_string(), Slot::text(unpriced.species.clone()))],
+        ),
+    )
+}
+
+fn aqueous_temperature_target(
+    start: &Vessel,
+    trial: &Vessel,
+    q_joules: f64,
+    heat_priced: bool,
+) -> f64 {
     let t0 = start.temperature.0;
     let t_ref = Kelvin::STANDARD.0;
     let held = start.energy_between(t_ref, t0) + q_joules;
-    if !matches!(start.thermal_mode, ThermalMode::Adiabatic)
+    // An unpriced step keeps its supplied temperature. Re-reading the same
+    // enthalpy through the trial's lower heat capacity (dissolved ions carry
+    // Cp 0 here) would release the solid's sensible heat above 25 °C as if
+    // it were reaction heat while the dissolution enthalpy itself stayed
+    // unowned: hot potassium nitrate then WARMED its solution by 8.8 K.
+    if !heat_priced
+        || !matches!(start.thermal_mode, ThermalMode::Adiabatic)
         || !kerotakis_core::aqueous_continuation::whole_step_heat_available(start)
     {
         t0
@@ -4968,10 +5020,8 @@ fn secondary_routing(
 
 struct AqueousPass {
     events: Vec<Event>,
-    /// Priced mode is a whole-step state-function quote. The existing
-    /// unpriced fallback covers only known dissolution events owned by this
-    /// aqueous solver, accumulated across its inner passes; StepStart does
-    /// not carry earlier solvers' dissolution events.
+    /// Priced mode is a whole-step state-function quote. Unpriced mode
+    /// charges nothing: a partial per-event ledger is never applied.
     heat_quote_j: f64,
     heat_mode: HeatMode,
     component_certificate: ComponentCertificate,
@@ -6155,36 +6205,6 @@ fn closed_aqueous_events(
     Ok(final_events)
 }
 
-/// The fallback retains the preexisting owner boundary: native dissolution
-/// events from this aqueous owner. StepStart carries earlier solvers' gas,
-/// contents and free base, but no earlier dissolution event list; inferring
-/// such events from a stock delta would fabricate a reaction. The physical
-/// inner passes below must at least be accumulated rather than charging
-/// only the last re-pose.
-fn cumulative_dissolution_fallback<'a>(events: impl IntoIterator<Item = &'a Event>) -> f64 {
-    let mut joules = 0.0;
-    for event in events {
-        match event {
-            Event::Dissolved { species, moles, .. } => {
-                if let Some(dh) =
-                    species::lookup(species).and_then(|row| row.dissolution_enthalpy_kj)
-                {
-                    joules -= dh * 1000.0 * moles.0;
-                }
-            }
-            Event::Precipitated { species, moles, .. } => {
-                if let Some(dh) =
-                    species::lookup(species).and_then(|row| row.dissolution_enthalpy_kj)
-                {
-                    joules += dh * 1000.0 * moles.0;
-                }
-            }
-            _ => {}
-        }
-    }
-    joules
-}
-
 #[cfg(test)]
 mod canonical_physical_closure_tests {
     use super::*;
@@ -6709,7 +6729,7 @@ mod canonical_physical_closure_tests {
         };
         let guess = start.temperature.0;
         let volume = start.headspace_volume();
-        let provisional_next = aqueous_temperature_target(&start, &start, 0.0);
+        let provisional_next = aqueous_temperature_target(&start, &start, 0.0, true);
         assert!(aqueous_thermal_pose_converged(
             &start,
             guess,
@@ -6718,7 +6738,7 @@ mod canonical_physical_closure_tests {
             volume,
             None,
         ));
-        let strict_next = aqueous_temperature_target(&start, &start, 1.0);
+        let strict_next = aqueous_temperature_target(&start, &start, 1.0, true);
         assert!(!aqueous_thermal_pose_converged(
             &start,
             guess,
@@ -7014,7 +7034,7 @@ mod canonical_physical_closure_tests {
     }
 
     #[test]
-    fn signed_gas_and_unpriced_fallback_keep_all_native_inner_passes() {
+    fn signed_gas_keeps_all_native_inner_passes() {
         let vessel = state();
         let evolved = Event::GasEvolved {
             vessel: vessel.id,
@@ -7036,23 +7056,6 @@ mod canonical_physical_closure_tests {
                 moles: Moles(1e-8),
             }]
         );
-        let salt = SpeciesId::new("NaCl");
-        let dh = species::lookup(&salt)
-            .and_then(|row| row.dissolution_enthalpy_kj)
-            .expect("reviewed salt dissolution heat");
-        let first = Event::Dissolved {
-            vessel: vessel.id,
-            species: salt.clone(),
-            moles: Moles(0.01),
-        };
-        let second = Event::Dissolved {
-            vessel: vessel.id,
-            species: salt,
-            moles: Moles(0.005),
-        };
-        let actual = cumulative_dissolution_fallback([&first, &second]);
-        assert!((actual + dh * 15.0).abs() < 1e-10);
-        assert!((actual - cumulative_dissolution_fallback([&second])).abs() > 1.0);
     }
 
     #[test]
@@ -7796,6 +7799,7 @@ impl PhreeqcEquilibrator {
         hint: FirstPoseHint,
         auxiliary_policy: AuxiliaryPolicy,
     ) -> Result<AqueousPass, SolveError> {
+        self.last_heat_unpriced = None;
         if hint.primary_route.is_some() {
             // A provisional answer on another database must not reuse an
             // electron-search guess from the abandoned model.
@@ -8248,51 +8252,29 @@ impl PhreeqcEquilibrator {
                     q_joules = j;
                     heat_mode = HeatMode::Priced;
                 }
-                Err(_unpriced) => {
-                    heat_mode = HeatMode::DissolutionFallback;
-                    // THE LAST SECOND PATH, and it is confined to exactly
-                    // the steps the balance cannot answer.
+                Err(unpriced) => {
+                    // The balance could not price something that MOVED.
                     //
-                    // Declining outright loses heats the bench already
-                    // knew. A copper sulfate solution precipitates
-                    // chalcanthite, which no registry row prices, and the
-                    // whole step then declined — throwing away the -73.1
-                    // kJ/mol of dissolving the copper sulfate, which is
-                    // known and large. The beaker sat at room temperature
-                    // instead of reaching 58 °C, and because solubility
-                    // follows temperature the lesson's crystals and even
-                    // its colour changed with it.
+                    // This used to fall back to charging the registry's
+                    // dissolution enthalpy per observed `Dissolved` /
+                    // `Precipitated` event. That ledger is partial by
+                    // construction — it exists only for steps the
+                    // state-function balance could not close — and a
+                    // partial ledger is not a smaller error, it can be the
+                    // wrong SIGN: slaking quicklime on wateq4f charged the
+                    // portlandite precipitation and not the lime it came
+                    // from, and the beaker cooled for one of the most
+                    // exothermic reactions on the bench.
                     //
-                    // So where the balance can price a step it owns it
-                    // completely and no event charges anything; where it
-                    // cannot, this falls back to what the bench charged
-                    // before — per observed dissolution, partial by
-                    // construction, and no worse than yesterday.
-                    // `dissolution_fallback_is_only_for_steps_the_balance_declines`
-                    // counts what still lands here.
-                    q_joules = cumulative_dissolution_fallback(
-                        prior_physical_events.iter().chain(events.iter()),
-                    );
-                    // Nothing charged and nothing guessed.
-                    //
-                    // Deliberately SILENT, and this was measured rather
-                    // than assumed. A `NotYetModeled` here reads "no route
-                    // answered this step", and the curiosity classifier
-                    // takes it at its word ahead of the route branches: it
-                    // moved fifteen corpus rows from `computed` to
-                    // `missing` — rows whose pH, speciation and products
-                    // were all still there and correct. Only the HEAT was
-                    // unpriced, and saying the step was not modelled
-                    // because of that is a false statement about the whole
-                    // step, of exactly the kind this module exists to stop
-                    // making about temperature.
-                    //
-                    // Not charging is also the status quo: an unpriceable
-                    // dissolution was silently uncharged before this
-                    // existed too. The refusal is still real and still
-                    // names its species — `heat_released_j` returns it,
-                    // and `reaction_heat.rs` asserts on it — it just is
-                    // not broadcast as a claim about anything but itself.
+                    // So the heat is refused for the whole step, and the
+                    // thermal fixed point keeps the supplied temperature
+                    // (`aqueous_temperature_target`) rather than letting a
+                    // heat-capacity relabelling reconstruct a heat no one
+                    // owns. The refusal is named once, after settling.
+                    heat_mode = HeatMode::Unpriced;
+                    q_joules = 0.0;
+                    let _ = prior_physical_events;
+                    self.last_heat_unpriced = Some(unpriced);
                 }
             }
         }
