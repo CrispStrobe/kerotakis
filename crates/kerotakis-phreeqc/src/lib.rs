@@ -21,6 +21,7 @@ pub mod complexation;
 pub mod continuation_acceptance;
 pub mod dbindex;
 pub mod derived;
+pub mod dissolution_reference;
 pub mod enthalpy;
 mod inventory;
 mod native_namespace;
