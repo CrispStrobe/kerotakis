@@ -4185,7 +4185,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         // for the temperature fixed point *inside* this call.
         self.warm_pe = None;
         validate_clock_boundary(vessel, partition(vessel).as_ref())?;
-        if let Some(boundary) = kerotakis_core::nonaqueous::peroxide_medium_boundary(vessel) {
+        if let Some(boundary) = kerotakis_core::nonaqueous::non_water_matrix_boundary(vessel) {
             return Ok(vec![boundary]);
         }
         if has_solvent_only_basis(vessel) {
