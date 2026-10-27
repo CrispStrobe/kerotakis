@@ -1,0 +1,61 @@
+{
+  "CI_documentation_policy_skips": 18,
+  "CI_run": 40437855370,
+  "CI_successful_jobs": 4,
+  "CI_url": "https://github.com/CrispStrobe/kerotakis/actions/runs/40437855370",
+  "PR": 862,
+  "actual_tree": "61d0031972a50a7dc5c1b8b920e64cc29c735ee3",
+  "admin_bypass": false,
+  "all8_reviewed_file_hashes_match": true,
+  "base": "a7640a0759f091a31ed40b4cc29c8e127d19b245",
+  "current_main_matches_actual_merge": true,
+  "docs_classification_actual_log_verified": true,
+  "files_sha256": {
+    "docs/STATUS.md": "985548342d81ecbe0f28405215fd85865d84ddee505fd0fd0a28417b5b3be2a1",
+    "docs/improvement-agenda-20261014.md": "4501bd72757180ceb98264bbab4d9e88e25a96937cd40bb8d918c057bb24518e",
+    "docs/next-agent-handoff.md": "db2043264798c6045d7b8fa79cc3298a03a1557ff3176b2116f9bf97b287546d",
+    "docs/peroxide-medium-and-i18n-20261019.md": "f5d52d05ab3ece361ec535bfdc1d1b41c0f6108641c0a80e38b10c8aeeee33e9",
+    "docs/post-hydrolysis-gap-lanes-20261019.md": "9eb2ccdd57827d281a5112e69c10227d223ca32df056a9e8cf7fdf65e0b174d8",
+    "docs/scientific-coverage-expansion-20261020.md": "0b589d2954e0137dd9e4bbcf0edf3e7b662369112ee173dfe7d0fbb22ee6e986",
+    "docs/unifac-input-admission-20261019.md": "9332612fb0d0369f1c9e1592393ca41b1ab4a2c0668f14a98e36c3d7fa28c0eb",
+    "docs/wrap-up-and-open-lanes-20261019.md": "8e8faa185550055a16ad6ab0fbdfd93955efcb10445c7e8692a0590d0bceaccf"
+  },
+  "force_push": false,
+  "independent_review_sha256": "ff3dab041c404ca4d669c1ba25fd87a29344dbe143676288c0fb714a6475f512",
+  "merge": "b9c6509a15aa6e8eb26c41deb5b35c79297b9c25",
+  "needed_for401": 62,
+  "normal_merge_verified": true,
+  "observed_queued_intervals_lower_bounds": {
+    "Full preflight gate": {
+      "first_observed_queued": "2026-10-27T02:25:35.025712+00:00",
+      "last_observed_queued": "2026-10-27T02:40:53.720315+00:00",
+      "minimum_seconds": 918.694603
+    },
+    "Test (native) (macos-latest)": {
+      "first_observed_queued": "2026-10-27T02:25:35.025712+00:00",
+      "last_observed_queued": "2026-10-27T02:25:35.025712+00:00",
+      "minimum_seconds": 0.0
+    },
+    "Test (native) (ubuntu-latest)": {
+      "first_observed_queued": "2026-10-27T02:25:35.025712+00:00",
+      "last_observed_queued": "2026-10-27T02:39:52.535457+00:00",
+      "minimum_seconds": 857.509745
+    }
+  },
+  "original_qualifications": 339,
+  "original_total": 468,
+  "parents": [
+    "a7640a0759f091a31ed40b4cc29c8e127d19b245",
+    "95a7788c8ba01e794fafd51d2d38782c6a2aaf07"
+  ],
+  "raw_CI_log_sha256": "8893b4f4054952eff346b039379ad5f1e3452941a908279a297be1dc9b4f6b4b",
+  "remaining_originals": 129,
+  "required_contexts_and_app_bindings_unchanged": true,
+  "reviewed_docs_head": "95a7788c8ba01e794fafd51d2d38782c6a2aaf07",
+  "runtime_and_product_acceptance_separate": true,
+  "state": "FINAL_EIGHT_MAINTAINED_SUMMARIES_NORMALLY_INTEGRATED",
+  "timing_qualification": "Read-only sampled queue observations only, not exact scheduler queue/cpu/billing time or a promised optimization.",
+  "unchanged_runtime_source": "a7640a0759f091a31ed40b4cc29c8e127d19b245",
+  "url": "https://github.com/CrispStrobe/kerotakis/pull/862",
+  "utc": "2026-10-27T02:42:52.014943+00:00"
+}
