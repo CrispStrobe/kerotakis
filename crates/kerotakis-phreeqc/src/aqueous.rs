@@ -3346,6 +3346,15 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         // the pH of the acid sitting beside it, and the vessel simply
         // stopped having a solution at all. The honesty pass names the
         // unmodelled substance; the acid still gets its answer.
+        // Crystals of a curve salt deposited onto an already saturated
+        // solution belong to the crystallisation ledger
+        // (`kerotakis_core::crystallisation`); entering them as a freely
+        // dissolving solid would undo the crystallisation on this step.
+        if p.phase == Phase::Solid
+            && kerotakis_core::crystallisation::holds_solid(vessel, &p.species.0)
+        {
+            continue;
+        }
         let Some(role) = derived::role(&p.species.0) else {
             continue;
         };
@@ -8465,6 +8474,26 @@ impl PhreeqcEquilibrator {
                     ),
                 ],
             );
+            // Saturation and crystallisation of a posed phase at this load
+            // are outside the Debye-Hueckel route's activity domain: the
+            // hosted validation of b720949 put minteq.v4 Halite at -40%
+            // against measurement. Say so as a typed clause rather than
+            // let the phase amounts read as a validated prediction.
+            let posed: Vec<&str> = problem
+                .phases
+                .iter()
+                .map(|(name, _, _)| name.as_str())
+                .collect();
+            if !posed.is_empty() {
+                routing = Phrase::new(
+                    "routing.crystallisation-outside-activity-domain",
+                    "{routing}. Saturation and crystallisation of {phases} at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction",
+                    vec![
+                        ("routing".to_string(), Slot::phrase(routing)),
+                        ("phases".to_string(), Slot::text(posed.join(", "))),
+                    ],
+                );
+            }
         }
         if !problem.surfaces.is_empty() {
             if potential_molality > 1.0 && db_tag != "minteq.v4" {
@@ -9929,6 +9958,14 @@ impl PhreeqcEquilibrator {
                 // entered the condensed inventory and how much vented.
                 continue;
             }
+            // Held crystals of a curve salt were never handed to the
+            // solver (`partition`), so they pass through unchanged.
+            if p.phase == Phase::Solid
+                && kerotakis_core::crystallisation::holds_solid(vessel, &p.species.0)
+            {
+                contents.push(p.clone());
+                continue;
+            }
             match derived::role(&p.species.0) {
                 // The solvent is rebuilt on the *equilibrated* water mass,
                 // not left at what went in. Speciation consumes and
@@ -10227,6 +10264,7 @@ impl PhreeqcEquilibrator {
         for p in &vessel.contents {
             if p.phase == Phase::Solid
                 && matches!(derived::role(&p.species.0), Some(DerivedRole::Dissolves(_)))
+                && !kerotakis_core::crystallisation::holds_solid(vessel, &p.species.0)
             {
                 events.push(Event::Dissolved {
                     vessel: vessel.id,

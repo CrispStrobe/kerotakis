@@ -2179,64 +2179,182 @@ impl Bench {
                 let cp = v.heat_capacity();
                 if cp > 0.0 {
                     let from = v.temperature;
-                    // `from + signed/Cp` no longer: the heat a vessel can
-                    // give up between here and there is the area under its
-                    // own capacity, and `temperature_after` inverts that.
-                    // Below absolute zero the integral runs out first, so
-                    // the shortfall is measured against what the vessel
-                    // actually holds rather than against a rectangle.
-                    let holds = -v.energy_between(from.0, 0.0);
-                    let wanted = if -signed > holds {
-                        // Asked for more than there is; the clamp below and
-                        // the `NotYetModeled` note both key off this being
-                        // negative, as they did.
-                        -1.0
-                    } else {
-                        v.temperature_after(signed)
-                    };
-                    // A vessel can only give up the heat it has. Clamping
-                    // at absolute zero and saying nothing let a request for
-                    // more be silently granted: two grams of magnesia at
-                    // 2769 °C, asked for 10 kJ it did not hold, came back
-                    // at exactly −273.15 °C as though that were an answer.
-                    //
-                    // No coolant is modelled — `cool` removes energy without
-                    // a reservoir to remove it into — so the only bound
-                    // available is the vessel's own heat content, and the
-                    // bench has to say when a request runs past it. That
-                    // this bound is absolute zero is itself the tell: long
-                    // before it the heat capacities have stopped describing
-                    // anything, because even a tabulated curve runs out of
-                    // table around 100-300 K and is held flat below it.
-                    let to = Kelvin(wanted.max(0.0));
-                    let moved = -v.energy_between(from.0, to.0);
-                    v.temperature = to;
-                    events.push(Event::TemperatureChanged {
-                        vessel: *vessel,
-                        from,
-                        to,
-                    });
-                    events.push(Event::EnergyTransferred {
-                        vessel: *vessel,
-                        heating: false,
-                        requested_j: energy.0,
-                        delivered_j: moved,
-                        time_coupled: false,
-                        // No coolant is modelled, so there is no cold body
-                        // to name and no floor of its temperature to quote.
-                        source: None,
-                        ceiling_k: None,
-                        // Cooling here is pure sensible heat by
-                        // construction: this arm moves the thermometer and
-                        // nothing else.
-                        sensible_j: moved,
-                        passes: 1,
-                        capped: false,
-                    });
-                    brown_dry_lemon_mark(v, &mut events);
-                    if wanted < 0.0 {
-                        let could_pay = holds / 1000.0;
-                        events.push(Event::not_modeled(
+                    'cool: {
+                        // A cooled solution that reaches saturation with a salt
+                        // whose curve and dissolution heat are reviewed pays
+                        // part of the dose in crystallisation heat, in this one
+                        // ledger (`crystallisation`). Unsaturated paths return
+                        // `None` and cool exactly as below.
+                        let crystallising = {
+                            let start: &Vessel = v;
+                            let sensible_after = |t_f: f64, n: f64| -> f64 {
+                                let mut end = start.clone();
+                                if let Some(Ok((curve, _))) =
+                                    crate::crystallisation::binary_solution(start)
+                                {
+                                    crate::crystallisation::apply(&mut end, curve, n);
+                                }
+                                end.energy_between(t_f, from.0)
+                            };
+                            crate::crystallisation::cool_with_crystallisation(
+                                start,
+                                energy.0,
+                                &sensible_after,
+                            )
+                        };
+                        match crystallising {
+                            Some(Ok(owned)) => {
+                                if let Some(curve) = crate::crystallisation::curve_for(owned.salt) {
+                                    crate::crystallisation::apply(v, curve, owned.moles);
+                                }
+                                let to = Kelvin(owned.final_k);
+                                let sensible = v.energy_between(to.0, from.0);
+                                v.temperature = to;
+                                v.resolved.invalidate();
+                                events.push(Event::TemperatureChanged {
+                                    vessel: *vessel,
+                                    from,
+                                    to,
+                                });
+                                if owned.moles > 0.0 {
+                                    events.push(Event::Precipitated {
+                                        vessel: *vessel,
+                                        species: SpeciesId::new(owned.salt),
+                                        moles: Moles(owned.moles),
+                                        dry: false,
+                                    });
+                                }
+                                events.push(Event::EnergyTransferred {
+                                    vessel: *vessel,
+                                    heating: false,
+                                    requested_j: energy.0,
+                                    delivered_j: sensible + owned.heat_j,
+                                    time_coupled: false,
+                                    source: None,
+                                    ceiling_k: None,
+                                    // The rest of what crossed was paid by the
+                                    // crystals, not by the thermometer.
+                                    sensible_j: sensible,
+                                    passes: 1,
+                                    capped: false,
+                                });
+                                brown_dry_lemon_mark(v, &mut events);
+                                break 'cool;
+                            }
+                            Some(Err(refusal)) => {
+                                let phrase = match refusal {
+                                crate::crystallisation::Refusal::Unpriced { salt } => Phrase::new(
+                                    "not-modeled.crystallisation-heat-unpriced",
+                                    "cooling saturates this solution with {salt}, and the routed \
+             engine prices no enthalpy of dissolution for it, so its crystallisation \
+             and the heat that comes with it are not computed; the temperature below \
+             is sensible cooling alone",
+                                    vec![("salt".to_string(), Slot::term("species", salt))],
+                                ),
+                                crate::crystallisation::Refusal::BelowCurveDomain {
+                                    salt,
+                                    floor_k,
+                                } => Phrase::new(
+                                    "not-modeled.crystallisation-below-curve-domain",
+                                    "this cooling would carry a saturated {salt} solution below \
+             {floor} K, the lowest measured point of its solubility curve, toward \
+             the salt-ice eutectic, which is not modelled; crystallisation and ice \
+             formation there are not computed",
+                                    vec![
+                                        ("salt".to_string(), Slot::term("species", salt)),
+                                        (
+                                            "floor".to_string(),
+                                            Slot::number(format!("{floor_k:.2}")),
+                                        ),
+                                    ],
+                                ),
+                                crate::crystallisation::Refusal::NoRoutedPhase { salt } => {
+                                    Phrase::new(
+                                        "not-modeled.crystallisation-no-routed-phase",
+                                        "cooling saturates this solution with {salt}, and no \
+             routed aqueous database defines a {salt} phase whose solubility has been \
+             validated against measurement, so its crystallisation and the heat that \
+             comes with it are not computed; the temperature below is sensible cooling \
+             alone",
+                                        vec![("salt".to_string(), Slot::term("species", salt))],
+                                    )
+                                }
+                                crate::crystallisation::Refusal::NotBinary { salt } => {
+                                    Phrase::new(
+                                        "not-modeled.crystallisation-not-binary",
+                                        "the solubility curve of {salt} is measured in pure \
+             water, and this solution holds other dissolved ions, so whether and how \
+             much {salt} crystallises on cooling is not computed",
+                                        vec![("salt".to_string(), Slot::term("species", salt))],
+                                    )
+                                }
+                            };
+                                events.push(Event::not_modeled(
+                                    *vessel,
+                                    crate::ops::NotModelledCause::ModelBoundary,
+                                    phrase,
+                                ));
+                            }
+                            None => {}
+                        }
+                        // `from + signed/Cp` no longer: the heat a vessel can
+                        // give up between here and there is the area under its
+                        // own capacity, and `temperature_after` inverts that.
+                        // Below absolute zero the integral runs out first, so
+                        // the shortfall is measured against what the vessel
+                        // actually holds rather than against a rectangle.
+                        let holds = -v.energy_between(from.0, 0.0);
+                        let wanted = if -signed > holds {
+                            // Asked for more than there is; the clamp below and
+                            // the `NotYetModeled` note both key off this being
+                            // negative, as they did.
+                            -1.0
+                        } else {
+                            v.temperature_after(signed)
+                        };
+                        // A vessel can only give up the heat it has. Clamping
+                        // at absolute zero and saying nothing let a request for
+                        // more be silently granted: two grams of magnesia at
+                        // 2769 °C, asked for 10 kJ it did not hold, came back
+                        // at exactly −273.15 °C as though that were an answer.
+                        //
+                        // No coolant is modelled — `cool` removes energy without
+                        // a reservoir to remove it into — so the only bound
+                        // available is the vessel's own heat content, and the
+                        // bench has to say when a request runs past it. That
+                        // this bound is absolute zero is itself the tell: long
+                        // before it the heat capacities have stopped describing
+                        // anything, because even a tabulated curve runs out of
+                        // table around 100-300 K and is held flat below it.
+                        let to = Kelvin(wanted.max(0.0));
+                        let moved = -v.energy_between(from.0, to.0);
+                        v.temperature = to;
+                        events.push(Event::TemperatureChanged {
+                            vessel: *vessel,
+                            from,
+                            to,
+                        });
+                        events.push(Event::EnergyTransferred {
+                            vessel: *vessel,
+                            heating: false,
+                            requested_j: energy.0,
+                            delivered_j: moved,
+                            time_coupled: false,
+                            // No coolant is modelled, so there is no cold body
+                            // to name and no floor of its temperature to quote.
+                            source: None,
+                            ceiling_k: None,
+                            // Cooling here is pure sensible heat by
+                            // construction: this arm moves the thermometer and
+                            // nothing else.
+                            sensible_j: moved,
+                            passes: 1,
+                            capped: false,
+                        });
+                        brown_dry_lemon_mark(v, &mut events);
+                        if wanted < 0.0 {
+                            let could_pay = holds / 1000.0;
+                            events.push(Event::not_modeled(
                             *vessel,
                             crate::ops::NotModelledCause::ModelBoundary,
                             Phrase::new(
@@ -2263,6 +2381,7 @@ impl Bench {
                                 ],
                             ),
                         ));
+                        }
                     }
                 } else {
                     events.push(Event::not_modeled(

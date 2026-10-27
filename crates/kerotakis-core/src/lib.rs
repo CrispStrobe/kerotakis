@@ -37,6 +37,7 @@ pub mod conductivity;
 pub mod constants;
 pub mod corrosion;
 pub mod coverage;
+pub mod crystallisation;
 pub mod curated;
 pub mod curdling;
 pub mod delta;
