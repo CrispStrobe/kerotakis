@@ -25,6 +25,7 @@ pub mod derived;
 pub mod dissolution_reference;
 pub mod enthalpy;
 pub mod gas_phases;
+pub mod ligand_routing;
 mod inventory;
 mod native_namespace;
 mod phase_diagnostics;

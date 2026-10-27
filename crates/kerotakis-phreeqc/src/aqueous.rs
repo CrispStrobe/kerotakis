@@ -518,23 +518,41 @@ fn reference_complex_boundary(vessel: &Vessel, distribution: &[SpeciesDetail]) -
 
 /// Native equilibrium includes bound ammonia, while the canonical NH3/NH4
 /// portions still partition total reduced nitrogen using only free-ion weights.
-fn silver_ammine_inventory_boundary(
-    vessel: &Vessel,
-    distribution: &[SpeciesDetail],
-) -> Option<Event> {
+///
+/// Silver keeps its original key. Every other ammine complex the routed
+/// databases define (enumerated in `ligand_routing`) carries the same
+/// ledger limitation and receives the generic metal-ammine note.
+fn silver_ammine_inventory_boundary(vessel: &Vessel, distribution: &[SpeciesDetail]) -> Vec<Event> {
+    let mut events = Vec::new();
+    let other_ammine = distribution.iter().any(|species| {
+        species.molality > 0.0
+            && !matches!(species.name.as_str(), "AgNH3+" | "Ag(NH3)2+")
+            && crate::ligand_routing::is_ammine_complex(&species.name)
+    });
+    if other_ammine {
+        events.push(Event::not_modeled(
+            vessel.id,
+            kerotakis_core::ops::NotModelledCause::ModelBoundary,
+            Phrase::bare(
+                "not-modeled.metal-ammine-ligand-inventory",
+                "Metal-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution",
+            ),
+        ));
+    }
     if !distribution.iter().any(|species| {
         species.molality > 0.0 && matches!(species.name.as_str(), "AgNH3+" | "Ag(NH3)2+")
     }) {
-        return None;
+        return events;
     }
-    Some(Event::not_modeled(
+    events.push(Event::not_modeled(
         vessel.id,
         kerotakis_core::ops::NotModelledCause::ModelBoundary,
         Phrase::bare(
             "not-modeled.silver-ammine-ligand-inventory",
             "Silver-ammonia equilibrium complexes and free ligand are represented in the solution speciation. The canonical NH3/NH4 portions remain analytical total-nitrogen carriers, including complex-bound ammonia; they are not measured free NH3 amounts. Their use for downstream ammonia volatilisation or curated reaction availability is not yet reconciled with bound ligand. This limitation does not withdraw the reported equilibrium complex distribution",
         ),
-    ))
+    ));
+    events
 }
 
 fn reactive_gas_boundary(vessel: &Vessel, problem: &Problem) -> Option<Event> {
@@ -3225,9 +3243,71 @@ fn append_candidate_phases(
 
 /// Element coverage alone cannot express ligand coverage: wateq4f knows
 /// both Ag and N(-3), but lacks silver ammines. Nitrate N(5) is not ammonia.
+/// The silver case is now one row of the generic table in
+/// `ligand_routing`; this predicate keeps its original routing phrase.
 fn needs_silver_ammine(elements: &[String]) -> bool {
     elements.iter().any(|element| element == "Ag")
         && elements.iter().any(|element| element == "N(-3)")
+}
+
+/// The routing phrase for a metal-ligand route that overrides the default.
+fn ligand_routing_phrase(db_tag: &str, pairs: &[(String, String)]) -> Phrase {
+    if pairs.len() == 1 && pairs[0].0 == "Ag" && pairs[0].1 == "N(-3)" {
+        return Phrase::bare(
+            "routing.silver-ammine",
+            "chosen because silver and reduced nitrogen require the silver-ammonia complexes present in minteq.v4.dat (NIST46.4 entries 204901 and 204902); elemental coverage in the default dataset does not include these ligand species",
+        );
+    }
+    let families = pairs
+        .iter()
+        .map(|(metal, ligand)| {
+            let family = crate::ligand_routing::ligand_family(ligand).unwrap_or(ligand.as_str());
+            format!("{metal}-{family}")
+        })
+        .collect::<Vec<_>>()
+        .join(", ");
+    Phrase::new(
+        "routing.metal-ligand-complexes",
+        "chosen because {dataset} is the routed dataset that defines the metal-ligand complexes present ({families}); elemental coverage alone does not include these ligand species",
+        vec![
+            ("dataset".to_string(), Slot::text(format!("{db_tag}.dat"))),
+            ("families".to_string(), Slot::text(families)),
+        ],
+    )
+}
+
+/// A typed refusal for a present metal-ligand family that no route defines
+/// (or no single route defines together with every element).
+fn ligand_route_refusal(
+    route: &crate::ligand_routing::LigandRoute,
+    solver: &str,
+) -> Option<SolveError> {
+    use crate::ligand_routing::LigandRoute;
+    let (reason, pairs, what) = match route {
+        LigandRoute::Undefined { pairs } => (
+            AqueousReason::MetalLigandComplexesUndefined,
+            pairs,
+            "no routed aqueous database defines",
+        ),
+        LigandRoute::Conflict { pairs } => (
+            AqueousReason::MetalLigandRoutesConflict,
+            pairs,
+            "no single routed aqueous database defines, together with every element,",
+        ),
+        _ => return None,
+    };
+    let listed = pairs
+        .iter()
+        .map(|(metal, ligand)| format!("{metal}/{ligand}"))
+        .collect::<Vec<_>>()
+        .join(", ");
+    Some(SolveError::NotConverged {
+        reason: Some(Box::new(reason.phrase())),
+        solver: solver.to_string(),
+        detail: format!(
+            "{what} the metal-ligand complexes of {listed}; speciation without them is not modeled"
+        ),
+    })
 }
 
 fn partition(vessel: &Vessel) -> Option<Problem> {
@@ -4609,9 +4689,11 @@ impl Equilibrator for PhreeqcEquilibrator {
         }
 
         // Separate sources can each use wateq4f while their combination
-        // needs silver ammines. Leave that new ligand problem to the
-        // ordinary target solve, which owns capability routing/provenance.
-        if needs_silver_ammine(&merged_elements) {
+        // needs metal-ligand complexes (silver ammines and every other
+        // family in `ligand_routing`). Leave that new ligand problem to the
+        // ordinary target solve, which owns capability routing/provenance
+        // and the typed refusal when no route defines the family.
+        if crate::ligand_routing::select(&merged_elements).blocks(db_tag) {
             return None;
         }
 
@@ -5235,6 +5317,8 @@ enum AqueousReason {
     DiluteCrystalDomain,
     SolidSolutionPhaseUnavailable,
     GasPhaseUnavailable,
+    MetalLigandComplexesUndefined,
+    MetalLigandRoutesConflict,
     ReadbackUnrepresented,
     ExchangeReadbackInvalid,
     ComponentReadbackInvalid,
@@ -5568,6 +5652,14 @@ impl AqueousReason {
             Self::GasPhaseUnavailable => (
                 "solver-reason.aqueous.gas-phase-unavailable",
                 "The routed database does not define a reviewed phase for a gas in this headspace.",
+            ),
+            Self::MetalLigandComplexesUndefined => (
+                "solver-reason.aqueous.metal-ligand-complexes-undefined",
+                "No routed aqueous database defines the metal-ligand complexes this solution needs, so its speciation would omit them.",
+            ),
+            Self::MetalLigandRoutesConflict => (
+                "solver-reason.aqueous.metal-ligand-routes-conflict",
+                "The metal-ligand complexes in this solution are not defined together on any single routed aqueous database.",
             ),
             Self::ReadbackUnrepresented => (
                 "solver-reason.aqueous.readback-unrepresented",
@@ -8359,8 +8451,10 @@ impl PhreeqcEquilibrator {
         // (the ion-interaction model is built for them: halite saturates at
         // the textbook 6.13 mol/kgw where wateq4f gives 6.50); wateq4f
         // otherwise.
-        // Silver ammines are a separate ligand capability: Ag and N(-3)
-        // exist in wateq4f, but their complexes are present only in minteq.
+        // Silver ammines (and every other metal-ligand family enumerated
+        // in `ligand_routing`) are a separate ligand capability: Ag and
+        // N(-3) exist in wateq4f, but their complexes are present only in
+        // minteq. That selection follows the domain choice below.
         // "Extended": any element wateq4f does not know (derived — e.g.
         // Acetate), plus phosphate as a documented exception (wateq4f has
         // the P element but no free H3PO4 species).
@@ -8373,15 +8467,13 @@ impl PhreeqcEquilibrator {
             .elements
             .iter()
             .all(|el| derived::index_for("pitzer").has_element(el));
-        let (mut db_tag, mut routing) = if needs_silver_ammine(&problem.elements) {
-            (
-                "minteq.v4",
-                Phrase::bare(
-                    "routing.silver-ammine",
-                    "chosen because silver and reduced nitrogen require the silver-ammonia complexes present in minteq.v4.dat (NIST46.4 entries 204901 and 204902); elemental coverage in the default dataset does not include these ligand species",
-                ),
-            )
-        } else if needs_extended {
+        let ligand_route = crate::ligand_routing::select(&problem.elements);
+        if forced_route.is_none() {
+            if let Some(refusal) = ligand_route_refusal(&ligand_route, self.name()) {
+                return Err(refusal);
+            }
+        }
+        let (mut db_tag, mut routing) = if needs_extended {
             (
                 "minteq.v4",
                 Phrase::bare(
@@ -8417,6 +8509,17 @@ impl PhreeqcEquilibrator {
                 ),
             )
         };
+        // Metal-ligand capability: a route-deciding family present in the
+        // vessel overrides the domain choice above when that choice lacks
+        // it (silver ammines, nickel/cobalt/iron/mercury ammines, cyanide,
+        // citrate, EDTA ...). Where the domain route already defines every
+        // present family its phrase is kept.
+        if let crate::ligand_routing::LigandRoute::Route { db, pairs } = &ligand_route {
+            if *db != db_tag {
+                db_tag = *db;
+                routing = ligand_routing_phrase(db, pairs);
+            }
+        }
         if let Some(requested) = forced_route {
             let transition_is_reviewed = matches!(requested, "pitzer" | "wateq4f")
                 && (db_tag == requested
@@ -8446,6 +8549,7 @@ impl PhreeqcEquilibrator {
                 || !original_is_representable
                 || needs_extended
                 || needs_silver_ammine(&problem.elements)
+                || ligand_route.blocks(requested)
                 || !problem.surfaces.is_empty()
                 || !problem.exchanges.is_empty()
                 || !problem.solid_solutions.is_empty()
