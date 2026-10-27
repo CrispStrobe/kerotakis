@@ -141,12 +141,14 @@ class ApiTests(unittest.TestCase):
             engine.assert_not_called()
 
     def test_multiword_identity_aliases_do_not_shift_loop_accounting(self):
-        source = Path("crates/kerotakis-core/src/species.rs").read_text()
-        section = source.split("const INPUT_ALIASES:", 1)[1].split("];", 1)[0]
-        aliases = {tuple(alias.split()): canonical for alias, canonical in
-                   re.findall(r'\("([^"\n]+)", "([^"\n]+)"\)', section) if " " in alias}
+        # The engine's blessed generated table is the single source of spellings.
+        fixture = json.loads(Path(
+            "crates/kerotakis-core/tests/fixtures/input-alias-coverage-20261027.json").read_text())
+        aliases = {tuple(row["alias"].lower().split()): row["canonical"]
+                   for row in fixture["aliases"] if len(row["alias"].split()) > 1}
         self.assertEqual(aliases, api.MULTIWORD_INGREDIENT_ALIASES)
         for script in ("stock sodium chloride 1mol", "stock carbon dioxide 1mol",
+                       "stock Acetic Acid 1mol",
                        "titrate v1 sodium chloride 1M 1mL until ph 7 max 20",
                        "extract v1 v2 carbon dioxide 1mol stages 2"):
             api.validate_script(script)
