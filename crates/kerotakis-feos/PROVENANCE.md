@@ -38,5 +38,11 @@ reported in a journal article), restated with citation; no table, file or
 database from the paper or from FeOs's own parameter files is copied.
 Binary interaction k_ij = 0 (pure prediction, no fitted binary parameter);
 this is a deliberate choice so the comparison against UNIFAC is not tuned.
-The parameter values above MUST be re-checked against the printed table by
-a reviewer before this crate leaves draft.
+Verified 2026-10-27 field-by-field (m, sigma, epsilon_k, kappa_ab,
+epsilon_k_ab, na = nb = 1) against FeOs's own transcription of the same paper:
+https://github.com/feos-org/feos/blob/aabc02bbf6c469cf702206cfa68bbb7b2105a324/parameters/pcsaft/gross2002.json
+(feos-org/feos main at commit aabc02bbf6c469cf702206cfa68bbb7b2105a324,
+entries `methanol` CAS 67-56-1, `ethanol` CAS 64-17-5, `water` CAS
+7732-18-5): all 15 values identical, no discrepancy. The companion
+`gross2002_binary.json` at the same commit has no methanol-water or
+ethanol-water k_ij entry, which supports the unfitted k_ij = 0 choice.

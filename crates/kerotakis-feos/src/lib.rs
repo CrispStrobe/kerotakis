@@ -54,13 +54,15 @@ impl Alcohol {
 
 /// PC-SAFT pure-component record in FeOs `PcSaftBinary<f64, 8>` order:
 /// m, sigma (Å), eps/k (K), mu (D), kappa_AB, eps_AB/k (K), n_A, n_B.
-/// Source: Gross & Sadowski, Ind. Eng. Chem. Res. 41 (2002) 5510, Table 1.
+/// Source: Gross & Sadowski, Ind. Eng. Chem. Res. 41 (2002) 5510, Table 1;
+/// verified identical to feos-org/feos `parameters/pcsaft/gross2002.json`
+/// at commit aabc02bbf6c469cf702206cfa68bbb7b2105a324.
 pub type PcSaftRecord = [f64; 8];
 
 pub const METHANOL: PcSaftRecord = [1.5255, 3.2300, 188.90, 0.0, 0.035176, 2899.5, 1.0, 1.0];
 pub const ETHANOL: PcSaftRecord = [2.3827, 3.1771, 198.24, 0.0, 0.032384, 2653.4, 1.0, 1.0];
 pub const WATER: PcSaftRecord = [1.0656, 3.0007, 366.51, 0.0, 0.034868, 2500.7, 1.0, 1.0];
-/// Unfitted: pure prediction.
+/// Unfitted: pure prediction (`gross2002_binary.json` has no alcohol-water entry).
 pub const K_IJ: f64 = 0.0;
 
 #[cfg(feature = "feos")]
