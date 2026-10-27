@@ -1937,6 +1937,7 @@ extended-chemistry = "gewählt, weil das Problem Chemie braucht, die dem voreing
 concentrated-ion-interaction = "gewählt, weil die Lösung konzentriert ist (~{molality} mol/kgw); dort ist das Ionenwechselwirkungsmodell das gültige"
 default-inorganic = "der voreingestellte anorganische wässrige Datensatz"
 activity-model-fallback = "{routing}; die Eingabe trägt eine möglicherweise konzentrierte Gelöststofffracht (~{molality} mol/kgw, keine gemessene Ionenstärke), aber die Pitzer-Route kann nicht die gesamte angeforderte Chemie darstellen. Dieser Rückgriff auf ein anderes Aktivitätsmodell ist keine validierte Vorhersage für konzentrierte Mischungen"
+crystallisation-outside-activity-domain = "{routing}. Sättigung und Kristallisation von {phases} liegen bei dieser Fracht außerhalb des validierten Aktivitätsbereichs dieser Route (Debye-Hückel, bis 1 mol/kgw); diese Phasenmengen sind daher keine validierte Vorhersage"
 redox-not-coupled = "die Redox-Elemente hier ließen sich nicht koppeln; jedes wird deshalb in der Oxidationsstufe gezeigt, in der es zugegeben wurde, und sie haben nicht miteinander reagiert — {why}"
 slow-couples-held-as-added = "manche Elemente behalten hier die Oxidationsstufe, in der sie zugegeben wurden: nur die Paare, die sich auf der Zeitskala eines Labortischs einstellen, tauschen Elektronen aus, und die langsamen — Sulfat, Nitrat, Carbonat — werden so gehalten, wie sie zugegeben wurden"
 with-redox-note = "{routing}. {note}"

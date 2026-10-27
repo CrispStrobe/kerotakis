@@ -138,7 +138,10 @@ impl SolubilityCurve {
         if t_k.is_nan() || t_k < lo - 1e-9 || t_k > hi + 1e-9 {
             return None;
         }
-        let t_c = t_c.clamp(lo - 273.15, hi - 273.15);
+        // Clamp in the curve's own unit: `lo - 273.15` is not exactly the
+        // first point after a round trip through kelvin, and a floor read
+        // 2e-14 C below it found no interval (hosted run of b720949).
+        let t_c = t_c.clamp(self.points.first()?.0, self.points.last()?.0);
         self.points.windows(2).find_map(|w| {
             let ((t0, s0), (t1, s1)) = (w[0], w[1]);
             (t_c >= t0 && t_c <= t1).then(|| s0 + (s1 - s0) * (t_c - t0) / (t1 - t0))
@@ -272,7 +275,7 @@ fn liquid_water_g(vessel: &Vessel) -> f64 {
         .filter(|p| p.phase == Phase::Liquid && p.species.0 == "water")
         .map(|p| p.moles.0)
         .sum();
-    mol * species::lookup_key("water").map_or(18.015, |d| d.molar_mass)
+    mol * crate::constants::WATER_MOLAR_MASS_G_PER_MOL
 }
 
 /// The curve salt this vessel's solution is a binary solution of, with the

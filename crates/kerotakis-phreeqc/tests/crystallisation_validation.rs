@@ -18,9 +18,9 @@ use kerotakis_core::crystallisation;
 use kerotakis_phreeqc::{databases, Phreeqc};
 
 /// Tolerances, stated once. Pitzer is the concentrated-brine route and
-/// must reproduce a saturated chloride closely; Debye-Hueckel routes are
-/// outside their ionic-strength domain at saturation and are held to a
-/// looser bound (the router already caveats them above 1 molal).
+/// must reproduce a saturated chloride closely. `DEBYE_HUECKEL_TOLERANCE`
+/// is only the threshold beyond which a Debye-Hueckel result counts as a
+/// demonstrated miss; it admits nothing.
 const PITZER_TOLERANCE: f64 = 0.05;
 const DEBYE_HUECKEL_TOLERANCE: f64 = 0.15;
 
@@ -67,8 +67,12 @@ fn halite_and_sylvite_on_pitzer_reproduce_the_measured_saturation() {
     assert!(dn.abs() < PITZER_TOLERANCE && dk.abs() < PITZER_TOLERANCE);
 }
 
+/// Why Debye-Hueckel routes may not claim saturated-brine crystallisation:
+/// the same Halite, the same measurement, and the routes disagree by tens
+/// of percent (hosted b720949: wateq4f +3.71%, minteq.v4 -39.98%). The
+/// minteq.v4 miss is pinned; the coverage refuses Halite on both routes.
 #[test]
-fn halite_on_the_debye_hueckel_routes_is_within_its_stated_bound() {
+fn halite_on_the_debye_hueckel_routes_is_not_admissible_at_brine_strength() {
     for (tag, db) in [
         ("wateq4f", databases::WATEQ4F.to_vec()),
         ("minteq.v4", databases::minteq_v4().to_vec()),
@@ -79,7 +83,13 @@ fn halite_on_the_debye_hueckel_routes_is_within_its_stated_bound() {
             "{tag} Halite {nacl:.4} m vs {NACL_M:.4} ({:+.2}%)",
             d * 100.0
         );
-        assert!(d.abs() < DEBYE_HUECKEL_TOLERANCE, "{tag}: {d}");
+        if tag == "minteq.v4" {
+            assert!(d < -DEBYE_HUECKEL_TOLERANCE, "{tag}: {d}");
+        }
+        assert_eq!(
+            kerotakis_phreeqc::crystallisation_route::route_row("NaCl", tag).class,
+            "refused"
+        );
     }
 }
 

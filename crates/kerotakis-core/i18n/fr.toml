@@ -1680,6 +1680,7 @@ extended-chemistry = "choisi parce que le problème demande une chimie absente d
 concentrated-ion-interaction = "choisi parce que la solution est concentrée (~{molality} mol/kgw) ; c'est là que le modèle d'interaction ionique est valide"
 default-inorganic = "le jeu de données aqueux inorganique par défaut"
 activity-model-fallback = "{routing} ; l'entrée porte une charge de soluté peut-être concentrée (~{molality} mol/kgw, sans force ionique mesurée), mais la route de Pitzer ne peut pas représenter toute la chimie demandée. Ce repli sur un autre modèle d'activité n'est pas une prédiction validée pour les mélanges concentrés"
+crystallisation-outside-activity-domain = "{routing}. La saturation et la cristallisation de {phases} à cette charge sortent du domaine d'activité validé de cette route (Debye-Hückel, jusqu'à 1 mol/kgw) ; ces quantités de phase ne sont donc pas une prédiction validée"
 redox-not-coupled = "les éléments rédox ici n'ont pas pu être couplés ; chacun est donc montré dans le degré d'oxydation où il a été ajouté, et ils n'ont pas réagi entre eux — {why}"
 slow-couples-held-as-added = "certains éléments conservent ici le degré d'oxydation où ils ont été ajoutés : seuls les couples qui s'équilibrent à l'échelle de temps d'une paillasse échangent des électrons, et les lents — sulfate, nitrate, carbonate — sont maintenus tels qu'ils ont été ajoutés"
 with-redox-note = "{routing}. {note}"

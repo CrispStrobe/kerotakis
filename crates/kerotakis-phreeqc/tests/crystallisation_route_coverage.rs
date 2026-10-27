@@ -82,11 +82,19 @@ fn crystallisation_route_coverage_is_current() {
 #[test]
 fn known_members_classify_as_their_databases_define_them() {
     let row = |s: &str, t: &str| crystallisation_route::route_row(s, t);
-    // Halite is a native phase with a stated temperature law everywhere,
-    // and NaCl is curated-priced: PHREEQC owns its saturation and heat.
+    // Halite is priced and native everywhere, but it saturates near
+    // I = 6 mol/kgw: only pitzer's activity model covers that, so the
+    // Debye-Hueckel routes refuse it (hosted validation: minteq.v4 -40%).
+    assert_eq!(row("NaCl", "pitzer").class, "crystallises-with-priced-heat");
+    for tag in ["wateq4f", "minteq.v4"] {
+        let r = row("NaCl", tag);
+        assert_eq!(r.class, "refused", "{tag}");
+        assert!(r.reason.contains("pitzer"), "{}", r.reason);
+    }
+    // A sparingly soluble salt stays within the Debye-Hueckel bound.
     for tag in ["wateq4f", "minteq.v4", "pitzer"] {
         assert_eq!(
-            row("NaCl", tag).class,
+            row("BaSO4", tag).class,
             "crystallises-with-priced-heat",
             "{tag}"
         );

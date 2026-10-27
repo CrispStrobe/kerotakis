@@ -8492,6 +8492,26 @@ impl PhreeqcEquilibrator {
                     ),
                 ],
             );
+            // Saturation and crystallisation of a posed phase at this load
+            // are outside the Debye-Hueckel route's activity domain: the
+            // hosted validation of b720949 put minteq.v4 Halite at -40%
+            // against measurement. Say so as a typed clause rather than
+            // let the phase amounts read as a validated prediction.
+            let posed: Vec<&str> = problem
+                .phases
+                .iter()
+                .map(|(name, _, _)| name.as_str())
+                .collect();
+            if !posed.is_empty() {
+                routing = Phrase::new(
+                    "routing.crystallisation-outside-activity-domain",
+                    "{routing}. Saturation and crystallisation of {phases} at this load lie outside this route's validated activity domain (Debye-Hueckel, up to 1 mol/kgw), so those phase amounts are not a validated prediction",
+                    vec![
+                        ("routing".to_string(), Slot::phrase(routing)),
+                        ("phases".to_string(), Slot::text(posed.join(", "))),
+                    ],
+                );
+            }
         }
         if !problem.surfaces.is_empty() {
             if potential_molality > 1.0 && db_tag != "minteq.v4" {

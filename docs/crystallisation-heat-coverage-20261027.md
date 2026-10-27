@@ -11,23 +11,36 @@ Lane: when an aqueous solution is cooled, own solid-phase saturation with its he
   - The phase states a dissolution enthalpy or an analytic law, so its log K moves with temperature.
   - `enthalpy::species_enthalpy(solid, Solid, route)` prices the solid.
 
+  - On wateq4f and minteq.v4 only: the phase saturates within the Debye-Hueckel bound (see below).
+
   In that case PHREEQC computes saturation at the vessel temperature in the same solve that speciates the solution, mixed electrolytes and common ions included. The aqueous step's enthalpy balance charges the crystallisation heat.
 - `solubility-only`: the phase exists, but it has no temperature law or the solid is unpriced.
 - `refused`: the route defines no phase for the solid.
 
 Domain: liquid water, 1 bar, 0-100 C. Above 1 molal the Debye-Hueckel routes keep the router's existing activity-model caveat; pitzer is the brine route. Pricing grows with #867's `solid_route`; the table is recomputed from whatever pricing the build has.
 
-## Validation against measurement (`crates/kerotakis-phreeqc/tests/crystallisation_validation.rs`)
+## Activity-model domain
 
-Measured curves are validation references, not runtime sources. Source: Earl of Berkeley, Phil. Trans. R. Soc. A 203 (1904) 189-215, doi:10.1098/rsta.1904.0020, public-domain scan.
+The hosted validation run of b720949 compared each route against the same Berkeley 1904 saturated-solution measurements:
 
-| check | tolerance | expected outcome |
-|---|---|---|
-| pitzer Halite at 15.20 C and Sylvite at 19.55 C, vs Berkeley | 5% | pass |
-| wateq4f and minteq.v4 Halite at 15.20 C | 15% | pass (pre-run estimate +3.6%) |
-| llnl.dat Niter posed on wateq4f, vs all seven Berkeley KNO3 points (0.40-91.65 C) | n/a | fails by more than 30% (pre-run estimate -51% to -74%) |
+| route | phase | derived / measured | deviation |
+|---|---|---|---|
+| pitzer | Halite at 15.20 C | 6.1027 / 6.1325 m | -0.49% |
+| pitzer | Sylvite at 19.55 C | | -1.21% |
+| wateq4f | Halite | | +3.71% |
+| minteq.v4 | Halite | 3.6809 / 6.1325 m | -39.98% |
+| wateq4f + llnl Niter | KNO3, 7 points | | -51% to -73% |
 
-The test prints the actual deviations to the hosted log. Because the Niter check fails, KNO3 is NOT admitted.
+Conclusion: Debye-Hueckel routes are not valid at saturated-brine ionic strength. The single agreeing wateq4f number does not validate the model.
+
+- **Coverage rule.** On wateq4f and minteq.v4, a phase whose ideal (activity-one) saturation ionic strength exceeds `DEBYE_HUECKEL_IONIC_STRENGTH_BOUND` = 1 mol/kgw is `refused`. The ideal value is a lower bound, because real activity coefficients at these strengths are below one. The bound is the router's own concentrated-solution threshold.
+- **pitzer** is admitted where it defines the system.
+- **Runtime.** When the router falls back to a Debye-Hueckel route above 1 mol/kgw and phases are posed, it adds a localized clause, `routing.crystallisation-outside-activity-domain` (EN/DE/FR), stating that those phase amounts are not a validated prediction.
+
+The tests are in `crates/kerotakis-phreeqc/tests/crystallisation_validation.rs`:
+- pitzer within 5% must pass;
+- the minteq.v4 Halite miss and the Niter miss are pinned as failures;
+- no tolerance admits a Debye-Hueckel route.
 
 ## KNO3 / TH-007
 
