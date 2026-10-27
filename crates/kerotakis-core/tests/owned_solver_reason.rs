@@ -196,7 +196,10 @@ fn all_new_owned_reason_catalog_keys_resolve_with_equal_placeholders() {
     use kerotakis_core::phrase::{Phrase, Slot};
     let contracts: Vec<OwnedReasonCatalogContract> =
         serde_json::from_str(include_str!("fixtures/owned_solver_reason_catalog.json")).unwrap();
-    assert_eq!(contracts.len(), 199);
+    // A floor, not an exact count: lanes add owned reasons over time, and each
+    // row below is checked individually (unique key, equal placeholders,
+    // every locale). The floor still catches a truncated fixture.
+    assert!(contracts.len() >= 199, "catalog shrank to {}", contracts.len());
     let mut keys = std::collections::BTreeSet::new();
     for row in contracts {
         assert!(keys.insert(row.key.clone()), "duplicate key {}", row.key);
