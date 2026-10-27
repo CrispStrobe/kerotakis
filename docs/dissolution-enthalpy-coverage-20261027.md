@@ -17,111 +17,111 @@ Anything else is a whole-step refusal (`not-modeled.aqueous-heat-unpriced`) nami
 
 | routed database | priced before (ef9e9632) | priced after |
 |---|---|---|
-| wateq4f | 21 | 42 |
+| wateq4f | 20 | 41 |
 | minteq.v4 | 22 | 42 |
-| pitzer | 20 | 31 |
+| pitzer | 13 | 22 |
 
-Priced after this change: wateq4f 42/93, minteq.v4 42/93, pitzer 31/93.
+Priced after this change: wateq4f 41/93, minteq.v4 42/93, pitzer 22/93.
 
-The "before" column is the ef9e9632 chain (curated, CaO hydration, routed neutral mineral) and is recorded, not recomputed.
+The "before" column counts the routes that were already owned at ef9e9632 (curated, the CaO hydration row, the routed neutral mineral); those paths are unchanged, so it is read off this table rather than recomputed.
 
 ## Every registry solid
 
 | solid | wateq4f | minteq.v4 | pitzer |
 |---|---|---|---|
-| `NaCl` | curated | curated | curated |
-| `AgNO3` | curated | curated | curated |
-| `AgCl` | curated | curated | curated |
-| `MnO2` | refused: the reviewed phase dissolves by redox, not by dissociation | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase dissolves by redox, not by dissociation |
-| `Na2SO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `Na2S2O3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `S` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Ag` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `AgCl` | curated | curated | refused: a dissociation product the routed database does not define |
+| `AgNO3` | curated | curated | refused: a dissociation product the routed database does not define |
+| `Al` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Ba(OH)2` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `BaCl2` | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 |
+| `BaSO4` | routed | routed | routed |
+| `C` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Ca(OH)2` | curated | curated | curated |
+| `Ca3(PO4)2` | reference:minteq.v4:Ca3(PO4)2(beta) | routed | refused: a reaction species is not defined on the routed database |
+| `CaCO3` | routed | routed | routed |
+| `CaCl2` | curated | curated | curated |
+| `CaO` | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 |
+| `Cu` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `Cu(OH)2` | reference:wateq4f:Cu(OH)2 | reference:minteq.v4:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
 | `CuO` | hydration:wateq4f:Cu(OH)2 | hydration:wateq4f:Cu(OH)2 | refused: a reaction species is not defined on the routed database |
-| `NaOH` | curated | curated | curated |
-| `NaOAc` | curated | curated | curated |
-| `NaHCO3` | curated | curated | curated |
-| `Na2CO3` | curated | curated | curated |
-| `KCl` | curated | curated | curated |
-| `CaCl2` | curated | curated | curated |
-| `CaCO3` | routed | routed | reference:pitzer:Aragonite |
-| `MgSO4` | reference:llnl.dat:MgSO4 | reference:llnl.dat:MgSO4 | reference:llnl.dat:MgSO4 |
-| `gypsum` | reference:wateq4f:Gypsum | reference:minteq.v4:Gypsum | reference:wateq4f:Gypsum |
-| `CaO` | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 | hydration:minteq.v4:Ca(OH)2 |
-| `Mg` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `Cu` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `Zn` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `Ag` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `CuSO4` | curated | curated | refused: a dissociation product the routed database does not define |
 | `Fe` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `MgO` | hydration:minteq.v4:Mg(OH)2 | hydration:minteq.v4:Mg(OH)2 | hydration:minteq.v4:Mg(OH)2 |
-| `C` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `CuSO4` | curated | curated | curated |
-| `KMnO4` | curated | curated | curated |
+| `Fe(OH)2` | reference:llnl.dat:Fe(OH)2 | refused: the reviewed phase states an exact-zero enthalpy placeholder | reference:llnl.dat:Fe(OH)2 |
+| `Fe(OH)3` | refused: the reviewed phase states no 25 C dissolution enthalpy | reference:minteq.v4:Ferrihydrite | refused: the reviewed phase states no 25 C dissolution enthalpy |
+| `Fe2O3` | reference:wateq4f:Hematite | hydration:minteq.v4:Fe(OH)3 | refused: a reaction species is not defined on the routed database |
+| `FeCl3` | refused: a product's convention differs between the reviewed source and the routed database | reference:llnl.dat:Molysite | refused: a reaction species is not defined on the routed database |
 | `FeSO4` | reference:llnl.dat:FeSO4 | refused: a product's convention differs between the reviewed source and the routed database | reference:llnl.dat:FeSO4 |
-| `ZnSO4` | curated | curated | curated |
-| `Pb` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `Pb(NO3)2` | curated | curated | curated |
-| `KOH` | curated | curated | curated |
-| `NaNO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `KNO3` | reference:llnl.dat:Niter | reference:llnl.dat:Niter | refused: a reaction species is not defined on the routed database |
-| `ascorbic_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `H2C2O4` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `I2` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `dehydroascorbic_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `starch` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `maltose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `KCl` | curated | curated | curated |
 | `KI` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `KIO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `KMnO4` | curated | curated | refused: a dissociation product the routed database does not define |
+| `KNO3` | reference:llnl.dat:Niter | reference:llnl.dat:Niter | refused: a reaction species is not defined on the routed database |
+| `KOH` | curated | curated | curated |
+| `Mg` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Mg(OH)2` | reference:wateq4f:Brucite | reference:minteq.v4:Brucite | routed |
+| `MgO` | hydration:minteq.v4:Mg(OH)2 | hydration:minteq.v4:Mg(OH)2 | hydration:minteq.v4:Mg(OH)2 |
+| `MgSO4` | reference:llnl.dat:MgSO4 | reference:llnl.dat:MgSO4 | reference:llnl.dat:MgSO4 |
+| `MnO2` | refused: the reviewed phase dissolves by redox, not by dissociation | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase dissolves by redox, not by dissociation |
+| `NH4Cl` | curated | curated | refused: a dissociation product the routed database does not define |
+| `NH4NO3` | curated | curated | refused: a dissociation product the routed database does not define |
+| `Na2B4O7` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `Na2CO3` | curated | curated | curated |
+| `Na2S2O3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `Na2SO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `Na2SO4` | curated | curated | curated |
+| `NaBr` | reference:llnl.dat:NaBr | reference:llnl.dat:NaBr | reference:llnl.dat:NaBr |
+| `NaCl` | curated | curated | curated |
+| `NaHCO3` | curated | curated | curated |
 | `NaHSO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `NaHSO4` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `PE` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `PP` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `NaNO3` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `NaOAc` | refused: a dissociation product the routed database does not define | curated | refused: a dissociation product the routed database does not define |
+| `NaOH` | curated | curated | curated |
+| `PE` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `PET` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `PP` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `PS` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `Al` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `Fe(OH)3` | refused: the reviewed phase states no 25 C dissolution enthalpy | reference:minteq.v4:Ferrihydrite | refused: the reviewed phase states no 25 C dissolution enthalpy |
-| `Fe(OH)2` | reference:llnl.dat:Fe(OH)2 | refused: the reviewed phase states an exact-zero enthalpy placeholder | reference:llnl.dat:Fe(OH)2 |
-| `Mg(OH)2` | reference:wateq4f:Brucite | reference:minteq.v4:Brucite | routed |
-| `Zn(OH)2` | reference:minteq.v4:Zn(OH)2(epsilon) | reference:minteq.v4:Zn(OH)2(epsilon) | refused: the reviewed phase states no 25 C dissolution enthalpy |
-| `NaBr` | reference:llnl.dat:NaBr | reference:llnl.dat:NaBr | reference:llnl.dat:NaBr |
-| `sucrose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `Fe2O3` | reference:wateq4f:Hematite | hydration:minteq.v4:Fe(OH)3 | refused: a reaction species is not defined on the routed database |
-| `epsomite` | reference:wateq4f:Epsomite | reference:minteq.v4:Epsomite | reference:wateq4f:Epsomite |
-| `SiO2` | reference:wateq4f:Quartz | reference:minteq.v4:Quartz | reference:wateq4f:Quartz |
-| `NH4Cl` | curated | curated | curated |
-| `FeCl3` | refused: a product's convention differs between the reviewed source and the routed database | reference:llnl.dat:Molysite | refused: a reaction species is not defined on the routed database |
-| `Na2SO4` | curated | curated | curated |
-| `BaCl2` | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 | reference:llnl.dat:BaCl2 |
-| `Ba(OH)2` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `BaSO4` | routed | routed | reference:wateq4f:Barite |
-| `H2C2O4` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `chalcanthite` | reference:wateq4f:Chalcanthite | reference:minteq.v4:Chalcanthite | refused: a reaction species is not defined on the routed database |
-| `glucose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `fructose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `malic_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `citric_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `cellulose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `PVA` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `Na2B4O7` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `paraffin` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `Pb` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Pb(NO3)2` | curated | curated | refused: a dissociation product the routed database does not define |
+| `S` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `SiO2` | reference:wateq4f:Quartz | reference:minteq.v4:Quartz | reference:wateq4f:Quartz |
+| `Zn` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `Zn(OH)2` | reference:minteq.v4:Zn(OH)2(epsilon) | reference:minteq.v4:Zn(OH)2(epsilon) | refused: the reviewed phase states no 25 C dissolution enthalpy |
+| `ZnSO4` | curated | curated | refused: a dissociation product the routed database does not define |
+| `activated_charcoal` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `antlerite` | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase states no 25 C dissolution enthalpy |
+| `ascorbic_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `atacamite` | reference:wateq4f:Atacamite | reference:minteq.v4:Atacamite | refused: a reaction species is not defined on the routed database |
 | `brochantite` | reference:minteq.v4:Brochantite | reference:minteq.v4:Brochantite | refused: the reviewed phase states no 25 C dissolution enthalpy |
-| `antlerite` | refused: the reviewed phase states no 25 C dissolution enthalpy | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase states no 25 C dissolution enthalpy |
-| `langite` | reference:wateq4f:Langite | reference:minteq.v4:Langite | refused: a reaction species is not defined on the routed database |
-| `NH4NO3` | curated | curated | curated |
-| `graphite` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `diamond` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `naphthalene` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `cellulose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `chalcanthite` | reference:wateq4f:Chalcanthite | reference:minteq.v4:Chalcanthite | refused: a reaction species is not defined on the routed database |
 | `chlorophyll` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `nylon` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `uranium` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `citric_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `dehydroascorbic_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `diamond` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `dry_ice` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `epsomite` | reference:wateq4f:Epsomite | reference:minteq.v4:Epsomite | reference:wateq4f:Epsomite |
+| `fructose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `glucose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `graphite` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
+| `gypsum` | reference:wateq4f:Gypsum | reference:minteq.v4:Gypsum | reference:wateq4f:Gypsum |
 | `hair_pigment` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `hair_pigment_ox` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
-| `dry_ice` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
-| `activated_charcoal` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 | `hydroxylapatite` | reference:wateq4f:Hydroxyapatite | reference:wateq4f:Hydroxyapatite | refused: a reaction species is not defined on the routed database |
-| `Ca3(PO4)2` | reference:minteq.v4:Ca3(PO4)2(beta) | routed | refused: a reaction species is not defined on the routed database |
+| `langite` | reference:wateq4f:Langite | reference:minteq.v4:Langite | refused: a reaction species is not defined on the routed database |
+| `malic_acid` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `maltose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `naphthalene` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `nylon` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
 | `octacalcium_phosphate` | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase states an exact-zero enthalpy placeholder | refused: the reviewed phase states an exact-zero enthalpy placeholder |
+| `paraffin` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `starch` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `sucrose` | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid | refused: no vendored USGS database writes a dissolution reaction for this solid |
+| `uranium` | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving | refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving |
 
 ## Reaction heats per declared extent
 

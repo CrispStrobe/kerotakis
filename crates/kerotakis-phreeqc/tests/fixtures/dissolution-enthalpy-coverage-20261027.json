@@ -1,467 +1,467 @@
 {
- "Ag": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "AgCl": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "AgNO3": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "Al": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "Ba(OH)2": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "BaCl2": {
-  "minteq.v4": "reference:llnl.dat:BaCl2",
-  "pitzer": "reference:llnl.dat:BaCl2",
-  "wateq4f": "reference:llnl.dat:BaCl2"
- },
- "BaSO4": {
-  "minteq.v4": "routed",
-  "pitzer": "reference:wateq4f:Barite",
-  "wateq4f": "routed"
- },
- "C": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "Ca(OH)2": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "Ca3(PO4)2": {
-  "minteq.v4": "routed",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "reference:minteq.v4:Ca3(PO4)2(beta)"
- },
- "CaCO3": {
-  "minteq.v4": "routed",
-  "pitzer": "reference:pitzer:Aragonite",
-  "wateq4f": "routed"
- },
- "CaCl2": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "CaO": {
-  "minteq.v4": "hydration:minteq.v4:Ca(OH)2",
-  "pitzer": "hydration:minteq.v4:Ca(OH)2",
-  "wateq4f": "hydration:minteq.v4:Ca(OH)2"
- },
- "Cu": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "Cu(OH)2": {
-  "minteq.v4": "reference:minteq.v4:Cu(OH)2",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "reference:wateq4f:Cu(OH)2"
- },
- "CuO": {
-  "minteq.v4": "hydration:wateq4f:Cu(OH)2",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "hydration:wateq4f:Cu(OH)2"
- },
- "CuSO4": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "Fe": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "Fe(OH)2": {
-  "minteq.v4": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
-  "pitzer": "reference:llnl.dat:Fe(OH)2",
-  "wateq4f": "reference:llnl.dat:Fe(OH)2"
- },
- "Fe(OH)3": {
-  "minteq.v4": "reference:minteq.v4:Ferrihydrite",
-  "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
-  "wateq4f": "refused: the reviewed phase states no 25 C dissolution enthalpy"
- },
- "Fe2O3": {
-  "minteq.v4": "hydration:minteq.v4:Fe(OH)3",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "reference:wateq4f:Hematite"
- },
- "FeCl3": {
-  "minteq.v4": "reference:llnl.dat:Molysite",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "refused: a product's convention differs between the reviewed source and the routed database"
- },
- "FeSO4": {
-  "minteq.v4": "refused: a product's convention differs between the reviewed source and the routed database",
-  "pitzer": "reference:llnl.dat:FeSO4",
-  "wateq4f": "reference:llnl.dat:FeSO4"
- },
- "H2C2O4": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "I2": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "KCl": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "KI": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "KIO3": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "KMnO4": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "KNO3": {
-  "minteq.v4": "reference:llnl.dat:Niter",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "reference:llnl.dat:Niter"
- },
- "KOH": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "Mg": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "Mg(OH)2": {
-  "minteq.v4": "reference:minteq.v4:Brucite",
-  "pitzer": "routed",
-  "wateq4f": "reference:wateq4f:Brucite"
- },
- "MgO": {
-  "minteq.v4": "hydration:minteq.v4:Mg(OH)2",
-  "pitzer": "hydration:minteq.v4:Mg(OH)2",
-  "wateq4f": "hydration:minteq.v4:Mg(OH)2"
- },
- "MgSO4": {
-  "minteq.v4": "reference:llnl.dat:MgSO4",
-  "pitzer": "reference:llnl.dat:MgSO4",
-  "wateq4f": "reference:llnl.dat:MgSO4"
- },
- "MnO2": {
-  "minteq.v4": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
-  "pitzer": "refused: the reviewed phase dissolves by redox, not by dissociation",
-  "wateq4f": "refused: the reviewed phase dissolves by redox, not by dissociation"
- },
- "NH4Cl": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "NH4NO3": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "Na2B4O7": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "Na2CO3": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "Na2S2O3": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "Na2SO3": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "Na2SO4": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "NaBr": {
-  "minteq.v4": "reference:llnl.dat:NaBr",
-  "pitzer": "reference:llnl.dat:NaBr",
-  "wateq4f": "reference:llnl.dat:NaBr"
- },
- "NaCl": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "NaHCO3": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "NaHSO3": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "NaHSO4": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "NaNO3": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "NaOAc": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "NaOH": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "PE": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "PET": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "PP": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "PS": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "PVA": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "Pb": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "Pb(NO3)2": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "S": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "SiO2": {
-  "minteq.v4": "reference:minteq.v4:Quartz",
-  "pitzer": "reference:wateq4f:Quartz",
-  "wateq4f": "reference:wateq4f:Quartz"
- },
- "Zn": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "Zn(OH)2": {
-  "minteq.v4": "reference:minteq.v4:Zn(OH)2(epsilon)",
-  "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
-  "wateq4f": "reference:minteq.v4:Zn(OH)2(epsilon)"
- },
- "ZnSO4": {
-  "minteq.v4": "curated",
-  "pitzer": "curated",
-  "wateq4f": "curated"
- },
- "activated_charcoal": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "antlerite": {
-  "minteq.v4": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
-  "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
-  "wateq4f": "refused: the reviewed phase states no 25 C dissolution enthalpy"
- },
- "ascorbic_acid": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "atacamite": {
-  "minteq.v4": "reference:minteq.v4:Atacamite",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "reference:wateq4f:Atacamite"
- },
- "brochantite": {
-  "minteq.v4": "reference:minteq.v4:Brochantite",
-  "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
-  "wateq4f": "reference:minteq.v4:Brochantite"
- },
- "cellulose": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "chalcanthite": {
-  "minteq.v4": "reference:minteq.v4:Chalcanthite",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "reference:wateq4f:Chalcanthite"
- },
- "chlorophyll": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "citric_acid": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "dehydroascorbic_acid": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "diamond": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "dry_ice": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "epsomite": {
-  "minteq.v4": "reference:minteq.v4:Epsomite",
-  "pitzer": "reference:wateq4f:Epsomite",
-  "wateq4f": "reference:wateq4f:Epsomite"
- },
- "fructose": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "glucose": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "graphite": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- },
- "gypsum": {
-  "minteq.v4": "reference:minteq.v4:Gypsum",
-  "pitzer": "reference:wateq4f:Gypsum",
-  "wateq4f": "reference:wateq4f:Gypsum"
- },
- "hair_pigment": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "hair_pigment_ox": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "hydroxylapatite": {
-  "minteq.v4": "reference:wateq4f:Hydroxyapatite",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "reference:wateq4f:Hydroxyapatite"
- },
- "langite": {
-  "minteq.v4": "reference:minteq.v4:Langite",
-  "pitzer": "refused: a reaction species is not defined on the routed database",
-  "wateq4f": "reference:wateq4f:Langite"
- },
- "malic_acid": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "maltose": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "naphthalene": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "nylon": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "octacalcium_phosphate": {
-  "minteq.v4": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
-  "pitzer": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
-  "wateq4f": "refused: the reviewed phase states an exact-zero enthalpy placeholder"
- },
- "paraffin": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "starch": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "sucrose": {
-  "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
-  "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
- },
- "uranium": {
-  "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
-  "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
- }
+  "Ag": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "AgCl": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
+  "AgNO3": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
+  "Al": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "Ba(OH)2": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "BaCl2": {
+    "minteq.v4": "reference:llnl.dat:BaCl2",
+    "pitzer": "reference:llnl.dat:BaCl2",
+    "wateq4f": "reference:llnl.dat:BaCl2"
+  },
+  "BaSO4": {
+    "minteq.v4": "routed",
+    "pitzer": "routed",
+    "wateq4f": "routed"
+  },
+  "C": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "Ca(OH)2": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "Ca3(PO4)2": {
+    "minteq.v4": "routed",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:minteq.v4:Ca3(PO4)2(beta)"
+  },
+  "CaCO3": {
+    "minteq.v4": "routed",
+    "pitzer": "routed",
+    "wateq4f": "routed"
+  },
+  "CaCl2": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "CaO": {
+    "minteq.v4": "hydration:minteq.v4:Ca(OH)2",
+    "pitzer": "hydration:minteq.v4:Ca(OH)2",
+    "wateq4f": "hydration:minteq.v4:Ca(OH)2"
+  },
+  "Cu": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "Cu(OH)2": {
+    "minteq.v4": "reference:minteq.v4:Cu(OH)2",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Cu(OH)2"
+  },
+  "CuO": {
+    "minteq.v4": "hydration:wateq4f:Cu(OH)2",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "hydration:wateq4f:Cu(OH)2"
+  },
+  "CuSO4": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
+  "Fe": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "Fe(OH)2": {
+    "minteq.v4": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
+    "pitzer": "reference:llnl.dat:Fe(OH)2",
+    "wateq4f": "reference:llnl.dat:Fe(OH)2"
+  },
+  "Fe(OH)3": {
+    "minteq.v4": "reference:minteq.v4:Ferrihydrite",
+    "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
+    "wateq4f": "refused: the reviewed phase states no 25 C dissolution enthalpy"
+  },
+  "Fe2O3": {
+    "minteq.v4": "hydration:minteq.v4:Fe(OH)3",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Hematite"
+  },
+  "FeCl3": {
+    "minteq.v4": "reference:llnl.dat:Molysite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "refused: a product's convention differs between the reviewed source and the routed database"
+  },
+  "FeSO4": {
+    "minteq.v4": "refused: a product's convention differs between the reviewed source and the routed database",
+    "pitzer": "reference:llnl.dat:FeSO4",
+    "wateq4f": "reference:llnl.dat:FeSO4"
+  },
+  "H2C2O4": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "I2": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "KCl": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "KI": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "KIO3": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "KMnO4": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
+  "KNO3": {
+    "minteq.v4": "reference:llnl.dat:Niter",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:llnl.dat:Niter"
+  },
+  "KOH": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "Mg": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "Mg(OH)2": {
+    "minteq.v4": "reference:minteq.v4:Brucite",
+    "pitzer": "routed",
+    "wateq4f": "reference:wateq4f:Brucite"
+  },
+  "MgO": {
+    "minteq.v4": "hydration:minteq.v4:Mg(OH)2",
+    "pitzer": "hydration:minteq.v4:Mg(OH)2",
+    "wateq4f": "hydration:minteq.v4:Mg(OH)2"
+  },
+  "MgSO4": {
+    "minteq.v4": "reference:llnl.dat:MgSO4",
+    "pitzer": "reference:llnl.dat:MgSO4",
+    "wateq4f": "reference:llnl.dat:MgSO4"
+  },
+  "MnO2": {
+    "minteq.v4": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
+    "pitzer": "refused: the reviewed phase dissolves by redox, not by dissociation",
+    "wateq4f": "refused: the reviewed phase dissolves by redox, not by dissociation"
+  },
+  "NH4Cl": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
+  "NH4NO3": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
+  "Na2B4O7": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "Na2CO3": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "Na2S2O3": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "Na2SO3": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "Na2SO4": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "NaBr": {
+    "minteq.v4": "reference:llnl.dat:NaBr",
+    "pitzer": "reference:llnl.dat:NaBr",
+    "wateq4f": "reference:llnl.dat:NaBr"
+  },
+  "NaCl": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "NaHCO3": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "NaHSO3": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "NaHSO4": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "NaNO3": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "NaOAc": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "refused: a dissociation product the routed database does not define"
+  },
+  "NaOH": {
+    "minteq.v4": "curated",
+    "pitzer": "curated",
+    "wateq4f": "curated"
+  },
+  "PE": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "PET": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "PP": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "PS": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "PVA": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "Pb": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "Pb(NO3)2": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
+  "S": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "SiO2": {
+    "minteq.v4": "reference:minteq.v4:Quartz",
+    "pitzer": "reference:wateq4f:Quartz",
+    "wateq4f": "reference:wateq4f:Quartz"
+  },
+  "Zn": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "Zn(OH)2": {
+    "minteq.v4": "reference:minteq.v4:Zn(OH)2(epsilon)",
+    "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
+    "wateq4f": "reference:minteq.v4:Zn(OH)2(epsilon)"
+  },
+  "ZnSO4": {
+    "minteq.v4": "curated",
+    "pitzer": "refused: a dissociation product the routed database does not define",
+    "wateq4f": "curated"
+  },
+  "activated_charcoal": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "antlerite": {
+    "minteq.v4": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
+    "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
+    "wateq4f": "refused: the reviewed phase states no 25 C dissolution enthalpy"
+  },
+  "ascorbic_acid": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "atacamite": {
+    "minteq.v4": "reference:minteq.v4:Atacamite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Atacamite"
+  },
+  "brochantite": {
+    "minteq.v4": "reference:minteq.v4:Brochantite",
+    "pitzer": "refused: the reviewed phase states no 25 C dissolution enthalpy",
+    "wateq4f": "reference:minteq.v4:Brochantite"
+  },
+  "cellulose": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "chalcanthite": {
+    "minteq.v4": "reference:minteq.v4:Chalcanthite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Chalcanthite"
+  },
+  "chlorophyll": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "citric_acid": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "dehydroascorbic_acid": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "diamond": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "dry_ice": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "epsomite": {
+    "minteq.v4": "reference:minteq.v4:Epsomite",
+    "pitzer": "reference:wateq4f:Epsomite",
+    "wateq4f": "reference:wateq4f:Epsomite"
+  },
+  "fructose": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "glucose": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "graphite": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  },
+  "gypsum": {
+    "minteq.v4": "reference:minteq.v4:Gypsum",
+    "pitzer": "reference:wateq4f:Gypsum",
+    "wateq4f": "reference:wateq4f:Gypsum"
+  },
+  "hair_pigment": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "hair_pigment_ox": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "hydroxylapatite": {
+    "minteq.v4": "reference:wateq4f:Hydroxyapatite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Hydroxyapatite"
+  },
+  "langite": {
+    "minteq.v4": "reference:minteq.v4:Langite",
+    "pitzer": "refused: a reaction species is not defined on the routed database",
+    "wateq4f": "reference:wateq4f:Langite"
+  },
+  "malic_acid": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "maltose": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "naphthalene": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "nylon": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "octacalcium_phosphate": {
+    "minteq.v4": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
+    "pitzer": "refused: the reviewed phase states an exact-zero enthalpy placeholder",
+    "wateq4f": "refused: the reviewed phase states an exact-zero enthalpy placeholder"
+  },
+  "paraffin": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "starch": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "sucrose": {
+    "minteq.v4": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "pitzer": "refused: no vendored USGS database writes a dissolution reaction for this solid",
+    "wateq4f": "refused: no vendored USGS database writes a dissolution reaction for this solid"
+  },
+  "uranium": {
+    "minteq.v4": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "pitzer": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving",
+    "wateq4f": "refused: an elemental or condensed-gas solid changes state by redox or phase routing, not by dissolving"
+  }
 }
