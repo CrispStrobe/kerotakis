@@ -21,7 +21,11 @@ fn near_pure_alcohols_boil_at_their_normal_boiling_points() {
     assert!((e.t_kelvin - 351.4).abs() < 2.0, "ethanol {}", e.t_kelvin);
     // Water trace end: 373.15 K.
     let w = bubble(Alcohol::Ethanol, 0.001, ATM);
-    assert!((w.t_kelvin - 373.15).abs() < 2.5, "water end {}", w.t_kelvin);
+    assert!(
+        (w.t_kelvin - 373.15).abs() < 2.5,
+        "water end {}",
+        w.t_kelvin
+    );
 }
 
 /// Physics shape: alcohol enriches in the vapour, bubble T falls with
@@ -50,15 +54,23 @@ fn ethanol_water_parity_with_unifac() {
         let u = kerotakis_thermo::vle::ethanol_water_bubble_point(x, ATM).expect("unifac");
         println!(
             "x={x}: PC-SAFT T={:.2} °C y={:.4} | UNIFAC T={:.2} °C y={:.4}",
-            f.t_celsius(), f.y_alcohol, u.t_celsius, u.y[0]
+            f.t_celsius(),
+            f.y_alcohol,
+            u.t_celsius,
+            u.y[0]
         );
         assert!((f.t_celsius() - u.t_celsius).abs() < 4.0);
         assert!((f.y_alcohol - u.y[0]).abs() < 0.08);
     }
     let fd = saturation_point(Alcohol::Ethanol, Saturation::Dew, 0.5, ATM).unwrap();
     let ud = kerotakis_thermo::vle::ethanol_water_dew_point(0.5, ATM).expect("unifac dew");
-    println!("dew y=0.5: PC-SAFT T={:.2} x={:.4} | UNIFAC T={:.2} x={:.4}",
-        fd.t_celsius(), fd.x_alcohol, ud.t_celsius, ud.x[0]);
+    println!(
+        "dew y=0.5: PC-SAFT T={:.2} x={:.4} | UNIFAC T={:.2} x={:.4}",
+        fd.t_celsius(),
+        fd.x_alcohol,
+        ud.t_celsius,
+        ud.x[0]
+    );
     assert!((fd.t_celsius() - ud.t_celsius).abs() < 4.0);
 }
 

@@ -84,7 +84,9 @@ pub enum Refusal {
     PressureOutOfDomain(f64),
     #[error("mole fraction {0} outside the admitted [{MIN_FRACTION}, {max}]", max = 1.0 - MIN_FRACTION)]
     CompositionOutOfDomain(f64),
-    #[error("solved temperature {0} K outside the admitted {MIN_TEMPERATURE_K}-{MAX_TEMPERATURE_K} K")]
+    #[error(
+        "solved temperature {0} K outside the admitted {MIN_TEMPERATURE_K}-{MAX_TEMPERATURE_K} K"
+    )]
     TemperatureOutOfDomain(f64),
     #[error("FeOs did not converge: {0}")]
     NotConverged(String),
@@ -178,15 +180,19 @@ fn solve(
 
     let eos = PcSaftBinary::new([record(alcohol), WATER], K_IJ);
     let p = pressure_kpa * KILO * PASCAL;
-    // Start the temperature iteration between the two pure boiling points
-    // at 1 atm; FeOs refines it.
-    let t0 = Some(360.0 * KELVIN);
+    // FeOs needs, at fixed pressure, an initial temperature and (to avoid
+    // collapsing onto the trivial solution) an initial composition of the
+    // incipient phase. Both come from an ideal Raoult estimate with Antoine
+    // vapour pressures; FeOs then converges the PC-SAFT equilibrium.
+    let (t_guess, other_guess) = raoult_initial_guess(alcohol, kind, fraction, pressure_kpa);
+    let t0 = Some(t_guess * KELVIN);
+    let init = nalgebra::Vector2::new(other_guess, 1.0 - other_guess);
     let vle = match kind {
         Saturation::Bubble => {
-            PhaseEquilibrium::bubble_point(&eos, p, fraction, t0, None, Default::default())
+            PhaseEquilibrium::bubble_point(&eos, p, fraction, t0, Some(&init), Default::default())
         }
         Saturation::Dew => {
-            PhaseEquilibrium::dew_point(&eos, p, fraction, t0, None, Default::default())
+            PhaseEquilibrium::dew_point(&eos, p, fraction, t0, Some(&init), Default::default())
         }
     }
     .map_err(|e| Refusal::NotConverged(e.to_string()))?;
@@ -205,6 +211,52 @@ fn solve(
         y_alcohol: y,
         provenance: PROVENANCE,
     })
+}
+
+/// Antoine constants (log10 P/mmHg = A - B/(C + t/°C)), used ONLY to seed
+/// the FeOs iteration, never as an answer. Source: Dortmund Data Bank
+/// Antoine table as reprinted in common handbooks (methanol 15–84 °C,
+/// ethanol 20–93 °C, water 1–100 °C); out-of-range seeding is harmless
+/// because FeOs refines the result and the T window is checked after.
+#[cfg_attr(not(feature = "feos"), allow(dead_code))]
+fn antoine_kpa(alcohol: Option<Alcohol>, t_kelvin: f64) -> f64 {
+    let (a, b, c) = match alcohol {
+        Some(Alcohol::Methanol) => (8.08097, 1582.271, 239.726),
+        Some(Alcohol::Ethanol) => (8.20417, 1642.89, 230.300),
+        None => (8.07131, 1730.63, 233.426),
+    };
+    10f64.powf(a - b / (c + t_kelvin - 273.15)) * 0.133_322_368
+}
+
+/// Ideal (Raoult) bubble or dew temperature and the alcohol fraction of the
+/// incipient phase, by bisection on 250–550 K.
+#[cfg_attr(not(feature = "feos"), allow(dead_code))]
+fn raoult_initial_guess(alcohol: Alcohol, kind: Saturation, z: f64, p_kpa: f64) -> (f64, f64) {
+    let residual = |t: f64| {
+        let pa = antoine_kpa(Some(alcohol), t);
+        let pw = antoine_kpa(None, t);
+        match kind {
+            Saturation::Bubble => z * pa + (1.0 - z) * pw - p_kpa,
+            Saturation::Dew => p_kpa * (z / pa + (1.0 - z) / pw) - 1.0,
+        }
+    };
+    let rising = matches!(kind, Saturation::Bubble);
+    let (mut lo, mut hi) = (250.0_f64, 550.0_f64);
+    for _ in 0..80 {
+        let mid = 0.5 * (lo + hi);
+        if (residual(mid) > 0.0) == rising {
+            hi = mid;
+        } else {
+            lo = mid;
+        }
+    }
+    let t = 0.5 * (lo + hi);
+    let pa = antoine_kpa(Some(alcohol), t);
+    let other = match kind {
+        Saturation::Bubble => z * pa / p_kpa,
+        Saturation::Dew => z * p_kpa / pa,
+    };
+    (t, other.clamp(1e-6, 1.0 - 1e-6))
 }
 
 #[cfg(test)]
@@ -229,11 +281,39 @@ mod tests {
     fn out_of_domain_inputs_refuse_before_any_solve() {
         let q = |x, p| saturation_point(Alcohol::Ethanol, Saturation::Bubble, x, p);
         assert!(matches!(q(0.5, 5.0), Err(Refusal::PressureOutOfDomain(_))));
-        assert!(matches!(q(0.5, 5000.0), Err(Refusal::PressureOutOfDomain(_))));
-        assert!(matches!(q(0.5, f64::NAN), Err(Refusal::PressureOutOfDomain(_))));
-        assert!(matches!(q(0.0, 101.325), Err(Refusal::CompositionOutOfDomain(_))));
-        assert!(matches!(q(1.0, 101.325), Err(Refusal::CompositionOutOfDomain(_))));
-        assert!(matches!(q(-0.2, 101.325), Err(Refusal::CompositionOutOfDomain(_))));
+        assert!(matches!(
+            q(0.5, 5000.0),
+            Err(Refusal::PressureOutOfDomain(_))
+        ));
+        assert!(matches!(
+            q(0.5, f64::NAN),
+            Err(Refusal::PressureOutOfDomain(_))
+        ));
+        assert!(matches!(
+            q(0.0, 101.325),
+            Err(Refusal::CompositionOutOfDomain(_))
+        ));
+        assert!(matches!(
+            q(1.0, 101.325),
+            Err(Refusal::CompositionOutOfDomain(_))
+        ));
+        assert!(matches!(
+            q(-0.2, 101.325),
+            Err(Refusal::CompositionOutOfDomain(_))
+        ));
+    }
+
+    #[test]
+    fn raoult_seed_is_physical() {
+        // Ideal ethanol-water at 1 atm, x = 0.5: between the pure boiling
+        // points and vapour enriched in ethanol.
+        let (t, y) = raoult_initial_guess(Alcohol::Ethanol, Saturation::Bubble, 0.5, 101.325);
+        assert!(t > 351.0 && t < 373.2, "{t}");
+        assert!(y > 0.5 && y < 1.0, "{y}");
+        let (td, x) = raoult_initial_guess(Alcohol::Ethanol, Saturation::Dew, 0.5, 101.325);
+        assert!(td > t && x < 0.5, "{td} {x}");
+        // Water normal boiling point from its own Antoine seed.
+        assert!((antoine_kpa(None, 373.15) - 101.325).abs() < 0.5);
     }
 
     #[cfg(not(feature = "feos"))]
