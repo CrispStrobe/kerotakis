@@ -1,18 +1,26 @@
 # Kerotakis current state —2026-10-27
 
-**Owned diagnostics integrated —2026-10-27:** [PR861/full-source acceptance](../audits/owned-diagnostic-full-source-and-merge-20261027/README.md) is complete: reviewed `b629f1d0` merges normally as `a7640a07`, shared tree `054c62a5`,27CI successes plus the expected publication skip and all33 fleet jobs/142 authored steps. Both native platforms pass36 selected controls and500 curiosity prompts with zero unmet/runtime/drift failures.199 owned diagnostic contracts and EN/DE/FR rendering are integrated; raw detail and old omitted-metadata JSON remain preserved. [All29 family saved reports](../audits/owned-diagnostic-family-readback-20261027/README.md) retain all model-limit warnings. One actual-merge production run40429831287 is issued; new artifact/API11/browser82 acceptance and final maintained-documentation integration remain pending.339/468 original qualification is unchanged. Finish those last delivery items before closing the ordered user task. [Warning follow-up lanes](source-family-warning-lanes-20261027.md) remain successor work.
+**Current delivery — 2026-10-27:** The diagnostic release is merged and deployed. [Actual release acceptance](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) verifies all 11 API protocols, security/admission/concurrency controls and all 82 browser checks on runtime `a7640a07`. Full source/platform and own-fleet acceptance are complete. The six ordered implementation/review lanes have reached their final maintained-summary update; the source and product checks do not need repeating.
 
-The ordered continuation is at its last delivery items: actual new-release product checks and final maintained-documentation integration. Owned diagnostic EN/DE/FR implementation, full source acceptance and normal integration are complete. Lanes1–3, source integration, deployed15API/86browser assessment and the four-original review are complete. The user requires completing that last delivery before closing the task. Read [the execution contract](current-continuation-20261025.md), [implementation scope](owned-diagnostic-scope-20261026.md) and [fresh-agent handoff](next-agent-handoff.md).
+199 product-owned diagnostic contracts have EN/DE/FR rendering, with raw technical details, opaque upstream fallback and old omitted-metadata JSON preserved. This release adds no original chemistry qualification: the catalog remains **343 entries / 339 unique originals out of 468**. There are 129 remaining, and 62 more earned qualifications are needed to exceed 400. Unsupported chemistry remains an explicit coverage limit.
+
+Read [the ordered successor agenda](improvement-agenda-20261014.md), [fresh-agent scopes](next-agent-handoff.md) and [PR policy](PR-WORKFLOW.md). Detailed dated scopes and frozen evidence retain their original source identities; superseded pending notes must not trigger duplicate work.
 
 ## Accepted source
 
-Current integrated source is `a7640a0759f091a31ed40b4cc29c8e127d19b245` from reviewed `b629f1d02447a5a73ab4352c794228565a8c1681`, common tree `054c62a5a7381b4608d8e0b22c94cd2fc8037782`. [The complete actual gates and normal merge](../audits/owned-diagnostic-full-source-and-merge-20261027/README.md) are accepted. This includes the preserved33-file documentation delta and current implementation/evidence scopes. New-release product acceptance remains separate.
+Accepted runtime source is `a7640a0759f091a31ed40b4cc29c8e127d19b245` from reviewed `b629f1d02447a5a73ab4352c794228565a8c1681`, common tree `054c62a5a7381b4608d8e0b22c94cd2fc8037782`. [The complete actual gates and normal merge](https://github.com/CrispStrobe/kerotakis/blob/66f76fb75b4ad584948b6761f14d041b5c38f1e5/audits/owned-diagnostic-full-source-and-merge-20261027/README.md) are accepted. This includes the preserved33-file documentation delta and current implementation/evidence scopes. New-release product acceptance is separately earned below.
 
 Previous physical-source foundation: PR859 merges normally as `c51758fa09a8ce0089bc93bb64338a587834a405`, reviewed candidate `0d4dee67b47fcdbd1e80c539a1fd710de31b6e23`, common tree `638dbf446e9ac6007e97ad3f7c13ce300da40b9e`. [Source acceptance](../audits/pending-auxiliary-full-source-and-merge-20261026/README.md):27CI successes plus expected publication skip;33fleet jobs/142steps/29laws. Both native platforms pass36 selected controls, the unchanged12-call cost bound, stronger native zero-time auxiliary checks and500-curiosity requirements with zero unmet/runtime/drift failures. Real browser semantic-DOM and downstream checks pass.
 
 The source closes cache serialization/live-engine startup, shared liquidus/fusion and physical canonical reentry, clockCO2 H/O/charge ownership, sourced carbonate heat/export and the pending-solvent native-call regression. Preserve first failures and exact source-specific evidence; no repeat of accepted source work is needed.
 
-## Actual deployed assessment
+## Current deployed release
+
+[Production run 40429831287](https://github.com/CrispStrobe/kerotakis/actions/runs/40429831287) succeeds on actual normal merge `a7640a0759f091a31ed40b4cc29c8e127d19b245`, tree `054c62a5a7381b4608d8e0b22c94cd2fc8037782`. [Independent artifact/API/browser review](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) authenticates native SHA256 `5427d0ee8092d4b21f2d4e33f1adbbee69a6fc2b253a1aaf40c54e6e868ab866`, genuine producer lock `568f0a32a69e7d7e8eca2b5e565bd1771dca6d5203d632f7a93403f5e7237216` and archive `072274e0a45ec4fac527279c5138e4baecf0d7289e5b9acf2652e23d452122ad`, including actual frontend/runtime-library bytes. Producer dependency resolution is not claimed to be source-committed or identical across independent builds.
+
+All eleven unchanged API protocols and applicable security checks pass, including concurrency responses `[200, 429]`. All 82 browser controls pass in the mandatory 37/7/18/2/18 groups. The private CPU producer runs once, and unchanged saved predicates are independently assessed against its actual collected output. Source, native, lock, archive, frontend, worker, harness and input identities are bound. No older result is relabeled as the new release and no new original qualification is inferred.
+
+## Earlier deployed assessment and retained model holds
 
 [Production attempt2](https://github.com/CrispStrobe/kerotakis/actions/runs/40284030952/attempts/2) succeeds on c517 after the approved snapshot cleanup. Actual nativeSHA256 is `daa3212fb76e4cbf1f2e445506c80d3fc7b9a9a933ac5d48fc0d1418f14e10f3`, actual producer lock `209945088b4357dadd374f6966356875ecc9b0fa3d8c8719f1c38aa61342c447`, archive `f62b597da6af8f3bd8f1c600b42794350c7df9a0bef0fd059ffb1fc148dc3c77`. The lock is a genuine producer artifact, not source-committed dependency resolution.
 
@@ -22,7 +30,7 @@ Both browser harness failures remain preserved. The first baseline loader fails 
 
 ## Vercel snapshot cleanup
 
-[Attempt1 and approved cleanup](../audits/deployment-snapshot-quota-first-failure-20261026/README.md) retain the quota failure and17 verified deletions, freeing13.16GiB. A [fresh post-deployment scan](../audits/deployment-snapshot-quota-post-deploy-verification-20261026/README.md) covers all39 accessible projects: zero new orphans, four live snapshots bound to four retained current/rollback deployments, other projects zero live snapshots, no sandboxes. The17 deleted entries are tombstones. Do not repeat deletion or remove retained rollback snapshots. [Lifecycle prevention](deployment-snapshot-lifecycle.md) is separately scoped.
+[The approved cleanup](../audits/deployment-snapshot-quota-first-failure-20261026/README.md) deletes 17 verified unused snapshots and frees 13.16 GiB. [A fresh scan after the current release](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) covers all 39 accessible projects and all their sandbox inventories: five live snapshots belong to five retained READY deployments, no active sandboxes or new orphans exist, and the 17 deletion tombstones remain unchanged. No additional deletion is needed. Bindings use authenticated deployment workflow logs and snapshot-to-environment argument flow; decrypted environment-value readback is not claimed. Protect all current and rollback snapshots. [Lifecycle prevention](deployment-snapshot-lifecycle.md) is a successor lane.
 
 ## Original experiment coverage
 
@@ -34,16 +42,11 @@ EN002/EN008 show the intended separate enzyme annotations and controls but retai
 
 All668 supplied records already have baseline executions:557zero/111nonzero exits; fixed468 is465/3 and separate curriculum200 is92/108. Exit status is not scientific acceptance. Preserve original forecasts, scripts, first failures and source/native/lock bindings.
 
-## Current work and remaining roadmap
+## Next work
 
-1. Verify the one actual-a764 production run and its genuine new native/lock/frontend artifact bindings; execute the unchanged eleven API controls and applicable82 browser controls once on that new release. Never retag c517 evidence.
-2. Complete the final maintained summaries and normally integrate the narrow documentation PR under its existing classifier/protection.
-3. Only then close this ordered loop. Subsequent work uses the remaining-original, model-warning, cold/milk authority, CI acceleration, parser/inventory and snapshot-lifecycle scopes.
+1. Implement the bounded CI acceleration lane after proving complete command/feature/platform equivalence. Preserve all logical checks, protected contexts and failure evidence.
+2. Triage the remaining 129 originals in disjoint groups of 8–12, rank demonstrated shared source defects by their beneficiaries and qualify each unchanged original independently.
+3. Repair supported mapping/ownership/data defects at their source. Cold-mixture, mixed-solvent and milk-matrix authority remain explicit prerequisites for broader physical predictions.
+4. Strengthen diagnostic source-parser/helper-key inventory coverage and scoped snapshot lifecycle prevention.
 
-After that, use disjoint bounded subsets of the remaining129: [remaining-original scopes](remaining-original-followups-20261022.md), [scientific coverage lanes](scientific-coverage-expansion-20261020.md), cold-model authority and milk-matrix closure. Refresh TH015/SP003 before alleging an old defect persists; iodometry/counterions, thermochemistry/property authority, carbonate/ammonia/electrodes and instruments remain separate. Keep unsupported chemistry visible. CI batching and snapshot lifecycle work must preserve original failure semantics and protection.
-
-Follow [PR policy](PR-WORKFLOW.md), check private resource thresholds before substantial work, and keep host/process/account/credential details ignored. Historical status entries remain in immutable Git history; stale pending notes do not authorize duplicate runs.
-
-[Measured CI acceleration lanes](ci-runner-acceleration-20261026.md) now scope dependency-gated removal of duplicated native work, complete fleet sharding and exact-contract build reuse. Preserve the active reviewed source and every existing logical command/law; apply these changes after current delivery. Historical timings are wall/queue observations, not promised speedups.
-
-The [owned source-gate follow-up](owned-diagnostic-source-gate-followup-20261026.md) scopes two observed source-parser/inventory limitations without alleging missing current translations: handle cfg-test items precisely and derive helper-selected reason keys automatically. Current199 contracts pass; strengthen future regression coverage after current delivery without resetting its accepted validation head.
+The [fresh-agent handoff](next-agent-handoff.md) supplies entry conditions, concrete actions, source paths and acceptance for each lane. Do not repeat accepted source/product checks or unchanged originals without a demonstrated changed-source question. Preserve forecasts, first failures, the immutable working ledger and each producer's true bindings. Private resource/process/account details belong only in the ignored operating handoff.
