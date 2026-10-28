@@ -1,4 +1,10 @@
-# Kerotakis current state —2026-10-27
+# Kerotakis current state — 2026-10-28
+
+**Current delivery — 2026-10-28:** [PR #873](https://github.com/CrispStrobe/kerotakis/pull/873) merged normally as `abf4e9a34eb16e51f605a2009e542b62002a30ea` (49 successful checks, 1 expected skip; main CI on the merge commit also passed). It integrates the systematic chemistry lanes indexed in [systematic-lanes-20261027.md](systematic-lanes-20261027.md): gas phases across routes, dissolution/crystallisation heat ownership, a whole-step heat ledger, halogen redox, chromophore refusal, metal–ligand routing, generated input aliases, strong reserve/media, model-domain refusals, plus optional (feature-gated, not shipped by default) CoolProp and FeOs crates.
+
+The production deployment of `abf4e9a3` was dispatched once (Vercel workflow run 40701854764) and had **not yet been confirmed live** at this checkpoint: `/api/health` still reported `a7640a07`. The post-merge run of the **107 remaining originals** against `abf4e9a3` has **not executed yet**. Qualification therefore stays at **365 catalog entries / 361 unique originals out of 468**; 40 more earned originals are needed for 401. See [the handoff, section 0](next-agent-handoff.md) for the exact open steps.
+
+## Previous checkpoint — 2026-10-27
 
 **Current delivery — 2026-10-27:** The diagnostic release is merged and deployed. [Actual release acceptance](https://github.com/CrispStrobe/kerotakis/blob/fb78450195a56929ba25d670fe2853f39a571de2/audits/owned-diagnostic-release-accepted-20261027/README.md) verifies all 11 API protocols, security/admission/concurrency controls and all 82 browser checks on runtime `a7640a07`. Full source/platform and own-fleet acceptance are complete. The six ordered implementation/review lanes have reached their final maintained-summary update; the source and product checks do not need repeating.
 

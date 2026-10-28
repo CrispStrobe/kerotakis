@@ -1,4 +1,8 @@
-# Ordered improvement agenda — current checkpoint2026-10-27
+# Ordered improvement agenda — current checkpoint 2026-10-28
+
+**Now:** (1) confirm the dispatched production deploy of `abf4e9a3`; (2) run the 107 remaining originals once on it; (3) formal review and audit-branch catalog append; (4) finish docs PR #874; (5) follow-up lanes 1–13 from [the systematic-lanes index](systematic-lanes-20261027.md), ranked by originals unblocked. Exact steps and done-criteria: [handoff section 0](next-agent-handoff.md). Qualification at this checkpoint: 361/468.
+
+## Checkpoint 2026-10-27
 
 Use [current status](STATUS.md), [fresh-agent scopes](next-agent-handoff.md), [PR delivery policy](PR-WORKFLOW.md) and the ignored resource/controller handoff together. Earlier [agenda history](https://github.com/CrispStrobe/kerotakis/blob/56e32553/docs/improvement-agenda-20261014.md) preserves past hypotheses, first failures and superseded pending entries; it is not the current execution queue.
 
