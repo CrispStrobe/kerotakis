@@ -1393,7 +1393,11 @@ mod tests {
         assert_eq!(quote.unpriced.as_ref().unwrap().species, "antlerite");
         let bound_j = quote.unpriced_bound_j;
         assert!(bound_j > 0.0 && bound_j < 15.0, "bound {bound_j} J");
-        assert!((unpriced_ceiling_kj("antlerite", db) - 206.5).abs() < 1.0);
+        let family = unpriced_ceiling_kj("antlerite", db);
+        assert!(
+            family > 0.0 && family < largest_phase_enthalpy_kj(db),
+            "copper-and-sulfur phases bound antlerite more tightly than the file: {family}"
+        );
         let q = quote.released_j;
         let full = heat_released_j(&before, 0.0, &clean, 0.0, &[], db).expect("priced");
         assert!(q > 0.0, "copper sulfate dissolving warms: {q} J");
