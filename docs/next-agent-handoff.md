@@ -1,4 +1,39 @@
-# Fresh-agent handoff —2026-10-27
+# Fresh-agent handoff — 2026-10-28
+
+Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md), [PR policy](PR-WORKFLOW.md) and [the systematic-lanes index](systematic-lanes-20261027.md). The ignored operating handoff holds private inputs (API key location, runner script, raw-output directories); never publish those details.
+
+## 0. Open tasks after PR #873 (do these in order)
+
+State at handover: main = `abf4e9a34eb16e51f605a2009e542b62002a30ea`; qualification 361/468 unique originals (365 catalog entries, catalog file `audits/working-experiments-20261027-reviewed-production-remaining.json` on the audit branch). Goal: ≥ 401.
+
+**0.1 Confirm the production deploy.** Production deploys are dispatch-only (`.github/workflows/vercel.yml`, `target=production`); a merge to main does not deploy. Run 40701854764 was dispatched once for `abf4e9a3`. Check it with `gh run view 40701854764`. Done when `GET /api/health` returns `revision` **and** `engine.source_head` both equal `abf4e9a34eb16e51f605a2009e542b62002a30ea`. If the run failed, read its log, fix the cause on a narrow branch from main via PR, and dispatch once more on the new main; never dispatch from an unmerged branch and label it main. Do not dispatch again while a run is queued or in progress.
+
+**0.2 Run the 107 remaining originals once.** These are the 468 originals minus the 361 already qualified. The private runner (see the ignored operating handoff) takes the expected source sha as its only argument and refuses to send any request unless health reports exactly that sha; it skips cases that already have raw output, so a crash can be resumed without replaying finished cases. A background waiter may already have started it automatically once health matched — check for its raw output and log before starting anything. Run it at most once per deployed sha; no retries of individual cases.
+
+**0.3 Triage and formal review.** For each of the 107 replies, compare against the unchanged original forecast/criteria (the same contract used for the 2026-10-27 [remaining-129 triage](../audits/remaining129-production-triage-20261027/README.md)): requested observable present, H/O/element/charge closure within the original bound, temperature/heat plausible, no refusal or model-limit reason covering the requested observable. Classify each as *qualified*, *held (named model limit, map to a follow-up lane in section 0.6)*, or *failed (engine defect — record the first failure verbatim)*. Model-assisted pre-sorting is allowed only as a lead list; every qualification must be re-checked against the raw reply.
+
+**0.4 Catalog append.** On the audit branch only (never merged to main), write a new catalog version file that contains all 365 existing entries byte-for-byte plus one entry per newly qualified original (id, original sha256, deployed sha, raw-reply sha256, criterion text, reviewer note). Do not modify predecessor files. Report the new unique-original count.
+
+**0.5 Finish documentation PR #874.** Update this file, STATUS and the agenda with: the actual deploy run/result, the 107 outcome counts, the new qualification count, and any newly found failures. Then mark #874 ready and enable auto-merge. Docs-only; no source edits in that PR.
+
+**0.6 Follow-up lanes (source work, each its own narrow PR from main).** The register with trigger cases and done-criteria is in [systematic-lanes-20261027.md § Follow-up lanes](systematic-lanes-20261027.md). Every lane must be family-wide: a coverage table with a checked-in fixture and stale check, one generic mechanism (no per-case patch), typed EN/DE/FR refusal where data is missing, and positive/negative tests. Prioritise by the number of the 107 originals each lane would unblock (from 0.3). Lanes in short:
+1. Concentrated-electrolyte activity (Pitzer/SIT) for crystallisation (TH-007 KNO3).
+2. FeOs ethanol–water azeotrope primary citation.
+3. Acid-gas headspace coupling (H2S/SO2/HCl/Cl2).
+4. Ammine complexes from llnl (Zn/Cu/Ni/Co/Ag/Cd).
+5. Cited molar absorptivities for chromophore families.
+6. Remaining phase-less withdraw sites; typed UNIFAC/DH domain refusals.
+7. Derive remaining hand-kept REST lists (verbs, units, loop words) from engine metadata.
+8. Reaktoro — only if a lane above needs it.
+9. Phase answer for solver-refused mixtures (sweep Ag/thiosulfate at 250 K).
+10. Map registry metals to each route's metal phase name (CuMetal, ZnMetal…).
+11. Reviewed HClO protonation enthalpy, then delete corpus ORDER_DEPARTURES bio-094/th-077.
+12. Ignition energy into vapourised fuel (th-038 reaches 14343 K; CEA now refuses).
+13. Electrolysis energy in the whole-step heat ledger (mat-063).
+
+**Validation practice that worked for #873:** local Rust builds need ≥4608 MiB available and load ≤3.5; otherwise validate on hosted CPU runners. Full CI contains suites the local `--light` preflight does not (cargo-deny licence bar with per-crate exceptions, curiosity index self-test, About/NOTICE test, macOS drift, locale labels); a new workspace crate needs a `deny.toml` exception and must not be added to NOTICE unless shipped. Run the whole workspace with `--no-fail-fast`.
+
+## Previous handoff — 2026-10-27
 
 Read [STATUS](STATUS.md), [the ordered agenda](improvement-agenda-20261014.md) and [PR policy](PR-WORKFLOW.md). The previous six-lane loop has completed source integration and actual product acceptance. This maintained-summary refresh records that checkpoint and scopes the next cycle. Do not follow historical pending notes as an active execution queue. Read the ignored operating handoff for private inputs, resource thresholds and protected evidence/worktree inventories; do not publish those details.
 
